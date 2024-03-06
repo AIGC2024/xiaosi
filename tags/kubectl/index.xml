@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>kubectl - 标签 - 小厮</title>
+    <link>/tags/kubectl/</link>
+    <description>kubectl - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 06 Aug 2022 16:24:55 &#43;0800</lastBuildDate><atom:link href="/tags/kubectl/" rel="self" type="application/rss+xml" /><item>
+  <title>k8s kubectl</title>
+  <link>/k8sKubeclt/</link>
+  <pubDate>Sat, 06 Aug 2022 16:24:55 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sKubeclt/</guid>
+  <description><![CDATA[kubectl 命令使用]]></description>
+</item>
+</channel>
+</rss>

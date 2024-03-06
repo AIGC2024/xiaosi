@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>k8s 静态 pod - 标签 - 小厮</title>
+    <link>/tags/k8s-%E9%9D%99%E6%80%81-pod/</link>
+    <description>k8s 静态 pod - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 27 Jul 2022 18:42:51 &#43;0800</lastBuildDate><atom:link href="/tags/k8s-%E9%9D%99%E6%80%81-pod/" rel="self" type="application/rss+xml" /><item>
+  <title>k8s pod</title>
+  <link>/k8sPod/</link>
+  <pubDate>Wed, 27 Jul 2022 18:42:51 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sPod/</guid>
+  <description><![CDATA[pod使用，但不包含调度]]></description>
+</item>
+</channel>
+</rss>

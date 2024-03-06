@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s控制器 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="k8s控制器与控制方式" /><meta name="keywords" content='k8s, k8s 控制器' /><meta itemprop="name" content="k8s控制器">
+<meta itemprop="description" content="k8s控制器与控制方式"><meta itemprop="datePublished" content="2022-07-24T16:22:32+08:00" />
+<meta itemprop="dateModified" content="2024-01-29T16:24:11+08:00" />
+<meta itemprop="wordCount" content="3963">
+<meta itemprop="keywords" content="k8s,k8s 控制器," /><meta property="og:title" content="k8s控制器" />
+<meta property="og:description" content="k8s控制器与控制方式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sController/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-24T16:22:32+08:00" />
+<meta property="article:modified_time" content="2024-01-29T16:24:11+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s控制器"/>
+<meta name="twitter:description" content="k8s控制器与控制方式"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sController/" /><link rel="prev" href="/k8s%E9%9B%86%E7%BE%A4%E4%B8%8EAPI%E6%9C%8D%E5%8A%A1%E9%80%9A%E4%BF%A1/" /><link rel="next" href="/k8sGarbageCollection/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s控制器",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sController\/"
+    },"genre": "posts","keywords": "k8s, k8s 控制器","wordcount":  3963 ,
+    "url": "\/k8sController\/","datePublished": "2022-07-24T16:22:32+08:00","dateModified": "2024-01-29T16:24:11+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s控制器</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-24 16:22:32"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-24">2022-07-24</time></span>&nbsp;<span title="更新于 2024-01-29 16:24:11"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-29">2024-01-29</time></span>&nbsp;<span title="3963 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 8 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#控制器">控制器</a></li>
+    <li><a href="#replicationcontroller-控制器">ReplicationController 控制器</a></li>
+    <li><a href="#replicaset-控制器">ReplicaSet 控制器</a></li>
+    <li><a href="#deployment-控制器">Deployment 控制器</a>
+      <ul>
+        <li><a href="#更新与回滚">更新与回滚</a></li>
+        <li><a href="#deployment-状态">Deployment 状态</a></li>
+        <li><a href="#标签选择器">标签选择器</a></li>
+        <li><a href="#pod-替换策略">pod 替换策略</a></li>
+        <li><a href="#失败超时时间">失败超时时间</a></li>
+        <li><a href="#最短就绪时间">最短就绪时间</a></li>
+        <li><a href="#历史版本数量">历史版本数量</a></li>
+      </ul>
+    </li>
+    <li><a href="#statefulset-控制器">StatefulSet 控制器</a></li>
+    <li><a href="#daemonset-控制器">DaemonSet 控制器</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/controller/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：控制器</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：Deployment</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/statefulset/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：StatefulSet</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/daemonset/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：DaemonSet</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/job/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：Job</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/cron-jobs/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：CronJob</a></li>
+</ul>
+</blockquote>
+<h1 id="控制器" class="heading-element">
+  <a href="#%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark"></a>控制器</h1><p>在 Kubernetes 中，控制器通过监控集群 的公共状态，并致力于将当前状态转变为期望的状态</p>
+<p>一个控制器至少追踪一种类型的 Kubernetes 资源。这些 对象 有一个代表期望状态的 spec 字段。 该资源的控制器负责确保其当前状态接近期望状态。
+控制器可能会自行执行操作；在 Kubernetes 中更常见的是一个控制器会发送信息给 API 服务器</p>
+<p>Kubernetes 内置一组控制器，运行在 kube-controller-manager 内。 这些内置的控制器提供了重要的核心功能。</p>
+<p>内置控制器通过和集群 API 服务器交互来管理状态。</p>
+<h1 id="replicationcontroller-控制器" class="heading-element">
+  <a href="#replicationcontroller-%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark"></a>ReplicationController 控制器</h1><p><code>ReplicationController</code> 确保在任何时候都有特定数量的 Pod 副本处于运行状态。 换句话说，ReplicationController 确保一个 Pod 或一组同类的 Pod 总是可用的。</p>
+<p>ReplicaSet 控制器是 ReplicationController 的后继者。二者目的相同且行为类似，只是 ReplicationController 不支持 标签用户指南 中讨论的基于集合的选择算符需求。 因此，相比于 ReplicationController，应优先考虑 ReplicaSet</p>
+<h1 id="replicaset-控制器" class="heading-element">
+  <a href="#replicaset-%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark"></a>ReplicaSet 控制器</h1><p>ReplicaSet 的目的是维护一组在任何时候都处于运行状态的 Pod 副本的稳定集合。 因此，它通常用来保证给定数量的、完全相同的 Pod 的可用性。</p>
+<p>ReplicaSet 确保任何时间都有指定数量的 Pod 副本在运行。 然而，Deployment 是一个更高级的概念，它管理 ReplicaSet，并向 Pod 提供声明式的更新以及许多其他有用的功能。 因此，我们建议使用 Deployment 而不是直接使用 ReplicaSet， 除非你需要自定义更新业务流程或根本不需要更新。</p>
+<h1 id="deployment-控制器" class="heading-element">
+  <a href="#deployment-%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark"></a>Deployment 控制器</h1><p>一个 <code>Deployment</code> 为 <code>Pod</code> 和 <code>ReplicaSet</code> 提供声明式的更新能力。不要管理 <code>Deployment</code> 所拥有的 <code>ReplicaSet</code> 。</p>
+<p>下面是编写 <code>Deployment</code> 的清单文件常见的字段</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1    </span><span class="w"> </span><span class="c"># API 组，必须字段</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment       </span><span class="w"> </span><span class="c"># Deployment 资源类型，必须字段</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">               </span><span class="c"># 属性 必须字段</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-deployment   </span><span class="w"> </span><span class="c"># 名称 必须字段</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">.spec  </span><span class="w"> </span><span class="c"># 必须字段</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="c"># 副本数量</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"> </span><span class="c"># 必须字段，选择算符，必须与 .spec.template.metadata.labels 匹配</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="c"># 必须字段，与 pod 语法相同只是这里它是嵌套的，</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">             </span><span class="c">#  因此不需要 apiVersion 或 kind</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Always</span><span class="w"> </span><span class="c"># 该字段值必须为 Always</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面是一个 <code>Deployment</code> 示例。其中创建了一个 <code>ReplicaSet</code>，负责启动三个 <code>nginx Pods</code>：</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:1.14.2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>.metadata.name</code>字段标明<code>Deployment</code>资源名称</li>
+<li><code>.spec.replicas</code>字段标明<code>pod</code>数量</li>
+<li><code>.spec.selector</code>字段标明标签选择器</li>
+<li><code>.spec.template</code>字段标明<code>pod</code>信息</li>
+</ul>
+<p>可以使用以下命令创建上述<code>deployment</code>资源</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml</span>
+</span></span><span class="line"><span class="cl">deployment.apps/nginx-deployment created
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看 deployment 资源</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># READY: 就绪个数/期望个数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># UP-TO-DATE: 显示为了达到期望状态已经更新的副本数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># AVAILABLE: 显示应用可供用户使用的副本数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># AGE: 运行时间</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get deployments</span>
+</span></span><span class="line"><span class="cl">NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span class="line"><span class="cl">nginx-deployment   3/3     <span class="m">3</span>            <span class="m">3</span>           7s</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看 <code>Deployment</code> 创建的 <code>ReplicaSet</code> 资源</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># DESIRED 显示应用的期望副本个数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># CURRENT 显示当前运行状态中的副本个数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># READY 显示应用中有多少副本可以为用户提供服务</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># AGE 显示应用已经运行的时间长度</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># NAME: Deployment 创建的 ReplicaSet 名称始终被格式化为[Deployment名称]-[随机字符串]。 </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#       其中的随机字符串是使用 pod-template-hash 作为种子随机生成的</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get ReplicaSet</span>
+</span></span><span class="line"><span class="cl">NAME                          DESIRED   CURRENT   READY   AGE
+</span></span><span class="line"><span class="cl">nginx-deployment-6595874d85   <span class="m">3</span>         <span class="m">3</span>         <span class="m">3</span>       3m10s</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看 <code>Deployment</code> 创建的 <code>pod</code> 资源</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pods -l app=nginx</span>
+</span></span><span class="line"><span class="cl">NAME                                READY   STATUS    RESTARTS   AGE
+</span></span><span class="line"><span class="cl">nginx-deployment-6595874d85-ds649   1/1     Running   <span class="m">0</span>          9m38s
+</span></span><span class="line"><span class="cl">nginx-deployment-6595874d85-mvwxm   1/1     Running   <span class="m">0</span>          9m38s
+</span></span><span class="line"><span class="cl">nginx-deployment-6595874d85-qd4n7   1/1     Running   <span class="m">0</span>          9m38s</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="更新与回滚" class="heading-element">
+  <a href="#%e6%9b%b4%e6%96%b0%e4%b8%8e%e5%9b%9e%e6%bb%9a" class="heading-mark"></a>更新与回滚</h2><p>使用<code>yaml</code>文件更新</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="p">[</span><span class="l">root@k8s01 ~]# cat nginx-deployment.yaml </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:1.16.1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">[</span><span class="l">root@k8s01 ~]# kubectl apply -f nginx-deployment.yaml </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">deployment.apps/nginx-deployment configured</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>临时更新可以使用<code>kubectl set</code>或<code>kubectl edit</code>命令</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl <span class="nb">set</span> image deployment/nginx-deployment <span class="nv">nginx</span><span class="o">=</span>nginx:1.16.1
+</span></span><span class="line"><span class="cl">kubectl edit deployment/nginx-deployment</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看已更新的<code>deployment</code></p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get deployments</span>
+</span></span><span class="line"><span class="cl">NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span class="line"><span class="cl">nginx-deployment   4/4     <span class="m">4</span>            <span class="m">4</span>           18m
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod  | grep nginx-deployment</span>
+</span></span><span class="line"><span class="cl">nginx-deployment-66b957f9d-7wjk8   1/1     Running   <span class="m">0</span>              24m
+</span></span><span class="line"><span class="cl">nginx-deployment-66b957f9d-hlckg   1/1     Running   <span class="m">0</span>              24m
+</span></span><span class="line"><span class="cl">nginx-deployment-66b957f9d-p85qh   1/1     Running   <span class="m">0</span>              23m
+</span></span><span class="line"><span class="cl">nginx-deployment-66b957f9d-qpcfs   1/1     Running   <span class="m">0</span>              24m</span></span></code></pre></td></tr></table>
+</div>
+</div><p>旧的<code>ReplicaSet</code>资源并不会删除，会保留下来，方便后续回滚</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get ReplicaSet | grep nginx-deployment</span>
+</span></span><span class="line"><span class="cl">nginx-deployment-57c47d7f59   <span class="m">0</span>         <span class="m">0</span>         <span class="m">0</span>       26m
+</span></span><span class="line"><span class="cl">nginx-deployment-6595874d85   <span class="m">0</span>         <span class="m">0</span>         <span class="m">0</span>       41m
+</span></span><span class="line"><span class="cl">nginx-deployment-66b957f9d    <span class="m">4</span>         <span class="m">4</span>         <span class="m">4</span>       23m</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以使用<code>kubectl rollout history</code>命令可以查看更新历史</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl rollout history deployment/nginx-deployment</span>
+</span></span><span class="line"><span class="cl">deployment.apps/nginx-deployment 
+</span></span><span class="line"><span class="cl">REVISION  CHANGE-CAUSE
+</span></span><span class="line"><span class="cl"><span class="m">1</span>         &lt;none&gt;
+</span></span><span class="line"><span class="cl"><span class="m">2</span>         &lt;none&gt;
+</span></span><span class="line"><span class="cl"><span class="m">3</span>         &lt;none&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>CHANGE-CAUSE</code> 的内容是从<code>.metadata.annotations.kubernetes.io/change-cause</code> 注解字段复制过来的。也可以使用<code>kubectl annotate</code>命令添加</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl annotate deployment/nginx-deployment kubernetes.io/change-cause=&#34;image updated to 1.16.1&#34;</span>
+</span></span><span class="line"><span class="cl">deployment.apps/nginx-deployment annotated
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl rollout history deployment/nginx-deployment</span>
+</span></span><span class="line"><span class="cl">deployment.apps/nginx-deployment 
+</span></span><span class="line"><span class="cl">REVISION  CHANGE-CAUSE
+</span></span><span class="line"><span class="cl"><span class="m">1</span>         &lt;none&gt;
+</span></span><span class="line"><span class="cl"><span class="m">2</span>         &lt;none&gt;
+</span></span><span class="line"><span class="cl"><span class="m">3</span>         image updated to 1.16.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>kubectl rollout undo</code>用于回滚到之前的版本</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># --to-revision 指定回滚的版本，缺省为上一个版本</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl rollout undo deployment/nginx-deployment --to-revision=1</span>
+</span></span><span class="line"><span class="cl">deployment.apps/nginx-deployment rolled back</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="deployment-状态" class="heading-element">
+  <a href="#deployment-%e7%8a%b6%e6%80%81" class="heading-mark"></a>Deployment 状态</h2><p><code>Deployment</code> 的生命周期中会有许多状态。上线新的 <code>ReplicaSet</code> 期间可能处于 <code>Progressing</code>（进行中），可能是 <code>Complete</code>（已完成），也可能是 <code>Failed</code>（失败）以至于无法继续进行。</p>
+<p>在执行下面的任务期间，<code>Kubernetes</code> 标记 <code>Deployment</code> 为 <code>Progressing</code>（进行中）状态：</p>
+<ul>
+<li><code>Deployment</code> 创建新的 <code>ReplicaSet</code></li>
+<li><code>Deployment</code> 正在为其最新的 <code>ReplicaSet</code> 扩容</li>
+<li><code>Deployment</code> 正在为其旧有的 <code>ReplicaSet</code>) 缩容</li>
+<li>新的 <code>Pods</code> 已经就绪或者可用（就绪至少持续了 <code>MinReadySeconds</code> 秒）。<code>MinReadySeconds</code> 表示最短就绪时间</li>
+</ul>
+<p>处于进行中状态时，<code>Deployment</code> 控制器会向 <code>Deployment</code> 的 <code>.status.conditions</code> 中添加以下字段：</p>
+<ul>
+<li><code>type: Progressing</code></li>
+<li><code>status: &quot;True&quot;</code></li>
+<li><code>reason:</code> 该字段有这些取值：<code>NewReplicaSetCreated</code>、<code>FoundNewReplicaSet</code>、<code>ReplicaSetUpdated</code></li>
+</ul>
+<p>当 <code>Deployment</code> 具有以下特征时，<code>Kubernetes</code> 将其标记为完成（<code>Complete</code>）</p>
+<ul>
+<li>与 <code>Deployment</code> 关联的所有副本都已更新到指定的最新版本，这意味着之前请求的所有更新都已完成。</li>
+<li>与 <code>Deployment</code> 关联的所有副本都可用。</li>
+<li>未运行 <code>Deployment</code> 的旧副本。</li>
+</ul>
+<p>处于已完状态时，<code>Deployment</code> 控制器会向 <code>Deployment</code> 的 <code>.status.conditions</code> 中添加以下字段：</p>
+<ul>
+<li><code>type: Progressing</code></li>
+<li><code>status: &quot;True&quot;</code></li>
+<li><code>reason: NewReplicaSetAvailable</code></li>
+</ul>
+<p><code>kubectl rollout status</code> 查看<code>deployment</code>状态时，如果是完成状态中，该状态为<code>0</code></p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl rollout status deployment/nginx-deployment</span>
+</span></span><span class="line"><span class="cl">deployment <span class="s2">&#34;nginx-deployment&#34;</span> successfully rolled out
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># echo $?</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>造成 <code>Deployment</code> 失败可能有以下原因：</p>
+<ul>
+<li>资源配额不足</li>
+<li>就绪探测失败</li>
+<li>镜像拉取错误</li>
+<li>权限不足</li>
+<li>限制范围问题</li>
+<li>容器内应用程序运行失败</li>
+</ul>
+<p>处于失败状态时，<code>Deployment</code> 控制器会向 <code>Deployment</code> 的 <code>.status.conditions</code> 中添加以下字段：</p>
+<ul>
+<li><code>Type=Progressing</code></li>
+<li><code>Status=False</code></li>
+<li><code>Reason=ProgressDeadlineExceeded</code></li>
+</ul>
+<h2 id="标签选择器" class="heading-element">
+  <a href="#%e6%a0%87%e7%ad%be%e9%80%89%e6%8b%a9%e5%99%a8" class="heading-mark"></a>标签选择器</h2><p><code>.spec.selector</code> 是指定本 <code>Deployment</code> 管理的 <code>Pod</code> 标签选择算符的必需字段。该字段必须匹配 <code>.spec.template.metadata.labels</code> ，否则请求会被 <code>API</code> 拒绝。这是因为控制器通过标签管理匹配的 <code>pod</code> 。如果创建的 <code>pod</code> 或其它控制器创建的 <code>pod</code> 的标签与 <code>Deployment</code> 控制器管理的标签匹配，<code>k8s</code> 会认为该 <code>pod</code> 由它管理。当多个控制器的选择算符发生重叠，则控制器之间会因冲突而无法正常工作。</p>
+<p>在 <code>apps/v1</code>版本中，<code>.spec.selector</code> 和 <code>.metadata.labels</code> 如果没有设置的话， 不会被默认设置为 <code>.spec.template.metadata.labels</code>，所以需要明确进行设置。 同时在 <code>apps/v1</code>版本中，<code>Deployment</code> 创建后 <code>.spec.selector</code> 是不可变的。</p>
+<h2 id="pod-替换策略" class="heading-element">
+  <a href="#pod-%e6%9b%bf%e6%8d%a2%e7%ad%96%e7%95%a5" class="heading-mark"></a>pod 替换策略</h2><p><code>.spec.strategy.type</code> 字段指定用于用新 <code>Pod</code> 替换旧 <code>Pod</code> 的策略，有以下值：</p>
+<ul>
+<li><code>Recreate</code>: 在创建新 <code>Pod</code> 之前，所有现有的 <code>Pod</code> 会被杀死。</li>
+<li><code>RollingUpdate</code>: 滚动更新，先扩展再缩减的方式，默认值</li>
+</ul>
+<p><code>Recreate</code> 策略会确保为了升级而创建新 <code>Pod</code> 之前其他 <code>Pod</code> 都已终止。 所有旧版本的 <code>Pod</code> 都会立即被终止。控制器等待这些 <code>Pod</code> 被成功移除之后， 才会创建新版本的 <code>Pod</code>。如果你手动删除一个 <code>Pod</code>，其生命周期是由 <code>ReplicaSet</code> 来控制的， 后者会立即创建一个替换 <code>Pod</code>（即使旧的 <code>Pod</code> 仍然处于 <code>Terminating</code> 状态）。</p>
+<p><code>RollingUpdate</code>策略会先缩减再扩容，重复过程直到满足数量。受 <code>.spec.strategy.rollingUpdate.maxUnavailable</code> 和 <code>.spec.strategy.rollingUpdate.maxSurge</code> 字段影响。</p>
+<ul>
+<li><code>.spec.strategy.rollingUpdate.maxSurge</code>：是一个可选字段，用来指定可以创建数量（新旧 <code>pod</code> 总数）。值为大于<code>0</code>的正整数或百分百比（会转换为绝对值）。默认值为 <code>25%</code></li>
+<li><code>.spec.strategy.rollingUpdate.maxUnavailable</code>: 是一个可选字段，用来指定 更新过程中不可用的 <code>Pod</code> 的个数上限。值为大于<code>0</code>的正整数或百分百比（会转换为绝对值）。默认值为 <code>25%</code></li>
+</ul>
+<h2 id="失败超时时间" class="heading-element">
+  <a href="#%e5%a4%b1%e8%b4%a5%e8%b6%85%e6%97%b6%e6%97%b6%e9%97%b4" class="heading-mark"></a>失败超时时间</h2><p><code>.spec.progressDeadlineSeconds</code> 是一个可选字段，如果指定，则此字段值需要大于 <code>.spec.minReadySeconds</code> 取值。该字段用于指定系统在报告 <code>Deployment</code> 进展失败 之前等待 <code>Deployment</code> 取得进展的秒数。<code>Deployment</code> 控制器将持续重试 <code>Deployment</code>。 这类报告会在资源状态中体现为：</p>
+<ul>
+<li><code>type</code>: <code>Progressing</code></li>
+<li><code>status</code>: <code>False</code></li>
+<li><code>reason</code>: <code>ProgressDeadlineExceeded</code></li>
+</ul>
+<p>将来，一旦实现了自动回滚，<code>Deployment</code> 控制器将在探测到这样的条件时立即回滚 <code>Deployment</code>。</p>
+<h2 id="最短就绪时间" class="heading-element">
+  <a href="#%e6%9c%80%e7%9f%ad%e5%b0%b1%e7%bb%aa%e6%97%b6%e9%97%b4" class="heading-mark"></a>最短就绪时间</h2><p><code>.spec.minReadySeconds</code> 是一个可选字段，用于指定新创建的 <code>Pod</code> 在没有任意容器崩溃情况下的最小就绪时间， 只有超出这个时间 <code>Pod</code> 才被视为可用。默认值为 <code>0</code>（<code>Pod</code> 在准备就绪后立即将被视为可用）。</p>
+<h2 id="历史版本数量" class="heading-element">
+  <a href="#%e5%8e%86%e5%8f%b2%e7%89%88%e6%9c%ac%e6%95%b0%e9%87%8f" class="heading-mark"></a>历史版本数量</h2><p><code>.spec.revisionHistoryLimit</code> 是一个可选字段，用来设定出于会滚目的所要保留的旧 <code>ReplicaSet</code> 数量。 这些旧 <code>ReplicaSet</code> 会消耗 <code>etcd</code> 中的资源，<code>Deployment</code> 的修订历史记录存储在它所控制的 <code>ReplicaSets</code> 中。因此，一旦删除了旧的 <code>ReplicaSet</code>, 或值为<code>0</code>时将失去回滚到 <code>Deployment</code> 的对应修订版本的能力。 默认情况下，系统保留 <code>10</code> 个旧 <code>ReplicaSet</code></p>
+<h1 id="statefulset-控制器" class="heading-element">
+  <a href="#statefulset-%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark"></a>StatefulSet 控制器</h1><p><code>StatefulSet</code> 是用来管理有状态应用的工作负载 <code>API</code> 对象。用来管理某 <code>pod</code> 集合的部署、扩容、缩减，并为这些 <code>pod</code> 提供持久存储和持久标识符：</p>
+<ul>
+<li>稳定的、唯一的网络标识符</li>
+<li>稳定的、持久的存储</li>
+<li>有序的部署与扩容、缩减</li>
+</ul>
+<p><code>StatefulSet</code> 有以下限制：</p>
+<ul>
+<li>为了保证数据安全，删除 <code>pod</code> 时不会删除相关存储卷。</li>
+<li>需要手动创建无头服务（<code>Headless Services</code>）负责 <code>pod</code> 网络标识</li>
+<li>删除一个 <code>StatefulSet</code> 控制器时，不提供任何终止 <code>pod</code> 的保证。可以在删除之前缩容到 0 实现</li>
+<li>滚动更新时出现错误可能要人工参与修复（不会回滚）</li>
+</ul>
+<p>如果应用程序不需要任何稳定的标识符或有序的部署、删除或扩缩， 则应该使用由一组无状态的副本控制器（如：<code>Deployment</code>）提供的工作负载来部署应用程序</p>
+<h1 id="daemonset-控制器" class="heading-element">
+  <a href="#daemonset-%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark"></a>DaemonSet 控制器</h1><p><code>DaemonSet</code> 确保全部（或者某些）节点上运行一个 <code>Pod</code> 的副本。 当有节点加入集群时， 也会为他们新增一个 <code>Pod</code> 。 当有节点从集群移除时，这些 <code>Pod</code> 也会被回收。删除 <code>DaemonSet</code> 将会删除它创建的所有 <code>Pod</code>。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-01-29 16:24:11">更新于 2024-01-29&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s-%E6%8E%A7%E5%88%B6%E5%99%A8/" class="post-tag" title="标签 - k8s 控制器">k8s 控制器</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8s%E9%9B%86%E7%BE%A4%E4%B8%8EAPI%E6%9C%8D%E5%8A%A1%E9%80%9A%E4%BF%A1/" class="post-nav-item" rel="prev" title="k8s集群与API服务通信"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s集群与API服务通信</a>
+      <a href="/k8sGarbageCollection/" class="post-nav-item" rel="next" title="k8s 垃圾收集">k8s 垃圾收集<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

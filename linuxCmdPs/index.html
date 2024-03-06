@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>ps - 查看进程信息快照 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='linux, ps, 命令' /><meta itemprop="name" content="ps - 查看进程信息快照">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2022-11-02T21:30:21+08:00" />
+<meta itemprop="dateModified" content="2023-08-05T13:18:03+08:00" />
+<meta itemprop="wordCount" content="2445">
+<meta itemprop="keywords" content="linux,ps,命令," /><meta property="og:title" content="ps - 查看进程信息快照" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linuxCmdPs/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-02T21:30:21+08:00" />
+<meta property="article:modified_time" content="2023-08-05T13:18:03+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ps - 查看进程信息快照"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linuxCmdPs/" /><link rel="prev" href="/openSSH/" /><link rel="next" href="/pam/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ps - 查看进程信息快照",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linuxCmdPs\/"
+    },"genre": "posts","keywords": "linux, ps, 命令","wordcount":  2445 ,
+    "url": "\/linuxCmdPs\/","datePublished": "2022-11-02T21:30:21+08:00","dateModified": "2023-08-05T13:18:03+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>ps - 查看进程信息快照</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-11-02 21:30:21"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-11-02">2022-11-02</time></span>&nbsp;<span title="更新于 2023-08-05 13:18:03"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-05">2023-08-05</time></span>&nbsp;<span title="2445 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#ps-命令"><code>ps</code> 命令</a></li>
+    <li><a href="#选择当前会话以外的进程">选择当前会话以外的进程</a></li>
+    <li><a href="#指定进程列表">指定进程列表</a></li>
+    <li><a href="#输出格式">输出格式</a></li>
+    <li><a href="#输出修饰符">输出修饰符</a></li>
+    <li><a href="#输出字段表">输出字段表</a></li>
+    <li><a href="#示例">示例</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><code>man</code> 手册</li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="ps-命令" class="heading-element">
+  <a href="#ps-%e5%91%bd%e4%bb%a4" class="heading-mark"></a><code>ps</code> 命令</h1><p><code>ps</code> 命令可以查看当前进程信息快照。该命令选项有以下几种格式：</p>
+<ul>
+<li><code>UNIX</code> 格式：以 <code>-</code> 开头。如 <code>ps -e</code>。可以合并同格式选项</li>
+<li><code>GUN</code> 格式：以 <code>--</code> 开头。如 <code>ps --deselect</code>。可以合并同格式选项</li>
+<li><code>BSD</code> 格式：没有破折号，如 <code>ps a</code>。不能合并选项</li>
+</ul>
+<h1 id="选择当前会话以外的进程" class="heading-element">
+  <a href="#%e9%80%89%e6%8b%a9%e5%bd%93%e5%89%8d%e4%bc%9a%e8%af%9d%e4%bb%a5%e5%a4%96%e7%9a%84%e8%bf%9b%e7%a8%8b" class="heading-mark"></a>选择当前会话以外的进程</h1><p><code>ps</code> 命令默认只显示当前会话相关联进程的信息，以下这些选项可以打破限制</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">a
+</span></span><span class="line"><span class="cl"> <span class="c1"># 与 tty 相关联的进程信息</span>
+</span></span><span class="line"><span class="cl">x
+</span></span><span class="line"><span class="cl"> <span class="c1"># 与 a 选项同时使用时，取消 tty 关联限制，即查看所有进程信息</span>
+</span></span><span class="line"><span class="cl">-A,-e
+</span></span><span class="line"><span class="cl"> <span class="c1"># 查看所有进程信息</span>
+</span></span><span class="line"><span class="cl">-r
+</span></span><span class="line"><span class="cl"> <span class="c1"># 只查看运行状态的进程信息</span>
+</span></span><span class="line"><span class="cl">--deselect, -N
+</span></span><span class="line"><span class="cl"> <span class="c1"># 运行结果取反</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="指定进程列表" class="heading-element">
+  <a href="#%e6%8c%87%e5%ae%9a%e8%bf%9b%e7%a8%8b%e5%88%97%e8%a1%a8" class="heading-mark"></a>指定进程列表</h1><p>以下选项可以指定多次，且单个选项可以指定多个值，这些值使用（带引号）空格或逗号分隔</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">n, -n, p n, -p n, --pid n
+</span></span><span class="line"><span class="cl"> <span class="c1"># 查看指定进程号信息，其中 n 为进程号</span>
+</span></span><span class="line"><span class="cl">-C cmdlist
+</span></span><span class="line"><span class="cl"> <span class="c1"># 指定进程名列表（不含路径）</span>
+</span></span><span class="line"><span class="cl">--ppid
+</span></span><span class="line"><span class="cl"> <span class="c1"># 指定父进程号，列出其子进程信息</span>
+</span></span><span class="line"><span class="cl">--quick-pid, q, -q
+</span></span><span class="line"><span class="cl"> <span class="c1"># 只显示简要信息</span>
+</span></span><span class="line"><span class="cl">-s,--sid
+</span></span><span class="line"><span class="cl"> <span class="c1"># 查看会话进程信息</span>
+</span></span><span class="line"><span class="cl">-t, t, --tty
+</span></span><span class="line"><span class="cl"> <span class="c1"># 查看当前 tty 相关进程信息，如果指定 - 为值则查看所有进行信息</span>
+</span></span><span class="line"><span class="cl">U, -u, --user
+</span></span><span class="line"><span class="cl"> <span class="c1"># 查看指定 EUID 运行的进程，EUID 可以是用户名</span>
+</span></span><span class="line"><span class="cl">-U, --User
+</span></span><span class="line"><span class="cl"> <span class="c1"># 查看指定 RUID 运行的进程，RUID 可以是用户名</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="输出格式" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e6%a0%bc%e5%bc%8f" class="heading-mark"></a>输出格式</h1><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-o, o
+</span></span><span class="line"><span class="cl"> <span class="c1"># 指定输出字段，格式：-o 字段[:宽度][=字段名]。</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># 字段宽度必须是正整数，宽度小于信息值时只显示前面部分</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># 字段名用于显示标题行，可以为空，当所有字段名为空时不显示标题行</span>
+</span></span><span class="line"><span class="cl">-O
+</span></span><span class="line"><span class="cl"> <span class="c1"># 指定输出字段，比 -o 选项默认增加 pid,tname,time,args 字段</span>
+</span></span><span class="line"><span class="cl">O
+</span></span><span class="line"><span class="cl"> <span class="c1"># 指定输出字段，比 -o 选项默认增加 pid,tname,time,fname 字段</span>
+</span></span><span class="line"><span class="cl">-j
+</span></span><span class="line"><span class="cl"> <span class="c1"># 等效 -o pid,pgid,sid,tname,cputime,comm</span>
+</span></span><span class="line"><span class="cl">j
+</span></span><span class="line"><span class="cl"> <span class="c1"># 等效 -o ppid,pid,pgid,sid,tname,tpgid,s,uid,bsdtime,args</span>
+</span></span><span class="line"><span class="cl">s
+</span></span><span class="line"><span class="cl"> <span class="c1"># 等效 -o uid,pid,pending,blocked,ignored,caught,s,tname,bsdtime,args</span>
+</span></span><span class="line"><span class="cl">u
+</span></span><span class="line"><span class="cl"> <span class="c1"># 等效 -o user,pid,pcpu,pmem,vsz,rss,tname,s,start_time,bsdtime,args</span>
+</span></span><span class="line"><span class="cl">v
+</span></span><span class="line"><span class="cl"> <span class="c1"># 等效 -o pid,tname,s,bsdtime,maj_flt,trs,drs,rss,pmem,args</span>
+</span></span><span class="line"><span class="cl">X
+</span></span><span class="line"><span class="cl"> <span class="c1"># 等效 -o pid,stackp,esp,eip,tmout,alarm,s,tname,bsdtime,args</span>
+</span></span><span class="line"><span class="cl">-l
+</span></span><span class="line"><span class="cl"> <span class="c1"># 等效 -o f,s,uid,pid,ppid,c,pri,nice,sz,wchan,tname,cputime,cmd</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># ADDR 字段没找到</span>
+</span></span><span class="line"><span class="cl">-y
+</span></span><span class="line"><span class="cl"> <span class="c1"># 只能与 -l 选项同时使用，把 -l 输出字段中 ADDR 字段替换为 RSS 字段</span>
+</span></span><span class="line"><span class="cl">--context
+</span></span><span class="line"><span class="cl"> <span class="c1"># 查看 selinux 上下文</span>
+</span></span><span class="line"><span class="cl">-M
+</span></span><span class="line"><span class="cl"> <span class="c1"># 曾加 LABEL 字段（显示 SELINUX 上下文）</span>
+</span></span><span class="line"><span class="cl">Z
+</span></span><span class="line"><span class="cl"> <span class="c1"># 安全相关字段，如果是 SELINUX 则与 -M 相同</span>
+</span></span><span class="line"><span class="cl">H
+</span></span><span class="line"><span class="cl"> <span class="c1"># 像进程那样显示线程</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="输出修饰符" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e4%bf%ae%e9%a5%b0%e7%ac%a6" class="heading-mark"></a>输出修饰符</h1><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">e
+</span></span><span class="line"><span class="cl"> <span class="c1"># 查看进程指定的环境变量</span>
+</span></span><span class="line"><span class="cl">f
+</span></span><span class="line"><span class="cl"> <span class="c1"># 以 ACSII 码展示进程关系树</span>
+</span></span><span class="line"><span class="cl">--forest
+</span></span><span class="line"><span class="cl"> <span class="c1"># 类似 f 选项，但只有进程文件名，没有路径与参数</span>
+</span></span><span class="line"><span class="cl">H
+</span></span><span class="line"><span class="cl"> <span class="c1"># 类似 --forest，但没有 ACSII 码，以缩进表示</span>
+</span></span><span class="line"><span class="cl">h
+</span></span><span class="line"><span class="cl"> <span class="c1"># 不展示标题行</span>
+</span></span><span class="line"><span class="cl">k,--sort
+</span></span><span class="line"><span class="cl"> <span class="c1"># 指定字段排序，如 ps -ef --sort ppid。部分字段不支持用于排序</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># 指定排序方式格式为：[+|-]key[,[+|-]key[,...]] 其中：</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># k表示字段名</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># -表示降序</span>
+</span></span><span class="line"><span class="cl"> <span class="c1"># +表示升序</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="输出字段表" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e5%ad%97%e6%ae%b5%e8%a1%a8" class="heading-mark"></a>输出字段表</h1><p><code>ps -o</code> 选项有字段表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">默认字段名</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>%cpu</code><br>或 <code>pcpu</code></td>
+<td style="text-align:left"><code>%CPU</code></td>
+<td style="text-align:left">进程的CPU利用率。计算方式：使用的CPU时间除以进程已经运行的时间 x 100%</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>c</code></td>
+<td style="text-align:left"><code>C</code></td>
+<td style="text-align:left">类似 <code>%cpu</code> 字段，但只显示整数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cp </code></td>
+<td style="text-align:left"><code>CP</code></td>
+<td style="text-align:left">同 <code>c</code> 字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>%mem</code><br>或 <code>pmem</code></td>
+<td style="text-align:left"><code>%MEM</code></td>
+<td style="text-align:left">进程使用内存占比。计算方式：进程占用内存除以物理内存 x 100%</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>args</code><br>或 <code>command</code></td>
+<td style="text-align:left">COMMAND</td>
+<td style="text-align:left">进程运行的参数，包含进程路径。值可以会超过默认宽度</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cmd</code></td>
+<td style="text-align:left">CMD</td>
+<td style="text-align:left">同 <code>args</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>comm</code><br>或<code>fname</code><br>或<code>ucomm</code></td>
+<td style="text-align:left">COMMAND</td>
+<td style="text-align:left">进程名称，不含路径与参数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cputime</code><br>或 <code>time</code></td>
+<td style="text-align:left">TIME</td>
+<td style="text-align:left"><code>[DD-]HH:MM:SS</code> 时间格式</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>bsdtime</code></td>
+<td style="text-align:left"><code>TIME</code></td>
+<td style="text-align:left">进程利用CPU时间，时间格式为 <code>MMM:SS</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>bsdstart</code></td>
+<td style="text-align:left"><code>START</code></td>
+<td style="text-align:left">进程启动时间，24小时以内时间格式为 <code>HH:MM</code>，大于24小时时间格式为 <code>Mmm:SS</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>start_time</code></td>
+<td style="text-align:left">START</td>
+<td style="text-align:left">进程启动时间或日期，根据执行<code>ps</code>命令时机显示不同格式：<br> 同一天格式为：<code>HH:MM</code><br>同一年格式为：<code>MmmDD</code><br>不同年格式为：<code>Y</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cputimes</code><br>或<code>times</code></td>
+<td style="text-align:left">TIME</td>
+<td style="text-align:left">利用cpu时间，单位秒</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>etime</code></td>
+<td style="text-align:left">ELAPSED</td>
+<td style="text-align:left">进程已启动时间，时间格式为 <code>[DD-]HH:MM:SS</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>etimes</code></td>
+<td style="text-align:left">ELAPSED</td>
+<td style="text-align:left">进程已启动时间，时间单位为秒</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>lstart</code></td>
+<td style="text-align:left">STARTED</td>
+<td style="text-align:left">进程启动时间，时间格式为 &ldquo;周 月 日 时:分:秒 年&rdquo;</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>start</code></td>
+<td style="text-align:left">STARTED</td>
+<td style="text-align:left">进程启动时间，时间格式为 <code>HH:MM:SS</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>blocked</code><br>或 <code>sigmask</code></td>
+<td style="text-align:left">BLOCKED</td>
+<td style="text-align:left">blocked 信号掩码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ignored</code><br>或 <code>sigignore</code></td>
+<td style="text-align:left">IGNORED</td>
+<td style="text-align:left">ignored 信号掩码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pending</code><br>或 <code>sig</code></td>
+<td style="text-align:left">PENDING</td>
+<td style="text-align:left">pending 信号掩码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>caught</code><br>或 <code>sigcatch</code></td>
+<td style="text-align:left">CAUGHT</td>
+<td style="text-align:left">caught 信号掩码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cgroup</code></td>
+<td style="text-align:left"><code>CGROUP</code></td>
+<td style="text-align:left">进程控制组</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cgname</code></td>
+<td style="text-align:left"><code>CGNAME</code></td>
+<td style="text-align:left">进程控制组名称</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>class</code><br>或 <code>cls</code></td>
+<td style="text-align:left"><code>CLS</code></td>
+<td style="text-align:left">进程调度类别，有以下值：<br> <code>-</code>: 未报告<br><code>?</code> 表示: 未知<br><code>B</code> 表示: <code>SCHED_BATCH</code><br><code>TS</code> 表示: <code>SCHED_OTHER</code><br><code>FF</code> 表示: <code>SCHED_FIFO</code><br><code>RR</code> 表示: <code>SCHED_RR</code><br><code>ISO</code> 表示: <code>SCHED_ISO</code><br><code>IDL</code> 表示: <code>SCHED_IDLE</code><br><code>DLN</code> 表示: <code>SCHED_DEADLINE</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>policy</code></td>
+<td style="text-align:left">POL</td>
+<td style="text-align:left">同 <code>class</code> 字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>sched</code></td>
+<td style="text-align:left">SCH</td>
+<td style="text-align:left">进程调度策略，有以下值：<br><code>0</code>: 表示 <code>SCHED_OTHER (SCHED_NORMAL)</code><br><code>1</code>: 表示 <code>SCHED_FIFO</code> <br><code>2</code>: 表示 <code>SCHED_RR</code><br><code>3</code>: 表示 <code>SCHED_BATCH</code><br><code>4</code>: 表示 <code>SCHED_ISO</code><br><code>5</code>: 表示 <code>SCHED_IDLE</code><br><code>6</code>: 表示 <code>SCHED_DEADLINE</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>drs</code></td>
+<td style="text-align:left">DRS</td>
+<td style="text-align:left">数据驻留集大小，即用于除可执行代码以外的其他物理内存量</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>egid</code></td>
+<td style="text-align:left">EGID</td>
+<td style="text-align:left">进程组ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gid</code></td>
+<td style="text-align:left">GID</td>
+<td style="text-align:left">同 <code>egid</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>egroup</code></td>
+<td style="text-align:left">EGROUP</td>
+<td style="text-align:left">进程组名</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>grop</code></td>
+<td style="text-align:left">GROUP</td>
+<td style="text-align:left">进程组名</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ipcns</code></td>
+<td style="text-align:left">IPCNS</td>
+<td style="text-align:left">名称空间中进程 inode 号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>eip</code></td>
+<td style="text-align:left">EIP</td>
+<td style="text-align:left">instruction pointer(存放执行中的函数对应的栈帧的栈底地址)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>esp</code></td>
+<td style="text-align:left">ESP</td>
+<td style="text-align:left">stack pointer(存放执行中的函数对应的栈帧的栈顶地址)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>euid</code></td>
+<td style="text-align:left">EUID</td>
+<td style="text-align:left">运行进程用户 id 号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>uid</code></td>
+<td style="text-align:left">UID</td>
+<td style="text-align:left">同 <code>euid</code> 字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>euser</code></td>
+<td style="text-align:left">EUSER</td>
+<td style="text-align:left">运行进程用户名</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>user</code><br>或<code>uname</code></td>
+<td style="text-align:left">USER</td>
+<td style="text-align:left">同 <code>euser</code> 字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>f</code><br>或<code>flag</code><br>或<code>flags</code></td>
+<td style="text-align:left">F</td>
+<td style="text-align:left">标志，值为1表示有分支，值为4表示使用超级用户权限</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fgid</code></td>
+<td style="text-align:left">FGID</td>
+<td style="text-align:left">filesystem access group ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fgroup</code></td>
+<td style="text-align:left">FGROUP</td>
+<td style="text-align:left">filesystem access group name</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fuid</code></td>
+<td style="text-align:left">FUID</td>
+<td style="text-align:left">filesystem access user ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fuser</code></td>
+<td style="text-align:left">FUSER</td>
+<td style="text-align:left">filesystem access user name</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>label</code></td>
+<td style="text-align:left">LABEL</td>
+<td style="text-align:left">安全标签，通常是 SELINUX 上下文</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>lsession</code></td>
+<td style="text-align:left">SESSION</td>
+<td style="text-align:left">进程登陆会话标识符，需要systemd支持</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>luid</code></td>
+<td style="text-align:left">LUID</td>
+<td style="text-align:left">进程相关登录ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>lwp</code></td>
+<td style="text-align:left">LWP</td>
+<td style="text-align:left">线程 ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>maj_flt</code></td>
+<td style="text-align:left">MAJFL</td>
+<td style="text-align:left">表示程序的页请求错误次数。内存中没有缓存有进程所需要的页面数据。内核必需要通知CPU从磁盘中把页面数据加载到内存中来。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>min_flt</code></td>
+<td style="text-align:left">MINFLT</td>
+<td style="text-align:left">表示程序的页请求错误次数.内存中已经缓存有进程所需要的页面数据。只要把该页面数据与进程的虚拟地址空间建立映射关系就可以</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ni</code><br>或 <code>nice</code></td>
+<td style="text-align:left">NI</td>
+<td style="text-align:left">进程nice值</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>nlwp</code></td>
+<td style="text-align:left">NLWP</td>
+<td style="text-align:left">进程中线程数量</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>numa</code></td>
+<td style="text-align:left">NUMA</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>nwchan</code></td>
+<td style="text-align:left">WCHAN</td>
+<td style="text-align:left">进程休眠的内核函数的WCHAN地址</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pid</code></td>
+<td style="text-align:left">PID</td>
+<td style="text-align:left">进程号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ppid</code></td>
+<td style="text-align:left">PPID</td>
+<td style="text-align:left">父进程号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pgid</code></td>
+<td style="text-align:left">PGID</td>
+<td style="text-align:left">进程组号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pgrp</code></td>
+<td style="text-align:left">PGRP</td>
+<td style="text-align:left">同 <code>pgid</code> 字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pri</code></td>
+<td style="text-align:left">PRI</td>
+<td style="text-align:left">进程优先级，数字越大，优先级越低</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>psr</code></td>
+<td style="text-align:left">PSR</td>
+<td style="text-align:left">进程当前被分配给的处理器</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>sz</code></td>
+<td style="text-align:left">SZ</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tgid</code></td>
+<td style="text-align:left">TGID</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>rss</code><br>或<code>rssize</code></td>
+<td style="text-align:left">RSS</td>
+<td style="text-align:left">常驻集大小，即任务使用的非交换物理内存</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>rsz</code></td>
+<td style="text-align:left">RSZ</td>
+<td style="text-align:left">同 <code>rss</code> 字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>rtprio</code></td>
+<td style="text-align:left">RTPRIO</td>
+<td style="text-align:left">进程实时优先级</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ruid</code></td>
+<td style="text-align:left">RUID</td>
+<td style="text-align:left">真实用户ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>s</code></td>
+<td style="text-align:left">S</td>
+<td style="text-align:left">进程状态，有以下值：<br> <code>D</code>: 表示不可中断睡眠，通常是IO进行中<br> <code>R</code>: 表示正在运行中或在运行队列<br> <code>S</code>: 表示可断睡眠，等待事件完成<br> <code>T</code>: 表示人为发送信号暂停<br> <code>t</code>: 表示在跟踪期间由调试器停止<br> <code>W</code>: 内核自2.6以来无效<br> <code>X</code>: 表示已死亡进程，通常是不会被显示<br> <code>Z</code>: 表示僵死进程，终止但没有被其父进程回收<br> <code>D</code>: BSD 选项格式才有，表示进程优先级较高 <br> <code>N</code>: BSD 选项格式才有，表示进程优先级较低<br> <code>L</code>: BSD 选项格式才有，表示锁定在内存中(用于实时和自定义IO)<br> <code>s</code>: BSD 选项格式才有，表示进程属于会话<br> <code>l</code>: BSD 选项格式才有，表示多线程<br> <code>+</code>: BSD 选项格式才有，表示前台运行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>vsz</code><br>或<code>vsize</code></td>
+<td style="text-align:left">VSZ</td>
+<td style="text-align:left">进程占用虚拟内存大小，单位 <code>KiB</code>(1024byte)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tname</code></td>
+<td style="text-align:left">TTY</td>
+<td style="text-align:left">终端</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>trs</code></td>
+<td style="text-align:left">TRS</td>
+<td style="text-align:left">文本驻留集大小，用于可执行代码的物理内存量</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>stackp</code></td>
+<td style="text-align:left">STACKP</td>
+<td style="text-align:left">进程堆栈底部（开始）的地址</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>sid</code></td>
+<td style="text-align:left">SID</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>sess</code></td>
+<td style="text-align:left">SESS</td>
+<td style="text-align:left">会话ID或会话领导者的进程ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tpgid</code></td>
+<td style="text-align:left">TPGID</td>
+<td style="text-align:left">前台进程组ID，如果没有连接TTY终端则为<code>-1</code></td>
+</tr>
+</tbody>
+</table>
+<h1 id="示例" class="heading-element">
+  <a href="#%e7%a4%ba%e4%be%8b" class="heading-mark"></a>示例</h1><p>查看 <code>node_exporter</code> 进程的 <code>pid</code></p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1"># ps -C node_exporter -o pid=</span>
+</span></span><span class="line"><span class="cl"> <span class="m">4094</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-08-05 13:18:03">更新于 2023-08-05&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a><a href="/tags/ps/" class="post-tag" title="标签 - ps">ps</a><a href="/tags/%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - 命令">命令</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/openSSH/" class="post-nav-item" rel="prev" title="OpenSSH - SSH 协议远程登录连接工具"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>OpenSSH - SSH 协议远程登录连接工具</a>
+      <a href="/pam/" class="post-nav-item" rel="next" title="linux中的可插拔式认证模块">linux中的可插拔式认证模块<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

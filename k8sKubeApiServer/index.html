@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s API 服务 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="k8s api 服务简介与选项" /><meta name="keywords" content='k8s, k8s API server' /><meta itemprop="name" content="k8s API 服务">
+<meta itemprop="description" content="k8s api 服务简介与选项"><meta itemprop="datePublished" content="2022-08-06T21:20:14+08:00" />
+<meta itemprop="dateModified" content="2023-05-07T14:34:47+08:00" />
+<meta itemprop="wordCount" content="2669">
+<meta itemprop="keywords" content="k8s,k8s API server," /><meta property="og:title" content="k8s API 服务" />
+<meta property="og:description" content="k8s api 服务简介与选项" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sKubeApiServer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-06T21:20:14+08:00" />
+<meta property="article:modified_time" content="2023-05-07T14:34:47+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s API 服务"/>
+<meta name="twitter:description" content="k8s api 服务简介与选项"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sKubeApiServer/" /><link rel="prev" href="/k8sKubelet/" /><link rel="next" href="/k8sControllerManager/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s API 服务",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sKubeApiServer\/"
+    },"genre": "posts","keywords": "k8s, k8s API server","wordcount":  2669 ,
+    "url": "\/k8sKubeApiServer\/","datePublished": "2022-08-06T21:20:14+08:00","dateModified": "2023-05-07T14:34:47+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s API 服务</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-06 21:20:14"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-06">2022-08-06</time></span>&nbsp;<span title="更新于 2023-05-07 14:34:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-07">2023-05-07</time></span>&nbsp;<span title="2669 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kube-apiserver">kube-apiserver</a></li>
+    <li><a href="#与-api-服务通信地址">与 api 服务通信地址</a></li>
+    <li><a href="#是否允许特权容器">是否允许特权容器</a></li>
+    <li><a href="#审计日志格式">审计日志格式</a></li>
+    <li><a href="#保留审计日志时间">保留审计日志时间</a></li>
+    <li><a href="#保留审计日志个数">保留审计日志个数</a></li>
+    <li><a href="#审计日志最大值">审计日志最大值</a></li>
+    <li><a href="#审计日志保存路径">审计日志保存路径</a></li>
+    <li><a href="#审计策略文件路径">审计策略文件路径</a></li>
+    <li><a href="#鉴权插件的顺序列表">鉴权插件的顺序列表</a></li>
+    <li><a href="#客户端-ca-证书路径">客户端 ca 证书路径</a></li>
+    <li><a href="#启用插件">启用插件</a></li>
+    <li><a href="#是否允许聚合器将请求路由到端点-ip">是否允许聚合器将请求路由到端点 IP</a></li>
+    <li><a href="#是否启用-bootstrap-secret-用于-tls-引导身份验证">是否启用 bootstrap Secret 用于 TLS 引导身份验证</a></li>
+    <li><a href="#etcd-ca-证书路径">etcd ca 证书路径</a></li>
+    <li><a href="#etcd-证书路径">etcd 证书路径</a></li>
+    <li><a href="#etcd-密钥文件">etcd 密钥文件</a></li>
+    <li><a href="#etcd-地址">etcd 地址</a></li>
+    <li><a href="#特性开关">特性开关</a></li>
+    <li><a href="#kubelet-客户端证书文件路径">kubelet 客户端证书文件路径</a></li>
+    <li><a href="#kubelet-客户端秘钥文件路径">kubelet 客户端秘钥文件路径</a></li>
+    <li><a href="#kubelet-连接节点方式">kubelet 连接节点方式</a></li>
+    <li><a href="#proxy-客户端证书">proxy 客户端证书</a></li>
+    <li><a href="#proxy-客户端密钥">proxy 客户端密钥</a></li>
+    <li><a href="#客户端证书通用名称列表">客户端证书通用名称列表</a></li>
+    <li><a href="#验证接入请求中客户端证书的根证书文件">验证接入请求中客户端证书的根证书文件</a></li>
+    <li><a href="#查验用户组的请求头部列表">查验用户组的请求头部列表</a></li>
+    <li><a href="#查验用户名的请求头头列表">查验用户名的请求头头列表</a></li>
+    <li><a href="#api-server-端口的端口">api server 端口的端口</a></li>
+    <li><a href="#服务帐号令牌颁发者的标识符">服务帐号令牌颁发者的标识符</a></li>
+    <li><a href="#验证-serviceaccount-令牌">验证 ServiceAccount 令牌</a></li>
+    <li><a href="#服务帐户令牌颁发者当前私钥的文件的路径">服务帐户令牌颁发者当前私钥的文件的路径</a></li>
+    <li><a href="#集群服务-ip-地址范围">集群服务 IP 地址范围</a></li>
+    <li><a href="#apiserver-https-证书文件">apiserver https 证书文件</a></li>
+    <li><a href="#apiserver-https-密钥文件">apiserver https 密钥文件</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+<li>内核: 4.18.0-348.el8.0.2.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-apiserver/"target="_blank" rel="external nofollow noopener noreferrer">k8s 官方文档：kube-apiserver</a></li>
+</ul>
+</blockquote>
+<h1 id="kube-apiserver" class="heading-element">
+  <a href="#kube-apiserver" class="heading-mark"></a>kube-apiserver</h1><p><code>kube-apiserver</code> 用于验证并配置 <code>API</code> 对象的数据、提供 <code>HTTP REST</code> 操作、为集群的共享状态提供前端， 所有其他组件都通过该前端进行交互。</p>
+<p>现在 <code>kube-apiserver</code> 通常是以静态 <code>pod</code> 方式运行的</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod kube-apiserver-k8s01.localdomain  -n kube-system</span>
+</span></span><span class="line"><span class="cl">NAME                               READY   STATUS    RESTARTS     AGE
+</span></span><span class="line"><span class="cl">kube-apiserver-k8s01.localdomain   1/1     Running   <span class="m">2</span> <span class="o">(</span>8h ago<span class="o">)</span>   13d
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod kube-apiserver-k8s01.localdomain -n kube-system -o=jsonpath=&#39;{$.spec.containers[0].command}&#39; | jq</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;kube-apiserver&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--advertise-address=192.168.64.111&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--allow-privileged=true&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--audit-log-format=json&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--audit-log-maxage=7&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--audit-log-maxbackup=10&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--audit-log-maxsize=100&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--audit-log-path=/var/log/kubernetes/audit.log&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--audit-policy-file=/etc/kubernetes/audit-policy.yml&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--authorization-mode=Node,RBAC&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--client-ca-file=/etc/kubernetes/pki/ca.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--enable-admission-plugins=NodeRestriction&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--enable-aggregator-routing=true&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--enable-bootstrap-token-auth=true&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--etcd-servers=https://192.168.64.111:2379&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--feature-gates=TTLAfterFinished=true,EphemeralContainers=true&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--requestheader-allowed-names=front-proxy-client&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--requestheader-extra-headers-prefix=X-Remote-Extra-&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--requestheader-group-headers=X-Remote-Group&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--requestheader-username-headers=X-Remote-User&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--secure-port=6443&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--service-account-issuer=https://kubernetes.default.svc.cluster.local&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--service-account-key-file=/etc/kubernetes/pki/sa.pub&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--service-account-signing-key-file=/etc/kubernetes/pki/sa.key&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--service-cluster-ip-range=10.96.0.0/22&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--tls-cert-file=/etc/kubernetes/pki/apiserver.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--tls-private-key-file=/etc/kubernetes/pki/apiserver.key&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="与-api-服务通信地址" class="heading-element">
+  <a href="#%e4%b8%8e-api-%e6%9c%8d%e5%8a%a1%e9%80%9a%e4%bf%a1%e5%9c%b0%e5%9d%80" class="heading-mark"></a>与 api 服务通信地址</h1><p><code>kube-apiserver --advertise-address</code> 选项指定与 <code>api</code> 服务通信地址。会向集群所有成员告知。这个地址必须能够被集群中其他成员访问。 如果地址为空，将会使采用 <code>--bind-address</code> 选项，如果它也未指定，则使用主机的默认接口地址</p>
+<h1 id="是否允许特权容器" class="heading-element">
+  <a href="#%e6%98%af%e5%90%a6%e5%85%81%e8%ae%b8%e7%89%b9%e6%9d%83%e5%ae%b9%e5%99%a8" class="heading-mark"></a>是否允许特权容器</h1><p><code>kube-apiserver --allow-privileged</code> 选项取值是布尔值类型，如果为 <code>true</code> 则允许特权容器，默认值为 <code>false</code></p>
+<h1 id="审计日志格式" class="heading-element">
+  <a href="#%e5%ae%a1%e8%ae%a1%e6%97%a5%e5%bf%97%e6%a0%bc%e5%bc%8f" class="heading-mark"></a>审计日志格式</h1><p><code>kube-apiserver --audit-log-format</code> 指定保存的审计日志格式，有以下取值：</p>
+<ul>
+<li><code>legacy</code>: 以一行文本记录一个事件方式保存</li>
+<li><code>json</code>: 以 <code>json</code> 格式记录。默认值</li>
+</ul>
+<h1 id="保留审计日志时间" class="heading-element">
+  <a href="#%e4%bf%9d%e7%95%99%e5%ae%a1%e8%ae%a1%e6%97%a5%e5%bf%97%e6%97%b6%e9%97%b4" class="heading-mark"></a>保留审计日志时间</h1><p><code>kube-apiserver --audit-log-maxage</code> 设置根据文件名中编码的时间戳保留旧审计日志文件的最大天数</p>
+<h1 id="保留审计日志个数" class="heading-element">
+  <a href="#%e4%bf%9d%e7%95%99%e5%ae%a1%e8%ae%a1%e6%97%a5%e5%bf%97%e4%b8%aa%e6%95%b0" class="heading-mark"></a>保留审计日志个数</h1><p><code>kube-apiserver --audit-log-maxbackup</code> 指定要保留的旧的审计日志文件个数上限。 将值设置为 0 表示对文件个数没有限制</p>
+<h1 id="审计日志最大值" class="heading-element">
+  <a href="#%e5%ae%a1%e8%ae%a1%e6%97%a5%e5%bf%97%e6%9c%80%e5%a4%a7%e5%80%bc" class="heading-mark"></a>审计日志最大值</h1><p><code>kube-apiserver --audit-log-maxsize</code> 指定轮换之前，审计日志文件的最大大小（以兆字节为单位）</p>
+<h1 id="审计日志保存路径" class="heading-element">
+  <a href="#%e5%ae%a1%e8%ae%a1%e6%97%a5%e5%bf%97%e4%bf%9d%e5%ad%98%e8%b7%af%e5%be%84" class="heading-mark"></a>审计日志保存路径</h1><p><code>kube-apiserver --audit-log-path</code> 如果设置该选项，则所有到达 <code>API</code> 服务器的请求都将记录到该文件中。如果值为 <code>-</code> 表示标准输出</p>
+<h1 id="审计策略文件路径" class="heading-element">
+  <a href="#%e5%ae%a1%e8%ae%a1%e7%ad%96%e7%95%a5%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>审计策略文件路径</h1><p><code>kube-apiserver --audit-policy-file</code> 定义审计策略配置的文件的路径</p>
+<h1 id="鉴权插件的顺序列表" class="heading-element">
+  <a href="#%e9%89%b4%e6%9d%83%e6%8f%92%e4%bb%b6%e7%9a%84%e9%a1%ba%e5%ba%8f%e5%88%97%e8%a1%a8" class="heading-mark"></a>鉴权插件的顺序列表</h1><p><code>kube-apiserver --authorization-mode</code> 定义在安全端口上进行鉴权的插件的顺序列表。这些列表以逗号分隔。有以下值：</p>
+<ul>
+<li><code>AlwaysAllow</code>:</li>
+<li><code>AlwaysDeny</code>:</li>
+<li><code>ABAC</code>:</li>
+<li><code>Webhook</code>:</li>
+<li><code>RBAC</code>:</li>
+<li><code>Node</code>:</li>
+</ul>
+<h1 id="客户端-ca-证书路径" class="heading-element">
+  <a href="#%e5%ae%a2%e6%88%b7%e7%ab%af-ca-%e8%af%81%e4%b9%a6%e8%b7%af%e5%be%84" class="heading-mark"></a>客户端 ca 证书路径</h1><p><code>kube-apiserver --client-ca-file</code> 如果使用该选项，则使用与客户端证书的 <code>CommonName</code> 对应的标识对任何出示由 <code>client-ca</code> 文件中的授权机构之一签名的客户端证书的请求进行身份验证</p>
+<h1 id="启用插件" class="heading-element">
+  <a href="#%e5%90%af%e7%94%a8%e6%8f%92%e4%bb%b6" class="heading-mark"></a>启用插件</h1><p><code>kube-apiserver --enable-admission-plugins</code> 选项指定启用非默认启用的插件列表。插件列表以逗号分隔，插件的顺序无关紧要</p>
+<p>以下插件默认启用：</p>
+<ul>
+<li><code>NamespaceLifecycle</code>:</li>
+<li><code>LimitRanger</code>:</li>
+<li><code>ServiceAccount</code>:</li>
+<li><code>TaintNodesByCondition</code>:</li>
+<li><code>PodSecurity</code>:</li>
+<li><code>Priority</code>:</li>
+<li><code>DefaultTolerationSeconds</code>:</li>
+<li><code>DefaultStorageClass</code>:</li>
+<li><code>StorageObjectInUseProtection</code>:</li>
+<li><code>PersistentVolumeClaimResize</code>:</li>
+<li><code>RuntimeClass</code>:</li>
+<li><code>CertificateApproval</code>:</li>
+<li><code>CertificateSigning</code>:</li>
+<li><code>CertificateSubjectRestriction</code>:</li>
+<li><code>DefaultIngressClass</code>:</li>
+<li><code>MutatingAdmissionWebhook</code>:</li>
+<li><code>ValidatingAdmissionWebhook</code>:</li>
+<li><code>ResourceQuota</code>:</li>
+</ul>
+<p>以下插件需要使用该选项指定启用：</p>
+<ul>
+<li><code>AlwaysAdmit</code>:</li>
+<li><code>AlwaysDeny</code>:</li>
+<li><code>AlwaysPullImages</code>:</li>
+<li><code>CertificateApproval</code>:</li>
+<li><code>CertificateSigning</code>:</li>
+<li><code>CertificateSubjectRestriction</code>:</li>
+<li><code>DefaultIngressClass</code>:</li>
+<li><code>DefaultStorageClass</code>:</li>
+<li><code>DefaultTolerationSeconds</code>:</li>
+<li><code>DenyServiceExternalIPs</code>:</li>
+<li><code>EventRateLimit</code>:</li>
+<li><code>ExtendedResourceToleration</code>:</li>
+<li><code>ImagePolicyWebhook</code>:</li>
+<li><code>LimitPodHardAntiAffinityTopology</code>:</li>
+<li><code>LimitRanger</code>:</li>
+<li><code>MutatingAdmissionWebhook</code>:</li>
+<li><code>NamespaceAutoProvision</code>:</li>
+<li><code>NamespaceExists</code>:</li>
+<li><code>NamespaceLifecycle</code>:</li>
+<li><code>NodeRestriction</code>:</li>
+<li><code>OwnerReferencesPermissionEnforcement</code>:</li>
+<li><code>PersistentVolumeClaimResize</code>:</li>
+<li><code>PersistentVolumeLabel</code>:</li>
+<li><code>PodNodeSelector</code>:</li>
+<li><code>PodSecurity</code>:</li>
+<li><code>PodSecurityPolicy</code>:</li>
+<li><code>PodTolerationRestriction</code>:</li>
+<li><code>Priority</code>:</li>
+<li><code>ResourceQuota</code>:</li>
+<li><code>RuntimeClass</code>:</li>
+<li><code>SecurityContextDeny</code>:</li>
+<li><code>ServiceAccount</code>:</li>
+<li><code>StorageObjectInUseProtection</code>:</li>
+<li><code>TaintNodesByCondition</code>:</li>
+<li><code>ValidatingAdmissionWebhook</code>:</li>
+</ul>
+<h1 id="是否允许聚合器将请求路由到端点-ip" class="heading-element">
+  <a href="#%e6%98%af%e5%90%a6%e5%85%81%e8%ae%b8%e8%81%9a%e5%90%88%e5%99%a8%e5%b0%86%e8%af%b7%e6%b1%82%e8%b7%af%e7%94%b1%e5%88%b0%e7%ab%af%e7%82%b9-ip" class="heading-mark"></a>是否允许聚合器将请求路由到端点 IP</h1><p><code>kube-apiserver --enable-aggregator-routing</code> 选项值为布尔值类型，如果为 <code>true</code> 则允许聚合器将请求路由到端点 <code>IP</code> 而非集群 <code>IP</code> 。</p>
+<h1 id="是否启用-bootstrap-secret-用于-tls-引导身份验证" class="heading-element">
+  <a href="#%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8-bootstrap-secret-%e7%94%a8%e4%ba%8e-tls-%e5%bc%95%e5%af%bc%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81" class="heading-mark"></a>是否启用 bootstrap Secret 用于 TLS 引导身份验证</h1><p><code>kube-apiserver --enable-bootstrap-token-auth</code> 值为布尔值类型，如果为 <code>true</code> 则 允许 <code>kube-system</code> 名字空间中类型为 <code>bootstrap.kubernetes.io/token</code> 的 <code>Secret</code>  用于 <code>TLS</code> 引导身份验证</p>
+<h1 id="etcd-ca-证书路径" class="heading-element">
+  <a href="#etcd-ca-%e8%af%81%e4%b9%a6%e8%b7%af%e5%be%84" class="heading-mark"></a>etcd ca 证书路径</h1><p><code>kube-apiserver --etcd-cafile</code> 指定用于保护 <code>etcd</code> 通信的 <code>SSL</code> 证书颁发机构文件</p>
+<h1 id="etcd-证书路径" class="heading-element">
+  <a href="#etcd-%e8%af%81%e4%b9%a6%e8%b7%af%e5%be%84" class="heading-mark"></a>etcd 证书路径</h1><p><code>kube-apiserver --etcd-certfile</code> 指定用于保护 <code>etcd</code> 通信的 <code>SSL</code> 证书文件</p>
+<h1 id="etcd-密钥文件" class="heading-element">
+  <a href="#etcd-%e5%af%86%e9%92%a5%e6%96%87%e4%bb%b6" class="heading-mark"></a>etcd 密钥文件</h1><p><code>kube-apiserver --etcd-certfile</code> 指定用于保护 <code>etcd</code> 通信的 <code>SSL</code> 密钥文件</p>
+<h1 id="etcd-地址" class="heading-element">
+  <a href="#etcd-%e5%9c%b0%e5%9d%80" class="heading-mark"></a>etcd 地址</h1><p><code>kube-apiserver --etcd-servers</code> 指定要连接的 <code>etcd</code> 服务器列表。值为 <code>url</code>，有多个地址时使用逗号分隔</p>
+<h1 id="特性开关" class="heading-element">
+  <a href="#%e7%89%b9%e6%80%a7%e5%bc%80%e5%85%b3" class="heading-mark"></a>特性开关</h1><p><code>kube-apiserver --feature-gates</code> 指定某些特性开关列表，值为 <code>key=True|False</code> 格式。多个值使用逗号分隔</p>
+<h1 id="kubelet-客户端证书文件路径" class="heading-element">
+  <a href="#kubelet-%e5%ae%a2%e6%88%b7%e7%ab%af%e8%af%81%e4%b9%a6%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>kubelet 客户端证书文件路径</h1><p><code>kube-apiserver --kubelet-client-certificate</code> 指定 <code>TLS</code> 的客户端证书文件的路径</p>
+<h1 id="kubelet-客户端秘钥文件路径" class="heading-element">
+  <a href="#kubelet-%e5%ae%a2%e6%88%b7%e7%ab%af%e7%a7%98%e9%92%a5%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>kubelet 客户端秘钥文件路径</h1><p><code>kube-apiserver --kubelet-client-key</code> 指定 <code>TLS</code> 客户端密钥文件的路径</p>
+<h1 id="kubelet-连接节点方式" class="heading-element">
+  <a href="#kubelet-%e8%bf%9e%e6%8e%a5%e8%8a%82%e7%82%b9%e6%96%b9%e5%bc%8f" class="heading-mark"></a>kubelet 连接节点方式</h1><p><code>kube-apiserver --kubelet-preferred-address-types</code> 	用于 <code>kubelet</code> 连接的首选 <code>NodeAddressTypes</code> 列表。多个值使用逗号分隔。有以下值</p>
+<ul>
+<li><code>Hostname</code>:</li>
+<li><code>InternalDNS</code>:</li>
+<li><code>InternalIP</code>:</li>
+<li><code>ExternalDNS</code>:</li>
+<li>`ExternalIP</li>
+</ul>
+<h1 id="proxy-客户端证书" class="heading-element">
+  <a href="#proxy-%e5%ae%a2%e6%88%b7%e7%ab%af%e8%af%81%e4%b9%a6" class="heading-mark"></a>proxy 客户端证书</h1><p><code>kube-apiserver --proxy-client-cert-file</code> 指定 <code>proxy</code> 证书文件。当必须调用外部程序以处理请求时，用于证明聚合器或者 <code>kube-apiserver</code> 的身份的客户端证书。 包括代理转发到用户 <code>api-server</code> 的请求和调用 <code>Webhook</code> 准入控制插件的请求。 <code>Kubernetes</code> 期望此证书包含来自于 &ndash;<code>requestheader-client-ca-file</code> 标志中所给 <code>CA</code> 的签名。 该 <code>CA</code> 在 <code>kube-system</code> 命名空间的 &ldquo;<code>extension-apiserver-authentication</code>&rdquo; <code>ConfigMap</code> 中公开。 从 <code>kube-aggregator</code> 收到调用的组件应该使用该 <code>CA</code> 进行各自的双向 <code>TLS</code> 验证。</p>
+<h1 id="proxy-客户端密钥" class="heading-element">
+  <a href="#proxy-%e5%ae%a2%e6%88%b7%e7%ab%af%e5%af%86%e9%92%a5" class="heading-mark"></a>proxy 客户端密钥</h1><p><code>kube-apiserver --proxy-client-key-file</code> 指定 <code>proxy</code> 密钥文件。当必须调用外部程序来处理请求时，用来证明聚合器或者 <code>kube</code>-<code>apiserver</code> 的身份的客户端私钥。 这包括代理转发给用户 <code>api</code>-<code>server</code> 的请求和调用 <code>Webhook</code> 准入控制插件的请求。</p>
+<h1 id="客户端证书通用名称列表" class="heading-element">
+  <a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e8%af%81%e4%b9%a6%e9%80%9a%e7%94%a8%e5%90%8d%e7%a7%b0%e5%88%97%e8%a1%a8" class="heading-mark"></a>客户端证书通用名称列表</h1><p><code>kube-apiserver --requestheader-allowed-names</code> 指定客户端证书通用名称（<code>Common Name</code>）的列表；表中所列的表项可以用来提供用户名， 方式是使用 <code>--requestheader-username-headers</code> 所指定的头部。 如果为空，能够通过 <code>--requestheader-client-ca-file</code> 中机构 认证的客户端证书都是被允许的。</p>
+<h1 id="验证接入请求中客户端证书的根证书文件" class="heading-element">
+  <a href="#%e9%aa%8c%e8%af%81%e6%8e%a5%e5%85%a5%e8%af%b7%e6%b1%82%e4%b8%ad%e5%ae%a2%e6%88%b7%e7%ab%af%e8%af%81%e4%b9%a6%e7%9a%84%e6%a0%b9%e8%af%81%e4%b9%a6%e6%96%87%e4%bb%b6" class="heading-mark"></a>验证接入请求中客户端证书的根证书文件</h1><p><code>kube-paiserver --requestheader-client-ca-file</code> 指定在在信任请求头中以 <code>kube-apiserver --requestheader-username-headers</code> 选项 指示的用户名之前， 用于验证接入请求中客户端证书的根证书包。 警告：一般不要假定传入请求已被授权。</p>
+<h1 id="查验用户组的请求头部列表" class="heading-element">
+  <a href="#%e6%9f%a5%e9%aa%8c%e7%94%a8%e6%88%b7%e7%bb%84%e7%9a%84%e8%af%b7%e6%b1%82%e5%a4%b4%e9%83%a8%e5%88%97%e8%a1%a8" class="heading-mark"></a>查验用户组的请求头部列表</h1><p><code>kube-apiserver --requestheader-group-headers</code> 选项用于查验用户组的请求头部列表。建议使用 <code>X-Remote-Group</code></p>
+<h1 id="查验用户名的请求头头列表" class="heading-element">
+  <a href="#%e6%9f%a5%e9%aa%8c%e7%94%a8%e6%88%b7%e5%90%8d%e7%9a%84%e8%af%b7%e6%b1%82%e5%a4%b4%e5%a4%b4%e5%88%97%e8%a1%a8" class="heading-mark"></a>查验用户名的请求头头列表</h1><p><code>kube-apiserver --requestheader-username-headers</code> 选项用于查验用户名的请求头部列表。建议使用 <code>X-Remote-User</code></p>
+<h1 id="api-server-端口的端口" class="heading-element">
+  <a href="#api-server-%e7%ab%af%e5%8f%a3%e7%9a%84%e7%ab%af%e5%8f%a3" class="heading-mark"></a>api server 端口的端口</h1><p><code>kube-apiserver --secure-port</code> 指定带身份验证和鉴权机制的 <code>HTTPS</code> 服务端口。 不能用 <code>0</code> 关闭。默认值为 <code>6443</code></p>
+<h1 id="服务帐号令牌颁发者的标识符" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e5%b8%90%e5%8f%b7%e4%bb%a4%e7%89%8c%e9%a2%81%e5%8f%91%e8%80%85%e7%9a%84%e6%a0%87%e8%af%86%e7%ac%a6" class="heading-mark"></a>服务帐号令牌颁发者的标识符</h1><p><code>kube-apiserver --service-account-issuer</code> 指定服务帐号令牌颁发者的标识符。 颁发者将在已办法令牌的 <code>iss</code> 声明中检查此标识符。此值为字符串或 <code>URI</code>。</p>
+<p>如果根据 <code>OpenID Discovery 1.0</code> 规范检查此选项不是有效的 <code>URI</code> 。则即使特性门控 <code>ServiceAccountIssuerDiscovery</code> 值为 <code>true</code> 也将保持禁用状态。如果使用 <code>OpenID</code> 规范则该选项取值必须是 <code>HTTPS URL</code>。官方强烈建议此 <code>URL</code> 能够在 <code>{service-account-issuer}/.well-known/openid-configuration</code> 处提供 <code>OpenID</code> 发现文档。 当此值被多次指定时，第一次的值用于生成令牌，所有的值用于确定接受哪些发行人。</p>
+<p>点击查看<a href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-apiserver/"target="_blank" rel="external nofollow noopener noreferrer">OpenID 规范</a></p>
+<h1 id="验证-serviceaccount-令牌" class="heading-element">
+  <a href="#%e9%aa%8c%e8%af%81-serviceaccount-%e4%bb%a4%e7%89%8c" class="heading-mark"></a>验证 ServiceAccount 令牌</h1><p><code>kube-apiserver --service-account-key-file</code> 指定用于验证 <code>ServiceAccount</code> 令牌文件（包含 <code>PEM</code> 编码的 <code>x509 RSA</code> 或 <code>ECDSA</code> 私钥或公钥的文件）。指定的文件可以包含多个键，并且可以使用不同的文件多次指定标志。 如果未指定，则使用 <code>kube-apiserver --tls-private-key-file</code>。使用 <code>kube-apiserver --service-account-signing-key-file</code> 时必须指定该选项</p>
+<h1 id="服务帐户令牌颁发者当前私钥的文件的路径" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e5%b8%90%e6%88%b7%e4%bb%a4%e7%89%8c%e9%a2%81%e5%8f%91%e8%80%85%e5%bd%93%e5%89%8d%e7%a7%81%e9%92%a5%e7%9a%84%e6%96%87%e4%bb%b6%e7%9a%84%e8%b7%af%e5%be%84" class="heading-mark"></a>服务帐户令牌颁发者当前私钥的文件的路径</h1><p><code>kube-apiserver --service-account-signing-key-file</code> 指定包含服务帐户令牌颁发者当前私钥的文件的路径。 颁发者将使用此私钥签署所颁发的 <code>ID</code> 令牌。</p>
+<h1 id="集群服务-ip-地址范围" class="heading-element">
+  <a href="#%e9%9b%86%e7%be%a4%e6%9c%8d%e5%8a%a1-ip-%e5%9c%b0%e5%9d%80%e8%8c%83%e5%9b%b4" class="heading-mark"></a>集群服务 IP 地址范围</h1><p><code>kube-apiserver --service-cluster-ip-range</code> 选项指定为集群中 <code>service</code> 资源分配的 <code>ip</code> 地址范围。此地址不得与指定给节点或 <code>Pod</code> 的任何 <code>IP</code> 范围重叠。</p>
+<h1 id="apiserver-https-证书文件" class="heading-element">
+  <a href="#apiserver-https-%e8%af%81%e4%b9%a6%e6%96%87%e4%bb%b6" class="heading-mark"></a>apiserver https 证书文件</h1><p><code>kube-apiserver --tls-cert-file</code> 指定用于 <code>HTTPS</code> 的默认 <code>x509</code> 证书的文件。（<code>CA</code> 证书（如果有）在服务器证书之后并置）。 如果启用了 <code>HTTPS</code> 服务，但没有使用 <code>kube-apiserver --tls-cert-file</code> 与 <code>kube-apiserver --tls-private-key-file</code> 则 为公共地址生成一个自签名证书和密钥，并将其保存到 <code>kube-apiserver --cert-dir</code> 选项指定的目录中</p>
+<h1 id="apiserver-https-密钥文件" class="heading-element">
+  <a href="#apiserver-https-%e5%af%86%e9%92%a5%e6%96%87%e4%bb%b6" class="heading-mark"></a>apiserver https 密钥文件</h1><p><code>kube-apiserver --tls-private-key-file</code> 指定 <code>x509</code> 证书私钥的文件。与 <code>kube-apiserver --tls-cert-file</code> 配合使用</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-05-07 14:34:47">更新于 2023-05-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s-API-server/" class="post-tag" title="标签 - k8s API server">k8s API server</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sKubelet/" class="post-nav-item" rel="prev" title="k8s kubelet"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s kubelet</a>
+      <a href="/k8sControllerManager/" class="post-nav-item" rel="next" title="k8s controller manager">k8s controller manager<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

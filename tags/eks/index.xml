@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>eks - 标签 - 小厮</title>
+    <link>/tags/eks/</link>
+    <description>eks - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 12 Dec 2023 10:18:21 &#43;0800</lastBuildDate><atom:link href="/tags/eks/" rel="self" type="application/rss+xml" /><item>
+  <title>Karpenter - 开源 EKS 工作节点生命周期管理</title>
+  <link>/awsKarpenter/</link>
+  <pubDate>Tue, 12 Dec 2023 10:18:21 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/awsKarpenter/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>eks</title>
+  <link>/awsEks/</link>
+  <pubDate>Thu, 08 Jun 2023 10:49:32 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/awsEks/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>MialCow - 一个基于 Docker 的开源群件/电子邮件套件 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='mail, MailCow' /><meta itemprop="name" content="MialCow - 一个基于 Docker 的开源群件/电子邮件套件">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2024-01-09T11:39:04+08:00" />
+<meta itemprop="dateModified" content="2024-01-28T17:14:30+08:00" />
+<meta itemprop="wordCount" content="1779">
+<meta itemprop="keywords" content="mail,MailCow," /><meta property="og:title" content="MialCow - 一个基于 Docker 的开源群件/电子邮件套件" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/MailCow/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-09T11:39:04+08:00" />
+<meta property="article:modified_time" content="2024-01-28T17:14:30+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MialCow - 一个基于 Docker 的开源群件/电子邮件套件"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/MailCow/" /><link rel="prev" href="/helm/" /><link rel="next" href="/freshRSS/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "MialCow - 一个基于 Docker 的开源群件/电子邮件套件",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/MailCow\/"
+    },"genre": "posts","keywords": "mail, MailCow","wordcount":  1779 ,
+    "url": "\/MailCow\/","datePublished": "2024-01-09T11:39:04+08:00","dateModified": "2024-01-28T17:14:30+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>MialCow - 一个基于 Docker 的开源群件/电子邮件套件</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2024-01-09 11:39:04"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-09">2024-01-09</time></span>&nbsp;<span title="更新于 2024-01-28 17:14:30"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-28">2024-01-28</time></span>&nbsp;<span title="1779 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#先决条件">先决条件</a>
+      <ul>
+        <li><a href="#系统要求">系统要求</a></li>
+        <li><a href="#dns记录">DNS记录</a></li>
+      </ul>
+    </li>
+    <li><a href="#安装">安装</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.mailcow.email/"target="_blank" rel="external nofollow noopener noreferrer">MailCow：Docker 化文档</a></li>
+<li><a href="https://blog.abyss.moe/posts/Mailcow/"target="_blank" rel="external nofollow noopener noreferrer"><code>雨き声残響：</code>使用 Mailcow 搭建自己的域名邮箱</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="先决条件" class="heading-element">
+  <a href="#%e5%85%88%e5%86%b3%e6%9d%a1%e4%bb%b6" class="heading-mark"></a>先决条件</h1><h2 id="系统要求" class="heading-element">
+  <a href="#%e7%b3%bb%e7%bb%9f%e8%a6%81%e6%b1%82" class="heading-mark"></a>系统要求</h2><ul>
+<li><code>CPU</code>: <code>1 GHz</code></li>
+<li>内存：<code>7GiB</code>(6G物理内存与1G交换分区)</li>
+<li>磁盘：20GiB以上</li>
+<li>CPU架构：<code>x86_64</code></li>
+<li>支持系统：<code>centos 7</code>、<code>Debian 10/11/12</code>、<code>Ubuntu 18.04/20.04/22.04</code>、<code>Alma Linux 8</code>、<code>Rocky Linux 9</code></li>
+<li>放行端口：默认端口：
+<ul>
+<li><code>25/TCP</code>: <code>postfix-mailcow</code>,可修改变量：<code>${SMTP_PORT}</code></li>
+<li><code>80/TCP</code>: <code>nginx-mailcow</code></li>
+<li><code>110/TCP</code>: <code>dovecot-mailcow</code></li>
+<li><code>143/TCP</code>: <code>dovecot-mailcow</code></li>
+<li><code>443/TCP</code>: <code>nginx-mailcow</code></li>
+<li><code>465/TCP</code>: <code>postfix-mailcow</code></li>
+<li><code>587/TCP</code>: <code>postfix-mailcow</code></li>
+<li><code>993/TCP</code>: <code>dovecot-mailcow</code></li>
+<li><code>995/TCP</code>: <code>dovecot-mailcow</code></li>
+<li><code>4190/TCP</code>: <code>dovecot-mailcow</code></li>
+</ul>
+</li>
+<li>如果对出口有限制，还需要放行以下端口
+<ul>
+<li>
+<p><code>tcp</code></p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">SRC-IP:       ---
+</span></span><span class="line"><span class="cl">DST IP:       ---
+</span></span><span class="line"><span class="cl">SRC Port:    ---
+</span></span><span class="line"><span class="cl">DST Port:    1024-65535
+</span></span><span class="line"><span class="cl">Protocol:    tcp
+</span></span><span class="line"><span class="cl">TCP flags:   ack
+</span></span><span class="line"><span class="cl">Action:      Accept</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>udp</code></p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">SRC-IP:       ---
+</span></span><span class="line"><span class="cl">DST IP:       ---
+</span></span><span class="line"><span class="cl">SRC Port:    ---
+</span></span><span class="line"><span class="cl">DST Port:    1024-65535
+</span></span><span class="line"><span class="cl">Protocol:    udp
+</span></span><span class="line"><span class="cl">Action:      Accept</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+<h2 id="dns记录" class="heading-element">
+  <a href="#dns%e8%ae%b0%e5%bd%95" class="heading-mark"></a>DNS记录</h2><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Name              Type       Value</span>
+</span></span><span class="line"><span class="cl">mail                IN A       1.2.3.4 <span class="o">(</span>服务器IP<span class="o">)</span>
+</span></span><span class="line"><span class="cl">autodiscover        IN CNAME   mail.example.org. <span class="o">(</span>your <span class="si">${</span><span class="nv">MAILCOW_HOSTNAME</span><span class="si">}</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">autoconfig          IN CNAME   mail.example.org. <span class="o">(</span>your <span class="si">${</span><span class="nv">MAILCOW_HOSTNAME</span><span class="si">}</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">@                   IN MX <span class="m">10</span>   mail.example.org. <span class="o">(</span>your <span class="si">${</span><span class="nv">MAILCOW_HOSTNAME</span><span class="si">}</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="安装" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark"></a>安装</h1><ol>
+<li>
+<p>安装<code>doker</code>如果已安装则跳过</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -sSL https://get.docker.com/ <span class="p">|</span> <span class="nv">CHANNEL</span><span class="o">=</span>stable sh
+</span></span><span class="line"><span class="cl"><span class="c1"># After the installation process is finished, you may need to enable the service and make sure it is started (e.g. CentOS 7)</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> --now docker</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看系统是否安装了<code>selinux</code></p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># rpm -qa | grep container-selinux</span>
+</span></span><span class="line"><span class="cl">container-selinux-2.119.2-1.911c772.el7_8.noarch</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看<code>docker</code>是否启用<code>selinux</code></p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># docker info | grep selinux</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果输出为空，则修改<code>/etc/docker/daemon.json</code>文件，启用<code>selinux</code>验证</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /etc/docker/daemon.json</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;selinux-enabled&#34;</span>: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改后重启<code>docker</code>进程</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl daemon-reload  </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl stop docker</span>
+</span></span><span class="line"><span class="cl">Warning: Stopping docker.service, but it can still be activated by:
+</span></span><span class="line"><span class="cl">  docker.socket
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl start docker</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl status docker</span>
+</span></span><span class="line"><span class="cl">● docker.service - Docker Application Container Engine
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/usr/lib/systemd/system/docker.service<span class="p">;</span> disabled<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since Tue 2024-01-09 13:31:08 CST<span class="p">;</span> 4s ago</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>下载 <code>MailCow</code></p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cd /data/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># git clone https://github.com/mailcow/mailcow-dockerized</span>
+</span></span><span class="line"><span class="cl">Cloning into <span class="s1">&#39;mailcow-dockerized&#39;</span>...
+</span></span><span class="line"><span class="cl">remote: Enumerating objects: 51120, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Counting objects: 100% <span class="o">(</span>1366/1366<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Compressing objects: 100% <span class="o">(</span>630/630<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Total <span class="m">51120</span> <span class="o">(</span>delta 813<span class="o">)</span>, reused <span class="m">1171</span> <span class="o">(</span>delta 734<span class="o">)</span>, pack-reused <span class="m">49754</span>
+</span></span><span class="line"><span class="cl">Receiving objects: 100% <span class="o">(</span>51120/51120<span class="o">)</span>, 45.16 MiB <span class="p">|</span> 3.64 MiB/s, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">Resolving deltas: 100% <span class="o">(</span>33576/33576<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># cd mailcow-dockerized/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1">#</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>生成<code>MailCow</code> 配置文件</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># ./generate_config.sh</span>
+</span></span><span class="line"><span class="cl">Found Docker Compose Plugin <span class="o">(</span>native<span class="o">)</span>.
+</span></span><span class="line"><span class="cl">Setting the DOCKER_COMPOSE_VERSION Variable to native
+</span></span><span class="line"><span class="cl">Notice: You´ll have to update this Compose Version via your Package Manager manually!
+</span></span><span class="line"><span class="cl">Press enter to confirm the detected value <span class="s1">&#39;[value]&#39;</span> where applicable or enter a custom value.
+</span></span><span class="line"><span class="cl"><span class="c1"># 输入之前解析的域名</span>
+</span></span><span class="line"><span class="cl">Mail server hostname <span class="o">(</span>FQDN<span class="o">)</span> - this is not your mail domain, but your mail servers hostname: mail.xiaosi.host
+</span></span><span class="line"><span class="cl"><span class="c1"># 选择时区</span>
+</span></span><span class="line"><span class="cl">Timezone <span class="o">[</span>Asia/Shanghai<span class="o">]</span>:
+</span></span><span class="line"><span class="cl">Which branch of mailcow <span class="k">do</span> you want to use?
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Available Branches:
+</span></span><span class="line"><span class="cl"><span class="c1"># 主线版本</span>
+</span></span><span class="line"><span class="cl">- master branch <span class="o">(</span>stable updates<span class="o">)</span> <span class="p">|</span> default, recommended <span class="o">[</span>1<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 开发版本</span>
+</span></span><span class="line"><span class="cl">- nightly branch <span class="o">(</span>unstable updates, testing<span class="o">)</span> <span class="p">|</span> not-production ready <span class="o">[</span>2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Choose the Branch with it´s number <span class="o">[</span>1/2<span class="o">]</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">Fetching origin
+</span></span><span class="line"><span class="cl">Already on <span class="s1">&#39;master&#39;</span>
+</span></span><span class="line"><span class="cl">Generating snake-oil certificate...
+</span></span><span class="line"><span class="cl">Generating a <span class="m">4096</span> bit RSA private key
+</span></span><span class="line"><span class="cl">.........................................++
+</span></span><span class="line"><span class="cl">...........................++
+</span></span><span class="line"><span class="cl">writing new private key to <span class="s1">&#39;data/assets/ssl-example/key.pem&#39;</span>
+</span></span><span class="line"><span class="cl">-----
+</span></span><span class="line"><span class="cl">Copying snake-oil certificate...
+</span></span><span class="line"><span class="cl">Detecting <span class="k">if</span> your IP is listed on Spamhaus Bad ASN List...
+</span></span><span class="line"><span class="cl">Check completed! Your IP is clean</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改配置文件（这里只修改了<code>nginx</code>端口）。如果服务器禁止了<code>ipv6</code>则参考<a href="https://docs.mailcow.email/post_installation/firststeps-disable_ipv6/"target="_blank" rel="external nofollow noopener noreferrer">禁用 IPv6</a>修改配置</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># cat mailcow.conf</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="nv">HTTP_PORT</span><span class="o">=</span><span class="m">8025</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="nv">HTTPS_PORT</span><span class="o">=</span><span class="m">8026</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>确认端口被占用情况，没有任何输出则正常</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># ss -tlpn | grep -E -w &#39;25|8025|8026|110|143|465|587|993|995|4190&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>确定<code>docker</code>网卡<code>MUT</code>值是否为<code>1500</code>,如果不是，则修改<code>docker-compose.yml</code>文件中<code>com.docker.network.driver.mtu</code>值</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># ip a | grep mtu</span>
+</span></span><span class="line"><span class="cl">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu <span class="m">65536</span> qdisc noqueue state UNKNOWN group default qlen <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc mq state UP group default qlen <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">4: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc noqueue state DOWN group default
+</span></span><span class="line"><span class="cl">5: br-3fcd0a85ece9: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc noqueue state DOWN group default
+</span></span><span class="line"><span class="cl">6: br-7060f1072379: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span class="m">1500</span> qdisc noqueue state DOWN group default
+</span></span><span class="line"><span class="cl">90: br-31da319d3a54: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue state UP group default
+</span></span><span class="line"><span class="cl">144: vetha886dee@if143: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue master br-31da319d3a54 state UP group default
+</span></span><span class="line"><span class="cl">152: veth0ecb1ad@if151: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu <span class="m">1500</span> qdisc noqueue master br-31da319d3a54 state UP group default</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># docker compose pull</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Pulling 14/19
+</span></span><span class="line"><span class="cl"> ⠹ memcached-mailcow <span class="m">6</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀<span class="o">]</span>            0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ unbound-mailcow <span class="m">4</span> layers <span class="o">[</span>⠀⠀⠀⠀<span class="o">]</span>                0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ netfilter-mailcow <span class="m">7</span> layers <span class="o">[</span>⣿⣿⣄⣿⣿⣿⣿<span class="o">]</span>           16.78MB/38.08MB       Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ clamd-mailcow <span class="m">9</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀⠀⠀⠀<span class="o">]</span>             0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ ipv6nat-mailcow <span class="m">4</span> layers <span class="o">[</span>⠀⠀⠀⠀<span class="o">]</span>                0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ dovecot-mailcow <span class="m">21</span> layers <span class="o">[</span>⠀⠀⠀<span class="o">]</span>                0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ acme-mailcow <span class="m">8</span> layers <span class="o">[</span>⣿⣶⣿⣿⣿⣿⣿⣿<span class="o">]</span>               33.23MB/42.43MB       Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ olefy-mailcow <span class="m">5</span> layers <span class="o">[</span>⣿⠀⠀⠀⠀<span class="o">]</span>                 0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ postfix-mailcow <span class="m">14</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀<span class="o">]</span>     0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ watchdog-mailcow <span class="m">3</span> layers <span class="o">[</span>⠀⠀⠀<span class="o">]</span>                0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ mysql-mailcow <span class="m">8</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀⠀⠀<span class="o">]</span>              0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ nginx-mailcow <span class="m">8</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀⠀⠀<span class="o">]</span>              0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ ofelia-mailcow <span class="m">2</span> layers <span class="o">[</span>⠀⠀<span class="o">]</span>                   0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ php-fpm-mailcow <span class="m">11</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀<span class="o">]</span>        0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ solr-mailcow <span class="m">15</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀<span class="o">]</span>       0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ redis-mailcow <span class="m">6</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀<span class="o">]</span>                0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ rspamd-mailcow <span class="m">5</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀<span class="o">]</span>                0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ dockerapi-mailcow <span class="m">6</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀<span class="o">]</span>            0B/0B                 Pulling 14.3s
+</span></span><span class="line"><span class="cl"> ⠹ sogo-mailcow <span class="m">10</span> layers <span class="o">[</span>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀<span class="o">]</span>            0B/0B                 Pulling 14.3s</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> <span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># docker compose up -d</span>
+</span></span><span class="line"><span class="cl"> <span class="o">[</span>+<span class="o">]</span> Running 32/32
+</span></span><span class="line"><span class="cl">  ✔ Network mailcowdockerized_mailcow-network              Created     1.5s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_vmail-vol-1&#34;</span>                 Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_solr-vol-1&#34;</span>                  Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_redis-vol-1&#34;</span>                 Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_rspamd-vol-1&#34;</span>                Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_clamd-db-vol-1&#34;</span>              Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_sogo-userdata-backup-vol-1&#34;</span>  Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_vmail-index-vol-1&#34;</span>           Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_mysql-socket-vol-1&#34;</span>          Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_postfix-vol-1&#34;</span>               Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_crypt-vol-1&#34;</span>                 Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_sogo-web-vol-1&#34;</span>              Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Volume <span class="s2">&#34;mailcowdockerized_mysql-vol-1&#34;</span>                 Created     0.0s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-redis-mailcow-1            Started     2.3s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-memcached-mailcow-1        Started     1.4s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-sogo-mailcow-1             Started     2.2s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-solr-mailcow-1             Started     2.2s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-unbound-mailcow-1          Healthy     35.0s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-dockerapi-mailcow-1        Started     2.1s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-olefy-mailcow-1            Started     1.8s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-php-fpm-mailcow-1          Started     3.5s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-clamd-mailcow-1            Started     35.7s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-mysql-mailcow-1            Started     3.5s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-nginx-mailcow-1            Started     6.7s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-dovecot-mailcow-1          Started     8.1s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-postfix-mailcow-1          Started     36.8s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-rspamd-mailcow-1           Started     9.4s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-netfilter-mailcow-1        Started     37.2s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-ofelia-mailcow-1           Started     9.3s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-acme-mailcow-1             Started     36.0s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-watchdog-mailcow-1         Started     37.6s
+</span></span><span class="line"><span class="cl">  ✔ Container mailcowdockerized-ipv6nat-mailcow-1          Started     38.0s</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>放行防火墙</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># firewall-cmd --add-port=2025/tcp</span>
+</span></span><span class="line"><span class="cl">success
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># firewall-cmd --add-port=2026/tcp</span>
+</span></span><span class="line"><span class="cl">success
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># firewall-cmd --add-port=25/tcp</span>
+</span></span><span class="line"><span class="cl">success
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost mailcow-dockerized<span class="o">]</span><span class="c1"># firewall-cmd --add-port=465/tcp</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>从<code>web</code>中登录，初始用户名为<code>admin</code>,密码为<code>moohoo</code></p>
+</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-01-28 17:14:30">更新于 2024-01-28&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/mail/" class="post-tag" title="标签 - mail">mail</a><a href="/tags/MailCow/" class="post-tag" title="标签 - MailCow">MailCow</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/helm/" class="post-nav-item" rel="prev" title="helm - Kubernetes 的包管理器"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>helm - Kubernetes 的包管理器</a>
+      <a href="/freshRSS/" class="post-nav-item" rel="next" title="FreshRSS - 轻量、易于使用的 RSS 聚合器">FreshRSS - 轻量、易于使用的 RSS 聚合器<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

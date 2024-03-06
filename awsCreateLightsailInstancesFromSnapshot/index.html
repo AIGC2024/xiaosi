@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>基于Lightsail快照批量创建实例bash脚本使用手册 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="基于快照创建Lightsail实例的脚本使用手册" /><meta name="keywords" content='Lightsail' /><meta itemprop="name" content="基于Lightsail快照批量创建实例bash脚本使用手册">
+<meta itemprop="description" content="基于快照创建Lightsail实例的脚本使用手册"><meta itemprop="datePublished" content="2023-09-16T13:32:41+08:00" />
+<meta itemprop="dateModified" content="2024-01-29T18:06:56+08:00" />
+<meta itemprop="wordCount" content="4327">
+<meta itemprop="keywords" content="Lightsail," /><meta property="og:title" content="基于Lightsail快照批量创建实例bash脚本使用手册" />
+<meta property="og:description" content="基于快照创建Lightsail实例的脚本使用手册" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsCreateLightsailInstancesFromSnapshot/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-09-16T13:32:41+08:00" />
+<meta property="article:modified_time" content="2024-01-29T18:06:56+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="基于Lightsail快照批量创建实例bash脚本使用手册"/>
+<meta name="twitter:description" content="基于快照创建Lightsail实例的脚本使用手册"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsCreateLightsailInstancesFromSnapshot/" /><link rel="prev" href="/linuxCMDuuidgen/" /><link rel="next" href="/goInstallGolang/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "基于Lightsail快照批量创建实例bash脚本使用手册",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsCreateLightsailInstancesFromSnapshot\/"
+    },"genre": "posts","keywords": "Lightsail","wordcount":  4327 ,
+    "url": "\/awsCreateLightsailInstancesFromSnapshot\/","datePublished": "2023-09-16T13:32:41+08:00","dateModified": "2024-01-29T18:06:56+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>基于Lightsail快照批量创建实例bash脚本使用手册</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-09-16 13:32:41"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-09-16">2023-09-16</time></span>&nbsp;<span title="更新于 2024-01-29 18:06:56"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-29">2024-01-29</time></span>&nbsp;<span title="4327 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#说明">说明</a></li>
+    <li><a href="#准备工作">准备工作</a>
+      <ul>
+        <li><a href="#创建-lightsail-用户所需权限">创建 lightsail 用户所需权限</a></li>
+        <li><a href="#创建-iam-用户用于管理-lightsail-资源">创建 IAM 用户用于管理 Lightsail 资源</a></li>
+        <li><a href="#创建lightsail实例">创建lightsail实例</a></li>
+        <li><a href="#创建lightsail实例快照">创建lightsail实例快照</a></li>
+        <li><a href="#查看lightsail实例快照名称">查看lightsail实例快照名称</a></li>
+        <li><a href="#创建访问密钥">创建访问密钥</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用脚本创建实例">使用脚本创建实例</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos</li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!--start of attachment line-->
+<!--End of attachment line-->
+<h1 id="说明" class="heading-element">
+  <a href="#%e8%af%b4%e6%98%8e" class="heading-mark"></a>说明</h1><p>文章包含以下部分：</p>
+<ul>
+<li>创建具有权限操作<code>lightsail</code>资源的<code>IAM</code>用户</li>
+<li>创建<code>lightsail</code> 实例</li>
+<li>创建<code>lightsail</code> 实例快照</li>
+<li>通过脚本使用<code>lightsail</code> 实例快照批量创建实例</li>
+</ul>
+<p>执行脚本前说明：</p>
+<ul>
+<li>脚本目前只能在<code>centos</code>系统中执行</li>
+<li>脚本目前只能使用<code>root</code>身份执行</li>
+<li>脚本是使用<code>aws cli</code> 命令行工具，因此执行前需要准备有<code>lightsail</code>实例操作权限的访问密钥与<code>Lightsail</code>快照</li>
+</ul>
+<h1 id="准备工作" class="heading-element">
+  <a href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c" class="heading-mark"></a>准备工作</h1><p>该部分是创建 <code>IAM</code> 用户，只用于管理<code>Lightsail</code>资源。以生成及脚本所需的<code>IAM</code>用户访问密钥。如果之前操作过或对<code>AWS</code> <code>IAM</code> 用户权限相对了解则可以适当或完全跳过该部分</p>
+<h2 id="创建-lightsail-用户所需权限" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%ba-lightsail-%e7%94%a8%e6%88%b7%e6%89%80%e9%9c%80%e6%9d%83%e9%99%90" class="heading-mark"></a>创建 lightsail 用户所需权限</h2><ol>
+<li>
+<p>从 <a href="https://console.aws.amazon.com/console/home"target="_blank" rel="external nofollow noopener noreferrer">AWS 控制台</a>进入<code>IAM</code>主页</p>
+<p><img loading="lazy" src="%e4%bb%8e%e6%8e%a7%e5%88%b6%e5%8f%b0%e8%bf%9b%e5%85%a5IAM%e7%ad%96%e7%95%a5.png" alt="从控制台进入IAM策略" srcset="%e4%bb%8e%e6%8e%a7%e5%88%b6%e5%8f%b0%e8%bf%9b%e5%85%a5IAM%e7%ad%96%e7%95%a5.png?size=small, %e4%bb%8e%e6%8e%a7%e5%88%b6%e5%8f%b0%e8%bf%9b%e5%85%a5IAM%e7%ad%96%e7%95%a5.png?size=medium 1.5x, %e4%bb%8e%e6%8e%a7%e5%88%b6%e5%8f%b0%e8%bf%9b%e5%85%a5IAM%e7%ad%96%e7%95%a5.png?size=large 2x" sizes="auto" data-title="从控制台进入IAM策略" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>进入创建<code>IAM</code>权限策略</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%baIAM%e7%ad%96%e7%95%a5.png" alt="创建IAM策略" srcset="%e5%88%9b%e5%bb%baIAM%e7%ad%96%e7%95%a5.png?size=small, %e5%88%9b%e5%bb%baIAM%e7%ad%96%e7%95%a5.png?size=medium 1.5x, %e5%88%9b%e5%bb%baIAM%e7%ad%96%e7%95%a5.png?size=large 2x" sizes="auto" data-title="创建IAM策略" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>在策略编辑器中，把下面文本替换掉默认内容</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;Version&#34;</span><span class="p">:</span> <span class="s2">&#34;2012-10-17&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;Statement&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;VisualEditor0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:UpdateLoginProfile&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:DeleteAccessKey&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:GetAccessKeyLastUsed&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:UpdateAccessKey&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ListUserPolicies&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ListMFADevices&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:CreateAccessKey&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ListGroupsForUser&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ListAttachedUserPolicies&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:GetUser&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:GetLoginProfile&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ChangePassword&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ListAccessKeys&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ListUserTags&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::223665515173:user/${aws:username}&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;Sid&#34;</span><span class="p">:</span> <span class="s2">&#34;VisualEditor1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;Effect&#34;</span><span class="p">:</span> <span class="s2">&#34;Allow&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;Action&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;lightsail:*&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ListUsers&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:GetPolicyVersion&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:GetPolicy&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="s2">&#34;iam:ListPolicies&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;Resource&#34;</span><span class="p">:</span> <span class="s2">&#34;*&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="%e7%bc%96%e8%be%91IAM%e7%ad%96%e7%95%a5.png" alt="编辑IAM策略" srcset="%e7%bc%96%e8%be%91IAM%e7%ad%96%e7%95%a5.png?size=small, %e7%bc%96%e8%be%91IAM%e7%ad%96%e7%95%a5.png?size=medium 1.5x, %e7%bc%96%e8%be%91IAM%e7%ad%96%e7%95%a5.png?size=large 2x" sizes="auto" data-title="编辑IAM策略" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>注意：要修改账号<code>ID</code>，账号<code>ID</code>可以在右上角账号查看。修改后保存</p>
+<p><img loading="lazy" src="%e7%bc%96%e8%be%91IAM%e7%ad%96%e7%95%a5%e4%b8%ad%e7%9a%84%e8%b4%a6%e5%8f%b7ID.png" alt="编辑IAM策略中的账号ID" srcset="%e7%bc%96%e8%be%91IAM%e7%ad%96%e7%95%a5%e4%b8%ad%e7%9a%84%e8%b4%a6%e5%8f%b7ID.png?size=small, %e7%bc%96%e8%be%91IAM%e7%ad%96%e7%95%a5%e4%b8%ad%e7%9a%84%e8%b4%a6%e5%8f%b7ID.png?size=medium 1.5x, %e7%bc%96%e8%be%91IAM%e7%ad%96%e7%95%a5%e4%b8%ad%e7%9a%84%e8%b4%a6%e5%8f%b7ID.png?size=large 2x" sizes="auto" data-title="编辑IAM策略中的账号ID" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>输入策略名称，描述是可选的</p>
+<p><img loading="lazy" src="%e6%8c%87%e5%ae%9aIAM%e7%ad%96%e7%95%a5%e5%90%8d%e7%a7%b0.png" alt="指定IAM策略名称" srcset="%e6%8c%87%e5%ae%9aIAM%e7%ad%96%e7%95%a5%e5%90%8d%e7%a7%b0.png?size=small, %e6%8c%87%e5%ae%9aIAM%e7%ad%96%e7%95%a5%e5%90%8d%e7%a7%b0.png?size=medium 1.5x, %e6%8c%87%e5%ae%9aIAM%e7%ad%96%e7%95%a5%e5%90%8d%e7%a7%b0.png?size=large 2x" sizes="auto" data-title="指定IAM策略名称" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>在保存前可以添加标签，标签是可选的</p>
+<p><img loading="lazy" src="%e4%bf%9d%e5%ad%98IAM%e7%ad%96%e7%95%a5.png" alt="保存IAM策略" srcset="%e4%bf%9d%e5%ad%98IAM%e7%ad%96%e7%95%a5.png?size=small, %e4%bf%9d%e5%ad%98IAM%e7%ad%96%e7%95%a5.png?size=medium 1.5x, %e4%bf%9d%e5%ad%98IAM%e7%ad%96%e7%95%a5.png?size=large 2x" sizes="auto" data-title="保存IAM策略" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+</ol>
+<h2 id="创建-iam-用户用于管理-lightsail-资源" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%ba-iam-%e7%94%a8%e6%88%b7%e7%94%a8%e4%ba%8e%e7%ae%a1%e7%90%86-lightsail-%e8%b5%84%e6%ba%90" class="heading-mark"></a>创建 IAM 用户用于管理 Lightsail 资源</h2><ol>
+<li>
+<p>在 <a href="https://console.aws.amazon.com/console/home"target="_blank" rel="external nofollow noopener noreferrer">AWS 控制台</a>创建<code>IAM</code>用户</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7.png" alt="创建IAM用户" srcset="%e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7.png?size=small, %e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7.png?size=medium 1.5x, %e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7.png?size=large 2x" sizes="auto" data-title="创建IAM用户" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>指定用户名，并为其提供控制台权限</p>
+<p><img loading="lazy" src="%e4%b8%baIAM%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%8e%a7%e5%88%b6%e5%8f%b0%e8%ae%bf%e9%97%ae%e6%9d%83%e9%99%90.png" alt="为IAM用户提供控制台访问权限" srcset="%e4%b8%baIAM%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%8e%a7%e5%88%b6%e5%8f%b0%e8%ae%bf%e9%97%ae%e6%9d%83%e9%99%90.png?size=small, %e4%b8%baIAM%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%8e%a7%e5%88%b6%e5%8f%b0%e8%ae%bf%e9%97%ae%e6%9d%83%e9%99%90.png?size=medium 1.5x, %e4%b8%baIAM%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%8e%a7%e5%88%b6%e5%8f%b0%e8%ae%bf%e9%97%ae%e6%9d%83%e9%99%90.png?size=large 2x" sizes="auto" data-title="为IAM用户提供控制台访问权限" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>指定控制台登录密码，自动生成受密码策略影响，可能过于简单，建议手动输入。可以取消登录时强制修改密码</p>
+<p><img loading="lazy" src="%e4%b8%baIAM%e7%94%a8%e6%88%b7%e6%8c%87%e5%ae%9a%e5%af%86%e7%a0%81.png" alt="为IAM用户指定密码" srcset="%e4%b8%baIAM%e7%94%a8%e6%88%b7%e6%8c%87%e5%ae%9a%e5%af%86%e7%a0%81.png?size=small, %e4%b8%baIAM%e7%94%a8%e6%88%b7%e6%8c%87%e5%ae%9a%e5%af%86%e7%a0%81.png?size=medium 1.5x, %e4%b8%baIAM%e7%94%a8%e6%88%b7%e6%8c%87%e5%ae%9a%e5%af%86%e7%a0%81.png?size=large 2x" sizes="auto" data-title="为IAM用户指定密码" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>把之前创建的策略附加给用户</p>
+<p><img loading="lazy" src="%e4%b8%baIAM%e7%94%a8%e6%88%b7%e9%99%84%e5%8a%a0%e7%ad%96%e7%95%a5.png" alt="为IAM用户附加策略" srcset="%e4%b8%baIAM%e7%94%a8%e6%88%b7%e9%99%84%e5%8a%a0%e7%ad%96%e7%95%a5.png?size=small, %e4%b8%baIAM%e7%94%a8%e6%88%b7%e9%99%84%e5%8a%a0%e7%ad%96%e7%95%a5.png?size=medium 1.5x, %e4%b8%baIAM%e7%94%a8%e6%88%b7%e9%99%84%e5%8a%a0%e7%ad%96%e7%95%a5.png?size=large 2x" sizes="auto" data-title="为IAM用户附加策略" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>检查没问题后，选择创建用户</p>
+<p><img loading="lazy" src="%e7%a1%ae%e8%ae%a4%e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7.png" alt="确认创建IAM用户" srcset="%e7%a1%ae%e8%ae%a4%e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7.png?size=small, %e7%a1%ae%e8%ae%a4%e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7.png?size=medium 1.5x, %e7%a1%ae%e8%ae%a4%e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7.png?size=large 2x" sizes="auto" data-title="确认创建IAM用户" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>妥善保管登录信息，建议使用该登录信息管理 <code>lightsail</code> 资源</p>
+<p><img loading="lazy" src="%e8%bf%94%e5%9b%9e%e7%94%a8%e6%88%b7%e5%88%97%e8%a1%a8.png" alt="返回用户列表" srcset="%e8%bf%94%e5%9b%9e%e7%94%a8%e6%88%b7%e5%88%97%e8%a1%a8.png?size=small, %e8%bf%94%e5%9b%9e%e7%94%a8%e6%88%b7%e5%88%97%e8%a1%a8.png?size=medium 1.5x, %e8%bf%94%e5%9b%9e%e7%94%a8%e6%88%b7%e5%88%97%e8%a1%a8.png?size=large 2x" sizes="auto" data-title="返回用户列表" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+</ol>
+<h2 id="创建lightsail实例" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b" class="heading-mark"></a>创建lightsail实例</h2><p>这部分操作教程为创建实例，如果已有实例则跳过</p>
+<ol>
+<li>
+<p>使用拥有操作<code>lightsail</code>资源权限的用户（如之前创建的<code>lightsail-admin</code>）登录到控制台</p>
+<p><img loading="lazy" src="%e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7%e7%99%bb%e9%99%86.png" alt="选择IAM用户登陆" srcset="%e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7%e7%99%bb%e9%99%86.png?size=small, %e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7%e7%99%bb%e9%99%86.png?size=medium 1.5x, %e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7%e7%99%bb%e9%99%86.png?size=large 2x" sizes="auto" data-title="选择IAM用户登陆" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+<img loading="lazy" src="IAM%e7%94%a8%e6%88%b7%e7%99%bb%e9%99%86.png" alt="IAM用户登陆" srcset="IAM%e7%94%a8%e6%88%b7%e7%99%bb%e9%99%86.png?size=small, IAM%e7%94%a8%e6%88%b7%e7%99%bb%e9%99%86.png?size=medium 1.5x, IAM%e7%94%a8%e6%88%b7%e7%99%bb%e9%99%86.png?size=large 2x" sizes="auto" data-title="IAM用户登陆" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>进入 <code>lightsail</code> 控制台（收藏按钮可以控制台创建快捷入口)</p>
+<p><img loading="lazy" src="%e8%bf%9b%e5%85%a5lightsail%e6%8e%a7%e5%88%b6%e5%8f%b0.png" alt="进入lightsail控制台" srcset="%e8%bf%9b%e5%85%a5lightsail%e6%8e%a7%e5%88%b6%e5%8f%b0.png?size=small, %e8%bf%9b%e5%85%a5lightsail%e6%8e%a7%e5%88%b6%e5%8f%b0.png?size=medium 1.5x, %e8%bf%9b%e5%85%a5lightsail%e6%8e%a7%e5%88%b6%e5%8f%b0.png?size=large 2x" sizes="auto" data-title="进入lightsail控制台" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>创建<code>lightsail</code>实例（左下角可以选择网页语言）</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-1.png" alt="创建lightsail实例-1" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-1.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-1.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-1.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>选择区域与可用区（相同地区不同位置的<code>IDC</code>机房）</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e6%9b%b4%e6%94%b9%e5%8c%ba%e5%9f%9f.png" alt="创建lightsail实例-更改区域" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e6%9b%b4%e6%94%b9%e5%8c%ba%e5%9f%9f.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e6%9b%b4%e6%94%b9%e5%8c%ba%e5%9f%9f.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e6%9b%b4%e6%94%b9%e5%8c%ba%e5%9f%9f.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-更改区域" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+<img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e6%9b%b4%e6%94%b9%e5%8f%af%e7%94%a8%e5%8c%ba.png" alt="创建lightsail实例-更改可用区" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e6%9b%b4%e6%94%b9%e5%8f%af%e7%94%a8%e5%8c%ba.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e6%9b%b4%e6%94%b9%e5%8f%af%e7%94%a8%e5%8c%ba.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e6%9b%b4%e6%94%b9%e5%8f%af%e7%94%a8%e5%8c%ba.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-更改可用区" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>选择操作系统与基础映像（根据需要选择）</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%80%89%e6%8b%a9%e9%95%9c%e5%83%8f.png" alt="创建lightsail实例-选择镜像" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%80%89%e6%8b%a9%e9%95%9c%e5%83%8f.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%80%89%e6%8b%a9%e9%95%9c%e5%83%8f.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%80%89%e6%8b%a9%e9%95%9c%e5%83%8f.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-选择镜像" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>启动脚本用于实例创建并成功启动后执行的脚本（<code>linux: shell</code>，<code>windows: PowerShell</code>），它们都是根用户执行，因此不需要使用类似 <code>sudo</code> 的提权命令</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%85%8d%e7%bd%ae%e5%90%af%e5%8a%a8%e8%84%9a%e6%9c%ac.png" alt="创建lightsail实例-配置启动脚本" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%85%8d%e7%bd%ae%e5%90%af%e5%8a%a8%e8%84%9a%e6%9c%ac.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%85%8d%e7%bd%ae%e5%90%af%e5%8a%a8%e8%84%9a%e6%9c%ac.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%85%8d%e7%bd%ae%e5%90%af%e5%8a%a8%e8%84%9a%e6%9c%ac.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-配置启动脚本" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p><code>SSH</code>密钥实际是<code>SSH</code>公钥。每个区域都有默认提供的密钥对可以随时下载。只有基于<code>linux</code>系统的实例才能上传自建的公钥</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%85%8d%e7%bd%aessh%e8%bf%9c%e7%a8%8b%e5%85%ac%e9%92%a5.png" alt="创建lightsail实例-配置ssh远程公钥" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%85%8d%e7%bd%aessh%e8%bf%9c%e7%a8%8b%e5%85%ac%e9%92%a5.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%85%8d%e7%bd%aessh%e8%bf%9c%e7%a8%8b%e5%85%ac%e9%92%a5.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e9%85%8d%e7%bd%aessh%e8%bf%9c%e7%a8%8b%e5%85%ac%e9%92%a5.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-配置ssh远程公钥" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>选项实例资源规格</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e8%b5%84%e6%ba%90%e8%a7%84%e6%a0%bc.png" alt="创建lightsail实例-资源规格" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e8%b5%84%e6%ba%90%e8%a7%84%e6%a0%bc.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e8%b5%84%e6%ba%90%e8%a7%84%e6%a0%bc.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e8%b5%84%e6%ba%90%e8%a7%84%e6%a0%bc.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-资源规格" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>指定实例名称与数量。名称推荐格式为：<code>账户别名-用途-地区-创建日期-可用区</code>。指定数量大于<code>1</code>时，会在名称后面加上<code>-n</code>(<code>n</code>表示序列号)。如：<code>xiaosi-template-20230916-singapore-a-2</code> 表示批量创建中的第二个实例</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e5%90%8d%e7%a7%b0%e4%b8%8e%e6%95%b0%e9%87%8f.png" alt="创建lightsail实例-实例名称与数量" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e5%90%8d%e7%a7%b0%e4%b8%8e%e6%95%b0%e9%87%8f.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e5%90%8d%e7%a7%b0%e4%b8%8e%e6%95%b0%e9%87%8f.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e5%90%8d%e7%a7%b0%e4%b8%8e%e6%95%b0%e9%87%8f.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-实例名称与数量" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>仅键标签用于指定实例标签，在<a href="https://lightsail.aws.amazon.com/ls/webapp/home"target="_blank" rel="external nofollow noopener noreferrer">lightsail 首页</a>可以点击实例下方的该标签筛选实例。推荐标签有：用途、创建日期</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e6%a0%87%e7%ad%be.png" alt="创建lightsail实例-实例标签" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e6%a0%87%e7%ad%be.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e6%a0%87%e7%ad%be.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e6%a0%87%e7%ad%be.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-实例标签" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>键值对标签除了与仅键标签相同的作用以外，还可以用于账单分类、<code>Lightsail</code>资源的访问控制</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e9%94%ae%e5%80%bc%e5%af%b9%e6%a0%87%e7%ad%be.png" alt="创建lightsail实例-实例键值对标签" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e9%94%ae%e5%80%bc%e5%af%b9%e6%a0%87%e7%ad%be.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e9%94%ae%e5%80%bc%e5%af%b9%e6%a0%87%e7%ad%be.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e5%ae%9e%e4%be%8b%e9%94%ae%e5%80%bc%e5%af%b9%e6%a0%87%e7%ad%be.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-实例键值对标签" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>检查无误后，点击页面最下方的创建按钮，单个实例创建完成可能需要<code>1</code>分钟左右</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e7%a1%ae%e8%ae%a4%e5%88%9b%e5%bb%ba.png" alt="创建lightsail实例-确认创建" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e7%a1%ae%e8%ae%a4%e5%88%9b%e5%bb%ba.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e7%a1%ae%e8%ae%a4%e5%88%9b%e5%bb%ba.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b-%e7%a1%ae%e8%ae%a4%e5%88%9b%e5%bb%ba.png?size=large 2x" sizes="auto" data-title="创建lightsail实例-确认创建" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>实例创建后，将会在首页显示。可以点击连接按钮进行业务配置，也可以点击名称进入管理页根据提示使用其它<code>ssh</code>远程工具连接到实例</p>
+<p><img loading="lazy" src="%e5%bf%ab%e9%80%9f%e8%bf%9e%e6%8e%a5lightsail%e5%ae%9e%e4%be%8b.png" alt="快速连接lightsail实例" srcset="%e5%bf%ab%e9%80%9f%e8%bf%9e%e6%8e%a5lightsail%e5%ae%9e%e4%be%8b.png?size=small, %e5%bf%ab%e9%80%9f%e8%bf%9e%e6%8e%a5lightsail%e5%ae%9e%e4%be%8b.png?size=medium 1.5x, %e5%bf%ab%e9%80%9f%e8%bf%9e%e6%8e%a5lightsail%e5%ae%9e%e4%be%8b.png?size=large 2x" sizes="auto" data-title="快速连接lightsail实例" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+</ol>
+<h2 id="创建lightsail实例快照" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7" class="heading-mark"></a>创建lightsail实例快照</h2><p>这部分操作教程为创建快照以及复制快照到其它区域，如果创建目标区域已有快照，则可跳过该部分</p>
+<p>快照可以简单理解为实例的复制。快照内容取决与创建快照时的实例。可以通过快照创建出几乎相同配置的实例，并分配新的<code>IP</code>地址。快照不可跨区域使用。但可以可以把 <code>A</code> 区域的快照复制到<code>B</code>区域，然后在 <code>B</code> 区域可以使用快照创建<code>lightsail</code>实例</p>
+<ol>
+<li>
+<p>当业务测试没问题后，可创建快照。在<a href="https://lightsail.aws.amazon.com/ls/webapp/home"target="_blank" rel="external nofollow noopener noreferrer">lightsail 首页</a> 点击实例名称进入实例管理页面。快照只是复制实例系统盘与数据盘。其它如启动脚本、<code>IP</code>、实例规格等都不会复制。在创建快照前注意是实例名称是否正确。此外，在命名时注意，相同区域中，快照名称是唯一的</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png" alt="创建lightsail实例快照" srcset="%e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=small, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=medium 1.5x, %e5%88%9b%e5%bb%balightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=large 2x" sizes="auto" data-title="创建lightsail实例快照" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+<img loading="lazy" src="%e6%8c%87%e5%ae%9alightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0.png" alt="指定lightsail实例快照名称" srcset="%e6%8c%87%e5%ae%9alightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0.png?size=small, %e6%8c%87%e5%ae%9alightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0.png?size=medium 1.5x, %e6%8c%87%e5%ae%9alightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0.png?size=large 2x" sizes="auto" data-title="指定lightsail实例快照名称" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>创建快照需要<code>3</code>分钟左右。快照除了在实例管理页面中可见，点击<a href="https://lightsail.aws.amazon.com/ls/webapp/home"target="_blank" rel="external nofollow noopener noreferrer">lightsail 首页</a>左侧快照按钮进入快照主面，也可以管理该快照。</p>
+<p><img loading="lazy" src="%e9%80%89%e6%8b%a9lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png" alt="选择lightsail实例快照" srcset="%e9%80%89%e6%8b%a9lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=small, %e9%80%89%e6%8b%a9lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=medium 1.5x, %e9%80%89%e6%8b%a9lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=large 2x" sizes="auto" data-title="选择lightsail实例快照" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>选择创建实例，则与前面文章中创建实例基本没区别，只是通过快照创建出来的实例不用重新配置业务</p>
+</li>
+<li>
+<p>选择复制到其它区域，则会提示选择目标区域与编辑快照名称。快照复制通常也要<code>3</code>分钟</p>
+<p><img loading="lazy" src="%e5%a4%8d%e5%88%b6lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png" alt="复制lightsail实例快照" srcset="%e5%a4%8d%e5%88%b6lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=small, %e5%a4%8d%e5%88%b6lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=medium 1.5x, %e5%a4%8d%e5%88%b6lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7.png?size=large 2x" sizes="auto" data-title="复制lightsail实例快照" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+<img loading="lazy" src="%e5%a4%8d%e5%88%b6lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%88%b0%e5%85%b6%e5%ae%83%e5%8c%ba%e5%9f%9f.png" alt="复制lightsail实例快照到其它区域" srcset="%e5%a4%8d%e5%88%b6lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%88%b0%e5%85%b6%e5%ae%83%e5%8c%ba%e5%9f%9f.png?size=small, %e5%a4%8d%e5%88%b6lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%88%b0%e5%85%b6%e5%ae%83%e5%8c%ba%e5%9f%9f.png?size=medium 1.5x, %e5%a4%8d%e5%88%b6lightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%88%b0%e5%85%b6%e5%ae%83%e5%8c%ba%e5%9f%9f.png?size=large 2x" sizes="auto" data-title="复制lightsail实例快照到其它区域" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+</ol>
+<h2 id="查看lightsail实例快照名称" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8blightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0" class="heading-mark"></a>查看lightsail实例快照名称</h2><p>脚本会用到实例快照名称，在<a href="https://lightsail.aws.amazon.com/ls/webapp/home/snapshots"target="_blank" rel="external nofollow noopener noreferrer">lightsail 快照页面</a>中，选择通过选择区域、实例名称、创建日期等条件筛选后，可查看快照名称</p>
+<p><img loading="lazy" src="%e6%9f%a5%e7%9c%8blightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0.png" alt="查看lightsail实例快照名称" srcset="%e6%9f%a5%e7%9c%8blightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0.png?size=small, %e6%9f%a5%e7%9c%8blightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0.png?size=medium 1.5x, %e6%9f%a5%e7%9c%8blightsail%e5%ae%9e%e4%be%8b%e5%bf%ab%e7%85%a7%e5%90%8d%e7%a7%b0.png?size=large 2x" sizes="auto" data-title="查看lightsail实例快照名称" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="创建访问密钥" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%ba%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5" class="heading-mark"></a>创建访问密钥</h2><p>脚本会用到<code>IAM</code> 用户的访问密钥。只要是有相关权限都行</p>
+<ol>
+<li>
+<p>在<a href="https://console.aws.amazon.com/iamv2/home"target="_blank" rel="external nofollow noopener noreferrer">IAM 控制面板</a>中，选择用户，进入用户管理界面。注意：选择的用户必须具有使用<code>lightsail</code>实例快照创建实例的相关操作权限。截图中选择文档前面中创建的用户<code>lightsail-admin</code></p>
+<p><img loading="lazy" src="%e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7.png" alt="选择IAM用户" srcset="%e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7.png?size=small, %e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7.png?size=medium 1.5x, %e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7.png?size=large 2x" sizes="auto" data-title="选择IAM用户" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>选择安全凭证选项卡</p>
+<p><img loading="lazy" src="%e9%80%89%e6%8b%a9%e5%ae%89%e5%85%a8%e5%87%ad%e8%af%81.png" alt="选择安全凭证" srcset="%e9%80%89%e6%8b%a9%e5%ae%89%e5%85%a8%e5%87%ad%e8%af%81.png?size=small, %e9%80%89%e6%8b%a9%e5%ae%89%e5%85%a8%e5%87%ad%e8%af%81.png?size=medium 1.5x, %e9%80%89%e6%8b%a9%e5%ae%89%e5%85%a8%e5%87%ad%e8%af%81.png?size=large 2x" sizes="auto" data-title="选择安全凭证" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>选择创建<code>IAM</code>用户访问密钥</p>
+<p><img loading="lazy" src="%e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5.png" alt="创建IAM用户访问密钥" srcset="%e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5.png?size=small, %e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5.png?size=medium 1.5x, %e5%88%9b%e5%bb%baIAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5.png?size=large 2x" sizes="auto" data-title="创建IAM用户访问密钥" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>选择<code>IAM</code>用户访问密钥使用案例</p>
+<p><img loading="lazy" src="%e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5%e4%bd%bf%e7%94%a8%e6%a1%88%e4%be%8b.png" alt="选择IAM用户访问密钥使用案例" srcset="%e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5%e4%bd%bf%e7%94%a8%e6%a1%88%e4%be%8b.png?size=small, %e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5%e4%bd%bf%e7%94%a8%e6%a1%88%e4%be%8b.png?size=medium 1.5x, %e9%80%89%e6%8b%a9IAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5%e4%bd%bf%e7%94%a8%e6%a1%88%e4%be%8b.png?size=large 2x" sizes="auto" data-title="选择IAM用户访问密钥使用案例" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>指定<code>IAM</code>用户访问密钥标签（可选）</p>
+<p><img loading="lazy" src="%e6%8c%87%e5%ae%9aIAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5%e6%a0%87%e7%ad%be.png" alt="指定IAM用户访问密钥标签" srcset="%e6%8c%87%e5%ae%9aIAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5%e6%a0%87%e7%ad%be.png?size=small, %e6%8c%87%e5%ae%9aIAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5%e6%a0%87%e7%ad%be.png?size=medium 1.5x, %e6%8c%87%e5%ae%9aIAM%e7%94%a8%e6%88%b7%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5%e6%a0%87%e7%ad%be.png?size=large 2x" sizes="auto" data-title="指定IAM用户访问密钥标签" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+<li>
+<p>保存访问密钥。访问密钥是登录凭证，类似用户密码，非常重要，妥善保管不可泄露。由于访问密钥与秘密访问密钥只能在创建时查看且不可找回、不可重置。因此需要保存到文档，或下载<code>.csv</code>文件</p>
+<p><img loading="lazy" src="IAM%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5.png" alt="IAM访问密钥" srcset="IAM%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5.png?size=small, IAM%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5.png?size=medium 1.5x, IAM%e8%ae%bf%e9%97%ae%e5%af%86%e9%92%a5.png?size=large 2x" sizes="auto" data-title="IAM访问密钥" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+</ol>
+<h1 id="使用脚本创建实例" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8%e8%84%9a%e6%9c%ac%e5%88%9b%e5%bb%ba%e5%ae%9e%e4%be%8b" class="heading-mark"></a>使用脚本创建实例</h1><ol>
+<li>下载脚本</li>
+</ol>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@ip-172-26-7-205 ~<span class="o">]</span><span class="c1"># curl -sLO http://note.xiaosi.host/awsCreateLightsailInstancesFromSnapshot/awsLightsailCreateInstancesFromSnapshot.sh</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>
+<p>开始执行脚本，第一个步骤是选择访问凭证名称。访问凭证的<code>ID</code>与<code>key</code>在<code>aws</code>控制台创建</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost test<span class="o">]</span><span class="c1"># bash awsLightsailCreateInstancesFromSnapshot.sh</span>
+</span></span><span class="line"><span class="cl">0.新建
+</span></span><span class="line"><span class="cl">1.heye02
+</span></span><span class="line"><span class="cl">2.heye01
+</span></span><span class="line"><span class="cl">选择拥有操作权限的配置项：0
+</span></span><span class="line"><span class="cl">开始创建配置文件
+</span></span><span class="line"><span class="cl">指定 aws cli 使用的 profile 名称：xiaosi-test
+</span></span><span class="line"><span class="cl">指定 aws cli 使用的访问密钥 ID：AKIATIE4A5KSSXUNKZX6
+</span></span><span class="line"><span class="cl">指定 aws cli 使用的访问密钥 KEY：QlEBzX3nnyCRMG6Y2iZTQkr3Xtu4HRTECuAb4JL9</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>按照提示选择地区序列号</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> 0.退出脚本
+</span></span><span class="line"><span class="cl"> 1.欧洲    （爱尔兰）         <span class="o">(</span>eu-west-1<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 2.欧洲    （英国-伦敦）      <span class="o">(</span>eu-west-2<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 3.欧洲    （法国-巴黎）      <span class="o">(</span>eu-west-3<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 4.欧洲    （德国-法兰克福）  <span class="o">(</span>eu-central-1<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 5.欧洲    （瑞典-斯德哥尔摩）<span class="o">(</span>eu-north-1<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 6.加拿大  （蒙特利尔）       <span class="o">(</span>ca-central-1<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 7.亚太地区（孟买）           <span class="o">(</span>ap-south-1<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 8.亚太地区（新加坡）         <span class="o">(</span>ap-southeast-1<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 9.亚太地区（日本-东京）      <span class="o">(</span>ap-northeast-1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">10.亚太地区（韩国-首尔）      <span class="o">(</span>ap-northeast-2<span class="o">)</span>
+</span></span><span class="line"><span class="cl">11.亚太地区（澳大利亚-悉尼）  <span class="o">(</span>ap-southeast-2<span class="o">)</span>
+</span></span><span class="line"><span class="cl">12.美国东部（俄亥俄）         <span class="o">(</span>us-east-2<span class="o">)</span>
+</span></span><span class="line"><span class="cl">13.美国西部（俄勒冈）         <span class="o">(</span>us-west-2<span class="o">)</span>
+</span></span><span class="line"><span class="cl">14.美国东部（弗吉尼亚北部）   <span class="o">(</span>us-east-1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">选择创建区域的序列号（1-14）：8</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>按照提示选择快照序列号</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">1. template
+</span></span><span class="line"><span class="cl">选择用于创建实例的快照序列号：1</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>按照提示选择实例规格</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">序列号  月价格<span class="o">(</span>美元<span class="o">)</span>  vcpu  内存<span class="o">(</span>G<span class="o">)</span>  磁盘<span class="o">(</span>G<span class="o">)</span>  月流量<span class="o">(</span>G<span class="o">)</span>  操作系统
+</span></span><span class="line"><span class="cl"><span class="m">1</span>       3.5           <span class="m">2</span>     0.5      <span class="m">20</span>       <span class="m">1024</span>       LINUX_UNIX
+</span></span><span class="line"><span class="cl"><span class="m">2</span>       5.0           <span class="m">2</span>     1.0      <span class="m">40</span>       <span class="m">2048</span>       LINUX_UNIX
+</span></span><span class="line"><span class="cl"><span class="m">3</span>       10.0          <span class="m">2</span>     2.0      <span class="m">60</span>       <span class="m">3072</span>       LINUX_UNIX
+</span></span><span class="line"><span class="cl"><span class="m">4</span>       20.0          <span class="m">2</span>     4.0      <span class="m">80</span>       <span class="m">4096</span>       LINUX_UNIX
+</span></span><span class="line"><span class="cl"><span class="m">5</span>       40.0          <span class="m">2</span>     8.0      <span class="m">160</span>      <span class="m">5120</span>       LINUX_UNIX
+</span></span><span class="line"><span class="cl"><span class="m">6</span>       80.0          <span class="m">4</span>     16.0     <span class="m">320</span>      <span class="m">6144</span>       LINUX_UNIX
+</span></span><span class="line"><span class="cl"><span class="m">7</span>       160.0         <span class="m">8</span>     32.0     <span class="m">640</span>      <span class="m">7168</span>       LINUX_UNIX
+</span></span><span class="line"><span class="cl"><span class="m">8</span>       8.0           <span class="m">2</span>     0.5      <span class="m">30</span>       <span class="m">1024</span>       WINDOWS
+</span></span><span class="line"><span class="cl"><span class="m">9</span>       12.0          <span class="m">2</span>     1.0      <span class="m">40</span>       <span class="m">2048</span>       WINDOWS
+</span></span><span class="line"><span class="cl"><span class="m">10</span>      20.0          <span class="m">2</span>     2.0      <span class="m">60</span>       <span class="m">3072</span>       WINDOWS
+</span></span><span class="line"><span class="cl"><span class="m">11</span>      40.0          <span class="m">2</span>     4.0      <span class="m">80</span>       <span class="m">4096</span>       WINDOWS
+</span></span><span class="line"><span class="cl"><span class="m">12</span>      70.0          <span class="m">2</span>     8.0      <span class="m">160</span>      <span class="m">5120</span>       WINDOWS
+</span></span><span class="line"><span class="cl"><span class="m">13</span>      120.0         <span class="m">4</span>     16.0     <span class="m">320</span>      <span class="m">6144</span>       WINDOWS
+</span></span><span class="line"><span class="cl"><span class="m">14</span>      240.0         <span class="m">8</span>     32.0     <span class="m">640</span>      <span class="m">7168</span>       WINDOWS
+</span></span><span class="line"><span class="cl">选择实例规格，注意系统类型（1-14）：1</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>指定创建实例数量</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">创建实例数量，默认为 1：1</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>选择连接公钥</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ap-southeast-1 区域没有自定义 ssh 公钥，将使用默认公钥</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>按照提示放行端口</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">添加端口规则：“端口”<span class="o">(</span>0到65535<span class="o">)</span> + “/” + “协议”<span class="o">(</span>tcp或udp或icmp<span class="o">)</span>
+</span></span><span class="line"><span class="cl">示例：22/tcp
+</span></span><span class="line"><span class="cl">添加端口规则：对于 tcp或udp 可以使用 “—” 表示tcp或udp端口范围。必须是从小到大
+</span></span><span class="line"><span class="cl">添加端口规则：对于 imcp 协议使用-分隔 ICMP 类型和代码
+</span></span><span class="line"><span class="cl">示例：8080-8088/tcp
+</span></span><span class="line"><span class="cl">示例，ping 命令使用的 icmp ：8-0/icmp
+</span></span><span class="line"><span class="cl">添加端口规则：可以使用 “<span class="o">=</span>” 只允许指定ip访问（支持CIDR格式<span class="o">)</span>
+</span></span><span class="line"><span class="cl">示例：22/tcp<span class="o">=</span>192.178.23.22
+</span></span><span class="line"><span class="cl">示例：122<span class="o">=</span>233/tcp<span class="o">=</span>192.168.0.0/16
+</span></span><span class="line"><span class="cl">添加：根据上面说明，指定实例放行端口
+</span></span><span class="line"><span class="cl">保存：输入 yes 可保存规则
+</span></span><span class="line"><span class="cl">删除：输入 规则编号+d，可删除规则。如 1d 删除第1条规则
+</span></span><span class="line"><span class="cl"><span class="o">==================</span> 现有规则：<span class="o">==================</span>
+</span></span><span class="line"><span class="cl">1. <span class="s2">&#34;起始端口&#34;</span>: 3389, <span class="s2">&#34;结束端口&#34;</span>: 3389, <span class="s2">&#34;协议&#34;</span>: <span class="s2">&#34;tcp&#34;</span>, <span class="s2">&#34;白名单&#34;</span>: <span class="o">[</span><span class="s2">&#34;0.0.0.0/0&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">2. <span class="s2">&#34;起始端口&#34;</span>: 22, <span class="s2">&#34;结束端口&#34;</span>: 22, <span class="s2">&#34;协议&#34;</span>: <span class="s2">&#34;tcp&#34;</span>, <span class="s2">&#34;白名单&#34;</span>: <span class="o">[</span><span class="s2">&#34;0.0.0.0/0&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">3. <span class="s2">&#34;类型&#34;</span>: 8, <span class="s2">&#34;代码&#34;</span>: 0, <span class="s2">&#34;协议&#34;</span>: <span class="s2">&#34;icmp&#34;</span>, <span class="s2">&#34;白名单&#34;</span>: <span class="o">[</span><span class="s2">&#34;0.0.0.0/0&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================</span>
+</span></span><span class="line"><span class="cl">根据说明执行添加、删除、保存规则操作：1d
+</span></span><span class="line"><span class="cl">添加：根据上面说明，指定实例放行端口
+</span></span><span class="line"><span class="cl">保存：输入 yes 可保存规则
+</span></span><span class="line"><span class="cl">删除：输入 规则编号+d，可删除规则。如 1d 删除第1条规则
+</span></span><span class="line"><span class="cl"><span class="o">==================</span> 现有规则：<span class="o">==================</span>
+</span></span><span class="line"><span class="cl">1. <span class="s2">&#34;起始端口&#34;</span>: 22, <span class="s2">&#34;结束端口&#34;</span>: 22, <span class="s2">&#34;协议&#34;</span>: <span class="s2">&#34;tcp&#34;</span>, <span class="s2">&#34;白名单&#34;</span>: <span class="o">[</span><span class="s2">&#34;0.0.0.0/0&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">2. <span class="s2">&#34;类型&#34;</span>: 8, <span class="s2">&#34;代码&#34;</span>: 0, <span class="s2">&#34;协议&#34;</span>: <span class="s2">&#34;icmp&#34;</span>, <span class="s2">&#34;白名单&#34;</span>: <span class="o">[</span><span class="s2">&#34;0.0.0.0/0&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================</span>
+</span></span><span class="line"><span class="cl">根据说明执行添加、删除、保存规则操作：37189/udp
+</span></span><span class="line"><span class="cl">添加：根据上面说明，指定实例放行端口
+</span></span><span class="line"><span class="cl">保存：输入 yes 可保存规则
+</span></span><span class="line"><span class="cl">删除：输入 规则编号+d，可删除规则。如 1d 删除第1条规则
+</span></span><span class="line"><span class="cl"><span class="o">==================</span> 现有规则：<span class="o">==================</span>
+</span></span><span class="line"><span class="cl">1. <span class="s2">&#34;起始端口&#34;</span>: 22, <span class="s2">&#34;结束端口&#34;</span>: 22, <span class="s2">&#34;协议&#34;</span>: <span class="s2">&#34;tcp&#34;</span>, <span class="s2">&#34;白名单&#34;</span>: <span class="o">[</span><span class="s2">&#34;0.0.0.0/0&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">2. <span class="s2">&#34;类型&#34;</span>: 8, <span class="s2">&#34;代码&#34;</span>: 0, <span class="s2">&#34;协议&#34;</span>: <span class="s2">&#34;icmp&#34;</span>, <span class="s2">&#34;白名单&#34;</span>: <span class="o">[</span><span class="s2">&#34;0.0.0.0/0&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">3. <span class="s2">&#34;起始端口&#34;</span>: 37189, <span class="s2">&#34;结束端口&#34;</span>: 37189, <span class="s2">&#34;协议&#34;</span>: <span class="s2">&#34;udp&#34;</span>, <span class="s2">&#34;白名单&#34;</span>: <span class="o">[</span><span class="s2">&#34;0.0.0.0/0&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================</span>
+</span></span><span class="line"><span class="cl">根据说明执行添加、删除、保存规则操作：yes</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>确认信息</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">指定实例名称前缀（推荐格式：账号别名-用途-地区）：xiaosi-singapore-test
+</span></span><span class="line"><span class="cl"><span class="o">==================</span>信息展示：<span class="o">=====================</span>
+</span></span><span class="line"><span class="cl">区域：ap-southeast-1
+</span></span><span class="line"><span class="cl">快照名：template
+</span></span><span class="line"><span class="cl">实例规格：LINUX_UNIX 2核 0.5G内存 20G硬盘 3.5/月
+</span></span><span class="line"><span class="cl">实例数量：1
+</span></span><span class="line"><span class="cl">ssh 公钥文件名：LightsailDefaultKeyPair
+</span></span><span class="line"><span class="cl">实例名称示例：xiaosi-singapore-test-a1-20231007-AovUJ
+</span></span><span class="line"><span class="cl"><span class="o">=================================================</span>
+</span></span><span class="line"><span class="cl">如果上面信息正确，输入 yes 开始创建实例，或输入 no 退出脚本：yes</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>会输出成为放行端口的实例<code>IP</code></p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">开始创建实例：
+</span></span><span class="line"><span class="cl">实例创建成功：xiaosi-singapore-test-a1-20231007-AovUJ
+</span></span><span class="line"><span class="cl">已创建实例数量：1
+</span></span><span class="line"><span class="cl">此脚本将等待 <span class="m">90</span> 秒，避免有实例没有完成启动
+</span></span><span class="line"><span class="cl">开始放行实例端口
+</span></span><span class="line"><span class="cl">xiaosi-singapore-test-a1-20231007-AovUJ 实例端口添加成功
+</span></span><span class="line"><span class="cl">可以尝试连接以下 IP：
+</span></span><span class="line"><span class="cl">13.228.71.6</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>建议删除本次使用的访问密钥</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">======================================================</span>
+</span></span><span class="line"><span class="cl"> 脚本明码执行，为了安全。有必要删除本次使用的访问密钥。
+</span></span><span class="line"><span class="cl"><span class="o">======================================================</span>
+</span></span><span class="line"><span class="cl">输入 yes 立即删除本次使用的访问密钥：yes
+</span></span><span class="line"><span class="cl"><span class="o">=====================</span> 删除完成 <span class="o">=======================</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-01-29 18:06:56">更新于 2024-01-29&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/Lightsail/" class="post-tag" title="标签 - Lightsail">Lightsail</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linuxCMDuuidgen/" class="post-nav-item" rel="prev" title="uuidgen - 创建一个新的UUID值"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>uuidgen - 创建一个新的UUID值</a>
+      <a href="/goInstallGolang/" class="post-nav-item" rel="next" title="安装 golang">安装 golang<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

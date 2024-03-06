@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>nginx架构 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： nginx: 1.20.0 nginx进程结构nginx由一个master进程产生多个work子进程和chche相关进程 master进程管理work子进程" /><meta name="keywords" content='架构, nginx' /><meta itemprop="name" content="nginx架构">
+<meta itemprop="description" content="运行环境： nginx: 1.20.0 nginx进程结构nginx由一个master进程产生多个work子进程和chche相关进程 master进程管理work子进程"><meta itemprop="datePublished" content="2020-12-03T10:15:20+08:00" />
+<meta itemprop="dateModified" content="2022-12-15T10:23:10+08:00" />
+<meta itemprop="wordCount" content="401">
+<meta itemprop="keywords" content="架构,nginx," /><meta property="og:title" content="nginx架构" />
+<meta property="og:description" content="运行环境： nginx: 1.20.0 nginx进程结构nginx由一个master进程产生多个work子进程和chche相关进程 master进程管理work子进程" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/nginx-architecture/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-03T10:15:20+08:00" />
+<meta property="article:modified_time" content="2022-12-15T10:23:10+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nginx架构"/>
+<meta name="twitter:description" content="运行环境： nginx: 1.20.0 nginx进程结构nginx由一个master进程产生多个work子进程和chche相关进程 master进程管理work子进程"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/nginx-architecture/" /><link rel="prev" href="/nginx-cache/" /><link rel="next" href="/nginx-peverse-proxy/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "nginx架构",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/nginx-architecture\/"
+    },"genre": "posts","keywords": "架构, nginx","wordcount":  401 ,
+    "url": "\/nginx-architecture\/","datePublished": "2020-12-03T10:15:20+08:00","dateModified": "2022-12-15T10:23:10+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>nginx架构</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/nginx/" class="post-category" title="分类 - nginx"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> nginx</a></span></div><div class="post-meta-line"><span title="发布于 2020-12-03 10:15:20"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2020-12-03">2020-12-03</time></span>&nbsp;<span title="更新于 2022-12-15 10:23:10"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-15">2022-12-15</time></span>&nbsp;<span title="401 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#nginx进程结构">nginx进程结构</a></li>
+    <li><a href="#nginx进程管理">nginx进程管理</a>
+      <ul>
+        <li><a href="#优雅关闭worker进程">优雅关闭worker进程</a></li>
+      </ul>
+    </li>
+    <li><a href="#网络收发和nginx事件关系">网络收发和nginx事件关系</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-15，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>nginx: 1.20.0</li>
+</ul>
+</blockquote>
+<h1 id="nginx进程结构" class="heading-element">
+  <a href="#nginx%e8%bf%9b%e7%a8%8b%e7%bb%93%e6%9e%84" class="heading-mark"></a>nginx进程结构</h1><p>nginx由一个master进程产生多个work子进程和chche相关进程</p>
+<p>master进程管理work子进程，work处理请求</p>
+<p>进程之间通讯是使用共享内存，</p>
+<p>进程之间是使用信号通讯</p>
+<h1 id="nginx进程管理" class="heading-element">
+  <a href="#nginx%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86" class="heading-mark"></a>nginx进程管理</h1><p>可以通过向nginx进程发送信号，其实命令行就是发送进程信号</p>
+<p>master进程能接收的信号：</p>
+<ul>
+<li>CHLD: 子进程终止时向master进程发送该信号</li>
+<li>TERM,INT: 立即停止</li>
+<li>QUIT: 优雅退出</li>
+<li>HUP: 重载配置文件</li>
+<li>USR1: 日志切割</li>
+<li>USR2: 热部署</li>
+<li>WINCH: 优雅暂停进程</li>
+</ul>
+<p>worker进程能接收的信号，但通常是master进程管理</p>
+<h2 id="优雅关闭worker进程" class="heading-element">
+  <a href="#%e4%bc%98%e9%9b%85%e5%85%b3%e9%97%adworker%e8%bf%9b%e7%a8%8b" class="heading-mark"></a>优雅关闭worker进程</h2><ol>
+<li>设置定时器（<code>worker_shutdown_timeout</code>）</li>
+<li>关闭监听句柄，不在处理新的连接</li>
+<li>关闭空闲连接</li>
+<li>在循环中等待全部关闭连接</li>
+<li>退出进程</li>
+</ol>
+<h1 id="网络收发和nginx事件关系" class="heading-element">
+  <a href="#%e7%bd%91%e7%bb%9c%e6%94%b6%e5%8f%91%e5%92%8cnginx%e4%ba%8b%e4%bb%b6%e5%85%b3%e7%b3%bb" class="heading-mark"></a>网络收发和nginx事件关系</h1><p>TCP协议与非阻塞接口:</p>
+<p>读事件:</p>
+<ul>
+<li>ACCEPT建立连接：
+<ul>
+<li>请求建立tcp连接事件</li>
+</ul>
+</li>
+<li>read读消息
+<ul>
+<li>tcp连接可读事件</li>
+<li>tcp连接关闭事件</li>
+</ul>
+</li>
+</ul>
+<p>写事件：</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-15 10:23:10">更新于 2022-12-15&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E6%9E%B6%E6%9E%84/" class="post-tag" title="标签 - 架构">架构</a><a href="/tags/nginx/" class="post-tag" title="标签 - nginx">nginx</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx-cache/" class="post-nav-item" rel="prev" title="nginx 缓存"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx 缓存</a>
+      <a href="/nginx-peverse-proxy/" class="post-nav-item" rel="next" title="nginx 反向代理">nginx 反向代理<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

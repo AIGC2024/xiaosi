@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>redis 访问控制列表 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='redis, ACL' /><meta itemprop="name" content="redis 访问控制列表">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-01-02T15:28:30+08:00" />
+<meta itemprop="dateModified" content="2023-01-07T18:07:49+08:00" />
+<meta itemprop="wordCount" content="2826">
+<meta itemprop="keywords" content="redis,ACL," /><meta property="og:title" content="redis 访问控制列表" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/redis-acl/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-02T15:28:30+08:00" />
+<meta property="article:modified_time" content="2023-01-07T18:07:49+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="redis 访问控制列表"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/redis-acl/" /><link rel="prev" href="/goland/" /><link rel="next" href="/go-spec/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "redis 访问控制列表",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/redis-acl\/"
+    },"genre": "posts","keywords": "redis, ACL","wordcount":  2826 ,
+    "url": "\/redis-acl\/","datePublished": "2023-01-02T15:28:30+08:00","dateModified": "2023-01-07T18:07:49+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>redis 访问控制列表</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/redis/" class="post-category" title="分类 - redis"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> redis</a></span></div><div class="post-meta-line"><span title="发布于 2023-01-02 15:28:30"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-02">2023-01-02</time></span>&nbsp;<span title="更新于 2023-01-07 18:07:49"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-07">2023-01-07</time></span>&nbsp;<span title="2826 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#redis-acl">redis ACL</a></li>
+    <li><a href="#acl-setuser">ACL SETUSER</a>
+      <ul>
+        <li><a href="#启用或禁用用户">启用或禁用用户</a></li>
+        <li><a href="#设置密码">设置密码</a></li>
+        <li><a href="#设置使用指令权限">设置使用指令权限</a></li>
+        <li><a href="#设置使用-key-的权限">设置使用 <code>key</code> 的权限</a></li>
+        <li><a href="#设置使用-pubsub-权限">设置使用 pub/sub 权限</a></li>
+        <li><a href="#权限组">权限组</a></li>
+        <li><a href="#重置所有权限">重置所有权限</a></li>
+      </ul>
+    </li>
+    <li><a href="#acl-配置文件">acl 配置文件</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-01-07，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+redis: 7.0.7</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://redis.io/docs/management/security/acl/"target="_blank" rel="external nofollow noopener noreferrer">redis官方文档: ACL</a></li>
+<li><a href="https://redis.io/commands/"target="_blank" rel="external nofollow noopener noreferrer">redis官方文档: commands</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="redis-acl" class="heading-element">
+  <a href="#redis-acl" class="heading-mark"></a>redis ACL</h1><p><code>ACL</code>  是访问控制列表的缩写，是允许在可以执行的命令和可以访问的密钥方面限制某些连接的功能。它的工作方式是，连接后，客户端需要提供用户名和有效密码进行身份验证。如果身份验证成功，则连接与给定用户及其用户的限制相关联。</p>
+<p>可以使用以下方式为用户配置规则</p>
+<ul>
+<li>使用 <code>ACL SETUSER</code> 指令</li>
+<li>使用 <code>ACL LOAD</code> 导入 <code>ACL</code> 配置文件</li>
+</ul>
+<p>规则由用户、密码、指令权限、<code>kye</code> 操作权限、<code>Pub/Sub</code>权限组成</p>
+<h1 id="acl-setuser" class="heading-element">
+  <a href="#acl-setuser" class="heading-mark"></a>ACL SETUSER</h1><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ACL SETUSER username <span class="o">[</span>rule <span class="o">[</span>rule ...<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">可用版本: 6.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>N<span class="o">)</span> <span class="c1"># N 为规则数量</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @admin, @slow, @dangerous</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>ACL SETUSER</code> 可以创建用户并设置规则</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01
+</span></span><span class="line"><span class="cl">OK</span></span></code></pre></td></tr></table>
+</div>
+</div><p>默认情况下，未指定规则几乎没有任何权限，从 <code>redis 6.2</code> 开始 <code>pub/sub</code> 的默认权限为 <code>allchannels</code> 该值可以通过  <code>acl-pubsub-default</code> 修改，但从 <code>redis 7.0</code> 开始为了安全又把该权限改为 <code>resetchannels</code></p>
+<p>可以使用 <code>ACL GETUSER</code> 或 <code>ACL LIST</code> 查看权限</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user alice off resetchannels -@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;user redis01 off resetchannels -@all&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL GETUSER redis01
+</span></span><span class="line"><span class="cl"> 1<span class="o">)</span> <span class="s2">&#34;flags&#34;</span>
+</span></span><span class="line"><span class="cl"> 2<span class="o">)</span> 1<span class="o">)</span> <span class="s2">&#34;off&#34;</span>
+</span></span><span class="line"><span class="cl"> 3<span class="o">)</span> <span class="s2">&#34;passwords&#34;</span>
+</span></span><span class="line"><span class="cl"> 4<span class="o">)</span> <span class="o">(</span>empty array<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> 5<span class="o">)</span> <span class="s2">&#34;commands&#34;</span>
+</span></span><span class="line"><span class="cl"> 6<span class="o">)</span> <span class="s2">&#34;-@all&#34;</span>
+</span></span><span class="line"><span class="cl"> 7<span class="o">)</span> <span class="s2">&#34;keys&#34;</span>
+</span></span><span class="line"><span class="cl"> 8<span class="o">)</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"> 9<span class="o">)</span> <span class="s2">&#34;channels&#34;</span>
+</span></span><span class="line"><span class="cl">10<span class="o">)</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">11<span class="o">)</span> <span class="s2">&#34;selectors&#34;</span>
+</span></span><span class="line"><span class="cl">12<span class="o">)</span> <span class="o">(</span>empty array<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user alice off resetchannels -@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>ACL SETUSER</code> 是以增量的方式修改用户，并不会直接覆盖，如下面 <code>redis01</code> 用户最终拥有使用 <code>GET</code> 与 <code>SET</code> 指令权限，如果规则冲突则以最后的为准（依次修改的）</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;user redis01 off resetchannels -@all&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 on
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 +set
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 +get
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;user redis01 on resetchannels -@all +set +get&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 -get
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;user redis01 off resetchannels -@all +set&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="启用或禁用用户" class="heading-element">
+  <a href="#%e5%90%af%e7%94%a8%e6%88%96%e7%a6%81%e7%94%a8%e7%94%a8%e6%88%b7" class="heading-mark"></a>启用或禁用用户</h2><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;user redis01 off resetchannels -@all +set
+</span></span></span><span class="line"><span class="cl"><span class="s2">103.106.246.17:6973&gt; ACL SETUSER redis01 on
+</span></span></span><span class="line"><span class="cl"><span class="s2">OK
+</span></span></span><span class="line"><span class="cl"><span class="s2">103.106.246.17:6973&gt; ACL LIST
+</span></span></span><span class="line"><span class="cl"><span class="s2">3) &#34;</span>user redis01 on resetchannels -@all +set<span class="s2">&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="设置密码" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae%e5%af%86%e7%a0%81" class="heading-mark"></a>设置密码</h2><p>可以通过以下前缀设置密码：</p>
+<ul>
+<li>以<code>&gt;</code>开头: 表示添加密码</li>
+<li>以<code>&lt;</code>开头: 表示移除密码</li>
+<li>以<code>#</code>开头: 表示以 <code>64</code> 位的 <code>SHA-256</code> 哈希值（只包含<code>0-9a-f</code>），可以存放在 <code>acl.conf</code> 中</li>
+<li>以<code>!</code>开头: 表示移除哈希密码</li>
+<li><code>nopass</code>: 不设置密码</li>
+<li><code>resetpass</code>: 先连接再设置密码，设置密码后才会进行权限验证。这是默认值</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 为 redis01 用户设置密码</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 &gt;oVAmLz9DXZ28uZ4OAiwZnN
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 off #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 resetchannels -@all&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 为 redis01 用户设置密码（hash）</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 <span class="c1">#a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8</span>
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 off #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 resetchannels -@all&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 移除指定的 hash 密码</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 !a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 off #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 resetchannels -@all&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 不设置密码</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 nopass
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 off nopass resetchannels -@all&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当连接 <code>redis</code> 时是使用 <code>AUTH</code> 指令进行的身份验证（类似 <code>linux</code> 中的 <code>ssh</code>）</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">AUTH <span class="o">[</span>username<span class="o">]</span> password
+</span></span><span class="line"><span class="cl">可用版本: 1.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>N<span class="o">)</span> <span class="c1"># N 为密码长度</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @fast, @connection
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">在 redis 6.0 之前是只有 default 用户，因此没有 username 部分</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>default</code> 用户的密码也可以在配置文件中使用 <code>requirepass</code> 配置项指定，由于 <code>redis</code> 性能很高，可以在短时间内处理大量密码，因此密码必须要尽可能的复杂。<code>redis</code> 提供了 <code>ACL GENPASS</code> 命令生成随机密码</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ACL GENPASS <span class="o">[</span>bits<span class="o">]</span>
+</span></span><span class="line"><span class="cl">可用版本: 6.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @slow
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">bits 表示密码大小，默认情况下，64 字节字符串表示 <span class="m">256</span> 位伪随机数据。
+</span></span><span class="line"><span class="cl">如果指定的 bit 无法被4整除，则向上取整。如 <span class="m">5</span> bit 的密码长度为 <span class="m">2</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="设置使用指令权限" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae%e4%bd%bf%e7%94%a8%e6%8c%87%e4%bb%a4%e6%9d%83%e9%99%90" class="heading-mark"></a>设置使用指令权限</h2><p>可以通过以下方式指定权限</p>
+<ul>
+<li>以<code>+</code>开头：表示可以使用该命令。子命令使用<code>|</code> 表示，从<code>redis 7.0</code> 开始如想增加 <code>ACL SETUSER</code>权限可写为 <code>+ACL|SETUESR</code>，在此之前必须写为<code>-ACL +ACL|SETUSER</code> (先禁止再允许)</li>
+<li>以<code>-</code>开头：表示禁止使用该命令</li>
+<li>以<code>+@</code> 开关：表示可以使用指定的 <code>ACL</code> 类别命令，<code>@all</code> 表示所有类别</li>
+<li>以<code>-@</code> 开关：表示禁止使用指定的 <code>ACL</code> 类别命令，<code>@all</code> 表示所有类别</li>
+<li><code>allcommands</code>: 表示允许使用所有命令，等效 <code>+@all</code></li>
+<li><code>nocommands</code>:  表示禁止使用所有命令，这是默认值，等效 <code>-@all</code></li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 允许除 ACL SETUSER 以外的所有命令</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 on &gt;oVAmLz9DXZ28uZ4OAiwZnN allcommands -ACL<span class="p">|</span>SETUSER
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 resetchannels +@all -acl|setuser&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 验证</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># redis-cli -h 103.106.246.17 -p 6973</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; AUTH redis01 oVAmLz9DXZ28uZ4OAiwZnN
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER user01 on
+</span></span><span class="line"><span class="cl"><span class="o">(</span>error<span class="o">)</span> NOPERM this user has no permissions to run the <span class="s1">&#39;acl|setuser&#39;</span> command</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再次提示，<code>ACL SETUSER</code> 是增量方式增加的，权限顺序很重要</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 由于 -ACL|SETUSER 与 allcommands 有冲突，后者覆盖前者</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 on &gt;oVAmLz9DXZ28uZ4OAiwZnN -ACL<span class="p">|</span>SETUSER allcommands
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 resetchannels +@all&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>redis</code> 的指令很多，依次添加非常麻烦，<code>redis</code> 把命令进行归类，<code>ACL CAT</code> 命令可以查看所有分类与某类所包含的指令</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL CAT
+</span></span><span class="line"><span class="cl"> 1<span class="o">)</span> <span class="s2">&#34;keyspace&#34;</span>     <span class="c1"># key 管理，但不涉及值。如删除 key，查看 key 列表等</span>
+</span></span><span class="line"><span class="cl"> 2<span class="o">)</span> <span class="s2">&#34;read&#34;</span>         <span class="c1"># 对 key 的值有查询权限</span>
+</span></span><span class="line"><span class="cl"> 3<span class="o">)</span> <span class="s2">&#34;write&#34;</span>        <span class="c1"># 对 key 的值有写入权限</span>
+</span></span><span class="line"><span class="cl"> 4<span class="o">)</span> <span class="s2">&#34;set&#34;</span>          <span class="c1"># set 数据类型相关</span>
+</span></span><span class="line"><span class="cl"> 5<span class="o">)</span> <span class="s2">&#34;sortedset&#34;</span>    <span class="c1"># sorted sets related 数据类型相关</span>
+</span></span><span class="line"><span class="cl"> 6<span class="o">)</span> <span class="s2">&#34;list&#34;</span>         <span class="c1"># list 数据类型相关</span>
+</span></span><span class="line"><span class="cl"> 7<span class="o">)</span> <span class="s2">&#34;hash&#34;</span>         <span class="c1"># hash 数据类型相关</span>
+</span></span><span class="line"><span class="cl"> 8<span class="o">)</span> <span class="s2">&#34;string&#34;</span>       <span class="c1"># sreing 数据类型相关</span>
+</span></span><span class="line"><span class="cl"> 9<span class="o">)</span> <span class="s2">&#34;bitmap&#34;</span>       <span class="c1"># bitmap 数据类型相关</span>
+</span></span><span class="line"><span class="cl">10<span class="o">)</span> <span class="s2">&#34;hyperloglog&#34;</span>  <span class="c1"># hyperloglog 数据类型相关</span>
+</span></span><span class="line"><span class="cl">11<span class="o">)</span> <span class="s2">&#34;geo&#34;</span>          <span class="c1"># geospatial indexes related 数据类型相关</span>
+</span></span><span class="line"><span class="cl">12<span class="o">)</span> <span class="s2">&#34;stream&#34;</span>       <span class="c1"># stream 数据类型相关</span>
+</span></span><span class="line"><span class="cl">13<span class="o">)</span> <span class="s2">&#34;pubsub&#34;</span>       <span class="c1"># pub/sub 数据类型相关</span>
+</span></span><span class="line"><span class="cl">14<span class="o">)</span> <span class="s2">&#34;admin&#34;</span>        <span class="c1"># 管理 redis 相关命令，如 配置、调试、ACL 等等</span>
+</span></span><span class="line"><span class="cl">15<span class="o">)</span> <span class="s2">&#34;fast&#34;</span>         <span class="c1"># 时间复杂度为 O(1) 的指令</span>
+</span></span><span class="line"><span class="cl">16<span class="o">)</span> <span class="s2">&#34;slow&#34;</span>         <span class="c1"># 时间复杂度不为 O(1) 的指令</span>
+</span></span><span class="line"><span class="cl">17<span class="o">)</span> <span class="s2">&#34;blocking&#34;</span>     <span class="c1"># 有关锁相关的指令（要等等另一方释放）</span>
+</span></span><span class="line"><span class="cl">18<span class="o">)</span> <span class="s2">&#34;dangerous&#34;</span>    <span class="c1"># 有危险的指令</span>
+</span></span><span class="line"><span class="cl">19<span class="o">)</span> <span class="s2">&#34;connection&#34;</span>   <span class="c1"># 连接相关的命令，如 PING ECHO</span>
+</span></span><span class="line"><span class="cl">20<span class="o">)</span> <span class="s2">&#34;transaction&#34;</span>  <span class="c1"># 事务相关</span>
+</span></span><span class="line"><span class="cl">21<span class="o">)</span> <span class="s2">&#34;scripting&#34;</span>    <span class="c1"># 脚本相关</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看 read 类有哪些指令</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL CAT <span class="nb">read</span>
+</span></span><span class="line"><span class="cl"> 1<span class="o">)</span> <span class="s2">&#34;srandmember&#34;</span>
+</span></span><span class="line"><span class="cl"> 2<span class="o">)</span> <span class="s2">&#34;geopos&#34;</span>
+</span></span><span class="line"><span class="cl"> 3<span class="o">)</span> <span class="s2">&#34;mget&#34;</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面示例将为 <code>redis01</code> 用户允许使用 <code>string</code> 数据类型相关的所有指令</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL DELUSER redis01
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 on &gt;oVAmLz9DXZ28uZ4OAiwZnN +@string
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 resetchannels -@all +@string&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="设置使用-key-的权限" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae%e4%bd%bf%e7%94%a8-key-%e7%9a%84%e6%9d%83%e9%99%90" class="heading-mark"></a>设置使用 <code>key</code> 的权限</h2><p>有以使用以下方式为用户增加对 <code>key</code> 的操作权限</p>
+<ul>
+<li>以<code>~</code>或<code>%RW~</code>开头：表示允许使用指定 <code>key</code> 的读写，可以使用 <code>go</code> 匹配模式，如 <code>~*</code> 允许所有的 <code>key</code> 读写权限</li>
+<li>以<code>%R~</code>开头：表示允许修改指定 <code>key</code>，需要 <code>redis 6.2</code> 起</li>
+<li>以<code>%W~</code>开头：表示允许读取指定 <code>key</code>，需要 <code>redis 6.2</code> 起</li>
+<li><code>allkeys</code>: 表示对所有 <code>key</code> 有读写权限，等效 <code>~*</code></li>
+<li><code>resetkeys</code>: 移除对 <code>key</code> 的权限，默认值为 <code>resetkeys allkeys</code>。可以使用 <code>go</code> 匹配模式</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 resetchannels -@all +@string&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 allkeys
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 ~* resetchannels -@all +@string&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 等效 resetkeys allkeys</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 resetkeys
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 resetchannels -@all +@string&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="设置使用-pubsub-权限" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae%e4%bd%bf%e7%94%a8-pubsub-%e6%9d%83%e9%99%90" class="heading-mark"></a>设置使用 pub/sub 权限</h2><p>可以通过以下方式为用户提供访问 <code>pub/sub</code> 权限</p>
+<ul>
+<li><code>allchannels</code>: 可访问所有 <code>pub/sub</code> 信道</li>
+<li>以<code>&amp;</code>开头：可访问 <code>go</code> 匹配模式匹配到的 <code>pub/sub</code> 信道</li>
+<li><code>resetchannels</code>: 取消可访问的信道，可使用 <code>go</code> 匹配模式。缺省值为取消所有 <code>pub/sub</code> 信道</li>
+</ul>
+<h2 id="权限组" class="heading-element">
+  <a href="#%e6%9d%83%e9%99%90%e7%bb%84" class="heading-mark"></a>权限组</h2><p>从 <code>redis 7.0</code> 可以使用括号添加一组权限，这样可以更灵活的配置权限。</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL DELUSER redis01
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># redis01 用户只可以使用 SET key1、SET key2、GET key1 权限</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 on &gt;oVAmLz9DXZ28uZ4OAiwZnN +GET ~key1 <span class="o">(</span>+SET ~key<span class="o">[</span>12<span class="o">])</span>
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 ~key1 resetchannels -@all +get (~key[12] resetchannels -@all +set)&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 测试</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># redis-cli -h 103.106.246.17 -p 6973</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; AUTH redis01 oVAmLz9DXZ28uZ4OAiwZnN
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key1 haha
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key2 haha
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># 没有 GET key2 的权限</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key2
+</span></span><span class="line"><span class="cl"><span class="o">(</span>error<span class="o">)</span> NOPERM this user has no permissions to access one of the keys used as arguments
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;haha&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>权限组无法修改，可以通过 <code>clearselectors</code> 关键字移除所有附加组权限</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 移除所有附加权限</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 clearselectors
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 ~key1 resetchannels -@all +get&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="重置所有权限" class="heading-element">
+  <a href="#%e9%87%8d%e7%bd%ae%e6%89%80%e6%9c%89%e6%9d%83%e9%99%90" class="heading-mark"></a>重置所有权限</h2><p><code>reset</code> 关键字可重置默认权限（一无所有）</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 on #e3609173108c06fb81458d7b4148c1ae807f9460d6b31678a39ff8db1894f3c5 ~* resetchannels -@all +@string&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL SETUSER redis01 reset
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user redis01 off sanitize-payload resetchannels -@all&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="acl-配置文件" class="heading-element">
+  <a href="#acl-%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>acl 配置文件</h1><p>可以在 <code>redis</code> 配置文件中添加 <code>aclfile</code> 配置项目指定 <code>acl</code> 规则文件，该文件每一行指定一个用户的规则。规则与 <code>ACL SETUSER</code> 指令定义一样</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;aclfile /data/redis/acl.conf&#39; &gt;&gt; /data/redis/redis.conf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat  /data/redis/acl.conf</span>
+</span></span><span class="line"><span class="cl">user worker +@list +@connection ~jobs:* on &gt;ffa9203c493aa99
+</span></span><span class="line"><span class="cl">user default on <span class="c1">#a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># chown redis:redis /data/redis/acl.conf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># redis-cli -h 103.106.246.17 -p 6973</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; AUTH default redisAsd123
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; ACL LIST
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;user default on #a468529ac9108f5483e0956ca9a601241a82149ef107864dafaddb1279ce63c8 ~* &amp;* +@all&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;user worker on #2288ec82bc090b36a7ebee6c750e541c3d3594a17917e6aa275340c77226e883 ~jobs:* resetchannels -@all +@connection +@list&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>ACL SAVE</code> 可以把内存的中 <code>ACL</code> 规则写入 <code>aclfile</code> 配置项指定的文件中，<code>ACL LOAD</code> 相反，是加载 <code>ACL</code> 规则文件</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-01-07 18:07:49">更新于 2023-01-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/redis/" class="post-tag" title="标签 - redis">redis</a><a href="/tags/ACL/" class="post-tag" title="标签 - ACL">ACL</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/goland/" class="post-nav-item" rel="prev" title="jetbrains goland"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>jetbrains goland</a>
+      <a href="/go-spec/" class="post-nav-item" rel="next" title="go 语言书写规范">go 语言书写规范<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

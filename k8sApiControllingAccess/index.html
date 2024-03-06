@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s API 访问控制 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="访问 k8s API的过程" /><meta name="keywords" content='k8s, API 访问控制' /><meta itemprop="name" content="k8s API 访问控制">
+<meta itemprop="description" content="访问 k8s API的过程"><meta itemprop="datePublished" content="2023-05-01T14:36:11+08:00" />
+<meta itemprop="dateModified" content="2023-06-18T23:36:49+08:00" />
+<meta itemprop="wordCount" content="12797">
+<meta itemprop="keywords" content="k8s,API 访问控制," /><meta property="og:title" content="k8s API 访问控制" />
+<meta property="og:description" content="访问 k8s API的过程" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sApiControllingAccess/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-05-01T14:36:11+08:00" />
+<meta property="article:modified_time" content="2023-06-18T23:36:49+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s API 访问控制"/>
+<meta name="twitter:description" content="访问 k8s API的过程"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sApiControllingAccess/" /><link rel="prev" href="/neovimShortcutKey/" /><link rel="next" href="/awsCloudFormation/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s API 访问控制",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sApiControllingAccess\/"
+    },"genre": "posts","keywords": "k8s, API 访问控制","wordcount":  12797 ,
+    "url": "\/k8sApiControllingAccess\/","datePublished": "2023-05-01T14:36:11+08:00","dateModified": "2023-06-18T23:36:49+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s API 访问控制</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2023-05-01 14:36:11"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-01">2023-05-01</time></span>&nbsp;<span title="更新于 2023-06-18 23:36:49"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-06-18">2023-06-18</time></span>&nbsp;<span title="12797 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 12800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 26 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#访问-k8s-api-过程">访问 k8s api 过程</a></li>
+    <li><a href="#与-apiserver-连接">与 apiserver 连接</a></li>
+    <li><a href="#用户认证">用户认证</a>
+      <ul>
+        <li><a href="#通过-x509-证书识别用户">通过 X509 证书识别用户</a></li>
+        <li><a href="#通过静态令牌文件识别用户">通过静态令牌文件识别用户</a></li>
+        <li><a href="#服务账户认证">服务账户认证</a></li>
+        <li><a href="#启动引导令牌bootstrap-tokens认证">启动引导令牌（Bootstrap Tokens）认证</a></li>
+      </ul>
+    </li>
+    <li><a href="#鉴权">鉴权</a>
+      <ul>
+        <li><a href="#rbac-鉴权">RBAC 鉴权</a>
+          <ul>
+            <li><a href="#role-与-clusterrole"><code>Role</code> 与 <code>ClusterRole</code></a></li>
+            <li><a href="#聚合的-clusterrole">聚合的 ClusterRole</a></li>
+            <li><a href="#rolebinding-和-clusterrolebinding"><code>RoleBinding</code> 和 <code>ClusterRoleBinding</code></a></li>
+            <li><a href="#默认的-roles-和-rolebindings">默认的 <code>Roles</code> 和 <code>RoleBindings</code></a></li>
+            <li><a href="#初始化与预防权限提升">初始化与预防权限提升</a></li>
+            <li><a href="#服务账户权限">服务账户权限</a></li>
+            <li><a href="#endpoints-写入权限"><code>Endpoints</code> 写入权限</a></li>
+          </ul>
+        </li>
+        <li><a href="#node-鉴权">Node 鉴权</a>
+          <ul>
+            <li><a href="#版本变动">版本变动</a></li>
+          </ul>
+        </li>
+        <li><a href="#从-abac-鉴权转换到-rbac-鉴权">从 <code>ABAC</code> 鉴权转换到 <code>RBAC</code> 鉴权</a></li>
+        <li><a href="#检查-api-访问权限">检查 API 访问权限</a></li>
+      </ul>
+    </li>
+    <li><a href="#准入控制器">准入控制器</a>
+      <ul>
+        <li><a href="#certificateapproval">CertificateApproval</a></li>
+        <li><a href="#certificatesigning">CertificateSigning</a></li>
+        <li><a href="#certificatesubjectrestriction">CertificateSubjectRestriction</a></li>
+        <li><a href="#defaultingressclass">DefaultIngressClass</a></li>
+        <li><a href="#defaultstorageclass">DefaultStorageClass</a></li>
+        <li><a href="#defaulttolerationseconds">DefaultTolerationSeconds</a></li>
+        <li><a href="#limitranger">LimitRanger</a></li>
+        <li><a href="#mutatingadmissionwebhook">MutatingAdmissionWebhook</a></li>
+        <li><a href="#namespacelifecycle">NamespaceLifecycle</a></li>
+        <li><a href="#persistentvolumeclaimresize">PersistentVolumeClaimResize</a></li>
+        <li><a href="#podsecurity">PodSecurity</a></li>
+        <li><a href="#priority">Priority</a></li>
+        <li><a href="#resourcequota">ResourceQuota</a></li>
+        <li><a href="#runtimeclass">RuntimeClass</a></li>
+        <li><a href="#serviceaccount">ServiceAccount</a></li>
+        <li><a href="#storageobjectinuseprotection">StorageObjectInUseProtection</a></li>
+        <li><a href="#taintnodesbycondition">TaintNodesByCondition</a></li>
+        <li><a href="#validatingadmissionpolicy">ValidatingAdmissionPolicy</a></li>
+        <li><a href="#validatingadmissionwebhook">ValidatingAdmissionWebhook</a></li>
+        <li><a href="#noderestriction">NodeRestriction</a></li>
+      </ul>
+    </li>
+    <li><a href="#审计">审计</a>
+      <ul>
+        <li><a href="#审计策略">审计策略</a></li>
+        <li><a href="#日志存放位置">日志存放位置</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.27</li>
+<li>rocky: 8</li>
+<li>kernel: 4.18.0-425.19.2.el8_7.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><code>k8s</code>官方文档：<a href="https://kubernetes.io/zh-cn/docs/concepts/security/controlling-access/"target="_blank" rel="external nofollow noopener noreferrer">Kubernetes API 访问控制</a></li>
+<li><code>k8s</code>官方文档：<a href="https://kubernetes.io/zh-cn/docs/reference/access-authn-authz/"target="_blank" rel="external nofollow noopener noreferrer">API 访问控制</a></li>
+<li><code>k8s</code>官方文档：<a href="https://kubernetes.io/zh-cn/docs/tasks/debug/debug-cluster/audit/"target="_blank" rel="external nofollow noopener noreferrer">审计</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="访问-k8s-api-过程" class="heading-element">
+  <a href="#%e8%ae%bf%e9%97%ae-k8s-api-%e8%bf%87%e7%a8%8b" class="heading-mark"></a>访问 k8s api 过程</h1><p>用户或服务访问 <code>k8s api</code> 会经历以下过程</p>
+<p><img loading="lazy" src="k8sAccesApiProcedure.svg" alt="k8sAccesApiProcedure" srcset="k8sAccesApiProcedure.svg?size=small, k8sAccesApiProcedure.svg?size=medium 1.5x, k8sAccesApiProcedure.svg?size=large 2x" sizes="auto" data-title="k8sAccesApiProcedure" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+<br></p>
+<ol>
+<li>通过安全方式连接（<code>TLS</code>）</li>
+<li>身份认证</li>
+<li>权限判断</li>
+<li>准入控制</li>
+<li>审计</li>
+</ol>
+<h1 id="与-apiserver-连接" class="heading-element">
+  <a href="#%e4%b8%8e-apiserver-%e8%bf%9e%e6%8e%a5" class="heading-mark"></a>与 apiserver 连接</h1><p>需要通过<code>HTTPS</code>与<code>apiserver</code>进行连接，因此需要把集群跟证书导入到客户端以防止<code>MITM</code>攻击。</p>
+<h1 id="用户认证" class="heading-element">
+  <a href="#%e7%94%a8%e6%88%b7%e8%ae%a4%e8%af%81" class="heading-mark"></a>用户认证</h1><p><code>k8s</code> 集群中的用户分为以下两类：</p>
+<ul>
+<li>服务账号：针对 <code>pod</code> 中应用进程设计的账户，由<code>k8s api</code>管理</li>
+<li>普通用户：针对操作人员设计的账户。这些账户不受 <code>k8s</code> 集群管理。普通用户通常是通过以下方式管理：
+<ul>
+<li>管理员配置的私钥</li>
+<li>用户数据库（如<code>Keystone</code>、<code>Google Accounts</code>）</li>
+<li>包含用户名和密码列表的文件</li>
+</ul>
+</li>
+</ul>
+<p>虽然<code>k8s</code>并不包含用来代表普通用户账号的对象。 普通用户的信息也无法通过 <code>API</code> 调用添加到集群中。但<code>k8s</code>可以通过身份认证插件来识别用户身份，并应用到后续的鉴权。</p>
+<p><code>k8s</code>通过认证插件识别用户。当<code>api</code>收到<code>http</code>请求后，身份认证插件通过客户端证书（<code>TLS</code>）、令牌（<code>Bearer Token</code>）、身份认证代理（<code>proxy</code>）等方式将以下信息与请求进行关联，这些信息只有通过鉴权后才赋予实质的意义</p>
+<ul>
+<li>用户名：用来辩识最终用户的字符串。如<code>user01</code>、<code>user@example.com</code></li>
+<li>用户<code>ID</code>：用来辩识最终用户的字符串。通常具有唯一性</li>
+<li>用户组：取值为一组字符串，其中各个字符串用来标明用户是某个命名的用户逻辑集合的成员</li>
+<li>附加字段：一组额外的键-值映射，键是字符串，值是一组字符串； 用来保存一些鉴权组件可能觉得有用的额外信息</li>
+</ul>
+<p>可以启用多个身份认证模块，当启动多个模块后，只要有其中一个模块通过后直接判定身份认证通过，不再进行身份认证。<code>k8s</code>并不能决定身份认证模块的运行顺序。对于所有通过身份认证的用户，并添加到 <code>system:authenticated</code>组员列表中；没有明确被身份认证拒绝且允许匿名请求，视其为匿名用户，并添加到 <code>system:anonymous</code> 与 <code>system:unauthenticated</code> 组员中</p>
+<h2 id="通过-x509-证书识别用户" class="heading-element">
+  <a href="#%e9%80%9a%e8%bf%87-x509-%e8%af%81%e4%b9%a6%e8%af%86%e5%88%ab%e7%94%a8%e6%88%b7" class="heading-mark"></a>通过 X509 证书识别用户</h2><p>如果 <code>apiserver</code> 启动时传递 <code>--client-ca-file</code> 选项，则可以启动客户端证书身份认证</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl get pod kube-apiserver-node01.my.host -n kube-system -o yaml  | grep &#39;\--client-ca-file&#39;</span>
+</span></span><span class="line"><span class="cl">    - --client-ca-file<span class="o">=</span>/etc/kubernetes/pki/ca.crt</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所引用的文件必须包含一个或者多个证书机构，用来验证向 <code>API</code> 服务器提供的客户端证书。 如果提供了客户端证书并且证书被验证通过，则 <code>subject</code> 中的公共名称（<code>Common Name</code>） 就被作为请求的用户名。 自 <code>Kubernetes 1.4</code> 开始，客户端证书还可以通过证书的 <code>organization</code> 字段标明用户的组成员信息。 要包含用户的多个组成员信息，可以在证书中包含多个 <code>organization</code> 字段。</p>
+<p>客户端证书可以使用以下方式生成：</p>
+<ul>
+<li>手动使用工具签发，如 <code>openssl</code>、<code>easyrsa</code>、<code>cfssl</code> 等</li>
+<li>使用<code>k8s</code>的<code>CertificateSigningRequest</code>签发</li>
+</ul>
+<br>
+<ul>
+<li>手动使用 <code>openssl</code> 签发</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># cd /etc/kubernetes/pki/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 为用户生成密钥</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 pki<span class="o">]</span><span class="c1"># openssl genrsa -out user01.key 2048</span>
+</span></span><span class="line"><span class="cl">Generating RSA private key, <span class="m">2048</span> bit long modulus <span class="o">(</span><span class="m">2</span> primes<span class="o">)</span>
+</span></span><span class="line"><span class="cl">.....................................................................+++++
+</span></span><span class="line"><span class="cl">..................................................+++++
+</span></span><span class="line"><span class="cl">e is <span class="m">65537</span> <span class="o">(</span>0x010001<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 生成请求证书（SCR）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># user01 用户，且属于 users 组与 kube 组</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 pki<span class="o">]</span><span class="c1"># openssl req -new -key user01.key -out user01.scr -subj &#34;/CN=user01/O=users/O=kube&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 pki<span class="o">]</span><span class="c1"># ls user01*</span>
+</span></span><span class="line"><span class="cl">user01.key  user01.scr
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 apiserver 的 CA 证书为客户端生成证书</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 pki<span class="o">]</span><span class="c1"># openssl x509 -req -in user01.scr -CA ca.crt -CAkey ca.key -CAcreateserial -out user01.crt -days 120</span>
+</span></span><span class="line"><span class="cl">Signature ok
+</span></span><span class="line"><span class="cl"><span class="nv">subject</span><span class="o">=</span><span class="nv">CN</span> <span class="o">=</span> user01, <span class="nv">O</span> <span class="o">=</span> users, <span class="nv">O</span> <span class="o">=</span> kube
+</span></span><span class="line"><span class="cl">Getting CA Private Key
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 pki<span class="o">]</span><span class="c1"># ls user01.* | sed &#39;s/ /\n/g&#39;</span>
+</span></span><span class="line"><span class="cl">user01.crt  <span class="c1"># 用户证书，访问 apiserver 时会用到</span>
+</span></span><span class="line"><span class="cl">user01.key  <span class="c1"># 用户密钥，访问 apiserver 时会用到</span>
+</span></span><span class="line"><span class="cl">user01.scr</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="通过静态令牌文件识别用户" class="heading-element">
+  <a href="#%e9%80%9a%e8%bf%87%e9%9d%99%e6%80%81%e4%bb%a4%e7%89%8c%e6%96%87%e4%bb%b6%e8%af%86%e5%88%ab%e7%94%a8%e6%88%b7" class="heading-mark"></a>通过静态令牌文件识别用户</h2><p>静态令牌文件是一个<code>SVC</code>格式的文本文件，该文件每行至少有<code>3</code>个列：令牌、用户名、用户组。用户组可以有多个，但必须用双引号括起来。令牌文件在<code>apiserver</code>启动时使用<code>--token-auth-file</code>选项引用，在不重启<code>apiserver</code>的情况下无法改变令牌已生效的列表</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 默认是没有使用的</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 pki<span class="o">]</span><span class="c1"># kubectl get pod kube-apiserver-node01.my.host -n kube-system -o yaml  | grep &#39;\--token-auth-file&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面是<code>SVC</code>格式的文档</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">token-dfsuna-sfdsam3,user01,294710,<span class="s2">&#34;group1,group2,group3&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用该方式时，<code>http</code>请求头部中要添加<code>Authorization</code>头部，值为：<code>Bearer &lt;token&gt;</code>。如</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Authorization: Bearer token-dfsuna-sfdsam3</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="服务账户认证" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e8%b4%a6%e6%88%b7%e8%ae%a4%e8%af%81" class="heading-mark"></a>服务账户认证</h2><p>服务账号（<code>Service</code> <code>Account</code>）认证是一种自动被启用的用户认证机制，使用经过签名的持有者令牌来验证请求。服务账号通常由 <code>API</code> 服务器自动创建并通过 <code>ServiceAccount</code> 准入控制器关联到集群中运行的 <code>Pod</code> 上。 持有者令牌会挂载到 <code>Pod</code> 中可预知的位置，允许集群内进程与 <code>API</code> 服务器通信。 服务账号也可以使用 <code>Pod.spec.serviceAccountName</code> 字段显式地关联到 <code>Pod</code> 上。不过也可以在集群外部使用。</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl -n kube-system get pod kube-apiserver-node01.my.host -o json \</span>
+</span></span><span class="line"><span class="cl">&gt; <span class="p">|</span> jq <span class="s1">&#39;.spec.containers[0].command&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; <span class="p">|</span> grep <span class="s2">&#34;service-account-key-file\|service-account-lookup|tls-private-key-file&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--service-account-key-file=/etc/kubernetes/pki/sa.pub&#34;</span>, </span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>--service-account-key-file</code> 选项指定用于验证
+<code>ServiceAccount</code> 令牌的<code>TLS</code>文件，文件包含 <code>PEM</code> 编码的 <code>x509</code> <code>RSA</code> 或 <code>ECDSA</code> 私钥或公钥，文件可以包含多个密钥，也可以多次使用该选项。如果该参数缺省则使用 <code>--tls-private-key-file</code> 选项</li>
+<li><code>--service-account-lookup</code> 选项启用时会回收被删除的令牌</li>
+</ul>
+<p><code>Kubernetes</code> 在 <code>v1.22</code> 版本之前都会自动创建用来访问 <code>Kubernetes API</code> 的凭据。 这一老的机制是基于创建可被挂载到运行中 <code>Pod</code> 内的令牌 <code>Secret</code> 来实现的。 在最近的版本中，<code>API</code> 凭据是直接通过 <code>TokenRequest API</code> 来获得的，这一凭据会使用投射卷挂载到 <code>Pod</code> 中。使用这种方式获得的令牌有确定的生命期，并且在挂载它们的 <code>Pod</code> 被删除时自动作废。但仍然可以手动创建 服务账号令牌。只有在无法使用 <code>TokenRequest API</code> 来获取令牌， 并且能够接受因为将永不过期的令牌凭据写入到可读取的 <code>API</code> 对象而带来的安全风险时， 才应该创建服务账号令牌 <code>Secret</code> 对象。使用这种 <code>Secret</code> 类型时，需要确保对象的注解 <code>kubernetes.io/service-account-name</code> 被设置为某个已有的服务账号名称。 如果同时负责 <code>ServiceAccount</code> 和 <code>Secret</code> 对象的创建，应该先创建 <code>ServiceAccount</code> 对象。当 <code>Secret</code> 对象被创建之后，某个 <code>Kubernetes</code>控制器会填写 <code>Secret</code> 的其它字段，例如 <code>kubernetes.io/service-account.uid</code> 注解以及 <code>data</code> 字段中的 <code>token</code> 键值，使之包含实际的令牌内容。</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 在当前名称空间创建服务账号</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl create serviceaccount jenkins</span>
+</span></span><span class="line"><span class="cl">serviceaccount/jenkins created</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 调用 TokenRequest API 获得令牌，是一个已签名的 JWT 令牌</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl create token jenkins</span>
+</span></span><span class="line"><span class="cl">eyJhbGciOiJSUzI1NiIsImtpZCI6ImZVOW8wN2RyRHF5d19H...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>手动创建服务令牌示例</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl apply -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: Secret
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: secret-sa-sample
+</span></span></span><span class="line"><span class="cl"><span class="s">  annotations:
+</span></span></span><span class="line"><span class="cl"><span class="s">    kubernetes.io/service-account.name: &#34;sa-name&#34; # 服务账户名称
+</span></span></span><span class="line"><span class="cl"><span class="s">type: kubernetes.io/service-account-token # 这行是必须的
+</span></span></span><span class="line"><span class="cl"><span class="s">data:
+</span></span></span><span class="line"><span class="cl"><span class="s">  # 可以像 Opaque Secret 一样在这里添加额外的键/值偶对
+</span></span></span><span class="line"><span class="cl"><span class="s">  extra: YmFyCg==
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>服务账号被身份认证后，所确定的用户名为 <code>system:serviceaccount:&lt;名字空间&gt;:&lt;服务账号&gt;</code>， 并被分配到用户组 <code>system:serviceaccounts</code> 和 <code>system:serviceaccounts:&lt;名字空间&gt;</code></p>
+<h2 id="启动引导令牌bootstrap-tokens认证" class="heading-element">
+  <a href="#%e5%90%af%e5%8a%a8%e5%bc%95%e5%af%bc%e4%bb%a4%e7%89%8cbootstrap-tokens%e8%ae%a4%e8%af%81" class="heading-mark"></a>启动引导令牌（Bootstrap Tokens）认证</h2><p>启动引导令牌是一种简单的持有者令牌（<code>Bearer</code> <code>Token</code>），这种令牌是在新建集群 或者在现有集群中添加新节点时使用的。 它被定义成一个特定类型的 <code>Secret</code>（<code>bootstrap.kubernetes.io/token</code>）， 并存在于 <code>kube-system</code> 名字空间中。 这些 <code>Secret</code> 会被 <code>API</code> 服务器上的启动引导认证组件（<code>Bootstrap</code> <code>Authenticator</code>）读取。 控制器管理器中的控制器 <code>TokenCleaner</code> 能够删除过期的令牌。 这些令牌也被用来在节点发现的过程中会使用的一个特殊的 <code>ConfigMap</code> 对象。 <code>BootstrapSigner</code> 控制器也会使用这一 <code>ConfigMap</code>。</p>
+<p>启动引导令牌 <code>Secret</code> 清单文件可能看起来像下面这样：</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># name 必须是 &#34;bootstrap-token-&lt;token id&gt;&#34; 格式的</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">bootstrap-token-07401b</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 令牌必须存在于 kube-system 名字空间中</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">kube-system</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># type 必须是 &#39;bootstrap.kubernetes.io/token&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">bootstrap.kubernetes.io/token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">stringData</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 供人阅读的描述，可选。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;The default bootstrap token generated by &#39;kubeadm init&#39;.&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 令牌 ID 和秘密信息，它们必须符合正则表达式 [a-z0-9]{6}\.[a-z0-9]{16}。必需</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">token-id</span><span class="p">:</span><span class="w"> </span><span class="l">07401b</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">token-secret</span><span class="p">:</span><span class="w"> </span><span class="l">f395accd246ae52d</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 可选的过期时间字段，一个使用 RFC3339 来编码的 UTC 绝对时间。可选</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">expiration</span><span class="p">:</span><span class="w"> </span><span class="ld">2017-03-10T03:22:11Z</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 允许的用法（可选）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">usage-bootstrap-authentication</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w"> </span><span class="c"># 可用于 authentication （身份认证）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">usage-bootstrap-signing</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w"> </span><span class="c"># 用于 cluster-info ConfigMap 的签名</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 令牌要认证为的额外组，必须以 &#34;system:bootstrappers:&#34; 开头</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">auth-extra-groups</span><span class="p">:</span><span class="w"> </span><span class="l">system:bootstrappers:worker,system:bootstrappers:ingress</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>启动引导令牌默认是启用的</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl -n kube-system get pod kube-apiserver-node01.my.host -o json | jq &#39;.spec.containers[0].command&#39;  | grep &#39;enable-bootstrap-token-auth&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--enable-bootstrap-token-auth=true&#34;</span>,</span></span></code></pre></td></tr></table>
+</div>
+</div><p>过期的令牌可以通过启用控制器管理器中的 <code>tokencleaner</code> 控制器来删除。</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--controllers<span class="o">=</span>*,tokencleaner</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="鉴权" class="heading-element">
+  <a href="#%e9%89%b4%e6%9d%83" class="heading-mark"></a>鉴权</h1><p><code>k8s</code> 使用 <code>apiserver</code> 对 <code>api</code> 请求根据所有策略评估所有请求属性来决定允许或拒绝请求。 默认是拒绝，只有明确允许的操作才会执行。尽管如此，依赖于特定对象种类的特定字段的访问控制和策略是由准入控制器处理</p>
+<p><code>k8s</code>鉴权模块仅审查<code>api</code>请求中的以下属性：</p>
+<ul>
+<li>用户名</li>
+<li>用户组</li>
+<li>附加字段</li>
+<li><code>API</code></li>
+<li>请求路径</li>
+<li><code>API</code> 请求动词。用于资源请求。有以下：</li>
+<li><code>HTTP</code> 请求动词。用于非资源请求。有以下：</li>
+<li>资源名称</li>
+<li>子资源</li>
+<li>名称空间</li>
+<li><code>API</code>组</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><code>API</code> 请求动词</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>get</code></td>
+<td style="text-align:left">获取单个资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>list</code></td>
+<td style="text-align:left">获取某类资源集合</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>watch</code></td>
+<td style="text-align:left">持续观察资源更新</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>create</code></td>
+<td style="text-align:left">创建资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>update</code></td>
+<td style="text-align:left">更新资源，如果资源不存在则创建</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>patch</code></td>
+<td style="text-align:left">修改资源字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>delete</code></td>
+<td style="text-align:left">删除单个资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>deletecollection</code></td>
+<td style="text-align:left">删除某类型资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>proxy</code></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>bind</code></td>
+<td style="text-align:left"><code>RBAC</code>鉴权专有，能更新或创建<code>RoleBinding</code>与<code>ClusterRoleBinding</code>资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>escalate</code></td>
+<td style="text-align:left"><code>RBAC</code>鉴权专有，能更新或创建<code>Role</code>与<code>ClusterRole</code>资源</td>
+</tr>
+</tbody>
+</table>
+<p><code>apiserver</code>启动时根据<code>--authorization-mode</code>选项值启动鉴权模块。当配置了多个鉴权模块时，<code>k8s</code> 将按顺序使用每个模块。 如果任何鉴权模块批准或拒绝请求，则立即返回该决定，并且不会与其他鉴权模块协商。如果请求被拒绝则返回<code>http 403</code>状态码</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl get pod kube-apiserver-node01.my.host -n kube-system -o yaml  | grep &#39;\--authorization-mode&#39;</span>
+</span></span><span class="line"><span class="cl">    - --authorization-mode<span class="o">=</span>Node,RBAC</span></span></code></pre></td></tr></table>
+</div>
+</div><p>有以下鉴权模块：</p>
+<ul>
+<li><code>Node</code>: 一个专用鉴权模式，根据调度到 <code>kubelet</code> 上运行的 <code>Pod</code> 为 <code>kubelet</code> 授予权限</li>
+<li><code>ABAC</code>: 基于属性的访问控制。它定义了一种访问控制范型，通过使用将属性组合在一起的策略， 将访问权限授予用户</li>
+<li><code>RBAC</code>: 基于角色的访问控制。是一种基于企业内个人用户的角色来管理对计算机或网络资源的访问的方法</li>
+<li><code>Webhook</code>:  它是一个 <code>HTTP</code> 回调，发生某些事情时调用 <code>HTTP POST</code> 进行简单的事件通知</li>
+<li><code>AlwaysDeny</code>: 它会阻止所有请求</li>
+<li><code>AlwaysAllow</code>: 它会允许所有请求</li>
+</ul>
+<h2 id="rbac-鉴权" class="heading-element">
+  <a href="#rbac-%e9%89%b4%e6%9d%83" class="heading-mark"></a>RBAC 鉴权</h2><p>基于角色（<code>Role</code>）的访问控制（<code>RBAC</code>）是一种基于组织中用户的角色来调节控制对计算机或网络资源的访问的方法。<code>RBAC</code> 鉴权机制使用 <code>rbac.authorization.k8s.io</code> <code>API</code> 组来驱动鉴权决定， 允许你通过 <code>Kubernetes API</code> 动态配置策略。</p>
+<p>在 <code>kube-apiserver --authorization-mode</code> 选项包含 <code>RBAC</code> 参数时表示启用了 <code>RBAC</code> 鉴权</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl get pod kube-apiserver-node1.localdomain -n kube-system -o=jsonpath=&#39;{$.spec.containers[0].command}&#39; | jq | grep &#34;authorization-mode&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--authorization-mode=Node,RBAC&#34;</span>,</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>RBAC API</code> 声明了以下 <code>k8s</code> 对象：</p>
+<ul>
+<li>权限定义对象，一组相关权限规则。权限是纯粹累加的，不存在拒绝某种操作的规则。
+<ul>
+<li><code>Role</code>: 某个名称空间内权限</li>
+<li><code>ClusterRole</code>: 定义集群级别区域权限</li>
+</ul>
+</li>
+<li>角色绑定对象：
+<ul>
+<li><code>RoleBinding</code>: 将 <code>Role</code> 定义的权限赋予一个或者一组用户</li>
+<li><code>ClusterRoleBinding</code>: 将 <code>ClusterRole</code> 定义的权限赋予一个或者一组用户</li>
+</ul>
+</li>
+</ul>
+<p>它们的生效范围：</p>
+<ul>
+<li><code>RoleBinding</code> 绑定 <code>Role</code>：在固定名称空间生效。且 <code>RoleBinding</code> 和 <code>Role</code> 必须在同一名称空间，如果名称空间被删除，就算重新创建同名的名称空间。旧权限也不会生效
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl auth can-i create pod --as=xiaosi --namespace=test</span>
+</span></span><span class="line"><span class="cl">yes
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl delete ns test</span>
+</span></span><span class="line"><span class="cl">namespace <span class="s2">&#34;test&#34;</span> deleted
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl auth can-i create pod --as=xiaosi --namespace=test</span>
+</span></span><span class="line"><span class="cl">no
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl create ns test</span>
+</span></span><span class="line"><span class="cl">namespace/test created
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl auth can-i create pod --as=xiaosi --namespace=test</span>
+</span></span><span class="line"><span class="cl">no</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><code>RoleBinding</code> 绑定 <code>ClusterRole</code>：在 <code>RoleBingding</code> 定义的名称空间生效</li>
+<li><code>ClusterRoleBinding</code> 绑定 <code>ClusterRole</code>：在整个集群生效</li>
+</ul>
+<h3 id="role-与-clusterrole" class="heading-element">
+  <a href="#role-%e4%b8%8e-clusterrole" class="heading-mark"></a><code>Role</code> 与 <code>ClusterRole</code></h3><p><code>RBAC</code> 的 <code>Role</code> 或 <code>ClusterRole</code> 中包含一组代表相关权限的规则。 这些权限是纯粹累加的。不存在拒绝某操作的规则。<code>Role</code> 总是用来在某个名字空间内设置访问权限，创建 <code>Role</code> 时必须指定该 <code>Role</code> 所属的名字空间。<code>ClusterRole</code> 则是一个集群作用域的资源。</p>
+<ul>
+<li><code>role</code> 示例</li>
+</ul>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Role</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">note</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">user-role</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;v1&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;get&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;watch&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;list&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>ClusterRole</code> 示例</li>
+</ul>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterRole</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">user-cluster-role</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;v1&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;nodes&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;get&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;watch&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;list&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="聚合的-clusterrole" class="heading-element">
+  <a href="#%e8%81%9a%e5%90%88%e7%9a%84-clusterrole" class="heading-mark"></a>聚合的 ClusterRole</h3><p>可以把若干个 <code>ClusterRole</code> 聚合起来，形成一个复合的 <code>ClusterRole</code>。作为集群控制面的一部分，控制器会监视带有 <code>aggregationRule</code> 的 ClusterRole 对象集合。</p>
+<p><code>aggregationRule</code> 为控制器定义一个标签选择算符供后者匹配应该组合到当前 <code>ClusterRole</code> 的 <code>roles</code> 字段中的 <code>ClusterRole</code> 对象</p>
+<p>下面是一个聚合 <code>ClusterRole</code> 的示例：</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterRole</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">monitoring</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">aggregationRule</span><span class="p">:</span><span class="w">    </span><span class="c"># 聚合标签</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">clusterRoleSelectors</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">rbac.example.com/aggregate-to-monitoring</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">rules</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="c"># 控制面自动填充这里的规则</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>再创建一个带有 <code>rbac.example.com/aggregate-to-monitoring: true</code> 标签的 <code>ClusterRole</code> 新的规则也会被添加到名为 <code>monitoring</code> 的 <code>ClusterRole</code> 中</p>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterRole</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">monitoring-endpoints</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">rbac.example.com/aggregate-to-monitoring</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 当你创建 &#34;monitoring-endpoints&#34; ClusterRole 时，</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 下面的规则会被添加到 &#34;monitoring&#34; ClusterRole 中</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;services&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;endpoints&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;pods&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;get&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;list&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;watch&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="rolebinding-和-clusterrolebinding" class="heading-element">
+  <a href="#rolebinding-%e5%92%8c-clusterrolebinding" class="heading-mark"></a><code>RoleBinding</code> 和 <code>ClusterRoleBinding</code></h3><p><code>RoleBinding</code> 与 <code>ClusterRoleBinding</code> 都是用于把权限与某个或某些用户、用户组、服务账号关联，这些主体名称没有过多限制。以下前缀是 <code>k8s</code> 系统保留的：</p>
+<ul>
+<li><code>system:</code></li>
+<li><code>system:serviceaccount:</code>: 是用于服务账户用户名的前缀</li>
+<li><code>system:serviceaccounts:</code>: 是用于服务账户组名的前缀</li>
+</ul>
+<p><code>RoleBinding</code> 示例</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">RoleBinding</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">user-role-binding</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">note</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">subjects</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">User</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">user</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">roleRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Role</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">user-role</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">apiGroup</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="默认的-roles-和-rolebindings" class="heading-element">
+  <a href="#%e9%bb%98%e8%ae%a4%e7%9a%84-roles-%e5%92%8c-rolebindings" class="heading-mark"></a>默认的 <code>Roles</code> 和 <code>RoleBindings</code></h3><p><code>API</code> 服务会创建一组默认的 <code>ClusterRole</code> 与 <code>ClusterRoleBinding</code> 对象，它们都带有 <code>kubernetes.io/bootstrapping=rbac-defaults</code> 。其中有很多用 <code>system:</code> 作为前缀来标识对应资源是直接由集群控制面管理的。因此修改这些资源时要小心，可能导致集群无法正常运作。</p>
+<p>每次启动时 <code>API</code> 服务器都会为默认的 <code>ClusterRole</code> 添加缺少的权限，并为默认的 <code>ClusterRoleBindin</code> 添加缺少的主体。这种机制称为自动协商，它有助于保证角色和角色绑定在新的发行版本中有权限或主体变更时仍然保持最新。如果想禁用则把它们的注解 <code>rbac.authorization.kubernetes.io/autoupdate</code> 由 <code>true</code> 改为 <code>false</code>。注意，缺少默认权限和角色绑定主体可能会导致集群无法正常工作。如果启用了 <code>RBAC</code> 鉴权，则该机制是默认启用的</p>
+<p>无论是经过身份验证的还是未经过身份验证的用户， 默认的角色绑定都授权他们读取被认为是可安全地公开访问的 <code>API</code> (由名为 <code>system:discovery</code> 的<code>ClusterRole</code> 资源定义)</p>
+<p><code>RBAC</code> 会发现以下<code>ClusterRole</code>并通过自动协商机制修复</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">默认的 <code>ClusterRole</code></th>
+<th style="text-align:left">默认绑定的主体</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>system:basic-user</code></td>
+<td style="text-align:left"><code>system:authenticated</code> 组</td>
+<td style="text-align:left">允许用户以只读的方式去访问他们自己的基本信息。在 <code>k8s 1.14</code> 版本之前是 <code>system:unauthenticated</code> 组的一员</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:discovery</code></td>
+<td style="text-align:left"><code>system:authenticated</code> 组</td>
+<td style="text-align:left">允许以只读方式访问 <code>API</code> 发现端点，这些端点用来发现和协商 <code>API</code> 级别。在 <code>k8s 1.14</code> 版本之前是 <code>system:unauthenticated</code> 组的一员</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:public-info-viewer</code></td>
+<td style="text-align:left"><code>system:authenticated</code> 组 <br/> <code>system:unauthenticated</code> 组</td>
+<td style="text-align:left">允许对集群的非敏感信息进行只读访问，在 <code>k8s 1.14</code> 版本中引入</td>
+</tr>
+</tbody>
+</table>
+<p>以下 <code>ClusterRole</code> 是面向用户的，允许管理员使用 <code>ClusterRole</code> 聚合标签来添加用于定制资源的规则。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">默认的 <code>ClusterRole</code></th>
+<th style="text-align:left">默认关联的主体</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>cluster-admin</code></td>
+<td style="text-align:left"><code>system:masters</code> 组</td>
+<td style="text-align:left">允许超级用户在平台上的任何资源上执行所有操作。在 <code>RoleBinding</code> 资源中关联时，可以授权控制角色绑定所在名字空间中的所有资源，包括名字空间本身。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>admin</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">允许管理员访问权限，旨在使用 <code>RoleBinding</code> 在名字空间内执行授权。可授予对名字空间中的大多数资源的读/写权限， 包括创建角色和角色绑定的能力。 此角色不允许对资源配额或者名字空间本身进行写操作。不允许对 <code>k8s 1.22</code> 以上版本的 <code>Endpoints</code> 资源进行写操作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>edit</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">允许对名字空间的大多数对象进行读/写操作。此角色不允许查看或者修改角色或者角色绑定。 不过可以访问 <code>Secret</code>，以名字空间中任何 <code>ServiceAccount</code> 的身份运行 <code>Pod</code>， 所以可以用来了解名字空间内所有服务账户的 <code>API</code> 访问级别。 不允许对 <code>k8s 1.22</code> 以上版本的 <code>Endpoints</code> 资源进行写操作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>view</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">允许对名字空间的大多数对象有只读权限。 它不允许查看角色或角色绑定。此角色不允许查看 <code>Secrets</code>，因为读取 <code>Secret</code> 的内容意味着可以访问名字空间中 <code>ServiceAccount</code> 的凭据信息，进而允许利用名字空间中任何 <code>ServiceAccount</code> 的身份访问 <code>API</code>（这是一种特权提升）。</td>
+</tr>
+</tbody>
+</table>
+<p>面向用户的 <code>ClusterRole</code> 聚合标签：</p>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">rbac.authorization.k8s.io/aggregate-to-admin</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">rbac.authorization.k8s.io/aggregate-to-edit</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">rbac.authorization.k8s.io/aggregate-to-view</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>以下是核心组件的 <code>ClusterRole</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">默认的 <code>ClusterRole</code></th>
+<th style="text-align:left">默认关联的主体</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>system:kube-scheduler</code></td>
+<td style="text-align:left"><code>system:kube-scheduler</code> 用户</td>
+<td style="text-align:left">允许访问 <code>scheduler</code> 组件所需要的资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:volume-scheduler</code></td>
+<td style="text-align:left"><code>system:kube-scheduler</code> 用户</td>
+<td style="text-align:left">允许访问 <code>kube-scheduler</code> 组件所需要的资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:kube-controller-manager</code></td>
+<td style="text-align:left"><code>system:kube-controller-manager</code> 用户</td>
+<td style="text-align:left">允许访问控制器管理器组件所需要的资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:node</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">允许访问 <code>kubelet</code> 所需要的资源，包括对所有 <code>Secret</code> 的读操作和对所有 <code>Pod</code> 状态对象的写操作。官方建议是使用 <code>node</code> 鉴权来实现这些权限，之所以得到保留是为了与从 <code>v1.8</code> 之前版本升级而来的集群兼容。</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:node-proxier</code></td>
+<td style="text-align:left"><code>system:kube-proxy</code> 用户</td>
+<td style="text-align:left">允许访问 <code>kube-proxy</code> 组件所需要的资源。</td>
+</tr>
+</tbody>
+</table>
+<p>以下是其它组件的 <code>ClusterRole</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">默认的 <code>ClusterRole</code></th>
+<th style="text-align:left">默认关联的主体</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>system:auth-delegator</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">第三方的身份认证和鉴权检查操作权限</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:kube-aggregator</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">为 <code>kube-aggregator</code> 组件定义的权限</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:kube-dns</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left"><code>kube-system</code> 名称空间中的 <code>kube-dns</code> 服务账号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:kubelet-api-admin</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">允许 <code>kubelet API</code> 的完全访问的权限</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:node-bootstrapper</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">允许访问执行 <code>kubelet TLS</code> 启动引导所需要的权限</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:node-problem-detector</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">为 <code>node-problem-detector</code> 组件定义的权限</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:persistent-volume-provisioner</code></td>
+<td style="text-align:left">无</td>
+<td style="text-align:left">允许访问大部分动态卷驱动所需要的权限</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>system:monitoring</code></td>
+<td style="text-align:left"><code>system:monitoring</code> 组</td>
+<td style="text-align:left">允许对控制平面监控端点的读取访问权限</td>
+</tr>
+</tbody>
+</table>
+<p>控制器管理器（<code>kube-controller-manager</code>）的 <code>ClusterRole</code>。当使用 <code>kube-controller-manager --use-service-account-credentials</code> 启动时，使用单独的服务账户来启动每个控制器。 每个内置控制器都有相应的、前缀为 <code>system:controller:</code> 的角色。 否则它使用自己的身份凭据来运行所有的控制器，该身份必须被授予所有相关的角色</p>
+<h3 id="初始化与预防权限提升" class="heading-element">
+  <a href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e4%b8%8e%e9%a2%84%e9%98%b2%e6%9d%83%e9%99%90%e6%8f%90%e5%8d%87" class="heading-mark"></a>初始化与预防权限提升</h3><p><code>RBAC API</code> 会阻止用户通过编辑角色或者角色绑定来提升权限。 由于这一点是在 <code>API</code> 级别实现的，所以在 <code>RBAC</code> 鉴权组件未启用的状态下依然可以正常工作。</p>
+<p>只有在符合以下条件之一的情况才能创建/更新权限：</p>
+<ul>
+<li>已经拥有角色中包含的所有权限，且其作用域与正被修改的对象作用域相同。即明确授权允许修改或创建其它 <code>Role/ClusterRole</code> 的权限</li>
+<li>授权 <code>escalate</code> 权限</li>
+</ul>
+<p>只以在符合以下条件之一才能创建或修改关联主体：</p>
+<ul>
+<li>有权限创建或更新 <code>RoleBinding</code> 或 <code>ClusterRoleBinding</code> 对象</li>
+<li>有 <code>bind</code> 权限</li>
+</ul>
+<p>下面的 <code>ClusterRole</code> 和 <code>RoleBinding</code> 将允许用户 <code>user-1</code> 把名字空间 <code>user-1-namespace</code> 中的 <code>admin</code>、<code>edit</code> 和 <code>view</code> 角色赋予其他用户。</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apiVersion: rbac.authorization.k8s.io/v1
+</span></span><span class="line"><span class="cl">kind: ClusterRole
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: role-grantor
+</span></span><span class="line"><span class="cl">rules:
+</span></span><span class="line"><span class="cl">- apiGroups: <span class="o">[</span><span class="s2">&#34;rbac.authorization.k8s.io&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">  resources: <span class="o">[</span><span class="s2">&#34;rolebindings&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">  verbs: <span class="o">[</span><span class="s2">&#34;create&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">- apiGroups: <span class="o">[</span><span class="s2">&#34;rbac.authorization.k8s.io&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">  resources: <span class="o">[</span><span class="s2">&#34;clusterroles&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">  verbs: <span class="o">[</span><span class="s2">&#34;bind&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 忽略 resourceNames 意味着允许绑定任何 ClusterRole</span>
+</span></span><span class="line"><span class="cl">  resourceNames: <span class="o">[</span><span class="s2">&#34;admin&#34;</span>,<span class="s2">&#34;edit&#34;</span>,<span class="s2">&#34;view&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">apiVersion: rbac.authorization.k8s.io/v1
+</span></span><span class="line"><span class="cl">kind: RoleBinding
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: role-grantor-binding
+</span></span><span class="line"><span class="cl">  namespace: user-1-namespace
+</span></span><span class="line"><span class="cl">roleRef:
+</span></span><span class="line"><span class="cl">  apiGroup: rbac.authorization.k8s.io
+</span></span><span class="line"><span class="cl">  kind: ClusterRole
+</span></span><span class="line"><span class="cl">  name: role-grantor
+</span></span><span class="line"><span class="cl">subjects:
+</span></span><span class="line"><span class="cl">- apiGroup: rbac.authorization.k8s.io
+</span></span><span class="line"><span class="cl">  kind: User
+</span></span><span class="line"><span class="cl">  name: user-1</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="服务账户权限" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e8%b4%a6%e6%88%b7%e6%9d%83%e9%99%90" class="heading-mark"></a>服务账户权限</h3><p>默认的 <code>RBAC</code> 策略为控制面组件、节点和控制器授予权限。 但是不会对 <code>kube</code>-<code>system</code> 名字空间之外的服务账户授予权限。 （除了授予所有已认证用户的发现权限）。可以根据需要向特定 <code>ServiceAccount</code> 授予特定权限。以下是按从最安全到最不安全的授权顺序：</p>
+<ol>
+<li>为特定应用的服务账户授予权限（最佳实践）</li>
+<li>授予某名字空间中的 <code>default</code> 服务账户权限</li>
+<li>授予名字空间中所有服务账户权限</li>
+<li>在集群范围内为所有服务账户授予一个受限权限（不鼓励）</li>
+<li>授予超级用户访问权限给集群范围内的所有服务帐户（强烈不鼓励）</li>
+</ol>
+<h3 id="endpoints-写入权限" class="heading-element">
+  <a href="#endpoints-%e5%86%99%e5%85%a5%e6%9d%83%e9%99%90" class="heading-mark"></a><code>Endpoints</code> 写入权限</h3><p>在 <code>k8s 1.22</code> 之前的版本中，<code>edit</code> 与 <code>admin</code> 角色包含对 <code>Endpoints</code> 资源写入权限作为 [<code>CVE-2021-25740</code>][CVE-2021-25740] 安全问题的缓解措施。在 <code>k8s 1.22</code> 及其以后的版本中不包含该权限（升级到 <code>k8s 1.22</code> 及其以后版本保留了该权限）。如果希望在新集群的聚合角色里保留此访问权限，你可以创建下面 <code>ClusterRole</code>：</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">rbac.authorization.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">ClusterRole</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">kubernetes.io/description</span><span class="p">:</span><span class="w"> </span><span class="p">|-</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">      Add endpoints write permissions to the edit and admin roles. This was
+</span></span></span><span class="line"><span class="cl"><span class="sd">      removed by default in 1.22 because of CVE-2021-25740. See
+</span></span></span><span class="line"><span class="cl"><span class="sd">      https://issue.k8s.io/103675. This can allow writers to direct LoadBalancer
+</span></span></span><span class="line"><span class="cl"><span class="sd">      or Ingress implementations to expose backend IPs that would not otherwise
+</span></span></span><span class="line"><span class="cl"><span class="sd">      be accessible, and can circumvent network policies or security controls
+</span></span></span><span class="line"><span class="cl"><span class="sd">      intended to prevent/isolate access to those backends.      </span><span class="w">      
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">rbac.authorization.k8s.io/aggregate-to-edit</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">custom:aggregate-to-edit:endpoints</span><span class="w"> </span><span class="c"># 你可以随意愿更改这个 name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">rules</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> </span><span class="nt">`: apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;endpoints&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;create&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;delete&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;deletecollection&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;patch&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;update&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="node-鉴权" class="heading-element">
+  <a href="#node-%e9%89%b4%e6%9d%83" class="heading-mark"></a>Node 鉴权</h2><p>节点鉴权是一种特殊用途的鉴权模式，专门对 <code>kubelet</code> 发出的 <code>API</code> 请求进行授权。允许 <code>kubelet</code> 执行 <code>API</code> 操作。</p>
+<ul>
+<li>读取： <code>services</code>、<code>endpoints</code>、<code>nodes</code>、<code>pods</code> 以及绑定到 <code>kubelet</code> 节点的 <code>Pod</code> 相关资源（<code>Secret</code>、<code>ConfigMap</code>、<code>PersistentVolumeClaim</code> 和持久卷）</li>
+<li>写入：事件、<code>pod</code> 及其状态（启用 <code>NodeRestriction</code> 准入插件以限制 <code>kubelet</code> 只能修改绑定到自身的 <code>Pod</code>）、节点及其状态（启用 <code>NodeRestriction</code> 准入插件以限制 <code>kubelet</code> 只能修改自己的节点）</li>
+<li>对于基于 <code>TLS</code> 的启动引导过程时使用的 <code>certificationsigningrequests API</code> 的读/写权限</li>
+<li>为委派的身份验证/鉴权检查创建 <code>TokenReview</code> 和 <code>SubjectAccessReview</code> 的能力</li>
+</ul>
+<p>在以后的版本中节点鉴权器可能会添加或删除权限，以确保 <code>kubelet</code> 具有正确操作所需的最小权限集。为了获得节点鉴权器的授权，<code>kubelet</code> 必须使用一个凭证以表示它在 <code>system:nodes</code> 组中，用户名为 <code>system:node:&lt;nodeName&gt;</code>。上述的组名和用户名格式要与 <code>kubelet TLS</code> 启动引导 过程中为每个 <code>kubelet</code> 创建的标识相匹配。</p>
+<p>节点名称必须与 <code>kubelet</code> 注册时使用的节点名称一致。获取节点名称优先级从上往下：</p>
+<ul>
+<li>使用 <code>kubelet --cloud-provider</code> 选项时具体的主机名可能由云提供商确定</li>
+<li>使用 <code>kubelet --hostname-override</code> 选项指定的值</li>
+<li>使用 <code>hostname</code> 命令提供的值</li>
+</ul>
+<p>在 <code>kube-apiserver --authorization-mode</code> 选项包含 <code>Node</code> 参数时表示启用了 <code>Node</code> 鉴权。想限制 <code>kubelet</code> 可写入的 <code>API</code> 对象需要使用 <code>kube-apiserver --enable-admission-plugins</code> 选项启用 <code>NodeRestriction</code> 准入管制器插件</p>
+<p><code>Node</code> 鉴权只授权于 <code>system:nodes</code> 组的主体，如果 <code>kubelet</code> 具有 <code>system:nodes</code> 组的凭证，但无法给出关联的节点标识（<code>system:node:...</code> 格式的用户名），也不会被 <code>Node</code> 鉴权模式授权。</p>
+<h3 id="版本变动" class="heading-element">
+  <a href="#%e7%89%88%e6%9c%ac%e5%8f%98%e5%8a%a8" class="heading-mark"></a>版本变动</h3><p>使用 <code>RBAC</code> 时，将继续创建 <code>system:node</code> 集群角色，以便与将其他用户或组绑定到该角色的部署方法兼容。</p>
+<ul>
+<li>在 <code>k8s 1.6</code> 版本中，使用 <code>RBAC</code> 鉴权时，名为 <code>system:nodes</code> 的 <code>ClusterRole</code> 资源会自动关联到 <code>system:node</code> 组</li>
+<li>在 <code>k8s 1.7</code> 版本中，不再推荐将 <code>system:nodes</code> 组自动绑定到 <code>system:node</code> 角色，因为节点鉴权器通过对 <code>Secret</code> 和 <code>ConfigMap</code> 访问的额外限制完成了相同的任务。 如果同时启用了 <code>Node</code> 和 <code>RBAC</code> 鉴权模。如果同时启用了 <code>RBAC</code> 与 <code>Node</code> 鉴权，则不会自动绑定</li>
+<li>在 <code>k8s 1.8</code> 版本中，绑定将根本不会被创建</li>
+</ul>
+<p>从 <code>k8s 1.7</code> 版本之前升级的使用 <code>RBAC</code> 群将继续按原样运行，因为 <code>system:nodes</code> 组绑定已经存在。如果集群管理员希望开始使用 <code>Node</code> 鉴权器和 <code>NodeRestriction</code> 准入插件来限制节点对 <code>API</code> 的访问。可以通过以下操作完成：</p>
+<ol>
+<li>启用 <code>Node</code> 鉴权与 <code>NodeRestriction</code> 准入控制器插件</li>
+<li>确保所有 <code>kubelet</code> 的凭据符合组/用户名要求</li>
+<li>审核 <code>API</code> 服务器日志以确保 <code>Node</code> 鉴权器不会拒绝来自 <code>kubelet</code> 的请求（日志中没有持续的 <code>NODE DENY</code> 消息）</li>
+<li>删除 <code>system:node</code> 集群角色绑定</li>
+</ol>
+<h2 id="从-abac-鉴权转换到-rbac-鉴权" class="heading-element">
+  <a href="#%e4%bb%8e-abac-%e9%89%b4%e6%9d%83%e8%bd%ac%e6%8d%a2%e5%88%b0-rbac-%e9%89%b4%e6%9d%83" class="heading-mark"></a>从 <code>ABAC</code> 鉴权转换到 <code>RBAC</code> 鉴权</h2><p>原来运行较老版本 <code>k8s</code> 的集群通常会使用限制宽松的 <code>ABAC</code> 策略， 包括授予所有服务帐户全权访问 <code>API</code> 的能力。默认的 <code>RBAC</code> 策略为控制面组件、节点和控制器等授予有限的权限，但不会为 <code>kube-system</code> 名称空间外的服务账户授权（除了授予所有认证用户的发现权限之外），这样做虽然安全得多，但可能会干扰期望自动获得 <code>API</code> 权限的现有工作负载。 这里有两种方法来完成这种转换:</p>
+<p>方法 1：同时运行 <code>RBAC</code> 和 <code>ABAC</code> 鉴权模式， 并指定包含现有的 <code>ABAC</code> 策略的策略文件：</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># --vmodule=rbac RBAC 日志记录级别</span>
+</span></span><span class="line"><span class="cl">--vmodule<span class="o">=</span>rbac*<span class="o">=</span><span class="m">5</span> --authorization-mode<span class="o">=</span>...,RBAC,ABAC --authorization-policy-file<span class="o">=</span>mypolicy.json</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>api</code> 服务启动后用服务账户去做 <code>ABAC</code> 鉴权授予的权限，根据日志 <code>ABAC</code> 中的拒绝提示（以 <code>RBAC</code> 为前缀）创建或修改 <code>RBAC</code> 直到没有拒绝日志后从 <code>--authorization-mode=</code> 选项中移除 <code>ABAC</code> 参数与删除 <code>--authorization-policy-file</code> 选项</p>
+<p>方法2：使用 <code>RBAC</code> 角色绑定复制宽松的 <code>ABAC</code> 策略：</p>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 允许 所有 服务帐户充当集群管理员。 容器中运行的所有应用程序都会自动收到服务帐户的凭据，可以对 API 执行任何操作， 包括查看 Secret 和修改权限。</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 不推荐使用该方式</span>
+</span></span><span class="line"><span class="cl">kubectl create clusterrolebinding permissive-binding <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --clusterrole<span class="o">=</span>cluster-admin <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --user<span class="o">=</span>admin <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --user<span class="o">=</span>kubelet <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --group<span class="o">=</span>system:serviceaccounts</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="检查-api-访问权限" class="heading-element">
+  <a href="#%e6%a3%80%e6%9f%a5-api-%e8%ae%bf%e9%97%ae%e6%9d%83%e9%99%90" class="heading-mark"></a>检查 API 访问权限</h2><p><code>authorization.k8s.io</code> <code>API</code> 组可以把<code>apiserver</code>鉴权公开给外部服务。该<code>api</code>组有以下资源</p>
+<ul>
+<li><code>SubjectAccessReview</code>: 对任意用户的访问进行评估（整个集群）</li>
+<li><code>LocalSubjectAccessReview</code>: 对任意用户的访问进行评估（指定名称空间内）</li>
+<li><code>SelfSubjectRulesReview</code>: 返回用户在指定名称空间内的操作权限集合</li>
+</ul>
+<p><code>kubectl auth can-i</code> 命令使用 <code>SelfSubjectAccessReview</code> 资源类型快速确定用户是否可以执行给定操作</p>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 检查名字空间 dev 里的 dev-sa 服务账户是否可以列举名字空间 target 里的 Pod</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl auth can-i list pods --namespace target --as system:serviceaccount:dev:dev-sa</span>
+</span></span><span class="line"><span class="cl">no
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查当前用户可以在 dev 名称空间是否允许创建 deployments</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl auth can-i create deployments --namespace dev</span>
+</span></span><span class="line"><span class="cl">yes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># --as 指定用户</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查 dave 用户在 dev 名称空间中是否可能查看 secrets 类资源</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl auth can-i list secrets --namespace dev --as dave</span>
+</span></span><span class="line"><span class="cl">no</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>SelfSubjectAccessReview</code> 示例</p>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl create -f`: -o yaml &lt;&lt; EOF</span>
+</span></span><span class="line"><span class="cl">apiVersion: authorization.k8s.io/v1
+</span></span><span class="line"><span class="cl">kind: SelfSubjectAccessReview
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  resourceAttributes:
+</span></span><span class="line"><span class="cl">    group: apps
+</span></span><span class="line"><span class="cl">    name: deployments
+</span></span><span class="line"><span class="cl">    verb: create
+</span></span><span class="line"><span class="cl">    namespace: dev
+</span></span><span class="line"><span class="cl">EOF
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">apiVersion: authorization.k8s.io/v1
+</span></span><span class="line"><span class="cl">kind: SelfSubjectAccessReview
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  creationTimestamp: null
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  resourceAttributes:
+</span></span><span class="line"><span class="cl">    group: apps
+</span></span><span class="line"><span class="cl">    name: deployments
+</span></span><span class="line"><span class="cl">    namespace: dev
+</span></span><span class="line"><span class="cl">    verb: create
+</span></span><span class="line"><span class="cl">status:
+</span></span><span class="line"><span class="cl">  allowed: true</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="准入控制器" class="heading-element">
+  <a href="#%e5%87%86%e5%85%a5%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark"></a>准入控制器</h1><p>准入控制器是一段代码，它会在请求通过认证和授权之后、对象被持久化之前拦截到达 <code>API</code> 服务器的请求。可以执行验证和变更操作。它只限制创建、删除、修改对象或连接到代理的请求，不限制读取对象之类的请求。</p>
+<p>准入控制过程分为以下两个阶段，某些控制器既是变更准入控制器又是验证准入控制器。如果两个阶段之一的任何一个控制器拒绝了某请求，则整个请求将立即被拒绝，并向最终用户返回错误。</p>
+<ol>
+<li>运行变更准入控制器</li>
+<li>运行验证准入控制器</li>
+</ol>
+<p>准入控制器有很多，它们都编译进 <code>kube-apiserver</code> 可执行文件，并且只能由集群管理员配置。</p>
+<ul>
+<li>启用准入控制器：<code>kube-apiserver --enable-admission-plugins=NamespaceLifecycle,LimitRanger ...</code></li>
+<li>关闭准入控制器：<code>kube-apiserver --disable-admission-plugins=PodNodeSelector,AlwaysDeny ...</code></li>
+<li>查看已启用的准入控制器：<code>kube-apiserver -h | grep enable-admission-plugins</code></li>
+</ul>
+<h2 id="certificateapproval" class="heading-element">
+  <a href="#certificateapproval" class="heading-mark"></a>CertificateApproval</h2><p>此准入控制器获取审批 <code>CertificateSigningRequest</code> 资源的请求并执行额外的鉴权检查， 以确保针对设置了 <code>spec.signerName</code> 的 <code>CertificateSigningRequest</code> 资源而言， 审批请求的用户有权限对证书请求执行审批操作。</p>
+<h2 id="certificatesigning" class="heading-element">
+  <a href="#certificatesigning" class="heading-mark"></a>CertificateSigning</h2><p>此准入控制器监视对 <code>CertificateSigningRequest</code> 资源的 <code>status.certificate</code> 字段的更新请求， 并执行额外的鉴权检查，以确保针对设置了 <code>spec.signerName</code> 的 <code>CertificateSigningRequest</code> 资源而言， 签发证书的用户有权限对证书请求执行签发操作</p>
+<h2 id="certificatesubjectrestriction" class="heading-element">
+  <a href="#certificatesubjectrestriction" class="heading-mark"></a>CertificateSubjectRestriction</h2><p>此准入控制器监视 <code>spec.signerName</code> 被设置为 <code>kubernetes.io</code>/<code>kube</code>-<code>apiserver</code>-<code>client</code> 的 <code>CertificateSigningRequest</code> 资源创建请求，并拒绝所有将 <code>group</code>（或 <code>organization</code> <code>attribute</code>） 设置为 <code>system:masters</code> 的请求</p>
+<h2 id="defaultingressclass" class="heading-element">
+  <a href="#defaultingressclass" class="heading-mark"></a>DefaultIngressClass</h2><p>该准入控制器监测没有请求任何特定 <code>Ingress</code> 类的 <code>Ingress</code> 对象创建请求，并自动向其添加默认 <code>Ingress</code> 类。当未配置默认 <code>Ingress</code> 类时，此准入控制器不执行任何操作。如果有多个 <code>Ingress</code> 类被标记为默认 <code>Ingress</code> 类， 此控制器将拒绝所有创建 <code>Ingress</code> 的操作，并返回错误信息。 要修复此错误，管理员必须重新检查其 <code>IngressClass</code> 对象，并仅将其中一个标记为默认 （通过注解 <code>ingressclass.kubernetes.io/is-default-class</code>）。 此准入控制器会忽略所有 <code>Ingress</code> 更新操作，仅处理创建操作。</p>
+<h2 id="defaultstorageclass" class="heading-element">
+  <a href="#defaultstorageclass" class="heading-mark"></a>DefaultStorageClass</h2><p>此准入控制器监测没有请求任何特定存储类的 <code>PersistentVolumeClaim</code> 对象的创建请求， 并自动向其添加默认存储类。 当未配置默认存储类时，此准入控制器不执行任何操作。如果将多个存储类标记为默认存储类， 此控制器将拒绝所有创建 <code>PersistentVolumeClaim</code> 的请求，并返回错误信息。 要修复此错误，管理员必须重新检查其 <code>StorageClass</code> 对象，并仅将其中一个标记为默认。 此准入控制器会忽略所有 <code>PersistentVolumeClaim</code> 更新操作，仅处理创建操作。</p>
+<h2 id="defaulttolerationseconds" class="heading-element">
+  <a href="#defaulttolerationseconds" class="heading-mark"></a>DefaultTolerationSeconds</h2><p>此准入控制器基于 <code>k8s-apiserver</code> 的输入参数 <code>default-not-ready-toleration-seconds</code> 和 <code>default-unreachable-toleration-seconds</code> 为 <code>Pod</code> 设置默认的容忍度，以容忍 <code>notready:NoExecute</code> 和 <code>unreachable:NoExecute</code> 污点 （如果 <code>Pod</code> 尚未容忍 <code>node.kubernetes.io/not-ready:NoExecute</code> 和 <code>node.kubernetes.io/unreachable:NoExecute</code> 污点的话）。 <code>default-not-ready-toleration-seconds</code> 和 <code>default-unreachable-toleration-seconds</code> 的默认值是 <code>5</code> 分钟</p>
+<h2 id="limitranger" class="heading-element">
+  <a href="#limitranger" class="heading-mark"></a>LimitRanger</h2><p>此准入控制器会监测传入的请求，并确保请求不会违反 <code>Namespace</code> 中 <code>LimitRange</code> 对象所设置的任何约束。 如果你在 <code>Kubernetes</code> 部署中使用了 <code>LimitRange</code> 对象，则必须使用此准入控制器来执行这些约束。 <code>LimitRanger</code> 还可以用于将默认资源请求应用到没有设定资源约束的 <code>Pod</code>； 当前，默认的 <code>LimitRanger</code> 对 <code>default</code> 名字空间中的所有 <code>Pod</code> 都设置 0<code>.1</code> <code>CPU</code> 的需求</p>
+<h2 id="mutatingadmissionwebhook" class="heading-element">
+  <a href="#mutatingadmissionwebhook" class="heading-mark"></a>MutatingAdmissionWebhook</h2><p>此准入控制器调用任何与请求匹配的变更（<code>Mutating</code>） <code>Webhook</code>。匹配的 <code>Webhook</code> 将被顺序调用。 每一个 <code>Webhook</code> 都可以自由修改对象。如果由此准入控制器调用的 <code>Webhook</code> 有副作用（如：减少配额）， 则它 必须 具有协调系统，因为不能保证后续的 <code>Webhook</code> 和验证准入控制器都会允许完成请求。如果你禁用了 <code>MutatingAdmissionWebhook</code>，那么还必须使用 <code>--runtime-config</code> 标志禁止 <code>admissionregistration.k8s.io/v1</code> 组<code>/</code>版本中的 <code>MutatingWebhookConfiguration</code>， 二者都是默认启用的</p>
+<p>谨慎编写和安装变更 <code>webhook</code></p>
+<ul>
+<li>当用户尝试创建的对象与返回的对象不同时，用户可能会感到困惑。</li>
+<li>当他们读回的对象与尝试创建的对象不同，内建的控制回路可能会出问题</li>
+<li>与覆盖原始请求中设置的字段相比，使用原始请求未设置的字段会引起问题的可能性较小。 应尽量避免覆盖原始请求中的字段设置。</li>
+<li>内建资源和第三方资源的控制回路未来可能会出现破坏性的变更，使现在运行良好的 <code>Webhook</code> 无法再正常运行。即使完成了 <code>Webhook</code> <code>API</code> 安装，也不代表该 <code>Webhook</code> 会被提供无限期的支持。</li>
+</ul>
+<h2 id="namespacelifecycle" class="heading-element">
+  <a href="#namespacelifecycle" class="heading-mark"></a>NamespaceLifecycle</h2><p>该准入控制器禁止在一个正在被终止的 <code>Namespace</code> 中创建新对象，并确保针对不存在的 <code>Namespace</code> 的请求被拒绝。 该准入控制器还会禁止删除三个系统保留的名字空间，即 <code>default</code>、 <code>kube-system</code> 和 <code>kube-public</code></p>
+<h2 id="persistentvolumeclaimresize" class="heading-element">
+  <a href="#persistentvolumeclaimresize" class="heading-mark"></a>PersistentVolumeClaimResize</h2><blockquote>
+<p>特性状态： Kubernetes v1.24 [stable]</p>
+</blockquote>
+<p>此准入控制器检查传入的 <code>PersistentVolumeClaim</code> 调整大小请求，对其执行额外的验证检查操作。除非 <code>PVC</code> 的 <code>StorageClass</code> 明确地将 <code>allowVolumeExpansion</code> 设置为 <code>true</code> 来显式启用调整大小。 否则，默认情况下该准入控制器会阻止所有对 <code>PVC</code> 大小的调整。</p>
+<h2 id="podsecurity" class="heading-element">
+  <a href="#podsecurity" class="heading-mark"></a>PodSecurity</h2><blockquote>
+<p>特性状态： Kubernetes v1.25 [stable]</p>
+</blockquote>
+<p><code>PodSecurity</code> 取代了一个名为 <code>PodSecurityPolicy</code> 的旧准入控制器。在新 <code>Pod</code> 被准入之前对其进行检查， 根据请求的安全上下文和 <code>Pod</code> 所在命名空间允许的 <code>Pod</code> 安全性标准的限制来确定新 <code>Pod</code> 是否应该被准入。</p>
+<h2 id="priority" class="heading-element">
+  <a href="#priority" class="heading-mark"></a>Priority</h2><p>优先级准入控制器使用 <code>priorityClassName</code> 字段并用整型值填充优先级。 如果找不到优先级，则拒绝 <code>Pod</code></p>
+<h2 id="resourcequota" class="heading-element">
+  <a href="#resourcequota" class="heading-mark"></a>ResourceQuota</h2><p>此准入控制器会监测传入的请求，并确保它不违反任何一个 <code>Namespace</code> 中的 <code>ResourceQuota</code> 对象中列举的约束。如果你在 <code>Kubernetes</code> 部署中使用了 <code>ResourceQuota</code>， 则必须使用这个准入控制器来强制执行配额限制。</p>
+<h2 id="runtimeclass" class="heading-element">
+  <a href="#runtimeclass" class="heading-mark"></a>RuntimeClass</h2><p>如果你所定义的 <code>RuntimeClass</code> 包含 <code>Pod</code> 开销， 这个准入控制器会检查新的 <code>Pod</code>。 被启用后，此准入控制器会拒绝所有已经设置了 <code>overhead</code> 字段的 <code>Pod</code> 创建请求。 对于配置了 <code>RuntimeClass</code> 并在其 <code>.spec</code> 中选定 <code>RuntimeClass</code> 的 <code>Pod</code>， 此准入控制器会根据相应 <code>RuntimeClass</code> 中定义的值为 <code>Pod</code> 设置 <code>.spec.overhead</code></p>
+<h2 id="serviceaccount" class="heading-element">
+  <a href="#serviceaccount" class="heading-mark"></a>ServiceAccount</h2><p>此准入控制器实现了 <code>ServiceAccount</code> 的自动化</p>
+<h2 id="storageobjectinuseprotection" class="heading-element">
+  <a href="#storageobjectinuseprotection" class="heading-mark"></a>StorageObjectInUseProtection</h2><p><code>StorageObjectInUseProtection</code> 插件将 <code>kubernetes.io/pvc-protection</code> 或 <code>kubernetes.io/pv-protection</code> <code>finalizers</code> 添加到新创建的持久卷申领（<code>PVC</code>） 或持久卷（<code>PV</code>）中。如果用户尝试删除 <code>PVC/PV</code>，除非 <code>PVC/PV</code> 的保护控制器移除终结器（<code>finalizers</code>）， 否则 <code>PVC/PV</code> 不会被删除。</p>
+<h2 id="taintnodesbycondition" class="heading-element">
+  <a href="#taintnodesbycondition" class="heading-mark"></a>TaintNodesByCondition</h2><p>该准入控制器为新创建的节点添加 <code>NotReady</code> 和 <code>NoSchedule</code> 污点。 这些污点能够避免一些竞态条件的发生，而这类竞态条件可能导致 <code>Pod</code> 在更新节点污点以准确反映其所报告状况之前，就被调度到新节点上。</p>
+<h2 id="validatingadmissionpolicy" class="heading-element">
+  <a href="#validatingadmissionpolicy" class="heading-mark"></a>ValidatingAdmissionPolicy</h2><p>此准入控制器针对传入的匹配请求实现 <code>CEL</code> 校验。当 <code>validatingadmissionpolicy</code> 和 <code>admissionregistration.k8s.io/v1alpha1</code> 特性门控组<code>/</code>版本被启用时， 此特性被启用。如果任意 <code>ValidatingAdmissionPolicy</code> 失败，则请求失败</p>
+<h2 id="validatingadmissionwebhook" class="heading-element">
+  <a href="#validatingadmissionwebhook" class="heading-mark"></a>ValidatingAdmissionWebhook</h2><p>此准入控制器调用与请求匹配的所有验证性 <code>Webhook</code>。 匹配的 <code>Webhook</code> 将被并行调用。如果其中任何一个拒绝请求，则整个请求将失败。 该准入控制器仅在验证（<code>Validating</code>）阶段运行；与 <code>MutatingAdmissionWebhook</code> 准入控制器所调用的 <code>Webhook</code> 相反，它调用的 <code>Webhook</code> 不可以变更对象。</p>
+<p>如果以此方式调用的 <code>Webhook</code> 有其它副作用（如：减少配额），则它 必须 具有协调机制。 这是因为无法保证后续的 <code>Webhook</code> 或其他验证性准入控制器都允许请求完成。</p>
+<p>如果你禁用了 <code>ValidatingAdmissionWebhook</code>，还必须通过 <code>--runtime-config</code> 标志来禁用 <code>admissionregistration.k8s.io/v1</code> 组<code>/</code>版本中的 <code>ValidatingWebhookConfiguration</code> 对象</p>
+<h2 id="noderestriction" class="heading-element">
+  <a href="#noderestriction" class="heading-mark"></a>NodeRestriction</h2><p>该准入控制器限制某个 <code>kubelet</code> 可以修改的 <code>Node</code> 与 <code>Pod</code> 资源对象，它通过限制 <code>system:nodes</code> 组（成员名格式为 <code>system:node:&lt;nodeName&gt;</code> ）的权限实现的。但无法更新或删除 <code>Node</code> 对象的污点。</p>
+<p>该插件对 <code>kubelet</code> 做了以下限制：</p>
+<ul>
+<li>允许 <code>kubelet</code> 添加、修改、删除以下标签
+<code>: </code>kubernetes.io/hostname<code> </code>: <code>kubernetes.io/arch</code>
+<code>: </code>kubernetes.io/os<code> </code>: <code>beta.kubernetes.io/instance-type</code>
+<code>: </code>node.kubernetes.io/instance-type<code> </code>: <code>failure-domain.beta.kubernetes.io/region</code> （已弃用）
+<code>: </code>failure-domain.beta.kubernetes.io/zone<code>（已弃用）</code>: <code>topology.kubernetes.io/region</code>
+<code>: </code>topology.kubernetes.io/zone<code> </code>: <code>kubelet.kubernetes.io/</code> 为前缀的标签
+<code>: </code>node.kubernetes.io/` 为前缀的标签</li>
+<li>禁止 <code>kubelet</code> 添加、修改、删除以下标签
+<code>: </code>node-restriction.kubernetes.io/<code>为前缀的标签（这类前缀的标签时保留给管理员的，用以为</code>Node<code>对象设置标签以隔离工作负载）</code>: <code>kubernetes.io</code> 为前缀的标签（除非明确允许）
+<code>: </code>k8s.io` 为前缀的标签（除非明确允许）</li>
+</ul>
+<h1 id="审计" class="heading-element">
+  <a href="#%e5%ae%a1%e8%ae%a1" class="heading-mark"></a>审计</h1><p><code>k8s</code>审计（<code>Auditing</code>）功能提供了与安全相关的、按时间顺序排列的记录集， 记录每个用户、使用 <code>apiserver</code> 的应用以及控制面自身引发的活动。它从以下维度记录日志：</p>
+<ul>
+<li>发生了什么？</li>
+<li>什么时候发生的？</li>
+<li>谁触发的？</li>
+<li>活动发生在哪个（些）对象上？</li>
+<li>在哪观察到的？</li>
+<li>它从哪触发的？</li>
+<li>活动的后续处理行为是什么？</li>
+</ul>
+<p>审计日志记录功能会增加 <code>apiserver</code> 的内存消耗，因为需要为每个请求存储审计所需的某些上下文。 内存消耗取决于审计日志记录的配置。每个请求都可被记录其相关阶段：</p>
+<ul>
+<li><code>RequestReceived</code>: 此阶段对应审计处理器接收到请求后，并且在委托给 其余处理器之前生成的事件。</li>
+<li><code>ResponseStarted</code>: 在响应消息的头部发送后，响应消息体发送前生成的事件。 只有长时间运行的请求（例如 <code>watch</code>）才会生成这个阶段。</li>
+<li><code>ResponseComplete</code>: 当响应消息体完成并且没有更多数据需要传输的时候。</li>
+<li><code>Panic</code>: 当 <code>panic</code> 发生时生成</li>
+</ul>
+<h2 id="审计策略" class="heading-element">
+  <a href="#%e5%ae%a1%e8%ae%a1%e7%ad%96%e7%95%a5" class="heading-mark"></a>审计策略</h2><p>审计策略对象结构定义在 <a href="https://kubernetes.io/zh-cn/docs/reference/config-api/apiserver-audit.v1/#audit-k8s-io-v1-Policy"target="_blank" rel="external nofollow noopener noreferrer">audit.k8s.io API</a> 组 。处理事件时，将按顺序与规则列表进行比较。第一个匹配规则设置事件的审计级别（Audit Level）。已定义的审计级别有：</p>
+<ul>
+<li><code>None</code>: 符合这条规则的日志将不会记录。</li>
+<li><code>Metadata</code>: 记录请求的元数据（请求的用户、时间戳、资源、动词等等）， 但是不记录请求或者响应的消息体。</li>
+<li><code>Request</code>: 记录事件的元数据和请求的消息体，但是不记录响应的消息体。 这不适用于非资源类型的请求。</li>
+<li><code>RequestResponse</code>: 记录事件的元数据，请求和响应的消息体。这不适用于非资源类型的请求</li>
+</ul>
+<br>
+`kube-apiserver --audit-policy-file` 指定审计策略文件，如果没有启动时没有指定。则不记录事件。下面是官方的一个示例文件
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">audit.k8s.io/v1</span><span class="w"> </span><span class="c"># 这是必填项。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Policy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># 不要在 RequestReceived 阶段为任何请求生成审计事件。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">omitStages</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="s2">&#34;RequestReceived&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">rules</span><span class="p">:</span><span class="w">  </span><span class="c"># 必须有该字段</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 在日志中用 RequestResponse 级别记录 Pod 变化。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">RequestResponse</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 资源 &#34;pods&#34; 不匹配对任何 Pod 子资源的请求，</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># 这与 RBAC 策略一致。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 在日志中按 Metadata 级别记录 &#34;pods/log&#34;、&#34;pods/status&#34; 请求</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Metadata</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;pods/log&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;pods/status&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 不要在日志中记录对名为 &#34;controller-leader&#34; 的 configmap 的请求。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resourceNames</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;controller-leader&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 不要在日志中记录由 &#34;system:kube-proxy&#34; 发出的对端点或服务的监测请求。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">users</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;system:kube-proxy&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;watch&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API 组</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;endpoints&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;services&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 不要在日志中记录对某些非资源 URL 路径的已认证请求。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">userGroups</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;system:authenticated&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">nonResourceURLs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;/api*&#34;</span><span class="w"> </span><span class="c"># 通配符匹配。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;/version&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 在日志中记录 kube-system 中 configmap 变更的请求消息体。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Request</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API 组</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 这个规则仅适用于 &#34;kube-system&#34; 名字空间中的资源。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 空字符串 &#34;&#34; 可用于选择非名字空间作用域的资源。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">namespaces</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;kube-system&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 在日志中用 Metadata 级别记录所有其他名字空间中的 configmap 和 secret 变更。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Metadata</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API 组</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;secrets&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;configmaps&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 在日志中以 Request 级别记录所有其他 core 和 extensions 组中的资源操作。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Request</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># core API 组</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;extensions&#34;</span><span class="w"> </span><span class="c"># 不应包括在内的组版本。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 一个抓取所有的规则，将在日志中以 Metadata 级别记录所有其他请求。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l">Metadata</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 符合此规则的 watch 等长时间运行的请求将不会</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># 在 RequestReceived 阶段生成审计事件。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">omitStages</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="s2">&#34;RequestReceived&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="日志存放位置" class="heading-element">
+  <a href="#%e6%97%a5%e5%bf%97%e5%ad%98%e6%94%be%e4%bd%8d%e7%bd%ae" class="heading-mark"></a>日志存放位置</h2><p><code>kube-apiserver</code> 默认提供以下存储位置</p>
+<ul>
+<li>写入文件系统
+<ul>
+<li><code>--audit-log-path</code> 选项指定日志文件路径，缺省时不写入日志文件（默认值）</li>
+<li><code>--audit-log-maxage</code> 选项指定日志文件保留天数</li>
+<li><code>--audit-log-maxbackup</code> 选项指定日志文件最大数量</li>
+<li><code>--audit-log-maxsize</code> 选项指定日志文件切割时的大小(<code>MB</code>)</li>
+</ul>
+</li>
+<li>发送到外部 <code>HTTP API</code></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-06-18 23:36:49">更新于 2023-06-18&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/API-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" class="post-tag" title="标签 - API 访问控制">API 访问控制</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/neovimShortcutKey/" class="post-nav-item" rel="prev" title="neovim 快捷键"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>neovim 快捷键</a>
+      <a href="/awsCloudFormation/" class="post-nav-item" rel="next" title="使用 AWS CloudFormation 部署 AWS 资源">使用 AWS CloudFormation 部署 AWS 资源<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

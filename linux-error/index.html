@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>linux 使用过程中遇到的错误 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="网卡激活失败No suitable device found for this connection Failed to start LSB: Bring up/down networking. 详情 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 [root@master ~]# systemctl status network ● network.service - LSB: Bring up/down networking Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled) Active: failed (Result: exit-code) since Thu 2020-03-19 10:17:37 CST; 5min ago Docs: man:systemd-sysv-generator(8)" /><meta name="keywords" content='linux, error' /><meta itemprop="name" content="linux 使用过程中遇到的错误">
+<meta itemprop="description" content="网卡激活失败No suitable device found for this connection Failed to start LSB: Bring up/down networking. 详情 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 [root@master ~]# systemctl status network ● network.service - LSB: Bring up/down networking Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled) Active: failed (Result: exit-code) since Thu 2020-03-19 10:17:37 CST; 5min ago Docs: man:systemd-sysv-generator(8)"><meta itemprop="datePublished" content="2022-12-11T13:45:11+08:00" />
+<meta itemprop="dateModified" content="2022-12-11T13:50:27+08:00" />
+<meta itemprop="wordCount" content="760">
+<meta itemprop="keywords" content="linux,error," /><meta property="og:title" content="linux 使用过程中遇到的错误" />
+<meta property="og:description" content="网卡激活失败No suitable device found for this connection Failed to start LSB: Bring up/down networking. 详情 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 [root@master ~]# systemctl status network ● network.service - LSB: Bring up/down networking Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled) Active: failed (Result: exit-code) since Thu 2020-03-19 10:17:37 CST; 5min ago Docs: man:systemd-sysv-generator(8)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linux-error/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-11T13:45:11+08:00" />
+<meta property="article:modified_time" content="2022-12-11T13:50:27+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="linux 使用过程中遇到的错误"/>
+<meta name="twitter:description" content="网卡激活失败No suitable device found for this connection Failed to start LSB: Bring up/down networking. 详情 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 [root@master ~]# systemctl status network ● network.service - LSB: Bring up/down networking Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled) Active: failed (Result: exit-code) since Thu 2020-03-19 10:17:37 CST; 5min ago Docs: man:systemd-sysv-generator(8)"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linux-error/" /><link rel="prev" href="/perf/" /><link rel="next" href="/mtr/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "linux 使用过程中遇到的错误",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linux-error\/"
+    },"genre": "posts","keywords": "linux, error","wordcount":  760 ,
+    "url": "\/linux-error\/","datePublished": "2022-12-11T13:45:11+08:00","dateModified": "2022-12-11T13:50:27+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>linux 使用过程中遇到的错误</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-12-11 13:45:11"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-11">2022-12-11</time></span>&nbsp;<span title="更新于 2022-12-11 13:50:27"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-11">2022-12-11</time></span>&nbsp;<span title="760 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#网卡激活失败">网卡激活失败</a>
+      <ul>
+        <li><a href="#解决方法">解决方法</a></li>
+        <li><a href="#原因">原因</a></li>
+      </ul>
+    </li>
+    <li><a href="#codeexited-status203exec">code=exited, status=203/EXEC</a></li>
+    <li><a href="#error-while-loading-shared-libraries-libcso6-cannot-open-shared-object-file-no-such-file-or-directory">error while loading shared libraries: libc.so.6: cannot open shared object file: No such file or directory</a></li>
+    <li><a href="#lib64libstdcso6-no-version-information-available">/lib64/libstdc++.so.6: no version information available</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-11，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="网卡激活失败" class="heading-element">
+  <a href="#%e7%bd%91%e5%8d%a1%e6%bf%80%e6%b4%bb%e5%a4%b1%e8%b4%a5" class="heading-mark"></a>网卡激活失败</h1><p>No suitable device found for this connection <br/>
+Failed to start LSB: Bring up/down networking.</p>
+<ul>
+<li>详情</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>root@master ~<span class="o">]</span><span class="c1"># systemctl status network</span>
+</span></span><span class="line"><span class="cl">● network.service - LSB: Bring up/down networking
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/etc/rc.d/init.d/network<span class="p">;</span> bad<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: failed <span class="o">(</span>Result: exit-code<span class="o">)</span> since Thu 2020-03-19 10:17:37 CST<span class="p">;</span> 5min ago
+</span></span><span class="line"><span class="cl">     Docs: man:systemd-sysv-generator<span class="o">(</span>8<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Process: <span class="m">870</span> <span class="nv">ExecStart</span><span class="o">=</span>/etc/rc.d/init.d/network start <span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>1/FAILURE<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> 10:17:37 master.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: Starting LSB: Bring up/down networking...
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> 10:17:37 master.xiaosi.com network<span class="o">[</span>870<span class="o">]</span>: Bringing up loopback interface:  <span class="o">[</span>  OK  <span class="o">]</span>
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> 10:17:37 master.xiaosi.com network<span class="o">[</span>870<span class="o">]</span>: Bringing up interface ens33:  Error: Connection activation failed: No suitable device found <span class="k">for</span> this connection <span class="o">(</span>device lo not available because device is strictly unmanaged<span class="o">)</span>.
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> 10:17:37 master.xiaosi.com network<span class="o">[</span>870<span class="o">]</span>: <span class="o">[</span>FAILED<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> 10:17:37 master.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: network.service: control process exited, <span class="nv">code</span><span class="o">=</span>exited <span class="nv">status</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> 10:17:37 master.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: Failed to start LSB: Bring up/down networking.
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> 10:17:37 master.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: Unit network.service entered failed state.
+</span></span><span class="line"><span class="cl">Mar <span class="m">19</span> 10:17:37 master.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: network.service failed.</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="解决方法" class="heading-element">
+  <a href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95" class="heading-mark"></a>解决方法</h2><p>重启 NetworkManager 服务之后再修改该服务</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>root@master ~<span class="o">]</span><span class="c1"># systemctl restart NetworkManager</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="原因" class="heading-element">
+  <a href="#%e5%8e%9f%e5%9b%a0" class="heading-mark"></a>原因</h2><p>NetworkManager 服务和  Network 服务配置发送冲突</p>
+<h1 id="codeexited-status203exec" class="heading-element">
+  <a href="#codeexited-status203exec" class="heading-mark"></a>code=exited, status=203/EXEC</h1><ul>
+<li>详情</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># systemctl status docker.service</span>
+</span></span><span class="line"><span class="cl">● docker.service - Docker Application Container Engine
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/usr/lib/systemd/system/docker.service<span class="p">;</span> disabled<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: activating <span class="o">(</span>auto-restart<span class="o">)</span> <span class="o">(</span>Result: exit-code<span class="o">)</span> since Wed 2020-04-29 16:06:29 CST<span class="p">;</span> 990ms ago
+</span></span><span class="line"><span class="cl">     Docs: https://docs.docker.com
+</span></span><span class="line"><span class="cl">  Process: <span class="m">1259</span> <span class="nv">ExecStart</span><span class="o">=</span>/usr/bin/dockerd -H fd:// --containerd<span class="o">=</span>/run/containerd/containerd.sock <span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>203/EXEC<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> Main PID: <span class="m">1259</span> <span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>203/EXEC<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Apr <span class="m">29</span> 16:06:29 node01.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: Failed to start Docker Application Container Engine.
+</span></span><span class="line"><span class="cl">Apr <span class="m">29</span> 16:06:29 node01.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: Unit docker.service entered failed state.
+</span></span><span class="line"><span class="cl">Apr <span class="m">29</span> 16:06:29 node01.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: docker.service failed.</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>解决方法：从其他地方复制一份 dockerd 命令文件 或重装 dockers服务</p>
+</li>
+<li>
+<p>原因：命令不存在</p>
+</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># journalctl -xe</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">-- Unit docker.service has begun starting up.
+</span></span><span class="line"><span class="cl">Apr <span class="m">29</span> 16:10:01 node01.xiaosi.com systemd<span class="o">[</span>1392<span class="o">]</span>: Failed at step EXEC spawning /usr/bin/dockerd: No such file or directory
+</span></span><span class="line"><span class="cl">-- Subject: Process /usr/bin/dockerd could not be executed
+</span></span><span class="line"><span class="cl">-- Defined-By: systemd
+</span></span><span class="line"><span class="cl">-- Support: http://lists.freedesktop.org/mailman/listinfo/systemd-devel
+</span></span><span class="line"><span class="cl">-- 
+</span></span><span class="line"><span class="cl">-- The process /usr/bin/dockerd could not be executed and failed.
+</span></span><span class="line"><span class="cl">-- 
+</span></span><span class="line"><span class="cl">-- The error number returned by this process is 2.
+</span></span><span class="line"><span class="cl">Apr <span class="m">29</span> 16:10:01 node01.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: docker.service: main process exited, <span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>203/EXEC
+</span></span><span class="line"><span class="cl">Apr <span class="m">29</span> 16:10:01 node01.xiaosi.com systemd<span class="o">[</span>1<span class="o">]</span>: Failed to start Docker Application Container Engine.
+</span></span><span class="line"><span class="cl">-- Subject: Unit docker.service has failed
+</span></span><span class="line"><span class="cl">-- Defined-By: systemd
+</span></span><span class="line"><span class="cl">-- Support: http://lists.freedesktop.org/mailman/listinfo/systemd-devel
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="error-while-loading-shared-libraries-libcso6-cannot-open-shared-object-file-no-such-file-or-directory" class="heading-element">
+  <a href="#error-while-loading-shared-libraries-libcso6-cannot-open-shared-object-file-no-such-file-or-directory" class="heading-mark"></a>error while loading shared libraries: libc.so.6: cannot open shared object file: No such file or directory</h1><p>想替换libc库，直接删除软件链接造成的</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># ll /usr/lib64/libc.so.6 </span>
+</span></span><span class="line"><span class="cl">lrwxrwxrwx. <span class="m">1</span> root root <span class="m">12</span> Jun <span class="m">23</span> 08:52 /usr/lib64/libc.so.6 -&gt; libc-2.17.so
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># rm -rf /usr/lib64/libc.so.6</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># ln -s /usr/lib64/libc.so.6 /usr/lib64/libc.musl-x86_64.so.1</span>
+</span></span><span class="line"><span class="cl">ln: error <span class="k">while</span> loading shared libraries: libc.so.6: cannot open shared object file: No such file or directory</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决方法:</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost next<span class="o">]</span><span class="c1"># export LD_PRELOAD=&#34;/lib64/libc-2.17.so&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost next<span class="o">]</span><span class="c1"># ln -s /lib64/libc-2.17.so /lib64/libc.so.6</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="lib64libstdcso6-no-version-information-available" class="heading-element">
+  <a href="#lib64libstdcso6-no-version-information-available" class="heading-mark"></a>/lib64/libstdc++.so.6: no version information available</h1><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cmake -version</span>
+</span></span><span class="line"><span class="cl">cmake: /lib64/libstdc++.so.6: no version information available <span class="o">(</span>required by cmake<span class="o">)</span>
+</span></span><span class="line"><span class="cl">cmake: /lib64/libstdc++.so.6: no version information available <span class="o">(</span>required by cmake<span class="o">)</span>
+</span></span><span class="line"><span class="cl">cmake: /lib64/libstdc++.so.6: no version information available <span class="o">(</span>required by cmake<span class="o">)</span>
+</span></span><span class="line"><span class="cl">cmake: /lib64/libstdc++.so.6: no version information available <span class="o">(</span>required by cmake<span class="o">)</span>
+</span></span><span class="line"><span class="cl">cmake: /lib64/libstdc++.so.6: no version information available <span class="o">(</span>required by cmake<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># ll libstdc++.so.6*</span>
+</span></span><span class="line"><span class="cl">lrwxrwxrwx. <span class="m">1</span> root root      <span class="m">19</span> Jul  <span class="m">4</span> 22:03 libstdc++.so.6 -&gt; libstdc++.so.6.0.29
+</span></span><span class="line"><span class="cl">-rwxr-xr-x. <span class="m">1</span> root root  <span class="m">995840</span> Sep <span class="m">30</span>  <span class="m">2020</span> libstdc++.so.6.0.19
+</span></span><span class="line"><span class="cl">-rwxr-xr-x. <span class="m">1</span> root root <span class="m">1915480</span> Jul  <span class="m">4</span> 21:18 libstdc++.so.6.0.29
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># strings libstdc++.so.6.0.29 | grep GLIBC</span>
+</span></span><span class="line"><span class="cl">GLIBCXX_FORCE_NEW
+</span></span><span class="line"><span class="cl">GLIBCXX_DEBUG_MESSAGE_LENGTH
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># strings libstdc++.so.6.0.19 | grep GLIBC</span>
+</span></span><span class="line"><span class="cl">GLIBCXX_FORCE_NEW
+</span></span><span class="line"><span class="cl">GLIBCXX_DEBUG_MESSAGE_LENGTH
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重新安装libstdc</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># libgcc libstdc++ libstdc++-devel</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># strings libstdc++.so.6.0.19 | grep GLIBC</span>
+</span></span><span class="line"><span class="cl">GLIBCXX_3.4
+</span></span><span class="line"><span class="cl">GLIBCXX_3.4.1
+</span></span><span class="line"><span class="cl">GLIBCXX_3.4.2
+</span></span><span class="line"><span class="cl">....
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># rm -rf libstdc++.so.6</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># ln -s libstdc++.so.6.0.19 libstdc++.so.6</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost lib64<span class="o">]</span><span class="c1"># rm -rf libstdc++.so.6.0.29 </span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-11 13:50:27">更新于 2022-12-11&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a><a href="/tags/error/" class="post-tag" title="标签 - error">error</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/perf/" class="post-nav-item" rel="prev" title="perf命令"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>perf命令</a>
+      <a href="/mtr/" class="post-nav-item" rel="next" title="mtr使用方法">mtr使用方法<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

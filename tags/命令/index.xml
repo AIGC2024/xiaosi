@@ -1,0 +1,167 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>命令 - 标签 - 小厮</title>
+    <link>/tags/%E5%91%BD%E4%BB%A4/</link>
+    <description>命令 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 02 Sep 2023 14:46:52 &#43;0800</lastBuildDate><atom:link href="/tags/%E5%91%BD%E4%BB%A4/" rel="self" type="application/rss+xml" /><item>
+  <title>uuidgen - 创建一个新的UUID值</title>
+  <link>/linuxCMDuuidgen/</link>
+  <pubDate>Sat, 02 Sep 2023 14:46:52 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCMDuuidgen/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>tar - 将许多文件一起保存到单个磁带或磁盘存档中，并且可以从存档中恢复单个文件</title>
+  <link>/linuxCmdTar/</link>
+  <pubDate>Sat, 05 Aug 2023 11:25:27 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdTar/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>ssh-keygen — OpenSSH 身份验证密钥实用程序</title>
+  <link>/cmdSsh-keygen/</link>
+  <pubDate>Sun, 23 Jul 2023 12:54:05 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/cmdSsh-keygen/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>sar —收集、报告或保存系统活动信息</title>
+  <link>/linuxCmdSar/</link>
+  <pubDate>Sat, 22 Jul 2023 14:58:23 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdSar/</guid>
+  <description><![CDATA[sar命令将操作系统中选定的累积活动计数器的内容写入标准输出。]]></description>
+</item>
+<item>
+  <title>free - 显示系统中空闲和已使用内存的数量</title>
+  <link>/linuxCmdFree/</link>
+  <pubDate>Sat, 22 Jul 2023 14:19:37 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdFree/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>pidstat - 报告Linux任务的统计信息</title>
+  <link>/linuxCmdPidstat/</link>
+  <pubDate>Sat, 22 Jul 2023 13:47:39 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdPidstat/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>mpstat - 报告处理器相关的统计信息</title>
+  <link>/linuxCmdMpstat/</link>
+  <pubDate>Sat, 22 Jul 2023 12:01:21 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdMpstat/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>iftop - 显示主机在接口上的带宽使用情况</title>
+  <link>/linuxCmdIftop/</link>
+  <pubDate>Wed, 12 Apr 2023 11:03:11 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdIftop/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>sort - 对文本文件行进行排序</title>
+  <link>/linux-cmd-sort/</link>
+  <pubDate>Sat, 18 Mar 2023 20:22:23 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linux-cmd-sort/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>iostat — 报告中央处理单元(CPU)的统计信息以及块设备和分区的输入/输出统计信息。</title>
+  <link>/linuxCmdIostat/</link>
+  <pubDate>Mon, 23 Jan 2023 21:13:59 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdIostat/</guid>
+  <description><![CDATA[iostat 命令用于通过观察设备活动时间与其平均传输速率的关系来监视系统输入/输出设备负载]]></description>
+</item>
+<item>
+  <title>perf命令</title>
+  <link>/perf/</link>
+  <pubDate>Sun, 11 Dec 2022 09:42:46 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/perf/</guid>
+  <description><![CDATA[运行环境： centos: 7 内容来自以下文档： [name][url] [url]: perf 命令 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49]]></description>
+</item>
+<item>
+  <title>批量修改文件名</title>
+  <link>/%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/</link>
+  <pubDate>Sun, 11 Dec 2022 09:42:46 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/</guid>
+  <description><![CDATA[批量修改文件名称rename 可以替换指定文件名称中的字符串 格式：rename 替换之前字符串 替换之后字符串 文件名称 示例：将 centos 替换为 centos7 1 2 3 4 5]]></description>
+</item>
+<item>
+  <title>ps - 查看进程信息快照</title>
+  <link>/linuxCmdPs/</link>
+  <pubDate>Wed, 02 Nov 2022 21:30:21 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdPs/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>jq - 命令行 josn 数据处理工具</title>
+  <link>/CMDjq/</link>
+  <pubDate>Sat, 03 Sep 2022 16:49:39 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/CMDjq/</guid>
+  <description><![CDATA[jq 是一个轻量级且灵活的命令行 json 处理器]]></description>
+</item>
+<item>
+  <title>linux 中的 chrt 命令</title>
+  <link>/chrt%E5%91%BD%E4%BB%A4/</link>
+  <pubDate>Fri, 26 Aug 2022 14:32:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/chrt%E5%91%BD%E4%BB%A4/</guid>
+  <description><![CDATA[chrt 命令用于设置进程调度算法与优先级]]></description>
+</item>
+<item>
+  <title>linux 中删除空目录</title>
+  <link>/rmdir%E5%91%BD%E4%BB%A4/</link>
+  <pubDate>Tue, 23 Aug 2022 16:42:58 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/rmdir%E5%91%BD%E4%BB%A4/</guid>
+  <description><![CDATA[rmdir 命令使用]]></description>
+</item>
+<item>
+  <title>k8s 调度器</title>
+  <link>/k8sScheduler/</link>
+  <pubDate>Sun, 14 Aug 2022 12:57:42 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sScheduler/</guid>
+  <description><![CDATA[kube-scheduler]]></description>
+</item>
+<item>
+  <title>k8s 网络代理</title>
+  <link>/k8sProxy/</link>
+  <pubDate>Sat, 13 Aug 2022 12:27:29 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sProxy/</guid>
+  <description><![CDATA[k8s proxy 组件]]></description>
+</item>
+<item>
+  <title>curl - 使用url进行传输数据的命令行工具</title>
+  <link>/CMDcurl/</link>
+  <pubDate>Wed, 12 May 2021 16:37:41 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/CMDcurl/</guid>
+  <description><![CDATA[curl]]></description>
+</item>
+<item>
+  <title>部分linux命令集合</title>
+  <link>/cmd/</link>
+  <pubDate>Sat, 26 Jan 2019 16:04:27 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/cmd/</guid>
+  <description><![CDATA[环境： cneots：7 bash：4.2.46 以下内容来自： 艾欧里亚ゞ-灵活使用getconf命令来获取系统信息 张映-stty 说明本文大部分都]]></description>
+</item>
+</channel>
+</rss>

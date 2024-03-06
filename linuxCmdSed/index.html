@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>sed - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="sed 是流编辑器" /><meta name="keywords" content='sed, 文本处理, linux' /><meta itemprop="name" content="sed">
+<meta itemprop="description" content="sed 是流编辑器"><meta itemprop="datePublished" content="2018-12-10T10:18:38+08:00" />
+<meta itemprop="dateModified" content="2023-06-08T21:26:50+08:00" />
+<meta itemprop="wordCount" content="12361">
+<meta itemprop="keywords" content="sed,文本处理,linux," /><meta property="og:title" content="sed" />
+<meta property="og:description" content="sed 是流编辑器" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linuxCmdSed/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T10:18:38+08:00" />
+<meta property="article:modified_time" content="2023-06-08T21:26:50+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="sed"/>
+<meta name="twitter:description" content="sed 是流编辑器"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linuxCmdSed/" /><link rel="prev" href="/linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" /><link rel="next" href="/user/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "sed",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linuxCmdSed\/"
+    },"genre": "posts","keywords": "sed, 文本处理, linux","wordcount":  12361 ,
+    "url": "\/linuxCmdSed\/","datePublished": "2018-12-10T10:18:38+08:00","dateModified": "2023-06-08T21:26:50+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": "sed 是流编辑器"
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>sed</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 10:18:38"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2023-06-08 21:26:50"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-06-08">2023-06-08</time></span>&nbsp;<span title="12361 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 12400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 25 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#sed">sed</a></li>
+    <li><a href="#工作模式">工作模式</a></li>
+    <li><a href="#数据缓冲区的换行符">数据缓冲区的换行符</a></li>
+    <li><a href="#命令行选项">命令行选项</a></li>
+    <li><a href="#选取地址">选取地址</a></li>
+    <li><a href="#sed中的正则表达式">sed中的正则表达式</a>
+      <ul>
+        <li><a href="#基础正则表达式">基础正则表达式</a></li>
+        <li><a href="#扩展正则表达式">扩展正则表达式</a></li>
+        <li><a href="#用于地址选址和-s-命令的表达式">用于地址选址和 s 命令的表达式</a></li>
+      </ul>
+    </li>
+    <li><a href="#sed-命令">sed 命令</a>
+      <ul>
+        <li><a href="#a-下一行插入行">a: 下一行插入行</a></li>
+        <li><a href="#b-无条件分支">b: 无条件分支</a></li>
+        <li><a href="#c-替换行">c: 替换行</a></li>
+        <li><a href="#d-删除行">d: 删除行</a></li>
+        <li><a href="#d-删除模式空间到换行符的内容">D: 删除模式空间到换行符的内容</a></li>
+        <li><a href="#e-把-shell-命令通过管道符传递到模式空间">e: 把 shell 命令通过管道符传递到模式空间</a></li>
+        <li><a href="#f-查看文件名称">F: 查看文件名称</a></li>
+        <li><a href="#g-将当前保持空间中内容覆盖至模式空间">g: 将当前保持空间中内容覆盖至模式空间</a></li>
+        <li><a href="#g-将当前保持空间中的内容追加至模式空间">G: 将当前保持空间中的内容追加至模式空间</a></li>
+        <li><a href="#h-将当前模式空间中内容覆盖至保持空间">h: 将当前模式空间中内容覆盖至保持空间</a></li>
+        <li><a href="#h-将当前模式空间中的内容追加至保持空间">H: 将当前模式空间中的内容追加至保持空间</a></li>
+        <li><a href="#i-上一行插入行">i: 上一行插入行</a></li>
+        <li><a href="#l-明确方式打印模式空间">l: 明确方式打印模式空间</a></li>
+        <li><a href="#n-读取下一行覆盖当前行">n: 读取下一行覆盖当前行</a></li>
+        <li><a href="#n-当前行追加到下一行之前">N: 当前行追加到下一行之前</a></li>
+        <li><a href="#p-打印模式空间匹配项的内容">p: 打印模式空间匹配项的内容</a></li>
+        <li><a href="#p-打印模式空间匹配项的内容-1">P: 打印模式空间匹配项的内容</a></li>
+        <li><a href="#q-输出并退出">q: 输出并退出</a></li>
+        <li><a href="#q-退出-sed">Q: 退出 sed</a></li>
+        <li><a href="#r-读取其他文件内容">r: 读取其他文件内容</a></li>
+        <li><a href="#r--读取文件">R:  读取文件</a></li>
+        <li><a href="#s-替换字符">s: 替换字符</a></li>
+        <li><a href="#t-有条件分支">t: 有条件分支</a></li>
+        <li><a href="#t-有条件分支-1">T: 有条件分支</a></li>
+        <li><a href="#v-查看是否支持-gun-扩展">v: 查看是否支持 <code>GUN</code> 扩展</a></li>
+        <li><a href="#w-写入其他文件">w: 写入其他文件</a></li>
+        <li><a href="#w-写入文文件">W: 写入文文件</a></li>
+        <li><a href="#x-将当前保持空间和模式空间内容互换">x: 将当前保持空间和模式空间内容互换</a></li>
+        <li><a href="#y-转换字符">y: 转换字符</a></li>
+        <li><a href="#-统计行">=: 统计行</a></li>
+        <li><a href="#z-清空模式空间的内容">z: 清空模式空间的内容</a></li>
+        <li><a href="#-注释">#: 注释</a></li>
+        <li><a href="#同时执行多个sed命令方法">同时执行多个sed命令方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#分支的循环">分支的循环</a></li>
+    <li><a href="#sed脚本">sed脚本</a></li>
+    <li><a href="#退出状态码">退出状态码</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>sed：4.2.2</li>
+<li>centos：7</li>
+</ul>
+<p>以下内容来自：</p>
+<ul>
+<li><a href="http://blog.chinaunix.net/uid-25075782-id-2327810.html"target="_blank" rel="external nofollow noopener noreferrer">Go_Home-awk &amp;&amp; sed　练习题</a></li>
+<li><a href="https://blog.csdn.net/xiexingshishu/article/details/50514132"target="_blank" rel="external nofollow noopener noreferrer">kgduu-sed 命令 n，N，d，D，p，P，h，H，g，G，x解析</a></li>
+<li><a href="https://www.gnu.org/software/sed/manual/" title="sed官方文档"target="_blank" rel="external nofollow noopener noreferrer">sed 官方文档</a></li>
+<li><a href="http://www.reddragonfly.org/abscn/x17814.html" title="高级Bash脚本编程指南-sed"target="_blank" rel="external nofollow noopener noreferrer">高级 Bash 脚本编程指南-sed</a></li>
+</ul>
+</blockquote>
+<h1 id="sed" class="heading-element">
+  <a href="#sed" class="heading-mark"></a>sed</h1><p>sed 是字节流编辑器，可以更据命令来处理数据流中的数据，这些命令通常在命令行中输入或文本中读取</p>
+<h1 id="工作模式" class="heading-element">
+  <a href="#%e5%b7%a5%e4%bd%9c%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>工作模式</h1><p><code>sed</code> 有2个数据缓冲区，活动模式空间（<code>active pattern space</code>）和辅助保持空间（<code>auxiliary hold space</code>），通常称为模式空间和保持空间</p>
+<p><code>sed</code> 标准工作流程（标准行为可以被选项或命令修改，但大致行为没发生变化）：</p>
+<ol>
+<li><code>sed</code> 从输入流中读取一行文本并删除文本结尾的换行符，再放入模式空间中</li>
+<li>在模式空间中先验证等操作命令生效的范围（文本行），如果验证成功则在模式空间中执行命令，否则跳过该命令</li>
+<li>文本结尾添加被删除的换行符，再把将模式空间的内容打印到输出流中</li>
+<li>读取下一行，重复上述操作直到读取完所有输入流</li>
+</ol>
+<p>保持空间是特殊的，可以理解为 <code>sed</code> 的剪切板，有以相关命令：</p>
+<ul>
+<li><code>h</code>：把模式空间中的内容覆盖保持空间</li>
+<li><code>H</code>：把模式空间中的内容前面添加换行符之后追加到保持空间</li>
+<li><code>g</code>：把保持空间中的内容覆盖模式空间</li>
+<li><code>G</code>：把保持空间中的内容前面添加换行符之后追加到模式空间</li>
+<li><code>x</code>：把保持空间和模式空间的内容互换</li>
+</ul>
+<h1 id="数据缓冲区的换行符" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e7%bc%93%e5%86%b2%e5%8c%ba%e7%9a%84%e6%8d%a2%e8%a1%8c%e7%ac%a6" class="heading-mark"></a>数据缓冲区的换行符</h1><p>把文本加载到缓冲区之前，会删除文本尾部的换行符，单纯的加载文本是不会产生换行符的，有部分操作命令会添加换行符 <code>\n</code> ，该换行符并不会把文本分成多行，而是以<code>上一行内容\n下一行内容</code>的一行形式存在，无论是模式空间还是保持空间都是这样</p>
+<ul>
+<li>当输出时，除了 <code>l</code> 命令会把 <code>\n</code> 当成文本输出，其余情况会当成换行符输出</li>
+<li>当匹配时，只能由正则表达式 <code>\n</code> 匹配，无法被文本自身换行符 <code>\n</code> 所匹配（读取之前就被删除）</li>
+</ul>
+<p>如果文本中含义文本 <code>\n</code> 在模式空间是文本 <code>\\n</code>；输出时会转换为文本 <code>\n</code></p>
+<ul>
+<li>示例：l 命令</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># N 命令是把下一行内容前面添加换行符并追加模式空间</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo -e &#39;aa\n\\n\ncc&#39; | sed -n &#39;1N;l&#39;</span>
+</span></span><span class="line"><span class="cl">aa<span class="se">\n\\</span>n$
+</span></span><span class="line"><span class="cl">cc$</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="命令行选项" class="heading-element">
+  <a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%80%89%e9%a1%b9" class="heading-mark"></a>命令行选项</h1><p>更多帮助信息可以使用 <code>info sed</code> 命令查看</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">使用方式：sed <span class="o">[</span>options<span class="o">]</span>  <span class="o">{</span>sed-commands<span class="o">}</span> <span class="o">{</span>input-file<span class="o">}</span>
+</span></span><span class="line"><span class="cl">常见选项：
+</span></span><span class="line"><span class="cl">-n
+</span></span><span class="line"><span class="cl">	不自动打印模式空间内容
+</span></span><span class="line"><span class="cl">-e
+</span></span><span class="line"><span class="cl">	后面接sed命令，可以有多个-e
+</span></span><span class="line"><span class="cl">-f
+</span></span><span class="line"><span class="cl">	指定sed脚本文件
+</span></span><span class="line"><span class="cl">-i<span class="o">[</span>SUFFIX<span class="o">]</span>, --in-place<span class="o">[=</span>SUFFIX<span class="o">]</span>
+</span></span><span class="line"><span class="cl">	默认写入文件，如果指定扩展名称，则写入（”文件名称.扩展名“）结构的文件
+</span></span><span class="line"><span class="cl">-l N, --line-length<span class="o">=</span>N
+</span></span><span class="line"><span class="cl">	指定 sed命令 <span class="sb">`</span>l<span class="sb">`</span> 换行长度
+</span></span><span class="line"><span class="cl">-q
+</span></span><span class="line"><span class="cl">	退出命令
+</span></span><span class="line"><span class="cl">-r
+</span></span><span class="line"><span class="cl">	sed脚本中使用扩展正则表达式
+</span></span><span class="line"><span class="cl">-c
+</span></span><span class="line"><span class="cl">	保持文件属主
+</span></span><span class="line"><span class="cl">-l
+</span></span><span class="line"><span class="cl">	配合sed命令l（小写L）使用
+</span></span><span class="line"><span class="cl">--follow-symlinks
+</span></span><span class="line"><span class="cl">   	适用软连接，不使用该选项直接修改软连接时原文件没变，且断开链接
+</span></span><span class="line"><span class="cl">--posix
+</span></span><span class="line"><span class="cl">	关闭所有 GNU 扩展
+</span></span><span class="line"><span class="cl">-r, --regexp-extended
+</span></span><span class="line"><span class="cl">	在脚本中使用扩展正则表达式
+</span></span><span class="line"><span class="cl">-s, --separate
+</span></span><span class="line"><span class="cl">	将输入文件视为各个独立的文件而不是一个长的连续输入
+</span></span><span class="line"><span class="cl">-u, --unbuffered
+</span></span><span class="line"><span class="cl">	从输入文件读取最少的数据，更频繁的刷新输出
+</span></span><span class="line"><span class="cl">--help
+</span></span><span class="line"><span class="cl">	打印帮助并退出
+</span></span><span class="line"><span class="cl">--version
+</span></span><span class="line"><span class="cl">	输出版本信息并退出
+</span></span><span class="line"><span class="cl">-a
+</span></span><span class="line"><span class="cl">	新增行， a 的后面可以接字串，而这些字串会在新的一行出现<span class="o">(</span>目前的下一行<span class="o">)</span>
+</span></span><span class="line"><span class="cl">-c
+</span></span><span class="line"><span class="cl">	替换行， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行！
+</span></span><span class="line"><span class="cl">-s
+</span></span><span class="line"><span class="cl">	替换字符，可以配合正规表达式
+</span></span><span class="line"><span class="cl">-d
+</span></span><span class="line"><span class="cl">	删除
+</span></span><span class="line"><span class="cl">-i
+</span></span><span class="line"><span class="cl">	插入行， i 的后面可以接字串，而这些字串会在新的一行出现<span class="o">(</span>目前的上一行<span class="o">)</span>
+</span></span><span class="line"><span class="cl">-p
+</span></span><span class="line"><span class="cl">	查看，亦即将某个选择的资料印出。通常 p 会与参数 sed -n 一起使用
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sed 命令
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">	把注释扩展到下一个换行符之前
+</span></span><span class="line"><span class="cl"><span class="o">=</span>
+</span></span><span class="line"><span class="cl">	打印当前输入行行号，并在之后添加换行符
+</span></span><span class="line"><span class="cl">: label
+</span></span><span class="line"><span class="cl">    指定标签 <span class="s2">&#34;label&#34;</span>，用于 b， t，T 命令跳转
+</span></span><span class="line"><span class="cl">a
+</span></span><span class="line"><span class="cl">	在一行之后附加文本，等效 <span class="sb">`</span>-a<span class="sb">`</span> 选项
+</span></span><span class="line"><span class="cl">b label
+</span></span><span class="line"><span class="cl">	无条件分支到标签，如果标签 <span class="s2">&#34;label&#34;</span> 不存在则跳过后续的命令
+</span></span><span class="line"><span class="cl">c
+</span></span><span class="line"><span class="cl">	替换模式空间中的内容，等效 <span class="sb">`</span>-c<span class="sb">`</span> 选项
+</span></span><span class="line"><span class="cl">d
+</span></span><span class="line"><span class="cl">	删除模式空间内容，立即进入下一个周期，等效 <span class="sb">`</span>-d<span class="sb">`</span> 选项
+</span></span><span class="line"><span class="cl">D
+</span></span><span class="line"><span class="cl">	删除模式空间开头到第一个换行符内容，之后用模式空间内容进入下一个周期。默认空间么有换行符时，等效 d 命令
+</span></span><span class="line"><span class="cl">e <span class="o">[</span>command<span class="o">]</span>
+</span></span><span class="line"><span class="cl">	如果指定命令，则执行并将其发送到输出流，最后一行以反斜杠结尾；如果没有指定命令，则从模式空间中寻找命令；尾随换行符会被取消
+</span></span><span class="line"><span class="cl">F
+</span></span><span class="line"><span class="cl">    打印当前输入文件的文件名，以换行符结尾
+</span></span><span class="line"><span class="cl">g
+</span></span><span class="line"><span class="cl">	用保持空间的内容覆盖模式空间内容
+</span></span><span class="line"><span class="cl">G
+</span></span><span class="line"><span class="cl">    在模式空间尾部添加换行符，再用保持空间的内容追加到模式空间
+</span></span><span class="line"><span class="cl">h
+</span></span><span class="line"><span class="cl">	用模式空间内容的内容覆盖保持空间
+</span></span><span class="line"><span class="cl">H
+</span></span><span class="line"><span class="cl">	在保持空间尾部添加换行符，再用模式空间的内容追加到保持空间
+</span></span><span class="line"><span class="cl">i
+</span></span><span class="line"><span class="cl">	（小写i）在模式空间之前插入内容，结尾时自动添加换行符，等效 <span class="sb">`</span>-i<span class="sb">`</span> 选项
+</span></span><span class="line"><span class="cl">l
+</span></span><span class="line"><span class="cl">	（小写的L）以明确的形式打印模式空间内容
+</span></span><span class="line"><span class="cl">n
+</span></span><span class="line"><span class="cl">	读取下一个输入行，用下一个命令处理新的行而不是当前行，旧的行会被输出，如果没有更多输入，则退出 sed
+</span></span><span class="line"><span class="cl">N
+</span></span><span class="line"><span class="cl">	追加下一行输入到模式空间后面并二者之间嵌入一个换行符，如果没有更多输入，则退出 sed
+</span></span><span class="line"><span class="cl">p
+</span></span><span class="line"><span class="cl">	打印模式空间的内容
+</span></span><span class="line"><span class="cl">P
+</span></span><span class="line"><span class="cl">	打印模式空间开头到第一个换行符的内容
+</span></span><span class="line"><span class="cl">q <span class="o">[</span>n<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    退出 sed，可以指定退出状态码
+</span></span><span class="line"><span class="cl">Q <span class="o">[</span>n<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    退出 sed，可以指定退出状态码；不打印模式空间内容
+</span></span><span class="line"><span class="cl">r filename
+</span></span><span class="line"><span class="cl">	从 file 中读行
+</span></span><span class="line"><span class="cl">R filename
+</span></span><span class="line"><span class="cl">    在当前循环结束时或在读取下一个输入行时，将要读取的文件内容行排队并插入到输出流中
+</span></span><span class="line"><span class="cl">t label
+</span></span><span class="line"><span class="cl">	当读取最后一条输入行或前面命令 s 命令替换成功时，跳转到指定分支，如果没有指定分支，则进入下一个周期
+</span></span><span class="line"><span class="cl">T label
+</span></span><span class="line"><span class="cl">	当读取最后一条输入行或前面命令 s 命令替换失败时，跳转到指定分支，如果没有指定分支，则进入下一个周期
+</span></span><span class="line"><span class="cl">v <span class="o">[</span>version<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    不执行任何操作，但指定的版本号 <span class="s2">&#34;version&#34;</span> 不可用或不支持 GUN 扩展则会报错
+</span></span><span class="line"><span class="cl">w file
+</span></span><span class="line"><span class="cl">	把模式空间的内容写入指定文件中，如果文件存在则覆盖
+</span></span><span class="line"><span class="cl">W file
+</span></span><span class="line"><span class="cl">	把模式空间的内容到第一个换行符，如果文件存在则覆盖
+</span></span><span class="line"><span class="cl">x
+</span></span><span class="line"><span class="cl">    交互模式空间和保持空间的内容
+</span></span><span class="line"><span class="cl">y/src/dst/
+</span></span><span class="line"><span class="cl">	字符替换，一对一字符替换，s 替换为 d <span class="p">;</span> r 替换为 s<span class="p">;</span> c 替换为 t
+</span></span><span class="line"><span class="cl">z
+</span></span><span class="line"><span class="cl">    清除模式空间内容
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">s 替换
+</span></span><span class="line"><span class="cl">语法：sed <span class="s1">&#39;[start|end] s/original/replacement/[substitute]&#39;</span>
+</span></span><span class="line"><span class="cl">start：匹配范围其实位置，忽略则表示从第一行开始
+</span></span><span class="line"><span class="cl">end：匹配范围结束位置，忽略则表示最后一行结束
+</span></span><span class="line"><span class="cl">//：分界符，可以使用其他字符替换，如：##、^^等等
+</span></span><span class="line"><span class="cl">original：替换前的字符
+</span></span><span class="line"><span class="cl">replacement：替换后的字符
+</span></span><span class="line"><span class="cl">	<span class="p">&amp;</span>：表示 original 匹配到的文本
+</span></span><span class="line"><span class="cl">	<span class="se">\n</span>：与正则表达式一样，<span class="sb">`</span>（<span class="sb">`</span>分组起始，<span class="sb">`</span><span class="o">)</span><span class="sb">`</span>分组结束，需要使用转义符<span class="sb">`</span><span class="se">\`</span>。sed最多能处理9个分组
+</span></span><span class="line"><span class="cl">substitute：修饰词，可以多个联合使用
+</span></span><span class="line"><span class="cl">    g：表示全局。（默认只替换每行的第一个匹配项）
+</span></span><span class="line"><span class="cl">    p：显示替换后的行
+</span></span><span class="line"><span class="cl">    n：0&lt;n&lt;512的正整数，表示第n次出匹配之后才替换
+</span></span><span class="line"><span class="cl">    w：写入文件
+</span></span><span class="line"><span class="cl">    i：忽略匹配项大小写
+</span></span><span class="line"><span class="cl">    p：打印替换后的内容
+</span></span><span class="line"><span class="cl">    e：将模式空间中的内容当成shell命令执行（GUN sed 才能使用）
+</span></span><span class="line"><span class="cl">    y：替换，不能用于正则表达式，只是单纯的字符替换
+</span></span><span class="line"><span class="cl">    几个GNU sed 特有的替换标志：
+</span></span><span class="line"><span class="cl">        <span class="se">\l</span>：（小写的L）紧跟着后面字符替换为小写，用于替换后的字符处前
+</span></span><span class="line"><span class="cl">        <span class="se">\L</span>：将后面的所有字符都替换为大写，用于替换后的字符处前
+</span></span><span class="line"><span class="cl">        <span class="se">\u</span>：（小写的U）紧跟着后面字符替换为小写，用于替换后的字符处前
+</span></span><span class="line"><span class="cl">        <span class="se">\U</span>：紧跟着后面所有字符替换为大写，用于替换后的字符处前
+</span></span><span class="line"><span class="cl">        <span class="se">\E</span>：与<span class="se">\L</span>或<span class="se">\U</span>一起使用，将关闭<span class="se">\U</span>或<span class="se">\L</span>的功能，用于替换后的字符后</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="选取地址" class="heading-element">
+  <a href="#%e9%80%89%e5%8f%96%e5%9c%b0%e5%9d%80" class="heading-mark"></a>选取地址</h1><p>该地址是文本行地址，也就是说无论是行号，还是表达式都是表示文本行位置。有以下几种方式指定文本范围：</p>
+<ul>
+<li><code>n</code>: <code>n</code> 是行号</li>
+<li><code>$</code>: 表示文本最后一行</li>
+<li><code>/regexp/[IM]</code>: <code>regexp</code> 是正则表达示。<code>I</code> 修饰符表示不区分大小写，<code>M</code> 修饰符表示多行模式下匹配正则表达式</li>
+<li><code>\%regexp%[IM]</code>: <code>regexp</code> 是扩展正则表达。<code>I</code> 修饰符表示不区分大小写，<code>M</code> 修饰符表示多行模式下匹配正则表达式示，有以下特殊情况：
+<ul>
+<li>修饰符 <code>^</code> 和 <code>$</code> 除了匹配开始和结束还匹配换行符之后的空字符串和换行符之前的空字符串</li>
+<li>有特殊的字符序列始终与缓冲区的开头或结尾匹配</li>
+<li>在多行模式下，句点字符（ <code>.</code> ）与换行符不匹配</li>
+</ul>
+</li>
+<li><code>x~y</code>: <code>x</code> 与 <code>y</code> 都表示行号，<code>~</code> 表示间距。如 <code>1~3</code> 表示匹配（行）<code>1 4 7...</code></li>
+<li><code>x,y</code>: <code>x</code> 与 <code>y</code> 都表示行号，从第 <code>x</code> 行到 <code>y</code> 行，<code>x &gt; y</code></li>
+<li><code>x,x+y</code>: <code>x</code> 与 <code>y</code> 都表示行号，从第 <code>x</code> 行到 <code>x+y</code> 行</li>
+<li><code>0,/regexp/</code>: 从文档开头到第一次成功匹配正则表达示的行</li>
+<li><code>x,/regexp/</code>: <code>x</code> 表示行号，从 <code>x</code> 行到之后第一次成功匹配正则表达示的行</li>
+<li><code>x,~y</code>: <code>x</code> 表示行号或正则表达示，<code>y</code> 表示行号的倍数（可以是一倍）。如 <code>2,~2</code> 表示第2行到第4行（ 4 是 2 的 2 倍）</li>
+<li><code>!</code>： 在地址后面表示取反</li>
+</ul>
+<p>读取到指定文本行就会触发命令对模式空间内容操作；很多命令看起来像是对指定文本行操作，实际上是执行操作时模式空间只有该行文本</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 当模式空间只有一行时</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;3c ====&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl"><span class="o">====</span>
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 当模式空间有2行时</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;N;c ====&#39; txt </span>
+</span></span><span class="line"><span class="cl"><span class="o">====</span>
+</span></span><span class="line"><span class="cl"><span class="o">====</span>
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2次 N 命令之后，到 s 命令时，模式空已经读取到了第三行内容，</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 因此不会触发 s 命令</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;N; N; 2c ====&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果开始行和结束行都在同一行，则表示开始行，会继续匹配下去，直到读取所有文本</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt</span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed -n &#39;1,1 p&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed -n &#39;/1/,1 p&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed -n &#39;1,/1/ p&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed -n &#39;/1/,/1/ p&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="sed中的正则表达式" class="heading-element">
+  <a href="#sed%e4%b8%ad%e7%9a%84%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="heading-mark"></a>sed中的正则表达式</h1><p><code>sed</code> 默认使用的是基本正则表达式（<code>BRE</code>），使用 <code>sed [-E, -r, --regexp-extended]</code> 选项之一说明使用扩展正则表达式(ERE)</p>
+<p>正则表达式默认是贪婪模式，因此，有多个匹配项有多个匹配时，选择最长的一个</p>
+<h2 id="基础正则表达式" class="heading-element">
+  <a href="#%e5%9f%ba%e7%a1%80%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="heading-mark"></a>基础正则表达式</h2><ul>
+<li>下表是 sed 中使用的基础正则表达式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">元字符</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>\</code></td>
+<td style="text-align:left">转义符，用于区分字符本身和元字符，<code>\\</code> 表示一个 <code>\</code> 字符</td>
+</tr>
+<tr>
+<td style="text-align:left">字符串</td>
+<td style="text-align:left">可以是任意字符或任意字符串</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>*</code></td>
+<td style="text-align:left">前面的正则表达式匹配一系列零个或多个匹配实例</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.</code></td>
+<td style="text-align:left">单个字符，包括换行符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>^</code></td>
+<td style="text-align:left">模式空间中行开头部分</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$</code></td>
+<td style="text-align:left">模式空间中行结尾部分</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[]</code></td>
+<td style="text-align:left">方括号内的单个字符，有以下特殊情况：<br/> - <code>$</code>, <code>*</code>, <code>.</code>, <code>[</code>, <code>\</code> 这些字符串表示字符串本身 <br/> - <code>]</code> 字符表示结束列表，要匹配字符本身必须放在首位 <br/> - <code>-</code> 字符表示把起始到结束的范围 <br/> - <code>^</code> 字符放在首位表示取反，如果要匹配 <code>^</code> 字符本身不能放在首位 <br/> - <code>[..]</code>  排序类，这是特殊的格式，如 <code>[.ch.]</code> <br/> - <code>[::]</code>  字符类，这是特殊的格式，如 <code>[:space:] </code> <br/> - <code>[==]</code>  等价类，这是特殊的格式，如 <code>[=a=]</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\+</code></td>
+<td style="text-align:left">一个或多个字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\?</code></td>
+<td style="text-align:left">前面字符出现零次或一次。如 <code>a\?b</code> 匹配 <code>b</code> 或 <code>ab</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\{i\}</code></td>
+<td style="text-align:left">前面的表达式出现的次数，i 为10进制正整数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\{i,j\}</code></td>
+<td style="text-align:left">前面的表达式出现的最低次数和最高次数，i和 j 都是10进制正整数且 i &lt; j</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\{i,\}</code></td>
+<td style="text-align:left">前面的表达式出现最低次数，i 为10进制正整数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\(regexp\)</code></td>
+<td style="text-align:left">把表达式分组分组</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\digit</code></td>
+<td style="text-align:left">引用前面从左往右第 digit 个 <code>\(regexp\)</code>实例</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>regexp1|regexp2</code></td>
+<td style="text-align:left">从左往右匹配，选择第一个匹配的表达式，该表达式还可以在<code>[]</code>中使用，如：`a-[b</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\n</code></td>
+<td style="text-align:left">匹配换行符或产生换行符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\a</code></td>
+<td style="text-align:left">匹配 <code>BEL</code>字符，即产生警告</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\f</code></td>
+<td style="text-align:left">产生换页符或匹配换页符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\r</code></td>
+<td style="text-align:left">产生回车符或匹配回车符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\t</code></td>
+<td style="text-align:left">产生水平制表符或匹配水平制表符（<code>&lt;Tab&gt;</code> 键）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\v</code></td>
+<td style="text-align:left">产生垂直制表符或匹配垂直制表符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\cx</code></td>
+<td style="text-align:left">产生或匹配快捷键。<code>c</code> 表示 <code>&lt;Ctrl&gt;</code>; <code>x</code> 是字符，可以是任意字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\xx</code></td>
+<td style="text-align:left">产生或匹十六进制字符（ <code>ASCII</code> 码），x 表示字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\dx</code></td>
+<td style="text-align:left">产生或匹配十进制字符（ <code>ASCII</code> 码），x 表示字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\ox</code></td>
+<td style="text-align:left">产生或匹配八进制字符（ <code>ASCII</code> 码），x 表示字符</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>以下是特殊命名类的正则表达式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">元字符</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>[:alnum:]</code></td>
+<td style="text-align:left">单个字母或数字，等效 <code>[0-aA-Za-z]</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:alpha:]</code></td>
+<td style="text-align:left">单个字母，等效 <code>[A-Za-z]</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:blank:]</code></td>
+<td style="text-align:left">空格或制表符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:cntrl:]</code></td>
+<td style="text-align:left">控制字符。在 <code>ASCII</code> 中，这些字符的八进制代码为000至037，以及177（DEL）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:digit:]</code></td>
+<td style="text-align:left">单个数字，等效 <code>[0-9]</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:graph:]</code></td>
+<td style="text-align:left">可见字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:lower:]</code></td>
+<td style="text-align:left">单个小写字母，等效 <code>[a-z]</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:print:]</code></td>
+<td style="text-align:left">单个可打印字符（所有大小写字母、数字、标点字符），包括空格</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:punct:]</code></td>
+<td style="text-align:left">单个标点字符：<code>! &quot; # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ </code> {</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:space:]</code></td>
+<td style="text-align:left">空格字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:upper:]</code></td>
+<td style="text-align:left">单个大写字母，等效 <code>[A-Z]</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[:xdigit:]</code></td>
+<td style="text-align:left">16进制，等效 <code>[0-6A-Fa-f]</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="扩展正则表达式" class="heading-element">
+  <a href="#%e6%89%a9%e5%b1%95%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f" class="heading-mark"></a>扩展正则表达式</h2><p>扩展正则表达式和基本正则表达式区别在于以下元字符使用转义符情况，其他都一样，如下表格</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">元字符</th>
+<th style="text-align:left">BRE</th>
+<th style="text-align:left">ERE</th>
+<th style="text-align:left">注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>?</code></td>
+<td style="text-align:left"><code>\?</code></td>
+<td style="text-align:left"><code>?</code></td>
+<td style="text-align:left">如果想匹配 <code>?</code> 字符本身，BRE 去掉 <code>\</code>；ERE 添加 <code>\</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>+</code></td>
+<td style="text-align:left"><code>\+</code></td>
+<td style="text-align:left"><code>+</code></td>
+<td style="text-align:left">如果想匹配 <code>+</code> 字符本身，BRE 去掉 <code>\</code>；ERE 添加 <code>\</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>()</code></td>
+<td style="text-align:left"><code>\(\)</code></td>
+<td style="text-align:left"><code>()</code></td>
+<td style="text-align:left">如果想匹配 <code>()</code> 字符本身，BRE 去掉 <code>\</code>；ERE 添加 <code>\</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>{}</code></td>
+<td style="text-align:left"><code>\{\}</code></td>
+<td style="text-align:left"><code>{}</code></td>
+<td style="text-align:left">如果想匹配 <code>{}</code> 字符本身，BRE 去掉 <code>\</code>；ERE 添加 <code>\</code></td>
+</tr>
+<tr>
+<td style="text-align:left">`</td>
+<td style="text-align:left">`</td>
+<td style="text-align:left">无</td>
+<td style="text-align:left"><code>|</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="用于地址选址和-s-命令的表达式" class="heading-element">
+  <a href="#%e7%94%a8%e4%ba%8e%e5%9c%b0%e5%9d%80%e9%80%89%e5%9d%80%e5%92%8c-s-%e5%91%bd%e4%bb%a4%e7%9a%84%e8%a1%a8%e8%be%be%e5%bc%8f" class="heading-mark"></a>用于地址选址和 s 命令的表达式</h2><p>这些基本正则表达式只能用于地址选址或 <code>s</code> 命令中</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">元字符</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>\w</code></td>
+<td style="text-align:left">单词，可以是任意字符数字或下划线组成</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\W</code></td>
+<td style="text-align:left">非单词</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\b</code></td>
+<td style="text-align:left">单词边界，即单词左边或单词右边都不是单词，示例 `echo &ldquo;abc %-= def.&rdquo;</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\B</code></td>
+<td style="text-align:left">字符边界，即机房或单词左右两边都是非单词或字符，示例 `echo &ldquo;abc %-= def.&rdquo;</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\s</code></td>
+<td style="text-align:left">空白字符，包含制表符和换行符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\S</code></td>
+<td style="text-align:left">非空白字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\&lt;</code></td>
+<td style="text-align:left">匹配单词开头</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\&gt;</code></td>
+<td style="text-align:left">匹配单词结尾</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\`</code></td>
+<td style="text-align:left">只匹配模式空间中的开头 示例：``` echo -e &ldquo;a\nb\nc\n&rdquo;</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>\'</code></td>
+<td style="text-align:left">只匹配模式空间中的结尾</td>
+</tr>
+</tbody>
+</table>
+<h1 id="sed-命令" class="heading-element">
+  <a href="#sed-%e5%91%bd%e4%bb%a4" class="heading-mark"></a>sed 命令</h1><p><code>sed</code> 命令是 <code>sed</code> 自带的函数，单个命令格式：<code>{匹配项}[sed命令]</code></p>
+<h2 id="a-下一行插入行" class="heading-element">
+  <a href="#a-%e4%b8%8b%e4%b8%80%e8%a1%8c%e6%8f%92%e5%85%a5%e8%a1%8c" class="heading-mark"></a>a: 下一行插入行</h2><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">a\  或 a </span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>在最后一行插入文本</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 等效 sed &#39;$a\这是第6行&#39; txt</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;$a 这是第6行&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">这是第6行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 a\ 方式时不会忽略后面的空格，会认为是转义</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;$a\ 这是第6行&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl"> 这是第6行</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="b-无条件分支" class="heading-element">
+  <a href="#b-%e6%97%a0%e6%9d%a1%e4%bb%b6%e5%88%86%e6%94%af" class="heading-mark"></a>b: 无条件分支</h2><p><code>b</code> 命令始终跳至标签，跳过或重复其他命令，而无需重新启动新循环。结合地址，可以在匹配的行上有条件地执行分支</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># bx 跳转到标签 x，执行 x 标签后续的命令</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># :x 创建标签 x</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># printf &#39;%s\n&#39; a1 a2 a3 | sed -E &#39;bx; s/3/z/ ;:x ; y/123/456/&#39;</span>
+</span></span><span class="line"><span class="cl">a4
+</span></span><span class="line"><span class="cl">a5
+</span></span><span class="line"><span class="cl">a6</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 读取第一行 a1 到模式空间 ，满足 bx 跳转到标签 x ，跳过 s 命令，执行 y 命令</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 读取第二行 a2 到模式空间 ，不满足 bx 跳转标签条件，依次执行 s 与 y 命令</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第三行同第二行</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># printf &#39;%s\n&#39; a1 a2 a3 | sed -E &#39;/1/bx; s/[13]/z/ ;:x ; y/123/456/&#39;</span>
+</span></span><span class="line"><span class="cl">a4
+</span></span><span class="line"><span class="cl">a5
+</span></span><span class="line"><span class="cl">az</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="c-替换行" class="heading-element">
+  <a href="#c-%e6%9b%bf%e6%8d%a2%e8%a1%8c" class="heading-mark"></a>c: 替换行</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;1c\----&#39; txt</span>
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;$c----&#39; txt</span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">----</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="d-删除行" class="heading-element">
+  <a href="#d-%e5%88%a0%e9%99%a4%e8%a1%8c" class="heading-mark"></a>d: 删除行</h2><p><code>d</code> 命令是删除当前模式空间内容（不在传至标准输出），并放弃之后的命令，不打印模式空间内容，重新读取下一行继续循环</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 第一行以被删除，后续的 p 命令被忽略</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;1d; 1p&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="d-删除模式空间到换行符的内容" class="heading-element">
+  <a href="#d-%e5%88%a0%e9%99%a4%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4%e5%88%b0%e6%8d%a2%e8%a1%8c%e7%ac%a6%e7%9a%84%e5%86%85%e5%ae%b9" class="heading-mark"></a>D: 删除模式空间到换行符的内容</h2><p><code>D</code> 命令是删除当前模式空间开头到第一个 <code>\n</code>的内容，保留余下内容执行后续的命令</p>
+<ul>
+<li>示例：保留最后一行</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除第一行到倒数第二行</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;N;D&#39; txt</span>
+</span></span><span class="line"><span class="cl">这是第5行</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="e-把-shell-命令通过管道符传递到模式空间" class="heading-element">
+  <a href="#e-%e6%8a%8a-shell-%e5%91%bd%e4%bb%a4%e9%80%9a%e8%bf%87%e7%ae%a1%e9%81%93%e7%ac%a6%e4%bc%a0%e9%80%92%e5%88%b0%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4" class="heading-mark"></a>e: 把 shell 命令通过管道符传递到模式空间</h2><p><code>e [shell command]</code>  命令（ <code>GUN</code> 版本才有）允许将来自 <code>shell</code> 命令的输入通过管道传递到模式空间。如果命令中需执行空字符，结果不是可预料的</p>
+<ul>
+<li>指定了命令，<code>e</code> 命令会将其解释为命令，并将其输出发送到输出流。该命令可以跨多行运行，除了最后一行以外都以反斜杠结尾</li>
+<li>不带参数的<code>e</code>命令将执行在模式空间中找到的命令，并用输出替换模式空间。尾随换行符被取消</li>
+</ul>
+<h2 id="f-查看文件名称" class="heading-element">
+  <a href="#f-%e6%9f%a5%e7%9c%8b%e6%96%87%e4%bb%b6%e5%90%8d%e7%a7%b0" class="heading-mark"></a>F: 查看文件名称</h2><p><code>F</code> 命令（<code>GUN</code> 版本才有）打印出当前输入文件的文件名（带有换行符）</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;F&#39; txt </span>
+</span></span><span class="line"><span class="cl">txt
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">txt
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">txt
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">txt
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">txt
+</span></span><span class="line"><span class="cl">这是第5行</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="g-将当前保持空间中内容覆盖至模式空间" class="heading-element">
+  <a href="#g-%e5%b0%86%e5%bd%93%e5%89%8d%e4%bf%9d%e6%8c%81%e7%a9%ba%e9%97%b4%e4%b8%ad%e5%86%85%e5%ae%b9%e8%a6%86%e7%9b%96%e8%87%b3%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4" class="heading-mark"></a>g: 将当前保持空间中内容覆盖至模式空间</h2><p><code>g</code> 命令是将当前保持空间中内容覆盖至模式空间</p>
+<h2 id="g-将当前保持空间中的内容追加至模式空间" class="heading-element">
+  <a href="#g-%e5%b0%86%e5%bd%93%e5%89%8d%e4%bf%9d%e6%8c%81%e7%a9%ba%e9%97%b4%e4%b8%ad%e7%9a%84%e5%86%85%e5%ae%b9%e8%bf%bd%e5%8a%a0%e8%87%b3%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4" class="heading-mark"></a>G: 将当前保持空间中的内容追加至模式空间</h2><p><code>G</code> 命令是在当前模式空间追加换行符，再把保持空间内容追加到模式空间。形如：“模式空间内容 <code>\n</code> 保持空间内容”</p>
+<h2 id="h-将当前模式空间中内容覆盖至保持空间" class="heading-element">
+  <a href="#h-%e5%b0%86%e5%bd%93%e5%89%8d%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4%e4%b8%ad%e5%86%85%e5%ae%b9%e8%a6%86%e7%9b%96%e8%87%b3%e4%bf%9d%e6%8c%81%e7%a9%ba%e9%97%b4" class="heading-mark"></a>h: 将当前模式空间中内容覆盖至保持空间</h2><p><code>h</code> 命令是将当前模式空间中内容覆盖至保持空间</p>
+<h2 id="h-将当前模式空间中的内容追加至保持空间" class="heading-element">
+  <a href="#h-%e5%b0%86%e5%bd%93%e5%89%8d%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4%e4%b8%ad%e7%9a%84%e5%86%85%e5%ae%b9%e8%bf%bd%e5%8a%a0%e8%87%b3%e4%bf%9d%e6%8c%81%e7%a9%ba%e9%97%b4" class="heading-mark"></a>H: 将当前模式空间中的内容追加至保持空间</h2><p><code>H</code> 命令是在保留空间中追加换行符，再把模式空间内容追加到保持空间。形如：“保持空间内容 <code>\n</code> 模式空间内容“</p>
+<h2 id="i-上一行插入行" class="heading-element">
+  <a href="#i-%e4%b8%8a%e4%b8%80%e8%a1%8c%e6%8f%92%e5%85%a5%e8%a1%8c" class="heading-mark"></a>i: 上一行插入行</h2><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;1i ---&#39; txt </span>
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;1i\ ---&#39; txt </span>
+</span></span><span class="line"><span class="cl"> ---
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="l-明确方式打印模式空间" class="heading-element">
+  <a href="#l-%e6%98%8e%e7%a1%ae%e6%96%b9%e5%bc%8f%e6%89%93%e5%8d%b0%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4" class="heading-mark"></a>l: 明确方式打印模式空间</h2><p><code>l n</code> 命令指定模式空间中的长度，超过长度的行被 <code>\</code> 字符分割；每行的结尾都标有<code>$</code>。如果为 0 则永不换行，缺省，则使用文本自身的换行符</p>
+<p>该命令还有一个妙用就是可以查看模式空间呈现方式</p>
+<ul>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 字符本身占 1 个位置；换行符占用 1 个位置；分割符 \ 也占用1个位置</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># echo {1..6} | sed -n &#39;l7&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="m">4</span> <span class="m">5</span> 6$</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># echo {1..6} | sed -n &#39;l4&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span> 2<span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> <span class="m">3</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="m">4</span> 5<span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> 6$</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看模式空间内容</li>
+</ul>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># seq 5 | sed -n &#39;N; l; D&#39; </span>
+</span></span><span class="line"><span class="cl">1<span class="se">\n</span>2$
+</span></span><span class="line"><span class="cl">2<span class="se">\n</span>3$
+</span></span><span class="line"><span class="cl">3<span class="se">\n</span>4$
+</span></span><span class="line"><span class="cl">4<span class="se">\n</span>5$</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="n-读取下一行覆盖当前行" class="heading-element">
+  <a href="#n-%e8%af%bb%e5%8f%96%e4%b8%8b%e4%b8%80%e8%a1%8c%e8%a6%86%e7%9b%96%e5%bd%93%e5%89%8d%e8%a1%8c" class="heading-mark"></a>n: 读取下一行覆盖当前行</h2><p><code>n</code> 函数会提前读取下一行文本，覆盖当前模式空间中的行；旧的行会被直接输出，不会被后续命令处理；新的行也不会被前面的命令处理</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 读取第 3 行触发 n 命令，把当前模式空间内容输出，直接读取行第 4 行</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 因此，第 4 行没有触发 d 命令，第 4 行没有触发 s 命令</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;s/$/。/; 3n; 3d&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第1行。
+</span></span><span class="line"><span class="cl">这是第2行。
+</span></span><span class="line"><span class="cl">这是第3行。
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行。</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="n-当前行追加到下一行之前" class="heading-element">
+  <a href="#n-%e5%bd%93%e5%89%8d%e8%a1%8c%e8%bf%bd%e5%8a%a0%e5%88%b0%e4%b8%8b%e4%b8%80%e8%a1%8c%e4%b9%8b%e5%89%8d" class="heading-mark"></a>N: 当前行追加到下一行之前</h2><p><code>N</code> 命令会在模式空间中添加一行换行符再把下一行追加到当前模式空间，形如：”当前行内容\n下一行内容“ 的样式。如果没有更多的输入，则输出模式空间内容后退出 sed 命令，不处理其它命令</p>
+<ul>
+<li>示例：第二行和第三行连接起来</li>
+</ul>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat file </span>
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">hel
+</span></span><span class="line"><span class="cl">lo
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;2{N;s/\n//;}&#39; file </span>
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">hello</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 读取第一行触发 N 命令，读取第二行。</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   模式空间内容为：这是第1行\n这是第2行</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   之后触发 d 命令，删除模式空间内容</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 读取第三行触发 N 命令，读取第四行，因此跳过 s 命令</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;s/$/。/; N; 2d&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第3行。
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行。</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 触发 N 命令时没有读取到内容，直接输出模式空间内容，退出 sed </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;$N; d&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第5行</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="p-打印模式空间匹配项的内容" class="heading-element">
+  <a href="#p-%e6%89%93%e5%8d%b0%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4%e5%8c%b9%e9%85%8d%e9%a1%b9%e7%9a%84%e5%86%85%e5%ae%b9" class="heading-mark"></a>p: 打印模式空间匹配项的内容</h2><p><code>p</code> 命令是打印模式空间匹配项的内容，追加到默认输入之后，通常和 <code>sed -n</code> 选项一起使用</p>
+<ul>
+<li>查看奇数行</li>
+</ul>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;1~2p&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看偶数行</li>
+</ul>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat txt </span>
+</span></span><span class="line"><span class="cl">这是第1行
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第3行
+</span></span><span class="line"><span class="cl">这是第4行
+</span></span><span class="line"><span class="cl">这是第5行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 等效：sed -n &#39;2~2p&#39; txt </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed -n &#39;n;p&#39; txt </span>
+</span></span><span class="line"><span class="cl">这是第2行
+</span></span><span class="line"><span class="cl">这是第4行</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="p-打印模式空间匹配项的内容-1" class="heading-element">
+  <a href="#p-%e6%89%93%e5%8d%b0%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4%e5%8c%b9%e9%85%8d%e9%a1%b9%e7%9a%84%e5%86%85%e5%ae%b9-1" class="heading-mark"></a>P: 打印模式空间匹配项的内容</h2><p><code>P</code> 命令是打印当前模式空间匹配项开端到<code>\n</code>（换行符）的内容，并追加到默认输出之前，通常和 <code>sed -n</code> 选项一起使用</p>
+<ul>
+<li>显示<code>/etc/passwd</code>文件中以bash结尾的行</li>
+</ul>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;/bash$/p&#39;</span> /etc/passwd</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="q-输出并退出" class="heading-element">
+  <a href="#q-%e8%be%93%e5%87%ba%e5%b9%b6%e9%80%80%e5%87%ba" class="heading-mark"></a>q: 输出并退出</h2><p><code>q</code> 命令会输出模式空间内容再退出 sed ，不再读取下一行</p>
+<ul>
+<li>示例：找到第一个 <code>2</code> 字符之后退出sed</li>
+</ul>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># seq 3 | sed  &#39;/2/ q&#39; </span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="m">2</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>指定退出状态码为 42</li>
+</ul>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># echo | sed &#39;142&#39; ; echo $?</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="m">42</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="q-退出-sed" class="heading-element">
+  <a href="#q-%e9%80%80%e5%87%ba-sed" class="heading-mark"></a>Q: 退出 sed</h2><p><code>Q [退出状态码]</code> 命令（<code>GUN</code> 版本才有），退出 <code>sed</code> ，但不会显示模式空间内容，仅接受一个地址</p>
+<ul>
+<li>指定退出状态码为 42</li>
+</ul>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># echo | sed &#39;Q42&#39; ; echo $?</span>
+</span></span><span class="line"><span class="cl"><span class="m">42</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="r-读取其他文件内容" class="heading-element">
+  <a href="#r-%e8%af%bb%e5%8f%96%e5%85%b6%e4%bb%96%e6%96%87%e4%bb%b6%e5%86%85%e5%ae%b9" class="heading-mark"></a>r: 读取其他文件内容</h2><ul>
+<li>读取 <code>who</code> 文件内容追加到带有 <code>at</code> 行的下面</li>
+</ul>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;/at/ r who&#39; a.out </span>
+</span></span><span class="line"><span class="cl">sed-tbt
+</span></span><span class="line"><span class="cl">sed-at
+</span></span><span class="line"><span class="cl">199671d343
+</span></span><span class="line"><span class="cl">sed-att
+</span></span><span class="line"><span class="cl">199671d343</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="r--读取文件" class="heading-element">
+  <a href="#r--%e8%af%bb%e5%8f%96%e6%96%87%e4%bb%b6" class="heading-mark"></a>R:  读取文件</h2><p><code>R filename</code> 命令（<code>GUN</code> 版本才有）在当前循环结束时或在读取下一个输入行时，将要读取的文件名行排队并插入到输出流中。如果无法读取文件名或到达文件名末尾，则不添加任何行，而不会显示任何错误</p>
+<p>与<code>r</code>命令一样，特殊的文件 （<code>/ dev</code> <code>/ stdin</code> 之类的），该文件名从标准输入中读取一行</p>
+<h2 id="s-替换字符" class="heading-element">
+  <a href="#s-%e6%9b%bf%e6%8d%a2%e5%ad%97%e7%ac%a6" class="heading-mark"></a>s: 替换字符</h2><div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">语法：sed <span class="s1">&#39;[start|end] s/original/replacement/[substitute]&#39;</span>
+</span></span><span class="line"><span class="cl">start：匹配范围其实位置，忽略则表示从第一行开始
+</span></span><span class="line"><span class="cl">end：匹配范围结束位置，忽略则表示最后一行结束
+</span></span><span class="line"><span class="cl">//：分界符，可以使用其他字符替换，如：##、^^等等
+</span></span><span class="line"><span class="cl">original：替换前的字符
+</span></span><span class="line"><span class="cl">replacement：替换后的字符
+</span></span><span class="line"><span class="cl">	<span class="p">&amp;</span>：表示 original 匹配到的文本
+</span></span><span class="line"><span class="cl">	<span class="se">\n</span>：与正则表达式一样，<span class="sb">`</span>（<span class="sb">`</span>分组起始，<span class="sb">`</span><span class="o">)</span><span class="sb">`</span>分组结束，需要使用转义符<span class="sb">`</span><span class="se">\`</span>。sed最多能处理9个分组
+</span></span><span class="line"><span class="cl">substitute：修饰词，可以多个联合使用
+</span></span><span class="line"><span class="cl">    g：表示全局。（默认只替换每行的第一个匹配项）
+</span></span><span class="line"><span class="cl">    n：0&lt;n&lt;512的正整数，表示只替换第n次出匹配
+</span></span><span class="line"><span class="cl">    w：写入文件
+</span></span><span class="line"><span class="cl">    i：忽略匹配项大小写
+</span></span><span class="line"><span class="cl">    p：打印替换后的内容
+</span></span><span class="line"><span class="cl">    e：将模式空间中的内容当成shell命令执行（GUN sed 才能使用）
+</span></span><span class="line"><span class="cl">    几个GNU sed 特有的替换标志：
+</span></span><span class="line"><span class="cl">        <span class="se">\l</span>：（小写的L）紧跟着后面字符替换为小写，用于替换后的字符处前
+</span></span><span class="line"><span class="cl">        <span class="se">\L</span>：将后面的所有字符都替换为大写，用于替换后的字符处前
+</span></span><span class="line"><span class="cl">        <span class="se">\u</span>：（小写的U）紧跟着后面字符替换为小写，用于替换后的字符处前
+</span></span><span class="line"><span class="cl">        <span class="se">\U</span>：紧跟着后面所有字符替换为大写，用于替换后的字符处前
+</span></span><span class="line"><span class="cl">        <span class="se">\E</span>：与<span class="se">\L</span>或<span class="se">\U</span>一起使用，将关闭<span class="se">\U</span>或<span class="se">\L</span>的功能，用于替换后的字符后</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>数字日期转换</li>
+</ul>
+<div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># echo 20200701|sed &#39;s/\(....\)\(..\)\(..\)/\1年\2月\3日/&#39;</span>
+</span></span><span class="line"><span class="cl">2020年07月01日</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>替换第三个匹配</li>
+</ul>
+<div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># cat file.txt</span>
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:02 udp.go:135: listening UDP on :8488
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:02 tcp.go:101: listening TCP on :8488
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:09 tcp.go:128: proxy 113.116.236.181:28059 &lt;-&gt; 111.13.141.211:443
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:10 tcp.go:128: proxy 113.116.236.181:28061 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:10 tcp.go:128: proxy 113.116.236.181:28062 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:10 tcp.go:128: proxy 113.116.236.181:28063 &lt;-&gt; 216.58.197.100:443
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:11 tcp.go:128: proxy 113.116.236.181:28071 &lt;-&gt; 14.215.138.67:14000
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:14 tcp.go:128: proxy 113.116.236.181:28075 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:14 tcp.go:128: proxy 113.116.236.181:28076 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:14 tcp.go:128: proxy 113.116.236.181:28077 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># sed &#39;s/1/一/3&#39; file.txt</span>
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:02 udp.go:135: listening UDP on :8488
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:02 tcp.go:10一: listening TCP on :8488
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:09 tcp.go:128: proxy 一13.116.236.181:28059 &lt;-&gt; 111.13.141.211:443
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:10 tcp.go:一28: proxy 113.116.236.181:28061 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:10 tcp.go:一28: proxy 113.116.236.181:28062 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:10 tcp.go:一28: proxy 113.116.236.181:28063 &lt;-&gt; 216.58.197.100:443
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:1一 tcp.go:128: proxy 113.116.236.181:28071 &lt;-&gt; 14.215.138.67:14000
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:14 tcp.go:一28: proxy 113.116.236.181:28075 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:14 tcp.go:一28: proxy 113.116.236.181:28076 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:14 tcp.go:一28: proxy 113.116.236.181:28077 &lt;-&gt; 8.8.8.8:53</span></span></code></pre></td></tr></table>
+</div>
+</div><br/>
+<ul>
+<li>以 voiceId 字符串为行开头</li>
+</ul>
+<div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># \n 表示换行符</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># &amp; 表示前面匹配的 voiceId</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2g 表示从第二个匹配开始之后的所有匹配</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 gawk<span class="o">]</span><span class="c1"># sed &#39;s/voiceId/\n&amp;/2g&#39; file3</span>
+</span></span><span class="line"><span class="cl">voiceId RQIVOICE_3d923f1b-178f-4703-ae41-6a70942b2657 quality_rt_quality <span class="m">1594792296863</span> 
+</span></span><span class="line"><span class="cl">voiceId RQIVOICE_3d923f1b-178f-4703-ae41-6a7094211111 quality_rt_quality <span class="m">1594792297409</span> 
+</span></span><span class="line"><span class="cl">voiceId RQIVOICE_3d923f1b-178f-4703-ae41-6a70333337 knowledge <span class="m">1594792295712</span> repNo <span class="m">10089</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 gawk<span class="o">]</span><span class="c1"># cat file3</span>
+</span></span><span class="line"><span class="cl">voiceId RQIVOICE_3d923f1b-178f-4703-ae41-6a70942b2657 quality_rt_quality <span class="m">1594792296863</span> voiceId RQIVOICE_3d923f1b-178f-4703-ae41-6a7094211111 quality_rt_quality <span class="m">1594792297409</span> voiceId RQIVOICE_3d923f1b-178f-4703-ae41-6a70333337 knowledge <span class="m">1594792295712</span> repNo <span class="m">10089</span></span></span></code></pre></td></tr></table>
+</div>
+</div><br/>
+<ul>
+<li>将SELINUX=开头的enforcing修改为disabled</li>
+</ul>
+<div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -i <span class="s1">&#39;/^SELINUX=/ s/enforcing/disabled/g&#39;</span> /etc/selinux/config</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将1至5行的第一个NSA替换成nsa，并把替换的行输出到屏幕</li>
+</ul>
+<div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed  <span class="s1">&#39;1,5 s/NSA/nsa/ p&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>从第3个nas开始替换</li>
+</ul>
+<div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed <span class="s1">&#39;s/nas/NAS/2&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将匹配到original行的nass替换成NASS</li>
+</ul>
+<div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;/original/ s/nass/NASS/g&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将nas替换成NAS写入到file2</li>
+</ul>
+<div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed  <span class="s1">&#39;s/nas/NAS/g  w file2&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将NAS（不区分大小写）替换成NAS</li>
+</ul>
+<div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed <span class="s1">&#39;s/NAS/NAS/i&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将文件中的行首添加echo 并当初shell执行</li>
+</ul>
+<div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed <span class="s1">&#39;s/^/echo /e&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将NAS替换成original在将含original的行打印</li>
+</ul>
+<div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed <span class="s1">&#39;{
+</span></span></span><span class="line"><span class="cl"><span class="s1">s/NAS/original/g
+</span></span></span><span class="line"><span class="cl"><span class="s1">/original/ p
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将5至7行行首加入 <code>&lt;</code>，行尾加入<code>&gt;</code>；<code>&amp;</code> 获取匹配</li>
+</ul>
+<div class="highlight" id="id-40"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed <span class="s1">&#39;5,7 s/^.*/&lt;&amp;&gt;/g&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>sed获取目录，等效 <code>dirname</code> 命令</li>
+</ul>
+<div class="highlight" id="id-41"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 shell<span class="o">]</span><span class="c1"># echo &#39;/root/file&#39; | sed -r  &#39;s#(/[^/]+)/[^/]+/?$#\1#g&#39;</span>
+</span></span><span class="line"><span class="cl">/root</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>sed获取文件名称，等效 <code>basename</code> 命令</li>
+</ul>
+<div class="highlight" id="id-42"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 shell<span class="o">]</span><span class="c1"># echo &#39;/root/file.txt&#39; | sed -r &#39;s#/.*/([^/]+)/?$#\1#g&#39;</span>
+</span></span><span class="line"><span class="cl">file.txt</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>获取用户名</li>
+</ul>
+<div class="highlight" id="id-43"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed <span class="s1">&#39;s/\([^:]*\).*/\1/&#39;</span> /etc/passwd</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>获取用户名和shell</li>
+</ul>
+<div class="highlight" id="id-44"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -nr <span class="s1">&#39;s/^(.*:)(.*):(.*):(.*):(.*):(.*):(.*)/\1\7/p&#39;</span> /etc/passwd</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>把 <code>server 0.centos.pool.ntp.org iburst</code>换成<code>server ntp1.aliyun.com iburst</code></li>
+</ul>
+<div class="highlight" id="id-45"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed  <span class="s1">&#39;s/\(^server \)\(0.*\)\( iburst\)$/\1ntp1.aliyun.com\3/&#39;</span> /etc/chrony.conf</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>获取URL：</li>
+</ul>
+<div class="highlight" id="id-46"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat url</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;url&#34;</span>:<span class="s2">&#34;http://openapi.fjsdn.com/swan/cdn/cn.log.gz&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 方法1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;s/.\+&#34;:&#34;\(.\+\)&#34;/\1/&#39; url</span>
+</span></span><span class="line"><span class="cl">http://openapi.fjsdn.com/swan/cdn/cn.log.gz
+</span></span><span class="line"><span class="cl"><span class="c1"># 方法2</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed &#39;s/.\+&#34;:&#34;\(.\+\)&#34;\r\?$/\1/&#39; url</span>
+</span></span><span class="line"><span class="cl">http://openapi.fjsdn.com/swan/cdn/cn.log.gz</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>删除所有空格</li>
+</ul>
+<div class="highlight" id="id-47"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@master ~<span class="o">]</span><span class="c1"># sed s/[[:space:]]//g file</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>匹配<code>com_redhat_kdump</code>的行 将<code>%</code>替换为<code>#</code></li>
+</ul>
+<div class="highlight" id="id-48"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># sed &#39;/com_redhat_kdump/s/%/#/g&#39; anaconda-ks.cfg</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>删除行开头的除空格或制表符</li>
+</ul>
+<div class="highlight" id="id-49"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#34;   ff&#34; | sed &#39;s/^[ \t]*//;s/[ \t]*$//&#39; </span>
+</span></span><span class="line"><span class="cl">ff</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>删除只有空格或制表符的行</li>
+</ul>
+<div class="highlight" id="id-50"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># sed -i &#39;s/^[ \t]//;s/[ \t]*$//&#39; /mnt/hgfs/note/centos/centos7/centos7-sed.md</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>获取values后面的值</li>
+</ul>
+<div class="highlight" id="id-51"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat sql</span>
+</span></span><span class="line"><span class="cl">Insert into ZYQJ.AS1_SYS_IP <span class="o">(</span>ID,RANGE_START,RANGE_END,ADDRESS,NETWORK,RANGE_START_NUMBER,RANGE_END_NUMBER,CITY<span class="o">)</span> values <span class="o">(</span><span class="s1">&#39;a81faebcc24b441ab0606b87f9660f7e&#39;</span>,<span class="s1">&#39;222.67.177.0&#39;</span>,<span class="s1">&#39;222.67.177.255&#39;</span>,<span class="s1">&#39;上海市虹口区&#39;</span>,<span class="s1">&#39;电信&#39;</span>,3728978176,3728978431,<span class="s1">&#39;上海市&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">Insert into ZYQJ.AS1_SYS_IP <span class="o">(</span>ID,RANGE_START,RANGE_END,ADDRESS,NETWORK,RANGE_START_NUMBER,RANGE_END_NUMBER,CITY<span class="o">)</span> values <span class="o">(</span><span class="s1">&#39;71e64cf795744ff194f0db2d110d8a19&#39;</span>,<span class="s1">&#39;222.74.231.134&#39;</span>,<span class="s1">&#39;222.74.235.255&#39;</span>,<span class="s1">&#39;内蒙古呼和浩特市&#39;</span>,<span class="s1">&#39;电信&#39;</span>,3729450886,3729452031,<span class="s1">&#39;呼和浩特市&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">Insert into ZYQJ.AS1_SYS_IP <span class="o">(</span>ID,RANGE_START,RANGE_END,ADDRESS,NETWORK,RANGE_START_NUMBER,RANGE_END_NUMBER,CITY<span class="o">)</span> values <span class="o">(</span><span class="s1">&#39;9c18fceddf2b4e09af0f3dbc615591df&#39;</span>,<span class="s1">&#39;222.74.237.51&#39;</span>,<span class="s1">&#39;222.74.237.255&#39;</span>,<span class="s1">&#39;内蒙古通辽市&#39;</span>,<span class="s1">&#39;电信&#39;</span>,3729452339,3729452543,<span class="s1">&#39;通辽市&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># vim也可以实现：vim -c &#34;:%s/.\+values\s\+(\(.\+\))\s*;$/\1/&#34; -cwq sql</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># .\+values 正则表达式：一个或多个字符，直到values 字符串，也就是 Insert...values</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># \s\+ 正则表达式：一个或多个空白字符</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ( 正则表达式：字符本身</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># \(.\+\) 正则表达式：一个或多个字符，直到字符串 ) 为止，且分组为 1，也就是 values 字符串之后拓号的内容</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># \s*$ 正则表达式：0个或多个空白字符，直到结尾，也就是 );</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># \1 正则表达式：表示把上述匹配的字符串替换为 1 分组的内容</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed  &#39;s/.\+values\s\+(\(.\+\))\s*;$/\1/&#39; sql</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;a81faebcc24b441ab0606b87f9660f7e&#39;</span>,<span class="s1">&#39;222.67.177.0&#39;</span>,<span class="s1">&#39;222.67.177.255&#39;</span>,<span class="s1">&#39;上海市虹口区&#39;</span>,<span class="s1">&#39;电信&#39;</span>,3728978176,3728978431,<span class="s1">&#39;上海市&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;71e64cf795744ff194f0db2d110d8a19&#39;</span>,<span class="s1">&#39;222.74.231.134&#39;</span>,<span class="s1">&#39;222.74.235.255&#39;</span>,<span class="s1">&#39;内蒙古呼和浩特市&#39;</span>,<span class="s1">&#39;电信&#39;</span>,3729450886,3729452031,<span class="s1">&#39;呼和浩特市&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;9c18fceddf2b4e09af0f3dbc615591df&#39;</span>,<span class="s1">&#39;222.74.237.51&#39;</span>,<span class="s1">&#39;222.74.237.255&#39;</span>,<span class="s1">&#39;内蒙古通辽市&#39;</span>,<span class="s1">&#39;电信&#39;</span>,3729452339,3729452543,<span class="s1">&#39;通辽市&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>添加行号并使用冒号分隔</li>
+</ul>
+<div class="highlight" id="id-52"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># N：表示当前行与上一行相连接，sed 不会处理行尾的换行符，但字符中间的换行符会处理</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># sed = file.txt | sed &#39;N;s/\n/:/&#39;</span>
+</span></span><span class="line"><span class="cl">1:2020/06/04 07:21:02 udp.go:135: listening UDP on :8488
+</span></span><span class="line"><span class="cl">2:2020/06/04 07:21:02 tcp.go:101: listening TCP on :8488
+</span></span><span class="line"><span class="cl">3:2020/06/04 07:21:09 tcp.go:128: proxy 113.116.236.181:28059 &lt;-&gt; 111.13.141.211:443
+</span></span><span class="line"><span class="cl">4:2020/06/04 07:21:10 tcp.go:128: proxy 113.116.236.181:28061 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">5:2020/06/04 07:21:10 tcp.go:128: proxy 113.116.236.181:28062 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">6:2020/06/04 07:21:10 tcp.go:128: proxy 113.116.236.181:28063 &lt;-&gt; 216.58.197.100:443
+</span></span><span class="line"><span class="cl">7:2020/06/04 07:21:11 tcp.go:128: proxy 113.116.236.181:28071 &lt;-&gt; 14.215.138.67:14000
+</span></span><span class="line"><span class="cl">8:2020/06/04 07:21:14 tcp.go:128: proxy 113.116.236.181:28075 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">9:2020/06/04 07:21:14 tcp.go:128: proxy 113.116.236.181:28076 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">10:2020/06/04 07:21:14 tcp.go:128: proxy 113.116.236.181:28077 &lt;-&gt; 8.8.8.8:53</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="t-有条件分支" class="heading-element">
+  <a href="#t-%e6%9c%89%e6%9d%a1%e4%bb%b6%e5%88%86%e6%94%af" class="heading-mark"></a>t: 有条件分支</h2><p><code>t</code> 如果最后一次输入的最后一个 <code>s</code> 子命令执行成功,跳转到标签（<code>label</code>）,如果没有指定标签（label）,则跳转到命令的结尾</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-53"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 前面 s 命令执行成功的会跳转到结尾</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo -e &#34;AA\nBC\nAA\nCB\nCC\nAA&#34; | sed  &#39;/^A/ s/$/：YES/; t; s/$/：NO/&#39;</span>
+</span></span><span class="line"><span class="cl">AA：YES
+</span></span><span class="line"><span class="cl">BC：NO
+</span></span><span class="line"><span class="cl">AA：YES
+</span></span><span class="line"><span class="cl">CB：NO
+</span></span><span class="line"><span class="cl">CC：NO
+</span></span><span class="line"><span class="cl">AA：YES</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：千分位</li>
+</ul>
+<div class="highlight" id="id-54"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">等效：echo <span class="s2">&#34;1234&#34;</span><span class="p">|</span>sed -r <span class="s1">&#39;:1 s/(.*\B)(\w{3})/\1,\2/;t1&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#34;1234&#34;|sed &#39;:1 s/\B\w\{3\}\b/,&amp;/;t1&#39;</span>
+</span></span><span class="line"><span class="cl">1,234</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-55"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#34;01/02/03/t1.txt&#34; | sed &#39;:1 s#^\([^,]\+\)/\(.*\)#\1,\1/\2#;t1&#39;</span>
+</span></span><span class="line"><span class="cl">01,01/02,01/02/03,01/02/03/t1.txt</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="t-有条件分支-1" class="heading-element">
+  <a href="#t-%e6%9c%89%e6%9d%a1%e4%bb%b6%e5%88%86%e6%94%af-1" class="heading-mark"></a>T: 有条件分支</h2><p><code>T</code> 命令仅在自读取最后一条输入行以来没有成功替换的情况下分支。和 <code>t</code> 相反</p>
+<h2 id="v-查看是否支持-gun-扩展" class="heading-element">
+  <a href="#v-%e6%9f%a5%e7%9c%8b%e6%98%af%e5%90%a6%e6%94%af%e6%8c%81-gun-%e6%89%a9%e5%b1%95" class="heading-mark"></a>v: 查看是否支持 <code>GUN</code> 扩展</h2><p>该命令不执行任何操作，如果 <code>sed  不支持  GNU     扩展，则使该命令失败。此外，可以指定 </code>sed<code>脚本所需的版本，例如</code>4.0.5<code>。缺省是 </code>4.0<code>因为这是实现此命令的第一个版本。即使</code>POSIXLY_CORRECT<code>在环境中设置了此命令，也会启用所有 </code>GNU` 扩展</p>
+<h2 id="w-写入其他文件" class="heading-element">
+  <a href="#w-%e5%86%99%e5%85%a5%e5%85%b6%e4%bb%96%e6%96%87%e4%bb%b6" class="heading-mark"></a>w: 写入其他文件</h2><ul>
+<li>将file的内容写入file2，file2可以是绝对路径，如果file2存在则覆盖</li>
+</ul>
+<div class="highlight" id="id-56"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;w file2&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将file的第二行写入file2</li>
+</ul>
+<div class="highlight" id="id-57"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39; 2 w file2&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将file的奇数行写入file2</li>
+</ul>
+<div class="highlight" id="id-58"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;1~2 w file2 &#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将file的1-4行写入file2</li>
+</ul>
+<div class="highlight" id="id-59"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;1,4 w file2&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将file的第3行至最后一行写入file2</li>
+</ul>
+<div class="highlight" id="id-60"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;2,$ w file2&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将第一次匹配operate的行到第8行写入file2，如果前8行没有匹配到operate，则从第8行开始直到匹配为止</li>
+</ul>
+<div class="highlight" id="id-61"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39; /operate/,8 w file2 &#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将匹配asd和行到匹配lkj的行写入file2</li>
+</ul>
+<div class="highlight" id="id-62"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;/asd/,/lkj/ w file2 &#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将匹配operate的行以及后4行写入file2 (不能将匹配模式和步长共用)</li>
+</ul>
+<div class="highlight" id="id-63"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sed -n <span class="s1">&#39;/operate/,+2 w file2&#39;</span> file</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="w-写入文文件" class="heading-element">
+  <a href="#w-%e5%86%99%e5%85%a5%e6%96%87%e6%96%87%e4%bb%b6" class="heading-mark"></a>W: 写入文文件</h2><p><code>W file</code>  （<code>GUN</code> 版本才有）命令将模式空间开头到第一个换行符部分写入给定文件名</p>
+<h2 id="x-将当前保持空间和模式空间内容互换" class="heading-element">
+  <a href="#x-%e5%b0%86%e5%bd%93%e5%89%8d%e4%bf%9d%e6%8c%81%e7%a9%ba%e9%97%b4%e5%92%8c%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4%e5%86%85%e5%ae%b9%e4%ba%92%e6%8d%a2" class="heading-mark"></a>x: 将当前保持空间和模式空间内容互换</h2><p><code>x</code> 命令是将当前保持空间和模式空间内容互换</p>
+<ul>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-64"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># cat ddd</span>
+</span></span><span class="line"><span class="cl">This is a and a is <span class="m">1</span>
+</span></span><span class="line"><span class="cl">This is b and b is <span class="m">2</span>
+</span></span><span class="line"><span class="cl">This is c and c is <span class="m">3</span>
+</span></span><span class="line"><span class="cl">This is d and d is <span class="m">4</span>
+</span></span><span class="line"><span class="cl">This is e and e is <span class="m">5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># sed &#39;h;{s/.*is \(.*\) and .*/\1/;y/abcde/ABCDE/;G;s/\(.*\)\n\(.*is \).*\(and \).*\(is \)\(.*\)/\2\5 \3\5 \4\1/}&#39; ddd</span>
+</span></span><span class="line"><span class="cl">This is <span class="m">1</span> and <span class="m">1</span> is A
+</span></span><span class="line"><span class="cl">This is <span class="m">2</span> and <span class="m">2</span> is B
+</span></span><span class="line"><span class="cl">This is <span class="m">3</span> and <span class="m">3</span> is C
+</span></span><span class="line"><span class="cl">This is <span class="m">4</span> and <span class="m">4</span> is D
+</span></span><span class="line"><span class="cl">This is <span class="m">5</span> and <span class="m">5</span> is E</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="y-转换字符" class="heading-element">
+  <a href="#y-%e8%bd%ac%e6%8d%a2%e5%ad%97%e7%ac%a6" class="heading-mark"></a>y: 转换字符</h2><p>替换为对应的字符，并非替换字符串</p>
+<ul>
+<li>把 字符 t 替换为 T; 字符c替换为C；p 替换为 P</li>
+</ul>
+<div class="highlight" id="id-65"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># sed &#39;y/tcp/TCP/&#39; file.txt </span>
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:17 TCP.go:128: Proxy 113.116.236.181:28138 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:17 TCP.go:128: Proxy 113.116.236.181:28139 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:17 TCP.go:128: Proxy 113.116.236.181:28140 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:18 TCP.go:128: Proxy 113.116.236.181:28137 &lt;-&gt; 157.185.128.213:80
+</span></span><span class="line"><span class="cl">2020/06/04 07:21:18 TCP.go:128: Proxy 113.116.236.181:28141 &lt;-&gt; 119.147.46.68:80</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>把字符 2替换为1；字符P 替换为 p</li>
+</ul>
+<div class="highlight" id="id-66"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># sed &#39;y/2P/1p/&#39; file.txt </span>
+</span></span><span class="line"><span class="cl">1010/06/04 07:11:17 tcp.go:118: proxy 113.116.136.181:18138 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">1010/06/04 07:11:17 tcp.go:118: proxy 113.116.136.181:18139 &lt;-&gt; 8.8.8.8:53
+</span></span><span class="line"><span class="cl">1010/06/04 07:11:17 tcp.go:118: proxy 113.116.136.181:18140 &lt;-&gt; 8.8.8.8:53</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="-统计行" class="heading-element">
+  <a href="#-%e7%bb%9f%e8%ae%a1%e8%a1%8c" class="heading-mark"></a>=: 统计行</h2><div class="highlight" id="id-67"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># sed -n &#39;$=&#39; fd</span>
+</span></span><span class="line"><span class="cl"><span class="m">10</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="z-清空模式空间的内容" class="heading-element">
+  <a href="#z-%e6%b8%85%e7%a9%ba%e6%a8%a1%e5%bc%8f%e7%a9%ba%e9%97%b4%e7%9a%84%e5%86%85%e5%ae%b9" class="heading-mark"></a>z: 清空模式空间的内容</h2><p><code>z</code> ( <code>GUN</code> 版本才有) 该命令清空模式空间的内容。等效 <code>s /.*//</code>，但效率更高</p>
+<h2 id="-注释" class="heading-element">
+  <a href="#-%e6%b3%a8%e9%87%8a" class="heading-mark"></a>#: 注释</h2><p><code>#</code> 命令在添加注释信息，通常在脚本中。如果sed脚本的前两个字符为<code>#n</code>，则 <code>sed -n</code>（无自动打印）选项是强制的。想在脚本的第一行中添加注释，可以使用 <code>#N</code> 或在之前保留一个空格 <code> #n</code></p>
+<h2 id="同时执行多个sed命令方法" class="heading-element">
+  <a href="#%e5%90%8c%e6%97%b6%e6%89%a7%e8%a1%8c%e5%a4%9a%e4%b8%aased%e5%91%bd%e4%bb%a4%e6%96%b9%e6%b3%95" class="heading-mark"></a>同时执行多个sed命令方法</h2><div class="highlight" id="id-68"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 使用 `-e` 选项</span>
+</span></span><span class="line"><span class="cl">sed -n -e <span class="s1">&#39;/^root/ p&#39;</span> -e <span class="s1">&#39;/^nobody/ p&#39;</span> /etc/passwd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用`{ }`分组执行，这种可以把相同地址且连续的操作放入大跨号内，</span>
+</span></span><span class="line"><span class="cl">sed -n <span class="s1">&#39;2{
+</span></span></span><span class="line"><span class="cl"><span class="s1">/^root/ p
+</span></span></span><span class="line"><span class="cl"><span class="s1">/^nobody/ p
+</span></span></span><span class="line"><span class="cl"><span class="s1">}&#39;</span> /etc/passwd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 ;分割</span>
+</span></span><span class="line"><span class="cl">sed -n <span class="s1">&#39;n;p&#39;</span> file.txt </span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="分支的循环" class="heading-element">
+  <a href="#%e5%88%86%e6%94%af%e7%9a%84%e5%be%aa%e7%8e%af" class="heading-mark"></a>分支的循环</h1><p>标签: 以冒号 <code>:</code> 定义，后面可以是一个或多个字母数字，如 <code>:1</code> 表示标签为 1</p>
+<p>如果 sed 命令中没有标签时，则分支命令（<code>t</code>, <code>T</code>, <code>b</code>）重新启动循环</p>
+<p>跳转到标签和循环
+重新启动循环时，sed首先打印模式空间的当前内容，然后将下一个输入行读入模式空间
+跳转到标签（即使它位于程序的开头）也不会打模式空间，也不会读取下一个输入行。</p>
+<h1 id="sed脚本" class="heading-element">
+  <a href="#sed%e8%84%9a%e6%9c%ac" class="heading-mark"></a>sed脚本</h1><p>在文本文件中，每一行记录一个sed命令操作，多个sed命令操作组合而成</p>
+<p>sed脚本流程</p>
+<ol>
+<li>读取文件第一行内容到空间模式</li>
+<li>依次执行sed脚本中的操作</li>
+<li>读取文件第二行到空间空间模式，依次类推，直到遍历整个文件</li>
+</ol>
+<p>将多个sed执行命令写入一个文件中组成一个sed脚本文件</p>
+<p>在sed脚本中#开头的行表示注释。但有2种特殊情况：</p>
+<ol>
+<li>第一行如果sed命令则表示默认值，如<code>#-n</code>（不自动打印模式空间内容）方法：<code>sed -f sed脚本文件 文档文件</code></li>
+<li>第一行如果是<code>#!/bin/sed -f</code> 则作为默认解释器。方法：加执行权限，<code>./sed脚本文件  文档文件</code></li>
+</ol>
+<ul>
+<li>更据env的内容去修改fd文件 。<code>-f</code> 表示用指定文档（sed命令）内容  去修改文件。</li>
+</ul>
+<div class="highlight" id="id-69"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># cat env</span>
+</span></span><span class="line"><span class="cl">/^name/ c<span class="se">\n</span>ame<span class="o">=</span>copr
+</span></span><span class="line"><span class="cl"><span class="m">2</span> i ggom
+</span></span><span class="line"><span class="cl">4d
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># sed -i -f env fd</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># cat fd</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>librehat-shadowsocks<span class="o">]</span>
+</span></span><span class="line"><span class="cl">ggom
+</span></span><span class="line"><span class="cl"><span class="nv">name</span><span class="o">=</span>copr
+</span></span><span class="line"><span class="cl"><span class="nv">repo_gpgcheck</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">enabled</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">enabled_metadata</span><span class="o">=</span><span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="退出状态码" class="heading-element">
+  <a href="#%e9%80%80%e5%87%ba%e7%8a%b6%e6%80%81%e7%a0%81" class="heading-mark"></a>退出状态码</h1><p>sed 退出状态码有以下固定信息：</p>
+<ul>
+<li>0：成功</li>
+<li>1：无效命令（语法、正则表达式、选项等）</li>
+<li>2：无法打开在命令行上指定的一个或多个输入文件（例如，如果找不到文件或拒绝了读取权限）。其他文件继续处理</li>
+<li>4：<code>I/O</code> 错误或运行时严重的处理错误，GNU sed立即中止</li>
+</ul>
+<p>退出状态码可以在 <code>q</code> 或 <code>Q</code> 中指定</p>
+<ul>
+<li>指定退出状态码为 42</li>
+</ul>
+<div class="highlight" id="id-70"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># echo | sed &#39;Q42&#39; ; echo $?</span>
+</span></span><span class="line"><span class="cl"><span class="m">42</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-06-08 21:26:50">更新于 2023-06-08&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/sed/" class="post-tag" title="标签 - sed">sed</a><a href="/tags/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/" class="post-tag" title="标签 - 文本处理">文本处理</a><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" class="post-nav-item" rel="prev" title="进程管理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>进程管理</a>
+      <a href="/user/" class="post-nav-item" rel="next" title="用户与权限">用户与权限<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

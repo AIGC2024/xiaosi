@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>kubelet CRI 工具 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="crictl、critest" /><meta name="keywords" content='k8s, crictl, critest' /><meta itemprop="name" content="kubelet CRI 工具">
+<meta itemprop="description" content="crictl、critest"><meta itemprop="datePublished" content="2022-08-10T20:26:33+08:00" />
+<meta itemprop="dateModified" content="2022-08-13T13:34:17+08:00" />
+<meta itemprop="wordCount" content="2617">
+<meta itemprop="keywords" content="k8s,crictl,critest," /><meta property="og:title" content="kubelet CRI 工具" />
+<meta property="og:description" content="crictl、critest" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/kubelet-CRI-%E5%B7%A5%E5%85%B7/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-10T20:26:33+08:00" />
+<meta property="article:modified_time" content="2022-08-13T13:34:17+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="kubelet CRI 工具"/>
+<meta name="twitter:description" content="crictl、critest"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/kubelet-CRI-%E5%B7%A5%E5%85%B7/" /><link rel="prev" href="/k8sContainerd/" /><link rel="next" href="/%E7%BB%88%E7%AB%AF%E5%BF%AB%E6%8D%B7%E9%94%AE/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "kubelet CRI 工具",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/kubelet-CRI-%E5%B7%A5%E5%85%B7\/"
+    },"genre": "posts","keywords": "k8s, crictl, critest","wordcount":  2617 ,
+    "url": "\/kubelet-CRI-%E5%B7%A5%E5%85%B7\/","datePublished": "2022-08-10T20:26:33+08:00","dateModified": "2022-08-13T13:34:17+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>kubelet CRI 工具</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-10 20:26:33"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-10">2022-08-10</time></span>&nbsp;<span title="更新于 2022-08-13 13:34:17"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-13">2022-08-13</time></span>&nbsp;<span title="2617 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#cri-tools">cri-tools</a></li>
+    <li><a href="#crictl">crictl</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#配置文件">配置文件</a></li>
+        <li><a href="#查看-crictl-版本">查看 crictl 版本</a></li>
+        <li><a href="#查看容器运行时版本">查看容器运行时版本</a></li>
+        <li><a href="#查看窗口运行时信息">查看窗口运行时信息</a></li>
+        <li><a href="#拉取镜像">拉取镜像</a></li>
+        <li><a href="#查看镜像">查看镜像</a></li>
+        <li><a href="#删除镜像">删除镜像</a></li>
+        <li><a href="#创建容器">创建容器</a></li>
+        <li><a href="#运行容器">运行容器</a></li>
+        <li><a href="#查看容器列表">查看容器列表</a></li>
+        <li><a href="#查看容器状态">查看容器状态</a></li>
+        <li><a href="#查看容器日志">查看容器日志</a></li>
+        <li><a href="#停止容器">停止容器</a></li>
+        <li><a href="#启动容器">启动容器</a></li>
+        <li><a href="#更新容器">更新容器</a></li>
+        <li><a href="#查看容器使用资源统计信息">查看容器使用资源统计信息</a></li>
+        <li><a href="#在正在运行的容器中运行命令">在正在运行的容器中运行命令</a></li>
+        <li><a href="#删除容器">删除容器</a></li>
+        <li><a href="#创建-pod">创建 pod</a></li>
+        <li><a href="#查看-pod-列表">查看 pod 列表</a></li>
+        <li><a href="#查看-pod-状态">查看 pod 状态</a></li>
+        <li><a href="#查看-pod-资源使用情况统计">查看 pod 资源使用情况统计</a></li>
+        <li><a href="#从-sandbox-中运行新的容器">从 sandbox 中运行新的容器</a></li>
+        <li><a href="#将本地端口转发到-pod">将本地端口转发到 Pod</a></li>
+        <li><a href="#停止-pod">停止 pod</a></li>
+        <li><a href="#删除-pod">删除 pod</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-08-13，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>crictl: 0.1.0</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://github.com/kubernetes-sigs/cri-tools"target="_blank" rel="external nofollow noopener noreferrer">cri-tools</a></li>
+</ul>
+</blockquote>
+<h1 id="cri-tools" class="heading-element">
+  <a href="#cri-tools" class="heading-mark"></a>cri-tools</h1><p><code>cri-tools</code> 项目目的是为 <code>kubelet</code> 容器运行时接口 （<code>CRI</code>） 提供一系列调试和验证工具，目前有：</p>
+<ul>
+<li><code>crictl</code>: <code>CRI</code> 客户端工具</li>
+<li><code>critest</code>: <code>CRI</code> 验证测试工具</li>
+</ul>
+<p>这些工具目前在测试阶段，通过 <code>CRI</code> 接口不需要 <code>k8s</code> 组件就可以调用容器</p>
+<h1 id="crictl" class="heading-element">
+  <a href="#crictl" class="heading-mark"></a>crictl</h1><h2 id="安装" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark"></a>安装</h2><ol>
+<li>从 <a href="https://github.com/kubernetes-sigs/cri-tools/releases"target="_blank" rel="external nofollow noopener noreferrer"><code>cri-toos</code> 发布页面下载</a> 或使用以下命令下载</li>
+</ol>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># $VERSION 变量是版本号，如：v1.24.2</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 wget 命令下载</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 curl 命令下载</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># curl -L https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-${VERSION}-linux-amd64.tar.gz --output crictl-${VERSION}-linux-amd64.tar.gz</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>解压安装</li>
+</ol>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="配置文件" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>配置文件</h2><p><code>crictl --config</code> 或 <code>crictl -c</code> 命令指定配置文件，如果缺少该指定默认使用 <code>/etc/crictl.yaml</code> 文件</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># cat /etc/crictl.yaml </span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">image-endpoint: unix:///var/run/image-cri-shim.sock
+</span></span><span class="line"><span class="cl">runtime-endpoint: unix:///run/containerd/containerd.sock</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用 <code>crictl config</code> 命令可以获取或指定配置项，命令行指定的配置项会覆盖配置文件</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl config -h</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl config <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> <span class="o">[</span>&lt;crictl options&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CRICTL OPTIONS:
+</span></span><span class="line"><span class="cl">   runtime-endpoint:        <span class="c1"># 指定容器运行工具 unix 地址</span>
+</span></span><span class="line"><span class="cl">                            <span class="c1"># 该工具必须支持 CRI 接口规范</span>
+</span></span><span class="line"><span class="cl">   image-endpoint:          <span class="c1"># 镜像下载工具 unix 地址</span>
+</span></span><span class="line"><span class="cl">   timeout:                 <span class="c1"># 连接超时时间，默认值为 2 s</span>
+</span></span><span class="line"><span class="cl">   debug:                   <span class="c1"># 是否开始调试模式，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   pull-image-on-create:    <span class="c1"># 是否在创建请求时启用拉取镜像，默认值为 flase</span>
+</span></span><span class="line"><span class="cl">   disable-pull-on-run:     <span class="c1"># 是否在运行请求时禁用拉取镜像，默认值为 flase</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --get value      <span class="c1"># 获取配置项值</span>
+</span></span><span class="line"><span class="cl">   --set value      <span class="c1"># 设置配置项值，多个配置项用逗号分隔</span>
+</span></span><span class="line"><span class="cl">   --help, -h       <span class="c1"># 是否获取帮助信息，默认值为 flase</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看-crictl-版本" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b-crictl-%e7%89%88%e6%9c%ac" class="heading-mark"></a>查看 crictl 版本</h2><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl -v</span>
+</span></span><span class="line"><span class="cl">crictl version 1.20.0-24-g53ad8bb7</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看容器运行时版本" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e6%97%b6%e7%89%88%e6%9c%ac" class="heading-mark"></a>查看容器运行时版本</h2><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl version</span>
+</span></span><span class="line"><span class="cl">Version:  0.1.0
+</span></span><span class="line"><span class="cl">RuntimeName:  containerd
+</span></span><span class="line"><span class="cl">RuntimeVersion:  v1.6.2
+</span></span><span class="line"><span class="cl">RuntimeApiVersion:  v1alpha2</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看窗口运行时信息" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e7%aa%97%e5%8f%a3%e8%bf%90%e8%a1%8c%e6%97%b6%e4%bf%a1%e6%81%af" class="heading-mark"></a>查看窗口运行时信息</h2><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl info --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl info <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> <span class="o">[</span>arguments...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --output value, -o value  Output format, One of: json<span class="p">|</span>yaml<span class="p">|</span>go-template <span class="o">(</span>default: <span class="s2">&#34;json&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --quiet, -q               Do not show verbose information <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --template value          The template string is only used when output is go-template<span class="p">;</span> The Template format is golang template</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="拉取镜像" class="heading-element">
+  <a href="#%e6%8b%89%e5%8f%96%e9%95%9c%e5%83%8f" class="heading-mark"></a>拉取镜像</h2><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl pull --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl pull <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> NAME<span class="o">[</span>:TAG<span class="p">|</span>@DIGEST<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --auth AUTH_STRING                   <span class="c1"># 使用 AUTH_STRING 访问注册表</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># AUTH_STRING 是 base64 编码的 &#39;USERNAME[:PASSWORD]</span>
+</span></span><span class="line"><span class="cl">   --creds USERNAME<span class="o">[</span>:PASSWORD<span class="o">]</span>          <span class="c1"># 使用 USERNAME[:PASSWORD] 访问注册表</span>
+</span></span><span class="line"><span class="cl">   --pod-config pod-config.<span class="o">[</span>json<span class="p">|</span>yaml<span class="o">]</span>  <span class="c1"># 使用 k8s pod 清单文件中拉取镜像</span>
+</span></span><span class="line"><span class="cl">   --help, -h                           <span class="c1"># 是否获取帮助信息，默认值为 flase</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>拉取 <code>busybox</code> 镜像</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ crictl pull busybox
+</span></span><span class="line"><span class="cl">Image is up to date <span class="k">for</span> busybox@sha256:141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看镜像" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e9%95%9c%e5%83%8f" class="heading-mark"></a>查看镜像</h2><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl image --help</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl images <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> <span class="o">[</span>REPOSITORY<span class="o">[</span>:TAG<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --digests                <span class="c1"># 是否显示摘要，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   --verbose, -v            <span class="c1"># 是否显示完整信息同，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   --no-trunc               <span class="c1"># 是否显示完整镜像 ID，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   --quiet, -q              <span class="c1"># 是否只显示镜像 ID，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   --output value, -o value <span class="c1"># 指定输出格式，有 json、yaml、table (默认值)</span>
+</span></span><span class="line"><span class="cl">   --help, -h               <span class="c1"># 是否显示帮助信息，默认值为 false</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看当前以有镜像</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl image</span>
+</span></span><span class="line"><span class="cl">IMAGE                                       TAG                 IMAGE ID            SIZE
+</span></span><span class="line"><span class="cl">sealos.hub:5000/calico/cni                  v3.22.1             2a8ef6985a3e5       80.5MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/calico/node                 v3.22.1             7a71aca7b60fc       69.6MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/calico/pod2daemon-flexvol   v3.22.1             17300d20daf93       8.46MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/coredns/coredns             v1.8.6              a4ca41631cc7a       13.6MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/etcd                        3.5.3-0             aebe758cef4cd       102MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/kube-apiserver              v1.24.3             d521dd763e2e3       33.8MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/kube-controller-manager     v1.24.3             586c112956dfc       31MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/kube-proxy                  v1.24.3             2ae1ba6417cbc       39.5MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/kube-scheduler              v1.24.3             3a5aa3a515f5d       15.5MB
+</span></span><span class="line"><span class="cl">sealos.hub:5000/pause                       3.7                 221177c6082a8       311kB</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="删除镜像" class="heading-element">
+  <a href="#%e5%88%a0%e9%99%a4%e9%95%9c%e5%83%8f" class="heading-mark"></a>删除镜像</h2><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl rmi --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl rmi <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> IMAGE-ID <span class="o">[</span>IMAGE-ID...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --all, -a    <span class="c1"># 是否删除所有镜像，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   --prune, -q  <span class="c1"># 是否删除所有未使用中的镜像，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   --help, -h   <span class="c1"># 是否显示帮助信息，默认值为 false</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="创建容器" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%ba%e5%ae%b9%e5%99%a8" class="heading-mark"></a>创建容器</h2><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl create</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl create <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> POD container-config.<span class="o">[</span>json<span class="p">|</span>yaml<span class="o">]</span> pod-config.<span class="o">[</span>json<span class="p">|</span>yaml<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --auth AUTH_STRING                Use AUTH_STRING <span class="k">for</span> accessing the registry. AUTH_STRING is a base64 encoded <span class="s1">&#39;USERNAME[:PASSWORD]&#39;</span>
+</span></span><span class="line"><span class="cl">   --cancel-timeout value, -T value  Seconds to <span class="nb">wait</span> <span class="k">for</span> a container create request to <span class="nb">complete</span> before cancelling the request <span class="o">(</span>default: 0s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --creds USERNAME<span class="o">[</span>:PASSWORD<span class="o">]</span>       Use USERNAME<span class="o">[</span>:PASSWORD<span class="o">]</span> <span class="k">for</span> accessing the registry
+</span></span><span class="line"><span class="cl">   --no-pull                         Do not pull the image on container creation <span class="o">(</span>overrides pull-image-on-create<span class="o">=</span><span class="nb">true</span> in config<span class="o">)</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --with-pull                       Pull the image on container creation <span class="o">(</span>overrides pull-image-on-create<span class="o">=</span><span class="nb">false</span> in config<span class="o">)</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --help, -h   <span class="c1"># 是否显示帮助信息，默认值为 false</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="运行容器" class="heading-element">
+  <a href="#%e8%bf%90%e8%a1%8c%e5%ae%b9%e5%99%a8" class="heading-mark"></a>运行容器</h2><div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl run --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl run <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> container-config.<span class="o">[</span>json<span class="p">|</span>yaml<span class="o">]</span> pod-config.<span class="o">[</span>json<span class="p">|</span>yaml<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --auth AUTH_STRING           Use AUTH_STRING <span class="k">for</span> accessing the registry. AUTH_STRING is a base64 encoded <span class="s1">&#39;USERNAME[:PASSWORD]&#39;</span>
+</span></span><span class="line"><span class="cl">   --creds USERNAME<span class="o">[</span>:PASSWORD<span class="o">]</span>  Use USERNAME<span class="o">[</span>:PASSWORD<span class="o">]</span> <span class="k">for</span> accessing the registry
+</span></span><span class="line"><span class="cl">   --no-pull                    Do not pull the image <span class="o">(</span>overrides disable-pull-on-run<span class="o">=</span><span class="nb">false</span> in config<span class="o">)</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --runtime value, -r value    Runtime handler to use. Available options are defined by the container runtime.
+</span></span><span class="line"><span class="cl">   --timeout value, -t value    Seconds to <span class="nb">wait</span> <span class="k">for</span> a container create request before cancelling the request <span class="o">(</span>default: 0s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --with-pull                  Pull the image <span class="o">(</span>overrides disable-pull-on-run<span class="o">=</span><span class="nb">true</span> in config<span class="o">)</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看容器列表" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e5%88%97%e8%a1%a8" class="heading-mark"></a>查看容器列表</h2><div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl ps --help</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl ps <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> <span class="o">[</span>arguments...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --all, -a                 Show all containers <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --id value                Filter by container id
+</span></span><span class="line"><span class="cl">   --image value             Filter by container image
+</span></span><span class="line"><span class="cl">   --label value             Filter by <span class="nv">key</span><span class="o">=</span>value label
+</span></span><span class="line"><span class="cl">   --last value, -n value    Show last n recently created containers <span class="o">(</span>includes all states<span class="o">)</span>. Set <span class="m">0</span> <span class="k">for</span> unlimited. <span class="o">(</span>default: 0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --latest, -l              Show the most recently created container <span class="o">(</span>includes all states<span class="o">)</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --name value              filter by container name regular expression pattern
+</span></span><span class="line"><span class="cl">   --no-trunc                Show output without truncating the ID <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --output value, -o value  Output format, One of: json<span class="p">|</span>yaml<span class="p">|</span>table <span class="o">(</span>default: <span class="s2">&#34;table&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --pod value, -p value     Filter by pod id
+</span></span><span class="line"><span class="cl">   --quiet, -q               Only display container IDs <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --state value, -s value   Filter by container state
+</span></span><span class="line"><span class="cl">   --verbose, -v             Show verbose information <span class="k">for</span> containers <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --help, -h                show <span class="nb">help</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看 <code>k8s</code> 在当前主机创建的容器</li>
+</ul>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl ps</span>
+</span></span><span class="line"><span class="cl">CONTAINER           IMAGE               CREATED             STATE               NAME                      ATTEMPT             POD ID
+</span></span><span class="line"><span class="cl">f0071077d6661       7a71aca7b60fc       <span class="m">2</span> hours ago         Running             calico-node               <span class="m">6</span>                   07cc01d52a1d3
+</span></span><span class="line"><span class="cl">8d1bfd6a12dec       a4ca41631cc7a       <span class="m">2</span> hours ago         Running             coredns                   <span class="m">6</span>                   57dc6ca586c04
+</span></span><span class="line"><span class="cl">ab54268c45bab       a4ca41631cc7a       <span class="m">2</span> hours ago         Running             coredns                   <span class="m">6</span>                   8aab4331b9d27
+</span></span><span class="line"><span class="cl">edc69d0ad9fb1       2ae1ba6417cbc       <span class="m">2</span> hours ago         Running             kube-proxy                <span class="m">6</span>                   2679d92850963
+</span></span><span class="line"><span class="cl">4f224bed182a4       3a5aa3a515f5d       <span class="m">2</span> hours ago         Running             kube-scheduler            <span class="m">6</span>                   7377e5fe8b065
+</span></span><span class="line"><span class="cl">235c157e36ec5       586c112956dfc       <span class="m">2</span> hours ago         Running             kube-controller-manager   <span class="m">6</span>                   fbdb14c578a32
+</span></span><span class="line"><span class="cl">baa51b7846610       d521dd763e2e3       <span class="m">2</span> hours ago         Running             kube-apiserver            <span class="m">6</span>                   ffc9cc253166b
+</span></span><span class="line"><span class="cl">2bc96a77a556d       aebe758cef4cd       <span class="m">2</span> hours ago         Running             etcd                      <span class="m">6</span>                   b12bcc5e65693</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看容器状态" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e7%8a%b6%e6%80%81" class="heading-mark"></a>查看容器状态</h2><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl inspect --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl inspect <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> CONTAINER-ID <span class="o">[</span>CONTAINER-ID...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --output value, -o value <span class="c1"># 指定输出格式，有 json、yaml、table (默认值)</span>
+</span></span><span class="line"><span class="cl">   --quiet, -q              <span class="c1"># 是否只显示镜像 ID，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   --template value          The template string is only used when output is go-template<span class="p">;</span> The Template format is golang template</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看容器日志" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e6%97%a5%e5%bf%97" class="heading-mark"></a>查看容器日志</h2><div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl logs --help</span>
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --follow, -f         Follow log output <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --limit-bytes value  Maximum bytes of logs to <span class="k">return</span>. Defaults to no limit <span class="o">(</span>default: -1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --previous, -p       Print the logs <span class="k">for</span> the previous instance of the container in a pod <span class="k">if</span> it exists <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --since value        Show logs since timestamp <span class="o">(</span>e.g. 2013-01-02T13:23:37<span class="o">)</span> or relative <span class="o">(</span>e.g. 42m <span class="k">for</span> <span class="m">42</span> minutes<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --tail value         Number of lines to show from the end of the logs. Defaults to all <span class="o">(</span>default: -1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --timestamps, -t     Show timestamps <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="停止容器" class="heading-element">
+  <a href="#%e5%81%9c%e6%ad%a2%e5%ae%b9%e5%99%a8" class="heading-mark"></a>停止容器</h2><div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl stop --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl stop <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> CONTAINER-ID <span class="o">[</span>CONTAINER-ID...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --timeout value, -t value  Seconds to <span class="nb">wait</span> to <span class="nb">kill</span> the container after a graceful stop is requested <span class="o">(</span>default: 0<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="启动容器" class="heading-element">
+  <a href="#%e5%90%af%e5%8a%a8%e5%ae%b9%e5%99%a8" class="heading-mark"></a>启动容器</h2><div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl start --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl start <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> CONTAINER-ID <span class="o">[</span>CONTAINER-ID...<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="更新容器" class="heading-element">
+  <a href="#%e6%9b%b4%e6%96%b0%e5%ae%b9%e5%99%a8" class="heading-mark"></a>更新容器</h2><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl update --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl update <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> CONTAINER-ID <span class="o">[</span>CONTAINER-ID...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --cpu-count value    <span class="o">(</span>Windows only<span class="o">)</span> Number of CPUs available to the container <span class="o">(</span>default: 0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --cpu-maximum value  <span class="o">(</span>Windows only<span class="o">)</span> Portion of CPU cycles specified as a percentage * <span class="m">100</span> <span class="o">(</span>default: 0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --cpu-period value   CPU CFS period to be used <span class="k">for</span> hardcapping <span class="o">(</span>in usecs<span class="o">)</span>. <span class="m">0</span> to use system default <span class="o">(</span>default: 0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --cpu-quota value    CPU CFS hardcap limit <span class="o">(</span>in usecs<span class="o">)</span>. Allowed cpu <span class="nb">time</span> in a given period <span class="o">(</span>default: 0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --cpu-share value    CPU shares <span class="o">(</span>relative weight vs. other containers<span class="o">)</span> <span class="o">(</span>default: 0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --cpuset-cpus value  CPU<span class="o">(</span>s<span class="o">)</span> to use
+</span></span><span class="line"><span class="cl">   --cpuset-mems value  Memory node<span class="o">(</span>s<span class="o">)</span> to use
+</span></span><span class="line"><span class="cl">   --memory value       Memory limit <span class="o">(</span>in bytes<span class="o">)</span> <span class="o">(</span>default: 0<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看容器使用资源统计信息" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e4%bd%bf%e7%94%a8%e8%b5%84%e6%ba%90%e7%bb%9f%e8%ae%a1%e4%bf%a1%e6%81%af" class="heading-mark"></a>查看容器使用资源统计信息</h2><div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl stats --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl stats <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> <span class="o">[</span>ID<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --all, -a                  Show all containers <span class="o">(</span>default shows just running<span class="o">)</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --id value                 Filter by container id
+</span></span><span class="line"><span class="cl">   --label value              Filter by <span class="nv">key</span><span class="o">=</span>value label  <span class="o">(</span>accepts multiple inputs<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --output value, -o value   Output format, One of: json<span class="p">|</span>yaml<span class="p">|</span>table
+</span></span><span class="line"><span class="cl">   --pod value, -p value      Filter by pod id
+</span></span><span class="line"><span class="cl">   --seconds value, -s value  Sample duration <span class="k">for</span> CPU usage in seconds <span class="o">(</span>default: 1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --watch, -w                Watch pod resources <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="在正在运行的容器中运行命令" class="heading-element">
+  <a href="#%e5%9c%a8%e6%ad%a3%e5%9c%a8%e8%bf%90%e8%a1%8c%e7%9a%84%e5%ae%b9%e5%99%a8%e4%b8%ad%e8%bf%90%e8%a1%8c%e5%91%bd%e4%bb%a4" class="heading-mark"></a>在正在运行的容器中运行命令</h2><div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl exec --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl <span class="nb">exec</span> <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> CONTAINER-ID COMMAND <span class="o">[</span>ARG...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --interactive, -i  Keep STDIN open <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --sync, -s         Run the <span class="nb">command</span> synchronously <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --timeout value    Timeout in seconds <span class="o">(</span>default: 0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --tty, -t          Allocate a pseudo-TTY <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>以交互式方式在容器中执行 <code>sh</code> 命令</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl exec -it edc69d0ad9fb1 sh</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cat /var/lib/kube-proxy/config.conf</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="删除容器" class="heading-element">
+  <a href="#%e5%88%a0%e9%99%a4%e5%ae%b9%e5%99%a8" class="heading-mark"></a>删除容器</h2><div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl rm --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl rm <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> CONTAINER-ID <span class="o">[</span>CONTAINER-ID...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --all, -a    <span class="c1"># 是否删除所有容器，默认值为 false</span>
+</span></span><span class="line"><span class="cl">   --force, -f  Force removal of the container, disregarding <span class="k">if</span> running <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="创建-pod" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%ba-pod" class="heading-mark"></a>创建 pod</h2><div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl runp --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl runp <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> pod-config.<span class="o">[</span>json<span class="p">|</span>yaml<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --cancel-timeout value, -T value  Seconds to <span class="nb">wait</span> <span class="k">for</span> a run pod sandbox request to <span class="nb">complete</span> before cancelling the request <span class="o">(</span>default: 0s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --runtime value, -r value         Runtime handler to use. Available options are defined by the container runtime.</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看-pod-列表" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b-pod-%e5%88%97%e8%a1%a8" class="heading-mark"></a>查看 pod 列表</h2><div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl pods --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl pods <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> <span class="o">[</span>arguments...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --id value                filter by pod id
+</span></span><span class="line"><span class="cl">   --label value             filter by <span class="nv">key</span><span class="o">=</span>value label  <span class="o">(</span>accepts multiple inputs<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --last value, -n value    Show last n recently created pods. Set <span class="m">0</span> <span class="k">for</span> unlimited <span class="o">(</span>default: 0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --latest, -l              Show the most recently created pod <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --name value              filter by pod name regular expression pattern
+</span></span><span class="line"><span class="cl">   --namespace value         filter by pod namespace regular expression pattern
+</span></span><span class="line"><span class="cl">   --no-trunc                Show output without truncating the ID <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --output value, -o value  Output format, One of: json<span class="p">|</span>yaml<span class="p">|</span>table <span class="o">(</span>default: <span class="s2">&#34;table&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --quiet, -q               list only pod IDs <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --state value, -s value   filter by pod state
+</span></span><span class="line"><span class="cl">   --verbose, -v             show verbose info <span class="k">for</span> pods <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看-pod-状态" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b-pod-%e7%8a%b6%e6%80%81" class="heading-mark"></a>查看 pod 状态</h2><div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl inspectp --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl inspectp <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> POD-ID <span class="o">[</span>POD-ID...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --output value, -o value  Output format, One of: json<span class="p">|</span>yaml<span class="p">|</span>go-template<span class="p">|</span>table
+</span></span><span class="line"><span class="cl">   --quiet, -q               Do not show verbose information <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --template value          The template string is only used when output is go-template<span class="p">;</span> The Template format is golang template</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看-pod-资源使用情况统计" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b-pod-%e8%b5%84%e6%ba%90%e4%bd%bf%e7%94%a8%e6%83%85%e5%86%b5%e7%bb%9f%e8%ae%a1" class="heading-mark"></a>查看 pod 资源使用情况统计</h2><div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl statsp -h</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl statsp <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> <span class="o">[</span>ID<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --id value                 Filter by pod id
+</span></span><span class="line"><span class="cl">   --label value              Filter by <span class="nv">key</span><span class="o">=</span>value label  <span class="o">(</span>accepts multiple inputs<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --output value, -o value   Output format, One of: json<span class="p">|</span>yaml<span class="p">|</span>table
+</span></span><span class="line"><span class="cl">   --seconds value, -s value  Sample duration <span class="k">for</span> CPU usage in seconds <span class="o">(</span>default: 1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --watch, -w                Watch pod resources <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="从-sandbox-中运行新的容器" class="heading-element">
+  <a href="#%e4%bb%8e-sandbox-%e4%b8%ad%e8%bf%90%e8%a1%8c%e6%96%b0%e7%9a%84%e5%ae%b9%e5%99%a8" class="heading-mark"></a>从 sandbox 中运行新的容器</h2><div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl run --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl run <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> container-config.<span class="o">[</span>json<span class="p">|</span>yaml<span class="o">]</span> pod-config.<span class="o">[</span>json<span class="p">|</span>yaml<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --auth AUTH_STRING           Use AUTH_STRING <span class="k">for</span> accessing the registry. AUTH_STRING is a base64 encoded <span class="s1">&#39;USERNAME[:PASSWORD]&#39;</span>
+</span></span><span class="line"><span class="cl">   --creds USERNAME<span class="o">[</span>:PASSWORD<span class="o">]</span>  Use USERNAME<span class="o">[</span>:PASSWORD<span class="o">]</span> <span class="k">for</span> accessing the registry
+</span></span><span class="line"><span class="cl">   --no-pull                    Do not pull the image <span class="o">(</span>overrides disable-pull-on-run<span class="o">=</span><span class="nb">false</span> in config<span class="o">)</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --runtime value, -r value    Runtime handler to use. Available options are defined by the container runtime.
+</span></span><span class="line"><span class="cl">   --timeout value, -t value    Seconds to <span class="nb">wait</span> <span class="k">for</span> a container create request before cancelling the request <span class="o">(</span>default: 0s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --with-pull                  Pull the image <span class="o">(</span>overrides disable-pull-on-run<span class="o">=</span><span class="nb">true</span> in config<span class="o">)</span> <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="将本地端口转发到-pod" class="heading-element">
+  <a href="#%e5%b0%86%e6%9c%ac%e5%9c%b0%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91%e5%88%b0-pod" class="heading-mark"></a>将本地端口转发到 Pod</h2><div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl port-forward -h</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl port-forward <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> POD-ID <span class="o">[</span>LOCAL_PORT:<span class="o">]</span>REMOTE_PORT</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="停止-pod" class="heading-element">
+  <a href="#%e5%81%9c%e6%ad%a2-pod" class="heading-mark"></a>停止 pod</h2><div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl stopp --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl stopp <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> POD-ID <span class="o">[</span>POD-ID...<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="删除-pod" class="heading-element">
+  <a href="#%e5%88%a0%e9%99%a4-pod" class="heading-mark"></a>删除 pod</h2><div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># crictl rmp --help</span>
+</span></span><span class="line"><span class="cl">USAGE:
+</span></span><span class="line"><span class="cl">   crictl rmp <span class="o">[</span><span class="nb">command</span> options<span class="o">]</span> POD-ID <span class="o">[</span>POD-ID...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTIONS:
+</span></span><span class="line"><span class="cl">   --all, -a    Remove all pods <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">   --force, -f  Force removal of the pod sandbox, disregarding <span class="k">if</span> running <span class="o">(</span>default: <span class="nb">false</span><span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-08-13 13:34:17">更新于 2022-08-13&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/crictl/" class="post-tag" title="标签 - crictl">crictl</a><a href="/tags/critest/" class="post-tag" title="标签 - critest">critest</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sContainerd/" class="post-nav-item" rel="prev" title="k8s 容器运行时之一 containerd"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s 容器运行时之一 containerd</a>
+      <a href="/%E7%BB%88%E7%AB%AF%E5%BF%AB%E6%8D%B7%E9%94%AE/" class="post-nav-item" rel="next" title="终端快捷键">终端快捷键<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

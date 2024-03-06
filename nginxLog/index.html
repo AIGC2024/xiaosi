@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>nginx日志 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content=" " /><meta name="keywords" content='日志, nginx' /><meta itemprop="name" content="nginx日志">
+<meta itemprop="description" content=" "><meta itemprop="datePublished" content="2022-12-19T14:41:21+08:00" />
+<meta itemprop="dateModified" content="2023-08-04T09:53:57+08:00" />
+<meta itemprop="wordCount" content="1414">
+<meta itemprop="keywords" content="日志,nginx," /><meta property="og:title" content="nginx日志" />
+<meta property="og:description" content=" " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/nginxLog/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-19T14:41:21+08:00" />
+<meta property="article:modified_time" content="2023-08-04T09:53:57+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nginx日志"/>
+<meta name="twitter:description" content=" "/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/nginxLog/" /><link rel="prev" href="/linux-disk/" /><link rel="next" href="/lvm/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "nginx日志",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/nginxLog\/"
+    },"genre": "posts","keywords": "日志, nginx","wordcount":  1414 ,
+    "url": "\/nginxLog\/","datePublished": "2022-12-19T14:41:21+08:00","dateModified": "2023-08-04T09:53:57+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": " "
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>nginx日志</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/nginx/" class="post-category" title="分类 - nginx"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> nginx</a></span></div><div class="post-meta-line"><span title="发布于 2022-12-19 14:41:21"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-19">2022-12-19</time></span>&nbsp;<span title="更新于 2023-08-04 09:53:57"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-04">2023-08-04</time></span>&nbsp;<span title="1414 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#访问日志">访问日志</a>
+      <ul>
+        <li><a href="#日志格式">日志格式</a></li>
+        <li><a href="#访问日志中文变成16进制">访问日志中文变成16进制</a></li>
+      </ul>
+    </li>
+    <li><a href="#错误日志">错误日志</a></li>
+    <li><a href="#日志切割">日志切割</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+nginx: 1.23.0</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="./"><code>陶辉</code>：nginx 核心知识100讲</a></li>
+<li><a href="https://juejin.cn/post/6844903482097582094"target="_blank" rel="external nofollow noopener noreferrer"><code>赵安家</code>: nginx日志中$request_body 十六进制字符(x22x9Bx5Cx09x08&hellip;)完美解决方案</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="访问日志" class="heading-element">
+  <a href="#%e8%ae%bf%e9%97%ae%e6%97%a5%e5%bf%97" class="heading-mark"></a>访问日志</h1><p>访问日志记录由 <code>ngx_http_log_module</code> 模块提供</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 处于处理HTTP请求的第11个（LOG）阶段</span>
+</span></span><span class="line"><span class="cl">log_format name <span class="o">[</span><span class="nv">escape</span><span class="o">=</span>default<span class="p">|</span>json<span class="p">|</span>none<span class="o">]</span> string ...<span class="p">;</span>
+</span></span><span class="line"><span class="cl">配置域：http
+</span></span><span class="line"><span class="cl">默认值：combined <span class="s1">&#39;$remote_addr - $remote_user [$time_local] &#39;</span> <span class="s1">&#39;&#34;$request&#34; $status $bytes_sent &#39;</span> <span class="s1">&#39;&#34;$http_referer&#34; &#34;$http_user_agent&#34; &#34;$gzip_ratio&#34;&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令指定 <code>access_log</code> 指令记录格式，格式必须在引用之前定义。可以多次使用该指令配置多个格式</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 处于处理HTTP请求的第11个（LOG）阶段</span>
+</span></span><span class="line"><span class="cl">access_log path <span class="o">[</span>format <span class="o">[</span><span class="nv">buffer</span><span class="o">=</span>size<span class="o">]</span> <span class="o">[</span>gzip<span class="o">[=</span>level<span class="o">]]</span> <span class="o">[</span><span class="nv">flush</span><span class="o">=</span>time<span class="o">]</span> <span class="o">[</span><span class="k">if</span><span class="o">=</span>condition<span class="o">]]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">access_log off<span class="p">;</span>
+</span></span><span class="line"><span class="cl">默认值：logs/access.log combined<span class="p">;</span>
+</span></span><span class="line"><span class="cl">配置域：http，server，location，if in location，limit_except</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令指定记录访问日志位置。可以在同一配置级别指定多个日志。有以下参数：</p>
+<ul>
+<li><code>path</code> 代指保存路径，可以包含变量</li>
+<li><code>buffer</code> 指定缓存空间大小，默认为 <code>64k</code>。超过时将定入磁盘</li>
+<li><code>gzip</code> 指定压缩内存中的日志级别，减少缓存空间占用。默认压缩级别为1（1-9，级别越大压缩率越高但压缩越慢）。该功能依赖于 <code>zlib</code> 库</li>
+<li><code>flush</code> 指定日志缓存时间。超时将写入磁盘</li>
+<li><code>if</code> 用于满足指定条件才写入磁盘</li>
+<li><code>off</code> 表示不记录访问日志</li>
+</ul>
+<p>此外，<code>worker</code> 进程正在被关闭或执行 <code>reopen</code> 命令时也会把日志写入文件</p>
+<p>示例</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 日志压缩级别为 1，每隔1分钟或超过缓存空间限值时写入磁盘</span>
+</span></span><span class="line"><span class="cl">access_log logs/note.xiaosi.host.nginx.access.log note gzip <span class="nv">flush</span><span class="o">=</span>1m<span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 处于处理HTTP请求的第11个（LOG）阶段</span>
+</span></span><span class="line"><span class="cl">open_log_file_cache <span class="nv">max</span><span class="o">=</span>N <span class="o">[</span><span class="nv">inactive</span><span class="o">=</span>time<span class="o">]</span> <span class="o">[</span><span class="nv">min_uses</span><span class="o">=</span>N<span class="o">]</span> <span class="o">[</span><span class="nv">valid</span><span class="o">=</span>time<span class="o">]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">open_log_file_cache off<span class="p">;</span>
+</span></span><span class="line"><span class="cl">默认值：off
+</span></span><span class="line"><span class="cl">配置域：http，server，location</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令配置缓存日志文件句柄。当没用开启时每次记录日志都需要打开和关闭日志文件。有以下参数：</p>
+<ul>
+<li><code>max</code> 指定缓存数量，如果缓存数量已满，则使用淘汰关闭最近最少（<code>LRU</code>）使用的文件句柄</li>
+<li><code>inactive</code> 指定缓存时间，默认为 <code>10s</code></li>
+<li><code>min_uses</code> 指定在 <code>inactive</code> 时间内活跃次数。默认为 <code>1</code> 小于该值时将关闭文件句柄</li>
+<li><code>valid</code> 指定检测缓存时间间隔。默认为 <code>60s</code></li>
+<li><code>off</code> 关闭该功能</li>
+</ul>
+<p>示例</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 缓存 3 个日志文件句柄，10秒内没有写入1次日志将关闭该文件句柄</span>
+</span></span><span class="line"><span class="cl">open_log_file_cache <span class="nv">max</span><span class="o">=</span><span class="m">3</span> <span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="日志格式" class="heading-element">
+  <a href="#%e6%97%a5%e5%bf%97%e6%a0%bc%e5%bc%8f" class="heading-mark"></a>日志格式</h2><p>该日志记录了客户端与服务端基本信息</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">log_format</span> <span class="err">note</span> <span class="err">escape=json</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="p">{</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;responseTime&#34;</span><span class="p">:</span> <span class="s2">&#34;$time_iso8601&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;requestIP&#34;</span><span class="p">:</span> <span class="s2">&#34;$remote_addr&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;requestPort&#34;</span><span class="p">:</span> <span class="s2">&#34;$remote_port&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;requestScheme&#34;</span><span class="p">:</span> <span class="s2">&#34;$scheme&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;requestProtocol&#34;</span><span class="p">:</span> <span class="s2">&#34;$server_protocol&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;requestMethod&#34;</span><span class="p">:</span> <span class="s2">&#34;$request_method&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;requestDomainName&#34;</span><span class="p">:</span> <span class="s2">&#34;$host&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;requestUri&#34;</span><span class="p">:</span> <span class="s2">&#34;$request_uri&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;responseUrl&#34;</span><span class="p">:</span> <span class="s2">&#34;$uri&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;responseIP&#34;</span><span class="p">:</span> <span class="s2">&#34;$server_addr&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;responseport&#34;</span><span class="p">:</span> <span class="s2">&#34;$server_port&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="nt">&#34;responseStatus&#34;</span><span class="p">:</span> <span class="s2">&#34;$status&#34;</span><span class="p">,</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;\&#34;responseSize\&#34;: &#34;</span> <span class="s2">&#34;\&#34;$bytes_sent&#34;</span> <span class="s2">&#34;B\&#34;,&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;\&#34;responseBodySize\&#34;: &#34;</span> <span class="s2">&#34;\&#34;$body_bytes_sent&#34;</span> <span class="s2">&#34;B\&#34;,&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;\&#34;processingConsumeTime\&#34;: &#34;</span> <span class="s2">&#34;\&#34;$request_time&#34;</span> <span class="s2">&#34;s\&#34;,&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="s2">&#34;processingStatus&#34;</span><span class="p">:</span>  <span class="s2">&#34;$request_completion&#34;</span><span class="err">&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">&#39;</span><span class="p">}</span><span class="err">&#39;;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出结果</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;responseTime&#34;</span>: <span class="s2">&#34;2022-12-19T16:19:48+08:00&#34;</span>,<span class="s2">&#34;requestIP&#34;</span>: <span class="s2">&#34;40.77.167.8&#34;</span>,<span class="s2">&#34;requestPort&#34;</span>: <span class="s2">&#34;49024&#34;</span>,<span class="s2">&#34;requestScheme&#34;</span>: <span class="s2">&#34;https&#34;</span>,<span class="s2">&#34;requestProtocol&#34;</span>: <span class="s2">&#34;HTTP/1.1&#34;</span>,<span class="s2">&#34;requestMethod&#34;</span>: <span class="s2">&#34;GET&#34;</span>,<span class="s2">&#34;requestDomainName&#34;</span>: <span class="s2">&#34;103.106.246.17&#34;</span>,<span class="s2">&#34;requestUri&#34;</span>: <span class="s2">&#34;/categories/windows&#34;</span>,<span class="s2">&#34;responseUrl&#34;</span>: <span class="s2">&#34;/categories/windows&#34;</span>,<span class="s2">&#34;responseIP&#34;</span>: <span class="s2">&#34;103.106.246.17&#34;</span>,<span class="s2">&#34;responseport&#34;</span>: <span class="s2">&#34;443&#34;</span>,<span class="s2">&#34;responseStatus&#34;</span>: <span class="s2">&#34;301&#34;</span>,<span class="s2">&#34;responseSize&#34;</span>: <span class="s2">&#34;456B&#34;</span>,<span class="s2">&#34;responseBodySize&#34;</span>: <span class="s2">&#34;169B&#34;</span>,<span class="s2">&#34;processingConsumeTime&#34;</span>: <span class="s2">&#34;0.000s&#34;</span>,<span class="s2">&#34;processingStatus&#34;</span>:  <span class="s2">&#34;OK&#34;</span><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>常用正则</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看访问 IP</span>
+</span></span><span class="line"><span class="cl">grep -oPh <span class="s1">&#39;(?&lt;=&#34;requestIP&#34;: &#34;)([0-9]{1,3}\.){3}[0-9]{1,3}&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="访问日志中文变成16进制" class="heading-element">
+  <a href="#%e8%ae%bf%e9%97%ae%e6%97%a5%e5%bf%97%e4%b8%ad%e6%96%87%e5%8f%98%e6%88%9016%e8%bf%9b%e5%88%b6" class="heading-mark"></a>访问日志中文变成16进制</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http <span class="o">{</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">    log_format access1 
+</span></span><span class="line"><span class="cl">        <span class="s1">&#39;$remote_addr:$remote_port &gt; $uri &#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;</span><span class="nv">$status</span><span class="s2"> </span><span class="nv">$connection</span><span class="s2"> </span><span class="nv">$request_time</span><span class="s2">&#34;</span> <span class="s2">&#34;s &#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;</span><span class="nv">$time_iso8601</span><span class="s2"> </span><span class="nv">$request_completion</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx<span class="o">]</span><span class="c1"># cat logs/8023.FixIt.nginx.access.log </span>
+</span></span><span class="line"><span class="cl">119.123.151.155:13621 &gt; /posts/k8s/k8s<span class="se">\x</span>E5<span class="se">\x</span>9E<span class="se">\x</span>83<span class="se">\x</span>E5<span class="se">\x</span>9C<span class="se">\x</span>BE<span class="se">\x</span>E6<span class="se">\x</span>94<span class="se">\x</span>B6<span class="se">\x</span>E9<span class="se">\x</span>9B<span class="se">\x</span>86/index.html <span class="m">200</span> <span class="m">228</span> 0.000s 2022-07-26T04:19:36+08:00 OK</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>以<code>josn</code>格式记录，可以绕过</li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx<span class="o">]</span><span class="c1"># cat conf/nginx.conf</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">http <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    log_format access1 <span class="nv">escape</span><span class="o">=</span>json
+</span></span><span class="line"><span class="cl">        <span class="s1">&#39;$remote_addr:$remote_port &gt; $uri &#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;</span><span class="nv">$status</span><span class="s2"> </span><span class="nv">$connection</span><span class="s2"> </span><span class="nv">$request_time</span><span class="s2">&#34;</span> <span class="s2">&#34;s &#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;</span><span class="nv">$time_iso8601</span><span class="s2"> </span><span class="nv">$request_completion</span><span class="s2">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx<span class="o">]</span><span class="c1"># cat logs/8023.FixIt.nginx.access.log </span>
+</span></span><span class="line"><span class="cl">119.123.151.155:13621 &gt; /posts/k8s/k8s<span class="se">\x</span>E5<span class="se">\x</span>9E<span class="se">\x</span>83<span class="se">\x</span>E5<span class="se">\x</span>9C<span class="se">\x</span>BE<span class="se">\x</span>E6<span class="se">\x</span>94<span class="se">\x</span>B6<span class="se">\x</span>E9<span class="se">\x</span>9B<span class="se">\x</span>86/index.html <span class="m">200</span> <span class="m">228</span> 0.000s 2022-07-26T04:19:36+08:00 OK
+</span></span><span class="line"><span class="cl">119.123.151.155:15380 &gt; /posts/k8s/k8s控制器/index.html <span class="m">200</span> <span class="m">232</span> 0.000s 2022-07-26T04:27:15+08:00 OK</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="错误日志" class="heading-element">
+  <a href="#%e9%94%99%e8%af%af%e6%97%a5%e5%bf%97" class="heading-mark"></a>错误日志</h1><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">error_log file <span class="o">[</span>level<span class="o">]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">默认值：logs/error.log error<span class="p">;</span>
+</span></span><span class="line"><span class="cl">配置域：main, http, mail, stream, server, location</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令指定错误日志与记录级别，可以在同一配置级别上指定多个 <code>errir_log</code>。记录级别由高到低为：<code>debug</code>, <code>info</code>, <code>notice</code>, <code>warn</code>, <code>error</code>, <code>crit</code>, <code>alert</code>, <code>emerg</code>。级别越高优先级越大，记录也越详细。<code>debug</code> 级别需要 <code>nginx</code> 编译时指定 <code>--with-debug</code> 选项</p>
+<h1 id="日志切割" class="heading-element">
+  <a href="#%e6%97%a5%e5%bf%97%e5%88%87%e5%89%b2" class="heading-mark"></a>日志切割</h1><ol>
+<li>定义脚本</li>
+</ol>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1"># 按日期切割nginx日志</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># centos:7</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 时间变量</span>
+</span></span><span class="line"><span class="cl"><span class="nv">date</span><span class="o">=</span><span class="k">$(</span>date +%F -d <span class="s1">&#39;yesterday&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 源日志文件目录变量</span>
+</span></span><span class="line"><span class="cl"><span class="nv">log_file</span><span class="o">=</span><span class="k">$(</span>ls /usr/local/nginx/logs/*.log<span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 备份目录变量</span>
+</span></span><span class="line"><span class="cl"><span class="nv">backup_dir</span><span class="o">=</span><span class="s2">&#34;/data/nginx/logs&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建备份目录</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[[</span> ! -d <span class="si">${</span><span class="nv">backup_dir</span><span class="si">}</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">  mkdir -p <span class="si">${</span><span class="nv">backup_dir</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 备份日志文件</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> i in <span class="si">${</span><span class="nv">log_file</span><span class="si">}</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 排除空日志文件</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[[</span> -s <span class="si">${</span><span class="nv">i</span><span class="si">}</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    mv <span class="si">${</span><span class="nv">i</span><span class="si">}</span> <span class="si">${</span><span class="nv">backup_dir</span><span class="si">}</span>/<span class="si">${</span><span class="nv">date</span><span class="si">}</span>-<span class="si">${</span><span class="nv">i</span><span class="p">##*/</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 日志切割，可以使用 nginx -s reopen</span>
+</span></span><span class="line"><span class="cl"><span class="nb">kill</span> -USR1 <span class="k">$(</span>cat /usr/local/nginx/logs/nginx.pid<span class="k">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>定义定时任务</li>
+</ol>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 每天23:59:59秒执行</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># grep &#39;nginx&#39; /etc/crontab</span>
+</span></span><span class="line"><span class="cl"><span class="m">59</span> <span class="m">23</span> * * * root sleep 59<span class="p">;</span> bash /data/download/nginx_logs_day.sh</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-08-04 09:53:57">更新于 2023-08-04&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E6%97%A5%E5%BF%97/" class="post-tag" title="标签 - 日志">日志</a><a href="/tags/nginx/" class="post-tag" title="标签 - nginx">nginx</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linux-disk/" class="post-nav-item" rel="prev" title="linux系统中磁盘管理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>linux系统中磁盘管理</a>
+      <a href="/lvm/" class="post-nav-item" rel="next" title="逻辑卷管理器">逻辑卷管理器<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

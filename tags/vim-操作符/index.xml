@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>vim 操作符 - 标签 - 小厮</title>
+    <link>/tags/vim-%E6%93%8D%E4%BD%9C%E7%AC%A6/</link>
+    <description>vim 操作符 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 31 Jul 2021 18:59:44 &#43;0800</lastBuildDate><atom:link href="/tags/vim-%E6%93%8D%E4%BD%9C%E7%AC%A6/" rel="self" type="application/rss+xml" /><item>
+  <title>vim文本对象与操作符</title>
+  <link>/vim%E6%96%87%E6%9C%AC%E5%AF%B9%E8%B1%A1%E4%B8%8E%E6%93%8D%E4%BD%9C%E7%AC%A6/</link>
+  <pubDate>Sat, 31 Jul 2021 18:59:44 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/vim%E6%96%87%E6%9C%AC%E5%AF%B9%E8%B1%A1%E4%B8%8E%E6%93%8D%E4%BD%9C%E7%AC%A6/</guid>
+  <description><![CDATA[运行环境： vim: 8 操作符操作符用于删除文本或改变文本，下面表格是所有操作符 操作符 说明 c 修改(删除并进入插入模式) d 删除 y 复制到寄存器 ~ 变换大小写]]></description>
+</item>
+</channel>
+</rss>

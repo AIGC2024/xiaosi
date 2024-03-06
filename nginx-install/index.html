@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>安装nginx - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： nginx: 1.18 centos: 7 安装nginx三步骤 从nginx官网下载源码包 1 2 3 [root@centos7 ~]# wget http://nginx.org/download/nginx-1.18.0.tar.gz [root@centos7 ~]# tar -zxf nginx-1.18.0.tar.gz root@centos7 ~]# cd nginx-1.18.0 编译安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18" /><meta name="keywords" content='nginx 安装' /><meta itemprop="name" content="安装nginx">
+<meta itemprop="description" content="运行环境： nginx: 1.18 centos: 7 安装nginx三步骤 从nginx官网下载源码包 1 2 3 [root@centos7 ~]# wget http://nginx.org/download/nginx-1.18.0.tar.gz [root@centos7 ~]# tar -zxf nginx-1.18.0.tar.gz root@centos7 ~]# cd nginx-1.18.0 编译安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18"><meta itemprop="datePublished" content="2020-11-14T15:09:06+08:00" />
+<meta itemprop="dateModified" content="2022-12-15T09:33:31+08:00" />
+<meta itemprop="wordCount" content="1864">
+<meta itemprop="keywords" content="nginx 安装," /><meta property="og:title" content="安装nginx" />
+<meta property="og:description" content="运行环境： nginx: 1.18 centos: 7 安装nginx三步骤 从nginx官网下载源码包 1 2 3 [root@centos7 ~]# wget http://nginx.org/download/nginx-1.18.0.tar.gz [root@centos7 ~]# tar -zxf nginx-1.18.0.tar.gz root@centos7 ~]# cd nginx-1.18.0 编译安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/nginx-install/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-14T15:09:06+08:00" />
+<meta property="article:modified_time" content="2022-12-15T09:33:31+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="安装nginx"/>
+<meta name="twitter:description" content="运行环境： nginx: 1.18 centos: 7 安装nginx三步骤 从nginx官网下载源码包 1 2 3 [root@centos7 ~]# wget http://nginx.org/download/nginx-1.18.0.tar.gz [root@centos7 ~]# tar -zxf nginx-1.18.0.tar.gz root@centos7 ~]# cd nginx-1.18.0 编译安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/nginx-install/" /><link rel="prev" href="/nginx-error/" /><link rel="next" href="/nginx-directives/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "安装nginx",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/nginx-install\/"
+    },"genre": "posts","keywords": "nginx 安装","wordcount":  1864 ,
+    "url": "\/nginx-install\/","datePublished": "2020-11-14T15:09:06+08:00","dateModified": "2022-12-15T09:33:31+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>安装nginx</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/nginx/" class="post-category" title="分类 - nginx"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> nginx</a></span></div><div class="post-meta-line"><span title="发布于 2020-11-14 15:09:06"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2020-11-14">2020-11-14</time></span>&nbsp;<span title="更新于 2022-12-15 09:33:31"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-15">2022-12-15</time></span>&nbsp;<span title="1864 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装nginx三步骤">安装nginx三步骤</a></li>
+    <li><a href="#源码目录结构">源码目录结构</a></li>
+    <li><a href="#docker-安装">docker 安装</a></li>
+    <li><a href="#nginx-命令">nginx 命令</a></li>
+    <li><a href="#热部署">热部署</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-15，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>nginx: 1.18</li>
+<li>centos: 7</li>
+</ul>
+</blockquote>
+<h1 id="安装nginx三步骤" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85nginx%e4%b8%89%e6%ad%a5%e9%aa%a4" class="heading-mark"></a>安装nginx三步骤</h1><ol>
+<li>从nginx官网下载<a href="http://nginx.org/en/download.html" title="源码包"target="_blank" rel="external nofollow noopener noreferrer">源码包</a></li>
+</ol>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># wget http://nginx.org/download/nginx-1.18.0.tar.gz</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># tar -zxf nginx-1.18.0.tar.gz</span>
+</span></span><span class="line"><span class="cl">root@centos7 ~<span class="o">]</span><span class="c1"># cd nginx-1.18.0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>编译安装</li>
+</ol>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 nginx-1.18.0<span class="o">]</span><span class="c1"># ./configure --help	# --help 选项是查看帮助信息</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 这列是选项			                 # 这列是选项描述</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  --help                             print this message
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  --prefix<span class="o">=</span>PATH                      <span class="nb">set</span> installation prefix
+</span></span><span class="line"><span class="cl">  --sbin-path<span class="o">=</span>PATH                   <span class="nb">set</span> nginx binary pathname
+</span></span><span class="line"><span class="cl">  --modules-path<span class="o">=</span>PATH                <span class="nb">set</span> modules path
+</span></span><span class="line"><span class="cl">  --conf-path<span class="o">=</span>PATH                   <span class="nb">set</span> nginx.conf pathname
+</span></span><span class="line"><span class="cl">  --error-log-path<span class="o">=</span>PATH              <span class="nb">set</span> error log pathname
+</span></span><span class="line"><span class="cl">  --pid-path<span class="o">=</span>PATH                    <span class="nb">set</span> nginx.pid pathname
+</span></span><span class="line"><span class="cl">  --lock-path<span class="o">=</span>PATH                   <span class="nb">set</span> nginx.lock pathname
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  --user<span class="o">=</span>USER                        <span class="nb">set</span> non-privileged user <span class="k">for</span>
+</span></span><span class="line"><span class="cl">    	                             worker processes
+</span></span><span class="line"><span class="cl">  --with-debug                       <span class="nb">enable</span> debug logging
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看默不会编译的模块，加入这些选项时，加入编译</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-1.18.0<span class="o">]</span><span class="c1"># ./configure --help | grep enable</span>
+</span></span><span class="line"><span class="cl">  --with-select_module               <span class="nb">enable</span> <span class="k">select</span> module
+</span></span><span class="line"><span class="cl">  --with-poll_module                 <span class="nb">enable</span> poll module
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看默认会编译的模块，加入这些选项时，取消编译</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-1.18.0<span class="o">]</span><span class="c1"># ./configure --help | grep disable</span>
+</span></span><span class="line"><span class="cl">  --without-select_module            disable <span class="k">select</span> module
+</span></span><span class="line"><span class="cl">  --without-poll_module              disable poll module
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装依赖包</span>
+</span></span><span class="line"><span class="cl">dnf install epel-release -y <span class="o">&amp;&amp;</span> dnf config-manager --set-enabled powertools
+</span></span><span class="line"><span class="cl">dnf -y install pcre-devel openssl openssl-devel  geoip-devel gperftools-devel gcc gcc-c++ autoconf automake make
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 编译</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx-1.18.0<span class="o">]</span><span class="c1"># ./configure \</span>
+</span></span><span class="line"><span class="cl">--add-module<span class="o">=</span>/home/web/ngx_cache_purge/ <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--add-module<span class="o">=</span>/home/web/nginx-http-concat/ <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_auth_request_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_realip_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_v2_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-debug <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_random_index_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_sub_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_addition_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_secure_link_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_geoip_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_ssl_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-stream_ssl_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-stream_realip_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-stream_ssl_preread_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-stream <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_slice_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-google_perftools_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-threads <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-ld-opt<span class="o">=</span>-ltcmalloc <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_gzip_static_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_gunzip_module <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--with-http_stub_status_module
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx-1.18.0<span class="o">]</span><span class="c1"># make &amp;&amp; make install</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx-1.18.0<span class="o">]</span><span class="c1"># echo $?</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>加入系统模块和命令</li>
+</ol>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx-1.18.0<span class="o">]</span><span class="c1"># /usr/local/nginx/sbin/nginx -v</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx-1.18.0<span class="o">]</span><span class="c1"># ln  /usr/local/nginx/sbin/nginx /usr/bin/nginx</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx-1.18.0<span class="o">]</span><span class="c1"># cat &lt;&lt; EOF &gt; /usr/lib/systemd/system/nginx.service</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 描述名称</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Description</span><span class="o">=</span>The nginx HTTP and reverse proxy server
+</span></span><span class="line"><span class="cl"><span class="c1"># 服务类别</span>
+</span></span><span class="line"><span class="cl"><span class="nv">After</span><span class="o">=</span>network.target remote-fs.target nss-lookup.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Service<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 运行方式，forking 表示后台运行</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span><span class="o">=</span>forking
+</span></span><span class="line"><span class="cl"><span class="c1"># pid 文件</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PIDFile</span><span class="o">=</span>/usr/local/nginx/logs/nginx.pid
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 nginx 之前执行的命令</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStartPre</span><span class="o">=</span>/usr/bin/rm -f /usr/local/nginx/logs/nginx.pid
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStartPre</span><span class="o">=</span>/usr/local/nginx/sbin/nginx -t
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 nginx 执行的命令</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStart</span><span class="o">=</span>/usr/local/nginx/sbin/nginx
+</span></span><span class="line"><span class="cl"><span class="c1"># 重新加载 nginx 配置文件的命令</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecReload</span><span class="o">=</span>/usr/local/nginx/sbin/nginx -s reload
+</span></span><span class="line"><span class="cl"><span class="c1"># 关闭 nginx 执行的命令</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStop</span><span class="o">=</span>/usr/local/nginx/sbin/nginx -s stop
+</span></span><span class="line"><span class="cl"><span class="nv">KillSignal</span><span class="o">=</span>SIGQUIT
+</span></span><span class="line"><span class="cl"><span class="nv">TimeoutStopSec</span><span class="o">=</span><span class="m">5</span>
+</span></span><span class="line"><span class="cl"><span class="nv">KillMode</span><span class="o">=</span>process
+</span></span><span class="line"><span class="cl"><span class="c1"># 分配独立的临时空间</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PrivateTmp</span><span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Restart</span><span class="o">=</span>on-failure
+</span></span><span class="line"><span class="cl"><span class="nv">RestartSec</span><span class="o">=</span>42s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Install<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</span></span><span class="line"><span class="cl">EOF</span></span></code></pre></td></tr></table>
+</div>
+</div><p>加载 systemctl 配置</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># systemctl daemon-reload</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>加入开机启动</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># systemctl enable nginx</span>
+</span></span><span class="line"><span class="cl">Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /usr/lib/systemd/system/nginx.service.</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="源码目录结构" class="heading-element">
+  <a href="#%e6%ba%90%e7%a0%81%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84" class="heading-mark"></a>源码目录结构</h1><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx-1.18.0<span class="o">]</span><span class="c1"># tree -L 2</span>
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── auto		<span class="c1"># 环境判断之类的文件</span>
+</span></span><span class="line"><span class="cl">│   ├── cc
+</span></span><span class="line"><span class="cl">│   ├── define
+</span></span><span class="line"><span class="cl">│   ├── endianness
+</span></span><span class="line"><span class="cl">│   ├── feature
+</span></span><span class="line"><span class="cl">│   ├── have
+</span></span><span class="line"><span class="cl">│   ├── have_headers
+</span></span><span class="line"><span class="cl">│   ├── headers
+</span></span><span class="line"><span class="cl">│   ├── include
+</span></span><span class="line"><span class="cl">│   ├── init
+</span></span><span class="line"><span class="cl">│   ├── install
+</span></span><span class="line"><span class="cl">│   ├── lib
+</span></span><span class="line"><span class="cl">│   ├── make
+</span></span><span class="line"><span class="cl">│   ├── module
+</span></span><span class="line"><span class="cl">│   ├── modules
+</span></span><span class="line"><span class="cl">│   ├── nohave
+</span></span><span class="line"><span class="cl">│   ├── options
+</span></span><span class="line"><span class="cl">│   ├── os
+</span></span><span class="line"><span class="cl">│   ├── sources
+</span></span><span class="line"><span class="cl">│   ├── stubs
+</span></span><span class="line"><span class="cl">│   ├── summary
+</span></span><span class="line"><span class="cl">│   ├── threads
+</span></span><span class="line"><span class="cl">│   ├── types
+</span></span><span class="line"><span class="cl">│   └── unix
+</span></span><span class="line"><span class="cl">├── CHANGES
+</span></span><span class="line"><span class="cl">├── CHANGES.ru
+</span></span><span class="line"><span class="cl">├── conf
+</span></span><span class="line"><span class="cl">│   ├── fastcgi.conf
+</span></span><span class="line"><span class="cl">│   ├── fastcgi_params
+</span></span><span class="line"><span class="cl">│   ├── koi-utf
+</span></span><span class="line"><span class="cl">│   ├── koi-win
+</span></span><span class="line"><span class="cl">│   ├── mime.types
+</span></span><span class="line"><span class="cl">│   ├── nginx.conf
+</span></span><span class="line"><span class="cl">│   ├── scgi_params
+</span></span><span class="line"><span class="cl">│   ├── uwsgi_params
+</span></span><span class="line"><span class="cl">│   └── win-utf
+</span></span><span class="line"><span class="cl">├── configure
+</span></span><span class="line"><span class="cl">├── contrib
+</span></span><span class="line"><span class="cl">│   ├── geo2nginx.pl
+</span></span><span class="line"><span class="cl">│   ├── README
+</span></span><span class="line"><span class="cl">│   ├── unicode2nginx
+</span></span><span class="line"><span class="cl">│   └── vim
+</span></span><span class="line"><span class="cl">├── html
+</span></span><span class="line"><span class="cl">│   ├── 50x.html
+</span></span><span class="line"><span class="cl">│   └── index.html
+</span></span><span class="line"><span class="cl">├── LICENSE
+</span></span><span class="line"><span class="cl">├── Makefile
+</span></span><span class="line"><span class="cl">├── man
+</span></span><span class="line"><span class="cl">│   └── nginx.8
+</span></span><span class="line"><span class="cl">├── objs
+</span></span><span class="line"><span class="cl">│   ├── addon
+</span></span><span class="line"><span class="cl">│   ├── autoconf.err
+</span></span><span class="line"><span class="cl">│   ├── Makefile
+</span></span><span class="line"><span class="cl">│   ├── nginx
+</span></span><span class="line"><span class="cl">│   ├── nginx.8
+</span></span><span class="line"><span class="cl">│   ├── ngx_auto_config.h
+</span></span><span class="line"><span class="cl">│   ├── ngx_auto_headers.h
+</span></span><span class="line"><span class="cl">│   ├── ngx_modules.c
+</span></span><span class="line"><span class="cl">│   ├── ngx_modules.o
+</span></span><span class="line"><span class="cl">│   └── src
+</span></span><span class="line"><span class="cl">├── README
+</span></span><span class="line"><span class="cl">└── src
+</span></span><span class="line"><span class="cl">    ├── core
+</span></span><span class="line"><span class="cl">    ├── event
+</span></span><span class="line"><span class="cl">    ├── http
+</span></span><span class="line"><span class="cl">    ├── mail
+</span></span><span class="line"><span class="cl">    ├── misc
+</span></span><span class="line"><span class="cl">    ├── os
+</span></span><span class="line"><span class="cl">    └── stream</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="docker-安装" class="heading-element">
+  <a href="#docker-%e5%ae%89%e8%a3%85" class="heading-mark"></a>docker 安装</h1><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 下载镜像</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi bash<span class="o">]</span><span class="c1"># docker image pull nginx</span>
+</span></span><span class="line"><span class="cl">Using default tag: latest
+</span></span><span class="line"><span class="cl">latest: Pulling from library/nginx
+</span></span><span class="line"><span class="cl">a330b6cecb98: Pull <span class="nb">complete</span> 
+</span></span><span class="line"><span class="cl">e0ad2c0621bc: Pull <span class="nb">complete</span> 
+</span></span><span class="line"><span class="cl">9e56c3e0e6b7: Pull <span class="nb">complete</span> 
+</span></span><span class="line"><span class="cl">09f31c94adc6: Pull <span class="nb">complete</span> 
+</span></span><span class="line"><span class="cl">32b26e9cdb83: Pull <span class="nb">complete</span> 
+</span></span><span class="line"><span class="cl">20ab512bbb07: Pull <span class="nb">complete</span> 
+</span></span><span class="line"><span class="cl">Digest: sha256:853b221d3341add7aaadf5f81dd088ea943ab9c918766e295321294b035f3f3e
+</span></span><span class="line"><span class="cl">Status: Downloaded newer image <span class="k">for</span> nginx:latest
+</span></span><span class="line"><span class="cl">docker.io/library/nginx:latest
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建目录</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi ~<span class="o">]</span><span class="c1"># mkdir -P /root/nginxDocker/nginx/{web,log,conf}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 复制镜像中的配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi bash<span class="o">]</span><span class="c1"># cp -r  /var/lib/docker/overlay2/81e5129d2be22c4bf449c9c5ff7b82b84a545584dba08f515fd95c938e21910b/diff/etc/nginx/* /root/nginxDocker/nginx/conf/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建 nginx docker 脚本 </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi bash<span class="o">]</span><span class="c1"># cat nginxDocker.sh </span>
+</span></span><span class="line"><span class="cl">docker network create --subnet 172.11.11.0/24 net-nginx 2&gt;/dev/null
+</span></span><span class="line"><span class="cl"><span class="c1"># /etc/nginx 是配置文件目录</span>
+</span></span><span class="line"><span class="cl">docker container run --name nginx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	-v /etc/localtime:/etc/localtime <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	-v /root/nginxDocker/nginx/conf/:/etc/nginx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	-v /root/nginxDocker/nginx/web/:/nginx/web <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	-v /root/nginxDocker/nginx/log/:/nginx/log <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--network net-nginx <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	--ip 172.11.11.2 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	-d nginx
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建 nginx docker</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi ~<span class="o">]</span><span class="c1"># bash bash/nginxDocker.sh </span>
+</span></span><span class="line"><span class="cl">f5fa088141fa73f9b9b561b4412d2d792192199f6f9a489a3e45ff671852de81
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 由于容器环境有些缺省值不一样，最好在配置文件中明确指定</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 如 root 在容器中缺省值为 /etc/nginx/html</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi ~<span class="o">]</span><span class="c1"># cat /root/nginxDocker/nginx/conf/conf.d/1001-linuxInfo.conf </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">server <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    listen 172.11.11.2:1001<span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">location</span> <span class="o">=</span> /linuxInfo <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	 <span class="k">return</span> <span class="m">200</span> <span class="s2">&#34;</span><span class="nv">$document_root</span><span class="s2"> \n&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重新加载配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi ~<span class="o">]</span><span class="c1"># docker container exec -it nginx nginx -s reload </span>
+</span></span><span class="line"><span class="cl">2021/09/11 16:03:28 <span class="o">[</span>notice<span class="o">]</span> 50#50: signal process started
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 输出</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi ~<span class="o">]</span><span class="c1"># curl 172.11.11.2:1001/linuxInfo</span>
+</span></span><span class="line"><span class="cl">/etc/nginx/html 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 可以创建别名快速使用命令</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi ~<span class="o">]</span><span class="c1"># alias nginx=&#39;docker container exec -it nginx nginx&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi /<span class="o">]</span><span class="c1"># nginx -v</span>
+</span></span><span class="line"><span class="cl">nginx version: nginx/1.21.3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 开机生效</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@xiaosi /<span class="o">]</span><span class="c1"># echo &#34;alias nginx=&#39;docker container exec -it nginx nginx&#39;&#34; &gt;&gt; ~/.bashrc</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="nginx-命令" class="heading-element">
+  <a href="#nginx-%e5%91%bd%e4%bb%a4" class="heading-mark"></a>nginx 命令</h1><p>nginx 可以通过命令行或者对进程发送信号进行管理</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># nginx -h</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nignx命令选项
+</span></span><span class="line"><span class="cl">-h, -? 		<span class="c1"># 帮助信息</span>
+</span></span><span class="line"><span class="cl">-v			<span class="c1"># 查看版本</span>
+</span></span><span class="line"><span class="cl">-V			<span class="c1"># 查看版本和配置的模块</span>
+</span></span><span class="line"><span class="cl">-t			<span class="c1"># 检查配置文件</span>
+</span></span><span class="line"><span class="cl">-q			<span class="c1"># 在检查配置文件期间(-t或-T)不显示非错误信息</span>
+</span></span><span class="line"><span class="cl">-c			<span class="c1"># 指定其他配置文件</span>
+</span></span><span class="line"><span class="cl">-g			<span class="c1"># 修改配置文件中的指令</span>
+</span></span><span class="line"><span class="cl">-s			<span class="c1"># 执行操作以下</span>
+</span></span><span class="line"><span class="cl">	stop: 立即停止服务
+</span></span><span class="line"><span class="cl">	quit: 优雅停止服务
+</span></span><span class="line"><span class="cl">	reload: 重新加载配置文件
+</span></span><span class="line"><span class="cl">	reopen: 重新开始记录日志文件</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="热部署" class="heading-element">
+  <a href="#%e7%83%ad%e9%83%a8%e7%bd%b2" class="heading-mark"></a>热部署</h1><p>步骤：</p>
+<ol>
+<li>备份当前二进制nginx文件</li>
+<li>把编译之后的二进制文件（<code>objs/nginx</code>）替换现有的nginx二进制文件
+（<code>nginx</code>命令文件）</li>
+<li>向nginx master 进程发送 <code>USR2</code>信号，如<code>kill -USR2 1192</code>。
+系统会根据新的nginx二进制文件启动master处理新的连接，
+旧的master进程还在处理已经建立的连接</li>
+<li>向旧的master进程发送信号使其优雅的关闭连接（<code>kill -WINCH 1192</code>）</li>
+</ol>
+<p>流程：</p>
+<ol>
+<li>将旧nginx文件换成新的nginx文件（注意备份）</li>
+<li>向master进程发送USR2信号</li>
+<li>master进程再pid文件添加后缀<code>.oldbin</code></li>
+<li>master进程用新的nginx文件启动新的master进程</li>
+<li>向旧的master进程发送<code>QUIT</code>信号，关闭master老进程</li>
+</ol>
+<p>回滚：</p>
+<ol>
+<li>向旧master进程发送HUP信号</li>
+<li>向信master进程发送QUIT信号</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-15 09:33:31">更新于 2022-12-15&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/nginx-%E5%AE%89%E8%A3%85/" class="post-tag" title="标签 - nginx 安装">nginx 安装</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx-error/" class="post-nav-item" rel="prev" title="nginx运行错误"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx运行错误</a>
+      <a href="/nginx-directives/" class="post-nav-item" rel="next" title="nginx模块与指令">nginx模块与指令<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

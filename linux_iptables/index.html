@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>iptables - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content=" " /><meta name="keywords" content='防火墙, iptables' /><meta itemprop="name" content="iptables">
+<meta itemprop="description" content=" "><meta itemprop="datePublished" content="2018-12-10T23:12:16+08:00" />
+<meta itemprop="dateModified" content="2023-04-08T16:55:54+08:00" />
+<meta itemprop="wordCount" content="4792">
+<meta itemprop="keywords" content="防火墙,iptables," /><meta property="og:title" content="iptables" />
+<meta property="og:description" content=" " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linux_iptables/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T23:12:16+08:00" />
+<meta property="article:modified_time" content="2023-04-08T16:55:54+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="iptables"/>
+<meta name="twitter:description" content=" "/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linux_iptables/" /><link rel="prev" href="/linuxSystemd/" /><link rel="next" href="/linuxFirewalld/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "iptables",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linux_iptables\/"
+    },"genre": "posts","keywords": "防火墙, iptables","wordcount":  4792 ,
+    "url": "\/linux_iptables\/","datePublished": "2018-12-10T23:12:16+08:00","dateModified": "2023-04-08T16:55:54+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": " "
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>iptables</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 23:12:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2023-04-08 16:55:54"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-08">2023-04-08</time></span>&nbsp;<span title="4792 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#防火墙">防火墙</a></li>
+    <li><a href="#iptables-概述">iptables 概述</a>
+      <ul>
+        <li><a href="#ipbtals命令">ipbtals命令</a>
+          <ul>
+            <li><a href="#常见用法">常见用法</a></li>
+            <li><a href="#规则管理选项">规则管理选项</a></li>
+            <li><a href="#自定义规则链管理选项">自定义规则链管理选项</a></li>
+            <li><a href="#查看规则选项">查看规则选项</a></li>
+            <li><a href="#地址匹配">地址匹配</a></li>
+          </ul>
+        </li>
+        <li><a href="#扩展匹配条件">扩展匹配条件</a>
+          <ul>
+            <li><a href="#tcp匹配">TCP匹配</a></li>
+            <li><a href="#udp匹配">UDP匹配</a></li>
+            <li><a href="#地址类型匹配">地址类型匹配</a></li>
+            <li><a href="#状态匹配">状态匹配</a></li>
+            <li><a href="#注释匹配">注释匹配</a></li>
+            <li><a href="#ip-范围匹配">IP 范围匹配</a></li>
+            <li><a href="#速率限制匹配">速率限制匹配</a></li>
+            <li><a href="#mark地址匹配">mark地址匹配</a></li>
+            <li><a href="#多端口匹配">多端口匹配</a></li>
+          </ul>
+        </li>
+        <li><a href="#动作">动作</a>
+          <ul>
+            <li><a href="#跳转">跳转</a></li>
+            <li><a href="#接受与拒绝">接受与拒绝</a></li>
+            <li><a href="#进行分类">进行分类</a></li>
+            <li><a href="#标记">标记</a></li>
+            <li><a href="#selinux相关">selinux相关</a></li>
+            <li><a href="#地址转换">地址转换</a></li>
+            <li><a href="#修改头部字段">修改头部字段</a></li>
+            <li><a href="#日志记录">日志记录</a></li>
+            <li><a href="#队列">队列</a></li>
+            <li><a href="#流量重定向到机器本身">流量重定向到机器本身</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>使用环境：</p>
+<ul>
+<li>centos: 7</li>
+<li>centos: 8</li>
+<li>firewalld: 0.8</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://netfilter.org/documentation/index.html"target="_blank" rel="external nofollow noopener noreferrer">Netfilter官网文档</a></li>
+<li><code>Oskar Andreasson</code>: <a href="https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html"target="_blank" rel="external nofollow noopener noreferrer">iptables 教程</a></li>
+<li><a href="https://wiki.nftables.org/wiki-nftables/index.php/Main_Page"target="_blank" rel="external nofollow noopener noreferrer">nttables维基</a></li>
+<li><code>运维派</code>: <a href="http://www.yunweipai.com/35035.html"target="_blank" rel="external nofollow noopener noreferrer">iptables教程</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<h1 id="防火墙" class="heading-element">
+  <a href="#%e9%98%b2%e7%81%ab%e5%a2%99" class="heading-mark"></a>防火墙</h1><p>Linux防火墙是由Netfilter组件提供的，Netfilter工作在内核空间，集成在linux内核中
+，Netfilter 是Linux2.4.x之后新一代的Linux防火墙机制，有以下前端工具</p>
+<ul>
+<li>iptables：工作在用户空间，用来编写规则，写好的规则被送往netfilter</li>
+<li>firewalld：从CentOS 7 版开始引入了新的前端管理工具</li>
+<li>nftables：CentOS 8 新特性，它在 Linux 内核 &gt;= 3.13 中可用。</li>
+</ul>
+<h1 id="iptables-概述" class="heading-element">
+  <a href="#iptables-%e6%a6%82%e8%bf%b0" class="heading-mark"></a>iptables 概述</h1><p>iptables由表(table)与链(chain)以及一些规则组成。</p>
+<ul>
+<li>内置链，流量由高到低的顺序如下：
+<ul>
+<li>PREROUTING: 在进行路由选择前处理数据包</li>
+<li>INPUT: 处理入站的数据包</li>
+<li>OUTPUT: 处理出站的数据包</li>
+<li>POSTROUTING: 在进行路由选择后处理数据包</li>
+<li>FORWARD: 处理转发的数据包</li>
+</ul>
+</li>
+<li>内置表，优先级由高到低的顺序如下：
+<ul>
+<li>security：用于强制访问控制（MAC）网络规则，由Linux安全模块（如SELinux）实现</li>
+<li>raw：关闭启用的连接跟踪机制，加快封包穿越防火墙速度</li>
+<li>mangle：修改数据标记位规则表</li>
+<li>nat表：network address translation 地址转换规则表</li>
+<li>filter表：过滤规则表，根据预定义的规则过滤符合条件的数据包</li>
+</ul>
+</li>
+</ul>
+<p><img loading="lazy" src="iptables-tables-traverse.jpg" alt="iptables-数据经过防火墙的流程图" srcset="iptables-tables-traverse.jpg?size=small, iptables-tables-traverse.jpg?size=medium 1.5x, iptables-tables-traverse.jpg?size=large 2x" sizes="auto" data-title="iptables-数据经过防火墙的流程图" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>iptables 规则上这些链表上定义规则，
+对匹配成功的报文根据规则定义的处理动作作出处理，
+规则在链接上的次序即为其检查时的生效次序。</p>
+<h2 id="ipbtals命令" class="heading-element">
+  <a href="#ipbtals%e5%91%bd%e4%bb%a4" class="heading-mark"></a>ipbtals命令</h2><p>iptables命令选项：</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-A<span class="p">|</span>-C<span class="p">|</span>-D<span class="o">}</span> chain rule-specification
+</span></span><span class="line"><span class="cl">       ip6tables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-A<span class="p">|</span>-C<span class="p">|</span>-D<span class="o">}</span> chain rule-specification
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> -I chain <span class="o">[</span>rulenum<span class="o">]</span> rule-specification
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> -R chain rulenum rule-specification
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> -D chain rulenum
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> -S <span class="o">[</span>chain <span class="o">[</span>rulenum<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-F<span class="p">|</span>-L<span class="p">|</span>-Z<span class="o">}</span> <span class="o">[</span>chain <span class="o">[</span>rulenum<span class="o">]]</span> <span class="o">[</span>options...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> -N chain
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> -X <span class="o">[</span>chain<span class="o">]</span>
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> -P chain target
+</span></span><span class="line"><span class="cl">       iptables <span class="o">[</span>-t table<span class="o">]</span> -E old-chain-name new-chain-name
+</span></span><span class="line"><span class="cl">       rule-specification <span class="o">=</span> <span class="o">[</span>matches...<span class="o">]</span> <span class="o">[</span>target<span class="o">]</span>
+</span></span><span class="line"><span class="cl">       <span class="nv">match</span> <span class="o">=</span> -m matchname <span class="o">[</span>per-match-options<span class="o">]</span>
+</span></span><span class="line"><span class="cl">       <span class="nv">target</span> <span class="o">=</span> -j targetname <span class="o">[</span>per-target-options<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="常见用法" class="heading-element">
+  <a href="#%e5%b8%b8%e8%a7%81%e7%94%a8%e6%b3%95" class="heading-mark"></a>常见用法</h3><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-t  <span class="c1"># 指定规则表，缺省时为 filter 表</span>
+</span></span><span class="line"><span class="cl">-j  <span class="c1"># 指定规则处理动作</span>
+</span></span><span class="line"><span class="cl">-p  <span class="c1"># 隐式扩展匹配条件</span>
+</span></span><span class="line"><span class="cl">-m  <span class="c1"># 显式扩展匹配条件</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="规则管理选项" class="heading-element">
+  <a href="#%e8%a7%84%e5%88%99%e7%ae%a1%e7%90%86%e9%80%89%e9%a1%b9" class="heading-mark"></a>规则管理选项</h3><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-A  <span class="c1"># 追加规则（默认在尾部）</span>
+</span></span><span class="line"><span class="cl">-I  <span class="c1"># 在指定序号插入规则，默认为1</span>
+</span></span><span class="line"><span class="cl">-D  <span class="c1"># 删除规则，指明规则序号或指明规则本身</span>
+</span></span><span class="line"><span class="cl">-R  <span class="c1"># 替换指定链上的指定规则编号</span>
+</span></span><span class="line"><span class="cl">-F  <span class="c1"># 清空指定的规则链</span>
+</span></span><span class="line"><span class="cl">-Z  <span class="c1"># 计数器置零， iptables的每条规则都有两个计数：</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># - 器匹配到的报文的个数</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># - 匹配到的所有报文的大小之和</span>
+</span></span><span class="line"><span class="cl">-N  <span class="c1"># 创建自定义链</span>
+</span></span><span class="line"><span class="cl">-P  <span class="c1"># 规则链的默认策略，只有内置链才能设置且目标不能是链才有效</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="自定义规则链管理选项" class="heading-element">
+  <a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e8%a7%84%e5%88%99%e9%93%be%e7%ae%a1%e7%90%86%e9%80%89%e9%a1%b9" class="heading-mark"></a>自定义规则链管理选项</h3><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-N  <span class="c1"># 自定义一条新的规则链</span>
+</span></span><span class="line"><span class="cl">-E  <span class="c1"># 重命名自定义链；引用计数不为0的自定义链不能够被重命名，也不能被删除</span>
+</span></span><span class="line"><span class="cl">-X  <span class="c1"># 删除自定义的空的规则链</span>
+</span></span><span class="line"><span class="cl">-P  <span class="c1"># 设置默认处理动作</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看规则选项" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e8%a7%84%e5%88%99%e9%80%89%e9%a1%b9" class="heading-mark"></a>查看规则选项</h3><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-S, --list-rules <span class="o">[</span>chain<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 以配置文件形式查看规则，默认为 filter 表，缺省链为所有链</span>
+</span></span><span class="line"><span class="cl">-t, --table table
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看指定表，缺省为 filter 表</span>
+</span></span><span class="line"><span class="cl">-L, --list <span class="o">[</span>chain<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看规则链，缺省链则查看所有链，缺省 -t 默认为 filter 表</span>
+</span></span><span class="line"><span class="cl">--line-numbers
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看规则序列号，在开头规则所在某链某表的位置，不能和 -S 使用</span>
+</span></span><span class="line"><span class="cl">-n, --numeric
+</span></span><span class="line"><span class="cl">    <span class="c1"># ip和端口都用数字显示，默认情况下，以主机名，服务，网络名称显示</span>
+</span></span><span class="line"><span class="cl">-v, --verbos
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看详细内容， V 数量越多显示越详细，与 -L 关联使用</span>
+</span></span><span class="line"><span class="cl">-x, --exact
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看详细数字，而不是以 M（1000K）G （1000M）等方式，与 -L 选项管理使用</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="地址匹配" class="heading-element">
+  <a href="#%e5%9c%b0%e5%9d%80%e5%8c%b9%e9%85%8d" class="heading-mark"></a>地址匹配</h3><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>!<span class="o">]</span> -s, --source address<span class="o">[</span>/mask<span class="o">][</span>,...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 源地址，!表示取反，可以是 IP 范围（ip/掩码）；主机名（只会被解析一次）</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>!<span class="o">]</span> -d, --destination address<span class="o">[</span>/mask<span class="o">][</span>,...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 目标地址，!表示取反，可以是 IP 范围（ip/掩码）；主机名（只会解析一次）</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>!<span class="o">]</span> -p, --protocol protocol
+</span></span><span class="line"><span class="cl">    <span class="c1"># 数据包的协议，!表示取反，可以使用协议号，可以使用 all表示所有协议。</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#  协议列表在/etc/protocols可查看</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>!<span class="o">]</span> -i, --in-interface name
+</span></span><span class="line"><span class="cl">    <span class="c1">#  报文流入的接口；只应用于INPUT、FORWARD、PREROUTING链</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>!<span class="o">]</span> -o, --out-interface name
+</span></span><span class="line"><span class="cl">    <span class="c1"># 报文流出的接口，只应用于FORWARD、OUTPUT、POSTROUTING链</span>
+</span></span><span class="line"><span class="cl">-f, --fragment
+</span></span><span class="line"><span class="cl">    <span class="c1"># 匹配数据包的第二部分和第三部分</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="扩展匹配条件" class="heading-element">
+  <a href="#%e6%89%a9%e5%b1%95%e5%8c%b9%e9%85%8d%e6%9d%a1%e4%bb%b6" class="heading-mark"></a>扩展匹配条件</h2><p>扩展匹配条件：需要加载扩展模块（<code>/usr/lib64/xtables/*.so</code>），方可生效。
+使用<code>man iptables-extensions</code>查看扩展模块帮助文档。扩展匹配条件有以下方式：</p>
+<ul>
+<li>隐式扩展：使用<code>-p</code>选项时自动使用相应扩展模块</li>
+<li>显式扩展：使用<code>-m</code>或<code>--match</code>选项指定扩展模块。 部分扩展匹配模块,还有更多的匹配模块没有记录。查看文档：https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html#EXPLICITMATCHES</li>
+</ul>
+<h3 id="tcp匹配" class="heading-element">
+  <a href="#tcp%e5%8c%b9%e9%85%8d" class="heading-mark"></a>TCP匹配</h3><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-p tcp --sport, --source-port
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定tcp源端口号，缺省时为所有TCP端口。可以是/etc/services中的服务名</span>
+</span></span><span class="line"><span class="cl">--dport, --destination-port
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定tcp目标端口号，缺省时为所有TCP端口。可以是/etc/services中的服务名</span>
+</span></span><span class="line"><span class="cl">--tcp-flags
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定tcp标志，多个标志使用逗号分隔，缺省时为所有TCP标识</span>
+</span></span><span class="line"><span class="cl">--tcp-option
+</span></span><span class="line"><span class="cl">    <span class="c1"># tcp报文中option部分长度</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="udp匹配" class="heading-element">
+  <a href="#udp%e5%8c%b9%e9%85%8d" class="heading-mark"></a>UDP匹配</h3><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-p tcp --sport, --source-port
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定udp源端口号，缺省时为所有udp端口。可以是/etc/services中的服务名</span>
+</span></span><span class="line"><span class="cl">-p tcp --dport, --destination-port
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定udp目标端口号，缺省时为所有udp端口。可以是/etc/services中的服务名</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ICMP扩展匹配，即 -p icmp 的子命令</span>
+</span></span><span class="line"><span class="cl">-p tcp --icmp-type
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定 ICMP 类型</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># STCP扩展匹配，即 -p sctp 的子命令</span>
+</span></span><span class="line"><span class="cl">https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html#SCTPMATCHES</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="地址类型匹配" class="heading-element">
+  <a href="#%e5%9c%b0%e5%9d%80%e7%b1%bb%e5%9e%8b%e5%8c%b9%e9%85%8d" class="heading-mark"></a>地址类型匹配</h3><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 地址类型匹配，地址类型如下：</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - ANYCAST</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - BLACKHOLE</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - BROADCAST</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - LOCAL</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - MULTICAST</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - NAT</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - PROHIBIT</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - THROW</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - UNICAST</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - UNREACHABLE</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - UNSPEC</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - XRESOLVE</span>
+</span></span><span class="line"><span class="cl">-m addrtype --src-type UNICAST
+</span></span><span class="line"><span class="cl">    <span class="c1"># 源地址类型 为UNICAST</span>
+</span></span><span class="line"><span class="cl">-m addrtype --dst-type UNICAST
+</span></span><span class="line"><span class="cl">    <span class="c1"># 目标地址类型为UNICAST</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="状态匹配" class="heading-element">
+  <a href="#%e7%8a%b6%e6%80%81%e5%8c%b9%e9%85%8d" class="heading-mark"></a>状态匹配</h3><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-m --state
+</span></span><span class="line"><span class="cl">    <span class="c1"># 匹配连接状态，目前有以下可有状态：</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># - INVALID: 表示数据包与未知的流或连接相关联，</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#            并且它可能包含错误的数据或标头</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># - ESTABLISHED: 已建立并开始传输数据</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># - NEW: 新建连接，NEW 状态不会在尝试启动新连接的 TCP 数据包中查找 SYN 位</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># - RELATED: 已建立连接</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 更多状态相关文档：https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html#STATEMACHINE</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="注释匹配" class="heading-element">
+  <a href="#%e6%b3%a8%e9%87%8a%e5%8c%b9%e9%85%8d" class="heading-mark"></a>注释匹配</h3><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-m comment --comment <span class="s2">&#34;A comment&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 注释最多可包含 256 个字符</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="ip-范围匹配" class="heading-element">
+  <a href="#ip-%e8%8c%83%e5%9b%b4%e5%8c%b9%e9%85%8d" class="heading-mark"></a>IP 范围匹配</h3><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-m iprange --src-range
+</span></span><span class="line"><span class="cl">    <span class="c1"># 源IP范围，如：192.168.1.13-192.168.2.19</span>
+</span></span><span class="line"><span class="cl">-m iprange --dst-range
+</span></span><span class="line"><span class="cl">    <span class="c1"># 目标IP范围，如：192.168.1.13-192.168.2.19</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="速率限制匹配" class="heading-element">
+  <a href="#%e9%80%9f%e7%8e%87%e9%99%90%e5%88%b6%e5%8c%b9%e9%85%8d" class="heading-mark"></a>速率限制匹配</h3><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-m limit --limit n/time
+</span></span><span class="line"><span class="cl">    <span class="c1"># 速率限制，限制规定时间内处理多少个连接，time有单位有：/second /minute /hour /day</span>
+</span></span><span class="line"><span class="cl">-m limit --limit-burst
+</span></span><span class="line"><span class="cl">    <span class="c1"># 速率令牌桶大小与初始值，每个连接消耗1个令牌，当令牌数量为0时，阻止连接</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例：-m limit --limit 5/second --limit-burst 10/second.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - 令牌桶初始值为10个，最大值为10个</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - 每秒最多通过5个连接</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - 1/5s没有使用令牌时，增加1个。最多增加到10个</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="mark地址匹配" class="heading-element">
+  <a href="#mark%e5%9c%b0%e5%9d%80%e5%8c%b9%e9%85%8d" class="heading-mark"></a>mark地址匹配</h3><p>MAC 匹配仅在 PREROUTING、FORWARD 和 INPUT 链中有效</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-m mac --mac-source XX:XX:XX:XX:XX:XX
+</span></span><span class="line"><span class="cl">    <span class="c1"># mark源地址</span>
+</span></span><span class="line"><span class="cl">-m mark --mark n
+</span></span><span class="line"><span class="cl">    <span class="c1"># 匹配mark标记</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="多端口匹配" class="heading-element">
+  <a href="#%e5%a4%9a%e7%ab%af%e5%8f%a3%e5%8c%b9%e9%85%8d" class="heading-mark"></a>多端口匹配</h3><div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-m multiport --source-port ports
+</span></span><span class="line"><span class="cl">    <span class="c1"># 多个源端口匹配，最多可以指定 15 个单独的端口。端口必须用逗号分隔，</span>
+</span></span><span class="line"><span class="cl">-m multiport --destination-port ports
+</span></span><span class="line"><span class="cl">    <span class="c1"># 多个目标端口匹配，最多可以指定 15 个单独的端口。端口必须用逗号分隔，</span>
+</span></span><span class="line"><span class="cl">-m multiport --port  ports
+</span></span><span class="line"><span class="cl">    <span class="c1"># 多个端口匹配，最多可以指定 15 个单独的端口。端口必须用逗号分隔，</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="动作" class="heading-element">
+  <a href="#%e5%8a%a8%e4%bd%9c" class="heading-mark"></a>动作</h2><p>匹配规则后执行的动作</p>
+<h3 id="跳转" class="heading-element">
+  <a href="#%e8%b7%b3%e8%bd%ac" class="heading-mark"></a>跳转</h3><div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">- j name
+</span></span><span class="line"><span class="cl">    <span class="c1"># 跳转到同表的其它链，name 为自定义链名称。遍历指定链之后返回到当前链继续遍历</span>
+</span></span><span class="line"><span class="cl">-j RETURN
+</span></span><span class="line"><span class="cl">    <span class="c1"># 目标将导致当前数据包停止通过它遇到规则的链。</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 如果它是另一条链的子链，则数据包将继续通过上级链，就好像什么都没发生一样</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 如果链是主链，例如 INPUT 链，则数据包将采用默认策略</span>
+</span></span><span class="line"><span class="cl">-j CLUSTERIP
+</span></span><span class="line"><span class="cl">    <span class="c1"># 跳转到集群，https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html#CLUSTERIPTARGET</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="接受与拒绝" class="heading-element">
+  <a href="#%e6%8e%a5%e5%8f%97%e4%b8%8e%e6%8b%92%e7%bb%9d" class="heading-mark"></a>接受与拒绝</h3><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-j ACCEPT
+</span></span><span class="line"><span class="cl">    <span class="c1"># 规则接受，直接进入下一个链</span>
+</span></span><span class="line"><span class="cl">-j DROP
+</span></span><span class="line"><span class="cl">    <span class="c1"># 丢弃，不往后续处理。也不返回提示</span>
+</span></span><span class="line"><span class="cl">-j REJECT  --reject-with tcp-reset
+</span></span><span class="line"><span class="cl">    <span class="c1"># 拒绝，但会向源返回错误信息。仅在 INPUT、FORWARD 和 OUTPUT链或其子链中有效</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># --reject-with 该选项可以告知当前可接受的数据包类型</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="进行分类" class="heading-element">
+  <a href="#%e8%bf%9b%e8%a1%8c%e5%88%86%e7%b1%bb" class="heading-mark"></a>进行分类</h3><div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-j CLASSIFY --set-class 
+</span></span><span class="line"><span class="cl">    <span class="c1"># 进行分类，https://www.lartc.org/manpages/</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="标记" class="heading-element">
+  <a href="#%e6%a0%87%e8%ae%b0" class="heading-mark"></a>标记</h3><div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># connmark 针对是连接</span>
+</span></span><span class="line"><span class="cl">-j CONNMARK --set-mark n
+</span></span><span class="line"><span class="cl">    <span class="c1"># 添加连接标记n，n为0~4294967295l</span>
+</span></span><span class="line"><span class="cl">-j CONNMARK --save-mark
+</span></span><span class="line"><span class="cl">    <span class="c1"># 把数据包中的标记保存到连接标记中</span>
+</span></span><span class="line"><span class="cl">-j CONNMARK --restore-mark
+</span></span><span class="line"><span class="cl">    <span class="c1"># 恢复数据包的标志值，此目标选项仅对在 mangle 表中使用有效。</span>
+</span></span><span class="line"><span class="cl">-j CONNMARK --mask 
+</span></span><span class="line"><span class="cl">    <span class="c1"># 重新设置make值，必须与 --save-mark 或 --restore-mark 选项一起使用</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># mark 只在mangle 表中有效，只标记单个数据包</span>
+</span></span><span class="line"><span class="cl">-j MARK --set-mark <span class="m">2</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 设置数据包的标记</span>
+</span></span><span class="line"><span class="cl">-j NOTRACK
+</span></span><span class="line"><span class="cl">    <span class="c1"># 关闭所有匹配此规则的数据包的连接跟踪 </span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="selinux相关" class="heading-element">
+  <a href="#selinux%e7%9b%b8%e5%85%b3" class="heading-mark"></a>selinux相关</h3><div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-j SECMARK --selctx httpcontext
+</span></span><span class="line"><span class="cl">    <span class="c1"># 在单个数据包上设置selinux安全上下文标记，仅在 mangle 表中有效。</span>
+</span></span><span class="line"><span class="cl">-j CONNSECMARK --save
+</span></span><span class="line"><span class="cl">    <span class="c1"># 如果之前没有标记连接，则将数据包中的selinux安全上下文标记保存到连接。</span>
+</span></span><span class="line"><span class="cl">-j CONNSECMARK --restore
+</span></span><span class="line"><span class="cl">    <span class="c1"># 如果数据包上没有设置selinux安全上下文标记，</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 则 --restore 选项将设置与数据包上的连接关联的安全上下文标记。</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="地址转换" class="heading-element">
+  <a href="#%e5%9c%b0%e5%9d%80%e8%bd%ac%e6%8d%a2" class="heading-mark"></a>地址转换</h3><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-j SNAT --to-source 194.236.50.155-194.236.50.160:1024-32000
+</span></span><span class="line"><span class="cl">    <span class="c1"># SNAT 目标仅在 POSTROUTING 链NAT 表中有效</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 修改源IP、端口</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 默认使用第1个有效IP</span>
+</span></span><span class="line"><span class="cl">-j DNAT --to-destination
+</span></span><span class="line"><span class="cl">    <span class="c1"># 目标地址转换，可以指定连续的IP范围或连续的端口范围</span>
+</span></span><span class="line"><span class="cl">-o interfaceName -j MASQUERADE <span class="o">[</span>--to-ports n~n<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 伪装源地址， IP 地址是自动从特定网卡接口的信息中获取的，网卡有多IP情况下，获取方式IP未知</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># MASQUERADE 目标仅在 nat 表中的 POSTROUTING 链内有效</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># --to-ports 选项是可选的且仅在规则匹配部分指定 TCP 或 UDP 协议与端口匹配时才有效</span>
+</span></span><span class="line"><span class="cl">-s 192.168.1.0/24 -j NETMAP --to 10.5.6.0/24
+</span></span><span class="line"><span class="cl">    <span class="c1"># 1:1的IP地址转换，192.168.1段转换为10.5.6段</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># SAME 目标将尝试始终对网络上单个主机发起的所有连接使用相同的传出 IP 地址</span>
+</span></span><span class="line"><span class="cl">-j SAME --to 10.5.6.7-10.5.6.9
+</span></span><span class="line"><span class="cl">    <span class="c1"># 使用目标 IP 地址和源 IP 地址的组合</span>
+</span></span><span class="line"><span class="cl">-j SAME --to 10.5.6.7-10.5.6.9 --nodst
+</span></span><span class="line"><span class="cl">    <span class="c1"># 使用 --nodst 选项，它只使用源 IP 地址来找出 NAT 功能应该为特定连接使用</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 哪个传出 IP</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="修改头部字段" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9%e5%a4%b4%e9%83%a8%e5%ad%97%e6%ae%b5" class="heading-mark"></a>修改头部字段</h3><div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-j DSCP --set-dscp <span class="m">1</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 修改 DSCP 值，与--set-dscp-class 命令是互斥的</span>
+</span></span><span class="line"><span class="cl">-j DSCP--set-dscp-class EF
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将根据预定义的 DiffServ 类设置 DSCP 字段。与--set-dscp 命令是互斥的 </span>
+</span></span><span class="line"><span class="cl">-j ECN --ecn-tcp-remove
+</span></span><span class="line"><span class="cl">    <span class="c1"># 删除 TCP 标头内的 ECN 位。    </span>
+</span></span><span class="line"><span class="cl">-j TCPMSS --set-mss <span class="m">1460</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 修改 MSS 大小</span>
+</span></span><span class="line"><span class="cl">-j TCPMSS --clamp-mss-to-pmtu
+</span></span><span class="line"><span class="cl">    <span class="c1"># 自动修改MSS值(PMTU-40bByte)</span>
+</span></span><span class="line"><span class="cl">-j TOS --set-tos 0x10
+</span></span><span class="line"><span class="cl">    <span class="c1"># 修改IP头部的TOS字段，值可以是16进制或10进制</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 只在mangle 表内有效，不能在表外使用</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># TTL 目标仅在 mangle 表中有效</span>
+</span></span><span class="line"><span class="cl">-j TTL --ttl-set <span class="m">64</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 修改IP头部的TTL值为64</span>
+</span></span><span class="line"><span class="cl">-j TTL --ttl-dec <span class="m">1</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 修改IP头部的TTL值-1</span>
+</span></span><span class="line"><span class="cl">-j TTL --ttl-inc <span class="m">1</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 修改IP头部的TTL值+1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="日志记录" class="heading-element">
+  <a href="#%e6%97%a5%e5%bf%97%e8%ae%b0%e5%bd%95" class="heading-mark"></a>日志记录</h3><div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-j LOG --log-level debug
+</span></span><span class="line"><span class="cl">    <span class="c1"># 记录日志级别，日志文件在/var/log/iptables </span>
+</span></span><span class="line"><span class="cl">-j LOG --log-prefix <span class="s2">&#34;INPUT packets&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 在日志文件中添加头部</span>
+</span></span><span class="line"><span class="cl">-j LOG --log-tcp-sequence
+</span></span><span class="line"><span class="cl">    <span class="c1"># 记录TCP序列号</span>
+</span></span><span class="line"><span class="cl">-j LOG --log-tcp-options
+</span></span><span class="line"><span class="cl">    <span class="c1"># 记录TCP选项</span>
+</span></span><span class="line"><span class="cl">-j LOG --log-ip-options
+</span></span><span class="line"><span class="cl">    <span class="c1"># 记录IP选项</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ULOG 目标用于提供匹配数据包的用户空间日志记录。如果一个数据包匹配并且设置了</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ULOG 目标，则数据包信息与整个数据包一起通过 netlink 套接字进行多播。然后，</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 一个或多个用户空间进程可以订阅各种多播组并接收数据包</span>
+</span></span><span class="line"><span class="cl">-j ULOG --ulog-nlgroup <span class="m">2</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 目标将数据包发送到哪个网络链路组。netlink 组有 32 个，默认为1</span>
+</span></span><span class="line"><span class="cl">-j ULOG --ulog-prefix <span class="s2">&#34;SSH: &#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 在日志条目添加前缀</span>
+</span></span><span class="line"><span class="cl">-j ULOG --ulog-cprange <span class="m">100</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 每次复制多少字节数据到ULOG 的用户空间守护进程。默认为0，表示全部</span>
+</span></span><span class="line"><span class="cl">-j ULOG --ulog-qthreshold <span class="m">10</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 发送队列大小，如队列中有10个数据包一起发送到进程</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="队列" class="heading-element">
+  <a href="#%e9%98%9f%e5%88%97" class="heading-mark"></a>队列</h3><div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-j QUEUE 
+</span></span><span class="line"><span class="cl">    <span class="c1"># 目标用于将数据包排队到用户级程序和应用程序</span>
+</span></span><span class="line"><span class="cl">-j NFQUEUE --queue-num <span class="m">30</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 选项指定使用哪个队列并将队列数据发送到。如果跳过此选项，则使用默认队列 0</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 队列号是一个 16 位无符号整数，这意味着它可以取 0 到 65535 之间的任何值。</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># QUEUE 目标也使用默认的 0 队列。</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="流量重定向到机器本身" class="heading-element">
+  <a href="#%e6%b5%81%e9%87%8f%e9%87%8d%e5%ae%9a%e5%90%91%e5%88%b0%e6%9c%ba%e5%99%a8%e6%9c%ac%e8%ba%ab" class="heading-mark"></a>流量重定向到机器本身</h3><div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-j REDIRECT --to-ports 
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将数据包和流重定向到机器本身，主机根本不知道</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># REDIRECT 目标仅在 nat 表的 PREROUTING 和 OUTPUT 链中有效。</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 它在仅从这些链调用的用户定义链中也有效，在其他任何地方都没有。</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># --to-ports 选项指定要使用的目标端口或端口范围。如果没有 --to-ports 选项，</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 目标端口永远不会改变。</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-04-08 16:55:54">更新于 2023-04-08&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" class="post-tag" title="标签 - 防火墙">防火墙</a><a href="/tags/iptables/" class="post-tag" title="标签 - iptables">iptables</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linuxSystemd/" class="post-nav-item" rel="prev" title="超级守护进程 systemd"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>超级守护进程 systemd</a>
+      <a href="/linuxFirewalld/" class="post-nav-item" rel="next" title="firewalld - centos7 默认使用的防火墙服务">firewalld - centos7 默认使用的防火墙服务<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

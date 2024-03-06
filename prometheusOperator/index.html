@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Prometheus Operator -为 Kubernetes 提供 Prometheus 和相关监控组件的本地部署和管理。 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='prometheus' /><meta itemprop="name" content="Prometheus Operator -为 Kubernetes 提供 Prometheus 和相关监控组件的本地部署和管理。">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2024-02-02T17:47:35+08:00" />
+<meta itemprop="dateModified" content="2024-02-04T20:59:45+08:00" />
+<meta itemprop="wordCount" content="1422">
+<meta itemprop="keywords" content="prometheus," /><meta property="og:title" content="Prometheus Operator -为 Kubernetes 提供 Prometheus 和相关监控组件的本地部署和管理。" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/prometheusOperator/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-02-02T17:47:35+08:00" />
+<meta property="article:modified_time" content="2024-02-04T20:59:45+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prometheus Operator -为 Kubernetes 提供 Prometheus 和相关监控组件的本地部署和管理。"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/prometheusOperator/" /><link rel="prev" href="/k8sMonitorKubernetes/" /><link rel="next" href="/prometheusAlertmanager/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Prometheus Operator -为 Kubernetes 提供 Prometheus 和相关监控组件的本地部署和管理。",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/prometheusOperator\/"
+    },"genre": "posts","keywords": "prometheus","wordcount":  1422 ,
+    "url": "\/prometheusOperator\/","datePublished": "2024-02-02T17:47:35+08:00","dateModified": "2024-02-04T20:59:45+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Prometheus Operator -为 Kubernetes 提供 Prometheus 和相关监控组件的本地部署和管理。</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/prometheus/" class="post-category" title="分类 - prometheus"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> prometheus</a></span></div><div class="post-meta-line"><span title="发布于 2024-02-02 17:47:35"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-02">2024-02-02</time></span>&nbsp;<span title="更新于 2024-02-04 20:59:45"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-04">2024-02-04</time></span>&nbsp;<span title="1422 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#servicemonitor-资源">ServiceMonitor 资源</a></li>
+    <li><a href="#prometheus-资源">Prometheus 资源</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://github.com/prometheus-operator/prometheus-operator/"target="_blank" rel="external nofollow noopener noreferrer"><code>github：</code>prometheus-operator</a></li>
+<li><a href="https://prometheus-operator.dev/docs/user-guides/getting-started/"target="_blank" rel="external nofollow noopener noreferrer">PrometheusOperator</a></li>
+</ul>
+</blockquote>
+<!--start of attachment line-->
+<!--End of attachment line-->
+<h1 id="简介" class="heading-element">
+  <a href="#%e7%ae%80%e4%bb%8b" class="heading-mark"></a>简介</h1><p><code>Prometheus Operator</code> 在<code>Kubernetes</code>中引入 <code>CRD</code> 实现以下自定义资源</p>
+<ul>
+<li><code>Prometheus</code>: 定义<code>prometheus</code>集群状态</li>
+<li><code>ServiceMonitor</code>: 定义被监控的目标</li>
+<li><code>PodMonitor</code></li>
+</ul>
+<p>架构图如下：</p>
+<p><img loading="lazy" src="prometheusOperator%e6%9e%b6%e6%9e%84%e5%9b%be.png" alt="prometheusOperator架构图.png" srcset="prometheusOperator%e6%9e%b6%e6%9e%84%e5%9b%be.png?size=small, prometheusOperator%e6%9e%b6%e6%9e%84%e5%9b%be.png?size=medium 1.5x, prometheusOperator%e6%9e%b6%e6%9e%84%e5%9b%be.png?size=large 2x" sizes="auto" data-title="prometheusOperator架构图.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h1 id="servicemonitor-资源" class="heading-element">
+  <a href="#servicemonitor-%e8%b5%84%e6%ba%90" class="heading-mark"></a>ServiceMonitor 资源</h1><p>通过<code>service</code> 资源发现服务</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apiVersion: monitoring.coreos.com/v1
+</span></span><span class="line"><span class="cl">kind: ServiceMonitor
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  attachMetadata: <span class="c1"># 是否附加元数据到标签</span>
+</span></span><span class="line"><span class="cl">    node: &lt;bool&gt; <span class="c1"># 附加节点元数据</span>
+</span></span><span class="line"><span class="cl">  jobLabel: <span class="c1"># prometheus job 标签</span>
+</span></span><span class="line"><span class="cl">  targetLabels: <span class="o">[]</span>string <span class="c1"># 指标标签列表</span>
+</span></span><span class="line"><span class="cl">  podTargetLabels: <span class="o">[]</span>string
+</span></span><span class="line"><span class="cl">  endpoints: <span class="c1"># prometheus 采集的端点列表</span>
+</span></span><span class="line"><span class="cl">  - honorLabels: &lt;bool&gt;  <span class="c1">#  度量与目标冲突时，是否保留冲突的标签</span>
+</span></span><span class="line"><span class="cl">    honorTimestamps: &lt;bool&gt; <span class="c1"># 是否保留时间时间戳</span>
+</span></span><span class="line"><span class="cl">    relabelings: <span class="c1"># 重写规则，参考 参考 prometheus &lt;relabel_config&gt;</span>
+</span></span><span class="line"><span class="cl">    path: &lt;string&gt; <span class="c1"># http 路径，缺省时为 /metrics</span>
+</span></span><span class="line"><span class="cl">    port: &lt;string&gt; <span class="c1"># 采集的端口名称，优先级比 targetPort 字段高</span>
+</span></span><span class="line"><span class="cl">    scheme: &lt;string&gt; <span class="c1"># http 方案，缺省时为 http</span>
+</span></span><span class="line"><span class="cl">    scrapeTimeout: <span class="c1"># 时间单位，采集超时时间</span>
+</span></span><span class="line"><span class="cl">    bearerTokenFile: <span class="c1"># 已弃用，使用 authorization 字段替代</span>
+</span></span><span class="line"><span class="cl">    metricRelabelings: <span class="c1"># 在采集前重写标签，参考 prometheus &lt;relabel_config&gt;</span>
+</span></span><span class="line"><span class="cl">    tlsConfig: <span class="c1"># HTTP TLS 配置</span>
+</span></span><span class="line"><span class="cl">      ca: <span class="c1"># CA 证书</span>
+</span></span><span class="line"><span class="cl">        secret: <span class="c1"># secret 资源选择</span>
+</span></span><span class="line"><span class="cl">          name: <span class="c1"># secret 资源 名称</span>
+</span></span><span class="line"><span class="cl">          key: <span class="c1"># secret 资源 key</span>
+</span></span><span class="line"><span class="cl">          optional: &lt;bool&gt; <span class="c1"># 是否强制使用 secret</span>
+</span></span><span class="line"><span class="cl">      serverName: <span class="c1"># 用于验证目标的主机名</span>
+</span></span><span class="line"><span class="cl">  namespaceSelector: <span class="c1"># 目标命名空间选择器</span>
+</span></span><span class="line"><span class="cl">    any: &lt;bool&gt; <span class="c1"># 是否选择所以命名空间</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 如果为 true : 优先级高于matchNames字段</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 如果为 false 且 matchNames 字段为空时，表示当前命名空间</span>
+</span></span><span class="line"><span class="cl">    matchNames: &lt;<span class="o">[]</span>string&gt; <span class="c1"># 命名空间列表</span>
+</span></span><span class="line"><span class="cl">  selector: <span class="c1"># 标签选择器</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="prometheus-资源" class="heading-element">
+  <a href="#prometheus-%e8%b5%84%e6%ba%90" class="heading-mark"></a>Prometheus 资源</h1><p><code>Prometheus</code>部署字段如下</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apiVersion: monitoring.coreos.com/v1
+</span></span><span class="line"><span class="cl">kind: Prometheus
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">spec:    
+</span></span><span class="line"><span class="cl">  serviceAccountName: &lt;string&gt; <span class="c1"># 运行 prometheus POD的k8s服务账号  </span>
+</span></span><span class="line"><span class="cl">  version: &lt;string&gt; <span class="c1"># 告知 prometheus operator 使用的prometheus版本</span>
+</span></span><span class="line"><span class="cl">  image: &lt;string&gt; <span class="c1"># prometheus 镜像地址，缺省时为最新版本</span>
+</span></span><span class="line"><span class="cl">  imagePullPolicy: &lt;string&gt; <span class="c1"># 镜像拉取策略</span>
+</span></span><span class="line"><span class="cl">  imagePullSecrets: &lt;string&gt; <span class="c1"># 从私有仓库拉取镜像使用的secrets凭证  </span>
+</span></span><span class="line"><span class="cl">  shards: &lt;int32&gt; <span class="c1"># 分片数量，缺省时为1，POD数量=分片x副本数量</span>
+</span></span><span class="line"><span class="cl">  replicas: &lt;int32&gt; <span class="c1"># 每个分片 缺省时为，prometheus 副本数量</span>
+</span></span><span class="line"><span class="cl">  listenLocal: &lt;string&gt; <span class="c1"># prometheus 是否监听 local 地址，而不是 pod ip</span>
+</span></span><span class="line"><span class="cl">  securityContext: &lt;&gt; <span class="c1"># pod 安全上下文，即k8s Pod.sepc.SecurityContext 字段  </span>
+</span></span><span class="line"><span class="cl">  hostNetwork: &lt;bool&gt; <span class="c1"># 是否使用主机网络命名空间</span>
+</span></span><span class="line"><span class="cl">  logFormat: &lt;string&gt; <span class="c1"># 日志格式</span>
+</span></span><span class="line"><span class="cl">  logLevel:  &lt;string&gt; <span class="c1"># 日志级别</span>
+</span></span><span class="line"><span class="cl">  alerting: <span class="c1"># 可选，定义与Alertmanager相关的设置</span>
+</span></span><span class="line"><span class="cl">    alertmanagers: <span class="o">[]</span>  <span class="c1"># AlertmanagerEndpoints 端口</span>
+</span></span><span class="line"><span class="cl">    - namespace: <span class="c1">#  Endpoints 对象所在的命名空间</span>
+</span></span><span class="line"><span class="cl">      name: <span class="c1"># 端点名称</span>
+</span></span><span class="line"><span class="cl">      port: <span class="c1"># Alertmanager API 端口名称</span>
+</span></span><span class="line"><span class="cl">      scheme: <span class="c1"># 请求方式</span>
+</span></span><span class="line"><span class="cl">      pathPrefix: <span class="c1"># 路径前缀  </span>
+</span></span><span class="line"><span class="cl">  serviceMonitorSelector: <span class="c1"># ServiceMonitor 资源对象标签选择器</span>
+</span></span><span class="line"><span class="cl">  enableAdminAPI: &lt;bool&gt; <span class="c1"># 是否启用 prometheus web API</span>
+</span></span><span class="line"><span class="cl">  evaluationInterval: &lt;time&gt; <span class="c1"># 采集数据间隔时间</span>
+</span></span><span class="line"><span class="cl">  externalUrl: &lt;url&gt; <span class="c1"># prometheus 对外提供服务的URL</span>
+</span></span><span class="line"><span class="cl">  paused: &lt;bool&gt;
+</span></span><span class="line"><span class="cl">  podMonitorNamespaceSelector: <span class="c1"># podMonitors 资源所在命名空间标签选择器，缺省时选择所有命名空间。为空时选择当前命名空间</span>
+</span></span><span class="line"><span class="cl">  podMonitorSelector: <span class="c1"># 选择 podMonitors 资源标签</span>
+</span></span><span class="line"><span class="cl">  retention: &lt;time&gt; <span class="c1"># Alertmanager 保留时间，缺省时为 120h，必须满足正则表达式：[0-9]+(ms|s|m|h)</span>
+</span></span><span class="line"><span class="cl">  routePrefix: HTTP路径前缀
+</span></span><span class="line"><span class="cl">  ruleNamespaceSelector: &lt;string&gt; <span class="c1"># 发现 Rules 规则的命名空间，缺省时为 ThanosRuler 相同的命名空间</span>
+</span></span><span class="line"><span class="cl">  ruleSelector: <span class="c1"># 标签选择器，用于选择要挂载的prometheus rules</span>
+</span></span><span class="line"><span class="cl">  scrapeConfigNamespaceSelector: <span class="c1"># 发现 ScrapeConfig 资源的命名空间</span>
+</span></span><span class="line"><span class="cl">  scrapeConfigSelector: <span class="c1"># 标签选择器，用于选择 scrapeConfig 资源</span>
+</span></span><span class="line"><span class="cl">  scrapeInterval: &lt;time&gt; <span class="c1"># scrapes间隔时间，缺省有 30s</span>
+</span></span><span class="line"><span class="cl">  serviceMonitorNamespaceSelector: <span class="c1"># 发现ServicedMonitors资源的命名空间</span>
+</span></span><span class="line"><span class="cl">  serviceMonitorSelector: <span class="c1"># 标签选择器，用于选择 ServiceMonitor 资源</span>
+</span></span><span class="line"><span class="cl">  tsdb: <span class="c1"># 定义时序数据库</span>
+</span></span><span class="line"><span class="cl">    outOfOrderTimeWindow: &lt;time&gt; <span class="c1"># prometheus out_of_order_time_window 特性</span>
+</span></span><span class="line"><span class="cl">  walCompression: &lt;bool&gt; <span class="c1"># 使用Snappy配置预写日志(WAL)的压缩</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>kube-prometheus-stack</code>默认的<code>Prometheus</code>资源</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost karpenter<span class="o">]</span><span class="c1"># kubectl get Prometheus prometheus-kube-prometheus-prometheus -n prometheus-stack -o  yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: monitoring.coreos.com/v1
+</span></span><span class="line"><span class="cl">kind: Prometheus
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  annotations:
+</span></span><span class="line"><span class="cl">    meta.helm.sh/release-name: prometheus
+</span></span><span class="line"><span class="cl">    meta.helm.sh/release-namespace: prometheus-stack
+</span></span><span class="line"><span class="cl">  creationTimestamp: <span class="s2">&#34;2024-02-01T04:20:59Z&#34;</span>
+</span></span><span class="line"><span class="cl">  generation: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  labels:
+</span></span><span class="line"><span class="cl">    app: kube-prometheus-stack-prometheus
+</span></span><span class="line"><span class="cl">    app.kubernetes.io/instance: prometheus
+</span></span><span class="line"><span class="cl">    app.kubernetes.io/managed-by: Helm
+</span></span><span class="line"><span class="cl">    app.kubernetes.io/part-of: kube-prometheus-stack
+</span></span><span class="line"><span class="cl">    app.kubernetes.io/version: 56.3.0
+</span></span><span class="line"><span class="cl">    chart: kube-prometheus-stack-56.3.0
+</span></span><span class="line"><span class="cl">    heritage: Helm
+</span></span><span class="line"><span class="cl">    release: prometheus
+</span></span><span class="line"><span class="cl">  name: prometheus-kube-prometheus-prometheus
+</span></span><span class="line"><span class="cl">  namespace: prometheus-stack
+</span></span><span class="line"><span class="cl">  resourceVersion: <span class="s2">&#34;21065956&#34;</span>
+</span></span><span class="line"><span class="cl">  uid: d429ad14-57f9-49a2-a4a0-d25047398039
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  alerting:
+</span></span><span class="line"><span class="cl">    alertmanagers:
+</span></span><span class="line"><span class="cl">    - apiVersion: v2
+</span></span><span class="line"><span class="cl">      name: prometheus-kube-prometheus-alertmanager
+</span></span><span class="line"><span class="cl">      namespace: prometheus-stack
+</span></span><span class="line"><span class="cl">      pathPrefix: /
+</span></span><span class="line"><span class="cl">      port: http-web
+</span></span><span class="line"><span class="cl">  enableAdminAPI: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  evaluationInterval: 30s
+</span></span><span class="line"><span class="cl">  externalUrl: http://prometheus-kube-prometheus-prometheus.prometheus-stack:9090
+</span></span><span class="line"><span class="cl">  hostNetwork: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  image: quay.io/prometheus/prometheus:v2.49.1
+</span></span><span class="line"><span class="cl">  listenLocal: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  logFormat: logfmt
+</span></span><span class="line"><span class="cl">  logLevel: info
+</span></span><span class="line"><span class="cl">  paused: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  podMonitorNamespaceSelector: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">  podMonitorSelector:
+</span></span><span class="line"><span class="cl">    matchLabels:
+</span></span><span class="line"><span class="cl">      release: prometheus
+</span></span><span class="line"><span class="cl">  portName: http-web
+</span></span><span class="line"><span class="cl">  probeNamespaceSelector: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">  probeSelector:
+</span></span><span class="line"><span class="cl">    matchLabels:
+</span></span><span class="line"><span class="cl">      release: prometheus
+</span></span><span class="line"><span class="cl">  replicas: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  retention: 10d
+</span></span><span class="line"><span class="cl">  routePrefix: /
+</span></span><span class="line"><span class="cl">  ruleNamespaceSelector: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">  ruleSelector:
+</span></span><span class="line"><span class="cl">    matchLabels:
+</span></span><span class="line"><span class="cl">      release: prometheus
+</span></span><span class="line"><span class="cl">  scrapeConfigNamespaceSelector: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">  scrapeConfigSelector:
+</span></span><span class="line"><span class="cl">    matchLabels:
+</span></span><span class="line"><span class="cl">      release: prometheus
+</span></span><span class="line"><span class="cl">  scrapeInterval: 30s
+</span></span><span class="line"><span class="cl">  securityContext:
+</span></span><span class="line"><span class="cl">    fsGroup: <span class="m">2000</span>
+</span></span><span class="line"><span class="cl">    runAsGroup: <span class="m">2000</span>
+</span></span><span class="line"><span class="cl">    runAsNonRoot: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">    runAsUser: <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">    seccompProfile:
+</span></span><span class="line"><span class="cl">      type: RuntimeDefault
+</span></span><span class="line"><span class="cl">  serviceAccountName: prometheus-kube-prometheus-prometheus
+</span></span><span class="line"><span class="cl">  serviceMonitorNamespaceSelector: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">  serviceMonitorSelector:
+</span></span><span class="line"><span class="cl">    matchLabels:
+</span></span><span class="line"><span class="cl">      release: prometheus
+</span></span><span class="line"><span class="cl">  shards: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  tsdb:
+</span></span><span class="line"><span class="cl">    outOfOrderTimeWindow: 0s
+</span></span><span class="line"><span class="cl">  version: v2.49.1
+</span></span><span class="line"><span class="cl">  walCompression: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">  ...</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-02-04 20:59:45">更新于 2024-02-04&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/prometheus/" class="post-tag" title="标签 - prometheus">prometheus</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sMonitorKubernetes/" class="post-nav-item" rel="prev" title="promtheus监控k8s"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>promtheus监控k8s</a>
+      <a href="/prometheusAlertmanager/" class="post-nav-item" rel="next" title="Alertmanager - 处理由Prometheus服务器等客户端应用程序发送的警报">Alertmanager - 处理由Prometheus服务器等客户端应用程序发送的警报<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>firewalld - centos7 默认使用的防火墙服务 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="linuxFirewalld" /><meta name="keywords" content='firewalld, 防火墙' /><meta itemprop="name" content="firewalld - centos7 默认使用的防火墙服务">
+<meta itemprop="description" content="linuxFirewalld"><meta itemprop="datePublished" content="2018-12-10T23:12:16+08:00" />
+<meta itemprop="dateModified" content="2023-05-02T19:26:43+08:00" />
+<meta itemprop="wordCount" content="11397">
+<meta itemprop="keywords" content="firewalld,防火墙," /><meta property="og:title" content="firewalld - centos7 默认使用的防火墙服务" />
+<meta property="og:description" content="linuxFirewalld" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linuxFirewalld/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T23:12:16+08:00" />
+<meta property="article:modified_time" content="2023-05-02T19:26:43+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="firewalld - centos7 默认使用的防火墙服务"/>
+<meta name="twitter:description" content="linuxFirewalld"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linuxFirewalld/" /><link rel="prev" href="/linux_iptables/" /><link rel="next" href="/%E5%8E%8B%E7%BC%A9%E4%B8%8E%E6%89%93%E5%8C%85/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "firewalld - centos7 默认使用的防火墙服务",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linuxFirewalld\/"
+    },"genre": "posts","keywords": "firewalld, 防火墙","wordcount":  11397 ,
+    "url": "\/linuxFirewalld\/","datePublished": "2018-12-10T23:12:16+08:00","dateModified": "2023-05-02T19:26:43+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": "linuxFirewalld"
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>firewalld - centos7 默认使用的防火墙服务</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 23:12:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2023-05-02 19:26:43"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-02">2023-05-02</time></span>&nbsp;<span title="11397 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 11400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 23 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#防火墙">防火墙</a></li>
+    <li><a href="#firewalld-概述">firewalld 概述</a>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+        <li><a href="#配置">配置</a>
+          <ul>
+            <li><a href="#运行时配置和永久配置">运行时配置和永久配置</a></li>
+            <li><a href="#配置值">配置值</a></li>
+          </ul>
+        </li>
+        <li><a href="#区域">区域</a>
+          <ul>
+            <li><a href="#网络接口">网络接口</a></li>
+            <li><a href="#区域配置文件">区域配置文件</a></li>
+          </ul>
+        </li>
+        <li><a href="#策略">策略</a>
+          <ul>
+            <li><a href="#策略配置">策略配置</a></li>
+          </ul>
+        </li>
+        <li><a href="#服务">服务</a></li>
+        <li><a href="#ipset">IPSet</a></li>
+        <li><a href="#helper">helper</a></li>
+        <li><a href="#icmp-类型">ICMP 类型</a></li>
+        <li><a href="#direct">direct</a></li>
+        <li><a href="#白名单配置文件">白名单配置文件</a></li>
+        <li><a href="#接口描述">接口描述</a></li>
+        <li><a href="#firewall-cmd">firewall-cmd</a>
+          <ul>
+            <li><a href="#常见选项">常见选项</a></li>
+            <li><a href="#区域相关选项">区域相关选项</a></li>
+            <li><a href="#政策选项">政策选项</a></li>
+            <li><a href="#调整和查询区域和策略的选项">调整和查询区域和策略的选项</a></li>
+            <li><a href="#调整和查询策略的选项">调整和查询策略的选项</a></li>
+            <li><a href="#firewall-cmd-退出状态码">firewall-cmd 退出状态码</a></li>
+          </ul>
+        </li>
+        <li><a href="#firewall-config">firewall-config</a></li>
+        <li><a href="#firewall-applet">firewall-applet</a></li>
+        <li><a href="#firewall-offline-cmd">firewall-offline-cmd</a></li>
+      </ul>
+    </li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#查看firewalld版本">查看firewalld版本</a></li>
+        <li><a href="#查看firewalld状态">查看firewalld状态</a></li>
+        <li><a href="#查看当前活动的区域">查看当前活动的区域</a></li>
+        <li><a href="#查看支持的服务类型">查看支持的服务类型</a></li>
+        <li><a href="#查看所有的区域名称运行时配置如果启动之后是新加的需要加载永久配置">查看所有的区域名称（运行时配置，如果启动之后是新加的，需要加载永久配置）</a></li>
+        <li><a href="#查看支持的-icmp-类型">查看支持的 icmp 类型</a></li>
+        <li><a href="#查看带有-ftp-字符的协议">查看带有 ftp 字符的协议</a></li>
+        <li><a href="#查看是否支持-ftp-协议">查看是否支持 ftp 协议</a></li>
+        <li><a href="#查看网卡-ens33-在哪个区域">查看网卡 ens33 在哪个区域</a></li>
+        <li><a href="#public-添加端口">public 添加端口</a></li>
+        <li><a href="#服务添加通行">服务添加通行</a></li>
+        <li><a href="#本地端口转发">本地端口转发</a></li>
+        <li><a href="#富规则配置端口转发">富规则配置端口转发</a></li>
+        <li><a href="#禁止ping">禁止ping</a></li>
+        <li><a href="#允许指定ip访问指定端口">允许指定IP访问指定端口</a></li>
+        <li><a href="#放行指定的ipport">放行指定的ip:port</a></li>
+        <li><a href="#查看所有配置">查看所有配置</a></li>
+        <li><a href="#禁止某个ip访问">禁止某个IP访问</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>使用环境：</p>
+<ul>
+<li>centos: 7</li>
+<li>centos: 8</li>
+<li>firewalld: 0.8</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://firewalld.org/documentation/" title="firewalld官方文档"target="_blank" rel="external nofollow noopener noreferrer">firewalld官方文档</a></li>
+<li><a href="https://netfilter.org/documentation/index.html"target="_blank" rel="external nofollow noopener noreferrer">Netfilter官网文档</a></li>
+<li><a href="https://wiki.nftables.org/wiki-nftables/index.php/Main_Page"target="_blank" rel="external nofollow noopener noreferrer">nttables维基</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<h1 id="防火墙" class="heading-element">
+  <a href="#%e9%98%b2%e7%81%ab%e5%a2%99" class="heading-mark"></a>防火墙</h1><p>Linux防火墙是由Netfilter组件提供的，Netfilter工作在内核空间，集成在linux内核中
+，Netfilter 是Linux2.4.x之后新一代的Linux防火墙机制，有以下前端工具</p>
+<ul>
+<li>iptables：工作在用户空间，用来编写规则，写好的规则被送往netfilter</li>
+<li>firewalld：从CentOS 7 版开始引入了新的前端管理工具</li>
+<li>nftables：CentOS 8 新特性，它在 Linux 内核 &gt;= 3.13 中可用。</li>
+</ul>
+<h1 id="firewalld-概述" class="heading-element">
+  <a href="#firewalld-%e6%a6%82%e8%bf%b0" class="heading-mark"></a>firewalld 概述</h1><p>firewalld 提供了动态管理的防火墙方式，支持定义网络连接或接口的信任级别的网络防火墙区域；支持 ipv4, ipv6, 以太网等设置。为服务或应用程序提供一个接口，可以直接添加防火墙规则</p>
+<p>centos 系统从 7 版本开始使用</p>
+<p>优点：</p>
+<ul>
+<li>可以实时更改，不需要重新启动服务</li>
+<li>可以通过 D-Bus 接口添加防火墙规则</li>
+</ul>
+<br/>
+<ul>
+<li>firewalld 命令行</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">使用方式：firewalld <span class="o">[</span>option<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">常见选项：
+</span></span><span class="line"><span class="cl">-h, --help
+</span></span><span class="line"><span class="cl">    查看帮助
+</span></span><span class="line"><span class="cl">--debug-gc
+</span></span><span class="line"><span class="cl">    查看垃圾收集器泄露信息，收集器每10秒运行一次
+</span></span><span class="line"><span class="cl">--debug <span class="o">[</span>level<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    调试级别，默认为 level，级别由低到高为1-10,调试输出会被记录到日志文件中 <span class="sb">`</span>//var/log/firewalld<span class="sb">`</span>
+</span></span><span class="line"><span class="cl">--default-config
+</span></span><span class="line"><span class="cl">    指定默认配置文件路径，默认为 <span class="sb">`</span>/usr/lib/firewalld<span class="sb">`</span>
+</span></span><span class="line"><span class="cl">--nofork
+</span></span><span class="line"><span class="cl">    以前台方式运行 firewalld，默认为后台运行
+</span></span><span class="line"><span class="cl">--nopid
+</span></span><span class="line"><span class="cl">    禁止写入pid文件。默认情况下，程序将写入一个pid文件。如果使用此选项调用程序，则不会检查现有服务器进程
+</span></span><span class="line"><span class="cl">--system-config
+</span></span><span class="line"><span class="cl">    指定系统配置文件路径，默认为 <span class="sb">`</span>/etc/firewalld<span class="sb">`</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="概念" class="heading-element">
+  <a href="#%e6%a6%82%e5%bf%b5" class="heading-mark"></a>概念</h2><p>firewalld 具有两层设计：</p>
+<ul>
+<li>核心层：处理配置和后端模块加载</li>
+<li>D-Bus层：修改防火墙的接口</li>
+</ul>
+<p><figure><a class="lightgallery" href="firewalld%e8%ae%be%e8%ae%a1%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png?size=large" data-thumbnail="firewalld设计结构示意图.png?size=small" data-sub-html="<h2>firewalld设计结构示意图</h2><p>firewalld设计结构示意图</p>"><img loading="lazy" src="firewalld%e8%ae%be%e8%ae%a1%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png" alt="firewalld设计结构示意图" srcset="firewalld%e8%ae%be%e8%ae%a1%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png?size=small, firewalld%e8%ae%be%e8%ae%a1%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png?size=medium 1.5x, firewalld%e8%ae%be%e8%ae%a1%e7%bb%93%e6%9e%84%e7%a4%ba%e6%84%8f%e5%9b%be.png?size=large 2x" sizes="auto" data-title="firewalld设计结构示意图" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a><figcaption class="image-caption">firewalld设计结构示意图</figcaption>
+  </figure></p>
+<p>firewalld 的 D-Bus 接口是更改防火墙配置是主要方法，该接口可以通过 firewalld 提供的工具（<code>firewall-cmd</code>，<code>firewall-config</code>, <code>firewall-applet</code>）使用</p>
+<p><code>firewall-offline-cmd</code> 不是在与 firewalld 通信，而是直接使用带有 IO 处理程序的 firewalld 核心来更改和创建 firewalld 配置文件，虽然可以在 firewalld 运行中使用，但需要5秒左右才生效</p>
+<p>firewalld 提供了对 zone，service, IPSete，ICMP 类型的支持</p>
+<p>firewalld 不依赖 NetworkManager ，但未使用时 firewalld 不会收到有关网络设备重命名通知，如果 firewalld 在 network 启动之后才运行，则需要手动添加到区域中</p>
+<ul>
+<li>添加方式：</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">firewall-cmd <span class="o">[</span>--permanent<span class="o">]</span> --zone<span class="o">=</span>zone --add-interface<span class="o">=</span>interface</span></span></code></pre></td></tr></table>
+</div>
+</div><p>要重新加载防火墙，您可以使用命令行工具，也可以使用<code>firewall-cmd --reload</code>来将<code>SIGHUP</code>信号发送到防火墙(<code>killall -HUP firewalld</code>)</p>
+<h2 id="配置" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae" class="heading-mark"></a>配置</h2><p>firewalld 的配置存储在配置目录中的各种 XML 文件中，为后备和系统替代提供了极大的灵活性</p>
+<p>firewalld 支持2个配置目录，优先级由上到下：</p>
+<ul>
+<li><code>/etc/firewalld/</code>：系统配置目录，如果不存在，则使用默认目录</li>
+<li><code>/usr/lib/firewalld/</code>：默认配置目录，更新时会被替换掉</li>
+</ul>
+<p><code>/usr/lib/firewalld/</code> 目录中的配置文件会在 firewalld 更新时被替换掉，因此，如果需要更改默认配置，则需要在 <code>/etc/firewalld/</code> 目录中定义</p>
+<h3 id="运行时配置和永久配置" class="heading-element">
+  <a href="#%e8%bf%90%e8%a1%8c%e6%97%b6%e9%85%8d%e7%bd%ae%e5%92%8c%e6%b0%b8%e4%b9%85%e9%85%8d%e7%bd%ae" class="heading-mark"></a>运行时配置和永久配置</h3><p>运行时配置（通常成为临时配置）是实际有效配置，且应用在内核防火墙中。在防火墙服务启动时，永久配置会变为运行时配置，运行时配置被修改之后，不会自动保存到永久配置中，防火墙服务停止之后运行时配置被丢弃</p>
+<p>永久配置存储在配置文件中，并且每次防火墙服务重新加载或启动时被加载为运行时配置，运行时配置可以通过修改配置文件或使用 <code>firewall-cmd --runtime-to-permanent</code> 等方式保存为永久配置</p>
+<p>如果防火墙设置不起作用，则简单的防火墙重新加载/重启将重新应用正常工作的永久配置</p>
+<h3 id="配置值" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e5%80%bc" class="heading-mark"></a>配置值</h3><p>有以下配置选项：</p>
+<ul>
+<li><code>DefaultZone=public</code>：默认区域，未指定区域时，使用 public 区域</li>
+<li><code>MinimalMark=100</code> ：最小标记，已弃用</li>
+<li><code>CleanupOnExit=yes</code>：停止<code>firewalld</code>时是否清除规则，如果为<code>no</code>或<code>false</code> ，则在
+退出或停止时保留规则。默认值为<code>yes</code>或<code>true</code></li>
+<li><code>Lockdown=no</code>：关闭限制名单，如果设置为启用，则通过D-Bus界面进行的防火墙更改将
+仅限于锁定白名单中列出的应用程序。锁定白名单文件是 <code>lockdown-whitelist.xml</code>
+。默认值为 no 或 false。</li>
+<li><code>IPv6_rpfilter=yes</code>：对用于IPv6的数据包执行反向路径筛选器测试。如果将通过与到达数据包相同的接口发送对数据包的答复，则该数据包将匹配并被接受，否则将被丢弃。使用 sysctl 控制 IPv4 的 rp_filte</li>
+<li><code>IndividualCalls=no</code>：不要使用组合的-restore调用，而要使用单个调用。这增加了应用更改和启动守护程序所需的时间，但对于调试很有用</li>
+<li><code>LogDenied=off</code> ：在默认规则的 INPUT，FORWARD 和 OUTPUT 链中的拒绝和丢弃规则之前添加日志记录规则，并在区域中最终拒绝和丢弃规则。可能的值有：<code>all</code>，<code>unicast</code>，<code>broadcast</code>，<code>multicast</code>,<code>off</code></li>
+<li><code>AutomaticHelpers</code></li>
+<li><code>FirewallBackend</code>。防火墙规则实现方式。值为<code>nftables</code>(默认值)或<code>iptables</code>
+。直接和直通规则，它们总是使用传统的 iptables、ip6tables 和 ebtables 后端。</li>
+<li><code>FlushAllOnReload</code>：在重新加载时刷新所有运行时规则。新版本值为<code>yes</code>，旧版本为
+<code>no</code></li>
+<li><code>RFC3964_IPv4</code>：是否根据 RFC 3964，使用 6to4 目标地址过滤 IPv6 流量。默认为
+<code>yes</code></li>
+<li><code>AllowZoneDrifting</code>：是否允许数据包进入多个区域。如果为<code>yes</code>，数据包将仅从基于
+源的区域漂移到基于接口的区域（包括默认区域）</li>
+</ul>
+<h2 id="区域" class="heading-element">
+  <a href="#%e5%8c%ba%e5%9f%9f" class="heading-mark"></a>区域</h2><p>firewalld 区域(zone)定义了连接。接口或源地址的信任级绑定，这是一对多关系。因此，接口或源只能是区域的一部分</p>
+<p>这些区域是 firewalld 提供的，从不信任到信任排序（信任级别越越危险）：</p>
+<ul>
+<li><code>drop</code>：任何传入的网络数据包都会被丢弃，没有回复，但可以传出网络数据包</li>
+<li><code>block</code>：对于 IPV4，使用 <code>icmp-host</code> 禁止消息来拒绝任何网络连接传入；对于 IPV6，使用 <code>icmp6-adm</code> 禁止消息来拒绝任何传入网络连接。但由系统内核发起的网络可以传入</li>
+<li><code>public</code>：仅接收允许通过的网络连接才能传入，也是默认区域，适用于公共场合</li>
+<li><code>external</code>：仅接收允许通过的网络连接才能传入，适用于伪造了外部网络的场合</li>
+<li><code>dmz</code>：仅接收允许通过的网络连接才能传入，但对内部网络的访问权限有限</li>
+<li><code>work</code>：仅接收允许通过的网络连接才能传入，对所有传入网络都认为是安全的，适用于办公场合</li>
+<li><code>home</code>：仅接收允许通过的网络连接才能传入，对所有传入网络都认为是安全的，适用于家庭场合</li>
+<li><code>internal</code>：仅收允许通过的网络连接才能传入，对所有传入网络都认为是安全的，适用于内部网络</li>
+<li><code>trusted</code>：接收所有网络传入</li>
+</ul>
+<h3 id="网络接口" class="heading-element">
+  <a href="#%e7%bd%91%e7%bb%9c%e6%8e%a5%e5%8f%a3" class="heading-mark"></a>网络接口</h3><p>网络卡通过配置文件<code>/etc/sysconfig/network-scripts/ifcfg-</code>的<code>zone</code>选项指定区域</p>
+<h3 id="区域配置文件" class="heading-element">
+  <a href="#%e5%8c%ba%e5%9f%9f%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>区域配置文件</h3><p><code>zone</code>配置文件目录：</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/firewalld/zones/
+</span></span><span class="line"><span class="cl">/usr/lib/firewalld/zones/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>区域配置文件包含区域的信息。这些是 XML 文件格式的区域描述、服务、端口、协议、
+icmp 块、伪装、转发端口和丰富的语言规则。文件名必须是<code>*.xml</code>，其中的长度目前限制
+为 17 个字符。</p>
+<p>格式如下：</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span><span class="lnt">92
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"># <span class="nt">&lt;zone&gt;</span>...<span class="nt">&lt;/zone&gt;</span>(必须，唯一)：强制区域开始和结束标记
+</span></span><span class="line"><span class="cl"># version=&#34;string&#34;(可选): zone版本
+</span></span><span class="line"><span class="cl"># target(可选): 对不匹配任意规则数据包处理方式：
+</span></span><span class="line"><span class="cl"># - ACCEPT: 接受
+</span></span><span class="line"><span class="cl"># - %%REJECT%%: 拒绝
+</span></span><span class="line"><span class="cl"># - DROP: 丢弃
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;zone</span> <span class="err">[</span><span class="na">version=</span><span class="s">&#34;versionstring&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">target=</span><span class="s">&#34;ACCEPT|%%REJECT%%|DROP&#34;</span><span class="err">]</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 绑定网卡接口
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;interface</span> <span class="na">name=</span><span class="s">&#34;string&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   <span class="nt">&lt;source</span> <span class="err">...</span><span class="nt">/&gt;</span>(可选): 源地址信息：
+</span></span><span class="line"><span class="cl">#   - address=&#34;address[/mask]&#34;: IP地址
+</span></span><span class="line"><span class="cl">#   - mac=&#34;MAC&#34;: MAC地址，格式必须是`XX:XX:XX:XX:XX:XX`
+</span></span><span class="line"><span class="cl">#   - ipset=&#34;ipset&#34;: 
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;source</span> <span class="na">address=</span><span class="s">&#34;address[/mask]&#34;</span><span class="err">|</span><span class="na">mac=</span><span class="s">&#34;MAC&#34;</span><span class="err">|</span><span class="na">ipset=</span><span class="s">&#34;ipset&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，唯一): 只仅接受启用的 ICMP 类型，并且拒绝该区域中的所有其他类型
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;icmp-block-inversion/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选): 简短的名称
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;short&gt;</span>short description<span class="nt">&lt;/short&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选): 描述
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;description&gt;</span>description<span class="nt">&lt;/description&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 启用的服务名称
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;service</span> <span class="na">name=</span><span class="s">&#34;string&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 端口范围与协议类型
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 启用的网络协议，查看系统支持的协议：/etc/protocols
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;protocol</span> <span class="na">value=</span><span class="s">&#34;protocol&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 禁止ICMP类型名称
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;icmp-block</span> <span class="na">name=</span><span class="s">&#34;string&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，唯一): 启用IP伪装
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;masquerade/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 端口转发
+</span></span><span class="line"><span class="cl">#   - port(必须): 源端口 
+</span></span><span class="line"><span class="cl">#   - protocol(必须): 源协议
+</span></span><span class="line"><span class="cl">#   - to-port(可选): 目标端口
+</span></span><span class="line"><span class="cl">#   - address(可选): 目标地址
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;forward-port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span> <span class="err">[</span><span class="na">to-port=</span><span class="s">&#34;portid[-portid]&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">to-addr=</span><span class="s">&#34;IP address&#34;</span><span class="err">]</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 源信息：
+</span></span><span class="line"><span class="cl">#   - port(必须): 端口 
+</span></span><span class="line"><span class="cl">#   - protocol(必须): 协议
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;source-port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 富语言规则，默认规则优先级从上往下
+</span></span><span class="line"><span class="cl">    [
+</span></span><span class="line"><span class="cl">#       priority 表示规则优先级。在 -32768 到 32767 的范围内：
+</span></span><span class="line"><span class="cl">#       - 较低的值具有较高的优先级
+</span></span><span class="line"><span class="cl">#       - 未定义具有相同优先级值的规则的排序
+</span></span><span class="line"><span class="cl">#       - 一个正的优先级值将在其他 firewalld 原语之后执行
+</span></span><span class="line"><span class="cl">#       - 默认值为-1
+</span></span><span class="line"><span class="cl">#       - 0 保留供内部使用
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;rule</span> <span class="err">[</span><span class="na">family=</span><span class="s">&#34;ipv4|ipv6&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">priority=</span><span class="s">&#34;priority&#34;</span><span class="err">]</span> <span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">#           限制源地址, not表示取反，
+</span></span><span class="line"><span class="cl">            [ <span class="nt">&lt;source</span> <span class="err">[not]</span> <span class="na">address=</span><span class="s">&#34;address[/mask]&#34;</span><span class="err">|</span><span class="na">mac=</span><span class="s">&#34;MAC&#34;</span><span class="err">|</span><span class="na">ipset=</span><span class="s">&#34;ipset&#34;</span> <span class="err">[</span><span class="na">invert=</span><span class="s">&#34;True&#34;</span><span class="err">]</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">#           限制目标地址，not 表示取反
+</span></span><span class="line"><span class="cl">            [ <span class="nt">&lt;destination</span> <span class="err">[not]</span> <span class="na">address=</span><span class="s">&#34;address[/mask]&#34;</span> <span class="err">[</span><span class="na">invert=</span><span class="s">&#34;True&#34;</span><span class="err">]</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">            [
+</span></span><span class="line"><span class="cl">#               服务名，服务列表使用firewall-cmd --get-services查看
+</span></span><span class="line"><span class="cl">#               如果服务提供了目的地址，它会与规则中的目的地址发生冲突，从而
+</span></span><span class="line"><span class="cl">#               导致错误。
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;service</span> <span class="na">name=</span><span class="s">&#34;string&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">#               端口
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">#               协议
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;protocol</span> <span class="na">value=</span><span class="s">&#34;protocol&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">#               指定icmp名，规则名查看firewall-cmd --get-icmptypes
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;icmp-block</span> <span class="na">name=</span><span class="s">&#34;icmptype&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;icmp-type</span> <span class="na">name=</span><span class="s">&#34;icmptype&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">#               是否启用伪装，IP转发将被隐式启用
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;masquerade/&gt;</span> |
+</span></span><span class="line"><span class="cl">#               转发端口
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;forward-port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span> <span class="err">[</span><span class="na">to-port=</span><span class="s">&#34;portid[-portid]&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">to-addr=</span><span class="s">&#34;address&#34;</span><span class="err">]</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">#               源端口 
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;source-port</span> <span class="na">port=</span><span class="s">&#34;port value&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">            ]
+</span></span><span class="line"><span class="cl">#           日志，prefix表示前缀文本，level表示日志级别，默认为warning
+</span></span><span class="line"><span class="cl">#           limit表示限速，rate表示数值，duration表示时间，&#34;s&#34;, &#34;m&#34;, &#34;h&#34;, &#34;d&#34;，
+</span></span><span class="line"><span class="cl">#           最大值为2d
+</span></span><span class="line"><span class="cl">            [ <span class="nt">&lt;log</span> <span class="err">[</span><span class="na">prefix=</span><span class="s">&#34;prefixtext&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">level=</span><span class="s">&#34;emerg|alert|crit|err|warn|notice|info|debug&#34;</span><span class="err">]</span><span class="nt">&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/log&gt;</span> ]
+</span></span><span class="line"><span class="cl">#           满足速率后执行某些操作
+</span></span><span class="line"><span class="cl">            [ <span class="nt">&lt;audit&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/audit&gt;</span> ]
+</span></span><span class="line"><span class="cl">            [
+</span></span><span class="line"><span class="cl">#               接受
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;accept&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/accept&gt;</span> |
+</span></span><span class="line"><span class="cl">#               拒绝
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;reject</span> <span class="err">[</span><span class="na">type=</span><span class="s">&#34;rejecttype&#34;</span><span class="err">]</span><span class="nt">&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/reject&gt;</span> |
+</span></span><span class="line"><span class="cl">#               丢弃
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;drop&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/drop&gt;</span> |
+</span></span><span class="line"><span class="cl">#               标记
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;mark</span> <span class="na">set=</span><span class="s">&#34;mark[/mask]&#34;</span><span class="nt">&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/mark&gt;</span>
+</span></span><span class="line"><span class="cl">            ]
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/rule&gt;</span>
+</span></span><span class="line"><span class="cl">    ]
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/zone&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="策略" class="heading-element">
+  <a href="#%e7%ad%96%e7%95%a5" class="heading-mark"></a>策略</h2><p>策略是用于跨区域之间流动的流量规则。如允许 zoneA 到 zoneB。策略与区域的关系是通
+过分配一组入口区域和一组出口区域来定义的。仅当满足以下所有条件时，策略才会生效：</p>
+<ul>
+<li>入口区域列表至少包含一个常规区域或单个符号区域</li>
+<li>出口区域列表至少包含一个常规区域或一个符号区域</li>
+<li>对于非符号区域，该区域必须处于活动状态。即，必须具有分配给它的接口或源</li>
+</ul>
+<p>常规区域不足以表达每种形式的数据包过滤。例如，没有区域来表示流入或流出运行 firewalld 的主机的流量。因此，有一些象征性的区域可以填补这些空白。但是，符号区域的独特之处在于它们是入口或出口区域集中唯一允许的区域。</p>
+<ul>
+<li><code>host</code>:此符号区域用于流入或流出运行 firewalld 的主机的流量。如果在出口区域列表中使用，它将应用于netfilter的INPUT 链上的流量；如果在入口区域列表中使用，它将应用于 OUTPUT 链上的流量</li>
+<li><code>ANY</code>: 如果在入口区域列表中使用，它将适用于来自任何区域的流量；如果在出口区域列表中使用，它将适用于发往任何区域的流量</li>
+</ul>
+<h3 id="策略配置" class="heading-element">
+  <a href="#%e7%ad%96%e7%95%a5%e9%85%8d%e7%bd%ae" class="heading-mark"></a>策略配置</h3><p>配置文件</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/firewalld/policies/
+</span></span><span class="line"><span class="cl">/usr/lib/firewalld/policies/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置文件名以<code>.xml</code>结尾，长度限制为 17 个字符。格式如下：</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"># https://firewalld.org/documentation/man-pages/firewalld.policy.html
+</span></span><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;policy</span> <span class="err">[</span><span class="na">version=</span><span class="s">&#34;versionstring&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">target=</span><span class="s">&#34;CONTINUE|ACCEPT|REJECT|DROP&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">priority=</span><span class="s">&#34;priority&#34;</span><span class="err">]</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;ingress-zone</span> <span class="na">name=</span><span class="s">&#34;zone&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;egress-zone</span> <span class="na">name=</span><span class="s">&#34;zone&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;short&gt;</span>short description<span class="nt">&lt;/short&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;description&gt;</span>description<span class="nt">&lt;/description&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;service</span> <span class="na">name=</span><span class="s">&#34;string&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;protocol</span> <span class="na">value=</span><span class="s">&#34;protocol&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;icmp-block</span> <span class="na">name=</span><span class="s">&#34;string&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;masquerade/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;forward-port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span> <span class="err">[</span><span class="na">to-port=</span><span class="s">&#34;portid[-portid]&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">to-addr=</span><span class="s">&#34;IP address&#34;</span><span class="err">]</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [ <span class="nt">&lt;source-port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">    [
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;rule</span> <span class="err">[</span><span class="na">family=</span><span class="s">&#34;ipv4|ipv6&#34;</span><span class="err">]</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">            [ <span class="nt">&lt;source</span> <span class="na">address=</span><span class="s">&#34;address[/mask]&#34;</span><span class="err">|</span><span class="na">mac=</span><span class="s">&#34;MAC&#34;</span><span class="err">|</span><span class="na">ipset=</span><span class="s">&#34;ipset&#34;</span> <span class="err">[</span><span class="na">invert=</span><span class="s">&#34;True&#34;</span><span class="err">]</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">            [ <span class="nt">&lt;destination</span> <span class="na">address=</span><span class="s">&#34;address[/mask]&#34;</span> <span class="err">[</span><span class="na">invert=</span><span class="s">&#34;True&#34;</span><span class="err">]</span><span class="nt">/&gt;</span> ]
+</span></span><span class="line"><span class="cl">            [
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;service</span> <span class="na">name=</span><span class="s">&#34;string&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;protocol</span> <span class="na">value=</span><span class="s">&#34;protocol&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;icmp-block</span> <span class="na">name=</span><span class="s">&#34;icmptype&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;icmp-type</span> <span class="na">name=</span><span class="s">&#34;icmptype&#34;</span><span class="nt">/&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;masquerade/&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;forward-port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span> <span class="err">[</span><span class="na">to-port=</span><span class="s">&#34;portid[-portid]&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">to-addr=</span><span class="s">&#34;address&#34;</span><span class="err">]</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">            ]
+</span></span><span class="line"><span class="cl">            [ <span class="nt">&lt;log</span> <span class="err">[</span><span class="na">prefix=</span><span class="s">&#34;prefixtext&#34;</span><span class="err">]</span> <span class="err">[</span><span class="na">level=</span><span class="s">&#34;emerg|alert|crit|err|warn|notice|info|debug&#34;</span><span class="err">]</span><span class="nt">&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/log&gt;</span> ]
+</span></span><span class="line"><span class="cl">            [ <span class="nt">&lt;audit&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/audit&gt;</span> ]
+</span></span><span class="line"><span class="cl">            [
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;accept&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/accept&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;reject</span> <span class="err">[</span><span class="na">type=</span><span class="s">&#34;rejecttype&#34;</span><span class="err">]</span><span class="nt">&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/reject&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;drop&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/drop&gt;</span> |
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;mark</span> <span class="na">set=</span><span class="s">&#34;mark[/mask]&#34;</span><span class="nt">&gt;</span> [<span class="nt">&lt;limit</span> <span class="na">value=</span><span class="s">&#34;rate/duration&#34;</span><span class="nt">/&gt;</span>] <span class="nt">&lt;/mark&gt;</span>
+</span></span><span class="line"><span class="cl">            ]
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/rule&gt;</span>
+</span></span><span class="line"><span class="cl">    ]
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/policy&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="服务" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1" class="heading-mark"></a>服务</h2><p><code>firewalld</code> 中 <code>service</code> 可以是本地端口和目标的列表，可以自动加载预定服务配置</p>
+<p>配置文件目录：</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/firewalld/services/
+</span></span><span class="line"><span class="cl">/usr/lib/firewalld/services/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>服务配置文件的结构:</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;service&gt;</span>
+</span></span><span class="line"><span class="cl"># (可选)简短名称
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;short&gt;</span>My Service<span class="nt">&lt;/short&gt;</span>
+</span></span><span class="line"><span class="cl"># (可选)描述
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;description&gt;</span>description<span class="nt">&lt;/description&gt;</span>
+</span></span><span class="line"><span class="cl"># (可选，可重复)，端口与协议都是必须的
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;port</span> <span class="na">port=</span><span class="s">&#34;137&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"># (可选，可重复)协议
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;protocol</span> <span class="na">value=</span><span class="s">&#34;igmp&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"># 新版本已弃用
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;module</span> <span class="na">name=</span><span class="s">&#34;nf_conntrack_netbios_ns&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">#   (可选，可重复): 源信息：
+</span></span><span class="line"><span class="cl">#   - port(必须): 端口 
+</span></span><span class="line"><span class="cl">#   - protocol(必须): 协议
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;source-port</span> <span class="na">port=</span><span class="s">&#34;portid[-portid]&#34;</span> <span class="na">protocol=</span><span class="s">&#34;tcp|udp|sctp|dccp&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"># (可选，唯一)将目标网络指定为网络 IP 地址
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;destination</span> <span class="na">ipv4=</span><span class="s">&#34;224.0.0.251&#34;</span> <span class="na">ipv6=</span><span class="s">&#34;ff02::fb&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"># (可选，可重复) 包含有有效的服务规则
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;include</span> <span class="na">service=</span><span class="s">&#34;ssdp&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"># 标签
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;helper</span> <span class="na">name=</span><span class="s">&#34;ftp&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/service&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="ipset" class="heading-element">
+  <a href="#ipset" class="heading-mark"></a>IPSet</h2><p>ipset 可用于将多个IP或MAC地址组合在一起。IP地址的ipset可用于IPv4或IPv6。这是由ipset的系列设置定义的。它可以是inet（默认值）或inet6</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">https://firewalld.org/documentation/man-pages/firewalld.ipset.html</span></span></code></pre></td></tr></table>
+</div>
+</div><p>目录</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/lib/firewalld/ipsets/
+</span></span><span class="line"><span class="cl">/etc/firewalld/ipsets/</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="helper" class="heading-element">
+  <a href="#helper" class="heading-mark"></a>helper</h2><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">https://firewalld.org/documentation/man-pages/firewalld.helper.html</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/firewalld/helpers/
+</span></span><span class="line"><span class="cl">/usr/lib/firewalld/helpers/</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="icmp-类型" class="heading-element">
+  <a href="#icmp-%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>ICMP 类型</h2><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">https://firewalld.org/documentation/man-pages/firewalld.icmptype.html</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/firewalld/icmptypes/
+</span></span><span class="line"><span class="cl">/usr/lib/firewalld/icmptypes/</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="direct" class="heading-element">
+  <a href="#direct" class="heading-mark"></a>direct</h2><p>直接配置文件</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">https://firewalld.org/documentation/man-pages/firewalld.direct.html</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/etc/firewalld/</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="白名单配置文件" class="heading-element">
+  <a href="#%e7%99%bd%e5%90%8d%e5%8d%95%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>白名单配置文件</h2><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">https://firewalld.org/documentation/man-pages/firewalld.lockdown-whitelist.html</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/usr/etc/firewalld/</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="接口描述" class="heading-element">
+  <a href="#%e6%8e%a5%e5%8f%a3%e6%8f%8f%e8%bf%b0" class="heading-mark"></a>接口描述</h2><div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">https://firewalld.org/documentation/man-pages/firewalld.dbus.html</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="firewall-cmd" class="heading-element">
+  <a href="#firewall-cmd" class="heading-mark"></a>firewall-cmd</h2><p><code>firewall-cmd</code> 是 firewalld 的主要命令行攻击，可以获取关于 firewalld 的状态信息、配置信息、更改配置操作，仅在 firewalld 运行时才能使用</p>
+<p>更据使用策略，经过身份验证之后才能更改或访问配置</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">使用方式：firewall-cmd <span class="o">[</span>OPTIONS...<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="常见选项" class="heading-element">
+  <a href="#%e5%b8%b8%e8%a7%81%e9%80%89%e9%a1%b9" class="heading-mark"></a>常见选项</h3><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-h, --help
+</span></span><span class="line"><span class="cl">    获取帮助
+</span></span><span class="line"><span class="cl">-V, --version
+</span></span><span class="line"><span class="cl">    查看firewalld版本，不能和其他选项配合使用
+</span></span><span class="line"><span class="cl">-q, --quiet
+</span></span><span class="line"><span class="cl">    不显示状态信息
+</span></span><span class="line"><span class="cl">--state
+</span></span><span class="line"><span class="cl">    检查 firewalld 守护程序是否处于活动状态（即正在运行）：
+</span></span><span class="line"><span class="cl">    - 如果处于活动状态，<span class="sb">`</span>RUNNING_BUT_FAILED<span class="sb">`</span> 则返回退出代码0
+</span></span><span class="line"><span class="cl">    - 如果启动失败，<span class="sb">`</span>NOT_RUNNING<span class="sb">`</span> 则返回退出状态码为 <span class="m">0</span>
+</span></span><span class="line"><span class="cl">    - “退出代码”部分还将状态打印到 STDOUT
+</span></span><span class="line"><span class="cl">--reload
+</span></span><span class="line"><span class="cl">    重新加载防火墙规则，并保留状态信息：
+</span></span><span class="line"><span class="cl">    - 通过直接接口应用的运行时更改不会受到影响，因此将保留在原位置，直到将firewalld守护程序完全重新启动
+</span></span><span class="line"><span class="cl">--complete-reload
+</span></span><span class="line"><span class="cl">    完全重新加载防火墙，甚至是netfilter内核模块：
+</span></span><span class="line"><span class="cl">    - 因为状态信息会丢失，因此会终止活动连接（仅在严重的防火墙问题时才应使用此选项。例如，如果存在状态信息问题，则使用正确的防火墙规则无法建立连接）
+</span></span><span class="line"><span class="cl">    - 通过直接接口应用的运行时更改不会受到影响，因此将保留在原配置，直到将firewalld守护程序完全重新启动
+</span></span><span class="line"><span class="cl">--runtime-to-permanent
+</span></span><span class="line"><span class="cl">    把运行时配置覆盖永久配置保存
+</span></span><span class="line"><span class="cl">--check-config
+</span></span><span class="line"><span class="cl">    对永久配置运行检查。这包括XML有效性和语义
+</span></span><span class="line"><span class="cl">--get-log-denied
+</span></span><span class="line"><span class="cl">    查看拒绝日志设置
+</span></span><span class="line"><span class="cl">--set-log-denied<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    日志记录级级别，在默认规则的 INPUT，FORWARD 和 OUTPUT链中，在拒绝和丢弃规则
+</span></span><span class="line"><span class="cl">    之前添加日志记录规则，对于已配置的链路层数据包类型，在区域中最后添加拒绝和
+</span></span><span class="line"><span class="cl">    丢弃规则，有以下取值：
+</span></span><span class="line"><span class="cl">    - all
+</span></span><span class="line"><span class="cl">    - unicast
+</span></span><span class="line"><span class="cl">    - broadcast
+</span></span><span class="line"><span class="cl">    - multicast
+</span></span><span class="line"><span class="cl">    - off：关闭日志记录
+</span></span><span class="line"><span class="cl">    这是一个运行时和永久的配置，还将重新加载防火墙以能够添加日志记录规则
+</span></span><span class="line"><span class="cl">--permanent
+</span></span><span class="line"><span class="cl">    该选项设置永久配置，仅在服务重新启动或加载之后才生效
+</span></span><span class="line"><span class="cl">    - 当缺少该选项时，大部分选项只对运行时配置生效
+</span></span><span class="line"><span class="cl">    - 当使用该选项时，大部分选项只对永久配置生效
+</span></span><span class="line"><span class="cl">--panic-on
+</span></span><span class="line"><span class="cl">    启用恐慌模式。所有传入和传出的数据包都被丢弃，活动连接将过期。
+</span></span><span class="line"><span class="cl">--panic-off
+</span></span><span class="line"><span class="cl">    禁用恐慌模式后建立的连接可能会再次工作
+</span></span><span class="line"><span class="cl">--query-panic
+</span></span><span class="line"><span class="cl">    如果启用恐慌模式，则返回 0，否则返回 <span class="m">1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="区域相关选项" class="heading-element">
+  <a href="#%e5%8c%ba%e5%9f%9f%e7%9b%b8%e5%85%b3%e9%80%89%e9%a1%b9" class="heading-mark"></a>区域相关选项</h3><div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--list-all
+</span></span><span class="line"><span class="cl">    查看启用区域信息
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span>--info-zone<span class="o">=</span>zone
+</span></span><span class="line"><span class="cl">    查看区域信息
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span>--list-all-zones
+</span></span><span class="line"><span class="cl">    查看所有启用区域的信息
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span>--get-zones
+</span></span><span class="line"><span class="cl">    查看自带区域（以空格为分隔符）
+</span></span><span class="line"><span class="cl">--get-default-zone
+</span></span><span class="line"><span class="cl">    查看默认接口和连接区域
+</span></span><span class="line"><span class="cl">--set-default-zone<span class="o">=</span>zone
+</span></span><span class="line"><span class="cl">    设置默认区域，这是运行时和永久配置
+</span></span><span class="line"><span class="cl">--get-active-zones
+</span></span><span class="line"><span class="cl">    查看当前活动的区域，如果没有接口或源绑定到该区域，则将省略相应的行
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --get-icmptypes
+</span></span><span class="line"><span class="cl">    查看自带的 icmp 类型（以空格为分隔符）
+</span></span><span class="line"><span class="cl">--permanent --new-zone<span class="o">=</span>zone
+</span></span><span class="line"><span class="cl">    添加一个区域
+</span></span><span class="line"><span class="cl">    - 区域名称必须为字符和数字，可以使用下划线<span class="sb">`</span>_<span class="sb">`</span> 和连字符 <span class="sb">`</span>-<span class="sb">`</span>
+</span></span><span class="line"><span class="cl">--permanent --new-zone-from-file<span class="o">=</span> filename<span class="o">[</span> --name<span class="o">=</span>zone <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    从区域配置文件覆盖另一个区域，如果不指定区域，则覆盖默认区域
+</span></span><span class="line"><span class="cl">--permanent --permanent --delete-zone<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    删除一个区域
+</span></span><span class="line"><span class="cl">--permanent --path-zone<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    查看区域配置文件路径
+</span></span><span class="line"><span class="cl">--permanent --load-zone-defaults<span class="o">=</span>zone
+</span></span><span class="line"><span class="cl">    加载区域默认设置或查看 NO_DEFAULTS 错误
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --get-zone-of-interface<span class="o">=</span>interface
+</span></span><span class="line"><span class="cl">    查看网卡接口绑定的区域
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --get-zone-of-source<span class="o">=</span> source<span class="o">[</span> /mask <span class="o">]</span><span class="p">|</span> MAC<span class="p">|</span>ipset:ipset
+</span></span><span class="line"><span class="cl">    打印源绑定到的区域的名称
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span>--list-interfaces
+</span></span><span class="line"><span class="cl">    将绑定到区域的接口以空格分隔的列表形式列出
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> --add-interface<span class="o">=</span>interface
+</span></span><span class="line"><span class="cl">    把接口绑定到区域，如果接口在 NetworkManager 的控制下，首先连接它以更改使用
+</span></span><span class="line"><span class="cl">    该接口的连接的区域。如果失败，则在 firewalld 中创建区域绑定，并应用以下限制
+</span></span><span class="line"><span class="cl">    。对于不受 NetworkManager 控制的接口，firewalld 会尝试更改 ifcfg 文件中的 
+</span></span><span class="line"><span class="cl">    ZONE 设置（如果该文件存在）
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> --change-interface<span class="o">=</span>interface
+</span></span><span class="line"><span class="cl">    更改接口绑定的区域
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> --query-interface<span class="o">=</span>interface
+</span></span><span class="line"><span class="cl">    查询接口是否绑定到区域
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --remove-interface<span class="o">=</span>interface
+</span></span><span class="line"><span class="cl">    删除接口绑定的区域
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span>--add-icmp-block-inversion
+</span></span><span class="line"><span class="cl">    启用 ICMP 块反转
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span>--remove-icmp-block-inversion
+</span></span><span class="line"><span class="cl">    禁用 ICMP 块反转
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span>--query-icmp-block-inversion
+</span></span><span class="line"><span class="cl">    返回是否启用 ICMP 块反转。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span>--add-forward
+</span></span><span class="line"><span class="cl">    启用区域内转发
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span>--remove-forward
+</span></span><span class="line"><span class="cl">    禁用区域内转发
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span>--query-forward
+</span></span><span class="line"><span class="cl">    返回是否启用区域内转发。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span>--list-sources
+</span></span><span class="line"><span class="cl">    将绑定到区域的源列表以空格分隔
+</span></span><span class="line"><span class="cl">    - 将源绑定到区域意味着此区域设置将用于限制来自此源的流量
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> --add-source<span class="o">=</span> source<span class="o">[</span> /mask <span class="o">]</span><span class="p">|</span> MAC<span class="p">|</span>ipset:ipset
+</span></span><span class="line"><span class="cl">    将源绑定到 zone
+</span></span><span class="line"><span class="cl">    - 将源绑定到区域意味着此区域设置将用于限制来自此源的流量
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> --change-source<span class="o">=</span> source<span class="o">[</span> /mask <span class="o">]</span><span class="p">|</span> MAC<span class="p">|</span>ipset:ipset
+</span></span><span class="line"><span class="cl">    更改源地址绑定的区域
+</span></span><span class="line"><span class="cl">    - 将源绑定到区域意味着此区域设置将用于限制来自此源的流量
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> --query-source<span class="o">=</span> source<span class="o">[</span> /mask <span class="o">]</span><span class="p">|</span> MAC<span class="p">|</span>ipset:ipset
+</span></span><span class="line"><span class="cl">    查询源是否绑定到zone。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"> --permanent<span class="o">]</span> --remove-source<span class="o">=</span> source<span class="o">[</span> /mask <span class="o">]</span><span class="p">|</span> MAC<span class="p">|</span>ipset:ipset
+</span></span><span class="line"><span class="cl">    从先前添加到的区域中删除源的绑定。
+</span></span><span class="line"><span class="cl">    - 将源绑定到区域意味着此区域设置将用于限制来自此源的流量</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="政策选项" class="heading-element">
+  <a href="#%e6%94%bf%e7%ad%96%e9%80%89%e9%a1%b9" class="heading-mark"></a>政策选项</h3><div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--get-policies
+</span></span><span class="line"><span class="cl">    打印预定义策略，以空格分隔
+</span></span><span class="line"><span class="cl">--info-policy<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    打印有关政策的信息
+</span></span><span class="line"><span class="cl">--list-all-policies
+</span></span><span class="line"><span class="cl">    列出为所有策略添加或启用的所有内容
+</span></span><span class="line"><span class="cl">--permanent --new-policy<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    添加新的永久策略
+</span></span><span class="line"><span class="cl">    - 称必须是字母数字，并且可以另外包含字符：“_”和“-”
+</span></span><span class="line"><span class="cl">--permanent --new-policy-from-file<span class="o">=</span> filename<span class="o">[</span> --name<span class="o">=</span>policy <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    从准备好的策略文件中添加一个新的永久策略，并带有可选的名称覆盖。
+</span></span><span class="line"><span class="cl">--permanent --path-policy<span class="o">=</span>policy
+</span></span><span class="line"><span class="cl">    策略配置文件的打印路径
+</span></span><span class="line"><span class="cl">--permanent --delete-policy<span class="o">=</span>policy
+</span></span><span class="line"><span class="cl">    删除现有的永久策略
+</span></span><span class="line"><span class="cl">--permanent --load-policy-defaults<span class="o">=</span>policy
+</span></span><span class="line"><span class="cl">    加载策略的出厂默认值。仅适用于 firewalld 附带的策略。
+</span></span><span class="line"><span class="cl">    不适用于用户定义的策略。</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="调整和查询区域和策略的选项" class="heading-element">
+  <a href="#%e8%b0%83%e6%95%b4%e5%92%8c%e6%9f%a5%e8%af%a2%e5%8c%ba%e5%9f%9f%e5%92%8c%e7%ad%96%e7%95%a5%e7%9a%84%e9%80%89%e9%a1%b9" class="heading-mark"></a>调整和查询区域和策略的选项</h3><p>这些选项仅影响一个特定区域或策略。如果与<code>--zone=zone</code>或<code>--policy=policy</code>选项一
+起使用，它们会影响指定的区域或策略。如果省略这两个选项，它们会影响默认区域</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--list-all
+</span></span><span class="line"><span class="cl">    列出添加或启用的所有内容
+</span></span><span class="line"><span class="cl">--permanent<span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--get-target
+</span></span><span class="line"><span class="cl">    查看目标
+</span></span><span class="line"><span class="cl">--permanent<span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --set-target<span class="o">=</span>zone
+</span></span><span class="line"><span class="cl">    设定目标：
+</span></span><span class="line"><span class="cl">    - 对于区域target是以下之一：default, ACCEPT, DROP,REJECT
+</span></span><span class="line"><span class="cl">    - 对于策略target是以下之一：CONTINUE, ACCEPT, DROP,REJECT
+</span></span><span class="line"><span class="cl">    - default与 类似REJECT，但在以下场景中具有特殊含义：
+</span></span><span class="line"><span class="cl">      1. ICMP 明确允许，在区域规则集的末尾，明确允许 ICMP 数据包
+</span></span><span class="line"><span class="cl">      2. 转发的数据包遵循target出口区域，在转发数据包的情况下，如果入口区域使用
+</span></span><span class="line"><span class="cl">         default那么是否允许数据包将由出口区域确定。对于入口 zoneA 和出口 zoneB 
+</span></span><span class="line"><span class="cl">         的转发数据包：
+</span></span><span class="line"><span class="cl">         - 如果 zoneAtarget是ACCEPT, DROP, 或REJECT则数据包分别被接受、丢弃或
+</span></span><span class="line"><span class="cl">           拒绝。
+</span></span><span class="line"><span class="cl">         - 如果 zoneAtarget是default，则根据 zoneB 接受、丢弃或拒绝数据包target
+</span></span><span class="line"><span class="cl">           。如果 zoneB 的target也是default，则数据包将被 firewalld 的全部拒绝
+</span></span><span class="line"><span class="cl">      3. 从源区漂移到界面区，这仅在AllowZoneDrifting启用时适用，如果一个数据包
+</span></span><span class="line"><span class="cl">        进入一个带有targetof的基于源的区域default，它仍然可能进入一个基于接口的
+</span></span><span class="line"><span class="cl">        区域（包括默认区域）
+</span></span><span class="line"><span class="cl">--permanent<span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --set-description<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    设置说明
+</span></span><span class="line"><span class="cl">--permanent<span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--get-description
+</span></span><span class="line"><span class="cl">    查看区域说明
+</span></span><span class="line"><span class="cl">--permanent<span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --set-short<span class="o">=</span>description
+</span></span><span class="line"><span class="cl">    设置简短描述
+</span></span><span class="line"><span class="cl">--permanent<span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--get-short
+</span></span><span class="line"><span class="cl">    打印简短描述
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--list-services
+</span></span><span class="line"><span class="cl">    以空格分隔的列表形式查看服务列表
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --add-service<span class="o">=</span> service<span class="o">[</span> --timeout<span class="o">=</span>timeval <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    添加服务。可以多次指定此选项。如果提供了超时，则规则将在指定的时间内处于活动    状态，之后将自动删除。
+</span></span><span class="line"><span class="cl">    - timeval是数字（秒）或数字后跟字符s（秒）、m（分钟）、h（小时）之一
+</span></span><span class="line"><span class="cl">    - 该服务是防火墙提供的服务之一。要获取支持的服务列表，请使用
+</span></span><span class="line"><span class="cl">      firewall-cmd --get-services
+</span></span><span class="line"><span class="cl">    - --timeout选项不能与该--permanent选项组合
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --remove-service<span class="o">=</span>service
+</span></span><span class="line"><span class="cl">    删除服务。可以多次指定此选项
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --query-service<span class="o">=</span>service
+</span></span><span class="line"><span class="cl">    返回是否service已添加。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--list-ports
+</span></span><span class="line"><span class="cl">    列出添加为空格分隔列表的端口。端口的格式为portid<span class="o">[</span> -portid <span class="o">]</span>/ protocol，
+</span></span><span class="line"><span class="cl">    它可以是端口和协议对，也可以是带有协议的端口范围。
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --add-port<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>/ protocol<span class="o">[</span> --timeout<span class="o">=</span>timeval <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    添加端口。可以多次指定此选项。如果提供了超时，则规则将在指定的时间内处于活动
+</span></span><span class="line"><span class="cl">    状态，之后将自动删除
+</span></span><span class="line"><span class="cl">    - timeval是数字（秒）或数字后跟字符s（秒）、m（分钟）、h（小时）之一
+</span></span><span class="line"><span class="cl">    - 端中可以是单个端口号或端口范围portid- portid。
+</span></span><span class="line"><span class="cl">    - 协议可以是tcp、udp或。 sctpdccp
+</span></span><span class="line"><span class="cl">    - --timeout选项不能与该--permanent选项组合
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --remove-port<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>/protocol
+</span></span><span class="line"><span class="cl">    移除端口。可以多次指定此选项
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --query-port<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>/protocol
+</span></span><span class="line"><span class="cl">    返回是否添加了端口。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--list-protocols
+</span></span><span class="line"><span class="cl">    查看以空格分隔的协议列表
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --add-protocol<span class="o">=</span> protocol<span class="o">[</span> --timeout<span class="o">=</span>timeval <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    添加协议。可以多次指定此选项。如果提供了超时，则规则将在指定的时间内处于活动
+</span></span><span class="line"><span class="cl">    状态，之后将自动删除。
+</span></span><span class="line"><span class="cl">    - timeval是数字（秒）或数字后跟字符s（秒）、m（分钟）、h（小时）之一
+</span></span><span class="line"><span class="cl">    - 协议可以是系统支持的任何协议。请查看/etc/protocols支持的协议
+</span></span><span class="line"><span class="cl">    - --timeout选项不能与该--permanent选项组合
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --remove-protocol<span class="o">=</span>protocol
+</span></span><span class="line"><span class="cl">    删除协议。可以多次指定此选项
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --query-protocol<span class="o">=</span>protocol
+</span></span><span class="line"><span class="cl">    返回是否添加了协议。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--list-source-ports
+</span></span><span class="line"><span class="cl">    列出添加为空格分隔列表的源端口
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --add-source-port<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>/ protocol<span class="o">[</span> --timeout<span class="o">=</span>timeval <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    添加源端口。可以多次指定此选项。如果提供了超时，则规则将在指定的时间内处于活
+</span></span><span class="line"><span class="cl">    动状态，之后将自动删除。 
+</span></span><span class="line"><span class="cl">    - timeval是数字（秒）或数字后跟字符s（秒）、m（分钟）、h（小时）之一
+</span></span><span class="line"><span class="cl">    - 端口可以是单个端口号或端口范围portid- portid
+</span></span><span class="line"><span class="cl">    - 协议可以是tcp、udp、sctp、dccp
+</span></span><span class="line"><span class="cl">    - --timeout选项不能与该--permanent选项组合
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --remove-source-port<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>/protocol
+</span></span><span class="line"><span class="cl">    删除源端口。可以多次指定此选项。
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --query-source-port<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>/protocol
+</span></span><span class="line"><span class="cl">    返回是否添加了源端口。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--list-icmp-blocks
+</span></span><span class="line"><span class="cl">    以空格分隔列出 Internet 控制消息协议 <span class="o">(</span>ICMP<span class="o">)</span> 类型列表
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --add-icmp-block<span class="o">=</span> icmptype<span class="o">[</span> --timeout<span class="o">=</span>timeval <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    为 icmptype 添加一个 ICMP 块。 可以多次指定此选项。 如果提供了超时，则规则
+</span></span><span class="line"><span class="cl">    将在指定的时间内处于活动状态，之后将自动删除。 
+</span></span><span class="line"><span class="cl">    - timeval 是数字（秒）或数字后跟字符 s（秒）、m（分钟）、h（小时）之一
+</span></span><span class="line"><span class="cl">    - icmptype是 firewalld 支持的 icmp 类型之一。
+</span></span><span class="line"><span class="cl">      要获取支持的 icmp 类型列表：firewall-cmd --get-icmptypes
+</span></span><span class="line"><span class="cl">    - --timeout选项不能与该--permanent选项组合
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --remove-icmp-block<span class="o">=</span>icmptype
+</span></span><span class="line"><span class="cl">    删除icmptype. 可以多次指定此选项
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --query-icmp-block<span class="o">=</span>icmptype
+</span></span><span class="line"><span class="cl">    返回是否icmptype已添加 ICMP 块。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--list-forward-ports
+</span></span><span class="line"><span class="cl">    列出添加为空格分隔列表的 IPv4转发端口，对于IPv6转发端口，请使用丰富的语言
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --add-forward-port<span class="o">=</span><span class="nv">port</span><span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>:proto<span class="o">=</span> protocol<span class="o">[</span> :toport<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span> <span class="o">][</span> :toaddr<span class="o">=</span> address<span class="o">[</span> /mask <span class="o">]</span> <span class="o">]</span> <span class="o">[</span> --timeout<span class="o">=</span>timeval <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    添加IPv4转发端口。可以多次指定此选项。如果提供了超时，则规则将在指定的时间
+</span></span><span class="line"><span class="cl">    内处于活动状态，之后将自动删除。
+</span></span><span class="line"><span class="cl">    - timeval 是数字（秒）或数字后跟字符 s（秒）、m（分钟）、h（小时）之一
+</span></span><span class="line"><span class="cl">    - 端口可以是单个端口号或端口范围
+</span></span><span class="line"><span class="cl">    - 协议可以是tcp、udp、stcp、dccp
+</span></span><span class="line"><span class="cl">    - 目标地址是一个简单的 IP 地址
+</span></span><span class="line"><span class="cl">    - --timeout选项不能与该--permanent选项组合
+</span></span><span class="line"><span class="cl">    - toaddr如果指定， IP 转发将被隐式启用
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --remove-forward-port<span class="o">=</span><span class="nv">port</span><span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>:proto<span class="o">=</span> protocol<span class="o">[</span> :toport<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span> <span class="o">][</span> :toaddr<span class="o">=</span> address<span class="o">[</span> /mask <span class="o">]</span> <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    删除IPv4转发端口。可以多次指定此选项。对于IPv6转发端口，请使用丰富的语言。
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --query-forward-port<span class="o">=</span><span class="nv">port</span><span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span>:proto<span class="o">=</span> protocol<span class="o">[</span> :toport<span class="o">=</span> portid<span class="o">[</span> -portid <span class="o">]</span> <span class="o">][</span> :toaddr<span class="o">=</span> address<span class="o">[</span> /mask <span class="o">]</span> <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    返回是否添加了IPv4转发端口。如果为真则返回 0，否则返回 1。对于IPv6转发端口
+</span></span><span class="line"><span class="cl">    ，请使用丰富的语言。
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --add-masquerade<span class="o">[</span> --timeout<span class="o">=</span>timeval <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    启用IPv4伪装。如果提供了超时，则伪装将在指定的时间内处于活动状态。
+</span></span><span class="line"><span class="cl">    - timeval 是数字（秒）或数字后跟字符 s（秒）、m（分钟）、h（小时）之一
+</span></span><span class="line"><span class="cl">    - --timeout选项不能与该--permanent选项组合
+</span></span><span class="line"><span class="cl">    - 对于IPv6伪装，请使用丰富的语言
+</span></span><span class="line"><span class="cl">    -  IP 转发将被隐式启用
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--remove-masquerade
+</span></span><span class="line"><span class="cl">    禁用IPv4伪装。如果伪装启用超时，它也将被禁用
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--query-masquerade
+</span></span><span class="line"><span class="cl">    返回是否启用了IPv4伪装。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span>--list-rich-rules
+</span></span><span class="line"><span class="cl">    列出作为换行分隔列表添加的丰富语言规则
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --add-rich-rule<span class="o">=</span><span class="s1">&#39; rule&#39;</span> <span class="o">[</span> --timeout<span class="o">=</span>timeval <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    添加丰富的语言规则“ rule”。可以多次指定此选项。如果提供了超时，
+</span></span><span class="line"><span class="cl">    rule则将在指定的时间内处于活动状态，之后将自动删除
+</span></span><span class="line"><span class="cl">    - timeval 是数字（秒）或数字后跟字符 s（秒）、m（分钟）、h（小时）之一
+</span></span><span class="line"><span class="cl">    - --timeout选项不能与该--permanent选项组合
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --query-rich-rule<span class="o">=</span><span class="s1">&#39; rule&#39;</span>
+</span></span><span class="line"><span class="cl">    返回是否已添加 富语言规则“rule”。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --zone<span class="o">=</span>zone <span class="o">]</span> <span class="o">[</span> --permanent<span class="o">]</span> <span class="o">[</span> --policy<span class="o">=</span>policy <span class="o">]</span> --remove-rich-rule<span class="o">=</span><span class="s1">&#39; rule&#39;</span>
+</span></span><span class="line"><span class="cl">    删除富语言规则“ rule”。可以多次指定此选项。    </span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="调整和查询策略的选项" class="heading-element">
+  <a href="#%e8%b0%83%e6%95%b4%e5%92%8c%e6%9f%a5%e8%af%a2%e7%ad%96%e7%95%a5%e7%9a%84%e9%80%89%e9%a1%b9" class="heading-mark"></a>调整和查询策略的选项</h3><div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--permanent --policy<span class="o">=</span>policy --get-priority
+</span></span><span class="line"><span class="cl">    获得优先权
+</span></span><span class="line"><span class="cl">--permanent --policy<span class="o">=</span>policy --set-prioritypriority
+</span></span><span class="line"><span class="cl">    设置优先级<span class="s2">&#34;priority&#34;</span>。优先级决定了策略的相对顺序
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --policy<span class="o">=</span>policy --list-ingress-zones
+</span></span><span class="line"><span class="cl">    列出作为空格分隔的列表添加的入口区域
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --policy<span class="o">=</span> <span class="o">=</span>policy --add-ingress-zonezone
+</span></span><span class="line"><span class="cl">    添加入口区域。可以多次指定此选项，值为预定义区域、HOST或ANY
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --policy<span class="o">=</span> <span class="o">=</span>policy --remove-ingress-zonezone
+</span></span><span class="line"><span class="cl">    删除入口区域。可以多次指定此选项
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --policy<span class="o">=</span> <span class="o">=</span>policy --query-ingress-zonezone
+</span></span><span class="line"><span class="cl">    返回是否zone已添加。如果为真则返回 0，否则返回 <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --policy<span class="o">=</span>policy --list-egress-zones
+</span></span><span class="line"><span class="cl">    列出作为空格分隔的列表添加的出口区域
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --policy<span class="o">=</span> <span class="o">=</span>policy --add-egress-zonezone
+</span></span><span class="line"><span class="cl">    添加一个出口区域。可以多次指定此选项
+</span></span><span class="line"><span class="cl"><span class="o">[</span> --permanent<span class="o">]</span> --policy<span class="o">=</span> <span class="o">=</span>policy --remove-egress-zonezone
+</span></span><span class="line"><span class="cl">    移除一个出口区域。可以多次指定此选项
+</span></span><span class="line"><span class="cl"> --permanent<span class="o">]</span> --policy<span class="o">=</span> <span class="o">=</span>policy --query-egress-zonezone
+</span></span><span class="line"><span class="cl">    返回是否zone已添加。如果为真则返回 0，否则返回 <span class="m">1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="firewall-cmd-退出状态码" class="heading-element">
+  <a href="#firewall-cmd-%e9%80%80%e5%87%ba%e7%8a%b6%e6%80%81%e7%a0%81" class="heading-mark"></a>firewall-cmd 退出状态码</h3><ul>
+<li><code>firewall-cmd</code> 命令退出状态码默认情况下成功返回0；失败时输出为红色；命令行错误返回2。如果使用 <code>--query</code> 选项则成功为0,失败为1。都有以下退出状态码</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">退出状态码</th>
+<th style="text-align:left">字符串</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">11</td>
+<td style="text-align:left"><code>ALREADY_ENABLED</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">12</td>
+<td style="text-align:left"><code>NOT_ENABLED</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">13</td>
+<td style="text-align:left"><code>COMMAND_FAILED</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">14</td>
+<td style="text-align:left"><code>NO_IPV6_NAT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">15</td>
+<td style="text-align:left"><code>PANIC_MODE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">16</td>
+<td style="text-align:left"><code>ZONE_ALREADY_SET</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">17</td>
+<td style="text-align:left"><code>UNKNOWN_INTERFACE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">18</td>
+<td style="text-align:left"><code>ZONE_CONFLICT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">19</td>
+<td style="text-align:left"><code>BUILTIN_CHAIN</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">20</td>
+<td style="text-align:left"><code>EBTABLES_NO_REJECT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">21</td>
+<td style="text-align:left"><code>NOT_OVERLOADABLE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">22</td>
+<td style="text-align:left"><code>NO_DEFAULTS</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">23</td>
+<td style="text-align:left"><code>BUILTIN_ZONE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">24</td>
+<td style="text-align:left"><code>BUILTIN_SERVICE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">25</td>
+<td style="text-align:left"><code>BUILTIN_ICMPTYPE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">26</td>
+<td style="text-align:left"><code>NAME_CONFLICT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">27</td>
+<td style="text-align:left"><code>NAME_MISMATCH</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">28</td>
+<td style="text-align:left"><code>PARSE_ERROR</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">29</td>
+<td style="text-align:left"><code>ACCESS_DENIED</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">30</td>
+<td style="text-align:left"><code>UNKNOWN_SOURCE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">31</td>
+<td style="text-align:left"><code>RT_TO_PERM_FAILED</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">32</td>
+<td style="text-align:left"><code>IPSET_WITH_TIMEOUT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">33</td>
+<td style="text-align:left"><code>BUILTIN_IPSET</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">34</td>
+<td style="text-align:left"><code>ALREADY_SET</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">35</td>
+<td style="text-align:left"><code>MISSING_IMPORT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">36</td>
+<td style="text-align:left"><code>DBUS_ERROR</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">37</td>
+<td style="text-align:left"><code>BUILTIN_HELPER</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">38</td>
+<td style="text-align:left"><code>NOT_APPLIED</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">100</td>
+<td style="text-align:left"><code>INVALID_ACTION</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">101</td>
+<td style="text-align:left"><code>INVALID_SERVICE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">102</td>
+<td style="text-align:left"><code>INVALID_PORT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">103</td>
+<td style="text-align:left"><code>INVALID_PROTOCOL</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">104</td>
+<td style="text-align:left"><code>INVALID_INTERFACE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">105</td>
+<td style="text-align:left"><code>INVALID_ADDR</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">106</td>
+<td style="text-align:left"><code>INVALID_FORWARD</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">107</td>
+<td style="text-align:left"><code>INVALID_ICMPTYPE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">108</td>
+<td style="text-align:left"><code>INVALID_TABLE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">109</td>
+<td style="text-align:left"><code>INVALID_CHAIN</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">110</td>
+<td style="text-align:left"><code>INVALID_TARGET</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">111</td>
+<td style="text-align:left"><code>INVALID_IPV</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">112</td>
+<td style="text-align:left"><code>INVALID_ZONE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">113</td>
+<td style="text-align:left"><code>INVALID_PROPERTY</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">114</td>
+<td style="text-align:left"><code>INVALID_VALUE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">115</td>
+<td style="text-align:left"><code>INVALID_OBJECT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">116</td>
+<td style="text-align:left"><code>INVALID_NAME</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">117</td>
+<td style="text-align:left"><code>INVALID_FILENAME</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">118</td>
+<td style="text-align:left"><code>INVALID_DIRECTORY</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">119</td>
+<td style="text-align:left"><code>INVALID_TYPE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">120</td>
+<td style="text-align:left"><code>INVALID_SETTING</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">121</td>
+<td style="text-align:left"><code>INVALID_DESTINATION</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">122</td>
+<td style="text-align:left"><code>INVALID_RULE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">123</td>
+<td style="text-align:left"><code>INVALID_LIMIT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">124</td>
+<td style="text-align:left"><code>INVALID_FAMILY</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">125</td>
+<td style="text-align:left"><code>INVALID_LOG_LEVEL</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">126</td>
+<td style="text-align:left"><code>INVALID_AUDIT_TYPE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">127</td>
+<td style="text-align:left"><code>INVALID_MARK</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">128</td>
+<td style="text-align:left"><code>INVALID_CONTEXT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">129</td>
+<td style="text-align:left"><code>INVALID_COMMAND</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">130</td>
+<td style="text-align:left"><code>INVALID_USER</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">131</td>
+<td style="text-align:left"><code>INVALID_UID</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">132</td>
+<td style="text-align:left"><code>INVALID_MODULE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">133</td>
+<td style="text-align:left"><code>INVALID_PASSTHROUGH</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">134</td>
+<td style="text-align:left"><code>INVALID_MAC</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">135</td>
+<td style="text-align:left"><code>INVALID_IPSET</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">136</td>
+<td style="text-align:left"><code>INVALID_ENTRY</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">137</td>
+<td style="text-align:left"><code>INVALID_OPTION</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">138</td>
+<td style="text-align:left"><code>INVALID_HELPER</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">139</td>
+<td style="text-align:left"><code>INVALID_PRIORITY</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">140</td>
+<td style="text-align:left"><code>INVALID_POLICY</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">200</td>
+<td style="text-align:left"><code>MISSING_TABLE</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">201</td>
+<td style="text-align:left"><code>MISSING_CHAIN</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">202</td>
+<td style="text-align:left"><code>MISSING_PORT</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">203</td>
+<td style="text-align:left"><code>MISSING_PROTOCOL</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">204</td>
+<td style="text-align:left"><code>MISSING_ADDR</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">205</td>
+<td style="text-align:left"><code>MISSING_NAME</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">206</td>
+<td style="text-align:left"><code>MISSING_SETTING</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">207</td>
+<td style="text-align:left"><code>MISSING_FAMILY</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">251</td>
+<td style="text-align:left"><code>RUNNING_BUT_FAILED</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">252</td>
+<td style="text-align:left"><code>NOT_RUNNING</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">253</td>
+<td style="text-align:left"><code>NOT_AUTHORIZED</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+<tr>
+<td style="text-align:left">254</td>
+<td style="text-align:left"><code>UNKNOWN_ERROR</code></td>
+<td style="text-align:left">待补充</td>
+</tr>
+</tbody>
+</table>
+<h2 id="firewall-config" class="heading-element">
+  <a href="#firewall-config" class="heading-mark"></a>firewall-config</h2><p><code>firewall-config</code> 是 firewalld 图形化配置工具</p>
+<h2 id="firewall-applet" class="heading-element">
+  <a href="#firewall-applet" class="heading-mark"></a>firewall-applet</h2><p><code>firewall-applet</code> 是托盘管理程序（类似 win 任务栏右下角小图标）</p>
+<h2 id="firewall-offline-cmd" class="heading-element">
+  <a href="#firewall-offline-cmd" class="heading-mark"></a>firewall-offline-cmd</h2><p><code>firewall-offlime-cmd</code> 可以在 firewalld 未运行时进行配置，它不经过 D-Bus 接口，而是使用带文件 IO 处理程序的 firewalld 核心</p>
+<ul>
+<li>需要 root 用户才能使用</li>
+<li>只提供永久配置相关信息更改</li>
+<li>firewalld 运行时需要 5 秒左右才生效</li>
+</ul>
+<br/>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">使用方式：firewall-offline-cmd <span class="o">[</span>OPTIONS...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">常见选项：
+</span></span><span class="line"><span class="cl">-h, --help
+</span></span><span class="line"><span class="cl">    获取帮助
+</span></span><span class="line"><span class="cl">-V, --version
+</span></span><span class="line"><span class="cl">    查看firewalld版本
+</span></span><span class="line"><span class="cl">-q, --quiet
+</span></span><span class="line"><span class="cl">    不显示状态信息
+</span></span><span class="line"><span class="cl">--system-config 
+</span></span><span class="line"><span class="cl">    设置系统防火墙配置文件目录，默认为：/etc/firewalld/
+</span></span><span class="line"><span class="cl">--default-config
+</span></span><span class="line"><span class="cl">    设置默认配置目录，默认为：/usr/lib/firewalld/</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="示例" class="heading-element">
+  <a href="#%e7%a4%ba%e4%be%8b" class="heading-mark"></a>示例</h1><h2 id="查看firewalld版本" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8bfirewalld%e7%89%88%e6%9c%ac" class="heading-mark"></a>查看firewalld版本</h2><div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd  --version</span>
+</span></span><span class="line"><span class="cl">0.6.3</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看firewalld状态" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8bfirewalld%e7%8a%b6%e6%80%81" class="heading-mark"></a>查看firewalld状态</h2><div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#  firewall-cmd --state</span>
+</span></span><span class="line"><span class="cl">running</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看当前活动的区域" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%bd%93%e5%89%8d%e6%b4%bb%e5%8a%a8%e7%9a%84%e5%8c%ba%e5%9f%9f" class="heading-mark"></a>查看当前活动的区域</h2><div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --get-active-zones</span>
+</span></span><span class="line"><span class="cl">public
+</span></span><span class="line"><span class="cl">  interfaces: eth0</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看支持的服务类型" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%94%af%e6%8c%81%e7%9a%84%e6%9c%8d%e5%8a%a1%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>查看支持的服务类型</h2><div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># firewall-cmd --get-services | sed &#39;s/ /\n/g&#39;</span>
+</span></span><span class="line"><span class="cl">RH-Satellite-6
+</span></span><span class="line"><span class="cl">amanda-client
+</span></span><span class="line"><span class="cl">amanda-k5-client
+</span></span><span class="line"><span class="cl">amqp
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看所有的区域名称运行时配置如果启动之后是新加的需要加载永久配置" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%89%80%e6%9c%89%e7%9a%84%e5%8c%ba%e5%9f%9f%e5%90%8d%e7%a7%b0%e8%bf%90%e8%a1%8c%e6%97%b6%e9%85%8d%e7%bd%ae%e5%a6%82%e6%9e%9c%e5%90%af%e5%8a%a8%e4%b9%8b%e5%90%8e%e6%98%af%e6%96%b0%e5%8a%a0%e7%9a%84%e9%9c%80%e8%a6%81%e5%8a%a0%e8%bd%bd%e6%b0%b8%e4%b9%85%e9%85%8d%e7%bd%ae" class="heading-mark"></a>查看所有的区域名称（运行时配置，如果启动之后是新加的，需要加载永久配置）</h2><div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># firewall-cmd --get-zones | sed &#39;s/ /\n/g&#39;</span>
+</span></span><span class="line"><span class="cl">block
+</span></span><span class="line"><span class="cl">dmz
+</span></span><span class="line"><span class="cl">drop
+</span></span><span class="line"><span class="cl">external
+</span></span><span class="line"><span class="cl">home
+</span></span><span class="line"><span class="cl">internal
+</span></span><span class="line"><span class="cl">public
+</span></span><span class="line"><span class="cl">trusted
+</span></span><span class="line"><span class="cl">work</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看支持的-icmp-类型" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%94%af%e6%8c%81%e7%9a%84-icmp-%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>查看支持的 icmp 类型</h2><div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># firewall-cmd --get-icmptypes | sed &#39;s/ /\n/g&#39;</span>
+</span></span><span class="line"><span class="cl">address-unreachable
+</span></span><span class="line"><span class="cl">bad-header
+</span></span><span class="line"><span class="cl">beyond-scope
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看带有-ftp-字符的协议" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%b8%a6%e6%9c%89-ftp-%e5%ad%97%e7%ac%a6%e7%9a%84%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>查看带有 ftp 字符的协议</h2><div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># firewall-cmd --get-services | grep  -o  &#39;[^ ]*ftp[^ ]*&#39;</span>
+</span></span><span class="line"><span class="cl">ftp
+</span></span><span class="line"><span class="cl">tftp
+</span></span><span class="line"><span class="cl">tftp-client</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看是否支持-ftp-协议" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%98%af%e5%90%a6%e6%94%af%e6%8c%81-ftp-%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>查看是否支持 ftp 协议</h2><div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># firewall-cmd --get-services | grep  -o  &#39;\&lt;ftp\&gt;&#39;</span>
+</span></span><span class="line"><span class="cl">ftp</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看网卡-ens33-在哪个区域" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e7%bd%91%e5%8d%a1-ens33-%e5%9c%a8%e5%93%aa%e4%b8%aa%e5%8c%ba%e5%9f%9f" class="heading-mark"></a>查看网卡 ens33 在哪个区域</h2><div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># firewall-cmd --get-zone-of-interface=ens33</span>
+</span></span><span class="line"><span class="cl">public</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="public-添加端口" class="heading-element">
+  <a href="#public-%e6%b7%bb%e5%8a%a0%e7%ab%af%e5%8f%a3" class="heading-mark"></a>public 添加端口</h2><div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># firewall-cmd --zone=public --add-port=801-880/tcp &amp;&amp; firewall-cmd --runtime-to-permanent</span>
+</span></span><span class="line"><span class="cl">success</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="服务添加通行" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e6%b7%bb%e5%8a%a0%e9%80%9a%e8%a1%8c" class="heading-mark"></a>服务添加通行</h2><ul>
+<li>添加MySQL通行</li>
+</ul>
+<div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --zone=public --add-service=mysql &amp;&amp;  firewall-cmd --runtime-to-permanent</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="本地端口转发" class="heading-element">
+  <a href="#%e6%9c%ac%e5%9c%b0%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91" class="heading-mark"></a>本地端口转发</h2><ul>
+<li>把本地默认区域的<code>5211/tcp</code>端口转发到本地的<code>5212/tcp</code>端口</li>
+</ul>
+<div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">firewall-cmd --add-forward-port<span class="o">=</span><span class="nv">port</span><span class="o">=</span>5211:proto<span class="o">=</span>tcp:toport<span class="o">=</span><span class="m">5212</span> <span class="o">&amp;&amp;</span>  firewall-cmd --runtime-to-permanent</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>跨区域好像要开启IP伪装</li>
+</ul>
+<div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">firewall-cmd --zone<span class="o">=</span>public --add-maspuerade</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="富规则配置端口转发" class="heading-element">
+  <a href="#%e5%af%8c%e8%a7%84%e5%88%99%e9%85%8d%e7%bd%ae%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91" class="heading-mark"></a>富规则配置端口转发</h2><div class="highlight" id="id-40"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">firewall-cmd --add-rich-rule<span class="o">=</span><span class="s1">&#39;rule family=ipv4 destination address=100.0.0.254/24 forward-port port=443 protocol=tcp to-addr=192.168.2.10&#39;</span> </span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="禁止ping" class="heading-element">
+  <a href="#%e7%a6%81%e6%ad%a2ping" class="heading-mark"></a>禁止ping</h2><div class="highlight" id="id-41"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">firewall-cmd --add-icmp-block<span class="o">=</span>echo-request <span class="o">&amp;&amp;</span>  firewall-cmd --runtime-to-permanent</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="允许指定ip访问指定端口" class="heading-element">
+  <a href="#%e5%85%81%e8%ae%b8%e6%8c%87%e5%ae%9aip%e8%ae%bf%e9%97%ae%e6%8c%87%e5%ae%9a%e7%ab%af%e5%8f%a3" class="heading-mark"></a>允许指定IP访问指定端口</h2><ul>
+<li>允许<code>119.123.148.20</code>访问<code>8291</code>端口</li>
+</ul>
+<div class="highlight" id="id-42"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --add-rich-rule=&#39;rule family=&#34;ipv4&#34; source address=&#34;119.123.148.20&#34; port port=&#34;8291&#34; protocol=&#34;tcp&#34; accept&#39;</span>
+</span></span><span class="line"><span class="cl">success
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --runtime-to-permanent</span>
+</span></span><span class="line"><span class="cl">success</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="放行指定的ipport" class="heading-element">
+  <a href="#%e6%94%be%e8%a1%8c%e6%8c%87%e5%ae%9a%e7%9a%84ipport" class="heading-mark"></a>放行指定的ip:port</h2><ul>
+<li>允许访问<code>103.106.246.17:8022</code></li>
+</ul>
+<div class="highlight" id="id-43"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --add-rich-rule=&#39;rule family=ipv4 destination address=&#34;103.106.246.17&#34; port port=&#34;8022&#34;  protocol=&#34;tcp&#34; accept &#39;</span>
+</span></span><span class="line"><span class="cl">success
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --runtime-to-permanent</span>
+</span></span><span class="line"><span class="cl">success</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看所有配置" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%89%80%e6%9c%89%e9%85%8d%e7%bd%ae" class="heading-mark"></a>查看所有配置</h2><div class="highlight" id="id-44"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --list-all</span>
+</span></span><span class="line"><span class="cl">public <span class="o">(</span>active<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  target: default
+</span></span><span class="line"><span class="cl">  icmp-block-inversion: no
+</span></span><span class="line"><span class="cl">  interfaces: eth0
+</span></span><span class="line"><span class="cl">  sources:
+</span></span><span class="line"><span class="cl">  services: dhcpv6-client ssh
+</span></span><span class="line"><span class="cl">  ports: 8730/tcp 8886/tcp 80/tcp 443/tcp
+</span></span><span class="line"><span class="cl">  protocols:
+</span></span><span class="line"><span class="cl">  masquerade: no
+</span></span><span class="line"><span class="cl">  forward-ports:
+</span></span><span class="line"><span class="cl">  source-ports:
+</span></span><span class="line"><span class="cl">  icmp-blocks:
+</span></span><span class="line"><span class="cl">  rich rules:</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="禁止某个ip访问" class="heading-element">
+  <a href="#%e7%a6%81%e6%ad%a2%e6%9f%90%e4%b8%aaip%e8%ae%bf%e9%97%ae" class="heading-mark"></a>禁止某个IP访问</h2><div class="highlight" id="id-45"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --add-rich-rule &#39;rule family=&#34;ipv4&#34; source address=&#34;103.106.246.61&#34;  drop&#39;</span>
+</span></span><span class="line"><span class="cl">success</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-05-02 19:26:43">更新于 2023-05-02&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/firewalld/" class="post-tag" title="标签 - firewalld">firewalld</a><a href="/tags/%E9%98%B2%E7%81%AB%E5%A2%99/" class="post-tag" title="标签 - 防火墙">防火墙</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linux_iptables/" class="post-nav-item" rel="prev" title="iptables"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>iptables</a>
+      <a href="/%E5%8E%8B%E7%BC%A9%E4%B8%8E%E6%89%93%E5%8C%85/" class="post-nav-item" rel="next" title="linux 中压缩与打包">linux 中压缩与打包<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

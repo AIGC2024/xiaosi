@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>进程管理 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="linux中查看进程信息与进程相关概念" /><meta name="keywords" content='linux' /><meta itemprop="name" content="进程管理">
+<meta itemprop="description" content="linux中查看进程信息与进程相关概念"><meta itemprop="datePublished" content="2018-12-10T09:59:21+08:00" />
+<meta itemprop="dateModified" content="2022-12-11T13:56:48+08:00" />
+<meta itemprop="wordCount" content="14637">
+<meta itemprop="keywords" content="linux," /><meta property="og:title" content="进程管理" />
+<meta property="og:description" content="linux中查看进程信息与进程相关概念" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T09:59:21+08:00" />
+<meta property="article:modified_time" content="2022-12-11T13:56:48+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="进程管理"/>
+<meta name="twitter:description" content="linux中查看进程信息与进程相关概念"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" /><link rel="prev" href="/man/" /><link rel="next" href="/linuxCmdSed/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "进程管理",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86\/"
+    },"genre": "posts","keywords": "linux","wordcount":  14637 ,
+    "url": "\/linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86\/","datePublished": "2018-12-10T09:59:21+08:00","dateModified": "2022-12-11T13:56:48+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>进程管理</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 09:59:21"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2022-12-11 13:56:48"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-11">2022-12-11</time></span>&nbsp;<span title="14637 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 14700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 30 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#进程基本概念">进程基本概念</a></li>
+    <li><a href="#进程基本概念-1">进程基本概念</a>
+      <ul>
+        <li><a href="#进程与线程">进程与线程</a></li>
+        <li><a href="#进程与内核">进程与内核</a></li>
+        <li><a href="#进程与内存">进程与内存</a></li>
+        <li><a href="#进程运行状态">进程运行状态</a></li>
+        <li><a href="#进程树">进程树</a></li>
+        <li><a href="#进程标识符">进程标识符</a></li>
+      </ul>
+    </li>
+    <li><a href="#进程调度">进程调度</a>
+      <ul>
+        <li><a href="#调度方式">调度方式</a></li>
+        <li><a href="#调度时机">调度时机</a></li>
+        <li><a href="#调度算法">调度算法</a></li>
+        <li><a href="#进程优先级">进程优先级</a></li>
+        <li><a href="#优先级与权重">优先级与权重</a></li>
+        <li><a href="#基本分时调度">基本分时调度</a>
+          <ul>
+            <li><a href="#单个cpu上的调度">单个CPU上的调度</a></li>
+            <li><a href="#调度周期与粒度">调度周期与粒度</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#进程树-1">进程树</a>
+      <ul>
+        <li><a href="#pstree-命令查看用户空间进程树">pstree 命令查看用户空间进程树</a></li>
+        <li><a href="#使用-ps-命令查看进程组会话组">使用 ps 命令查看进程组、会话组</a></li>
+      </ul>
+    </li>
+    <li><a href="#进程优先级-1">进程优先级</a>
+      <ul>
+        <li><a href="#ps-命令中显示的优先级">ps 命令中显示的优先级</a></li>
+        <li><a href="#top-命令中显示的优先级">top 命令中显示的优先级</a></li>
+        <li><a href="#运行进程时使用-nice-命令指定用户空间的冬天优先级">运行进程时使用 nice 命令指定用户空间的冬天优先级</a></li>
+        <li><a href="#使用-renice-命令调整用户空间的动态优先级">使用 renice 命令调整用户空间的动态优先级</a></li>
+        <li><a href="#使用-chrt-命令指定进行的动态优先级">使用 chrt 命令指定进行的动态优先级</a></li>
+      </ul>
+    </li>
+    <li><a href="#进程状态">进程状态</a>
+      <ul>
+        <li><a href="#使用-ps-命令查看进程状态">使用 ps 命令查看进程状态</a></li>
+      </ul>
+    </li>
+    <li><a href="#进程运行方式">进程运行方式</a>
+      <ul>
+        <li><a href="#后台运行">后台运行</a></li>
+      </ul>
+    </li>
+    <li><a href="#向进程发送信号">向进程发送信号</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-11，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: 01012018121001 -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/cxQdUAK0RFnLVELEiT0CdQ"target="_blank" rel="external nofollow noopener noreferrer"><code>程磊</code>: 深入理解Linux进程管理</a></li>
+<li><a href="https://mp.weixin.qq.com/s/3rV6d04QjO9_8Nkq9SrWYg"target="_blank" rel="external nofollow noopener noreferrer"><code>程磊</code>: 深入理解Linux进程调度</a></li>
+<li><a href="https://blog.csdn.net/qq_49613557/article/details/120294908"target="_blank" rel="external nofollow noopener noreferrer"><code>小一！</code>: Linux中进程的六种状态</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="进程基本概念" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5" class="heading-mark"></a>进程基本概念</h1><p>进程是计算机里面最重要的概念之一。操作系统的目的就是为了运行进程。进程是程序执行的过程，执行期间是在内存中进行的。进程是操作系统管理系统资源的基本单位</p>
+<p>对于内核来说，内存是有虚拟内存和物理内存之分的。但是对于进程来说，这些都是不可见的，进程只需要知道自己独占一个用户空间的内存就可以了，它不知道也不需要知道自己是否运行在虚拟内存上。如果非要说进程知道物理内存和虚拟内存，那么进程也只能分配和管理虚拟内存，它没法分配管理物理内存，因为物理内存对它来说是不可见的。内核在合适的时候会为进程分配相应的物理内存，保证进程在访问内存的时候一定会有对应的物理内存，但是进程对此毫不知情，也管不了。</p>
+<p>进程与内核在同一个虚拟地址空间中，但是在不同的子空间，进程是在用户空间，内核是在内核空间。整个系统只有一个内核空间，但是却有很多用户空间，不过对于一个CPU来说，当前用户空间永远只有一个。虽然内核空间和用户空间在同一个空间中，但是它们的权限并不相同。内核空间处于特权模式，用户空间处于非特权模式。内核可以随意访问和操作用户空间，但是用户空间对内核空间却是看得见摸不着。内核空间可以做很多特权操作，用户空间没有权限做，但是有些时候又需要做，所以内核为用户空间开了一个口子，就是系统调用，用户空间可以通过系统调用来请求内核的服务。总的来说：</p>
+<ul>
+<li>进程是工作在用户空间的</li>
+<li>一颗内核一次只能调用一个进程</li>
+</ul>
+<h1 id="进程基本概念-1" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5-1" class="heading-mark"></a>进程基本概念</h1><p>进程是计算机里面最重要的概念之一。操作系统的目的就是为了运行进程。进程是程序执行的过程，执行期间是在内存中进行的。进程是操作系统管理系统资源的基本单位</p>
+<p>按照标准的操作系统理论，进程是资源分配的单位，线程是程序执行的单位，内核里用进程控制块(<code>PCB Process Control Block</code>)来管理进程，用线程控制块(<code>TCB Thread Control Block</code>)来管理线程。由于 <code>linux</code> 最开始的时候是不支持多线程的，最初时候 <code>task_struct</code>(内核代码中的结构体名)既代表进程又代表线程，但是后来 <code>linux</code> 也要支持多线程。<code>linux</code> 选择的是在内核实现。为了最大限度地利用已有的代码，尽量不对代码做大的改动，<code>Linux</code>内核并不是按照标准的操作系统理论来实现进程，选择让 <code>task_struct</code> 既是线程又是进程的代理(不是进程本身)。把同一个进程下的所有线程(<code>task_struct</code>)都指向相同的资源实现了线程。</p>
+<h2 id="进程与线程" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e4%b8%8e%e7%ba%bf%e7%a8%8b" class="heading-mark"></a>进程与线程</h2><p>在早期时，进程是程序执行的最小单位，现在线程是程序执行的基本单位，代表一个执行流，进程可以有多个执行流。在 <code>linux</code> 中线程与进程没有进行严格区分，当一个进程就只有一个执行流，也就是主线程，此时进程就是线程，线程就是进程。同理，多个线程共享一个进程资源，它就是线程。</p>
+<p>创建一个新进程是一个很耗费资源的事情，而且多个进程之间还要进行进程间通信也很费事。于是人们便想到了开发进程内并发机制，也就是在一个进程内能同时存在多个执行流(线程)。不同的人设计的进程内并发机制并不相同。按照线程的管理是否实现在内核里，进程内并发机制可以分为两大类：</p>
+<ul>
+<li>内核级线程(内核级线程也被叫做轻量级进程)：
+<ul>
+<li>内核线程：运行主体在内核空间</li>
+<li>用户线程：运行主体在用户空间</li>
+</ul>
+</li>
+<li>用户级线程：
+<ul>
+<li>协程或纤程：运行主体在用户空间</li>
+</ul>
+</li>
+</ul>
+<p>这两种实现多线程的方法各有优缺点。在用户空间实现的话，优点是简单，不用改内核，只需要实现一个库就行了，创建线程开销小，缺点是线程之间做不到真并发，一个线程阻塞就会阻塞同一进程的所有其它线程。在内核空间实现的话，缺点是麻烦，需要改内核，创建线程开销大，但是优点是能做到真并发，一个进程的多个线程可以同时在多个CPU上运行，能充分利用CPU。当然这两者并不是对立的，它们可以同时实现，一个进程可以有多个内核级线程，一个内核级线程又可以有多个用户级线程，编程者可以灵活选择使用哪种多线程方式。</p>
+<h2 id="进程与内核" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e4%b8%8e%e5%86%85%e6%a0%b8" class="heading-mark"></a>进程与内核</h2><p>进程与内核在同一个虚拟地址空间中，但是在不同的子空间，进程是在用户空间，内核是在内核空间。整个系统只有一个内核空间，但是却有很多用户空间，不过对于一个CPU来说，当前用户空间永远只有一个。虽然内核空间和用户空间在同一个空间中，但是它们的权限并不相同。内核空间处于特权模式，用户空间处于非特权模式。内核可以随意访问和操作用户空间，但是用户空间对内核空间却是看得见摸不着。内核空间可以做很多特权操作，用户空间没有权限做，但是有些时候又需要做，所以内核为用户空间开了一个口子，就是系统调用，用户空间可以通过系统调用来请求内核的服务。</p>
+<h2 id="进程与内存" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e4%b8%8e%e5%86%85%e5%ad%98" class="heading-mark"></a>进程与内存</h2><p>对于内核来说，内存是有虚拟内存和物理内存之分的。但是对于进程来说，这些都是不可见的，进程只需要知道自己独占一个用户空间的内存就可以了，它不知道也不需要知道自己是否运行在虚拟内存上。如果非要说进程知道物理内存和虚拟内存，那么进程也只能分配和管理虚拟内存，它没法分配管理物理内存，因为物理内存对它来说是不可见的。内核在合适的时候会为进程分配相应的物理内存，保证进程在访问内存的时候一定会有对应的物理内存，但是进程对此毫不知情，也管不了。</p>
+<p>进程需要内存的时候可以通过系统调用 <code>brk</code>、<code>sbrk</code>、<code>mmap</code> 来向内核申请分配虚拟内存。但是直接使用系统调用来分配管理内存显然很麻烦效率也低，为此 <code>libc</code> 向进程提供了 <code>malloc</code> 库， <code>malloc</code> 提供了 <code>malloc</code>、<code>free</code> 等几个接口供进程使用。这样进程需要内存的时候就可以直接使用 <code>malloc</code> 去分配内存，使用完了就用 <code>free</code> 去释放内存，不用考虑分配效率、内存碎片等问题了。目前比较流行的 <code>malloc</code> 库有 <code>ptmalloc</code>、<code>jemalloc</code>、<code>scudo</code>等。</p>
+<h2 id="进程运行状态" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e8%bf%90%e8%a1%8c%e7%8a%b6%e6%80%81" class="heading-mark"></a>进程运行状态</h2><p>进程刚创建之后处于新建态，但是新建态不是持久状态，它会立马转变为就绪状态。然后进程就会一直处于就绪、执行、阻塞三态的循环之中。就绪态会由于进程调度而转为执行态；执行态会由于时间片耗尽而转为就绪态，也会由于等待某个事件而转为阻塞态；阻塞态会由于某个事件的发生而转为就绪态。最后进程可能会由于主动退出或者发生异常而死亡。死亡态也不是一个持久态，进程死亡之后就不存在了。</p>
+<h2 id="进程树" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e6%a0%91" class="heading-mark"></a>进程树</h2><p>所有进程都通过父子关系连接而构成一颗亲缘树，这颗树的树根是 <code>init</code> 进程，进程号为 <code>1</code>，<code>ini</code> 进程是第一个用户空间进程，所有的用户空间进程都是它的子孙进程。<code>init</code> 进程的父进程是零号进程，零号进程是在代码中通过硬编码创建的，其它所有的进程都是通过 <code>fork</code> 函数创建的。这里为什么叫做零号进程呢？因为零号进程的职责发生过变化，在系统刚启动的时候，零号进程是 <code>BSP(bootstrap process)</code>, <code>start_kernel</code> 函数就是在零号进程中运行的。当系统初始化完成的时候，零号进程退化为了 <code>idle</code> 进程。当我们只强调零号进程的身份而不关心它的职责的时候，就叫它零号进程。当后面我们强调它的 <code>idle</code> 职责的时候，就叫它 <code>idle</code> 进程</p>
+<p>零号进程有两个亲儿子，除了 <code>init</code> 之外，还有一个是 <code>kthreadd</code> 进程号为 2，<code>Kthreadd</code> 是一个内核线程，它是所有其它内核线程的父进程。内核线程比较特殊的点在于它只运行在内核空间，所以所有的内核线程都可以看做是同一个进程下的线程，因为内核空间只有一个。但是每个内核线程在逻辑意义上又是一个独立的进程，它们执行独立的任务，有着独立的进程人格。所以当我们说一个内核线程的时候，心里也要明白它是一个单独的进程，是一个只有主线程的单线程进程。</p>
+<p>进程除了父子关系外还存在着会话组与进程组，每个用户都有自己的用户id，一个用户运行的所有的程序构成了一个会话组。有了会话组的概念，就可以方便我们把一个用户运行的所有进程作为一个整体进行管理。进程组的产生来源于命令行操作的作业管理。什么是作业管理呢？就是把一行命令的执行整体作为一个作业。一行命令的执行不一定只有一个进程，比如命令 <code>ps -ef | grep bash</code>，就有两个进程，我们需要有个概念把这两个进程作为一个整体来处理，这个概念就是进程组。</p>
+<p>一个进程诞生的时候默认继承父进程的会话组和进程组，但是进程可以通过系统调用（如 <code>setsid</code>，<code>setpgrp</code>）创建新的会话组或者进程组。会话组的第一个进程叫做这个会话组的组长，进程组的第一个进程叫做这个进程组的组长，会话组的 <code>id</code> 等于会话组组长的 <code>pid</code> ；进程组的 <code>id</code> 等于进程组组长的 <code>pid</code>。一个进程只有当它不是某个进程组组长的时候，它才可以调用 <code>setpgrp</code> 创建新的进程组，同时它也成为了这个新建的进程组的组长。同理，只有不是会话组组长的进程才能通过setsid创建新的会话组，并成为这个会话组组长。而且在这个新的会话组里也不能没有进程组啊，于是还会创建一个进程组，这个会话组组长还会成为这个新建的进程组的组长，这也要求了这个进程之前不能是进程组组长。所以只有既不是进程组组长又不是会话组组长的进程才能创建新的会话组。</p>
+<p>一个会话组的所有进程肯定都是其会话组组长的子孙进程，一个进程组的所有进程一般情况下都是其进程组组长的子孙进程。</p>
+<h2 id="进程标识符" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e6%a0%87%e8%af%86%e7%ac%a6" class="heading-mark"></a>进程标识符</h2><p>在 <code>task_struct</code> 结构体里面有两个重要的字段：<code>pid</code>、<code>tgid</code>。用户空间的 <code>tid</code> 是内核空间 <code>pid</code>，用户空间的 <code>pid</code> 是内核空间的 <code>tgid</code>，内核空间的 <code>tgid</code> 是内核里主线程的 <code>pid</code>。也就是进程的第一个线程创建时，会为 <code>task_struct</code> 分配一个 <code>pid</code>，就是主线程的 <code>tgid</code>，然后进程的 <code>pid</code>（也就是 <code>tfid</code> 字段）会被赋值为主线程的 <code>tid</code>。此后再创建的线程都会继承父线程的 <code>tgid</code>，所以在每个线程中都能直接获取进程的 <code>pid</code>。</p>
+<p><code>Linux</code>里面虽然没有进程结构体，但是所有 <code>tgid</code> 相同、虚拟内存等资源相同的线程构成一个虚拟的进程结构体。创建进程的第一个线程(<code>task_struct</code>)就是同时在创建进程，其对应的系统资源都会被创建出来。创建进程的第二个线程那就是纯粹地创建线程了。</p>
+<h1 id="进程调度" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e8%b0%83%e5%ba%a6" class="heading-mark"></a>进程调度</h1><p>调度是 <code>CPU</code> 资源管理器。操作系统的作用之一就是系统资源管理器。 <code>CPU</code> 是计算机系统中最重要的资源，当然也要管理。所有进程的运行都需要 <code>CPU</code> ，对 <code>CPU</code> 该如何管理呢？对于直接共享型的事物，我们有两种管理方法：一种是时间分割管理，另一种是空间分割管理。由于 <code>CPU</code> 自身的特性，没有空间分割相似性，只有时间分割相似性，所以我们只能对 <code>CPU</code> 进行时间分割管理。对 <code>CPU</code> 进行时间分割管理的具体做法就叫做进程调度。</p>
+<p>对线程的调度可以有两种方式：一种是直接调度线程，不考虑它们所属的进程，这种方式叫做直接调度或者一级调度；另一种是先调度进程，再在进程内部调度线程，这种方式叫做间接调度或者二级调度。<code>POSIX</code> 规定，操作系统可以选择这两种方式中的任何一种都行。<code>linux</code> 选择的是一级调度，这主要是为了提高进程的并发性，充分利用多 <code>CPU</code> 核心的优势。</p>
+<p>最早的计算机是没有调度的，程序只能一个一个地运行，一个进程死亡之后才能去运行下一个进程。后来随着计算机的普及，以及计算机的使用者和程序员这两个角色的分离，我们需要强制性多任务，也就是抢占式多任务。抢占式多任务使得每个进程都可以相对公平地平分 <code>CPU</code> 时间，如果一个进程运行了过长的时间就会被强制性地调度出去，不管这个进程是否愿意。</p>
+<p>抢占又分为用户抢占和内核抢占。由于抢占对进程来说是异步的，进程被抢占时不一定运行在什么地方，有可能运行在用户空间，也有可能运行在内核空间(进程通过系统调用进入内核空间)。如果抢占点是在用户空间，那么抢占就是安全的，如果在内核空间就不一定安全，这因为对于用户空间来说，如果抢占会导致线程同步问题，那么用户空间有责任使用线程同步机制来保护临界区，只要用户空间做好同步就不会出问题。如果内核也做好了同步措施，内核抢占也不会出问题，但是内核最初的设计就没有考虑内核抢占问题，所以刚开始的时候内核是不能抢占的。后来内核开发者对内核进行了完善，把内核所有的临界区都加上了同步措施，然后内核就是可抢占的了。内核能抢占了不代表内核一定会抢占，内核会不会抢占由config选项控制，可以开启也可以关闭，因为内核抢占还会影响系统的响应性和性能。开启内核抢占会提高系统的响应性但是会降低一点性能，关闭内核抢占会降低系统的响应性但是会提高一点性能。因此把内核抢占做成配置项，可以让大家灵活配置。服务器系统一般不需要与用户交互，所以会关闭内核抢占来提高性能，桌面系统会开启内核抢占来提高系统的响应性，来增加用户体验。</p>
+<h2 id="调度方式" class="heading-element">
+  <a href="#%e8%b0%83%e5%ba%a6%e6%96%b9%e5%bc%8f" class="heading-mark"></a>调度方式</h2><p>我们把协作式多任务叫做主动调度，抢占式多任务叫做被动调度。对于主动调度，调度是进程主动触发的，对于被动调度，在图灵机模型中是做不到的，因为图灵机是一条线性一直往前走的，进程在执行时，进程要是不主动，是不可能跳到其它进程来执行的。被动调度能做到的原因关键就在于中断机制，因为中断是强行在正常的执行流中插入了一段代码，它能改变后续代码的走向。有了中断机制，我们就可以创建一个定时器中断，以固定的时间间隔比如每10ms来触发中断，检测进程是否运行时间过长，如果过长就触发调度。这样任何进程都不可能霸占CPU，所以进程都能公平地共享CPU时间。</p>
+<p>主动调度又可以分为自愿性主动调度和非自愿性主动调度：</p>
+<ul>
+<li>自愿性主动调度是指进程主动调用sched_yield让出CPU，进程本身还会回到运行队列中去等待下次调度。如果运行队列中没有其它进程的话，此进程还会继续运行。</li>
+<li>非自愿性主动调度是指进程运行时遇到了无法继续运行的情况(加锁失败、要读的文件现在不在内存中、进程死亡等)，只能进行调度让其它进程运行。</li>
+</ul>
+<p>对于主动调度，触发调度和执行调度是同步的、一体的，触发即执行。主动调度发生的时机有IO等待、加锁失败等各种阻塞操作以及用户空间主动调用(sched_yield)</p>
+<p>避免进程自己不主动让出CPU，强行长时间霸占CPU。内核还提供了被动调度，强制进行进程调度。被动调度的过程分为两步：</p>
+<ol>
+<li>触发调度。触发调度仅仅是做个标记，告诉系统需要调度了。有以下触发调度点：</li>
+</ol>
+<ul>
+<li>定时器中断</li>
+<li>唤醒进程时</li>
+<li>迁移进程时</li>
+<li>改变进程优先级时</li>
+</ul>
+<ol>
+<li>执行调度是系统会在某些特定的点去检查调度标记，如果被设置的话就执行调度。执行调度的点有：</li>
+</ol>
+<ul>
+<li>从系统调用返回用户空间</li>
+<li>从中断返回用户空间</li>
+<li>从中断返回内核</li>
+<li>禁用抢占临界区结束</li>
+<li>禁用软中断临界区结束</li>
+<li>cond_resched调用点</li>
+</ul>
+<p>对于被动调度，触发调度和执行调度是异步的、分离的，触发调度并不会立马执行调度，而是做个需要调度的标记，然后在之后的某个合适的地方会检测这个标记，如果被设置就进行调度。触发调度的点有：</p>
+<ul>
+<li>在定时器中断中发现当前进程超时</li>
+<li>在唤醒进程时发现新进程需要抢占当前进程</li>
+<li>在迁移进程时发现新进程需要抢占当前进程</li>
+<li>在改变进程优先级时发现新进程需要抢占当前进程</li>
+</ul>
+<p>其中第一个触发点是当前进程需要被抢占，它是用来保证公平调度，防止进程霸占CPU的，后三个触发点是新进程需要抢占当前进程，它是用来提高系统响应性的。执行调度的点有：</p>
+<ul>
+<li>系统调用完成之后即将返回用户空间</li>
+<li>中断完成之后即将返回用户空间</li>
+<li>如果开启了内核抢占的话则还有,中断完成之后即将返回内核</li>
+<li>如果中断发生在禁止抢占临界区中，那么中断完成之后返回内核是不会执行调度的，而是会在临界区结束的时候执行调度</li>
+</ul>
+<h2 id="调度时机" class="heading-element">
+  <a href="#%e8%b0%83%e5%ba%a6%e6%97%b6%e6%9c%ba" class="heading-mark"></a>调度时机</h2><p>首先调度算法只能从Runnable的进程中进行选择，不能选择Blocked进程，因为选择了也没有意义。其次算法还要区分进程类型，比如普通进程与实时进程，肯定要优先选择实时进程，在同一类型的进程中还要有具体的算法来决定到底选择哪个进程。在Linux中一共把进程分为了5类，每一类都有一个具体的算法。类之间的关系是优先选择高类的进程，只有当高类没有Runnable进程时才会去选择低类进程。</p>
+<p>进程选择好了之后就要切换进程，切换进程分两步：第一步是切换用户空间，第二步是切换执行栈(线程栈)。如果要切换的两个线程属于同一个进程就不需要切换用户空间了。切换用户空间是一个CPU架构相关的事情，不同CPU架构有所不同。此时切换的执行栈是线程的内核栈，执行栈代表的是当前线程的执行情况，切换执行栈就是切换线程。线程的用户栈信息都在内核栈里保存着。切换完内核栈之后，线程继续执行就会返回用户空间，由于此时用户空间已经切换完成，内核栈上也保存着用户栈的信息，所以线程能返回到正确的用户空间线程上去。</p>
+<p>对于一个CPU来说，永远只有一个当前进程在运行，当执行进程调度时，需要从其它进程中选择一个进程并指向它。对于多个CPU来说，每个CPU也是这样的逻辑。但避免系统上的多个CPU忙的忙死闲的闲死，因此多个CPU之间会进行调度均衡。调度均衡可以分为个体均衡和总体均衡：</p>
+<ul>
+<li>个体均衡是从进程的角度出发选择到一个相对清闲的CPU上去运行。个体均衡的触发点有以下三个：
+<ol>
+<li>新进程刚创建时</li>
+<li>进程要执行新程序时</li>
+<li>进程被唤醒时</li>
+</ol>
+</li>
+<li>总体均衡是从CPU的角度出发如何从别的CPU上拉取一些进程到自己这来执行，使得所有CPU的工作量尽量平均。总体均衡的触发点有以下三个：
+<ol>
+<li>CPU即将idle前会去找到最忙的CPU然后拉取一些任务过来</li>
+<li>定时器中断的周期性检测，会检查是否所有的CPU都一样忙，如果忙闲差别太大就会进行进程迁移，使得所有CPU忙闲程度接近</li>
+<li>在idle进程中如果CPU发现自己太忙而有的CPU在idle就会唤醒那个CPU进行负载均衡</li>
+</ol>
+</li>
+</ul>
+<h2 id="调度算法" class="heading-element">
+  <a href="#%e8%b0%83%e5%ba%a6%e7%ae%97%e6%b3%95" class="heading-mark"></a>调度算法</h2><p>内核中有调度类、调度策略、调度算法的概念：</p>
+<ul>
+<li>调度类代表的是进程对调度器的需求，主要是对调度紧迫性的需求。</li>
+<li>调度策略是调度类的子类，是对调度类的细分，是在同一个调度需求下的细微区别。</li>
+<li>调度算法是对调度类的实现，一个调度类一个调度算法。同一个调度类的调度策略是有很强的相似性的，所以在同一个算法中实现，对于它们不同的部分，算法再去进行区分。</li>
+</ul>
+<p>Linux中一共有五个调度类，它们的调度紧迫性从上到下，依次降低：</p>
+<ol>
+<li>stop(禁令调度类)</li>
+<li>deadline(限时调度类)</li>
+<li>realtime(实时调度类)</li>
+<li>time-share(分时调度类)</li>
+<li>idle(闲时调度类)</li>
+</ol>
+<p>实时调度类属于软实时，适用于那些只要可运行就希望立马能执行的进程，比如音视频的解码进程。实时调度类又分为两个调度策略：SCHED_FIFO和SCHED_RR。实时调度类的内部逻辑是让实时优先级大的进程先运行，只要有实时优先级大的进程可运行，就不会去调度实时优先级小的进程。当两个实时进程的优先级相同时，SCHED_RR和SCHED_FIFO这两个策略就有区别：</p>
+<ul>
+<li>SCHED_FIFO策略：进程如果抢占了CPU，它就会一直占着CPU，不会给同优先级的实时进程让CPU</li>
+<li>SCHED_RR策略：进程会在运行了一定的时间片之后主动让给同优先级的实时进程。</li>
+</ul>
+<p>分时调度类是给广大的普通进程来用的，大家共同分享CPU。根据优先级的不同，可能有的进程分的多有的进程分的少，但是不会出现一个进程霸占CPU的情况。分时调度类下面有三个调度策略，它们的基本思想都是分时，但是略有不同：</p>
+<ul>
+<li>SCHED_BATCH进程希望减少调度次数，每次调度能执行的时间长一点</li>
+<li>SCHED_IDLE是优先级特别低的进程，其分到的CPU时间的比例非常低，但是也总是能保证分到。分时调度类现在的算法叫做CFS(完全公平调度)，所以分时调度类也叫做公平调度类。</li>
+</ul>
+<p>Linux上的分时调度算法叫CFS(Completely Fair Scheduler)完全公平调度。它是内核核心开发者Ingo Molnar基于SD调度器和RSDL调度器的公平调度思想而开发的一款调度器，在版本2.6.23中合入内核。CFS只负责调度普通进程，包括三个调度策略NORMAL、BATCH、IDLE。</p>
+<h2 id="进程优先级" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7" class="heading-mark"></a>进程优先级</h2><p>只有实时调度类和分时调度类会用到进程优先级。由于历史原因，实时进程和普通进程的优先级并不是一个简单的数值，而是有好几个数值体系和变换规则，</p>
+<p><img loading="lazy" src="/assets/%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7%e8%bd%ac%e6%8d%a2.png" alt="进程优先级转换" srcset="/assets/%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7%e8%bd%ac%e6%8d%a2.png?size=small, /assets/%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7%e8%bd%ac%e6%8d%a2.png?size=medium 1.5x, /assets/%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7%e8%bd%ac%e6%8d%a2.png?size=large 2x" sizes="auto" data-title="进程优先级转换" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>在用户空间的时候，实时进程和普通进程(分时进程)共享同一个优先级数轴，叫静态优先级，范围是0-99，值越大优先级越高，实时进程占用1-99，普通进程占用0。普通进程自己又新开了一个数轴，叫动态优先级，也叫nice值，范围是 -20 - 19，值越低优先级越高。</p>
+<p>到了内核空间的时候，实时进程有一个实时优先级，直接复制用户空间的静态优先级，普通进程有一个静态优先级，它是用户空间的nice值转换过来的，转换规则是nice+120。然后内核又定义了规范优先级，把它们都统一到同一个数轴上来。普通进程的规范优先级是直接复制其静态优先级，实时进程的规范优先级等于99减去它的实时优先级。在规范优先级的数轴上，所有进程都可以直接比较优先级了，值越小优先级越大。实时进程的规范优先级范围是0-99，但是由于它是从用户空间的优先级计算而来的，所以99这个值就用不到。</p>
+<p>最后是动态优先级，对进程所有的处理都以动态优先级为准，动态优先级默认等于其规范优先级。以前的时候调度算法会去调整进程的动态优先级，现在不会再调了。现在只有使用了优先级继承锁的时候才会去调整进程的动态优先级。</p>
+<p>对于禁令调度类、限时调度类和闲时调度类，它们用不到进程优先级，但是系统在规范优先级数轴上为它们提供了象征值，其动态优先级是对规范优先级的复制，也只有象征意义。有一个特殊的情况是分时调度类里面的SCHED_IDLE调度策略的进程，它的优先级无法在规范优先级数轴上体现出来，它的优先级是在CFS算法专门处理的，直接设置的调度权重，相当于是nice 26。</p>
+<p><code>ps</code> 命令中显示的优先级</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ps -o pid,cls,nice,pri,rtprio,cmd</span>
+</span></span><span class="line"><span class="cl">  PID CLS  NI PRI RTPRIO CMD
+</span></span><span class="line"><span class="cl"> <span class="m">6001</span>  TS   <span class="m">0</span>  <span class="m">19</span>      - -bash
+</span></span><span class="line"><span class="cl"><span class="m">20613</span>  TS   <span class="m">0</span>  <span class="m">19</span>      - ps -o pid,cls,nice,pri,rtprio,cmd</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>cls</code> 字段是调度策略，含义如下：
+<ul>
+<li><code>TS</code>: <code>SCHED_OTHER/SCHED_NORMAL</code></li>
+<li><code>FF</code>: <code>SCHED_FIFO</code></li>
+<li><code>RR</code>: <code>SCHED_RR</code></li>
+<li><code>b</code>: <code>SCHED_BATCH</code></li>
+<li><code>IDL</code>: <code>SCHED_IDLE</code></li>
+<li><code>DLN</code>: <code>SCHED_DEADLINE</code></li>
+</ul>
+</li>
+<li><code>NI</code> 字段是 <code>nice</code> 值，优先级范围从大到小是 <code>-20~19</code>。只有在 <code>SCHED_NORMAL</code> 策略与 <code>SCHED_BATCH</code> 有意义</li>
+<li><code>RTPRIO</code> 字段代表的实时进程的用户空间优先级，范围从小到大是 <code>1~99</code>。只有在 <code>SCHED_FIFO</code> 和 <code>SCHED_RR</code> 策略有意义</li>
+<li><code>PRI</code>: 值越大优先级越大，普通进程范围是 <code>0~39</code>，计算方式为：<code>pri = 19 - nice</code>，实时进程范围是 <code>41~139</code>，计算方式为：<code>pri = 40 + rtprio</code></li>
+</ul>
+<p><code>top</code> 命令中显示的优先级</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># top</span>
+</span></span><span class="line"><span class="cl">top - 10:37:19 up <span class="m">10</span> days,  9:29,  <span class="m">1</span> user,  load average: 0.03, 0.03, 0.05
+</span></span><span class="line"><span class="cl">Tasks: <span class="m">152</span> total,   <span class="m">1</span> running, <span class="m">151</span> sleeping,   <span class="m">0</span> stopped,   <span class="m">0</span> zombie
+</span></span><span class="line"><span class="cl">%Cpu<span class="o">(</span>s<span class="o">)</span>:  1.3 us,  6.3 sy,  0.0 ni, 92.4 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+</span></span><span class="line"><span class="cl">KiB Mem :  <span class="m">4094632</span> total,  <span class="m">2200272</span> free,   <span class="m">399812</span> used,  <span class="m">1494548</span> buff/cache
+</span></span><span class="line"><span class="cl">KiB Swap:        <span class="m">0</span> total,        <span class="m">0</span> free,        <span class="m">0</span> used.  <span class="m">3449524</span> avail Mem 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                                        
+</span></span><span class="line"><span class="cl">  <span class="m">672</span> root      <span class="m">20</span>   <span class="m">0</span>  <span class="m">543788</span>   <span class="m">8840</span>   <span class="m">6744</span> S   5.6  0.2 282:57.06 NetworkManager                                                 
+</span></span><span class="line"><span class="cl"> <span class="m">6870</span> root      <span class="m">20</span>   <span class="m">0</span>  <span class="m">162104</span>   <span class="m">2208</span>   <span class="m">1532</span> R   5.6  0.1   0:00.05 top             
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>NI</code> 列表示 <code>nice</code> 值，只对普通进程有效</li>
+<li><code>PR</code> 列表示进程优先级，值越小优先级越大。普通进程计算方式为：<code>pr = 20 + nice</code>，实时进程计算方式为：<code>pr = -1 - rt</code>。如果为 <code>-100</code> 时显示为 <code>rt</code></li>
+</ul>
+<h2 id="优先级与权重" class="heading-element">
+  <a href="#%e4%bc%98%e5%85%88%e7%ba%a7%e4%b8%8e%e6%9d%83%e9%87%8d" class="heading-mark"></a>优先级与权重</h2><p>优先级会转化为进程的权重，权重高的占用更长 <code>CPU</code> 时间片。nice值的范围是-20到19，是等差数列，转化之后的权重是等比数列，以nice 0作为权重1024，公比为0.8。之前的调度算法都是把nice值转化为等差数列的时间片或者多段等差数列的时间片。公比为何是0.8呢？这是为了让两个nice值只相差1的进程获得的CPU时间比例差为10%。把nice 0 作为权重1024来进行转换呢？这是为了二进制运算方便。内核里并不是每次优先级转权重都进行运算，而是提前运算好了放在数组，每次用的时候查一下就可以了。反权重的值也提前计算好了放在了数组里。</p>
+<h2 id="基本分时调度" class="heading-element">
+  <a href="#%e5%9f%ba%e6%9c%ac%e5%88%86%e6%97%b6%e8%b0%83%e5%ba%a6" class="heading-mark"></a>基本分时调度</h2><p>Linux上的分时调度算法叫CFS(Completely Fair Scheduler)完全公平调度。它是内核核心开发者Ingo Molnar基于SD调度器和RSDL调度器的公平调度思想而开发的一款调度器，在版本2.6.23中合入内核。CFS只负责调度普通进程，包括三个调度策略NORMAL、BATCH、IDLE。</p>
+<h3 id="单个cpu上的调度" class="heading-element">
+  <a href="#%e5%8d%95%e4%b8%aacpu%e4%b8%8a%e7%9a%84%e8%b0%83%e5%ba%a6" class="heading-mark"></a>单个CPU上的调度</h3><p>内核文档对CFS的定义是：CFS在真实的硬件上基本模拟了完全理想的多任务处理器。完全理想的多任务处理器是指，如果把CPU的执行能力看成是100%，则N个进程可以同时并行执行，每个进程获得了1/N的CPU执行能力。例如有2个进程在2GHz的CPU上执行了20ms，则每个进程都以1GHz的速度执行了20ms。</p>
+<h3 id="调度周期与粒度" class="heading-element">
+  <a href="#%e8%b0%83%e5%ba%a6%e5%91%a8%e6%9c%9f%e4%b8%8e%e7%b2%92%e5%ba%a6" class="heading-mark"></a>调度周期与粒度</h3><p>在CFS调度模型中，没有时间片递减的逻辑。CFS的调度周期也和传统的调度周期不一样，CFS的调度周期仅仅是一个计算量。调度周期的计算又和调度粒度有关。调度粒度是指进程在CPU上至少要运行多少时间才能被抢占。调度粒度指的是被动调度中进程一次运行最少的时间，如果进程阻塞发生主动调度，不受这个限制。时间片的计算依赖调度周期，调度周期的计算依赖调度粒度。</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">ps -o 命令可以指定查看内容
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">进程优先级：
+</span></span><span class="line"><span class="cl">0-99：实时优先级（数值越大优先级越高）
+</span></span><span class="line"><span class="cl">100-199：用户调整优先级（数值越小优先级越高）
+</span></span><span class="line"><span class="cl">nice值：-20，19（只能降低优先级）
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">Linux进程相关的信息保存在/proc/PID目录下
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># ls /proc/</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">查看内存相关信息
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># cat /proc/meminfo</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">查看指定进程与内存的映射
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># cat /proc/1/maps</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#查看当前终端</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ps</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">m在进程后面显示线程
+</span></span><span class="line"><span class="cl"><span class="c1">#a显示与当前终端相关的进程；u显示启动进程的用户；x显示与当前终端无关的进程，Z：安全上下文</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ps auxmZ</span>
+</span></span><span class="line"><span class="cl">USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#ps aux 每段解释</span>
+</span></span><span class="line"><span class="cl">USER：进程数组
+</span></span><span class="line"><span class="cl">PID ：进程号
+</span></span><span class="line"><span class="cl">%CPU：CPU占用时间比
+</span></span><span class="line"><span class="cl">%MEM：内存占用时间比
+</span></span><span class="line"><span class="cl">VSZ：虚拟内存级<span class="o">(</span>物理内存+虚拟内存<span class="o">)</span>
+</span></span><span class="line"><span class="cl">RSS：常驻内存集（不能放在交换分区的）
+</span></span><span class="line"><span class="cl">TTY：终端类型，？号表示与终端无关
+</span></span><span class="line"><span class="cl">STAT：状态（ D:不可中断的睡眠；S:可中断的睡眠；R:运行或就绪；T:停止；Z:僵死；&lt;:高优先级进程；
+</span></span><span class="line"><span class="cl">N:低优先级进程；+:前台进程组中的进程；l:多线程进程；s:会话进程首进程，某一个连接的父进程<span class="o">)</span>
+</span></span><span class="line"><span class="cl">START ：启动时间
+</span></span><span class="line"><span class="cl">TIME：执行时间
+</span></span><span class="line"><span class="cl">COMMAND：命令名称 中括号内的是线程
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#-e显示所有进程，-f显示完整格式，m在进程后面显示线程</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ps -elfm</span>
+</span></span><span class="line"><span class="cl">F S UID         PID   PPID  C PRI  NI ADDR SZ WCHAN  STIME TTY          TIME CMD
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#ps -el 每段解释</span>
+</span></span><span class="line"><span class="cl">PPID：父进程号
+</span></span><span class="line"><span class="cl">C：CPU编号
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PR：进程优先级
+</span></span><span class="line"><span class="cl">NI：进程优先级调整值，数值越低，优先级越高。调整范围：；普通用户只能调高
+</span></span><span class="line"><span class="cl">S：进程状态
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#top查看进程，键退出</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># top</span>
+</span></span><span class="line"><span class="cl">top - 11:08:58 up <span class="m">34</span> min,  <span class="m">1</span> user,  load average: 0.00, 0.01, 0.04
+</span></span><span class="line"><span class="cl">Tasks: <span class="m">173</span> total,   <span class="m">1</span> running, <span class="m">172</span> sleeping,   <span class="m">0</span> stopped,   <span class="m">0</span> zombie
+</span></span><span class="line"><span class="cl">%Cpu<span class="o">(</span>s<span class="o">)</span>:  0.0 us,  0.1 sy,  0.0 ni, 99.9 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+</span></span><span class="line"><span class="cl">KiB Mem :  <span class="m">4158416</span> total,  <span class="m">3833740</span> free,   <span class="m">166036</span> used,   <span class="m">158640</span> buff/cache
+</span></span><span class="line"><span class="cl">KiB Swap:  <span class="m">4194300</span> total,  <span class="m">4194300</span> free,        <span class="m">0</span> used.  <span class="m">3771184</span> avail Mem
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#解释</span>
+</span></span><span class="line"><span class="cl">top -系统当前时间 up 运行时长，当前在线用户，CPU负载均衡：平均1分钟，平均5分钟，平均15分钟
+</span></span><span class="line"><span class="cl">任务进程：总进程，运行进程，进程睡眠，停止进程，僵死进程
+</span></span><span class="line"><span class="cl">CPU平均使用率：用户进程，系统进程，调整优先级的进程，当前空闲率，等待磁盘IO完成进程时间，硬见中断，软中断，CPU处理时间
+</span></span><span class="line"><span class="cl">物理内存：总大小，空闲大小，使用大小，缓冲大小
+</span></span><span class="line"><span class="cl">交换分区：总大小，空闲大小，使用情况，
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#top每段解释</span>
+</span></span><span class="line"><span class="cl">PR：同PRI，进程的优先级
+</span></span><span class="line"><span class="cl">NI：nice值
+</span></span><span class="line"><span class="cl">VIRT：同VSZ
+</span></span><span class="line"><span class="cl">RES：物理内存
+</span></span><span class="line"><span class="cl">SHR：共享内存
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#top快捷键使用</span>
+</span></span><span class="line"><span class="cl">当前CPU百分比排序：P
+</span></span><span class="line"><span class="cl">查看CPU核心使用：1
+</span></span><span class="line"><span class="cl">查看cou信息：t
+</span></span><span class="line"><span class="cl">按内存使用率排序：M
+</span></span><span class="line"><span class="cl">关闭或开启第一行：l
+</span></span><span class="line"><span class="cl">按进程执行时间排序：T
+</span></span><span class="line"><span class="cl">修改刷新时间间隔：s（秒）
+</span></span><span class="line"><span class="cl">终止指定进程：k
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">其他选项
+</span></span><span class="line"><span class="cl">-d：指定刷新时间间隔
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#安装软件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># yum install -y htop</span>
+</span></span><span class="line"><span class="cl">s：更踪选的进程的系统调用
+</span></span><span class="line"><span class="cl">l：更踪选定经常的文件列表
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#查看虚拟内存,x表示刷新频率秒，y表示刷新次数，-s显示统计</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># vmstat [x] [y]</span>
+</span></span><span class="line"><span class="cl">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+</span></span><span class="line"><span class="cl"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+</span></span><span class="line"><span class="cl"> <span class="m">2</span>  <span class="m">0</span>      <span class="m">0</span> <span class="m">1979928</span>   <span class="m">2108</span> <span class="m">533296</span>    <span class="m">0</span>    <span class="m">0</span>     <span class="m">5</span>     <span class="m">4</span>   <span class="m">37</span>   <span class="m">52</span>  <span class="m">0</span>  <span class="m">0</span> <span class="m">100</span>  <span class="m">0</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl">procs
+</span></span><span class="line"><span class="cl">r：等待运行进程的数量
+</span></span><span class="line"><span class="cl">b：阻塞进程数量（不可中断的睡眠进程）
+</span></span><span class="line"><span class="cl">memory
+</span></span><span class="line"><span class="cl">swpd：虚拟（交换）内存使用总量
+</span></span><span class="line"><span class="cl">free：物理内存空闲总量
+</span></span><span class="line"><span class="cl">buff：用于buff的内存总量
+</span></span><span class="line"><span class="cl">cache：用于cache的内存总量
+</span></span><span class="line"><span class="cl">swap
+</span></span><span class="line"><span class="cl">si：数据进入swap中的数据速率<span class="o">(</span>kb/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">so：数据离开swap中的数据速率<span class="o">(</span>kb/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">io
+</span></span><span class="line"><span class="cl">bi：从快设备读入数据到内存的速率<span class="o">(</span>kb/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">bo：保存数据到块设备的速率<span class="o">(</span>kb/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">system
+</span></span><span class="line"><span class="cl">in：中断速率
+</span></span><span class="line"><span class="cl">cs：进程切换速率
+</span></span><span class="line"><span class="cl">cpu
+</span></span><span class="line"><span class="cl">sy：内核空间占用CPU比例
+</span></span><span class="line"><span class="cl">us：用户空间占用CPU比例
+</span></span><span class="line"><span class="cl">wa：
+</span></span><span class="line"><span class="cl">st：
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#查看进程的内存映射</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#查看帮助</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># man pmap</span>
+</span></span><span class="line"><span class="cl">pmap <span class="o">[</span>options<span class="o">]</span> pid <span class="o">[</span>...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">-x：以扩展格式显示
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#基于curses的跨平台系统监控</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># yum install -y glances</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#查看帮助，或者运行时按h键</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># man  glances</span>
+</span></span><span class="line"><span class="cl">运行：
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># glances</span>
+</span></span><span class="line"><span class="cl">Rx/s：接收数据包的速率
+</span></span><span class="line"><span class="cl">Tx/s：发送数据表的速率
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">在C/S模式下运行（不建议在外网使用）
+</span></span><span class="line"><span class="cl">（1）启用服务模式（本机IP）
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># glances -s -B 192.168.150.128</span>
+</span></span><span class="line"><span class="cl">（2）客户端模式（客户端IP）
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># glances -C 103.106.245.110</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#生成系统资源统计的多功能工具</span>
+</span></span><span class="line"><span class="cl">语法：dstat <span class="o">[</span>-afv<span class="o">]</span> <span class="o">[</span>options..<span class="o">]</span> <span class="o">[</span>delay <span class="o">[</span>count<span class="o">]]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># dstat -avf 1 10</span>
+</span></span><span class="line"><span class="cl">--top-tcp：CPU占用最高的进程
+</span></span><span class="line"><span class="cl">--top-io：io占用最高的进程
+</span></span><span class="line"><span class="cl"> --top-men：内存占用最高的进程
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#查看进程树，u:UTF8，u:PID</span>
+</span></span><span class="line"><span class="cl">yum install -y psmisc
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># pstree -up</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#调整进程nice值(普通用户只能降低优先级)</span>
+</span></span><span class="line"><span class="cl">调整范围：-20到19（数字越小，优先级越高）
+</span></span><span class="line"><span class="cl">语法：nice <span class="o">[</span>OPTION<span class="o">]</span> <span class="o">[</span>COMMAND <span class="o">[</span>ARG<span class="o">]</span>...<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#指定htop的nice值为9运行（-n 指定nice值）</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># nice -n 9 htop</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#修改运行htop的nice值</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#语法：renice -n naice值 PID</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># renice -n 12 8877</span>
+</span></span><span class="line"><span class="cl"><span class="m">8877</span> <span class="o">(</span>process ID<span class="o">)</span> old priority 9, new priority <span class="m">12</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#终止进程 ， -l查看支持的信号。信号名 等效 信号编号</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kill -l</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">常用信号编号：
+</span></span><span class="line"><span class="cl">1）终止进程
+</span></span><span class="line"><span class="cl">2）中止正在运行的进程
+</span></span><span class="line"><span class="cl">9）暴力杀死正在运行的进程
+</span></span><span class="line"><span class="cl">15）终止关闭在运行的进程
+</span></span><span class="line"><span class="cl">18）手动继续运行进程
+</span></span><span class="line"><span class="cl">19）暂停进程运行
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#指定信号的语法： kill [-s signal|-p] [-q sigval] [-a] [--] pid...</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#信号编号</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kill -9 2308 </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#简写信号名称</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kill -KILL 2308</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#完整的信号名称</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kill -SIGKILL 2308 </span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#杀死所有sshd进程</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># killall sshd</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#前台作业：占用终端</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#后台作业：没有占有终端，但是进程继续运行</span>
+</span></span><span class="line"><span class="cl">后台进程虽然没有占有终端，但是还是依然与终端有关联，除非使用nohup COMMAID <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#控制命令在后台进行，Ctrl +z 把正在运行的进程放入后台并暂停</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># top &amp;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>1<span class="o">]</span> <span class="m">3775</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#查看后台运行的进程</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># jobs</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>1<span class="o">]</span>   Stopped                 htop
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2<span class="o">]</span>-  Stopped                 dstat
+</span></span><span class="line"><span class="cl"><span class="o">[</span>3<span class="o">]</span>+  Stopped                 vi sfds
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#将后台的进程调到前台，（如果不指定作业号 默认是+加号）</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># fg %1</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#让送往后台的作业继续运行（没有剥离终端任然输出到前台）</span>
+</span></span><span class="line"><span class="cl">root@yh ~<span class="o">]</span><span class="c1"># bg %2</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2<span class="o">]</span>- dstat <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="m">0</span>   <span class="m">0</span> <span class="m">100</span>   <span class="m">0</span>   <span class="m">0</span>   0<span class="p">|</span> 896k  177k<span class="p">|</span>  10k   14k<span class="p">|</span>   <span class="m">0</span>     <span class="m">0</span> <span class="p">|</span>  23k   19k missed <span class="m">211</span> ticks
+</span></span><span class="line"><span class="cl">  <span class="m">0</span>   <span class="m">0</span> <span class="m">100</span>   <span class="m">0</span>   <span class="m">0</span>   0<span class="p">|</span>   <span class="m">0</span>     <span class="m">0</span> <span class="p">|</span>  60B  410B<span class="p">|</span>   <span class="m">0</span>     <span class="m">0</span> <span class="p">|</span>  <span class="m">22</span>    <span class="m">15</span>
+</span></span><span class="line"><span class="cl">  <span class="m">0</span>   <span class="m">0</span> <span class="m">100</span>   <span class="m">0</span>   <span class="m">0</span>   0<span class="p">|</span>   <span class="m">0</span>     <span class="m">0</span> <span class="p">|</span>  60B  362B<span class="p">|</span>   <span class="m">0</span>     <span class="m">0</span> <span class="p">|</span>  <span class="m">81</span>    <span class="m">63</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#根据名称和其他属性查找或</span>
+</span></span><span class="line"><span class="cl">pgrep <span class="o">[</span>options<span class="o">]</span> pattern
+</span></span><span class="line"><span class="cl">-u：UID
+</span></span><span class="line"><span class="cl">-U：UID
+</span></span><span class="line"><span class="cl">-t：与终端相关的进程
+</span></span><span class="line"><span class="cl">-l：进程名称
+</span></span><span class="line"><span class="cl">-a：完整格式的程序名称
+</span></span><span class="line"><span class="cl">-P：指定父进程的进程列表
+</span></span><span class="line"><span class="cl"><span class="c1">#根据名称和其他属性发出信号流程</span>
+</span></span><span class="line"><span class="cl">pkill <span class="o">[</span>options<span class="o">]</span> pattern
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#更据进程名称获取PID</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># pidof sshd</span>
+</span></span><span class="line"><span class="cl"> </span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="进程树-1" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e6%a0%91-1" class="heading-mark"></a>进程树</h1><p>所有进程都通过父子关系连接而构成一颗亲缘树，这颗树的树根是init进程(pid 1)。Init进程是第一个用户空间进程，所有的用户空间进程都是init进程的子孙进程。Init进程的父进程是零号进程。</p>
+<p>进程除了父子这种血缘关系之外，还存在着会话组(session)与进程组(process group)关系</p>
+<ul>
+<li>会话组：一个用户运行的所有的程序构成了一个会话组。有了会话组的概念，就可以方便我们把一个用户运行的所有进程作为一个整体进行管理。</li>
+<li>进程组：把一行命令的执行整体作为一个作业。一行命令的执行不一定只有一个进程，比如命令 <code>ps -ef | grep bash</code>，就有两个进程，我们需要有个概念把这两个进程作为一个整体来处理，这个概念就是进程组。</li>
+</ul>
+<p>一个进程诞生的时候默认继承父进程的会话组和进程组</p>
+<h2 id="pstree-命令查看用户空间进程树" class="heading-element">
+  <a href="#pstree-%e5%91%bd%e4%bb%a4%e6%9f%a5%e7%9c%8b%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e8%bf%9b%e7%a8%8b%e6%a0%91" class="heading-mark"></a>pstree 命令查看用户空间进程树</h2><p><code>pstree</code> 命令可以查看用户进程树</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 安装软件包</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y psmisc</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看帮助</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># pstree --help</span>
+</span></span><span class="line"><span class="cl">pstree: unrecognized option <span class="s1">&#39;--help&#39;</span>
+</span></span><span class="line"><span class="cl">Usage: pstree <span class="o">[</span> -a <span class="o">]</span> <span class="o">[</span> -c <span class="o">]</span> <span class="o">[</span> -h <span class="p">|</span> -H PID <span class="o">]</span> <span class="o">[</span> -l <span class="o">]</span> <span class="o">[</span> -n <span class="o">]</span> <span class="o">[</span> -p <span class="o">]</span> <span class="o">[</span> -g <span class="o">]</span> <span class="o">[</span> -u <span class="o">]</span>
+</span></span><span class="line"><span class="cl">              <span class="o">[</span> -A <span class="p">|</span> -G <span class="p">|</span> -U <span class="o">]</span> <span class="o">[</span> PID <span class="p">|</span> USER <span class="o">]</span>
+</span></span><span class="line"><span class="cl">       pstree -V
+</span></span><span class="line"><span class="cl">Display a tree of processes.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  -a, --arguments     show <span class="nb">command</span> line arguments
+</span></span><span class="line"><span class="cl">  -A, --ascii         use ASCII line drawing characters
+</span></span><span class="line"><span class="cl">  -c, --compact       don<span class="s1">&#39;t compact identical subtrees
+</span></span></span><span class="line"><span class="cl"><span class="s1">  -h, --highlight-all highlight current process and its ancestors
+</span></span></span><span class="line"><span class="cl"><span class="s1">  -H PID,
+</span></span></span><span class="line"><span class="cl"><span class="s1">  --highlight-pid=PID highlight this process and its ancestors
+</span></span></span><span class="line"><span class="cl"><span class="s1">  -g, --show-pgids    show process group ids; implies -c
+</span></span></span><span class="line"><span class="cl"><span class="s1">  -G, --vt100         use VT100 line drawing characters
+</span></span></span><span class="line"><span class="cl"><span class="s1">  -l, --long          don&#39;</span>t truncate long lines
+</span></span><span class="line"><span class="cl">  -n, --numeric-sort  sort output by PID
+</span></span><span class="line"><span class="cl">  -N type,
+</span></span><span class="line"><span class="cl">  --ns-sort<span class="o">=</span><span class="nb">type</span>      sort by namespace <span class="nb">type</span> <span class="o">(</span>ipc, mnt, net, pid, user, uts<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  -p, --show-pids     show PIDs<span class="p">;</span> implies -c
+</span></span><span class="line"><span class="cl">  -s, --show-parents  show parents of the selected process
+</span></span><span class="line"><span class="cl">  -S, --ns-changes    show namespace transitions
+</span></span><span class="line"><span class="cl">  -u, --uid-changes   show uid transitions
+</span></span><span class="line"><span class="cl">  -U, --unicode       use UTF-8 <span class="o">(</span>Unicode<span class="o">)</span> line drawing characters
+</span></span><span class="line"><span class="cl">  -V, --version       display version information
+</span></span><span class="line"><span class="cl">  -Z,
+</span></span><span class="line"><span class="cl">  --security-context   show SELinux security contexts
+</span></span><span class="line"><span class="cl">  PID    start at this PID<span class="p">;</span> default is <span class="m">1</span> <span class="o">(</span>init<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  USER   show only trees rooted at processes of this user</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看当前系统进程树</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># -p 显示进程号</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># pstree -p</span>
+</span></span><span class="line"><span class="cl">systemd<span class="o">(</span>1<span class="o">)</span>─┬─NetworkManager<span class="o">(</span>672<span class="o">)</span>─┬─<span class="o">{</span>NetworkManager<span class="o">}(</span>678<span class="o">)</span>
+</span></span><span class="line"><span class="cl">           │                     └─<span class="o">{</span>NetworkManager<span class="o">}(</span>681<span class="o">)</span>
+</span></span><span class="line"><span class="cl">           ├─agetty<span class="o">(</span>662<span class="o">)</span>
+</span></span><span class="line"><span class="cl">           ├─agetty<span class="o">(</span>664<span class="o">)</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="使用-ps-命令查看进程组会话组" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-ps-%e5%91%bd%e4%bb%a4%e6%9f%a5%e7%9c%8b%e8%bf%9b%e7%a8%8b%e7%bb%84%e4%bc%9a%e8%af%9d%e7%bb%84" class="heading-mark"></a>使用 ps 命令查看进程组、会话组</h2><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ps j</span>
+</span></span><span class="line"><span class="cl"> PPID   PID  PGID   SID TTY      TPGID STAT   UID   TIME COMMAND
+</span></span><span class="line"><span class="cl">    <span class="m">1</span>   <span class="m">662</span>   <span class="m">662</span>   <span class="m">662</span> tty1       <span class="m">662</span> Ss+      <span class="m">0</span>   0:00 /sbin/agetty --noclear tty1 linux
+</span></span><span class="line"><span class="cl">    <span class="m">1</span>   <span class="m">664</span>   <span class="m">664</span>   <span class="m">664</span> hvc0       <span class="m">664</span> Ss+      <span class="m">0</span>   0:00 /sbin/agetty --keep-baud 115200,38400,9600 hvc0 vt220
+</span></span><span class="line"><span class="cl"><span class="m">18311</span> <span class="m">18317</span> <span class="m">18317</span> <span class="m">18317</span> pts/0    <span class="m">21616</span> Ss       <span class="m">0</span>   0:00 -bash
+</span></span><span class="line"><span class="cl"><span class="m">18317</span> <span class="m">21616</span> <span class="m">21616</span> <span class="m">18317</span> pts/0    <span class="m">21616</span> R+       <span class="m">0</span>   0:00 ps j</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="进程优先级-1" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7-1" class="heading-mark"></a>进程优先级</h1><p>最早的计算机是没有调度的，程序只能一个一个地运行，一个进程死亡之后才能去运行下一个进程。后来随着计算机的普及，以及计算机的使用者和程序员这两个角色的分离，我们需要强制性多任务，也就是抢占式多任务。抢占式多任务使得每个进程都可以相对公平地平分 CPU 时间，如果一个进程运行了过长的时间就会被强制性地调度出去，不管这个进程是否愿意。</p>
+<p>进程优先级别越高，表示越先被 <code>cpu</code> 调用执行，同时占用 <code>cpu</code> 的时间片越长。由于历史原因，<code>linux</code> 进程优先级并不是一个简单的数值，而是有好几个数值体系和变换规则，下图是进程优先级转换</p>
+<p><img loading="lazy" src="/assets/%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7%e8%bd%ac%e6%8d%a2.png" alt="进程优先级转换" srcset="/assets/%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7%e8%bd%ac%e6%8d%a2.png?size=small, /assets/%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7%e8%bd%ac%e6%8d%a2.png?size=medium 1.5x, /assets/%e8%bf%9b%e7%a8%8b%e4%bc%98%e5%85%88%e7%ba%a7%e8%bd%ac%e6%8d%a2.png?size=large 2x" sizes="auto" data-title="进程优先级转换" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>在用户空间中，实时进程和普通进程(分时进程)共享同一个优先级数轴，叫静态优先级，范围是0-99，值越大优先级越高：</p>
+<ul>
+<li>实时进程占用1-99</li>
+<li>普通进程占用0。普通进程自己又新开了一个数轴，叫动态优先级，也叫nice值，范围是 -20 - 19，值越低优先级越高。</li>
+</ul>
+<p>在内核空间中分为实时优先级、规范优先级、动态优先级：</p>
+<ul>
+<li>实时优先级是直接复制用户空间的实时进程优先级</li>
+<li>静态优先级是用户空间的分时进程转换的，方式为：<code>nice+120</code></li>
+<li>规范优先级是把内核空间的实时优先级与静态优先级统一到同一个数轴上来。计算方式：
+<ul>
+<li>实时进程的规范优先级等于99减去它的实时优先级</li>
+<li>普通进程的规范优先级是直接复制其静态优先级</li>
+</ul>
+</li>
+<li>对进程所有的处理都以动态优先级为准，现在动态优先级默认等于其规范优先级。</li>
+</ul>
+<h2 id="ps-命令中显示的优先级" class="heading-element">
+  <a href="#ps-%e5%91%bd%e4%bb%a4%e4%b8%ad%e6%98%be%e7%a4%ba%e7%9a%84%e4%bc%98%e5%85%88%e7%ba%a7" class="heading-mark"></a>ps 命令中显示的优先级</h2><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ps -o pid,cls,nice,pri,rtprio,cmd</span>
+</span></span><span class="line"><span class="cl">  PID CLS  NI PRI RTPRIO CMD
+</span></span><span class="line"><span class="cl"> <span class="m">6001</span>  TS   <span class="m">0</span>  <span class="m">19</span>      - -bash
+</span></span><span class="line"><span class="cl"><span class="m">20613</span>  TS   <span class="m">0</span>  <span class="m">19</span>      - ps -o pid,cls,nice,pri,rtprio,cmd</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>cls</code> 字段是调度策略算法，含义如下：
+<ul>
+<li><code>TS</code>: <code>SCHED_OTHER/SCHED_NORMAL</code></li>
+<li><code>FF</code>: <code>SCHED_FIFO</code></li>
+<li><code>RR</code>: <code>SCHED_RR</code></li>
+<li><code>b</code>: <code>SCHED_BATCH</code></li>
+<li><code>IDL</code>: <code>SCHED_IDLE</code></li>
+<li><code>DLN</code>: <code>SCHED_DEADLINE</code></li>
+</ul>
+</li>
+<li><code>NI</code> 字段是 <code>nice</code> 值，优先级范围从大到小是 <code>-20~19</code>。只有在 <code>SCHED_NORMAL</code> 策略与 <code>SCHED_BATCH</code> 有意义</li>
+<li><code>RTPRIO</code> 字段代表的实时进程的用户空间优先级，范围从小到大是 <code>1~99</code>。只有在 <code>SCHED_FIFO</code> 和 <code>SCHED_RR</code> 策略有意义</li>
+<li><code>PRI</code>: 值越大优先级越大，普通进程范围是 <code>0~39</code>，计算方式为：<code>pri = 19 - nice</code>，实时进程范围是 <code>41~139</code>，计算方式为：<code>pri = 40 + rtprio</code></li>
+</ul>
+<h2 id="top-命令中显示的优先级" class="heading-element">
+  <a href="#top-%e5%91%bd%e4%bb%a4%e4%b8%ad%e6%98%be%e7%a4%ba%e7%9a%84%e4%bc%98%e5%85%88%e7%ba%a7" class="heading-mark"></a>top 命令中显示的优先级</h2><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># top</span>
+</span></span><span class="line"><span class="cl">top - 10:37:19 up <span class="m">10</span> days,  9:29,  <span class="m">1</span> user,  load average: 0.03, 0.03, 0.05
+</span></span><span class="line"><span class="cl">Tasks: <span class="m">152</span> total,   <span class="m">1</span> running, <span class="m">151</span> sleeping,   <span class="m">0</span> stopped,   <span class="m">0</span> zombie
+</span></span><span class="line"><span class="cl">%Cpu<span class="o">(</span>s<span class="o">)</span>:  1.3 us,  6.3 sy,  0.0 ni, 92.4 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+</span></span><span class="line"><span class="cl">KiB Mem :  <span class="m">4094632</span> total,  <span class="m">2200272</span> free,   <span class="m">399812</span> used,  <span class="m">1494548</span> buff/cache
+</span></span><span class="line"><span class="cl">KiB Swap:        <span class="m">0</span> total,        <span class="m">0</span> free,        <span class="m">0</span> used.  <span class="m">3449524</span> avail Mem 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                                        
+</span></span><span class="line"><span class="cl">  <span class="m">672</span> root      <span class="m">20</span>   <span class="m">0</span>  <span class="m">543788</span>   <span class="m">8840</span>   <span class="m">6744</span> S   5.6  0.2 282:57.06 NetworkManager                                                 
+</span></span><span class="line"><span class="cl"> <span class="m">6870</span> root      <span class="m">20</span>   <span class="m">0</span>  <span class="m">162104</span>   <span class="m">2208</span>   <span class="m">1532</span> R   5.6  0.1   0:00.05 top             
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>NI</code> 列表示 <code>nice</code> 值，只对普通进程有效</li>
+<li><code>PR</code> 列表示进程优先级，值越小优先级越大。普通进程计算方式为：<code>pr = 20 + nice</code>，实时进程计算方式为：<code>pr = -1 - rt</code>。如果为 <code>-100</code> 时显示为 <code>rt</code></li>
+</ul>
+<h2 id="运行进程时使用-nice-命令指定用户空间的冬天优先级" class="heading-element">
+  <a href="#%e8%bf%90%e8%a1%8c%e8%bf%9b%e7%a8%8b%e6%97%b6%e4%bd%bf%e7%94%a8-nice-%e5%91%bd%e4%bb%a4%e6%8c%87%e5%ae%9a%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e7%9a%84%e5%86%ac%e5%a4%a9%e4%bc%98%e5%85%88%e7%ba%a7" class="heading-mark"></a>运行进程时使用 nice 命令指定用户空间的冬天优先级</h2><p><code>nice NICE CMD</code></p>
+<h2 id="使用-renice-命令调整用户空间的动态优先级" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-renice-%e5%91%bd%e4%bb%a4%e8%b0%83%e6%95%b4%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e7%9a%84%e5%8a%a8%e6%80%81%e4%bc%98%e5%85%88%e7%ba%a7" class="heading-mark"></a>使用 renice 命令调整用户空间的动态优先级</h2><p><code>renice NICE PID</code></p>
+<h2 id="使用-chrt-命令指定进行的动态优先级" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-chrt-%e5%91%bd%e4%bb%a4%e6%8c%87%e5%ae%9a%e8%bf%9b%e8%a1%8c%e7%9a%84%e5%8a%a8%e6%80%81%e4%bc%98%e5%85%88%e7%ba%a7" class="heading-mark"></a>使用 chrt 命令指定进行的动态优先级</h2><h1 id="进程状态" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e7%8a%b6%e6%80%81" class="heading-mark"></a>进程状态</h1><p><code>linux</code> 中进程有以下状态：</p>
+<ul>
+<li>运行：运行中或在运行队列中</li>
+<li>睡眠：中断状态，等待被某种条件就绪，唤醒后进入运行状态</li>
+<li>不可中断睡眠：正在与磁盘交互，不可被杀死</li>
+<li>停止：人为暂停进程，可让进程继续运行</li>
+<li>僵死：当子进程退出并且父进程没有读取到子进程退出的返回代码时，就会处于僵死进程</li>
+<li>死亡：这个状态只是一个返回状态，当父进程读取子进程的返回结果时，子进程立刻释放资源。</li>
+<li>孤儿进程：当一个进程的父进程结束时，但是它自己还没有结束，那么这个进程将会成为孤儿进程。</li>
+</ul>
+<h2 id="使用-ps-命令查看进程状态" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-ps-%e5%91%bd%e4%bb%a4%e6%9f%a5%e7%9c%8b%e8%bf%9b%e7%a8%8b%e7%8a%b6%e6%80%81" class="heading-mark"></a>使用 ps 命令查看进程状态</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ps -axo pid,stat,cmd</span>
+</span></span><span class="line"><span class="cl">  PID STAT CMD
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="m">22797</span> R+   ps -axo pid,stat,cmd
+</span></span><span class="line"><span class="cl"><span class="m">28945</span> S    nginx: worker process
+</span></span><span class="line"><span class="cl"><span class="m">28946</span> S    nginx: worker process
+</span></span><span class="line"><span class="cl"><span class="m">28947</span> S    nginx: worker process
+</span></span><span class="line"><span class="cl"><span class="m">28948</span> S    nginx: worker process
+</span></span><span class="line"><span class="cl"><span class="m">29414</span> Ss   nginx: master process nginx
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>STAT</code> 列表示进程状态，有以下值：</p>
+<ul>
+<li><code>R+</code>：运行中</li>
+<li><code>S</code>: 睡眠</li>
+<li><code>s</code>: 有子进程</li>
+<li><code>Z</code>: 僵死</li>
+<li><code>D</code>: 不可中断</li>
+<li><code>T</code>: 中止，进程收到<code>SIGSTOP, SIGSTP, SIGTIN, SIGTOU</code>信号后停止运行运行</li>
+<li><code>P</code>:</li>
+<li><code>W</code>:</li>
+<li><code>X</code>: 死亡进程</li>
+<li><code>&lt;</code>: 优先级较高的进程</li>
+<li><code>N</code>: 优先级较低的进程</li>
+<li><code>l</code>: 多进程的</li>
+</ul>
+<h1 id="进程运行方式" class="heading-element">
+  <a href="#%e8%bf%9b%e7%a8%8b%e8%bf%90%e8%a1%8c%e6%96%b9%e5%bc%8f" class="heading-mark"></a>进程运行方式</h1><p>运行进程有以下方式：</p>
+<ul>
+<li>前台作业：直接在终端执行，适用于一次性任务，会占用终端</li>
+<li>后台作业：直接在终端执行，适用于一次性任务，没有占有终端，但是还是依然与终端有关联</li>
+<li>守护进程：所为服务端长时间运行的进程</li>
+</ul>
+<h2 id="后台运行" class="heading-element">
+  <a href="#%e5%90%8e%e5%8f%b0%e8%bf%90%e8%a1%8c" class="heading-mark"></a>后台运行</h2><p>在命令行后加 <code>&amp;</code> 符号可以使命令以后台方式运行。后台进程虽然没有占有终端，但是还是依然与终端有关联，可以使用 <code>nohup</code> 命令</p>
+<h1 id="向进程发送信号" class="heading-element">
+  <a href="#%e5%90%91%e8%bf%9b%e7%a8%8b%e5%8f%91%e9%80%81%e4%bf%a1%e5%8f%b7" class="heading-mark"></a>向进程发送信号</h1></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-11 13:56:48">更新于 2022-12-11&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/man/" class="post-nav-item" rel="prev" title="linux 命令使用帮助"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>linux 命令使用帮助</a>
+      <a href="/linuxCmdSed/" class="post-nav-item" rel="next" title="sed">sed<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

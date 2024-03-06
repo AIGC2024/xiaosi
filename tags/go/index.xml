@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>go - 标签 - 小厮</title>
+    <link>/tags/go/</link>
+    <description>go - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 11 Oct 2023 14:28:27 &#43;0800</lastBuildDate><atom:link href="/tags/go/" rel="self" type="application/rss+xml" /><item>
+  <title>安装 golang</title>
+  <link>/goInstallGolang/</link>
+  <pubDate>Wed, 11 Oct 2023 14:28:27 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/goInstallGolang/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>jetbrains goland</title>
+  <link>/goland/</link>
+  <pubDate>Sun, 01 Jan 2023 22:23:45 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/goland/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

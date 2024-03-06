@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>hello world - 标签 - 小厮</title>
+    <link>/tags/hello-world/</link>
+    <description>hello world - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 26 Aug 2020 08:40:10 &#43;0800</lastBuildDate><atom:link href="/tags/hello-world/" rel="self" type="application/rss+xml" /><item>
+  <title>go run hello world</title>
+  <link>/go-hello-world/</link>
+  <pubDate>Wed, 26 Aug 2020 08:40:10 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/go-hello-world/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

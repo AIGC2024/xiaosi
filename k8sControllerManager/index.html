@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s controller manager - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="k8s 控制器管理简工具介与选项" /><meta name="keywords" content='k8s, k8s controller manager' /><meta itemprop="name" content="k8s controller manager">
+<meta itemprop="description" content="k8s 控制器管理简工具介与选项"><meta itemprop="datePublished" content="2022-08-07T07:45:02+08:00" />
+<meta itemprop="dateModified" content="2023-05-07T15:00:07+08:00" />
+<meta itemprop="wordCount" content="1733">
+<meta itemprop="keywords" content="k8s,k8s controller manager," /><meta property="og:title" content="k8s controller manager" />
+<meta property="og:description" content="k8s 控制器管理简工具介与选项" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sControllerManager/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-07T07:45:02+08:00" />
+<meta property="article:modified_time" content="2023-05-07T15:00:07+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s controller manager"/>
+<meta name="twitter:description" content="k8s 控制器管理简工具介与选项"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sControllerManager/" /><link rel="prev" href="/k8sKubeApiServer/" /><link rel="next" href="/k8sContainerd/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s controller manager",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sControllerManager\/"
+    },"genre": "posts","keywords": "k8s, k8s controller manager","wordcount":  1733 ,
+    "url": "\/k8sControllerManager\/","datePublished": "2022-08-07T07:45:02+08:00","dateModified": "2023-05-07T15:00:07+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s controller manager</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-07 07:45:02"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-07">2022-08-07</time></span>&nbsp;<span title="更新于 2023-05-07 15:00:07"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-07">2023-05-07</time></span>&nbsp;<span title="1733 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kube-controller-manager">kube-controller-manager</a></li>
+    <li><a href="#是否允许为-pod-分配地址">是否允许为 pod 分配地址</a></li>
+    <li><a href="#身份验证-kubeconfig-文件路径">身份验证 kubeconfig 文件路径</a></li>
+    <li><a href="#鉴权验证-kubeconfig-文件路径">鉴权验证 kubeconfig 文件路径</a></li>
+    <li><a href="#绑定-ip-地址">绑定 IP 地址</a></li>
+    <li><a href="#客户端-ca-证书路径">客户端 CA 证书路径</a></li>
+    <li><a href="#pod-ip-地址范围">pod ip 地址范围</a></li>
+    <li><a href="#集群实例的前缀">集群实例的前缀</a></li>
+    <li><a href="#集群的-ca-证书">集群的 CA 证书</a></li>
+    <li><a href="#集群-ca-证书密钥">集群 CA 证书密钥</a></li>
+    <li><a href="#启用的控制器列表">启用的控制器列表</a></li>
+    <li><a href="#证书有效期">证书有效期</a></li>
+    <li><a href="#特性开关">特性开关</a></li>
+    <li><a href="#主节点-kubeconfig-文件路径">主节点 kubeconfig 文件路径</a></li>
+    <li><a href="#是否启用领导选举">是否启用领导选举</a></li>
+    <li><a href="#验证客户端请求的-ca-证书路径">验证客户端请求的 ca 证书路径</a></li>
+    <li><a href="#服务账号令牌-ca-证书路径">服务账号令牌 CA 证书路径</a></li>
+    <li><a href="#对服务账号令牌签名的私钥路径">对服务账号令牌签名的私钥路径</a></li>
+    <li><a href="#集群-service-ip-范围">集群 service IP 范围</a></li>
+    <li><a href="#为每个控制器单独使用服务账号凭据">为每个控制器单独使用服务账号凭据</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+<li>内核: 4.18.0-348.el8.0.2.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><code>k8s</code> 官方文档：<a href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-controller-manager/"target="_blank" rel="external nofollow noopener noreferrer">kube-controller-manager</a></li>
+</ul>
+</blockquote>
+<h1 id="kube-controller-manager" class="heading-element">
+  <a href="#kube-controller-manager" class="heading-mark"></a>kube-controller-manager</h1><p><code>kube-controller-manager</code> (<code>k8s</code> 控制器管理工具)是一个守护进程，内嵌随 <code>k8s</code> 一起发布的核心控制回路（在机器人和自动化的应用中，控制回路是一个永不休止的循环，用于调节系统状态），在 <code>k8s</code> 中，每个控制器是一个控制回路，通过 <code>API</code> 服务器监视集群的共享状态， 并尝试进行更改以将当前状态转为期望状态。 目前，<code>k8s</code> 自带的控制器例子包括：</p>
+<ul>
+<li>副本控制器：负责在节点出现故障时进行通知和响应</li>
+<li>节点控制器：监测代表一次性任务的 <code>Job</code> 对象，然后创建 <code>Pods</code> 来运行这些任务直至完成</li>
+<li>命名空间控制器：待补充</li>
+<li>端点分片控制器：填充端点分片（<code>EndpointSlice</code>）对象（以提供 <code>Service</code> 和 <code>Pod</code> 之间的链接）</li>
+<li>服务账号控制器：为新的命名空间创建默认的服务账号</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kube-controller-manager <span class="o">[</span>flags<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod kube-controller-manager-k8s01.localdomain -n kube-system -o=jsonpath=&#39;{$.spec.containers[0].command}&#39; | jq</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;kube-controller-manager&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--allocate-node-cidrs=true&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--authentication-kubeconfig=/etc/kubernetes/controller-manager.conf&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--authorization-kubeconfig=/etc/kubernetes/controller-manager.conf&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--bind-address=0.0.0.0&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--client-ca-file=/etc/kubernetes/pki/ca.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--cluster-cidr=100.64.0.0/10&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--cluster-name=kubernetes&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--cluster-signing-key-file=/etc/kubernetes/pki/ca.key&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--controllers=*,bootstrapsigner,tokencleaner&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--experimental-cluster-signing-duration=876000h&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--feature-gates=TTLAfterFinished=true,EphemeralContainers=true&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--kubeconfig=/etc/kubernetes/controller-manager.conf&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--leader-elect=true&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--root-ca-file=/etc/kubernetes/pki/ca.crt&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--service-account-private-key-file=/etc/kubernetes/pki/sa.key&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--service-cluster-ip-range=10.96.0.0/22&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--use-service-account-credentials=true&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="是否允许为-pod-分配地址" class="heading-element">
+  <a href="#%e6%98%af%e5%90%a6%e5%85%81%e8%ae%b8%e4%b8%ba-pod-%e5%88%86%e9%85%8d%e5%9c%b0%e5%9d%80" class="heading-mark"></a>是否允许为 pod 分配地址</h1><p><code>kube-container-manager --allocate-node-cidrs</code> 选项值为布尔值类型，当为 <code>true</code> 时允许为 <code>pod</code> 分配 <code>IP</code> 地址</p>
+<h1 id="身份验证-kubeconfig-文件路径" class="heading-element">
+  <a href="#%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81-kubeconfig-%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>身份验证 kubeconfig 文件路径</h1><p><code>kube-controller-manager --authentication-kubeconfig</code> 选项指定 <code>kubeconfig</code> 文件路径。文件所包含信息具有创建  <code>tokenreviews.authentication.k8s.io</code> 权限。当值为空时，则所有令牌请求都会被认作匿名请求， <code>k8s</code> 也不再在集群中查找客户端的 <code>CA</code> 证书信息。</p>
+<h1 id="鉴权验证-kubeconfig-文件路径" class="heading-element">
+  <a href="#%e9%89%b4%e6%9d%83%e9%aa%8c%e8%af%81-kubeconfig-%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>鉴权验证 kubeconfig 文件路径</h1><p><code>kube-controller-manager --authorization-kubeconfig</code> 选项指定 <code>kubeconfig</code> 文件路径，文件所包含信息具有创建 <code>subjectaccessreviews.authorization.k8s.io</code> 权限。如果配置为空字符串，未被鉴权模块所忽略的请求都会被禁止</p>
+<h1 id="绑定-ip-地址" class="heading-element">
+  <a href="#%e7%bb%91%e5%ae%9a-ip-%e5%9c%b0%e5%9d%80" class="heading-mark"></a>绑定 IP 地址</h1><p><code>kube-controller-manager --bind-address</code> 选项指定控制器管理工具绑定的 <code>IP</code> 地址</p>
+<h1 id="客户端-ca-证书路径" class="heading-element">
+  <a href="#%e5%ae%a2%e6%88%b7%e7%ab%af-ca-%e8%af%81%e4%b9%a6%e8%b7%af%e5%be%84" class="heading-mark"></a>客户端 CA 证书路径</h1><p><code>kube-controller-manager --client-ca-file</code> 选项指定 <code>CA</code> 证书</p>
+<h1 id="pod-ip-地址范围" class="heading-element">
+  <a href="#pod-ip-%e5%9c%b0%e5%9d%80%e8%8c%83%e5%9b%b4" class="heading-mark"></a>pod ip 地址范围</h1><p><code>kube-controller-manager --cluster-cidr</code> 选项指定集群中 <code>Pod</code> 的 <code>CIDR</code> 范围。要求 <code>--allocate-node-cidrs</code> 标志为 <code>true</code>。</p>
+<h1 id="集群实例的前缀" class="heading-element">
+  <a href="#%e9%9b%86%e7%be%a4%e5%ae%9e%e4%be%8b%e7%9a%84%e5%89%8d%e7%bc%80" class="heading-mark"></a>集群实例的前缀</h1><p><code>kube-controller-manager --cluster-name</code> 选项指定集群实例的前缀。默认值为 <code>kubernetes</code></p>
+<h1 id="集群的-ca-证书" class="heading-element">
+  <a href="#%e9%9b%86%e7%be%a4%e7%9a%84-ca-%e8%af%81%e4%b9%a6" class="heading-mark"></a>集群的 CA 证书</h1><p><code>kube-controller-manager --cluster-signing-cert-file</code> 选项指定一个包含 <code>PEM</code> 编码格式的 <code>X509 CA</code> 证书的文件名。该证书用来发放集群范围的证书。 如果设置了此标志，则不能指定更具体的 <code>--cluster-signing-*</code> 标志。</p>
+<h1 id="集群-ca-证书密钥" class="heading-element">
+  <a href="#%e9%9b%86%e7%be%a4-ca-%e8%af%81%e4%b9%a6%e5%af%86%e9%92%a5" class="heading-mark"></a>集群 CA 证书密钥</h1><p><code>kube-controller-manager --cluster-signing-key-file</code> 选项指定一个包含 <code>PEM</code> 编码的 <code>RSA</code> 或 <code>ECDSA</code> 私钥的文件名。该私钥用来对集群范围证书签名。 若指定了此选项，则不可再设置 <code>--cluster-signing-*</code> 参数</p>
+<h1 id="启用的控制器列表" class="heading-element">
+  <a href="#%e5%90%af%e7%94%a8%e7%9a%84%e6%8e%a7%e5%88%b6%e5%99%a8%e5%88%97%e8%a1%a8" class="heading-mark"></a>启用的控制器列表</h1><p><code>kube-controller-manager --controllers</code> 指定要启用的控制器列表，多个控制器使用逗号分隔。如果值为 <code>*</code> 表示使用默认值（除了 <code>bootstrapsigner</code> 和 <code>tokencleaner</code> 其它都启用了）。控制器名称前面有 <code>-</code> 表示禁用，如 <code>-foo</code> 表示禁用 <code>foo</code> 控制器</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--controllers<span class="o">=</span>*,bootstrapsigner,tokencleaner</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="证书有效期" class="heading-element">
+  <a href="#%e8%af%81%e4%b9%a6%e6%9c%89%e6%95%88%e6%9c%9f" class="heading-mark"></a>证书有效期</h1><p><code>kube-controller-manager --experimental-cluster-signing-duration</code> 选项指定签发的证书有效期。默认值为 <code>8760h0m0s</code></p>
+<h1 id="特性开关" class="heading-element">
+  <a href="#%e7%89%b9%e6%80%a7%e5%bc%80%e5%85%b3" class="heading-mark"></a>特性开关</h1><p><code>kube-controller-manager --feature-gates</code> 选项指定特性开关。</p>
+<h1 id="主节点-kubeconfig-文件路径" class="heading-element">
+  <a href="#%e4%b8%bb%e8%8a%82%e7%82%b9-kubeconfig-%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>主节点 kubeconfig 文件路径</h1><p><code>kube-controller-manager --kubeconfig</code> 选项指定一个 <code>kubeconfig</code> 配置文件，该文件中包含主控节点位置以及鉴权凭据信息。</p>
+<h1 id="是否启用领导选举" class="heading-element">
+  <a href="#%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8%e9%a2%86%e5%af%bc%e9%80%89%e4%b8%be" class="heading-mark"></a>是否启用领导选举</h1><p><code>kube-controller-manager --leader-elect</code> 选项值是布尔类型，当为 <code>true</code> 时在执行主循环之前，启动领导选举（<code>Leader Election</code>）客户端，并尝试获得领导者身份。 在运行多副本组件时启用此标志有助于提高可用性。</p>
+<h1 id="验证客户端请求的-ca-证书路径" class="heading-element">
+  <a href="#%e9%aa%8c%e8%af%81%e5%ae%a2%e6%88%b7%e7%ab%af%e8%af%b7%e6%b1%82%e7%9a%84-ca-%e8%af%81%e4%b9%a6%e8%b7%af%e5%be%84" class="heading-mark"></a>验证客户端请求的 ca 证书路径</h1><p><code>kube-controller-manager --requestheader-client-ca-file</code> 选项指定根证书包文件名。在 通过 <code>kube-controller-manager --requestheader-username-headers</code> 选项之前要使用这里的证书来检查请求中的客户证书。 警告：一般不要依赖对请求所作的鉴权结果。</p>
+<h1 id="服务账号令牌-ca-证书路径" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e8%b4%a6%e5%8f%b7%e4%bb%a4%e7%89%8c-ca-%e8%af%81%e4%b9%a6%e8%b7%af%e5%be%84" class="heading-mark"></a>服务账号令牌 CA 证书路径</h1><p><code>kube-controller-manager --root-ca-file</code> 如果此标志非空，则在服务账号的令牌 <code>Secret</code> 中会包含此根证书机构。 所指定标志值必须是一个合法的 <code>PEM</code> 编码的 <code>CA</code> 证书包。</p>
+<h1 id="对服务账号令牌签名的私钥路径" class="heading-element">
+  <a href="#%e5%af%b9%e6%9c%8d%e5%8a%a1%e8%b4%a6%e5%8f%b7%e4%bb%a4%e7%89%8c%e7%ad%be%e5%90%8d%e7%9a%84%e7%a7%81%e9%92%a5%e8%b7%af%e5%be%84" class="heading-mark"></a>对服务账号令牌签名的私钥路径</h1><p><code>kube-controller-manager --service-account-private-key-file</code> 包含 <code>PEM</code> 编码的 <code>RSA</code> 或 <code>ECDSA</code> 私钥数据的文件名，这些私钥用来对服务账号令牌签名。</p>
+<h1 id="集群-service-ip-范围" class="heading-element">
+  <a href="#%e9%9b%86%e7%be%a4-service-ip-%e8%8c%83%e5%9b%b4" class="heading-mark"></a>集群 service IP 范围</h1><p><code>kube-controller-manager --service-cluster-ip-range</code> 指定集群中 <code>Service</code> 对象的 <code>CIDR</code> 范围。要求 <code>kube-controller-manager --allocate-node-cidrs=true</code></p>
+<h1 id="为每个控制器单独使用服务账号凭据" class="heading-element">
+  <a href="#%e4%b8%ba%e6%af%8f%e4%b8%aa%e6%8e%a7%e5%88%b6%e5%99%a8%e5%8d%95%e7%8b%ac%e4%bd%bf%e7%94%a8%e6%9c%8d%e5%8a%a1%e8%b4%a6%e5%8f%b7%e5%87%ad%e6%8d%ae" class="heading-mark"></a>为每个控制器单独使用服务账号凭据</h1><p><code>kube-controller-manager --use-service-account-credentials</code> 选项值为 <code>true</code> 时，为每个控制器单独使用服务账号凭据。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-05-07 15:00:07">更新于 2023-05-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s-controller-manager/" class="post-tag" title="标签 - k8s controller manager">k8s controller manager</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sKubeApiServer/" class="post-nav-item" rel="prev" title="k8s API 服务"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s API 服务</a>
+      <a href="/k8sContainerd/" class="post-nav-item" rel="next" title="k8s 容器运行时之一 containerd">k8s 容器运行时之一 containerd<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

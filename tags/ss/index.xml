@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>ss - 标签 - 小厮</title>
+    <link>/tags/ss/</link>
+    <description>ss - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 18 Dec 2018 02:09:06 &#43;0800</lastBuildDate><atom:link href="/tags/ss/" rel="self" type="application/rss+xml" /><item>
+  <title>网络配置</title>
+  <link>/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/</link>
+  <pubDate>Tue, 18 Dec 2018 02:09:06 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/</guid>
+  <description><![CDATA[网络配置与工具]]></description>
+</item>
+</channel>
+</rss>

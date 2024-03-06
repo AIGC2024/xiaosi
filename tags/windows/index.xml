@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>windows - 标签 - 小厮</title>
+    <link>/tags/windows/</link>
+    <description>windows - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 23 Jul 2023 12:54:05 &#43;0800</lastBuildDate><atom:link href="/tags/windows/" rel="self" type="application/rss+xml" /><item>
+  <title>ssh-keygen — OpenSSH 身份验证密钥实用程序</title>
+  <link>/cmdSsh-keygen/</link>
+  <pubDate>Sun, 23 Jul 2023 12:54:05 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/cmdSsh-keygen/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>mtr使用方法</title>
+  <link>/mtr/</link>
+  <pubDate>Sun, 11 Dec 2022 16:29:04 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/mtr/</guid>
+  <description><![CDATA[ ]]></description>
+</item>
+<item>
+  <title>jq - 命令行 josn 数据处理工具</title>
+  <link>/CMDjq/</link>
+  <pubDate>Sat, 03 Sep 2022 16:49:39 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/CMDjq/</guid>
+  <description><![CDATA[jq 是一个轻量级且灵活的命令行 json 处理器]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>iotop - 标签 - 小厮</title>
+    <link>/tags/iotop/</link>
+    <description>iotop - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 03 Feb 2023 09:50:37 &#43;0800</lastBuildDate><atom:link href="/tags/iotop/" rel="self" type="application/rss+xml" /><item>
+  <title>使用 iotop 查进程或线程使用磁盘 I/O 情况</title>
+  <link>/iotop/</link>
+  <pubDate>Fri, 03 Feb 2023 09:50:37 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/iotop/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

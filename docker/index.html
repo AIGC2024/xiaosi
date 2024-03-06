@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>docker 的使用 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="docker 笔记" /><meta name="keywords" content='docker' /><meta itemprop="name" content="docker 的使用">
+<meta itemprop="description" content="docker 笔记"><meta itemprop="datePublished" content="2022-08-22T23:53:08+08:00" />
+<meta itemprop="dateModified" content="2023-04-29T20:34:04+08:00" />
+<meta itemprop="wordCount" content="806">
+<meta itemprop="keywords" content="docker," /><meta property="og:title" content="docker 的使用" />
+<meta property="og:description" content="docker 笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/docker/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-22T23:53:08+08:00" />
+<meta property="article:modified_time" content="2023-04-29T20:34:04+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="docker 的使用"/>
+<meta name="twitter:description" content="docker 笔记"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/docker/" /><link rel="prev" href="/00012022081801/" /><link rel="next" href="/rmdir%E5%91%BD%E4%BB%A4/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "docker 的使用",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/docker\/"
+    },"genre": "posts","keywords": "docker","wordcount":  806 ,
+    "url": "\/docker\/","datePublished": "2022-08-22T23:53:08+08:00","dateModified": "2023-04-29T20:34:04+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>docker 的使用</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E5%AE%B9%E5%99%A8/" class="post-category" title="分类 - 容器"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 容器</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-22 23:53:08"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-22">2022-08-22</time></span>&nbsp;<span title="更新于 2023-04-29 20:34:04"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-29">2023-04-29</time></span>&nbsp;<span title="806 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#docker-使用磁盘情况">docker 使用磁盘情况</a>
+      <ul>
+        <li><a href="#镜像占用的空间">镜像占用的空间</a></li>
+        <li><a href="#容器占用的空间">容器占用的空间</a></li>
+        <li><a href="#数据卷占用的空间">数据卷占用的空间</a></li>
+        <li><a href="#构建镜像时残留的数据">构建镜像时残留的数据</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: 04012022082301 -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>docker: 20.10.17</li>
+<li>centos: 7.9.2009</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/1581147"target="_blank" rel="external nofollow noopener noreferrer"><code>dys</code>: 如何清理 Docker 占用的磁盘空间</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="docker-使用磁盘情况" class="heading-element">
+  <a href="#docker-%e4%bd%bf%e7%94%a8%e7%a3%81%e7%9b%98%e6%83%85%e5%86%b5" class="heading-mark"></a>docker 使用磁盘情况</h1><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># docker system df </span>
+</span></span><span class="line"><span class="cl">TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+</span></span><span class="line"><span class="cl">Images          <span class="m">2</span>         <span class="m">1</span>         489.7MB   444MB <span class="o">(</span>90%<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Containers      <span class="m">1</span>         <span class="m">1</span>         0B        0B
+</span></span><span class="line"><span class="cl">Local Volumes   <span class="m">8</span>         <span class="m">0</span>         615.3MB   615.3MB <span class="o">(</span>100%<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Build Cache     <span class="m">0</span>         <span class="m">0</span>         0B        0B</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>TYPE</code> 列展示 <code>docker</code> 使用磁盘空间的类型
+<ul>
+<li><code>Images</code>: 镜像占用的空间</li>
+<li><code>Containers</code>: 运行的容器占用空间，表示每个容器的读写层空间。</li>
+<li><code>Local Volumes</code>: 容器挂载本地数据卷空间。</li>
+<li><code>Build Cache</code>: 镜像构建过程中产生的缓存空间</li>
+</ul>
+</li>
+<li><code>RECLAIMABLE</code> 表示可回收空间</li>
+<li><code>SIZE</code>: 占用空间总大小</li>
+</ul>
+<p>可以使用以下命令一键清理</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker system prune</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="镜像占用的空间" class="heading-element">
+  <a href="#%e9%95%9c%e5%83%8f%e5%8d%a0%e7%94%a8%e7%9a%84%e7%a9%ba%e9%97%b4" class="heading-mark"></a>镜像占用的空间</h2><p>除了下载的镜像以外，还包含以下镜像：</p>
+<ul>
+<li>子镜像：被其他镜像引用的中间镜像，不能被删除。</li>
+<li>悬挂状态的镜像：不会再被使用的镜像，可以被删除。</li>
+</ul>
+<p>使用以下命令查看悬挂状态的镜像：</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#  docker image ls -f dangling=true</span>
+</span></span><span class="line"><span class="cl">REPOSITORY   TAG       IMAGE ID   CREATED   SIZE</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以使用以下命令清理悬挂状态的镜像</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker image prune
+</span></span><span class="line"><span class="cl"><span class="c1"># 或</span>
+</span></span><span class="line"><span class="cl">docker image rm <span class="k">$(</span>docker image ls -f <span class="nv">dangling</span><span class="o">=</span><span class="nb">true</span> -q<span class="k">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>想要删除空闲的镜像使用以下命令：</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 正在被容器使用的镜像是不能被删除</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># docker image rm $(docker image ls -q)</span>
+</span></span><span class="line"><span class="cl">Untagged: mysql:latest
+</span></span><span class="line"><span class="cl">Untagged: mysql@sha256:152cf187a3efc56afb0b3877b4d21e231d1d6eb828ca9221056590b0ac834c75
+</span></span><span class="line"><span class="cl">Deleted: sha256:33037edcac9b155a185e9555a5da711d754c88cb244e3d13e214db029c3b28ed
+</span></span><span class="line"><span class="cl">Deleted: sha256:e07ca19696a3b8bebc2402178e99e2868cb06660659d41c70ebac75fef2765f5
+</span></span><span class="line"><span class="cl">Deleted: sha256:f1dd3e055468ab94e23ee30737526f70fd427a8d06e5c66b28bc853601a847e8
+</span></span><span class="line"><span class="cl">Deleted: sha256:7ded1235e2ffabbcc6e9ec5a7d0294ed5355c802257474753d5323a77eb1986b
+</span></span><span class="line"><span class="cl">Deleted: sha256:c78e2197d9a3032659622c07f6dbf7ec74f5c3a1f40fc866518b13a96c36ff21
+</span></span><span class="line"><span class="cl">Deleted: sha256:7218564d8eb6218c8e2d4c42959856d15745d321eec986a308383c7402a0bb3c
+</span></span><span class="line"><span class="cl">Deleted: sha256:a6509f1471522b5033d28622c0e48942b16eb685a156b1771d984a7041969a7a
+</span></span><span class="line"><span class="cl">Deleted: sha256:ce92b5bb86bd1d23ba0db641ea1a4009a76c59b6f1fb69e917c904407fda060c
+</span></span><span class="line"><span class="cl">Deleted: sha256:5b4e33f9109ff778969630f905ff31336c187cace319b73a3f1106bce02dcad9
+</span></span><span class="line"><span class="cl">Deleted: sha256:ef40bcf2fa76e9055e74eba2580488b98e17d795c96b96670f56b238b685a14d
+</span></span><span class="line"><span class="cl">Deleted: sha256:c294df63d04d9c99ad34fd2279f9c2b021486088d33f4d5de335c6712657bec9
+</span></span><span class="line"><span class="cl">Deleted: sha256:c6c89a36c214d7ecf7a684bf0fc21692dd60e9f204f48545bcb4085185166031
+</span></span><span class="line"><span class="cl">Error response from daemon: conflict: unable to delete 76fd3504ef5e <span class="o">(</span>cannot be forced<span class="o">)</span> - image is being used by running container 5f586f25f13f</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="容器占用的空间" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e5%8d%a0%e7%94%a8%e7%9a%84%e7%a9%ba%e9%97%b4" class="heading-mark"></a>容器占用的空间</h2><p>每次创建一个容器时，都会有一些文件和目录被创建：</p>
+<ul>
+<li><code>/var/lib/docker/containers/ID</code>: 如果容器使用了默认的日志模式，他的所有日志都会以 <code>JSON</code> 形式保存到此目录下</li>
+<li><code>/var/lib/docker/overlay2</code>: 目录下含有容器的读写层，如果容器使用自己的文件系统保存了数据，那么就会写到此目录下</li>
+</ul>
+<p>可以使用以下命令删除</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># docker container prune</span>
+</span></span><span class="line"><span class="cl">WARNING! This will remove all stopped containers.
+</span></span><span class="line"><span class="cl">Are you sure you want to <span class="k">continue</span>? <span class="o">[</span>y/N<span class="o">]</span> y
+</span></span><span class="line"><span class="cl">Total reclaimed space: 0B</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="数据卷占用的空间" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e5%8d%b7%e5%8d%a0%e7%94%a8%e7%9a%84%e7%a9%ba%e9%97%b4" class="heading-mark"></a>数据卷占用的空间</h2><p>容器挂载的数据卷不会随着容器删除而删除，有些镜像制作时有意自动挂载卷来避免容器被销毁时导致的数据丢失。</p>
+<p>使用以下命令删除容器自动挂载的数据卷，注意，三思尔后行</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker volume rm <span class="k">$(</span>docker volume ls -q<span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 或</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># docker volume prune</span>
+</span></span><span class="line"><span class="cl">WARNING! This will remove all <span class="nb">local</span> volumes not used by at least one container.
+</span></span><span class="line"><span class="cl">Are you sure you want to <span class="k">continue</span>? <span class="o">[</span>y/N<span class="o">]</span> y
+</span></span><span class="line"><span class="cl">Deleted Volumes:
+</span></span><span class="line"><span class="cl">017f2200bd10ca8b385ef396009e9fbf1d93fc34e8d7e0420940ea1ab9081613
+</span></span><span class="line"><span class="cl">51ef34108bbe565434899193da82d4a8800de78aba43f9cc5ceb7358be23854e
+</span></span><span class="line"><span class="cl">948475daf66f1768afbaa595c636bfcf809dc60c24ca39b81591b0416f4e5308
+</span></span><span class="line"><span class="cl">ArtalkData
+</span></span><span class="line"><span class="cl">b04ca26c6af33b934a3921dc193a837fe164583306e62698d6f11984e055781b
+</span></span><span class="line"><span class="cl">cde0f661aed8553824775f8f6cdfdba3703a63b5e91ca25f9f44802a501df0c3
+</span></span><span class="line"><span class="cl">e7b1b6fbb553da33a465041450a228b06e44818dfc324899fe735cf830b0852d
+</span></span><span class="line"><span class="cl">ff971a81cf454aa4ca3a0533f13a9343881e8f080719fdd7e995d6f50f9761ed
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Total reclaimed space: 615.3MB</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="构建镜像时残留的数据" class="heading-element">
+  <a href="#%e6%9e%84%e5%bb%ba%e9%95%9c%e5%83%8f%e6%97%b6%e6%ae%8b%e7%95%99%e7%9a%84%e6%95%b0%e6%8d%ae" class="heading-mark"></a>构建镜像时残留的数据</h2><p><code>Docker 18.09</code> 引入了 <code>BuildKit</code>。 目的是提升了构建过程的性能、安全、存储管理等能力。</p>
+<p>使用以下命令可以删除构建残留的数据</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker builder prune</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-04-29 20:34:04">更新于 2023-04-29&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/docker/" class="post-tag" title="标签 - docker">docker</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/00012022081801/" class="post-nav-item" rel="prev" title="个人文档系统"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>个人文档系统</a>
+      <a href="/rmdir%E5%91%BD%E4%BB%A4/" class="post-nav-item" rel="next" title="linux 中删除空目录">linux 中删除空目录<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

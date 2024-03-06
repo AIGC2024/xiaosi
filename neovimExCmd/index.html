@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>neovim Ex 命令 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="neovim Ex 命令操作" /><meta name="keywords" content='neovim, Ex 命令' /><meta itemprop="name" content="neovim Ex 命令">
+<meta itemprop="description" content="neovim Ex 命令操作"><meta itemprop="datePublished" content="2023-04-25T01:35:31+08:00" />
+<meta itemprop="dateModified" content="2023-04-30T11:55:31+08:00" />
+<meta itemprop="wordCount" content="613">
+<meta itemprop="keywords" content="neovim,Ex 命令," /><meta property="og:title" content="neovim Ex 命令" />
+<meta property="og:description" content="neovim Ex 命令操作" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/neovimExCmd/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-25T01:35:31+08:00" />
+<meta property="article:modified_time" content="2023-04-30T11:55:31+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="neovim Ex 命令"/>
+<meta name="twitter:description" content="neovim Ex 命令操作"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/neovimExCmd/" /><link rel="prev" href="/neovimAutocmd/" /><link rel="next" href="/awsCli2/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "neovim Ex 命令",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/neovimExCmd\/"
+    },"genre": "posts","keywords": "neovim, Ex 命令","wordcount":  613 ,
+    "url": "\/neovimExCmd\/","datePublished": "2023-04-25T01:35:31+08:00","dateModified": "2023-04-30T11:55:31+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>neovim Ex 命令</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/neovim/" class="post-category" title="分类 - neovim"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> neovim</a></span></div><div class="post-meta-line"><span title="发布于 2023-04-25 01:35:31"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-25">2023-04-25</time></span>&nbsp;<span title="更新于 2023-04-30 11:55:31"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-30">2023-04-30</time></span>&nbsp;<span title="613 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#ex-命令行">Ex 命令行</a></li>
+    <li><a href="#命令行编辑">命令行编辑</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+neovim: 0.10.0</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://yianwillis.github.io/vimcdoc/doc/cmdline.html"target="_blank" rel="external nofollow noopener noreferrer">vim 参考手册</a></li>
+<li><a href="https://neovim.io/doc/user/cmdline.html"target="_blank" rel="external nofollow noopener noreferrer">neovim 参考手册</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="ex-命令行" class="heading-element">
+  <a href="#ex-%e5%91%bd%e4%bb%a4%e8%a1%8c" class="heading-mark"></a>Ex 命令行</h1><p>在普通模式使用 <code>:</code> 后<code>neovim</code>会把光标移动到窗口下方，在该模式下可执行 <code>Ex</code> 命令。</p>
+<h1 id="命令行编辑" class="heading-element">
+  <a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e7%bc%96%e8%be%91" class="heading-mark"></a>命令行编辑</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">快捷键</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>&lt;Insert&gt;</code></td>
+<td style="text-align:left">在插入和替换之间切换</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-C</code></td>
+<td style="text-align:left">不执行命令，退出命令行模式</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-[&gt;</code> <br>或 <code>&lt;Esc&gt;</code></td>
+<td style="text-align:left">退出命令行模式</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;Left&gt;</code></td>
+<td style="text-align:left">光标左移</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;S-Left&gt;</code> <br>或 <code>&lt;C-Left&gt;</code></td>
+<td style="text-align:left">光标左移一个字串 (<code>WORD</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-B&gt;</code> <br>或 <code>&lt;Home&gt;</code></td>
+<td style="text-align:left">光标移动至命令的起始</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;Right&gt;</code></td>
+<td style="text-align:left">光标右移</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;S-Right&gt;</code> <br>或 <code>&lt;C-Right&gt;</code></td>
+<td style="text-align:left">光标右移一个字串 (<code>WORD</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-E&gt;</code> <br>或 <code>&lt;End&gt;</code></td>
+<td style="text-align:left">光标移动至命令的末尾</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-H&gt;</code> <br>或 <code>&lt;BS&gt;</code></td>
+<td style="text-align:left">删除光标前面的字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-W&gt;</code></td>
+<td style="text-align:left">删除光标前的单词 ( <code>word</code> )。单词范围受 <code>iskeyword</code> 选项影响</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-U&gt;</code></td>
+<td style="text-align:left">删除光标所在位置与行首之间的所有字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;Del&gt;</code></td>
+<td style="text-align:left">删除光标后面的字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-V&gt;</code></td>
+<td style="text-align:left">下一个字符如果是非数字字符，按本义插入。<br>或不超过三个的数字字符可用于输入单个字节的十进制编码。这里的非数字和三个数字字符不经过映射</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-Q&gt;</code></td>
+<td style="text-align:left">同 <code>&lt;CTRL-V&gt;</code> 但在终端环境没效果</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-SHIFT-V&gt;</code> <br>或 <code>&lt;CTRL-SHIFT-Q&gt;</code></td>
+<td style="text-align:left">同 <code>&lt;CTRL-V&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>{char1} &lt;BS&gt; {char2}</code> <br>或 <code>&lt;CTRL-K&gt; {char1} {char2}</code></td>
+<td style="text-align:left">输入二合字母，如果 <code>{char1}</code> 是一个特殊键，插入该键 <code>&lt;&gt;</code> 形式的编码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-R&gt;&lt;CTRL-F&gt;</code></td>
+<td style="text-align:left">插入光标下的文件名</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-R&gt;&lt;CTRL-P&gt;</code></td>
+<td style="text-align:left">插入光标下的文件名与路径</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-R&gt;&lt;CTRL-W&gt;</code></td>
+<td style="text-align:left">插入光标下的单词</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-R&gt;&lt;CTRL-A&gt;</code></td>
+<td style="text-align:left">插入光标下的字串</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-R&gt;&lt;CTRL-L&gt;</code></td>
+<td style="text-align:left">插入光标下的文本行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-R&gt; {register}</code></td>
+<td style="text-align:left">插入寄存器里的内容。当按下 <code>&lt;CTRL-R&gt;</code> 时，屏幕会显示一个 <code>&quot;</code> 字 符，提示你输入一个寄存器的名字。映射、缩写、补全功能不会生效，<br>但 <code>&lt;BS&gt;</code> <code>&lt;br&gt;</code> <code>&lt;CTRL-W&gt;</code> 仍旧可能结束命令行模式，并使剩余的字符被接下来其他的模式解释</td>
+</tr>
+<tr>
+<td style="text-align:left">`<CTRL-R> <CTRL-R> { <CTRL-F></td>
+<td style="text-align:left"><CTRL-P></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-\&gt; e {expr}</code></td>
+<td style="text-align:left">使用表达式</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;Up&gt;</code></td>
+<td style="text-align:left">在历史记录中查找开始部分与当前输入匹配的前一条命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;Down&gt;</code></td>
+<td style="text-align:left">在历史记录中查找开始部分与当前输入匹配的下一条命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-Y&gt;</code></td>
+<td style="text-align:left">当存在无模式选择时，复制该选择区域的内容至剪贴板</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-]&gt;</code></td>
+<td style="text-align:left">激活缩写，但不插入任何字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-M&gt;</code> <br>或 <code>&lt;CTRL-J&gt;</code> <br>或 <code>&lt;CR&gt;</code> <br>或 <code>&lt;NL&gt;</code></td>
+<td style="text-align:left">执行输入的命令</td>
+</tr>
+</tbody>
+</table>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-04-30 11:55:31">更新于 2023-04-30&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/neovim/" class="post-tag" title="标签 - neovim">neovim</a><a href="/tags/Ex-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - Ex 命令">Ex 命令</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/neovimAutocmd/" class="post-nav-item" rel="prev" title="noevim 自动命令"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>noevim 自动命令</a>
+      <a href="/awsCli2/" class="post-nav-item" rel="next" title="aws 命令行工具">aws 命令行工具<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

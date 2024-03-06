@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s Secret 对象 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='k8s, secret' /><meta itemprop="name" content="k8s Secret 对象">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2020-03-11T17:34:20+08:00" />
+<meta itemprop="dateModified" content="2024-02-02T09:48:33+08:00" />
+<meta itemprop="wordCount" content="5123">
+<meta itemprop="keywords" content="k8s,secret," /><meta property="og:title" content="k8s Secret 对象" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sSecret/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-03-11T17:34:20+08:00" />
+<meta property="article:modified_time" content="2024-02-02T09:48:33+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s Secret 对象"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sSecret/" /><link rel="prev" href="/markdown/" /><link rel="next" href="/k8s-DNS%E6%9C%8D%E5%8A%A1/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s Secret 对象",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sSecret\/"
+    },"genre": "posts","keywords": "k8s, secret","wordcount":  5123 ,
+    "url": "\/k8sSecret\/","datePublished": "2020-03-11T17:34:20+08:00","dateModified": "2024-02-02T09:48:33+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s Secret 对象</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2020-03-11 17:34:20"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2020-03-11">2020-03-11</time></span>&nbsp;<span title="更新于 2024-02-02 09:48:33"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-02">2024-02-02</time></span>&nbsp;<span title="5123 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 11 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#secret-对象">secret 对象</a></li>
+    <li><a href="#限制">限制</a></li>
+    <li><a href="#secret-对象字段">secret 对象字段</a></li>
+    <li><a href="#类型">类型</a>
+      <ul>
+        <li><a href="#opaque-类型">Opaque 类型</a></li>
+        <li><a href="#docker-仓库凭据">docker 仓库凭据</a></li>
+        <li><a href="#基于身份认证">基于身份认证</a></li>
+        <li><a href="#ssh-身份认证">SSH 身份认证</a></li>
+        <li><a href="#tls-secret">TLS Secret</a></li>
+        <li><a href="#启动引导令牌-secret">启动引导令牌 Secret</a></li>
+      </ul>
+    </li>
+    <li><a href="#禁止更改-secret">禁止更改 Secret</a></li>
+    <li><a href="#pod-中使用-secret">pod 中使用 Secret</a></li>
+    <li><a href="#使用-kubectl-管理-secret-资源">使用 kubectl 管理 Secret 资源</a>
+      <ul>
+        <li><a href="#使用-kubectl-命令创建">使用 kubectl 命令创建</a></li>
+        <li><a href="#编辑-secret">编辑 Secret</a></li>
+      </ul>
+    </li>
+    <li><a href="#从生成器创建-secret">从生成器创建 Secret</a></li>
+    <li><a href="#安全相关">安全相关</a>
+      <ul>
+        <li><a href="#保护">保护</a></li>
+        <li><a href="#风险">风险</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+k8s: 1.17</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><code>k8s</code> 官方文档: <a href="https://kubernetes.io/zh-cn/docs/concepts/configuration/secret/"target="_blank" rel="external nofollow noopener noreferrer">Secret</a></li>
+<li><code>k8s</code> 官方文档: <a href="https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/distribute-credentials-secure"target="_blank" rel="external nofollow noopener noreferrer">使用 Secret 安全地分发凭证</a></li>
+<li><code>k8s</code> 官方文档: <a href="https://kubernetes.io/zh-cn/docs/concepts/security/secrets-good-practices/"target="_blank" rel="external nofollow noopener noreferrer">Kubernetes Secret 良好实践</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="secret-对象" class="heading-element">
+  <a href="#secret-%e5%af%b9%e8%b1%a1" class="heading-mark"></a>secret 对象</h1><p><code>secret</code> 对象是用于保存敏感信息（如：密码、<code>key</code> 等），比放在 <code>Pod.spec</code> 字段中或镜像中可以更好的控制，并降低意外暴露的风险 系统自建了一些 <code>secret</code> ,也可以手动创建 <code>secret</code>。默认情况下，<code>Kubernetes Secret</code> 未加密地存储在 <code>API</code> 服务器的底层数据存储（<code>etcd</code>）中。 任何拥有 <code>API</code> 访问权限的人都可以检索或修改 <code>Secret</code>，任何有权访问 <code>etcd</code> 的人也可以。 此外，任何有权限在命名空间中创建 <code>Pod</code> 的人都可以使用该访问权限读取该命名空间中的任何 <code>Secret</code>； 这包括间接访问，例如创建 <code>Deployment</code> 的能力。</p>
+<h1 id="限制" class="heading-element">
+  <a href="#%e9%99%90%e5%88%b6" class="heading-mark"></a>限制</h1><p><code>Secret</code> 资源使用有以下限制</p>
+<ul>
+<li>无法被静态 <code>pod</code> 引用</li>
+<li>每个<code>Secret</code> 资源最大为 <code>1MB</code>，是为了避免用户创建非常大的 <code>Secret</code>， 进而导致 <code>API</code> 服务器和 <code>kubelet</code> 内存耗尽。不过创建很多小的 <code>Secret</code> 也可能耗尽内存。</li>
+<li><code>Secret.metadata.name</code> 字段必须满足<code>DNS</code> 子域名约束</li>
+<li><code>Secret.{ data | stringData }</code> 字段键名只能由字母、数字、<code>-</code>、<code>_</code>、<code>.</code>组成</li>
+<li><code>Secret.stringData</code> 字段中的所有键值对都会在内部被合并到 <code>Secret.data</code> 字段中。 如果某个主键同时出现在 <code>data</code> 和 <code>stringData</code> 字段中，<code>stringData</code> 所指定的键值具有高优先级。</li>
+</ul>
+<h1 id="secret-对象字段" class="heading-element">
+  <a href="#secret-%e5%af%b9%e8%b1%a1%e5%ad%97%e6%ae%b5" class="heading-mark"></a>secret 对象字段</h1><p>清单文件创建 <code>Secret</code> 资源常见字段注释</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kind: Secret         <span class="c1"># 必须字段，指定 Secret 字段</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1       <span class="c1"># 必须字段，Secret 资源所在的 API 组</span>
+</span></span><span class="line"><span class="cl">metadata:            <span class="c1"># 元数据信息字段，必须存在</span>
+</span></span><span class="line"><span class="cl">  name: my-secret    <span class="c1"># Secret 资源名称，必须存在</span>
+</span></span><span class="line"><span class="cl">type:                <span class="c1"># 数据类型</span>
+</span></span><span class="line"><span class="cl">data:                <span class="c1"># 数据，键值对方式存储</span>
+</span></span><span class="line"><span class="cl">stringData           <span class="c1"># 未加密的数据</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>如果 <code>Secret.date</code> 字段和 <code>Secret.stringData</code> 字段都存在，则使用 <code>stringData</code> 字段值</li>
+<li><code>data</code> 和 <code>stringData</code> 的键必须由字母数字字符 <code>-</code>, <code>_</code> 或者 <code>.</code> 组成</li>
+<li><code>Secret.date</code>  字段值被视为经过 <code>base64</code> 编码的字符串。 换行符在这些字符串中无效，因此必须省略</li>
+<li><code>Secret.stringData</code> 字段值被视为普通字符串，它会在创建时用 <code>base64</code> 编码，该字段只是写时便利</li>
+<li><code>Secret.type</code> 字段类型有以下取值：
+<ul>
+<li><code>Opaque</code>：用户定义的任意数据，默认类型</li>
+<li><code>kubernetes.io/service-account-token</code>：服务帐户令牌（Token）使用， base64 编码</li>
+<li><code>kubernetes.io/dockerconfigjson</code>：<code>~/.docker/config.json</code> 文件的序列化形式</li>
+<li><code>kubernetes.io/dockercfg</code>: <code>~/.dockercfg</code> 文件的序列化形式</li>
+<li><code>kubernetes.io/basic-auth</code>: 用于基本身份认证的凭据</li>
+<li><code>kubernetes.io/ssh-auth</code>: 用于 <code>SSH</code> 身份认证的凭据</li>
+<li><code>kubernetes.io/tls</code>: 用于 <code>TLS</code> 客户端或者服务器端的数据</li>
+<li><code>bootstrap.kubernetes.io/token</code>: 启动引导令牌数据</li>
+</ul>
+</li>
+</ul>
+<p><code>Darwin / macOS</code> 上使用 <code>base64</code> 实用程序时，用户应避免使用 -b 选项来分隔长行 <br/>
+<code>Linux 在 base64</code> 命令中添加选项 <code>-w 0</code>， 或者，如果 <code>-w</code> 选项不可用的情况下， 执行 <code>base64 | tr -d '\n'</code></p>
+<h1 id="类型" class="heading-element">
+  <a href="#%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>类型</h1><p><code>Kubernetes</code> 在 <code>v1.22</code> 版本之前都会自动创建用来访问 <code>Kubernetes API</code> 的凭据。 这一老的机制是基于创建可被挂载到运行中 <code>Pod</code> 内的令牌 <code>Secret</code> 来实现的。 在最近的版本中，<code>API</code> 凭据是直接通过 <code>TokenRequest API</code> 来获得的，这一凭据会使用投射卷挂载到 <code>Pod</code> 中。使用这种方式获得的令牌有确定的生命期，并且在挂载它们的 <code>Pod</code> 被删除时自动作废。但仍然可以手动创建 服务账号令牌。只有在无法使用 <code>TokenRequest API</code> 来获取令牌， 并且能够接受因为将永不过期的令牌凭据写入到可读取的 <code>API</code> 对象而带来的安全风险时， 才应该创建服务账号令牌 <code>Secret</code> 对象。使用这种 <code>Secret</code> 类型时，需要确保对象的注解 <code>kubernetes.io/service-account-name</code> 被设置为某个已有的服务账号名称。 如果同时负责 <code>ServiceAccount</code> 和 <code>Secret</code> 对象的创建，应该先创建 <code>ServiceAccount</code> 对象。当 <code>Secret</code> 对象被创建之后，某个 <code>Kubernetes</code>控制器会填写 <code>Secret</code> 的其它字段，例如 <code>kubernetes.io/service-account.uid</code> 注解以及 <code>data</code> 字段中的 <code>token</code> 键值，使之包含实际的令牌内容。</p>
+<p>官方示例</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl apply -f - <span class="s">&lt;&lt;EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">apiVersion: v1
+</span></span></span><span class="line"><span class="cl"><span class="s">kind: Secret
+</span></span></span><span class="line"><span class="cl"><span class="s">metadata:
+</span></span></span><span class="line"><span class="cl"><span class="s">  name: secret-sa-sample
+</span></span></span><span class="line"><span class="cl"><span class="s">  annotations:
+</span></span></span><span class="line"><span class="cl"><span class="s">    kubernetes.io/service-account.name: &#34;sa-name&#34; # 服务账户名称
+</span></span></span><span class="line"><span class="cl"><span class="s">type: kubernetes.io/service-account-token
+</span></span></span><span class="line"><span class="cl"><span class="s">data:
+</span></span></span><span class="line"><span class="cl"><span class="s">  # 可以像 Opaque Secret 一样在这里添加额外的键/值偶对
+</span></span></span><span class="line"><span class="cl"><span class="s">  extra: YmFyCg==
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="opaque-类型" class="heading-element">
+  <a href="#opaque-%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>Opaque 类型</h2><p>相比 <code>Opaque</code> 类型，使用预定义的、特定类型有助于帮助其他用户理解 <code>Secret</code> 的目的，并且对其中存在的主键形成一种约定。 <code>API</code> 服务器会检查 <code>Secret</code> 配置中是否提供了所需要的主键。</p>
+<ul>
+<li>官方示例</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysecret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">Opaque</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l">YWRtaW4=</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">MWYyZDFlMmU2N2Rm</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>上述官方示例中，<code>Secret.date.username</code> 字段和 <code>Secret.date.password</code> 字段中的字符串是 <code>base64</code> 编码之后的结果</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">echo -n &#39;admin&#39; | base64
+</span></span><span class="line"><span class="cl">YWRtaW4=
+</span></span><span class="line"><span class="cl">echo -n &#39;1f2d1e2e67df&#39; | base64
+</span></span><span class="line"><span class="cl">MWYyZDFlMmU2N2Rm</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果是 <code>Secret.stringDate</code> 字段，可以不用 base64 编码的字符串，它会在创建时编码，该字段只是写时便利，检索 <code>Secret</code> 时不会输出</p>
+<ul>
+<li>官方示例</li>
+</ul>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysecret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">Opaque</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">stringData</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">config.yaml</span><span class="p">:</span><span class="w"> </span><span class="p">|-</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    apiUrl: &#34;https://my.api.com/api/v1&#34;
+</span></span></span><span class="line"><span class="cl"><span class="sd">    username: {{username}}
+</span></span></span><span class="line"><span class="cl"><span class="sd">    password: {{password}}</span><span class="w">    </span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面的官方示例中，可以被应用程序中以下配置文件使用</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">apiUrl: &#34;https://my.api.com/api/v1&#34;
+</span></span><span class="line"><span class="cl">username: &#34;user&#34;
+</span></span><span class="line"><span class="cl">password: &#34;password&#34;</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种操作可以执行 <code>kubectl apply</code> 替换 <code>{{username}}</code> 和 <code>{{password}}</code> 变量</p>
+<h2 id="docker-仓库凭据" class="heading-element">
+  <a href="#docker-%e4%bb%93%e5%ba%93%e5%87%ad%e6%8d%ae" class="heading-mark"></a>docker 仓库凭据</h2><p>以下类型用以存放用于访问容器镜像仓库的凭据：</p>
+<ul>
+<li><code>kubernetes.io/dockercfg</code>: 是一种保留类型，用来存放 <code>~/.dockercfg</code> 文件的序列化形式。 该文件是配置 <code>Docker</code> 命令行的一种老旧形式。使用此 <code>Secret</code> 类型时，你需要确保 <code>Secret</code> 的 <code>data</code> 字段中包含名为 <code>.dockercfg</code> 的主键，其对应键值是用 <code>base64</code> 编码的某 <code>~/.dockercfg</code> 文件的内容。示例：
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">secret-dockercfg</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes.io/dockercfg</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">.dockercfg</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    &#34;&lt;base64 encoded ~/.dockercfg file&gt;&#34; </span><span class="w">    </span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><code>kubernetes.io/dockerconfigjson</code>: 被设计用来保存 <code>JSON</code> 数据的序列化形式， 该 <code>JSON</code> 也遵从 <code>~/.docker/config.json</code> 文件的格式规则，而后者是 <code>~/.dockercfg</code> 的新版本格式。使用此 <code>Secret</code> 类型时，<code>Secret</code> 对象的 <code>data</code> 字段必须包含 <code>.dockerconfigjson</code> 键，其键值为 <code>base64</code> 编码的字符串包含 <code>~/.docker/config.json</code> 文件的内容。</li>
+</ul>
+<p>当你使用清单文件来创建这两类 <code>Secret</code> 时，<code>API</code> 服务器会检查 <code>data</code> 字段中是否存在所期望的主键， 并且验证其中所提供的键值是否是合法的 <code>JSON</code> 数据。 不过，<code>API</code> 服务器不会检查 <code>JSON</code> 数据本身是否是一个合法的 <code>Docker</code> 配置文件内容。</p>
+<h2 id="基于身份认证" class="heading-element">
+  <a href="#%e5%9f%ba%e4%ba%8e%e8%ba%ab%e4%bb%bd%e8%ae%a4%e8%af%81" class="heading-mark"></a>基于身份认证</h2><p>使用基本身份认证 <code>Secret</code>时，<code>data</code> 字段必须包含以下两个键之一：</p>
+<ul>
+<li><code>username</code>: 用于身份认证的用户名</li>
+<li><code>password</code>: 用于身份认证的密码或令牌</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">secret-basic-auth</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes.io/basic-auth</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">stringData</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l">admin     </span><span class="w"> </span><span class="c"># kubernetes.io/basic-auth 类型的必需字段</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">t0p-Secret</span><span class="w"> </span><span class="c"># kubernetes.io/basic-auth 类型的必需字段</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="ssh-身份认证" class="heading-element">
+  <a href="#ssh-%e8%ba%ab%e4%bb%bd%e8%ae%a4%e8%af%81" class="heading-mark"></a>SSH 身份认证</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">secret-ssh-auth</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes.io/ssh-auth</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 此例中的实际数据被截断，ssh-privatekey 键值对是 ssh-auth 类型必须的</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ssh-privatekey</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">     MIIEpQIBAAKCAQEAulqb/Y ...</span><span class="w">     </span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="tls-secret" class="heading-element">
+  <a href="#tls-secret" class="heading-mark"></a>TLS Secret</h2><p><code>TLS Secret</code>类型 用来存放通常要使用的<code>TLS</code>证书及其相关密钥场合。一种典型用法是为 <code>Ingress</code> 资源配置传输过程中的数据加密，不过也可以用于其他资源或者直接在负载中使用。</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">secret-tls</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes.io/tls</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 此例中的数据被截断， tls.key 和 tls.crt 键值对是必须的</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 不要包含证书中 --------BEGIN CERTIFICATE----- 和 -------END CERTIFICATE---- 这两行</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">tls.crt</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    MIIC2DCCAcCgAwIBAgIBATANBgkqh ...    </span><span class="w">    
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">tls.key</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    MIIEpgIBAAKCAQEA7yn3bRHQ5FHMQ ...    </span><span class="w">    </span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果是命令行创建，钥证书必须是 <a href="https://datatracker.ietf.org/doc/html/rfc7468#section-5"target="_blank" rel="external nofollow noopener noreferrer">RFC 7468</a> 中 <code>5.1</code>节中所规定的 DER 格式，私钥必须是 <code>DER</code> 格式的 <code>PKCS</code>（<code>11</code>节）</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl create secret tls my-tls-secret <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --cert<span class="o">=</span>path/to/cert/file <span class="se">\ </span>
+</span></span><span class="line"><span class="cl">  --key<span class="o">=</span>path/to/key/file</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="启动引导令牌-secret" class="heading-element">
+  <a href="#%e5%90%af%e5%8a%a8%e5%bc%95%e5%af%bc%e4%bb%a4%e7%89%8c-secret" class="heading-mark"></a>启动引导令牌 Secret</h2><p>启动引导令牌 <code>Secret</code> 清单文件可能看起来像下面这样：</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># name 必须是 &#34;bootstrap-token-&lt;token id&gt;&#34; 格式的</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">bootstrap-token-07401b</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 令牌必须存在于 kube-system 名字空间中</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">kube-system</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># type 必须是 &#39;bootstrap.kubernetes.io/token&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">bootstrap.kubernetes.io/token</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">stringData</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 供人阅读的描述，可选。</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;The default bootstrap token generated by &#39;kubeadm init&#39;.&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 令牌 ID 和秘密信息，它们必须符合正则表达式 [a-z0-9]{6}\.[a-z0-9]{16}。必需</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">token-id</span><span class="p">:</span><span class="w"> </span><span class="l">07401b</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">token-secret</span><span class="p">:</span><span class="w"> </span><span class="l">f395accd246ae52d</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 可选的过期时间字段，一个使用 RFC3339 来编码的 UTC 绝对时间。可选</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">expiration</span><span class="p">:</span><span class="w"> </span><span class="ld">2017-03-10T03:22:11Z</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 允许的用法（可选）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">usage-bootstrap-authentication</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w"> </span><span class="c"># 可用于 authentication （身份认证）</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">usage-bootstrap-signing</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w"> </span><span class="c"># 用于 cluster-info ConfigMap 的签名</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 令牌要认证为的额外组，必须以 &#34;system:bootstrappers:&#34; 开头</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">auth-extra-groups</span><span class="p">:</span><span class="w"> </span><span class="l">system:bootstrappers:worker,system:bootstrappers:ingress</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="禁止更改-secret" class="heading-element">
+  <a href="#%e7%a6%81%e6%ad%a2%e6%9b%b4%e6%94%b9-secret" class="heading-mark"></a>禁止更改 Secret</h1><p><code>Secret.immutable</code> 字段值为 <code>true</code> 时，创建的 <code>Secret</code> 资源不可被更改，只能删除并重新创建且现有的 <code>Pod</code> 将维持对已删除 <code>Secret</code> 的挂载点，也是需要重建这些 <code>pod</code></p>
+<h1 id="pod-中使用-secret" class="heading-element">
+  <a href="#pod-%e4%b8%ad%e4%bd%bf%e7%94%a8-secret" class="heading-mark"></a>pod 中使用 Secret</h1><p><code>Secret</code> 可以以数据卷的形式挂载或作为环境变量暴露给 <code>Pod</code> 中的容器使用。</p>
+<p><code>pod</code> 以数据卷引用 <code>Secret</code> 资源是必须的（<code>pod.spec.volumes.secret.optional</code> 值为 <code>false</code>），当无法读取<code>Secret</code>资源内容（<code>Secret</code>资源不存在、缺少指定的键、临时性地出现 API 服务器网络连接问题等）时<code>kubelet</code>会根据重启策略周期性重启<code>pod</code>，<code>kubelet</code> 也会为该 <code>Pod</code> 报告 <code>Event</code> 事件，给出读取 <code>Secret</code> 时遇到的问题细节。</p>
+<p>通常被 <code>pod</code> 以数据卷引用的 <code>Secret</code> 资源数据被更新时，<code>Kubernetes</code> 会跟踪到这一操作并更新卷中的数据。这功能取决于存储卷类型，如 <code>subPath</code> 形式挂载的容器就收不到<code>Secret</code> 更新。更新的方式是保证最终一致性，从 <code>Secret</code> 被更新到新的主键被投射到 <code>Pod</code> 中，中间存在一个延迟。 这一延迟的上限是 <code>kubelet</code> 的同步周期加上缓存的传播延迟。这种数据更新是由 <code>kubelet</code> 完成，<code>configMapAndSecretChangeDetectionStrategy</code> 配置字段可以指定更新方式，它有以下值：</p>
+<ul>
+<li><code>Watch</code>: 默认值，使用 <code>watch</code> 机制获取更新，这种方式更新延迟最长</li>
+<li><code>Get</code>: 从集群的 <code>API</code> 服务器上轮询获取，这种方式更新延迟取觉于网络</li>
+<li><code>Cache</code>: 使用 <code>TTL</code> 缓存，这种方式在缓存有效期内最快</li>
+</ul>
+<br>
+<p>以下是一个数据卷示例，在 <code>pod</code> 中 <code>/etc/secret-volume/</code> 目录（原本的目录和文件会被覆盖）下会根据<code>secret.data</code>的健创建文件，其值其会解码为文件内容</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">data</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l">bXktYXBw</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l">Mzk1MjgkdmRnN0pi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">secret-test-pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c"># name 必须与下面的卷名匹配</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">secret-volume</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/secret-volume </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">    </span><span class="c"># 指定为 true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># Secret 数据通过一个卷暴露给该 Pod 中的容器</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">secret-volume</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">secret</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l">test-secret</span><span class="w"> </span><span class="c"># 指定使用 Secret 对象名称</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果想修改默认的映射路径，可使用 <code>pod..spec.volumes[].secret.items.path</code> 字段改变。下面是官方示例</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mypod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mypod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">redis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/etc/foo&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">secret</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l">mysecret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">username             </span><span class="w"> </span><span class="c"># 只用指定的 key 才会被挂载</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">my-group/my-username</span><span class="w"> </span><span class="c"># 挂载在 /etc/foo/my-groug/my-username</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Secret</code> 文件默认的权限为 <code>0644</code>，可以通过 <code>Pod.spec.volunes.secret.defaultMode</code> 字段修改。该字段值是 <code>8</code> 进制，但 <code>json</code> 不支持，因此要用 <code>10</code> 进制。<code>yaml</code> 是支持的</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mypod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mypod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">redis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/etc/foo&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">secret</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l">mysecret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">defaultMode</span><span class="p">:</span><span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="c"># 等效 0400</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以通过 <code>Pod.spec.containers.env[].valueFrom.secretKeyRef</code> 字段使用<code>Secret</code>资源数据，如果变量名称不满足规范，则无法创建其变量，但 <code>pod</code> 仍然可以启用</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl create secret generic backend-user --from-literal<span class="o">=</span>backend-username<span class="o">=</span><span class="s1">&#39;backend-admin&#39;</span>
+</span></span><span class="line"><span class="cl">kubectl create secret generic db-user --from-literal<span class="o">=</span>db-username<span class="o">=</span><span class="s1">&#39;db-admin&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envvars-multiple-secrets</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envars-test-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">env</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">BACKEND_USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">secretKeyRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">backend-user</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">backend-username</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">DB_USERNAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">secretKeyRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">db-user</span><span class="w"> </span><span class="c"># Secret 资源名称</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">db-username</span><span class="w"> </span><span class="c"># 键名</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># kubectl exec -i -t envvars-multiple-secrets -- /bin/sh -c &#39;env | grep _USERNAME&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DB_USERNAME</span><span class="o">=</span>db-admin
+</span></span><span class="line"><span class="cl"><span class="nv">BACKEND_USERNAME</span><span class="o">=</span>backend-admin</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 <code>k8s v1.6</code> 之后 <code>Pod.spec.containers.envFrom.secretRef.name</code> 可以直接引用 <code>Secret</code>资源</p>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl create secret generic test-secret --from-literal<span class="o">=</span><span class="nv">username</span><span class="o">=</span><span class="s1">&#39;my-app&#39;</span> --from-literal<span class="o">=</span><span class="nv">password</span><span class="o">=</span><span class="s1">&#39;39528$vdg7Jb&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envfrom-secret</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">envars-test-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">envFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">secretRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-secret</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># kubectl exec -i -t envfrom-secret -- /bin/sh -c &#39;echo &#34;username: $username\npassword: $password\n&#34;&#39;</span>
+</span></span><span class="line"><span class="cl">username: my-app
+</span></span><span class="line"><span class="cl">password: 39528<span class="nv">$vdg7Jb</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="使用-kubectl-管理-secret-资源" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-kubectl-%e7%ae%a1%e7%90%86-secret-%e8%b5%84%e6%ba%90" class="heading-mark"></a>使用 kubectl 管理 Secret 资源</h1><h2 id="使用-kubectl-命令创建" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-kubectl-%e5%91%bd%e4%bb%a4%e5%88%9b%e5%bb%ba" class="heading-mark"></a>使用 kubectl 命令创建</h2><p><code>kubectl create secret &lt;类型&gt; &lt;名称&gt; [选项]</code> 命令可以创建 <code>Secret</code> 对象</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">有以下类型：
+</span></span><span class="line"><span class="cl">TLS：TLS 证书加密
+</span></span><span class="line"><span class="cl">docker-registry： docker 仓库
+</span></span><span class="line"><span class="cl">generic：引用本地文件、目录、文字
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">generic 类型选项：
+</span></span><span class="line"><span class="cl">--from-file<span class="o">=</span>文件名
+</span></span><span class="line"><span class="cl">    引用文件，可以使用多次本选项引用多个文件。文件名称为键，内容为值
+</span></span><span class="line"><span class="cl">--from-file<span class="o">=</span>键<span class="o">=</span>文件名
+</span></span><span class="line"><span class="cl">    引用文件内容，可以使用多次本选项引用多个文件。内容为值
+</span></span><span class="line"><span class="cl">--from-litera<span class="o">=</span>键<span class="o">=</span>值
+</span></span><span class="line"><span class="cl">    直接指定键值对，可以多次本选项，如存在特殊字符，则需要转义符 （<span class="se">\）</span>
+</span></span><span class="line"><span class="cl">--from-env-file<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    引用文件作中的内容对作为环境变量。有以下要求：
+</span></span><span class="line"><span class="cl">       1： 不能和 --from-file 或 --from-litera 选项组合使用
+</span></span><span class="line"><span class="cl">       2： 文本内容以等号作为键值对的分隔符，即 键<span class="o">=</span>值 的形式
+</span></span><span class="line"><span class="cl">       3： 使用多个本选项时，最后一个生效</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Secret 对象以键值对方式存储这些信息在 <code>Secret.data</code> 字段中：</p>
+<ul>
+<li>
+<p>键：文件名或自定义的字符</p>
+</li>
+<li>
+<p>值：文件内容或自定义的字符，为了安全，默认情况下以加密方式存储。 <code>kubectl get</code> 和 <code>kubectl describe</code> 命令只会显示经过 base64 编码得出的字符串</p>
+</li>
+<li>
+<p>示例：下面示例中 <code>--from-literal</code> 选项值含义 <code>\</code> 表示转义符； <code>\\</code> 表示单纯的 <code>\</code> (转义了转义符)；<code>pa.file</code> 文件内容则不需要转义</p>
+</li>
+</ul>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># cat pa.file </span>
+</span></span><span class="line"><span class="cl">mw<span class="se">\%</span>k<span class="se">\@</span>2<span class="se">\*</span>fwwxg5j0t
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># cat va.file </span>
+</span></span><span class="line"><span class="cl">wanglaojinll
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># kubectl create secret generic my-secret  --from-file=va.file --from-file=account=pa.file --from-literal=lil4zxmtjd=CQ5b5\@NW\\6hu\^qhwLY5</span>
+</span></span><span class="line"><span class="cl">secret/my-secret created
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># kubectl get secrets my-secret -o yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">data:
+</span></span><span class="line"><span class="cl">  account: <span class="nv">bXdcJWtcQDJcKmZ3d3hnNWowdAo</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl">  lil4zxmtjd: <span class="nv">Q1E1YjVATldcNmh1XnFod0xZNQ</span><span class="o">==</span>
+</span></span><span class="line"><span class="cl">  va.file: <span class="nv">d2FuZ2xhb2ppbmxsCg</span><span class="o">==</span>
+</span></span><span class="line"><span class="cl">kind: Secret
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># echo &#34;bXdcJWtcQDJcKmZ3d3hnNWowdAo=&#34; | base64 --decode</span>
+</span></span><span class="line"><span class="cl">mw<span class="se">\%</span>k<span class="se">\@</span>2<span class="se">\*</span>fwwxg5j0t
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># echo &#39;Q1E1YjVATldcNmh1XnFod0xZNQ==&#39; | base64 --decode </span>
+</span></span><span class="line"><span class="cl">CQ5b5@NW<span class="se">\6</span>hu^qhwLY5</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：指定多个 <code>--from-env-file</code> 选项只有最后一个生效</li>
+</ul>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># cat env.file </span>
+</span></span><span class="line"><span class="cl">data-2020<span class="o">=</span>file2020
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># cat env2.file </span>
+</span></span><span class="line"><span class="cl"><span class="nv">Meiyou</span><span class="o">=</span>mima9HE
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># kubectl create secret generic my-secret-env --from-env-file=env.file  --from-env-file=env2.file </span>
+</span></span><span class="line"><span class="cl">secret/my-secret-env created
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master yaml<span class="o">]</span><span class="c1"># kubectl get secrets my-secret-env -o yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">data:
+</span></span><span class="line"><span class="cl">  Meiyou: <span class="nv">bWltYTlIRQ</span><span class="o">==</span>
+</span></span><span class="line"><span class="cl">kind: Secret
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="编辑-secret" class="heading-element">
+  <a href="#%e7%bc%96%e8%be%91-secret" class="heading-mark"></a>编辑 Secret</h2><p>使用 <code>kubectl edit secret &lt;secret名称&gt;</code> 直接更新相应的字段（ <code>Secret.data</code> 或 <code>Secret.stringData</code>）</p>
+<h1 id="从生成器创建-secret" class="heading-element">
+  <a href="#%e4%bb%8e%e7%94%9f%e6%88%90%e5%99%a8%e5%88%9b%e5%bb%ba-secret" class="heading-mark"></a>从生成器创建 Secret</h1><p><code>k8s v1.14</code> 开始可以使用 kustomize 管理对象</p>
+<h1 id="安全相关" class="heading-element">
+  <a href="#%e5%ae%89%e5%85%a8%e7%9b%b8%e5%85%b3" class="heading-mark"></a>安全相关</h1><h2 id="保护" class="heading-element">
+  <a href="#%e4%bf%9d%e6%8a%a4" class="heading-mark"></a>保护</h2><p>因为 <code>Secret</code> 对象可以独立与使用它们的 <code>Pod</code> 创建，因此 ，在创建、查看、编辑 <code>Pod</code> 的流程中 <code>Secret</code> 被暴露的风险较小。系统还可以争对 <code>Secret</code> 对象采取额外的预防措施，例如避免写入磁盘容易暴露的位置。当节点上的 <code>Pod</code> 使用 <code>Seret</code> 时，对应的 <code>Secret</code> 才会发送到该节点上，但不会写入磁盘，而是存储在 <code>tmpfs</code> 中。<code>Pod</code> 被删除时，存储在 <code>tmpfs</code> 中的数据也会删除。同一节点上的很多个 <code>pod</code> 可能拥有多个 <code>secret</code>。但是，只有 <code>pod</code> 请求的 <code>secret</code> 在其容器中才是可见的。因此，一个 <code>pod</code> 不能访问另一个 <code>Pod</code> 的 <code>secret</code>。<code>Pod</code> 中有多个容器。但是，<code>pod</code> 中的每个容器必须请求其挂载卷中的 <code>secret</code> 卷才能在容器内可见</p>
+<p>用户与 <code>API</code> 服务之间的通信以及从 <code>API</code> 服务到 <code>kubelet</code> 的通信都受到 <code>SSL/TLS</code> 的保护。通过这些通道传输时，<code>secret</code> 受到保护</p>
+<h2 id="风险" class="heading-element">
+  <a href="#%e9%a3%8e%e9%99%a9" class="heading-mark"></a>风险</h2><p>API 服务的 的 secret 数据以纯文本的方式存储在 etcd 中，因此</p>
+<ul>
+<li>管理员应该为集群数据开启静态加密（至少需要 k8s:1.13 版本）</li>
+<li>管理员应该限制 admin 用户访问 etcd</li>
+<li>管理员可以在不再使用时删除 etcd 使用的磁盘</li>
+<li>如果 etcd 运行在集群内，管理员应该确保 etcd 之间的通信使用 SSL/TLS 进行加密</li>
+</ul>
+<p>将 secret 数据编码为 base64 的清单文件，共享该文件或将其检入代码库，这样的话该密码将会被泄露。 Base64 编码不是一种加密方式，一样也是纯文本</p>
+<p>应用程序在从卷中读取 secret 后仍然需要保护 secret 的值，例如不会意外记录或发送给不信任方</p>
+<p>可以创建和使用 secret 的 pod 的用户也可以看到该 secret 的值。即使 API server 策略不允许用户读取 secret 对象，用户也可以运行暴露 secret 的 pod</p>
+<p>任何节点的 root 用户都可以通过模拟 kubelet 来读取 API server 中的任何 secret</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-02-02 09:48:33">更新于 2024-02-02&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/secret/" class="post-tag" title="标签 - secret">secret</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/markdown/" class="post-nav-item" rel="prev" title="markdown 语法"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>markdown 语法</a>
+      <a href="/k8s-DNS%E6%9C%8D%E5%8A%A1/" class="post-nav-item" rel="next" title="k8s NDS 服务">k8s NDS 服务<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

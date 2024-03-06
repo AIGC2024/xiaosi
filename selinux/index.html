@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>selinux - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="selinux" /><meta name="keywords" content='selinux' /><meta itemprop="name" content="selinux">
+<meta itemprop="description" content="selinux"><meta itemprop="datePublished" content="2022-01-18T17:08:10+08:00" />
+<meta itemprop="dateModified" content="2022-08-11T17:10:02+08:00" />
+<meta itemprop="wordCount" content="8148">
+<meta itemprop="keywords" content="selinux," /><meta property="og:title" content="selinux" />
+<meta property="og:description" content="selinux" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/selinux/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-18T17:08:10+08:00" />
+<meta property="article:modified_time" content="2022-08-11T17:10:02+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="selinux"/>
+<meta name="twitter:description" content="selinux"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/selinux/" /><link rel="prev" href="/awk/" /><link rel="next" href="/goQuestion/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "selinux",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/selinux\/"
+    },"genre": "posts","keywords": "selinux","wordcount":  8148 ,
+    "url": "\/selinux\/","datePublished": "2022-01-18T17:08:10+08:00","dateModified": "2022-08-11T17:10:02+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>selinux</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-01-18 17:08:10"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-01-18">2022-01-18</time></span>&nbsp;<span title="更新于 2022-08-11 17:10:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-11">2022-08-11</time></span>&nbsp;<span title="8148 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 8200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 17 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#selinux">selinux</a></li>
+    <li><a href="#selinux-构架和软件包">SELinux 构架和软件包</a></li>
+    <li><a href="#selinux-状态和模式">SELinux 状态和模式</a>
+      <ul>
+        <li><a href="#临时更改状态">临时更改状态</a></li>
+        <li><a href="#永久更改">永久更改</a></li>
+        <li><a href="#在引导时更改-selinux-模式">在引导时更改 SELinux 模式</a></li>
+      </ul>
+    </li>
+    <li><a href="#selinux上下文">selinux上下文</a>
+      <ul>
+        <li><a href="#查看selinux安全上下文">查看selinux安全上下文</a></li>
+        <li><a href="#修改selinux上下文">修改selinux上下文</a></li>
+        <li><a href="#重置selinux上下文">重置selinux上下文</a></li>
+        <li><a href="#selinux用户">selinux用户</a>
+          <ul>
+            <li><a href="#查看selinux用户映射">查看selinux用户映射</a></li>
+            <li><a href="#创建用户时指定映射selinux用户">创建用户时指定映射selinux用户</a></li>
+            <li><a href="#修改selinux默认映射用户">修改selinux默认映射用户</a></li>
+          </ul>
+        </li>
+        <li><a href="#角色">角色</a></li>
+        <li><a href="#类型">类型</a></li>
+        <li><a href="#安全级别">安全级别</a></li>
+      </ul>
+    </li>
+    <li><a href="#为使用非标准配置的应用程序和服务配置selinux">为使用非标准配置的应用程序和服务配置SELINUX</a></li>
+    <li><a href="#调整-selinux-布尔值">调整 SELinux 布尔值</a></li>
+    <li><a href="#主体">主体</a></li>
+    <li><a href="#对象">对象</a></li>
+    <li><a href="#故障排除与selinux相关的问题">故障排除与SELINUX相关的问题</a>
+      <ul>
+        <li><a href="#判断是否由selinux引起阻断操作">判断是否由<code>selinux</code>引起阻断操作</a></li>
+        <li><a href="#分析-selinux-拒绝信息">分析 SELinux 拒绝信息</a></li>
+        <li><a href="#修复分析-selinux-拒绝问题">修复分析 SELinux 拒绝问题</a>
+          <ul>
+            <li><a href="#目录问题">目录问题</a></li>
+            <li><a href="#不正确的上下文">不正确的上下文</a></li>
+            <li><a href="#以非标准方式配置受限应用程序">以非标准方式配置受限应用程序</a></li>
+            <li><a href="#端口号">端口号</a></li>
+          </ul>
+        </li>
+        <li><a href="#审计日志中的-selinux-拒绝">审计日志中的 SELinux 拒绝</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-08-11，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/using_selinux/index"target="_blank" rel="external nofollow noopener noreferrer">使用 SELinux</a></li>
+<li><a href="https://selinuxproject.org/page/Main_Page"target="_blank" rel="external nofollow noopener noreferrer">SELinux项目页面</a></li>
+</ul>
+</blockquote>
+<h1 id="selinux" class="heading-element">
+  <a href="#selinux" class="heading-mark"></a>selinux</h1><p><code>Security Enhanced Linux(SELinux)</code>实施强制访问控制(<code>MAC</code>)。每个进程和系统资源
+都有一个特殊的安全性标签,称为<code>SELinux</code> 上下文（<code>context</code>），有时被称为<code>SELinux</code>
+标签，它是一个提取系统级别细节并专注于实体的安全属性的标识符。<code>SELinux</code>策略在
+一系列规则中使用这些上下文，它们定义进程如何相互交互以及与各种系统资源进行交互。
+默认情况下,策略不允许任何交互,除非规则明确授予了相应的权限</p>
+<p>简单说<code>selinux</code>提供了一个额外的系统安全层，<code>selinux</code>策略定义了“主体”是否可以对“对象”进行”操作“。对<code>SELinux</code>策略规则的检查是在<code>DAC</code>
+(由用户、组、其它成员组成的标准访问策略)规则后进行的。如果<code>DAC</code>规则已拒绝了访问
+，则不会使用<code>SELinux</code>策略规则。</p>
+<p>SELinux 旨在增强现有的安全解决方案，不是其它安全系统(防火墙、防病毒软件、密码等)
+。即使运行·、<code>SELinux</code>，仍需要遵循好的安全实践，如保持软件更新、使用安全的密码、
+使用防火墙。</p>
+<h1 id="selinux-构架和软件包" class="heading-element">
+  <a href="#selinux-%e6%9e%84%e6%9e%b6%e5%92%8c%e8%bd%af%e4%bb%b6%e5%8c%85" class="heading-mark"></a>SELinux 构架和软件包</h1><p>Red Hat Enterprise Linux 8 提供以下用于 SELinux 的软件包：</p>
+<ul>
+<li>策略：selinux-policy-targeted、selinux-policy-mls</li>
+<li>工具：policycoreutils、policycoreutils-gui、libselinux-utils、policycoreutils-python-utils、setools-console、 checkpolicy</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dnf -y install selinux-policy-targeted selinux-policy-mls policycoreutils policycoreutils policycoreutils-gui libselinux-utils policycoreutils-python-utils setools-console checkpolicy</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>SELinux</code>是一个内置在<code>Linux</code>内核中的<code>Linux</code>安全模块（<code>LSM</code>）。内核中的
+<code>SELinux</code>子系统由安全策略驱动，该策略由管理员控制并在引导时载入。
+系统中所有与安全性相关的、内核级别的访问操作都会被<code>SELinux</code>截取，
+并在加载的安全策略上下文中检查。如果载入的策略允许操作，
+它将继续进行。否则,操作会被阻断，进程会收到一个错误。</p>
+<p><code>SELinux</code>决策（如允许或禁止访问）会被缓存。这个缓存被称为
+<code>Access Vector Cache（AVC）</code>。通过使用这些缓存的决定，可以
+较少对<code>SELinux</code>策略规则的检查，这会提高性能。请记住，如果
+<code>DAC</code>规则已首先拒绝了访问，则<code>SELinux</code>策略规则无效。原始审计
+消息会记录到<code>/var/log/audit/audit.log</code>，它们以<code>type=AVC</code>字符串开头。</p>
+<p>在<code>Red Hat Enterprise Linux 8</code>中，系统服务由<code>systemd</code>守护进程控制；
+<code>systemd</code>启动和停止所有服务，同时用户和进程使用<code>systemctl</code>工具与
+<code>systemd</code>进行通信。<code>systemd</code>守护进程可以参考<code>SELinux</code>策略，检查
+调用进程标签以及调用者试图管理的单元文件标签，然后询问<code>SELinux</code>是否
+允许调用者的访问。这个方法可控制对关键系统功能的访问控制，其中包括启动
+和停止系统服务。因此，为了避免不正确的<code>SELinux</code>标记以及后续问题，
+请确定使用<code>systemctl start</code>命令启动服务</p>
+<p><code>systemd</code>守护进程也可以作为<code>SELinux</code>访问管理器使用。它会检索运行
+<code>systemctl</code>的进程标签，或向<code>systemd</code>发送<code>D-Bus</code>信息的进程标签。
+然后守护进程会查找进程要配置的单元文件标签。最后，如果<code>SELinux</code>
+策略允许进程标签和单元文件标签之间的特定访问，<code>systemd</code>就可以从
+内核中检索信息。这意味着，当需要通过<code>systemd</code>与特定服务进行交互
+的应用程序被侵入时，这个应用程序也会被<code>SELinux</code>限制。策略作者也
+可以使用这些精细的控制来限制管理员。</p>
+<h1 id="selinux-状态和模式" class="heading-element">
+  <a href="#selinux-%e7%8a%b6%e6%80%81%e5%92%8c%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>SELinux 状态和模式</h1><p><code>selinux</code>有以下模式：</p>
+<ul>
+<li><code>enforcing</code>(强制): 它是默认模式。<code>SELinux</code>可正常运行，并在整个系统中强制实施
+载入的安全策略</li>
+<li><code>permissive</code>(宽容): <code>selinux</code>正常运行，但它并不会拒绝任何操作。而只是记录 AVC
+信息，它们可用于故障排除、调试和<code>SELinux</code>策略改进。每个<code>AVC</code>在这个示例中仅记录
+一次。</li>
+<li><code>disabled</code>(禁用): 关闭<code>selinux</code>，<code>redhat</code>不建议关闭，在关闭期间不会为任何持久
+对象（如文件）添加标签，这使得在以后启用<code>SELinux</code>非常困难</li>
+</ul>
+<p>为了防止不正确标记和未标记的文件造成问题，当从<code>disabled</code>状态改为<code>permissive</code>或
+<code>enforcing</code>模式时会自动重新标记文件系统。在<code>permissive</code>模式中，以<code>root</code>用户身份
+使用<code>fixfiles -F onboot</code>命令创建包含<code>/.autorelabel</code>选项的<code>-F</code>文件，以确保在下次
+重启时重新标记文件。</p>
+<h2 id="临时更改状态" class="heading-element">
+  <a href="#%e4%b8%b4%e6%97%b6%e6%9b%b4%e6%94%b9%e7%8a%b6%e6%80%81" class="heading-mark"></a>临时更改状态</h2><p><code>setenforce</code>命令可以临时修改<code>selinux</code>模式，在系统重启后失效。有以下参数</p>
+<ul>
+<li><code>Enforcing | 1</code>: 使用<code>enforcing</code>模式</li>
+<li><code>Permissive | 0</code>: 使用<code>permissive</code>模式</li>
+</ul>
+<p>使用<code>getenforce</code>命令可以查看当前<code>selinux</code>模式</p>
+<p>在 Red Hat Enterprise Linux 中，您可以在系统处于 enforcing 模式时，
+将独立的域设置为 permissive 模式。例如，使 httpd_t 域为 permissive 模式：</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># semanage permissive -a httpd_t</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="永久更改" class="heading-element">
+  <a href="#%e6%b0%b8%e4%b9%85%e6%9b%b4%e6%94%b9" class="heading-mark"></a>永久更改</h2><p>修改<code>/etc/selinux/config</code>文本中<code>SELinux</code>值，之后重启系统</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sed -i &#39;/^SELINUX=/ s/.*/SELINUX=permissive/g&#39; /etc/selinux/config</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /etc/selinux/config </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># This file controls the state of SELinux on the system.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># SELINUX= can take one of these three values:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     enforcing - SELinux security policy is enforced.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     permissive - SELinux prints warnings instead of enforcing.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     disabled - No SELinux policy is loaded.</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SELINUX</span><span class="o">=</span>permissive
+</span></span><span class="line"><span class="cl"><span class="c1"># SELINUXTYPE= can take one of these three values:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     targeted - Targeted processes are protected,</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     minimum - Modification of targeted policy. Only selected processes are protected. </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     mls - Multi Level Security protection.</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SELINUXTYPE</span><span class="o">=</span>targeted
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># reboot</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="在引导时更改-selinux-模式" class="heading-element">
+  <a href="#%e5%9c%a8%e5%bc%95%e5%af%bc%e6%97%b6%e6%9b%b4%e6%94%b9-selinux-%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>在引导时更改 SELinux 模式</h2><p>在引导时，您可以设置几个内核参数来更改 SELinux 的运行方式：</p>
+<ul>
+<li><code>enforcing=0</code>: 设置此参数可让系统以 permissive 模式启动，这在进行故障排除时非常有用。
+在 permissive 模式中，只报告来自于同一拒绝的一系列操作的第一个拒绝信息</li>
+<li><code>selinux=0</code>: 内核不载入<code>SELinux</code>构架的任意部分。初始化脚本会创建<code>/.autorelabel</code>文件。
+这会导致系统在下次使用<code>SELinux enabled</code>模式引导时自动重新标记</li>
+<li><code>autorelabel=1</code>: 参数强制系统重建<code>/.autorelabel</code>文件，并重启系统。如果文件系统中包含
+大量错误标记的对象，以<code>permissive</code>模式启动系统，使<code>autorelabel</code>进程成功</li>
+</ul>
+<p>有关 SELinux 的其他内核引导参数，如 checkreqprot，请查看在安装 kernel-doc 软件包时安装的
+<code>/usr/share/doc/kernel-doc-&lt;KERNEL_VER&gt;/Documentation/admin-guide/kernel-parameters.txt</code>文件</p>
+<h1 id="selinux上下文" class="heading-element">
+  <a href="#selinux%e4%b8%8a%e4%b8%8b%e6%96%87" class="heading-mark"></a>selinux上下文</h1><p><code>SELinux</code>上下文包括以下字段：</p>
+<ul>
+<li><code>user</code>(用户)</li>
+<li><code>role</code>(角色)</li>
+<li><code>type</code>(类型)</li>
+<li><code>security level</code>(安全级别)</li>
+<li><code>categories</code>(策略)</li>
+</ul>
+<p>在<code>SELinux</code>策略中，<code>SELinux</code>类型信息可能是最重要的。这是因为，最常用的、用于定义允许在进程和
+系统资源间进行的交互的策略规则会使用<code>SELinux</code>类型而不是<code>SELinux</code>的完整上下文。</p>
+<h2 id="查看selinux安全上下文" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8bselinux%e5%ae%89%e5%85%a8%e4%b8%8a%e4%b8%8b%e6%96%87" class="heading-mark"></a>查看selinux安全上下文</h2><p>通常查看使用的命令中，<code>-Z</code>选项用于显示<code>selinux</code>上下文
+(格式：<code>user:role:type:sensitivity:categories</code>)</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ps -Z</span>
+</span></span><span class="line"><span class="cl">LABEL                               PID TTY          TIME CMD
+</span></span><span class="line"><span class="cl">unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 <span class="m">3158</span> pts/0 00:00:00 bash
+</span></span><span class="line"><span class="cl">unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 <span class="m">3451</span> pts/0 00:00:00 ps
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ls -Z t</span>
+</span></span><span class="line"><span class="cl">unconfined_u:object_r:admin_home_t:s0 t
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># id -Z</span>
+</span></span><span class="line"><span class="cl">unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="修改selinux上下文" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9selinux%e4%b8%8a%e4%b8%8b%e6%96%87" class="heading-mark"></a>修改selinux上下文</h2><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## chcon 命令</span>
+</span></span><span class="line"><span class="cl">$ touch /tmp/myfile
+</span></span><span class="line"><span class="cl">$ ls -Z /tmp/myfile
+</span></span><span class="line"><span class="cl">unconfined_u:object_r:user_tmp_t:s0 /tmp/myfile
+</span></span><span class="line"><span class="cl">$ chcon -t user_home_t /tmp/myfile
+</span></span><span class="line"><span class="cl">$ ls -Z /tmp/myfile
+</span></span><span class="line"><span class="cl">unconfined_u:object_r:user_home_t:s0 /tmp/myfile
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## semanage 命令</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## touch /var/cache/myfile</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## ls -Z /var/cache/myfile </span>
+</span></span><span class="line"><span class="cl">unconfined_u:object_r:var_t:s0 /var/cache/myfile
+</span></span><span class="line"><span class="cl"><span class="c1">## semanage fcontext -a -t user_home_t /var/cache/myfile </span>
+</span></span><span class="line"><span class="cl"><span class="c1">## restorecon /var/cache/myfile </span>
+</span></span><span class="line"><span class="cl"><span class="c1">## ls -Z /var/cache/myfile </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ id -Z
+</span></span><span class="line"><span class="cl">unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c255
+</span></span><span class="line"><span class="cl">$ newrole -r system_r -t unconfined_t
+</span></span><span class="line"><span class="cl">Password:
+</span></span><span class="line"><span class="cl">$ id -Z
+</span></span><span class="line"><span class="cl">unconfined_u:system_r:unconfined_t:s0-s0:c0.c255
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ runcon system_u:system_r:crond_t:s0:c0.c255 /bin/bash
+</span></span><span class="line"><span class="cl">$ id -Z
+</span></span><span class="line"><span class="cl">system_u:system_r:crond_t:s0:c0.c255</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="重置selinux上下文" class="heading-element">
+  <a href="#%e9%87%8d%e7%bd%aeselinux%e4%b8%8a%e4%b8%8b%e6%96%87" class="heading-mark"></a>重置selinux上下文</h2><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ restorecon /tmp/myfile</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="selinux用户" class="heading-element">
+  <a href="#selinux%e7%94%a8%e6%88%b7" class="heading-mark"></a>selinux用户</h2><p><code>linux</code>用户可以使用<code>selinux</code>策略映射到<code>selinux</code>用户，这样可以允许
+<code>linux</code>用户继承对<code>selinux</code>用户限制。通常以<code>_u</code>结尾(非强制)</p>
+<h3 id="查看selinux用户映射" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8bselinux%e7%94%a8%e6%88%b7%e6%98%a0%e5%b0%84" class="heading-mark"></a>查看selinux用户映射</h3><p>以<code>root</code>用户执行<code>semanage login -l</code>命令可以查看用户映射</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage login -l</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Login Name           SELinux User         MLS/MCS Range        Service
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">__default__          unconfined_u         s0-s0:c0.c1023       *
+</span></span><span class="line"><span class="cl">root                 unconfined_u         s0-s0:c0.c1023       *</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面<code>__default__</code>表示默认映射，即<code>linux</code>用户默认映射到<code>selinux</code>用户<code>unconfined_u</code>
+。使用<code>seinfo -u</code>命令可以查看<code>selinux</code>用户</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># seinfo -u</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Users: <span class="m">8</span>
+</span></span><span class="line"><span class="cl">   guest_u
+</span></span><span class="line"><span class="cl">   root
+</span></span><span class="line"><span class="cl">   staff_u
+</span></span><span class="line"><span class="cl">   sysadm_u
+</span></span><span class="line"><span class="cl">   system_u
+</span></span><span class="line"><span class="cl">   unconfined_u
+</span></span><span class="line"><span class="cl">   user_u
+</span></span><span class="line"><span class="cl">   xguest_u</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当用户登录系统后，<code>pam_selinux</code>(PAM)<code>模块会自动映射到</code>selinux<code>用户 (默认是</code>unconfined_u<code>),并设置</code>selinux<code>上下文。然后会使用这个上下文启动 </code>linux<code>用户的</code>shell<code>。</code>id -Z<code>命令可以查看当前用户的</code>selinux`上下文</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># id -Z</span>
+</span></span><span class="line"><span class="cl">unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="创建用户时指定映射selinux用户" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%ba%e7%94%a8%e6%88%b7%e6%97%b6%e6%8c%87%e5%ae%9a%e6%98%a0%e5%b0%84selinux%e7%94%a8%e6%88%b7" class="heading-mark"></a>创建用户时指定映射selinux用户</h3><p>创建用户(<code>useradd -Z</code>)可以指定映射的<code>selinux</code>用户</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># useradd user -Z user_u</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage login -l | grep user</span>
+</span></span><span class="line"><span class="cl">user                 user_u               s0                   *
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># su user</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## id -Z 命令却没有更新？这是什么情况</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>user@localhost root<span class="o">]</span>$ id -Z
+</span></span><span class="line"><span class="cl">unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="修改selinux默认映射用户" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9selinux%e9%bb%98%e8%ae%a4%e6%98%a0%e5%b0%84%e7%94%a8%e6%88%b7" class="heading-mark"></a>修改selinux默认映射用户</h3><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage login -m -s user_u -r s0 __default__</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage login -l </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Login Name           SELinux User         MLS/MCS Range        Service
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">__default__          user_u               s0                   *
+</span></span><span class="line"><span class="cl">root                 unconfined_u         s0-s0:c0.c1023       *
+</span></span><span class="line"><span class="cl">user                 user_u               s0                   *</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>system_u</code>是系统进程和对象的特殊用户身份。它绝对不能和<code>Linux</code>用户关联。
+另外, <code>unconfined_u</code> 和 <code>root</code> 是非限制的用户。</p>
+<h2 id="角色" class="heading-element">
+  <a href="#%e8%a7%92%e8%89%b2" class="heading-mark"></a>角色</h2><p><code>selinux</code>使用<code>RBAC</code>控制<code>selinux</code>用户对域的权限。用户可以与一个或多少角色关联，
+每个角色可以与一个或多少类型域关联。通常角色名以<code>_r</code>结尾(非强制)</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">linux用户 --&gt; selinux用户 --&gt; 角色<span class="o">(</span>可以关联多个<span class="o">)</span> --&gt; 类型<span class="o">(</span>可以关联多个<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="类型" class="heading-element">
+  <a href="#%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>类型</h2><p>类型名称通常以<code>_t</code>结尾（非强制）。简单理解：<code>selinux</code>规则控制类型权限</p>
+<p><code>SELinux</code>使用一种特定的类型强制(<code>TE</code>) 来强制强制访问控制。这意味着所有主体和客体都有
+一个与之关联的类型标识符，然后可以使用该标识符来执行策略制定的规则。类型标识符是一个
+简单的可变长度字符串，它在策略中定义，然后与安全上下文相关联。它还用于大多数<code>SELinux</code>
+语言语句和规则，用于构建策略，当加载到安全服务器中时，将通过对象管理器强制执行策略</p>
+<p>如果一个未限制的<code>Linux</code>用户执行一个应用程序，这个应用程序被<code>SELinux</code>策略
+定义为可以从<code>unconfined_t</code>域转换到其自身限制域的应用程序，则未限制的
+<code>Linux</code>用户仍会受到那个受限制域的限制。这样做的安全优点是，即使<code>Linux</code>
+用户的运行没有限制，但应用程序仍受限制。因此，对应用程序中漏洞的利用会被策略限制。</p>
+<p>同样，我们可以将这些检查应用到受限制的用户。每个受限制的用户都受到受限用户域
+的限制。<code>SELinux</code>策略还可定义从受限制的用户域转换到自己受限制的目标域转换。
+在这种情况下，受限制的用户会受到那个目标限制的域的限制。重点是，根据用户的角色，
+把特定的权限与受限制的用户相关联。</p>
+<h2 id="安全级别" class="heading-element">
+  <a href="#%e5%ae%89%e5%85%a8%e7%ba%a7%e5%88%ab" class="heading-mark"></a>安全级别</h2><h1 id="为使用非标准配置的应用程序和服务配置selinux" class="heading-element">
+  <a href="#%e4%b8%ba%e4%bd%bf%e7%94%a8%e9%9d%9e%e6%a0%87%e5%87%86%e9%85%8d%e7%bd%ae%e7%9a%84%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e5%92%8c%e6%9c%8d%e5%8a%a1%e9%85%8d%e7%bd%aeselinux" class="heading-mark"></a>为使用非标准配置的应用程序和服务配置SELINUX</h1><p><code>semanage port</code>可以管理网络端口类(<code>_port_t</code>结尾)</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># -a 添加记录</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -t 指定对象</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -p 指定协议与端口</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -l 查看所有端口类信息</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看<code>sshd</code>允许监听的端口</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#  grep 筛选</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -l | grep &#34;ssh&#34;</span>
+</span></span><span class="line"><span class="cl">ssh_port_t                     tcp      838, <span class="m">22</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>为<code>sshd</code>添加允许监听的端口</li>
+</ul>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -a -t ssh_port_t -p tcp 909</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -l | grep &#34;ssh&#34;</span>
+</span></span><span class="line"><span class="cl">ssh_port_t                     tcp      909, 838, <span class="m">22</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>为<code>sshd</code>减少允许监听的端口</li>
+</ul>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 默认在策略中的无法删除</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -d -t ssh_port1 -p tcp 22 </span>
+</span></span><span class="line"><span class="cl">ValueError: Port tcp/22 is defined in policy, cannot be deleted
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -d -t ssh_port1 -p tcp 909</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -l | grep &#34;ssh_port&#34;</span>
+</span></span><span class="line"><span class="cl">ssh_port_t                     tcp      838, <span class="m">22</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>复制一个文件的selinux上下文到另一个文件</li>
+</ul>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 把 www 文件的selinux上下文复制给 test_www</span>
+</span></span><span class="line"><span class="cl">semanage fcontext -a -e /var/www /var/test_www</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="调整-selinux-布尔值" class="heading-element">
+  <a href="#%e8%b0%83%e6%95%b4-selinux-%e5%b8%83%e5%b0%94%e5%80%bc" class="heading-mark"></a>调整 SELinux 布尔值</h1><ul>
+<li>查看与<code>ssh</code>相关的<code>selinux</code>布尔值说明</li>
+</ul>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage boolean -l | grep &#34;^ssh&#34;</span>
+</span></span><span class="line"><span class="cl">ssh_chroot_rw_homedirs         <span class="o">(</span>off  ,  off<span class="o">)</span>  allow ssh with chroot env to <span class="nb">read</span> and write files in the user home directories
+</span></span><span class="line"><span class="cl">ssh_keysign                    <span class="o">(</span>off  ,  off<span class="o">)</span>  allow host key based authentication
+</span></span><span class="line"><span class="cl">ssh_sysadm_login               <span class="o">(</span>off  ,  off<span class="o">)</span>  Allow ssh logins as sysadm_r:sysadm_t
+</span></span><span class="line"><span class="cl">ssh_use_tcpd                   <span class="o">(</span>off  ,  off<span class="o">)</span>  Allow sshd to use tcp wrappers</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看与<code>ssh</code>相关的<code>selinux</code>布尔值状态</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># getsebool -a | grep &#34;^ssh&#34;</span>
+</span></span><span class="line"><span class="cl">ssh_chroot_rw_homedirs --&gt; off
+</span></span><span class="line"><span class="cl">ssh_keysign --&gt; off
+</span></span><span class="line"><span class="cl">ssh_sysadm_login --&gt; off
+</span></span><span class="line"><span class="cl">ssh_use_tcpd --&gt; off</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>修改<code>selinux</code>布尔值</li>
+</ul>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 临时修改</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -P选项可重启后保留更改，由于需要重建整个策略，且可能需要一些时间</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># setsebool httpd_use_nfs on</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># setsebool httpd_use_cifs on</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="主体" class="heading-element">
+  <a href="#%e4%b8%bb%e4%bd%93" class="heading-mark"></a>主体</h1><p>在<code>selinux</code>中，主体是一个活动进程，并关联<code>selinux</code>安全上下文(<code>user:role:type[:range]</code>)
+。主体有以下分类：</p>
+<ul>
+<li><code>Trusted</code>: 信任，已经支持<code>selinux</code>功能</li>
+<li><code>Untrusted</code>: 不受信任</li>
+</ul>
+<h1 id="对象" class="heading-element">
+  <a href="#%e5%af%b9%e8%b1%a1" class="heading-mark"></a>对象</h1><p>在<code>selinux</code>中，通过进程（也称为主体）访问的资源称为对象，例如文件、套接字、管道或
+网络接口。这些对象根据它们提供的资源进行分类，这些资源具有与其目的相关的访问权限
+（例如读取、接收和写入），并分配了一个安全上下文(<code>user:role:type[:range]</code>)</p>
+<h1 id="故障排除与selinux相关的问题" class="heading-element">
+  <a href="#%e6%95%85%e9%9a%9c%e6%8e%92%e9%99%a4%e4%b8%8eselinux%e7%9b%b8%e5%85%b3%e7%9a%84%e9%97%ae%e9%a2%98" class="heading-mark"></a>故障排除与SELINUX相关的问题</h1><h2 id="判断是否由selinux引起阻断操作" class="heading-element">
+  <a href="#%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e7%94%b1selinux%e5%bc%95%e8%b5%b7%e9%98%bb%e6%96%ad%e6%93%8d%e4%bd%9c" class="heading-mark"></a>判断是否由<code>selinux</code>引起阻断操作</h2><p>在开始前临时禁用 dontaudit 规则，允许记录所有拒绝信息。避免<code>AVC</code>
+中的拒绝信息被静默</p>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># semodule -B 开启 </span>
+</span></span><span class="line"><span class="cl">semodule -DB
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># date</span>
+</span></span><span class="line"><span class="cl">Fri Jan <span class="m">21</span> 15:03:06 CST <span class="m">2022</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 再次运行阻断操作</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl restart nginx</span>
+</span></span><span class="line"><span class="cl">Job <span class="k">for</span> nginx.service failed because the control process exited with error code.
+</span></span><span class="line"><span class="cl">See <span class="s2">&#34;systemctl status nginx.service&#34;</span> and <span class="s2">&#34;journalctl -xe&#34;</span> <span class="k">for</span> details.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>方法1：查看<code>selinux</code>是否开启，如果开启则临时关闭，再次执行引发阻断操作。
+如果操作没有阻断则是<code>selinux</code>问题</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 由selinux引发的阻断</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># getenforce </span>
+</span></span><span class="line"><span class="cl">Enforcing
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># setenforce 0</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl restart nginx</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl status nginx</span>
+</span></span><span class="line"><span class="cl">● nginx.service - The nginx HTTP and reverse proxy server
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/usr/lib/systemd/system/nginx.service<span class="p">;</span> disabled<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since Fri 2022-01-21 14:46:48 CST<span class="p">;</span> 7s ago
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># setenforce 1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>方法2：检查 systemd 日志提供的消息</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 还有操作提示</span>
+</span></span><span class="line"><span class="cl">Jan <span class="m">21</span> 15:04:06 localhost.localdomain setroubleshoot<span class="o">[</span>2593<span class="o">]</span>: AnalyzeThread.run<span class="o">()</span>: Cancel pending alarm
+</span></span><span class="line"><span class="cl">Jan <span class="m">21</span> 15:04:07 localhost.localdomain setroubleshoot<span class="o">[</span>2593<span class="o">]</span>: SELinux is preventing /usr/bin/rm from using the siginh access on a process. Fo&gt;
+</span></span><span class="line"><span class="cl">Jan <span class="m">21</span> 15:04:07 localhost.localdomain setroubleshoot<span class="o">[</span>2593<span class="o">]</span>: SELinux is preventing /usr/bin/rm from using the siginh access on a process.
+</span></span><span class="line"><span class="cl">                                                            
+</span></span><span class="line"><span class="cl">                                                            *****  Plugin catchall <span class="o">(</span>100. confidence<span class="o">)</span> suggests   **************************
+</span></span><span class="line"><span class="cl">                                                            
+</span></span><span class="line"><span class="cl">                                                            If you believe that rm should be allowed siginh access on processes labeled unc&gt;
+</span></span><span class="line"><span class="cl">                                                            Then you should report this as a bug.
+</span></span><span class="line"><span class="cl">                                                            You can generate a <span class="nb">local</span> policy module to allow this access.
+</span></span><span class="line"><span class="cl">                                                            Do
+</span></span><span class="line"><span class="cl">                                                            allow this access <span class="k">for</span> now by executing:
+</span></span><span class="line"><span class="cl">                                                            <span class="c1"># ausearch -c &#39;rm&#39; --raw | audit2allow -M my-rm</span>
+</span></span><span class="line"><span class="cl">                                                            <span class="c1"># semodule -X 300 -i my-rm.pp</span>
+</span></span><span class="line"><span class="cl">                                                            
+</span></span><span class="line"><span class="cl">Jan <span class="m">21</span> 15:04:07 localhost.localdomain setroubleshoot<span class="o">[</span>2593<span class="o">]</span>: AnalyzeThread.run<span class="o">()</span>: Set alarm timeout to <span class="m">10</span>
+</span></span><span class="line"><span class="cl">Jan <span class="m">21</span> 15:04:07 localhost.localdomain setroubleshoot<span class="o">[</span>2593<span class="o">]</span>: AnalyzeThread.run<span class="o">()</span>: Cancel pending alarm</span></span></code></pre></td></tr></table>
+</div>
+</div><p>方法3 ：查看询审计日志</p>
+<p>当操作被<code>SELinux</code>阻止时，<code>/var/log/audit/audit.log</code>文件是第一个检查拒绝的更多
+信息。要查询审计日志，使用<code>ausearch</code>工具。因为<code>SELinux</code>决策（如允许或禁止访问）<br>
+已被缓存，且这个缓存被称为<code>Access Vector Cache(AVC)</code>，所以对消息类型参数使用
+<code>AVC</code>和<code>USER_AVC</code>值，例如：</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Audit 守护进程没有在您的系统中运行的情况下</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># dmesg 命令输出中搜索特定的 SELinux 信息</span>
+</span></span><span class="line"><span class="cl">dmesg <span class="p">|</span> grep -i -e <span class="nv">type</span><span class="o">=</span><span class="m">1300</span> -e <span class="nv">type</span><span class="o">=</span><span class="m">1400</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 必须要 auditd 守护进程 运行的情况下才有匹配项</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动之后重复拒绝操作，然后再次检查审计日志</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 看不懂</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># date</span>
+</span></span><span class="line"><span class="cl">Fri Jan <span class="m">21</span> 14:31:37 CST <span class="m">2022</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl restart nginx</span>
+</span></span><span class="line"><span class="cl">Job <span class="k">for</span> nginx.service failed because the control process exited with error code.
+</span></span><span class="line"><span class="cl">See <span class="s2">&#34;systemctl status nginx.service&#34;</span> and <span class="s2">&#34;journalctl -xe&#34;</span> <span class="k">for</span> details.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -ts recent</span>
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">time-&gt;Fri Jan <span class="m">21</span> 14:31:45 <span class="m">2022</span>
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>PROCTITLE <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1642746705.962:164<span class="o">)</span>: <span class="nv">proctitle</span><span class="o">=</span>2F7573722F7362696E2F6E67696E78002D74
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>SYSCALL <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1642746705.962:164<span class="o">)</span>: <span class="nv">arch</span><span class="o">=</span>c000003e <span class="nv">syscall</span><span class="o">=</span><span class="m">49</span> <span class="nv">success</span><span class="o">=</span>no <span class="nv">exit</span><span class="o">=</span>-13 <span class="nv">a0</span><span class="o">=</span><span class="m">8</span> <span class="nv">a1</span><span class="o">=</span>564c551c4a30 <span class="nv">a2</span><span class="o">=</span><span class="m">10</span> <span class="nv">a3</span><span class="o">=</span>7ffcd1996ba0 <span class="nv">items</span><span class="o">=</span><span class="m">0</span> 
+</span></span><span class="line"><span class="cl"><span class="nv">ppid</span><span class="o">=</span><span class="m">1</span> <span class="nv">pid</span><span class="o">=</span><span class="m">2333</span> <span class="nv">auid</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">uid</span><span class="o">=</span><span class="m">0</span> <span class="nv">gid</span><span class="o">=</span><span class="m">0</span> <span class="nv">euid</span><span class="o">=</span><span class="m">0</span> <span class="nv">suid</span><span class="o">=</span><span class="m">0</span> <span class="nv">fsuid</span><span class="o">=</span><span class="m">0</span> <span class="nv">egid</span><span class="o">=</span><span class="m">0</span> <span class="nv">sgid</span><span class="o">=</span><span class="m">0</span> <span class="nv">fsgid</span><span class="o">=</span><span class="m">0</span> <span class="nv">tty</span><span class="o">=(</span>none<span class="o">)</span> <span class="nv">ses</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;nginx&#34;</span> <span class="nv">exe</span><span class="o">=</span><span class="s2">&#34;/usr/sbi
+</span></span></span><span class="line"><span class="cl"><span class="s2">n/nginx&#34;</span> <span class="nv">subj</span><span class="o">=</span>system_u:system_r:httpd_t:s0 <span class="nv">key</span><span class="o">=(</span>null<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1642746705.962:164<span class="o">)</span>: avc:  denied  <span class="o">{</span> name_bind <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">2333</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;nginx&#34;</span> <span class="nv">src</span><span class="o">=</span><span class="m">880</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:httpd_t:s0
+</span></span><span class="line"><span class="cl"> <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:hi_reserved_port_t:s0 <span class="nv">tclass</span><span class="o">=</span>tcp_socket <span class="nv">permissive</span><span class="o">=</span><span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="分析-selinux-拒绝信息" class="heading-element">
+  <a href="#%e5%88%86%e6%9e%90-selinux-%e6%8b%92%e7%bb%9d%e4%bf%a1%e6%81%af" class="heading-mark"></a>分析 SELinux 拒绝信息</h2><p>在确认 SELinux 会阻止您的场景后，可能需要在进行修复前分析根本原因</p>
+<p>使用 sealert 命令列出有关日志拒绝的详情</p>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 如果没有包含清晰的建议，可以使用以下方法</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. 清除 setroubleshoot 缓存：rm -f /var/lib/setroubleshoot/setroubleshoot.xml</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 启用全路径审核查看访问对象的完整路径，并让其他 Linux Audit 事件字段可见：</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#    auditctl -w /etc/shadow -p w -k shadow-write</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. 再次执行出现阻断的操作</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sealert -l &#34;*&#34;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">SELinux is preventing /usr/sbin/nginx from name_bind access on the tcp_socket port 880.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*****  Plugin bind_ports <span class="o">(</span>99.5 confidence<span class="o">)</span> suggests   ************************
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">If you want to allow /usr/sbin/nginx to <span class="nb">bind</span> to network port <span class="m">880</span>
+</span></span><span class="line"><span class="cl">Then you need to modify the port type.
+</span></span><span class="line"><span class="cl">Do
+</span></span><span class="line"><span class="cl"><span class="c1"># semanage port -a -t PORT_TYPE -p tcp 880</span>
+</span></span><span class="line"><span class="cl">    where PORT_TYPE is one of the following: http_cache_port_t, http_port_t, jboss_management_port_t, jboss_messaging_port_t, ntop_port_t, p
+</span></span><span class="line"><span class="cl">uppet_port_t.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">*****  Plugin catchall <span class="o">(</span>1.49 confidence<span class="o">)</span> suggests   **************************
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">If you believe that nginx should be allowed name_bind access on the port <span class="m">880</span> tcp_socket by default.
+</span></span><span class="line"><span class="cl">Then you should report this as a bug.
+</span></span><span class="line"><span class="cl">You can generate a <span class="nb">local</span> policy module to allow this access.
+</span></span><span class="line"><span class="cl">Do
+</span></span><span class="line"><span class="cl">allow this access <span class="k">for</span> now by executing:
+</span></span><span class="line"><span class="cl"><span class="c1"># ausearch -c &#39;nginx&#39; --raw | audit2allow -M my-nginx</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># semodule -X 300 -i my-nginx.pp</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Additional Information:
+</span></span><span class="line"><span class="cl">Source Context                system_u:system_r:httpd_t:s0
+</span></span><span class="line"><span class="cl">Target Context                system_u:object_r:hi_reserved_port_t:s0
+</span></span><span class="line"><span class="cl">Target Objects                port <span class="m">880</span> <span class="o">[</span> tcp_socket <span class="o">]</span>
+</span></span><span class="line"><span class="cl">Source                        nginx
+</span></span><span class="line"><span class="cl">Source Path                   /usr/sbin/nginx
+</span></span><span class="line"><span class="cl">Port                          <span class="m">880</span>
+</span></span><span class="line"><span class="cl">Host                          localhost.localdomain
+</span></span><span class="line"><span class="cl">Source RPM Packages           nginx-1.14.1-9.module+el8.4.0+542+81547229.x86_64
+</span></span><span class="line"><span class="cl">Target RPM Packages           
+</span></span><span class="line"><span class="cl">SELinux Policy RPM            selinux-policy-targeted-3.14.3-80.el8_5.2.noarch
+</span></span><span class="line"><span class="cl">Local Policy RPM              selinux-policy-targeted-3.14.3-80.el8_5.2.noarch
+</span></span><span class="line"><span class="cl">Selinux Enabled               True
+</span></span><span class="line"><span class="cl">Policy Type                   targeted
+</span></span><span class="line"><span class="cl">Enforcing Mode                Enforcing
+</span></span><span class="line"><span class="cl">Host Name                     localhost.localdomain
+</span></span><span class="line"><span class="cl">Platform                      Linux localhost.localdomain
+</span></span><span class="line"><span class="cl">                              4.18.0-348.7.1.el8_5.x86_64 <span class="c1">#1 SMP Tue Dec 21</span>
+</span></span><span class="line"><span class="cl">                              19:02:23 UTC <span class="m">2021</span> x86_64 x86_64
+</span></span><span class="line"><span class="cl">Alert Count                   <span class="m">7</span>
+</span></span><span class="line"><span class="cl">First Seen                    2022-01-21 14:17:38 CST
+</span></span><span class="line"><span class="cl">Last Seen                     2022-01-21 15:04:04 CST
+</span></span><span class="line"><span class="cl">Local ID                      cb69fb9b-7d65-4fa0-bf11-be7c517235ae
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Raw Audit Messages
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1642748644.311:195<span class="o">)</span>: avc:  denied  <span class="o">{</span> name_bind <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">2591</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;nginx&#34;</span> <span class="nv">src</span><span class="o">=</span><span class="m">880</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:httpd_t:s0
+</span></span><span class="line"><span class="cl"> <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:hi_reserved_port_t:s0 <span class="nv">tclass</span><span class="o">=</span>tcp_socket <span class="nv">permissive</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>SYSCALL <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1642748644.311:195<span class="o">)</span>: <span class="nv">arch</span><span class="o">=</span>x86_64 <span class="nv">syscall</span><span class="o">=</span><span class="nb">bind</span> <span class="nv">success</span><span class="o">=</span>no <span class="nv">exit</span><span class="o">=</span>EACCES <span class="nv">a0</span><span class="o">=</span><span class="m">8</span> <span class="nv">a1</span><span class="o">=</span>55d1adfe5a70 <span class="nv">a2</span><span class="o">=</span><span class="m">10</span> <span class="nv">a3</span><span class="o">=</span>7ffd29a58f00 <span class="nv">items</span>
+</span></span><span class="line"><span class="cl"><span class="o">=</span><span class="m">0</span> <span class="nv">ppid</span><span class="o">=</span><span class="m">1</span> <span class="nv">pid</span><span class="o">=</span><span class="m">2591</span> <span class="nv">auid</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">uid</span><span class="o">=</span><span class="m">0</span> <span class="nv">gid</span><span class="o">=</span><span class="m">0</span> <span class="nv">euid</span><span class="o">=</span><span class="m">0</span> <span class="nv">suid</span><span class="o">=</span><span class="m">0</span> <span class="nv">fsuid</span><span class="o">=</span><span class="m">0</span> <span class="nv">egid</span><span class="o">=</span><span class="m">0</span> <span class="nv">sgid</span><span class="o">=</span><span class="m">0</span> <span class="nv">fsgid</span><span class="o">=</span><span class="m">0</span> <span class="nv">tty</span><span class="o">=(</span>none<span class="o">)</span> <span class="nv">ses</span><span class="o">=</span><span class="m">4294967295</span> <span class="nv">comm</span><span class="o">=</span>nginx <span class="nv">exe</span><span class="o">=</span>/usr/sbi
+</span></span><span class="line"><span class="cl">n/nginx <span class="nv">subj</span><span class="o">=</span>system_u:system_r:httpd_t:s0 <span class="nv">key</span><span class="o">=(</span>null<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Hash: nginx,httpd_t,hi_reserved_port_t,tcp_socket,name_bind</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="修复分析-selinux-拒绝问题" class="heading-element">
+  <a href="#%e4%bf%ae%e5%a4%8d%e5%88%86%e6%9e%90-selinux-%e6%8b%92%e7%bb%9d%e9%97%ae%e9%a2%98" class="heading-mark"></a>修复分析 SELinux 拒绝问题</h2><p>多数情况<code>sealert</code>命令或<code>journalctl -t setroubleshoot</code>命令输出中有提供的建议</p>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -l | grep &#34;http&#34;</span>
+</span></span><span class="line"><span class="cl">http_cache_port_t              tcp      8080, 8118, 8123, 10001-10010
+</span></span><span class="line"><span class="cl">http_cache_port_t              udp      <span class="m">3130</span>
+</span></span><span class="line"><span class="cl">http_port_t                    tcp      80, 81, 443, 488, 8008, 8009, 8443, <span class="m">9000</span>
+</span></span><span class="line"><span class="cl">pegasus_http_port_t            tcp      <span class="m">5988</span>
+</span></span><span class="line"><span class="cl">pegasus_https_port_t           tcp      <span class="m">5989</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -a -t http_port_t -p tcp 880</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># semanage port -l | grep &#34;http&#34;</span>
+</span></span><span class="line"><span class="cl">http_cache_port_t              tcp      8080, 8118, 8123, 10001-10010
+</span></span><span class="line"><span class="cl">http_cache_port_t              udp      <span class="m">3130</span>
+</span></span><span class="line"><span class="cl">http_port_t                    tcp      880, 80, 81, 443, 488, 8008, 8009, 8443, <span class="m">9000</span>
+</span></span><span class="line"><span class="cl">pegasus_http_port_t            tcp      <span class="m">5988</span>
+</span></span><span class="line"><span class="cl">pegasus_https_port_t           tcp      <span class="m">5989</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl restart nginx</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl status nginx</span>
+</span></span><span class="line"><span class="cl">● nginx.service - The nginx HTTP and reverse proxy server
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/usr/lib/systemd/system/nginx.service<span class="p">;</span> disabled<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since Fri 2022-01-21 18:42:57 CST<span class="p">;</span> <span class="m">15</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="目录问题" class="heading-element">
+  <a href="#%e7%9b%ae%e5%bd%95%e9%97%ae%e9%a2%98" class="heading-mark"></a>目录问题</h3><p>标记问题的常见原因是，当服务使用非标准目录时。例如，管理员可能想要使用 /srv/myweb/，而不是在网站中使用 /var/www/html/。在 Red Hat Enterprise Linux 中，使用 var_t 类型标记 /srv 目录。/srv 中创建的文件和目录继承这个类型。另外，顶层目录中新创建的对象（如 /myserver ）可以使用 default_t 类型进行标记。SELinux 可防止 Apache HTTP 服务器（httpd）访问这两个类型。要允许访问，SELinux 必须知道 /srv/myweb/ 中的文件可以被 httpd 访问：</p>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># semanage fcontext -a -t httpd_sys_content_t &#34;/srv/myweb(/.*)?&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>此 semanage 命令将 /srv/myweb/ 目录及其下的所有文件和目录添加到 SELinux 文件上下文中。semanage 实用程序不会更改上下文。以 root 用户身份，使用 restorecon 实用程序应用更改</p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># restorecon -R -v /srv/myweb</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="不正确的上下文" class="heading-element">
+  <a href="#%e4%b8%8d%e6%ad%a3%e7%a1%ae%e7%9a%84%e4%b8%8a%e4%b8%8b%e6%96%87" class="heading-mark"></a>不正确的上下文</h3><p>matchpathcon 工具检查文件路径的上下文，并将其与该路径的默认标签进行比较。以下示例演示了在包含错误标记文件的目录中使用 matchpathcon：</p>
+<div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ matchpathcon -V /var/www/html/*
+</span></span><span class="line"><span class="cl">/var/www/html/index.html has context unconfined_u:object_r:user_home_t:s0, should be system_u:object_r:httpd_sys_content_t:s0
+</span></span><span class="line"><span class="cl">/var/www/html/page1.html has context unconfined_u:object_r:user_home_t:s0, should be system_u:object_r:httpd_sys_content_t:s0</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在本例中，index.html 和 page1.html 文件使用 user_home_t 类型进行标识。这种类型用于用户主目录中的文件。使用 mv 命令从主目录中移动文件可能会导致文件使用 user_home_t 类型进行标记。这个类型不应存在于主目录之外。使用 restorecon 实用程序将这些文件恢复到其正确类型：</p>
+<div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># restorecon -v /var/www/html/index.html</span>
+</span></span><span class="line"><span class="cl">restorecon reset /var/www/html/index.html context unconfined_u:object_r:user_home_t:s0-&gt;system_u:object_r:httpd_sys_content_t:s0</span></span></code></pre></td></tr></table>
+</div>
+</div><p>要恢复目录中所有文件的上下文，请使用 -R 选项：</p>
+<div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># restorecon -R -v /var/www/html/</span>
+</span></span><span class="line"><span class="cl">restorecon reset /var/www/html/page1.html context unconfined_u:object_r:samba_share_t:s0-&gt;system_u:object_r:httpd_sys_content_t:s0
+</span></span><span class="line"><span class="cl">restorecon reset /var/www/html/index.html context unconfined_u:object_r:samba_share_t:s0-&gt;system_u:object_r:httpd_sys_content_t:s0</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="以非标准方式配置受限应用程序" class="heading-element">
+  <a href="#%e4%bb%a5%e9%9d%9e%e6%a0%87%e5%87%86%e6%96%b9%e5%bc%8f%e9%85%8d%e7%bd%ae%e5%8f%97%e9%99%90%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f" class="heading-mark"></a>以非标准方式配置受限应用程序</h3><p>服务可以以多种方式运行。要考虑这一点，您需要指定如何运行您的服务。您可以通过 SELinux 布尔值达到此目的，允许在运行时更改 SELinux 策略的部分。这启用了更改，比如允许服务访问 NFS 卷而无需重新载入或者重新编译 SELinux 策略。另外，在非默认端口号中运行服务需要使用 semanage 命令更新策略配置</p>
+<p>例如：要允许 Apache HTTP 服务器与 MariaDB 通信，启用 httpd_can_network_connect_db 布尔值：</p>
+<div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># setsebool -P httpd_can_network_connect_db on</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>请注意，该 -P 选项可使系统重启后设置具有持久性。</p>
+<p>如果特定服务无法访问，请使用 getsebool 和 grep 工具查看是否有布尔值可用于访问。例如，使用 getsebool -a | grep ftp 命令搜索 FTP 相关的布尔值：</p>
+<div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ getsebool -a <span class="p">|</span> grep ftp
+</span></span><span class="line"><span class="cl">ftpd_anon_write --&gt; off
+</span></span><span class="line"><span class="cl">ftpd_full_access --&gt; off
+</span></span><span class="line"><span class="cl">ftpd_use_cifs --&gt; off
+</span></span><span class="line"><span class="cl">ftpd_use_nfs --&gt; off
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ftpd_connect_db --&gt; off
+</span></span><span class="line"><span class="cl">httpd_enable_ftp_server --&gt; off
+</span></span><span class="line"><span class="cl">tftp_anon_write --&gt; off</span></span></code></pre></td></tr></table>
+</div>
+</div><p>要获得布尔值列表并找出是否启用或禁用它们，请使用 getsebool -a 命令。要获得包括布尔值的列表，并找出它们是否启用或禁用，请安装 selinux-policy-devel 软件包并以 root 用户身份使用 semanage boolean -l 命令。</p>
+<h3 id="端口号" class="heading-element">
+  <a href="#%e7%ab%af%e5%8f%a3%e5%8f%b7" class="heading-mark"></a>端口号</h3><p>根据策略配置，服务只能在某些端口号中运行。尝试更改服务在没有更改策略的情况下运行的端口可能会导致服务无法启动。例如，以 root 运行 semanage port -l | grep http 命令列出 http 相关端口：</p>
+<div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># semanage port -l | grep http</span>
+</span></span><span class="line"><span class="cl">http_cache_port_t              tcp      3128, 8080, <span class="m">8118</span>
+</span></span><span class="line"><span class="cl">http_cache_port_t              udp      <span class="m">3130</span>
+</span></span><span class="line"><span class="cl">http_port_t                    tcp      80, 443, 488, 8008, 8009, <span class="m">8443</span>
+</span></span><span class="line"><span class="cl">pegasus_http_port_t            tcp      <span class="m">5988</span>
+</span></span><span class="line"><span class="cl">pegasus_https_port_t           tcp      <span class="m">5989</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>http_port_t 端口类型定义了 Apache HTTP 服务器可侦听的端口，在本例中为 TCP 端口 80、443、488、8008、8009 和 8443。如果管理员配置了 httpd.conf，httpd 侦听端口 9876（Listen 9876），但没有更新策略来反应这一点，以下命令会失败：</p>
+<div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># systemctl start httpd.service</span>
+</span></span><span class="line"><span class="cl">Job <span class="k">for</span> httpd.service failed. See <span class="s1">&#39;systemctl status httpd.service&#39;</span> and <span class="s1">&#39;journalctl -xn&#39;</span> <span class="k">for</span> details.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl status httpd.service</span>
+</span></span><span class="line"><span class="cl">httpd.service - The Apache HTTP Server
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/usr/lib/systemd/system/httpd.service<span class="p">;</span> disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: failed <span class="o">(</span>Result: exit-code<span class="o">)</span> since Thu 2013-08-15 09:57:05 CEST<span class="p">;</span> 59s ago
+</span></span><span class="line"><span class="cl">  Process: <span class="m">16874</span> <span class="nv">ExecStop</span><span class="o">=</span>/usr/sbin/httpd <span class="nv">$OPTIONS</span> -k graceful-stop <span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>0/SUCCESS<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Process: <span class="m">16870</span> <span class="nv">ExecStart</span><span class="o">=</span>/usr/sbin/httpd <span class="nv">$OPTIONS</span> -DFOREGROUND <span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>1/FAILURE<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>记录类似于 /var/log/audit/audit.log 的 SELinux 拒绝信息：</p>
+<div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1225948455.061:294<span class="o">)</span>: avc:  denied  <span class="o">{</span> name_bind <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">4997</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;httpd&#34;</span> <span class="nv">src</span><span class="o">=</span><span class="m">9876</span> <span class="nv">scontext</span><span class="o">=</span>unconfined_u:system_r:httpd_t:s0 <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:port_t:s0 <span class="nv">tclass</span><span class="o">=</span>tcp_socket</span></span></code></pre></td></tr></table>
+</div>
+</div><p>要允许 httpd 侦听没有列出的 http_port_t 端口，使用 semanage port 命令为端口分配不同的标签：</p>
+<div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># semanage port -a -t http_port_t -p tcp 9876</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="审计日志中的-selinux-拒绝" class="heading-element">
+  <a href="#%e5%ae%a1%e8%ae%a1%e6%97%a5%e5%bf%97%e4%b8%ad%e7%9a%84-selinux-%e6%8b%92%e7%bb%9d" class="heading-mark"></a>审计日志中的 SELinux 拒绝</h2><p>Linux 审计系统默认在 /var/log/audit/audit.log 文件中存储日志条目。</p>
+<p>要只列出与 SELinux 相关的记录，请使用将 message type 参数设置为 AVC 和 AVC_USER 的 ausearch 命令，例如：</p>
+<div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>审计日志文件中的 SELinux 拒绝条目类似如下：</p>
+<div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1395177286.929:1638<span class="o">)</span>: avc:  denied  <span class="o">{</span> <span class="nb">read</span> <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">6591</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;httpd&#34;</span> <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;webpages&#34;</span> <span class="nv">dev</span><span class="o">=</span><span class="s2">&#34;0:37&#34;</span> <span class="nv">ino</span><span class="o">=</span><span class="m">2112</span> <span class="nv">scontext</span><span class="o">=</span>system_u:system_r:httpd_t:s0 <span class="nv">tcontext</span><span class="o">=</span>system_u:object_r:nfs_t:s0 <span class="nv">tclass</span><span class="o">=</span>dir</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个条目最重要的部分是：</p>
+<ul>
+<li><code>avc: denied</code>:  SELinux 执行的操作，并在 AVC 中记录</li>
+<li><code>{ read }</code>:  被拒绝的操作</li>
+<li><code>pid=6591</code>:  试图执行被拒绝操作的主体的进程识别符</li>
+<li><code>comm=&quot;httpd&quot;</code>:  用于调用分析进程的命令名称</li>
+<li><code>httpd_t</code>:  进程的 SELinux 类型</li>
+<li><code>nfs_t</code>:  受进程操作影响的对象的 SELinux 类型</li>
+<li><code>tclass=dir</code>:  目标对象类</li>
+</ul>
+<p>当 Apache HTTP 服务器试图访问使用 Samba 套件类型标记的目录时，会出现以下 SELinux 拒绝信息：</p>
+<div class="highlight" id="id-40"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">type</span><span class="o">=</span>AVC <span class="nv">msg</span><span class="o">=</span>audit<span class="o">(</span>1226874073.147:96<span class="o">)</span>: avc:  denied  <span class="o">{</span> getattr <span class="o">}</span> <span class="k">for</span>  <span class="nv">pid</span><span class="o">=</span><span class="m">2465</span> <span class="nv">comm</span><span class="o">=</span><span class="s2">&#34;httpd&#34;</span> <span class="nv">path</span><span class="o">=</span><span class="s2">&#34;/var/www/html/file1&#34;</span> <span class="nv">dev</span><span class="o">=</span>dm-0 <span class="nv">ino</span><span class="o">=</span><span class="m">284133</span> <span class="nv">scontext</span><span class="o">=</span>unconfined_u:system_r:httpd_t:s0 <span class="nv">tcontext</span><span class="o">=</span>unconfined_u:object_r:samba_share_t:s0 <span class="nv">tclass</span><span class="o">=</span>file</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>{ getattr }</code>:  getattr 条目表示源进程正在尝试读取目标文件的状态信息。这在读取文件前发生。SELinux 会拒绝这个操作，因为进程会访问该文件，且没有适当的标签。通常的权限包括 getattr、read 和 write。</li>
+<li><code>path=&quot;/var/www/html/file1&quot;</code>:  该进程试图访问的对象（目标）的路径。</li>
+<li><code>scontext=&quot;unconfined_u:system_r:httpd_t:s0&quot;</code>:  试图拒绝动作的进程（源）的 SELinux 上下文。在这个示例中，它是 Apache HTTP 服务器的 SELinux 上下文，它使用 httpd_t 类型运行。</li>
+<li><code>tcontext=&quot;unconfined_u:object_r:samba_share_t:s0&quot;</code>:  试图访问的进程的对象（目标）的 SELinux 上下文。在这个示例中，它是 file1 的 SELinux 上下文。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-08-11 17:10:02">更新于 2022-08-11&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/selinux/" class="post-tag" title="标签 - selinux">selinux</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/awk/" class="post-nav-item" rel="prev" title="gawk"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>gawk</a>
+      <a href="/goQuestion/" class="post-nav-item" rel="next" title="Go每日一题">Go每日一题<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

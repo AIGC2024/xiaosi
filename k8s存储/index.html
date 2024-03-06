@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s 存储卷 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： k8s: 1.24 内容来自以下文档： k8s 官方文档: 存储 pod 中的存储卷k8s volume (卷)这个概念是为了解决以下问题： 容器中的文件是临时放在磁盘上的，当容器" /><meta name="keywords" content='k8s 存储卷' /><meta itemprop="name" content="k8s 存储卷">
+<meta itemprop="description" content="运行环境： k8s: 1.24 内容来自以下文档： k8s 官方文档: 存储 pod 中的存储卷k8s volume (卷)这个概念是为了解决以下问题： 容器中的文件是临时放在磁盘上的，当容器"><meta itemprop="datePublished" content="2022-10-07T13:57:15+08:00" />
+<meta itemprop="dateModified" content="2024-02-07T10:40:13+08:00" />
+<meta itemprop="wordCount" content="4710">
+<meta itemprop="keywords" content="k8s 存储卷," /><meta property="og:title" content="k8s 存储卷" />
+<meta property="og:description" content="运行环境： k8s: 1.24 内容来自以下文档： k8s 官方文档: 存储 pod 中的存储卷k8s volume (卷)这个概念是为了解决以下问题： 容器中的文件是临时放在磁盘上的，当容器" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8s%E5%AD%98%E5%82%A8/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-07T13:57:15+08:00" />
+<meta property="article:modified_time" content="2024-02-07T10:40:13+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s 存储卷"/>
+<meta name="twitter:description" content="运行环境： k8s: 1.24 内容来自以下文档： k8s 官方文档: 存储 pod 中的存储卷k8s volume (卷)这个概念是为了解决以下问题： 容器中的文件是临时放在磁盘上的，当容器"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8s%E5%AD%98%E5%82%A8/" /><link rel="prev" href="/linuxBash/" /><link rel="next" href="/%E4%BA%94%E7%AC%94/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s 存储卷",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8s%E5%AD%98%E5%82%A8\/"
+    },"genre": "posts","keywords": "k8s 存储卷","wordcount":  4710 ,
+    "url": "\/k8s%E5%AD%98%E5%82%A8\/","datePublished": "2022-10-07T13:57:15+08:00","dateModified": "2024-02-07T10:40:13+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s 存储卷</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-10-07 13:57:15"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-10-07">2022-10-07</time></span>&nbsp;<span title="更新于 2024-02-07 10:40:13"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-07">2024-02-07</time></span>&nbsp;<span title="4710 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#pod-中的存储卷"><code>pod</code> 中的存储卷</a></li>
+    <li><a href="#持久卷">持久卷</a>
+      <ul>
+        <li><a href="#pv-创建与绑定-pvc"><code>PV</code> 创建与绑定 <code>PVC</code></a></li>
+        <li><a href="#名称">名称</a></li>
+        <li><a href="#容量">容量</a></li>
+        <li><a href="#挂载模式">挂载模式</a></li>
+        <li><a href="#卷访问模式">卷访问模式</a></li>
+        <li><a href="#挂载选项">挂载选项</a></li>
+        <li><a href="#节点亲和性">节点亲和性</a></li>
+        <li><a href="#预留-pv">预留 <code>PV</code></a></li>
+        <li><a href="#名称空间">名称空间</a></li>
+        <li><a href="#pv-删除"><code>PV</code> 删除</a></li>
+        <li><a href="#阶段">阶段</a></li>
+        <li><a href="#存储类">存储类</a></li>
+      </ul>
+    </li>
+    <li><a href="#hostpath">hostPath</a></li>
+    <li><a href="#emptydir">emptyDir</a></li>
+    <li><a href="#local">local</a></li>
+    <li><a href="#iomesh">IOMesh</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/storage/"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s 官方文档</code>: 存储</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="pod-中的存储卷" class="heading-element">
+  <a href="#pod-%e4%b8%ad%e7%9a%84%e5%ad%98%e5%82%a8%e5%8d%b7" class="heading-mark"></a><code>pod</code> 中的存储卷</h1><p><code>k8s volume</code> (卷)这个概念是为了解决以下问题：</p>
+<ul>
+<li>容器中的文件是临时放在磁盘上的，当容器崩溃、删除、重启时会默认会丢失所有文件恢复到容器最初状态。</li>
+<li>多个 <code>pod</code> 中共享数据</li>
+</ul>
+<p>在 <code>pod..spec.containers[*].volumeMounts</code> 字段中声明存储卷，在 <code>pod.spec.volumes</code> 字指定挂载的存储卷</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="p">[</span><span class="l">root@node1 ~]# kubectl -n note get pod artalk-deployment-56cb487c89-c5rzk -o yaml</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/localtime</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql-localtime</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/mysql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql-conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/var/log/mysql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql-log</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/var/lib/mysql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql-data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/var/run/secrets/kubernetes.io/serviceaccount</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kube-api-access-wk8d7</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">hostPath</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/root/note/artalk</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">artalk-data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">hostPath</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/localtime</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql-localtime</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">hostPath</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/root/note/mysql/data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql-data</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">hostPath</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/root/note/mysql/conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql-conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">hostPath</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/root/note/mysql/log</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">mysql-log</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="持久卷" class="heading-element">
+  <a href="#%e6%8c%81%e4%b9%85%e5%8d%b7" class="heading-mark"></a>持久卷</h1><p>为了将存储如何制备的细节从其如何被使用中抽象出来，<code>k8s</code> 引入了两个新的 <code>API</code> 卷资源：</p>
+<ul>
+<li><code>PersistentVolume</code>: 持久卷，简称 <code>PV</code>。 持久卷是集群资源，与普通卷一样， 也是使用卷插件来实现的，只是它们拥有独立于任何使用它的 <code>pod</code> 的生命周期。</li>
+<li><code>PersistentVolumeClaim</code>: 持久卷申领，简称 <code>PVC</code>。用户对存储的请求。概念上与 <code>Pod</code> 类似。<code>PVC</code> 申领会耗用 <code>PV</code> 资源。</li>
+</ul>
+<p>持久卷是用插件的形式实现的，<code>k8s</code> 支持以下插件：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#cephfs"target="_blank" rel="external nofollow noopener noreferrer">cephfs</a>: <code>cephfs</code> 文件系统</li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#csi"target="_blank" rel="external nofollow noopener noreferrer">csi</a>: <code>csi</code> 容器存储接口（<code>CSI</code>）</li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#fc"target="_blank" rel="external nofollow noopener noreferrer">fc</a>: <code>Fibre Channel</code> 存储</li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#hostpath"target="_blank" rel="external nofollow noopener noreferrer">hostPath</a>: 节点文件系统上的文件或目录</li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#iscsi"target="_blank" rel="external nofollow noopener noreferrer">iscsi</a>: <code>SCSI over IP</code> 存储</li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#local"target="_blank" rel="external nofollow noopener noreferrer">local</a>: 节点上挂载的本地存储设备</li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/storage/volumes/#nfs"target="_blank" rel="external nofollow noopener noreferrer">nfs</a>: 网络文件系统（<code>NFS</code>）存储</li>
+<li>[rbd][rbd]: <code>Rados</code> 块设备 (<code>RBD</code>) 卷</li>
+<li><code>awsElasticBlockStore</code>: <code>v1.17</code> 弃用</li>
+<li><code>azureDisk</code>: <code>v1.19</code> 弃用</li>
+<li><code>azureFile</code>: <code>v1.21</code> 弃用</li>
+<li><code>cinder</code>: <code>v1.18</code> 弃用</li>
+<li><code>flexVolume</code>: <code>v1.23</code></li>
+<li><code>gcePersistentDisk</code>: <code>v1.17</code> 弃用</li>
+<li><code>glusterfs</code>: <code>v1.25</code> 弃用</li>
+<li><code>portworxVolume</code>: <code>v1.25</code> 弃用</li>
+<li><code>vsphereVolume</code>: <code>v1.19</code> 弃用</li>
+<li><code>photonPersistentDisk</code>: <code>v1.15</code> 弃用</li>
+<li><code>scaleIO</code>: <code>v1.21</code> 之后弃用</li>
+<li><code>flocker</code>: <code>v1.25</code> 之后弃用</li>
+<li><code>quobyte</code>: <code>v1.25</code> 之后弃用</li>
+<li><code>storageos</code>: <code>v1.25</code> 之后弃用</li>
+</ul>
+<h2 id="pv-创建与绑定-pvc" class="heading-element">
+  <a href="#pv-%e5%88%9b%e5%bb%ba%e4%b8%8e%e7%bb%91%e5%ae%9a-pvc" class="heading-mark"></a><code>PV</code> 创建与绑定 <code>PVC</code></h2><p><code>PV</code> 卷的制备有两种方式：</p>
+<ul>
+<li>静态制备：集群管理员创建若干 <code>PV</code> 卷用于消费</li>
+<li>动态制备：如果现有 <code>PV</code> 无法满足 <code>PVC</code> 申领需求，则集群可以尝试动态制备一个存储卷。动态制备由 <code>StorageClass</code> 实现的，因此必须满足以下条件：
+<ul>
+<li><code>PVC</code> 申领必须请求某个 <code>StorageClass</code>，如果申领指定存储类为 <code>&quot;&quot;</code>，则相当于为自身禁止使用动态制备的卷</li>
+<li><code>StorageClass</code> 在事先已创建</li>
+<li>在 <code>API</code> 服务器上启用 <code>DefaultStorageClass</code> 准入控制器</li>
+</ul>
+</li>
+</ul>
+<p>用户创建一个带有特定存储容量和特定访问模式需求的 <code>PersistentVolumeClaim</code> 对象，该对象绑定 <code>PV</code> 顺序如下：</p>
+<ol>
+<li>现用 <code>PV</code> 刚好能满足 <code>PVC</code> 申领，则把它们绑定在一起</li>
+<li>使用动态制备创建卷</li>
+<li>绑定满足 <code>PVC</code> 申领的 <code>PV</code>，这种情况会超出所请求的配置</li>
+<li>以上都不满足时，<code>PVC</code> 申领会无限期地处于未绑定状态。当与之匹配的 <code>PV</code> 卷可用时，<code>PVC</code> 申领会被绑定。</li>
+</ol>
+<p>绑定操作会检查存储类、 访问模式和所请求的存储尺寸都是否合法，不会某些卷匹配条件是否满足，包括节点亲和性等等。一旦绑定关系建立，则 <code>PVC</code>  绑定就是排他性的， 无论该 <code>PVC</code> 申领是如何与 <code>PV</code> 卷建立的绑定关系。 <code>PVC</code> 申领与 <code>PV</code> 卷之间的绑定是一种一对一的映射（使用 <code>ClaimRef</code> 来记述 <code>PV</code> 卷与 <code>PVC</code> 申领间的双向绑定关系）</p>
+<p><code>pod</code> 将 <code>PVC</code> 当成存储卷来使用。集群会检视 PVC 申领，找到所绑定的卷， 并为 <code>Pod</code> 挂载该卷。一旦用户有了申领对象并且该申领已经被绑定， 则所绑定的 <code>PV</code> 卷在用户仍然需要它期间一直属于该用户。 用户通过在 <code>Pod</code> 的 <code>volumes</code> 块中包含 <code>persistentVolumeClaim</code> 节区来调度 <code>Pod</code></p>
+<p>这是示例</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="p">[</span><span class="l">root@node01 note]# cat nginxPod.yaml</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PersistentVolume</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">local-pv-node04-nginx-config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">capacity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l">30Mi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l">Filesystem</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">ReadOnlyMany</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">persistentVolumeReclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Delete</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">local</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/note/nginx/html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">nodeAffinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes.io/hostname</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="l">node04.localhost.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PersistentVolumeClaim</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">note-pvc-nginx-config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">note</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">ReadOnlyMany</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l">Filesystem</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">requests</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l">30Mi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">note-nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">note</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">note-nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http-port</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/usr/share/nginx/html&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">persistentVolumeClaim</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">claimName</span><span class="p">:</span><span class="w"> </span><span class="l">note-pvc-nginx-config</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 note<span class="o">]</span><span class="c1"># kubectl create ns note &amp;&amp;  kubectl apply -f nginxPod.yaml</span>
+</span></span><span class="line"><span class="cl">persistentvolume/local-pv-node04-nginx-config unchanged
+</span></span><span class="line"><span class="cl">persistentvolumeclaim/note-pvc-nginx-config unchanged
+</span></span><span class="line"><span class="cl">pod/note-nginx configured</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[root@node01 note]# kubectl --namespace note get pod note-nginx -o=jsonpath=&#39;{.status.podIP}{&#34;\n&#34;}&#39;
+</span></span><span class="line"><span class="cl">100.95.190.7
+</span></span><span class="line"><span class="cl">[root@node01 note]#
+</span></span><span class="line"><span class="cl">[root@node01 note]# curl 100.95.190.7
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE html&gt;
+</span></span><span class="line"><span class="cl">&lt;html lang=&#34;zh-CN&#34;&gt;
+</span></span><span class="line"><span class="cl">  &lt;head&gt;
+</span></span><span class="line"><span class="cl">        &lt;meta name=&#34;generator&#34; content=&#34;Hugo 0.102.0-DEV&#34; /&gt;
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="名称" class="heading-element">
+  <a href="#%e5%90%8d%e7%a7%b0" class="heading-mark"></a>名称</h2><p><code>PV</code> 与 <code>PVC</code> 对象名称必须是合法的 <code>DNS</code> 子域名，即必须满足如下规则：</p>
+<ul>
+<li>不能超过 <code>253</code> 个字符</li>
+<li>只能包含小写字母、数字，以及 <code>-</code> 和 <code>.</code></li>
+<li>必须以字母数字开头</li>
+<li>必须以字母数字结尾</li>
+</ul>
+<h2 id="容量" class="heading-element">
+  <a href="#%e5%ae%b9%e9%87%8f" class="heading-mark"></a>容量</h2><p>通常每个 <code>PV</code> 卷都会使用 <code>PV.spec.capacity.storage</code> 明确存储容量。<code>PVC.spec.resources</code> 字段申领容量值，有以下字段：</p>
+<ul>
+<li><code>limits.storage</code>: 申领使用最大值，缺省为不限制</li>
+<li><code>requests.storage</code>: 申领使用最小值，如果 <code>PV</code> 不满足此条件，则无法绑定</li>
+</ul>
+<h2 id="挂载模式" class="heading-element">
+  <a href="#%e6%8c%82%e8%bd%bd%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>挂载模式</h2><p><code>PV.spec.volumeMode</code> 可选字段可以指定以哪种方式被 <code>pod</code> 使用，有以下值：</p>
+<ul>
+<li><code>Filesystem</code>: 表示文件系统，也是默认值</li>
+<li><code>Block</code>: 表示以块设备给 <code>pod</code> 使用，没有文件系统，因此 <code>pod</code> 中的应用必须知道该如何使用块设备</li>
+</ul>
+<p><code>PVC.sepc.volumeModes</code> 字段使用与 <code>PV.sepc.volumeModes</code>相同的约定来表明是将卷作为文件系统还是块设备来使用。</p>
+<h2 id="卷访问模式" class="heading-element">
+  <a href="#%e5%8d%b7%e8%ae%bf%e9%97%ae%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>卷访问模式</h2><p><code>PV</code> 卷可以用资源提供者所支持的任何方式挂载到宿主系统上。提供者（驱动）的能力不同，每个 PV 卷的访问模式都会设置为对应卷所支持的模式值。每个卷同一时刻只能以一种访问模式挂载，即使该卷能够支持多种访问模式。 访问模式由 <code>PV.spec.accessModes</code> 字段指定（值为列表类型）。有以下值：</p>
+<ul>
+<li><code>ReadWriteOnce</code>: 卷可以被一个 <code>PVC</code> 以读写方式挂载。也允许运行在同一节点上的多个 <code>Pod</code> 访问卷。在命令行中以 <code>RWO</code> 展示</li>
+<li><code>ReadOnlyMany</code>: 卷可以被多个 <code>PVC</code> 以只读方式挂载。在命令行接口中以 <code>ROX</code> 展示</li>
+<li><code>ReadWriteMany</code>: 卷可以被多个 <code>PVC</code> 以读写方式挂载。在命令行接口中以<code>RWX</code> 展示</li>
+<li><code>ReadWriteOncePod</code>: 卷可以被单个 <code>Pod</code> 以读写方式挂载。命令行接口中以 <code>RWOP</code> 展示</li>
+</ul>
+<p><code>PVC</code> 申领在请求具有特定访问模式的存储时，挂载模式（<code>PVC.spec.accessModes</code> 字段）与 <code>PV</code> 相同才能绑定</p>
+<p><code>k8s</code> 使用卷访问模式来匹配 <code>PVC</code> 和 <code>PV</code>。在某些场合下，卷访问模式也会限制 <code>PV</code> 可以挂载的位置。 卷访问模式并不会在存储已经被挂载的情况下为其实施写保护。例如，即使某个卷创建时设置为 <code>ReadOnlyMany</code>，也无法保证该卷是只读的。 如果访问模式设置为 <code>ReadWriteOncePod</code>，则卷会被限制起来并且只能挂载到一个 Pod 上。</p>
+<h2 id="挂载选项" class="heading-element">
+  <a href="#%e6%8c%82%e8%bd%bd%e9%80%89%e9%a1%b9" class="heading-mark"></a>挂载选项</h2><p><code>k8s</code> 管理员可以指定持久卷被挂载到节点上时使用的附加挂载选项。并非所有持久卷类型都支持挂载选项。早期是使用注解 <code>PV.metadata.annotations: volume.beta.kubernetes.io/mount-options</code>，目前及其以后使用 <code>PV.spec.mountOptions</code> 字段</p>
+<h2 id="节点亲和性" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e4%ba%b2%e5%92%8c%e6%80%a7" class="heading-mark"></a>节点亲和性</h2><p>每个 <code>PV</code> 卷可以通过设置节点亲和性（<code>PV.spec.nodeAffinity</code> 字段）来定义一些约束，进而限制从哪些节点上可以访问此卷。 使用这些卷的 <code>Pod</code> 只会被调度到节点亲和性规则所选择的节点上执行。</p>
+<p><code>PVC</code> 也可以通过标签选择算符来过滤 <code>PV</code>，只有标签与选择算符相匹配的卷能够绑定到申领上。<code>PVC.sepc.selector</code> 字段定义此功能，有以下字段，如果同时定义则都要满足才能绑定到 <code>PV</code>：</p>
+<ul>
+<li><code>matchLabels</code>: <code>PV</code> 必须含有此标签才能绑定</li>
+<li><code>matchExpressions</code>: 通过键值对列表与操作符组（<code>In</code>、<code>NotIn</code>、<code>Exists</code>、<code>DoesNotExist</code>）成过滤条件</li>
+</ul>
+<h2 id="预留-pv" class="heading-element">
+  <a href="#%e9%a2%84%e7%95%99-pv" class="heading-mark"></a>预留 <code>PV</code></h2><p><code>PV.spec.claimRef</code> 字段可以声明把指定的 <code>PVC</code> 与 <code>PV</code> 绑定。该绑定操作不会考虑某些卷匹配条件是否满足，包括节点亲和性等。但控制面依旧会检查存储类、访问模式、请求大小等</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PersistentVolumeClaim</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">foo-pvc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w"> </span><span class="c"># 此处须显式设置空字符串，否则会被设置为默认的 StorageClass</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumeName</span><span class="p">:</span><span class="w"> </span><span class="l">foo-pv</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="l">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PersistentVolume</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">foo-pv</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">claimRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">foo-pvc </span><span class="w"> </span><span class="c"># 指定 PVC 名称</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">foo</span><span class="w"> </span><span class="c"># 指定 PVC 所在名称空间</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="l">...</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="名称空间" class="heading-element">
+  <a href="#%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4" class="heading-mark"></a>名称空间</h2><p>由于 <code>PV</code> 具有绑定后是有排它性的，且 <code>PVC</code> 是名称空间作用域的对象，因此 <code>ReadWriteMany</code> 与 <code>ReadOnlyMany</code> 访问模式只能在同一名称空间内进行</p>
+<h2 id="pv-删除" class="heading-element">
+  <a href="#pv-%e5%88%a0%e9%99%a4" class="heading-mark"></a><code>PV</code> 删除</h2><p>当用户不再使用其存储卷时，他们可以从 <code>API</code> 中将 <code>PVC</code> 对象删除， 从而允许该资源被回收再利用。<code>PV</code> 对象的回收策略告诉集群， 当其被从申领中释放时如何处理该数据卷：</p>
+<ul>
+<li><code>Retain</code>(保留): <code>PV</code> 卷仍然存在且被标识为 <code>released</code> （已释放）。由于卷上仍然存在这前一申领人的数据，该卷还不能用于其他申领。如果重用该存储资产，可以基于存储资产的定义创建新的 <code>PV</code> 与 <code>PVC</code> 对象并绑定。 想要彻底回收时需要通过以下步骤操作：
+<ol>
+<li>删除 <code>PV</code> 对象及其相关的外部存储资产</li>
+<li>根据情况，手动清除所关联的存储资产上的数据</li>
+<li>删除存储资产</li>
+</ol>
+</li>
+<li><code>Delete</code>(删除): 移除 <code>PV</code> 对象与其所关联的存储资产。动态制备的卷会继承 <code>StorageClass</code> 回收策略</li>
+<li><code>Recycle</code>(回收): 只删除 <code>PV</code> 上的数据，不删除对象，可以把 <code>PV</code> 重新与 <code>PVC</code> 绑定。该策略已废弃。可以使用动态制备实现（<code>StorageClass</code> 回收策略）。</li>
+</ul>
+<p>当使用某 <code>PVC</code> 的 <code>Pod</code> 对象仍然存在时，认为该 <code>PVC</code> 仍被此 <code>Pod</code> 使用。如果用户删除被某 <code>Pod</code> 使用的 <code>PVC</code> 对象，该 <code>PVC</code> 申领不会被立即移除。 <code>PVC</code> 对象的移除会被推迟，直至其不再被任何 <code>Pod</code> 使用。 此外，如果管理员删除已绑定到某 <code>PVC</code> 申领的 <code>PV</code> 卷，该 <code>PV</code> 卷也不会被立即移除。 <code>PV</code> 对象的移除也要推迟到该 <code>PV</code> 不再绑定到 <code>PVC</code>。这一功能特性的目的是确保仍被 <code>Pod</code> 使用的 <code>PVC</code> 对象及其所绑定的 <code>PV</code> 被删除造成的数据丢失</p>
+<p><code>PVC</code> 对象是处于被保护状态时，<code>Status</code> 值为 <code>Terminating</code>；<code>Finalizers</code> 值包含 <code>kubernetes.io/pvc-protection</code></p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl describe pvc hostpath
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Name:          hostpath
+</span></span><span class="line"><span class="cl">Namespace:     default
+</span></span><span class="line"><span class="cl">StorageClass:  example-hostpath
+</span></span><span class="line"><span class="cl">Status:        Terminating
+</span></span><span class="line"><span class="cl">Volume:
+</span></span><span class="line"><span class="cl">Labels:        &lt;none&gt;
+</span></span><span class="line"><span class="cl">Annotations:   volume.beta.kubernetes.io/storage-class<span class="o">=</span>example-hostpath
+</span></span><span class="line"><span class="cl">               volume.beta.kubernetes.io/storage-provisioner<span class="o">=</span>example.com/hostpath
+</span></span><span class="line"><span class="cl">Finalizers:    <span class="o">[</span>kubernetes.io/pvc-protection<span class="o">]</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>PV</code> 对象是处于被保护状态时，<code>Status</code> 值为 <code>Terminating</code>；<code>Finalizers</code> 值包含 <code>kubernetes.io/pv-protection</code></p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl describe pv task-pv-volume
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Name:            task-pv-volume
+</span></span><span class="line"><span class="cl">Labels:          <span class="nv">type</span><span class="o">=</span><span class="nb">local</span>
+</span></span><span class="line"><span class="cl">Annotations:     &lt;none&gt;
+</span></span><span class="line"><span class="cl">Finalizers:      <span class="o">[</span>kubernetes.io/pv-protection<span class="o">]</span>
+</span></span><span class="line"><span class="cl">StorageClass:    standard
+</span></span><span class="line"><span class="cl">Status:          Terminating
+</span></span><span class="line"><span class="cl">Claim:
+</span></span><span class="line"><span class="cl">Reclaim Policy:  Delete
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="阶段" class="heading-element">
+  <a href="#%e9%98%b6%e6%ae%b5" class="heading-mark"></a>阶段</h2><p>每个 <code>PVC</code> 会处于以下阶段之一：</p>
+<ul>
+<li><code>Available</code>: 表示可用，是空闲资源，没有绑定到 <code>PVC</code></li>
+<li><code>Bound</code>: 表示已绑定到 <code>PVC</code></li>
+<li><code>Released</code>: 表示可释放，<code>PVC</code> 已被删除</li>
+<li><code>Failed</code>: <code>PV</code> 自动回收操作失败</li>
+<li><code>Pending</code>: 等待。没有满足条件的 <code>PV</code></li>
+</ul>
+<h2 id="存储类" class="heading-element">
+  <a href="#%e5%ad%98%e5%82%a8%e7%b1%bb" class="heading-mark"></a>存储类</h2><p>可以使用 <code>StorageClass</code> 资源对这些类统一的配置。该资源为管理员提供了描述存储类的配置文件。相同为类才能绑定，缺省时会指定默认的类。示例</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">storage.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">StorageClass</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">standard</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">provisioner</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes.io/aws-ebs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">gp2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">reclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Retain</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">allowVolumeExpansion</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">mountOptions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">debug</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">volumeBindingMode</span><span class="p">:</span><span class="w"> </span><span class="l">Immediate</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>StorageClass.metadata.name</code> 字段声明名称，且必须是 <code>DNS</code> 子域名</li>
+<li><code>StorageClass.provisioner</code> 字段是必须的，它声明使用哪个卷插件创建 <code>PV</code></li>
+<li><code>StorageClass.reclaimPolicy</code> 字段指定默认回收策略，缺省时为 <code>Delete</code></li>
+<li><code>StorageClass.allowVolumeExpansion</code> 字段声明允许（值为：<code>true</code>）或拒绝（值为：<code>false</code>）用户通过编辑 <code>PVC</code> 对象来扩容卷</li>
+<li><code>StorageClass.mountOptions</code> 字段声明挂载选项。如果卷插件不支持声明的挂载选项则则制备操作会失败</li>
+<li><code>StorageClass.volumeBindingMode</code> 字段声明卷动态制备与绑定。有以下值
+<ul>
+<li><code>Immediate</code> 表示 <code>PVC</code> 创建后立即创建相当的 <code>PV</code> 并与之绑定。由于拓扑限制而非集群所有节点可达的存储后端，<code>PV</code> 可能会在不知道 <code>pod</code> 调度要求下可能完成了绑定
+。该场景应该使用 <code>WaitForFirstConsumer</code> 值</li>
+<li><code>WaitForFirstConsumer</code> 表示根据使用该 <code>PVC</code> 的 <code>pod</code> 调度情况制备 <code>PV</code> 再绑定</li>
+</ul>
+</li>
+</ul>
+<p>从 <code>k6s:1.6</code> 起使用 <code>PVC.spec.storageClassName</code> 字段声明使用的 <code>StorageClass</code> 资源。在 <code>k8s:1.6</code> 以前是给 <code>pod</code> 添加注解 <code>volume.beta.kubernetes.io/storage-class</code> 使用动态卷。该方法到 <code>k8s:1.9</code> 彻底废弃。以下是示例</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">storage.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">StorageClass</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">fast</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">provisioner</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes.io/gce-pd</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">parameters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">pd-ssd</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PersistentVolumeClaim</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">claim1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">ReadWriteOnce</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l">fast</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">requests</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l">30Gi</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="hostpath" class="heading-element">
+  <a href="#hostpath" class="heading-mark"></a>hostPath</h1><p><code>hostPath</code> 类型的存储卷能把主机节点文件系统上的文件或目录挂载到 <code>pod</code> 中，这种方式存在许多风险，尽可能避免使用，使用时应当以只读方式挂载。</p>
+<p><code>hostPath</code> 类型可以指定以下 <code>type</code> 属性（可选的 <code>pod.sepc,volumes.hostPath.type</code> 字段）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><code>type</code> 取值</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">缺省</td>
+<td style="text-align:left">缺省时安装 <code>hostPath</code> 卷之前不会执行任何检查</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DirectoryOrCreate</code></td>
+<td style="text-align:left">如果在给定路径上什么都不存在，那么将根据需要创建空目录，权限设置为 <code>0755</code>，具有与 <code>kubelet</code> 相同的组和属主信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileOrCreate</code></td>
+<td style="text-align:left">如果在给定路径上什么都不存在，那么将在那里根据需要创建空文件，权限设置为 <code>0644</code>，具有与 <code>kubelet</code> 相同的组和所有权</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Directory</code></td>
+<td style="text-align:left">在给定路径上必须存在的目录</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>File</code></td>
+<td style="text-align:left">在给定路径上必须存在的文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Socket</code></td>
+<td style="text-align:left">在给定路径上必须存在的 <code>UNIX</code> 套接字</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CharDevice</code></td>
+<td style="text-align:left">在给定路径上必须存在的字符设备</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BlockDevice</code></td>
+<td style="text-align:left">在给定路径上必须存在的块设备</td>
+</tr>
+</tbody>
+</table>
+<h1 id="emptydir" class="heading-element">
+  <a href="#emptydir" class="heading-mark"></a>emptyDir</h1><p>对于定义了 <code>emptyDir</code> 卷的 <code>Pod</code>，在 <code>Pod</code> 被指派到某节点时此卷会被创建。 就像其名称所表示的那样，<code>emptyDir</code> 卷最初是空的。尽管 <code>Pod</code> 中的容器挂载 <code>emptyDir</code> 卷的路径可能相同也可能不同，但这些容器都可以读写 <code>emptyDir</code> 卷中相同的文件。 当 <code>Pod</code> 因为某些原因被从节点上删除时，<code>emptyDir</code> 卷中的数据也会被永久删除。</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">emptyDir</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="c"># 挂载点名称</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">medium</span><span class="p">:</span><span class="w"> </span><span class="c"># 存储介质，缺省或为空时，使用节点默认存储介质，如硬盘、网络挂载</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="c"># 可以指定为Memory，表示使用内存，k8s 会挂载基于 RAM 的tmpfs文件系统</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">sizeLimit</span><span class="p">:</span><span class="w"> </span><span class="c"># 限制存储大小，如果是内存介质需要开启 SizeMemoryBackedVolumes 控制特性</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="local" class="heading-element">
+  <a href="#local" class="heading-mark"></a>local</h1><p><code>local</code> 类型与 <code>hostPath</code> 类似。<code>local</code> 卷无需手动将 <code>Pod</code> 调度到节点。系统通过查看 <code>PersistentVolume</code> 的节点亲和性配置，就能了解卷的节点约束。使用 <code>local</code> 卷作为 <code>PV</code> 时必须显式使用 <code>PV.sepc.nodeAffinity</code> 字段指定节点。当节点变得不健康，那么 <code>local</code> 卷也将变得不可被 <code>Pod</code> 访问。使用它的 <code>Pod</code> 将不能运行。</p>
+<p>更多信息可以查看<a href="https://github.com/kubernetes-sigs/sig-storage-local-static-provisioner"target="_blank" rel="external nofollow noopener noreferrer"><code>local</code> 卷驱动用户指</a></p>
+<p>示例</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PersistentVolume</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">local-pv-node1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">capacity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l">4Gi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l">Filesystem</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">ReadWriteOnce</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">persistentVolumeReclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Delete</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l">local</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">local</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">/pv</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">nodeAffinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes.io/hostname</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="l">node01.localhost.com</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PersistentVolumeClaim</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">node-pvc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">ReadWriteOnce</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l">Filesystem</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">requests</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l">1Gi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l">local</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl get pv</span>
+</span></span><span class="line"><span class="cl">NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM              STORAGECLASS   REASON   AGE
+</span></span><span class="line"><span class="cl">local-pv-node1   4Gi        RWO            Delete           Bound    default/node-pvc   <span class="nb">local</span>                   44s
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl get pvc</span>
+</span></span><span class="line"><span class="cl">NAME       STATUS   VOLUME           CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+</span></span><span class="line"><span class="cl">node-pvc   Bound    local-pv-node1   4Gi        RWO            <span class="nb">local</span>          46s</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="iomesh" class="heading-element">
+  <a href="#iomesh" class="heading-mark"></a>IOMesh</h1><p><a href="https://docs.iomesh.com/next/about-iomesh/introduction"target="_blank" rel="external nofollow noopener noreferrer">https://docs.iomesh.com/next/about-iomesh/introduction</a></p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-02-07 10:40:13">更新于 2024-02-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s-%E5%AD%98%E5%82%A8%E5%8D%B7/" class="post-tag" title="标签 - k8s 存储卷">k8s 存储卷</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linuxBash/" class="post-nav-item" rel="prev" title="bash shell脚本"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>bash shell脚本</a>
+      <a href="/%E4%BA%94%E7%AC%94/" class="post-nav-item" rel="next" title="五笔输入法">五笔输入法<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

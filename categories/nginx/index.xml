@@ -1,0 +1,143 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>nginx - 分类 - 小厮</title>
+    <link>/categories/nginx/</link>
+    <description>nginx - 分类 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 24 Aug 2023 03:30:57 &#43;0800</lastBuildDate><atom:link href="/categories/nginx/" rel="self" type="application/rss+xml" /><item>
+  <title>nginx http 代理</title>
+  <link>/nginxHttpProxy/</link>
+  <pubDate>Thu, 24 Aug 2023 03:30:57 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginxHttpProxy/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>用普通用户身份运行 nginx 进程</title>
+  <link>/nginxProcessRunsAsUser/</link>
+  <pubDate>Wed, 23 Aug 2023 20:44:42 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginxProcessRunsAsUser/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>nginx防盗链</title>
+  <link>/nginx-referer/</link>
+  <pubDate>Thu, 23 Feb 2023 09:59:18 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-referer/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>nginx 优化</title>
+  <link>/nginx%E4%BC%98%E5%8C%96/</link>
+  <pubDate>Wed, 15 Feb 2023 22:08:12 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx%E4%BC%98%E5%8C%96/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>nginx日志</title>
+  <link>/nginxLog/</link>
+  <pubDate>Mon, 19 Dec 2022 14:41:21 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginxLog/</guid>
+  <description><![CDATA[ ]]></description>
+</item>
+<item>
+  <title>nginx 配置 https</title>
+  <link>/nginx-https/</link>
+  <pubDate>Sat, 13 Aug 2022 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-https/</guid>
+  <description><![CDATA[nginx 使用 https 协议]]></description>
+</item>
+<item>
+  <title>nginx正向代理</title>
+  <link>/nginx-forward-proxy/</link>
+  <pubDate>Sat, 13 Aug 2022 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-forward-proxy/</guid>
+  <description><![CDATA[内容来自以下文档： 无处不在的海贼: 2021年Nginx配置搭建HTTPS正向代理服务的2种方式 nginx正向代理 1 2 3 4 5 6 7 8 9 10 11 12 13 14]]></description>
+</item>
+<item>
+  <title>nginx搭建文件下载服务</title>
+  <link>/nginx%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/</link>
+  <pubDate>Fri, 22 Jul 2022 15:46:05 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/</guid>
+  <description><![CDATA[使用nginx搭建文件下载服务]]></description>
+</item>
+<item>
+  <title>nginx问答</title>
+  <link>/nginx-QA/</link>
+  <pubDate>Thu, 09 Sep 2021 15:15:56 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-QA/</guid>
+  <description><![CDATA[内容来自以下文档： nginx面试题 cgi与fastcgi使用cgi时，nginx收到请求后生成新的子进程转发该请求到其它程序。 等待其它程序返]]></description>
+</item>
+<item>
+  <title>nginx 反向代理</title>
+  <link>/nginx-peverse-proxy/</link>
+  <pubDate>Thu, 03 Dec 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-peverse-proxy/</guid>
+  <description><![CDATA[运行环境： nginx: 1.20.0 反向代理nginx支持以下7层反向代理： http/https uwsgi fastcgi scgi memecached websocket http/https 配置代理请求部分： 指定上游服务：proxy_pass 是否传递头部请求：p]]></description>
+</item>
+<item>
+  <title>nginx架构</title>
+  <link>/nginx-architecture/</link>
+  <pubDate>Thu, 03 Dec 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-architecture/</guid>
+  <description><![CDATA[运行环境： nginx: 1.20.0 nginx进程结构nginx由一个master进程产生多个work子进程和chche相关进程 master进程管理work子进程]]></description>
+</item>
+<item>
+  <title>nginx 缓存</title>
+  <link>/nginx-cache/</link>
+  <pubDate>Wed, 02 Dec 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-cache/</guid>
+  <description><![CDATA[ ]]></description>
+</item>
+<item>
+  <title>nginx配置文件</title>
+  <link>/nginx-conf/</link>
+  <pubDate>Sun, 15 Nov 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-conf/</guid>
+  <description><![CDATA[运行环境： nginx: 1.23.0 配置文件配置文件由指令块与指令组成: server 指令块，由服务相关模块解析 分离配置文件http指令块中可以指定include指令指定其他]]></description>
+</item>
+<item>
+  <title>nginx模块与指令</title>
+  <link>/nginx-directives/</link>
+  <pubDate>Sat, 14 Nov 2020 15:09:06 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-directives/</guid>
+  <description><![CDATA[ ]]></description>
+</item>
+<item>
+  <title>安装nginx</title>
+  <link>/nginx-install/</link>
+  <pubDate>Sat, 14 Nov 2020 15:09:06 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-install/</guid>
+  <description><![CDATA[运行环境： nginx: 1.18 centos: 7 安装nginx三步骤 从nginx官网下载源码包 1 2 3 [root@centos7 ~]# wget http://nginx.org/download/nginx-1.18.0.tar.gz [root@centos7 ~]# tar -zxf nginx-1.18.0.tar.gz root@centos7 ~]# cd nginx-1.18.0 编译安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18]]></description>
+</item>
+<item>
+  <title>nginx运行错误</title>
+  <link>/nginx-error/</link>
+  <pubDate>Fri, 13 Nov 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-error/</guid>
+  <description><![CDATA[运行环境： nginx: 1.23 error: the invalid value in &ndash;with-ld-opt=&quot;-ltcmalloc&quot; 编译时安装出错 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 [root@centos7 nginx-1.18.0]# ./configure \ --with-http_auth_request_module \ --with-http_realip_module \ --with-http_v2_module \ --with-debug \ --add-module=/home/web/nginx-http-concat/ \ --with-http_random_index_module \ --with-http_sub_module]]></description>
+</item>
+<item>
+  <title>nginx 负载均衡</title>
+  <link>/nginx-load-balance/</link>
+  <pubDate>Thu, 13 Aug 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-load-balance/</guid>
+  <description><![CDATA[运行环境： nginx: 1.21.0 负载均衡扩展类型：可以综合使用 水平扩展：对无状态服务有用 round robin 算法 least connected 算法 基于功能(url)分发 基于用户(ip,用户名等)分发 round]]></description>
+</item>
+</channel>
+</rss>

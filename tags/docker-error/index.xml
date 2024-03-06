@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>docker error - 标签 - 小厮</title>
+    <link>/tags/docker-error/</link>
+    <description>docker error - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 21 Feb 2023 14:08:13 &#43;0800</lastBuildDate><atom:link href="/tags/docker-error/" rel="self" type="application/rss+xml" /><item>
+  <title>docker 容器使用中遇到的错误</title>
+  <link>/dokcer-error/</link>
+  <pubDate>Tue, 21 Feb 2023 14:08:13 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/dokcer-error/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>noevim 自动命令 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="通过某些事件触发一系列命令" /><meta name="keywords" content='neovim' /><meta itemprop="name" content="noevim 自动命令">
+<meta itemprop="description" content="通过某些事件触发一系列命令"><meta itemprop="datePublished" content="2023-04-22T13:16:11+08:00" />
+<meta itemprop="dateModified" content="2023-04-25T01:40:17+08:00" />
+<meta itemprop="wordCount" content="1321">
+<meta itemprop="keywords" content="neovim," /><meta property="og:title" content="noevim 自动命令" />
+<meta property="og:description" content="通过某些事件触发一系列命令" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/neovimAutocmd/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-22T13:16:11+08:00" />
+<meta property="article:modified_time" content="2023-04-25T01:40:17+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="noevim 自动命令"/>
+<meta name="twitter:description" content="通过某些事件触发一系列命令"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/neovimAutocmd/" /><link rel="prev" href="/vimAutocmd/" /><link rel="next" href="/neovimExCmd/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "noevim 自动命令",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/neovimAutocmd\/"
+    },"genre": "posts","keywords": "neovim","wordcount":  1321 ,
+    "url": "\/neovimAutocmd\/","datePublished": "2023-04-22T13:16:11+08:00","dateModified": "2023-04-25T01:40:17+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>noevim 自动命令</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/neovim/" class="post-category" title="分类 - neovim"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> neovim</a></span></div><div class="post-meta-line"><span title="发布于 2023-04-22 13:16:11"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-22">2023-04-22</time></span>&nbsp;<span title="更新于 2023-04-25 01:40:17"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-25">2023-04-25</time></span>&nbsp;<span title="1321 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#自动命令">自动命令</a></li>
+    <li><a href="#事件">事件</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>nvim: 0.10.0</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://neovim.io/doc/user/autocmd.html#autocmd"target="_blank" rel="external nofollow noopener noreferrer">neovim用户手册</a></li>
+<li><a href="https://yianwillis.github.io/vimcdoc/doc/autocmd.html#autocmd-events"target="_blank" rel="external nofollow noopener noreferrer">vim参考手册</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="自动命令" class="heading-element">
+  <a href="#%e8%87%aa%e5%8a%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>自动命令</h1><p>自动命令是由事件触发自动执行的一系列操作</p>
+<h1 id="事件" class="heading-element">
+  <a href="#%e4%ba%8b%e4%bb%b6" class="heading-mark"></a>事件</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">事件</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>BufNewFile</code></td>
+<td style="text-align:left">开始编辑尚不存在的文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufReadPre</code></td>
+<td style="text-align:left">开始编辑新缓冲区，读入文件前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufRead</code></td>
+<td style="text-align:left">开始编辑新缓冲区，读入文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufReadPost</code></td>
+<td style="text-align:left">开始编辑新缓冲区，读入文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufReadCmd</code></td>
+<td style="text-align:left">开始编辑新缓冲区前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileReadPre</code></td>
+<td style="text-align:left">用 &ldquo;:read&rdquo; 命令读入文件前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileReadPost</code></td>
+<td style="text-align:left">用 &ldquo;:read&rdquo; 命令读入文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileReadCmd</code></td>
+<td style="text-align:left">用 &ldquo;:read&rdquo; 命令读入文件前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FilterReadPre</code></td>
+<td style="text-align:left">用过滤命令读入文件前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FilterReadPost</code></td>
+<td style="text-align:left">用过滤命令读入文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>StdinReadPre</code></td>
+<td style="text-align:left">从标准输入读入缓冲区前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>StdinReadPost</code></td>
+<td style="text-align:left">从标准输入读入缓冲区后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufWrite</code></td>
+<td style="text-align:left">开始把整个缓冲区写回到文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufWritePre</code></td>
+<td style="text-align:left">开始把整个缓冲区写回到文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufWritePost</code></td>
+<td style="text-align:left">把整个缓冲区写回到文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufWriteCmd</code></td>
+<td style="text-align:left">把整个缓冲区写回到文件前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileWritePre</code></td>
+<td style="text-align:left">开始把缓冲区部分内容写回到文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileWritePost</code></td>
+<td style="text-align:left">把缓冲区部分内容写回到文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileWriteCmd</code></td>
+<td style="text-align:left">把缓冲区部分内容写回到文件前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileAppendPre</code></td>
+<td style="text-align:left">开始附加到文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileAppendPost</code></td>
+<td style="text-align:left">附加到文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileAppendCmd</code></td>
+<td style="text-align:left">附加到文件前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FilterWritePre</code></td>
+<td style="text-align:left">开始为过滤命令或 diff 写到文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FilterWritePost</code></td>
+<td style="text-align:left">为过滤命令或 diff 写到文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufAdd</code></td>
+<td style="text-align:left">刚把缓冲区附加到缓冲区列表后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufCreate</code></td>
+<td style="text-align:left">刚把缓冲区附加到缓冲区列表后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufDelete</code></td>
+<td style="text-align:left">从缓冲区列表删除缓冲区前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufWipeout</code></td>
+<td style="text-align:left">从缓冲区列表完全删除缓冲区前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufFilePre</code></td>
+<td style="text-align:left">改变当前缓冲区名字前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufFilePost</code></td>
+<td style="text-align:left">改变当前缓冲区名字后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufEnter</code></td>
+<td style="text-align:left">进入缓冲区后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufLeave</code></td>
+<td style="text-align:left">转到其它缓冲区前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufWinEnter</code></td>
+<td style="text-align:left">在窗口显示缓冲区前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufWinLeave</code></td>
+<td style="text-align:left">从窗口删除缓冲区前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufUnload</code></td>
+<td style="text-align:left">卸载缓冲区前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufHidden</code></td>
+<td style="text-align:left">刚把缓冲区变为隐藏前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>BufNew</code></td>
+<td style="text-align:left">刚建立新缓冲区后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SwapExists</code></td>
+<td style="text-align:left">检测到交换文件已经存在</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileType</code></td>
+<td style="text-align:left">设置 &lsquo;filetype&rsquo; 选项时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Syntax</code></td>
+<td style="text-align:left">设置 &lsquo;syntax&rsquo; 选项时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>EncodingChanged</code></td>
+<td style="text-align:left">&rsquo;encoding&rsquo; 选项改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TermChanged</code></td>
+<td style="text-align:left">&rsquo;term&rsquo; 的值改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>OptionSet</code></td>
+<td style="text-align:left">设置任何选项后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>VimEnter</code></td>
+<td style="text-align:left">完成所有的初始化步骤后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>UIEnter</code></td>
+<td style="text-align:left">在初始化后，如果成功启动 <code>UI</code> ，执行相关操作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>GUIFailed</code></td>
+<td style="text-align:left">退出 <code>UI</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TermResponse</code></td>
+<td style="text-align:left">收到  <code>t_RV</code>  的终端应答后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>QuitPre</code></td>
+<td style="text-align:left">用  :quit  时，决定是否退出之前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ExitPre</code></td>
+<td style="text-align:left">用可使 Vim 退出的命令时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>VimLeavePre</code></td>
+<td style="text-align:left">退出 Vim 前，在写入 viminfo 文件之前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>VimLeave</code></td>
+<td style="text-align:left">退出 Vim 前，在写入 viminfo 文件之后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>VimSuspend</code></td>
+<td style="text-align:left">暂停 Vim 时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>VimResume</code></td>
+<td style="text-align:left">Vim 在暂停后恢复运行时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TerminalOpen</code></td>
+<td style="text-align:left">建立终端缓冲区后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TerminalWinOpen</code></td>
+<td style="text-align:left">在新窗口建立终端缓冲区后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileChangedShell</code></td>
+<td style="text-align:left">Vim 注意到文件在编辑开始后被改变</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileChangedShellPost</code></td>
+<td style="text-align:left">对在编辑开始后被改变的文件的处理完成后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FileChangedRO</code></td>
+<td style="text-align:left">对只读文件进行第一次修改前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DiffUpdated</code></td>
+<td style="text-align:left">刷新比较结果后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DirChangedPre</code></td>
+<td style="text-align:left">工作目录改变前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DirChanged</code></td>
+<td style="text-align:left">工作目录改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ShellCmdPost</code></td>
+<td style="text-align:left">执行外壳命令后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ShellFilterPost</code></td>
+<td style="text-align:left">用外壳命令执行完过滤后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CmdUndefined</code></td>
+<td style="text-align:left">调用没有定义的用户命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FuncUndefined</code></td>
+<td style="text-align:left">调用没有定义的用户函数</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SpellFileMissing</code></td>
+<td style="text-align:left">使用不存在的拼写文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SourcePre</code></td>
+<td style="text-align:left">执行 Vim 脚本之前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SourcePost</code></td>
+<td style="text-align:left">执行 Vim 脚本之后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SourceCmd</code></td>
+<td style="text-align:left">执行 Vim 脚本之前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>VimResized</code></td>
+<td style="text-align:left">Vim 窗口大小改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FocusGained</code></td>
+<td style="text-align:left">Vim 得到输入焦点</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FocusLost</code></td>
+<td style="text-align:left">Vim 失去输入焦点</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CursorHold</code></td>
+<td style="text-align:left">用户有一段时间没有按键</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CursorHoldI</code></td>
+<td style="text-align:left">在插入模式下，用户有一段时间没有按键</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CursorMoved</code></td>
+<td style="text-align:left">普通模式下移动了光标</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CursorMovedI</code></td>
+<td style="text-align:left">插入模式下移动了光标</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>WinNew</code></td>
+<td style="text-align:left">创建新窗口后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TabNew</code></td>
+<td style="text-align:left">创建新标签页后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>WinClosed</code></td>
+<td style="text-align:left">关闭窗口后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TabClosed</code></td>
+<td style="text-align:left">关闭标签页后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>WinEnter</code></td>
+<td style="text-align:left">进入其它窗口后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>WinLeave</code></td>
+<td style="text-align:left">离开窗口前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TabEnter</code></td>
+<td style="text-align:left">进入其它标签页后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TabLeave</code></td>
+<td style="text-align:left">离开标签页前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CmdwinEnter</code></td>
+<td style="text-align:left">进入命令行窗口后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CmdwinLeave</code></td>
+<td style="text-align:left">离开命令行窗口前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CmdlineChanged</code></td>
+<td style="text-align:left">命令行文本发生改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CmdlineEnter</code></td>
+<td style="text-align:left">光标移到命令行后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CmdlineLeave</code></td>
+<td style="text-align:left">光标离开命令行前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>InsertEnter</code></td>
+<td style="text-align:left">开始插入模式前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>InsertChange</code></td>
+<td style="text-align:left">在插入或替换模式下输入 <Insert> 时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>InsertLeave</code></td>
+<td style="text-align:left">离开插入模式时</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>InsertLeavePre</code></td>
+<td style="text-align:left">离开插入模式前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>InsertCharPre</code></td>
+<td style="text-align:left">插入模式输入每个字符前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ModeChanged</code></td>
+<td style="text-align:left">改变模式后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TextChanged</code></td>
+<td style="text-align:left">普通模式中对文本进行改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TextChangedI</code></td>
+<td style="text-align:left">弹出菜单不可见时，插入模式中对文本进行改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TextChangedP</code></td>
+<td style="text-align:left">弹出菜单可见时，插入模式中对文本进行改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TextChangedT</code></td>
+<td style="text-align:left">终端模式中对文本进行改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>TextYankPost</code></td>
+<td style="text-align:left">文本抽出或删除后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SafeState</code></td>
+<td style="text-align:left">没有任何待定字符，等待用户键入字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SafeStateAgain</code></td>
+<td style="text-align:left">重复出现 的 SafeState</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ColorSchemePre</code></td>
+<td style="text-align:left">载入色彩方案前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ColorScheme</code></td>
+<td style="text-align:left">载入色彩方案后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>RemoteReply</code></td>
+<td style="text-align:left">得到了 Vim 服务器的应答</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>QuickFixCmdPre</code></td>
+<td style="text-align:left">执行快速修复命令前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>QuickFixCmdPost</code></td>
+<td style="text-align:left">执行快速修复命令后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SessionLoadPost</code></td>
+<td style="text-align:left">载入会话文件后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>MenuPopup</code></td>
+<td style="text-align:left">刚要显示弹出菜单前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CompleteChanged</code></td>
+<td style="text-align:left">插入模式补全菜单被改变后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CompleteDonePre</code></td>
+<td style="text-align:left">插入模式补全结束之后，清理 info 之前</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>CompleteDone</code></td>
+<td style="text-align:left">插入模式补全结束之后，清理 info 之后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>User</code></td>
+<td style="text-align:left">和 &ldquo;:doautocmd&rdquo; 一起使用</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SigUSR1</code></td>
+<td style="text-align:left">检测到 SIGUSR1 信号后</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>WinScrolled</code></td>
+<td style="text-align:left">滚动窗口或改变窗口大小后</td>
+</tr>
+</tbody>
+</table>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-04-25 01:40:17">更新于 2023-04-25&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/neovim/" class="post-tag" title="标签 - neovim">neovim</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/vimAutocmd/" class="post-nav-item" rel="prev" title="vim 自动命令"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>vim 自动命令</a>
+      <a href="/neovimExCmd/" class="post-nav-item" rel="next" title="neovim Ex 命令">neovim Ex 命令<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

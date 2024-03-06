@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>conf - 标签 - 小厮</title>
+    <link>/tags/conf/</link>
+    <description>conf - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 15 Nov 2020 10:15:20 &#43;0800</lastBuildDate><atom:link href="/tags/conf/" rel="self" type="application/rss+xml" /><item>
+  <title>nginx配置文件</title>
+  <link>/nginx-conf/</link>
+  <pubDate>Sun, 15 Nov 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-conf/</guid>
+  <description><![CDATA[运行环境： nginx: 1.23.0 配置文件配置文件由指令块与指令组成: server 指令块，由服务相关模块解析 分离配置文件http指令块中可以指定include指令指定其他]]></description>
+</item>
+</channel>
+</rss>

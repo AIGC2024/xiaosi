@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>磁盘管理 - 标签 - 小厮</title>
+    <link>/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/</link>
+    <description>磁盘管理 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 17 Dec 2022 14:21:06 &#43;0800</lastBuildDate><atom:link href="/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/" rel="self" type="application/rss+xml" /><item>
+  <title>linux系统中磁盘管理</title>
+  <link>/linux-disk/</link>
+  <pubDate>Sat, 17 Dec 2022 14:21:06 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linux-disk/</guid>
+  <description><![CDATA[ ]]></description>
+</item>
+</channel>
+</rss>

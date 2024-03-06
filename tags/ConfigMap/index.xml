@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>ConfigMap - 标签 - 小厮</title>
+    <link>/tags/ConfigMap/</link>
+    <description>ConfigMap - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 10 Dec 2023 12:51:13 &#43;0800</lastBuildDate><atom:link href="/tags/ConfigMap/" rel="self" type="application/rss+xml" /><item>
+  <title>k8s ConfigMap 对象</title>
+  <link>/k8sConfigMap/</link>
+  <pubDate>Sun, 10 Dec 2023 12:51:13 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sConfigMap/</guid>
+  <description><![CDATA[ConfigMap - 用来将非机密性的数据保存到键值对中，Pod 可以将其用作环境变量、命令行参数或者存储卷中。]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>ADOT开放EKS指标给Prometheus抓取 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='AWS Distro for OpenTelemetry, ADOT, Amazon Managed Service for Prometheus, EKS' /><meta itemprop="name" content="ADOT开放EKS指标给Prometheus抓取">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-11-16T16:07:05+08:00" />
+<meta itemprop="dateModified" content="2023-11-16T17:56:42+08:00" />
+<meta itemprop="wordCount" content="1666">
+<meta itemprop="keywords" content="AWS Distro for OpenTelemetry,ADOT,Amazon Managed Service for Prometheus,EKS," /><meta property="og:title" content="ADOT开放EKS指标给Prometheus抓取" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsADOT/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-16T16:07:05+08:00" />
+<meta property="article:modified_time" content="2023-11-16T17:56:42+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ADOT开放EKS指标给Prometheus抓取"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsADOT/" /><link rel="prev" href="/goMethod/" /><link rel="next" href="/awsBillingConductorForMembersBilling/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ADOT开放EKS指标给Prometheus抓取",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsADOT\/"
+    },"genre": "posts","keywords": "AWS Distro for OpenTelemetry, ADOT, Amazon Managed Service for Prometheus, EKS","wordcount":  1666 ,
+    "url": "\/awsADOT\/","datePublished": "2023-11-16T16:07:05+08:00","dateModified": "2023-11-16T17:56:42+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>ADOT开放EKS指标给Prometheus抓取</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-11-16 16:07:05"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-11-16">2023-11-16</time></span>&nbsp;<span title="更新于 2023-11-16 17:56:42"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-11-16">2023-11-16</time></span>&nbsp;<span title="1666 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#prometheus-接收器">Prometheus 接收器</a>
+      <ul>
+        <li><a href="#构建镜像">构建镜像</a></li>
+      </ul>
+    </li>
+    <li><a href="#prometheus-远程写入导出器">Prometheus 远程写入导出器</a></li>
+    <li><a href="#sigv4-身份验证扩展">Sigv4 身份验证扩展。</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>EKS: 1.28</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/zh_cn/prometheus/latest/userguide/AMP-onboard-ingest-metrics-OpenTelemetry.html"target="_blank" rel="external nofollow noopener noreferrer"><code>AWS 官方文档：</code>在亚马逊 Elastic Kubernetes Service 集群上使用 AWS Distro 为开放遥测设置指标提取</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_cn/prometheus/latest/userguide/set-up-irsa.html"target="_blank" rel="external nofollow noopener noreferrer"><code>AWS 官方文档：</code>Prometheus 与 Grafana 之间授权和身份验证所需的角色</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="prometheus-接收器" class="heading-element">
+  <a href="#prometheus-%e6%8e%a5%e6%94%b6%e5%99%a8" class="heading-mark"></a>Prometheus 接收器</h1><ul>
+<li>
+<p>执行以下脚本内容，为从 <code>Amazon EKS</code> 集群提取指标设置服务角色</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ADOT<span class="o">]</span><span class="c1"># cat createIRSA-AMPIngest.sh</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash -e</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">CLUSTER_NAME</span><span class="o">=</span>eks01
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_NAMESPACE</span><span class="o">=</span>eks01
+</span></span><span class="line"><span class="cl"><span class="nv">profile</span><span class="o">=</span>yh-xiaosi
+</span></span><span class="line"><span class="cl"><span class="nv">region</span><span class="o">=</span>ap-southeast-1
+</span></span><span class="line"><span class="cl"><span class="nv">AWS_ACCOUNT_ID</span><span class="o">=</span><span class="k">$(</span>aws sts get-caller-identity <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --query <span class="s2">&#34;Account&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile <span class="nv">$profile</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">OIDC_PROVIDER</span><span class="o">=</span><span class="k">$(</span>aws eks describe-cluster <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name <span class="nv">$CLUSTER_NAME</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --query <span class="s2">&#34;cluster.identity.oidc.issuer&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile <span class="nv">$profile</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --region <span class="nv">$region</span> <span class="p">|</span> sed -e <span class="s2">&#34;s/^https:\/\///&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_AMP_INGEST_NAME</span><span class="o">=</span>amp-iamproxy-ingest-service-account
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE</span><span class="o">=</span>amp-iamproxy-ingest-role
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_POLICY</span><span class="o">=</span>AMPIngestPolicy
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Set up a trust policy designed for a specific combination of K8s service account and namespace to sign in from a Kubernetes cluster which hosts the OIDC Idp.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; TrustPolicy.json
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Statement&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">    {
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Principal&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Federated&#34;: &#34;arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">      },
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Action&#34;: &#34;sts:AssumeRoleWithWebIdentity&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Condition&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;StringEquals&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">          &#34;${OIDC_PROVIDER}:sub&#34;: &#34;system:serviceaccount:${SERVICE_ACCOUNT_NAMESPACE}:${SERVICE_ACCOUNT_AMP_INGEST_NAME}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">      }
+</span></span></span><span class="line"><span class="cl"><span class="s">    }
+</span></span></span><span class="line"><span class="cl"><span class="s">  ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Set up the permission policy that grants ingest (remote write) permissions for all AMP workspaces</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; PermissionPolicyIngest.json
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">   &#34;Statement&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">       {&#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Action&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:RemoteWrite&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetSeries&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetLabels&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetMetricMetadata&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        ],
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Resource&#34;: &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">      }
+</span></span></span><span class="line"><span class="cl"><span class="s">   ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> getRoleArn<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">OUTPUT</span><span class="o">=</span><span class="k">$(</span>aws iam get-role --role-name <span class="nv">$1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --query <span class="s1">&#39;Role.Arn&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --profile <span class="nv">$profile</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --region <span class="nv">$region</span> 2&gt;<span class="p">&amp;</span>1<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Check for an expected exception</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="nv">$OUTPUT</span>
+</span></span><span class="line"><span class="cl">  <span class="k">elif</span> <span class="o">[[</span> -n <span class="k">$(</span>grep <span class="s2">&#34;NoSuchEntity&#34;</span> <span class="o">&lt;&lt;&lt;</span> <span class="nv">$OUTPUT</span><span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    &gt;<span class="p">&amp;</span><span class="m">2</span> <span class="nb">echo</span> <span class="nv">$OUTPUT</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the IAM Role for ingest with the above trust policy</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span><span class="o">=</span><span class="k">$(</span>getRoleArn <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span> <span class="o">]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Create the IAM role for service account</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span><span class="o">=</span><span class="k">$(</span>aws iam create-role <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --role-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --assume-role-policy-document file://TrustPolicy.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --query <span class="s2">&#34;Role.Arn&#34;</span> --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --profile <span class="nv">$profile</span><span class="k">)</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --region <span class="nv">$region</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Create an IAM permission policy</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_ARN</span><span class="o">=</span><span class="k">$(</span>aws iam create-policy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --policy-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_POLICY</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --policy-document file://PermissionPolicyIngest.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --query <span class="s1">&#39;Policy.Arn&#39;</span> --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --region <span class="nv">$region</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --profile <span class="nv">$profile</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Attach the required IAM policies to the IAM role created above</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  aws iam attach-role-policy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --role-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --policy-arn <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ARN</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --region <span class="nv">$region</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --profile <span class="nv">$profile</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span><span class="s2"> IAM role for ingest already exists&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># EKS cluster hosts an OIDC provider with a public discovery endpoint.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Associate this IdP with AWS IAM so that the latter can validate and accept the OIDC tokens issued by Kubernetes to service accounts.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Doing this with eksctl is the easier and best approach.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">eksctl utils associate-iam-oidc-provider <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --cluster <span class="nv">$CLUSTER_NAME</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --approve <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --region <span class="nv">$region</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile <span class="nv">$profile</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>脚本输出</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ADOT<span class="o">]</span><span class="c1"># bash createIRSA-AMPIngest.sh</span>
+</span></span><span class="line"><span class="cl">arn:aws:iam::223665515173:role/amp-iamproxy-ingest-role
+</span></span><span class="line"><span class="cl">2023-11-16 16:59:15 <span class="o">[</span>ℹ<span class="o">]</span>  IAM Open ID Connect provider is already associated with cluster <span class="s2">&#34;eks01&#34;</span> in <span class="s2">&#34;ap-southeast-1&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>执行脚本，允许从 <code>Prometheus</code> 工作空间的亚马逊托管服务查询指标</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ADOT<span class="o">]</span><span class="c1"># cat createIRSA-AMPQuery.sh</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash -e</span>
+</span></span><span class="line"><span class="cl"><span class="nv">CLUSTER_NAME</span><span class="o">=</span>eks01
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_NAMESPACE</span><span class="o">=</span>eks01
+</span></span><span class="line"><span class="cl"><span class="nv">profile</span><span class="o">=</span>yh-xiaosi
+</span></span><span class="line"><span class="cl"><span class="nv">region</span><span class="o">=</span>ap-southeast-1
+</span></span><span class="line"><span class="cl"><span class="nv">AWS_ACCOUNT_ID</span><span class="o">=</span><span class="k">$(</span>aws sts get-caller-identity <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --query <span class="s2">&#34;Account&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile <span class="nv">$profile</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">OIDC_PROVIDER</span><span class="o">=</span><span class="k">$(</span>aws eks describe-cluster <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name <span class="nv">$CLUSTER_NAME</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --query <span class="s2">&#34;cluster.identity.oidc.issuer&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile <span class="nv">$profile</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --region <span class="nv">$region</span> <span class="p">|</span> sed -e <span class="s2">&#34;s/^https:\/\///&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_AMP_QUERY_NAME</span><span class="o">=</span>amp-iamproxy-query-service-account
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE</span><span class="o">=</span>amp-iamproxy-query-role
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_QUERY_POLICY</span><span class="o">=</span>AMPQueryPolicy
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Setup a trust policy designed for a specific combination of K8s service account and namespace to sign in from a Kubernetes cluster which hosts the OIDC Idp.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; TrustPolicy.json
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Statement&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">    {
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Principal&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Federated&#34;: &#34;arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">      },
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Action&#34;: &#34;sts:AssumeRoleWithWebIdentity&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Condition&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;StringEquals&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">          &#34;${OIDC_PROVIDER}:sub&#34;: &#34;system:serviceaccount:${SERVICE_ACCOUNT_NAMESPACE}:${SERVICE_ACCOUNT_AMP_QUERY_NAME}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">      }
+</span></span></span><span class="line"><span class="cl"><span class="s">    }
+</span></span></span><span class="line"><span class="cl"><span class="s">  ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Set up the permission policy that grants query permissions for all AMP workspaces</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; PermissionPolicyQuery.json
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">   &#34;Statement&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">       {&#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Action&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:QueryMetrics&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetSeries&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetLabels&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetMetricMetadata&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        ],
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Resource&#34;: &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">      }
+</span></span></span><span class="line"><span class="cl"><span class="s">   ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> getRoleArn<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">OUTPUT</span><span class="o">=</span><span class="k">$(</span>aws iam get-role --role-name <span class="nv">$1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --query <span class="s1">&#39;Role.Arn&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --profile <span class="nv">$profile</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --region <span class="nv">$region</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --output text 2&gt;<span class="p">&amp;</span>1<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Check for an expected exception</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="nv">$OUTPUT</span>
+</span></span><span class="line"><span class="cl">  <span class="k">elif</span> <span class="o">[[</span> -n <span class="k">$(</span>grep <span class="s2">&#34;NoSuchEntity&#34;</span> <span class="o">&lt;&lt;&lt;</span> <span class="nv">$OUTPUT</span><span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    &gt;<span class="p">&amp;</span><span class="m">2</span> <span class="nb">echo</span> <span class="nv">$OUTPUT</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the IAM Role for query with the above trust policy</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE_ARN</span><span class="o">=</span><span class="k">$(</span>getRoleArn <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE_ARN</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span> <span class="o">]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Create the IAM role for service account</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE_ARN</span><span class="o">=</span><span class="k">$(</span>aws iam create-role <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --role-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --assume-role-policy-document file://TrustPolicy.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --query <span class="s2">&#34;Role.Arn&#34;</span> --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --profile <span class="nv">$profile</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --region <span class="nv">$region</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Create an IAM permission policy</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">SERVICE_ACCOUNT_IAM_AMP_QUERY_ARN</span><span class="o">=</span><span class="k">$(</span>aws iam create-policy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --policy-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_QUERY_POLICY</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --policy-document file://PermissionPolicyQuery.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --query <span class="s1">&#39;Policy.Arn&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --profile <span class="nv">$profile</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --region <span class="nv">$region</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Attach the required IAM policies to the IAM role create above</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  aws iam attach-role-policy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --role-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --policy-arn <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_QUERY_ARN</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --profile <span class="nv">$profile</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --region <span class="nv">$region</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE_ARN</span><span class="s2"> IAM role for query already exists&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_QUERY_ROLE_ARN</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># EKS cluster hosts an OIDC provider with a public discovery endpoint.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Associate this IdP with AWS IAM so that the latter can validate and accept the OIDC tokens issued by Kubernetes to service accounts.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Doing this with eksctl is the easier and best approach.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">eksctl utils associate-iam-oidc-provider <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --cluster <span class="nv">$CLUSTER_NAME</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --approve <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile <span class="nv">$profile</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --region <span class="nv">$region</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行输出</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ADOT<span class="o">]</span><span class="c1"># bash createIRSA-AMPQuery.sh</span>
+</span></span><span class="line"><span class="cl">arn:aws:iam::223665515173:role/amp-iamproxy-query-role
+</span></span><span class="line"><span class="cl">2023-11-16 17:08:00 <span class="o">[</span>ℹ<span class="o">]</span>  IAM Open ID Connect provider is already associated with cluster <span class="s2">&#34;eks01&#34;</span> in <span class="s2">&#34;ap-southeast-1&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="构建镜像" class="heading-element">
+  <a href="#%e6%9e%84%e5%bb%ba%e9%95%9c%e5%83%8f" class="heading-mark"></a>构建镜像</h2><ol>
+<li>下载开源库</li>
+</ol>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ADOT<span class="o">]</span><span class="c1"># git clone https://github.com/aws-observability/aws-otel-community.git</span>
+</span></span><span class="line"><span class="cl">Cloning into <span class="s1">&#39;aws-otel-community&#39;</span>...
+</span></span><span class="line"><span class="cl">remote: Enumerating objects: 2919, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Counting objects: 100% <span class="o">(</span>1594/1594<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Compressing objects: 100% <span class="o">(</span>599/599<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Total <span class="m">2919</span> <span class="o">(</span>delta 1242<span class="o">)</span>, reused <span class="m">1223</span> <span class="o">(</span>delta 978<span class="o">)</span>, pack-reused <span class="m">1325</span>
+</span></span><span class="line"><span class="cl">Receiving objects: 100% <span class="o">(</span>2919/2919<span class="o">)</span>, 1.63 MiB <span class="p">|</span> 1.96 MiB/s, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">Resolving deltas: 100% <span class="o">(</span>1863/1863<span class="o">)</span>, <span class="k">done</span>.</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>
+<p>构建镜像</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ADOT<span class="o">]</span><span class="c1"># cd aws-otel-community/sample-apps/prometheus-sample-app/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus-sample-app<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus-sample-app<span class="o">]</span><span class="c1"># docker build . -t prometheus-sample-app:latest</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Building 853.3s <span class="o">(</span>17/17<span class="o">)</span> FINISHED                                                                                                         docker:default
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load build definition from Dockerfile                                                                                                   0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring dockerfile: 523B                                                                                                                   0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load .dockerignore                                                                                                                      0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring context: 2B                                                                                                                        0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load metadata <span class="k">for</span> docker.io/library/golang:1.17                                                                                         2.8s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load build context                                                                                                                      0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring context: 77.05kB                                                                                                                   0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>mod 1/5<span class="o">]</span> FROM docker.io/library/golang:1.17@sha256:87262e4a4c7db56158a80a18fefdc4fee5accc41b59cde821e691d05541bbb18                              66.5s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; resolve docker.io/library/golang:1.17@sha256:87262e4a4c7db56158a80a18fefdc4fee5accc41b59cde821e691d05541bbb18                                   0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:d836772a1c1f9c4b1f280fb2a98ace30a4c4c87370f89aa092b35dfd9556278a 55.00MB / 55.00MB                                                      17.4s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:66a9e63c657ad881997f5165c0826be395bfc064415876b9fbaae74bcb5dc721 5.16MB / 5.16MB                                                         1.3s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:d1989b6e74cfdda1591b9dd23be47c5caeb002b7a151379361ec0c3f0e6d0e52 10.88MB / 10.88MB                                                       3.5s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:87262e4a4c7db56158a80a18fefdc4fee5accc41b59cde821e691d05541bbb18 2.35kB / 2.35kB                                                         0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:55636cf1983628109e569690596b85077f45aca810a77904e8afad48b49aa500 1.80kB / 1.80kB                                                         0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:742df529b073e7d1e213702a6cca40c32f3f5068125988de249416ba0abee517 7.12kB / 7.12kB                                                         0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:c28818711e1ed38df107014a20127b41491b224d7aed8aa7066b55552d9600d2 54.58MB / 54.58MB                                                      17.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:9d6246ba248cc80872dc2995f9080ef76305b540968dadb096b75f2e2146a38a 85.90MB / 85.90MB                                                      24.1s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:21d43f0d73c2979514706af3d892f631b75d5c2d56aebfac0172e5a4e934b447 135.06MB / 135.06MB                                                    38.5s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; extracting sha256:d836772a1c1f9c4b1f280fb2a98ace30a4c4c87370f89aa092b35dfd9556278a                                                              8.3s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; sha256:d8a1c5873f408d3f5a8d8d73c6b9a3d77818bab0b26142a493909ea8c4d0c020 154B / 154B                                                            18.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; extracting sha256:66a9e63c657ad881997f5165c0826be395bfc064415876b9fbaae74bcb5dc721                                                              0.8s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; extracting sha256:d1989b6e74cfdda1591b9dd23be47c5caeb002b7a151379361ec0c3f0e6d0e52                                                              0.8s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; extracting sha256:c28818711e1ed38df107014a20127b41491b224d7aed8aa7066b55552d9600d2                                                              9.4s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; extracting sha256:9d6246ba248cc80872dc2995f9080ef76305b540968dadb096b75f2e2146a38a                                                             10.1s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; extracting sha256:21d43f0d73c2979514706af3d892f631b75d5c2d56aebfac0172e5a4e934b447                                                             18.3s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; extracting sha256:d8a1c5873f408d3f5a8d8d73c6b9a3d77818bab0b26142a493909ea8c4d0c020                                                              0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>mod 2/5<span class="o">]</span> WORKDIR /go/main                                                                                                                         2.1s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>mod 3/5<span class="o">]</span> COPY go.mod .                                                                                                                            0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>mod 4/5<span class="o">]</span> COPY go.sum .                                                                                                                            0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>mod 5/5<span class="o">]</span> RUN <span class="nv">GO111MODULE</span><span class="o">=</span>on go mod download                                                                                                     494.6s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>build 2/6<span class="o">]</span> COPY --from<span class="o">=</span>mod                                                                                                                      112.7s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>build 3/6<span class="o">]</span> COPY --from<span class="o">=</span>mod /go/pkg/mod /go/pkg/mod                                                                                               82.3s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>build 4/6<span class="o">]</span> WORKDIR /go/main                                                                                                                       0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>build 5/6<span class="o">]</span> COPY . .                                                                                                                               0.1s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>build 6/6<span class="o">]</span> RUN <span class="nv">GO111MODULE</span><span class="o">=</span>on <span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span> <span class="nv">GOOS</span><span class="o">=</span>linux go build -o<span class="o">=</span>/bin/main .                                                                   26.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>stage-2 1/2<span class="o">]</span> COPY --from<span class="o">=</span>build /bin/main /bin/main                                                                                                0.1s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">[</span>stage-2 2/2<span class="o">]</span> COPY ./config.yaml /                                                                                                                 0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; exporting to image                                                                                                                                 0.2s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; exporting layers                                                                                                                                0.2s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; writing image sha256:233024893a82a8fd912d03736130ff7374c8d9da90312c48c3b81540f1379bc1                                                           0.0s
+</span></span><span class="line"><span class="cl"> <span class="o">=</span>&gt; <span class="o">=</span>&gt; naming to docker.io/library/prometheus-sample-app:latest                                                                                        0.0s</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus-sample-app<span class="o">]</span><span class="c1"># docker image ls prometheus-sample-app</span>
+</span></span><span class="line"><span class="cl">REPOSITORY              TAG       IMAGE ID       CREATED         SIZE
+</span></span><span class="line"><span class="cl">prometheus-sample-app   latest    233024893a82   <span class="m">2</span> minutes ago   12.3MB</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h1 id="prometheus-远程写入导出器" class="heading-element">
+  <a href="#prometheus-%e8%bf%9c%e7%a8%8b%e5%86%99%e5%85%a5%e5%af%bc%e5%87%ba%e5%99%a8" class="heading-mark"></a>Prometheus 远程写入导出器</h1><h1 id="sigv4-身份验证扩展" class="heading-element">
+  <a href="#sigv4-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e6%89%a9%e5%b1%95" class="heading-mark"></a>Sigv4 身份验证扩展。</h1></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-11-16 17:56:42">更新于 2023-11-16&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/AWS-Distro-for-OpenTelemetry/" class="post-tag" title="标签 - AWS Distro for OpenTelemetry">AWS Distro for OpenTelemetry</a><a href="/tags/ADOT/" class="post-tag" title="标签 - ADOT">ADOT</a><a href="/tags/Amazon-Managed-Service-for-Prometheus/" class="post-tag" title="标签 - Amazon Managed Service for Prometheus">Amazon Managed Service for Prometheus</a><a href="/tags/eks/" class="post-tag" title="标签 - eks">eks</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/goMethod/" class="post-nav-item" rel="prev" title="go 方法"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>go 方法</a>
+      <a href="/awsBillingConductorForMembersBilling/" class="post-nav-item" rel="next" title="使用 AWS Billing Conductor 在组织成员账户中显示实际账单">使用 AWS Billing Conductor 在组织成员账户中显示实际账单<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

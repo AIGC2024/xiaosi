@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>lvs - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="内容来自以下文档： 官方文档 开源访谈录：章文嵩：开源为我打开一扇窗 Linux Virtual ServerLVS项目是由章文嵩在1998年成立的，中国国内最早出现的自" /><meta name="keywords" content='lvs, linux' /><meta itemprop="name" content="lvs">
+<meta itemprop="description" content="内容来自以下文档： 官方文档 开源访谈录：章文嵩：开源为我打开一扇窗 Linux Virtual ServerLVS项目是由章文嵩在1998年成立的，中国国内最早出现的自"><meta itemprop="datePublished" content="2022-06-28T15:56:15+08:00" />
+<meta itemprop="dateModified" content="2022-12-11T11:26:23+08:00" />
+<meta itemprop="wordCount" content="2665">
+<meta itemprop="keywords" content="lvs,linux," /><meta property="og:title" content="lvs" />
+<meta property="og:description" content="内容来自以下文档： 官方文档 开源访谈录：章文嵩：开源为我打开一扇窗 Linux Virtual ServerLVS项目是由章文嵩在1998年成立的，中国国内最早出现的自" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/lvs/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-28T15:56:15+08:00" />
+<meta property="article:modified_time" content="2022-12-11T11:26:23+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="lvs"/>
+<meta name="twitter:description" content="内容来自以下文档： 官方文档 开源访谈录：章文嵩：开源为我打开一扇窗 Linux Virtual ServerLVS项目是由章文嵩在1998年成立的，中国国内最早出现的自"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/lvs/" /><link rel="prev" href="/%E8%A1%97%E9%9C%B85/" /><link rel="next" href="/squid/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "lvs",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/lvs\/"
+    },"genre": "posts","keywords": "lvs, linux","wordcount":  2665 ,
+    "url": "\/lvs\/","datePublished": "2022-06-28T15:56:15+08:00","dateModified": "2022-12-11T11:26:23+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>lvs</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-06-28 15:56:15"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-06-28">2022-06-28</time></span>&nbsp;<span title="更新于 2022-12-11 11:26:23"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-11">2022-12-11</time></span>&nbsp;<span title="2665 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#linux-virtual-server">Linux Virtual Server</a></li>
+    <li><a href="#ip虚拟服务器软件ipvs">IP虚拟服务器软件IPVS</a></li>
+    <li><a href="#ipvsadm">ipvsadm</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-11，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="http://www.linuxvirtualserver.org/" title="官方文档"target="_blank" rel="external nofollow noopener noreferrer">官方文档</a></li>
+<li>开源访谈录：<a href="https://blog.csdn.net/csdnnews/article/details/124743487"target="_blank" rel="external nofollow noopener noreferrer">章文嵩：开源为我打开一扇窗</a></li>
+</ul>
+</blockquote>
+<h1 id="linux-virtual-server" class="heading-element">
+  <a href="#linux-virtual-server" class="heading-mark"></a>Linux Virtual Server</h1><p>LVS项目是由章文嵩在1998年成立的，中国国内最早出现的自由软件项目之一。
+目前最近有关作者信息：</p>
+<ul>
+<li>2009年9月，36岁的章文嵩加入淘宝，任资深技术总监。</li>
+<li>2016年5月，章文嵩出任滴滴出行高级副总裁</li>
+<li>2021年4月，加入高瓴集团</li>
+</ul>
+<p>Linux Virtual Server 简称LVS。项目的基本目标是构建高性能、高可用的服务器，
+提供良好的可扩展性、可靠性和可服务性。LVS 集群系统也称为负载均衡服务器集群。</p>
+<p>目前，LVS项目已提供了一个实现可伸缩网络服务的Linux Virtual Server框架：</p>
+<ul>
+<li>三种IP负载均衡技术的IP虚拟服务器软件IPVS</li>
+<li>基于内容请求分发的内核Layer-7交 换机KTCPVS和集群管理软件</li>
+<li>可以利用LVS框架实现高可伸缩的、高可用的Web、Cache、Mail和Media等网络服务；
+在此基础上，可以开 发支持庞大用户数的、高可伸缩的、高可用的电子商务应用。</li>
+</ul>
+<p>LVS集群采用三层结构，主要组成部分为：</p>
+<ul>
+<li>负载调度器（load balancer），它是整个集群对外面的前端机，负责将客户的请求发送到一组服务器上执行，而客户认为服务是来自一个IP地址（我们可称之为虚拟IP地址）上的。</li>
+<li>服务器池（server pool），是一组真正执行客户请求的服务器，执行的服务有WEB、MAIL、FTP和DNS等。</li>
+<li>共享存储（shared storage），它为服务器池提供一个共享的存储区，这样很容易使得服务器池拥有相同的内容，提供相同的服务。</li>
+</ul>
+<h1 id="ip虚拟服务器软件ipvs" class="heading-element">
+  <a href="#ip%e8%99%9a%e6%8b%9f%e6%9c%8d%e5%8a%a1%e5%99%a8%e8%bd%af%e4%bb%b6ipvs" class="heading-mark"></a>IP虚拟服务器软件IPVS</h1><p>在调度器的实现技术中，IP负载均衡技术是效率最高的。IPVS软件实现了三种IP负载均衡技术，它们的大致原理如下：</p>
+<ul>
+<li>Virtual Server via Network Address Translation（VS/NAT）：
+通过网络地址转换，调度器重写请求报文的目标地址，根据预设的调度算法，将请求
+分派给后端的真实服务器；真实服务器的响应报文通过调度器时，报文的源地址被重写，  再返回给客户，完成整个负载调度过程。</li>
+<li>Virtual Server via IP Tunneling（VS/TUN）：
+采用NAT技术时，由于请求和响应报文都必须经过调度器地址重写，当客户请求
+越来越多时，调度器的处理能力将成为瓶颈。为了解决这个问题，调度器把请求报文
+通过IP隧道转发至真实服务器，而真实服务器将响应直接返回给客户，所以调度器只
+处理请求报文。由于一般网络服务应答比请求报文大许多，采用 VS/TUN技术后，集群
+系统的最大吞吐量可以提高10倍。</li>
+<li>Virtual Server via Direct Routing（VS/DR）：
+VS/DR通过改写请求报文的MAC地址，将请求发送到真实服务器，而真实服务器将响应
+直接返回给客户。VS/DR技术可极大地 提高集群系统的伸缩性。这种方法没有IP隧道的
+开销，对集群中的真实服务器也没有必须支持IP隧道协议的要求，但是要求调度器与
+真实服务器都有一块网卡连在同一物理网段上。</li>
+</ul>
+<p>针对不同的网络服务需求和服务器配置，IPVS调度器实现了如下八种负载调度算法：</p>
+<ul>
+<li>轮巡（Round Robin）：
+调度器通过&quot;轮叫&quot;调度算法将外部请求按顺序轮流分配到集群中的真实服务器上，
+它均等地对待每一台服务器，而不管服务器上实际的连接数和系统负载。</li>
+<li>加权轮叫（Weighted Round Robin）
+调度器通过&quot;加权轮叫&quot;调度算法根据真实服务器的不同处理能力来调度访问请求。这样
+可以保证处理能力强的服务器处理更多的访问流量。调度器可以自动问询真实服务器的    负载情况，并动态地调整其权值。</li>
+<li>最少链接（Least Connections）：
+调度器通过&quot;最少连接&quot;调度算法动态地将网络请求调度到已建立的链接数最少的服务器上  。如果集群系统的真实服务器具有相近的系统性能，采用&quot;最小连接&quot;调度算法可以较好    地均衡负载。</li>
+<li>加权最少链接（Weighted Least Connections）：
+在集群系统中的服务器性能差异较大的情况下，调度器采用&quot;加权最少链接&quot;调度算法优化  负载均衡性能，具有较高权值的服务器将承受较大比例的活动连接负载。调度器可以自动  问询真实服务器的负载情况，并动态地调整其权值。</li>
+<li>基于局部性的最少链接（Locality-Based Least Connections）：
+&ldquo;基于局部性的最少链接&rdquo; 调度算法是针对目标IP地址的负载均衡，目前主要用于Cache集群系统。该算法根据请求的目标IP地址找出该目标IP地址最近使用的服务器，若该服务器 是可用的且没有超载，将请求发送到该服务器；若服务器不存在，或者该服务器超载且有服务器处于一半的工作负载，则用&quot;最少链接&quot;的原则选出一个可用的服务 器，将请求发送到该服务器。</li>
+<li>带复制的基于局部性最少链接（Locality-Based Least Connections with Replication）：
+&ldquo;带复制的基于局部性最少链接&quot;调度算法也是针对目标IP地址的负载均衡，目前主要用于Cache集群系统。它与LBLC算法的不同之处是它要维护从一个 目标IP地址到一组服务器的映射，而LBLC算法维护从一个目标IP地址到一台服务器的映射。该算法根据请求的目标IP地址找出该目标IP地址对应的服务 器组，按&quot;最小连接&quot;原则从服务器组中选出一台服务器，若服务器没有超载，将请求发送到该服务器，若服务器超载；则按&quot;最小连接&quot;原则从这个集群中选出一 台服务器，将该服务器加入到服务器组中，将请求发送到该服务器。同时，当该服务器组有一段时间没有被修改，将最忙的服务器从服务器组中删除，以降低复制的 程度。</li>
+<li>目标地址散列（Destination Hashing）：
+&ldquo;目标地址散列&quot;调度算法根据请求的目标IP地址，作为散列键（Hash Key）从静态分配的散列表找出对应的服务器，若该服务器是可用的且未超载，将请求发送到该服务器，否则返回空。</li>
+<li>源地址散列（Source Hashing）：
+&ldquo;源地址散列&quot;调度算法根据请求的源IP地址，作为散列键（Hash Key）从静态分配的散列表找出对应的服务器，若该服务器是可用的且未超载，将请求发送到该服务器，否则返回空。</li>
+</ul>
+<h1 id="ipvsadm" class="heading-element">
+  <a href="#ipvsadm" class="heading-mark"></a>ipvsadm</h1><p>LVS在已经加入到内核中，高与<code>2.6.10</code>版本中直接安装管理工具<code>ipvsadm</code></p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># uname -r</span>
+</span></span><span class="line"><span class="cl">3.10.0-1160.66.1.el7.x86_64
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y ipvsadm</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看生成的文件</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># rpm -ql ipvsadm</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置文件</span>
+</span></span><span class="line"><span class="cl">/etc/sysconfig/ipvsadm-config
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl 服务配置文件</span>
+</span></span><span class="line"><span class="cl">/usr/lib/systemd/system/ipvsadm.service
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置规则命令</span>
+</span></span><span class="line"><span class="cl">/usr/sbin/ipvsadm
+</span></span><span class="line"><span class="cl"><span class="c1"># 规则保存命令</span>
+</span></span><span class="line"><span class="cl">/usr/sbin/ipvsadm-restore
+</span></span><span class="line"><span class="cl"><span class="c1"># 重载配置文件命令</span>
+</span></span><span class="line"><span class="cl">/usr/sbin/ipvsadm-save
+</span></span><span class="line"><span class="cl">/usr/share/doc/ipvsadm-1.27
+</span></span><span class="line"><span class="cl">/usr/share/doc/ipvsadm-1.27/README
+</span></span><span class="line"><span class="cl">/usr/share/man/man8/ipvsadm-restore.8.gz
+</span></span><span class="line"><span class="cl">/usr/share/man/man8/ipvsadm-save.8.gz
+</span></span><span class="line"><span class="cl">/usr/share/man/man8/ipvsadm.8.gz</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-11 11:26:23">更新于 2022-12-11&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/lvs/" class="post-tag" title="标签 - lvs">lvs</a><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/%E8%A1%97%E9%9C%B85/" class="post-nav-item" rel="prev" title="街霸 5"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>街霸 5</a>
+      <a href="/squid/" class="post-nav-item" rel="next" title="squid">squid<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

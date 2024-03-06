@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>系统时间 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="系统时间、硬件时间、时间服务" /><meta name="keywords" content='硬件时间, 系统时间, 时间服务, 时区, 命令, date 命令, timedatectl 命令, clock 命令, hwclock 命令, chronyc 命令' /><meta itemprop="name" content="系统时间">
+<meta itemprop="description" content="系统时间、硬件时间、时间服务"><meta itemprop="datePublished" content="2018-12-10T15:37:41+08:00" />
+<meta itemprop="dateModified" content="2022-08-12T14:15:21+08:00" />
+<meta itemprop="wordCount" content="2374">
+<meta itemprop="keywords" content="硬件时间,系统时间,时间服务,时区,命令,date 命令,timedatectl 命令,clock 命令,hwclock 命令,chronyc 命令," /><meta property="og:title" content="系统时间" />
+<meta property="og:description" content="系统时间、硬件时间、时间服务" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T15:37:41+08:00" />
+<meta property="article:modified_time" content="2022-08-12T14:15:21+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="系统时间"/>
+<meta name="twitter:description" content="系统时间、硬件时间、时间服务"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4/" /><link rel="prev" href="/tcp-wrappers/" /><link rel="next" href="/%E6%97%B6%E9%97%B4%E4%BB%BB%E5%8A%A1/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "系统时间",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4\/"
+    },"genre": "posts","keywords": "硬件时间, 系统时间, 时间服务, 时区, 命令, date 命令, timedatectl 命令, clock 命令, hwclock 命令, chronyc 命令","wordcount":  2374 ,
+    "url": "\/%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4\/","datePublished": "2018-12-10T15:37:41+08:00","dateModified": "2022-08-12T14:15:21+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>系统时间</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 15:37:41"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2022-08-12 14:15:21"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-12">2022-08-12</time></span>&nbsp;<span title="2374 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#硬件时间">硬件时间</a></li>
+    <li><a href="#使用-date-命令修改或查看系统时间">使用 date 命令修改或查看系统时间</a></li>
+    <li><a href="#修改时区">修改时区</a></li>
+    <li><a href="#使用-ntpd-服务同步时间">使用 ntpd 服务同步时间</a></li>
+    <li><a href="#使用-timedatectl-查看或修改时间">使用 timedatectl 查看或修改时间</a></li>
+    <li><a href="#使用-chrony-同步时间">使用 chrony 同步时间</a>
+      <ul>
+        <li><a href="#chronyc">chronyc</a></li>
+      </ul>
+    </li>
+    <li><a href="#公共时间服务器">公共时间服务器</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-08-12，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：
+centos: 7</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li>[name][url]</li>
+</ul>
+</blockquote>
+<p>[url]:</p>
+<h1 id="硬件时间" class="heading-element">
+  <a href="#%e7%a1%ac%e4%bb%b6%e6%97%b6%e9%97%b4" class="heading-mark"></a>硬件时间</h1><ul>
+<li>查看当前硬件时间，以下2条命令同效</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># clock</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># hwclock</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>系统时间同步硬件时间</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># hwclock -s</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>硬件时间同步系统时间</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># hwclock -w</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>设置硬件时间为24小时制</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># export LANG=</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="使用-date-命令修改或查看系统时间" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-date-%e5%91%bd%e4%bb%a4%e4%bf%ae%e6%94%b9%e6%88%96%e6%9f%a5%e7%9c%8b%e7%b3%bb%e7%bb%9f%e6%97%b6%e9%97%b4" class="heading-mark"></a>使用 date 命令修改或查看系统时间</h1><p><code>date</code> 命令用于修改或按指定样式查看系统时间，使用 <code>date --help</code>、<code>info date</code>、<code>man date</code> 都可以查看帮助信息</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">SYNOPSIS
+</span></span><span class="line"><span class="cl">       date <span class="o">[</span>OPTION<span class="o">]</span>... <span class="o">[</span>+FORMAT<span class="o">]</span>
+</span></span><span class="line"><span class="cl">       date <span class="o">[</span>-u<span class="p">|</span>--utc<span class="p">|</span>--universal<span class="o">]</span> <span class="o">[</span>MMDDhhmm<span class="o">[[</span>CC<span class="o">]</span>YY<span class="o">][</span>.ss<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">OPTION
+</span></span><span class="line"><span class="cl">-d, --date<span class="o">=</span>STRING
+</span></span><span class="line"><span class="cl">        <span class="c1"># 指定字符串显示时间</span>
+</span></span><span class="line"><span class="cl">-r, --reference<span class="o">=</span>FIL
+</span></span><span class="line"><span class="cl">        <span class="c1"># 查看文件最后修改的时间</span>
+</span></span><span class="line"><span class="cl">-R, --rfc-2822
+</span></span><span class="line"><span class="cl">        <span class="c1"># 使用 RFC-2822 样式显示时间</span>
+</span></span><span class="line"><span class="cl">-s, --set<span class="o">=</span>STRING
+</span></span><span class="line"><span class="cl">        <span class="c1"># 设置时间</span>
+</span></span><span class="line"><span class="cl">-u, --utc, --universal
+</span></span><span class="line"><span class="cl">        <span class="c1"># 以 UTC 样式设置或显示时间，缺省时使用 CST </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">FORMAT
+</span></span><span class="line"><span class="cl">%%  <span class="c1"># 字符串 %</span>
+</span></span><span class="line"><span class="cl">%a  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">%a  <span class="c1"># 工作日英语缩写 (e.g., Sun)</span>
+</span></span><span class="line"><span class="cl">%A  <span class="c1"># 工作日英语 (e.g., Sunday)</span>
+</span></span><span class="line"><span class="cl">%b  <span class="c1"># locale&#39;s abbreviated month name (e.g., Jan)</span>
+</span></span><span class="line"><span class="cl">%B  <span class="c1"># locale&#39;s full month name (e.g., January)</span>
+</span></span><span class="line"><span class="cl">%c  <span class="c1"># locale&#39;s date and time (e.g., Thu Mar  3 23:05:25 2005)</span>
+</span></span><span class="line"><span class="cl">%C  <span class="c1"># century; like %Y, except omit last two digits (e.g., 20)</span>
+</span></span><span class="line"><span class="cl">%d  <span class="c1"># 日，(e.g., 01)</span>
+</span></span><span class="line"><span class="cl">%D  <span class="c1"># date; same as %m/%d/%y</span>
+</span></span><span class="line"><span class="cl">%e  <span class="c1"># day of month, space padded; same as %_d</span>
+</span></span><span class="line"><span class="cl">%F  <span class="c1"># full date; same as %Y-%m-%d</span>
+</span></span><span class="line"><span class="cl">%g  <span class="c1"># last two digits of year of ISO week number (see %G)</span>
+</span></span><span class="line"><span class="cl">%G  <span class="c1"># year of ISO week number (see %V); normally useful only with %V</span>
+</span></span><span class="line"><span class="cl">%h  <span class="c1"># same as %b</span>
+</span></span><span class="line"><span class="cl">%H  <span class="c1"># 时，24小时制 (00..23)</span>
+</span></span><span class="line"><span class="cl">%I  <span class="c1"># 时，12小时制 (01..12)</span>
+</span></span><span class="line"><span class="cl">%j  <span class="c1"># day of year (001..366)</span>
+</span></span><span class="line"><span class="cl">%k  <span class="c1"># hour, space padded ( 0..23); same as %_H</span>
+</span></span><span class="line"><span class="cl">%l  <span class="c1"># hour, space padded ( 1..12); same as %_I</span>
+</span></span><span class="line"><span class="cl">%m  <span class="c1"># 月，数字 (01..12)</span>
+</span></span><span class="line"><span class="cl">%M  <span class="c1"># 分，数字 (00..59)</span>
+</span></span><span class="line"><span class="cl">%n  <span class="c1"># a newline</span>
+</span></span><span class="line"><span class="cl">%N  <span class="c1"># 纳秒 (000000000..999999999)</span>
+</span></span><span class="line"><span class="cl">%p  <span class="c1"># 显示 AM (上午) 或 PM (下午); 未知则为空</span>
+</span></span><span class="line"><span class="cl">%P  <span class="c1"># like %p, but lower case</span>
+</span></span><span class="line"><span class="cl">%r  <span class="c1"># 时:分:秒，12小时制 (e.g., 11:11:04 PM)</span>
+</span></span><span class="line"><span class="cl">%R  <span class="c1"># 时:分 24小时制; same as %H:%M</span>
+</span></span><span class="line"><span class="cl">%s  <span class="c1"># 从 1970-01-01 00:00:00 UTC 到现在的秒</span>
+</span></span><span class="line"><span class="cl">%S  <span class="c1"># 秒 (00..60)</span>
+</span></span><span class="line"><span class="cl">%t  <span class="c1"># a tab</span>
+</span></span><span class="line"><span class="cl">%T  <span class="c1"># 时:分:秒，24小时制，等效： %H:%M:%S</span>
+</span></span><span class="line"><span class="cl">%u  <span class="c1"># day of week (1..7); 1 is Monday</span>
+</span></span><span class="line"><span class="cl">%U  <span class="c1"># week number of year, with Sunday as first day of week (00..53)</span>
+</span></span><span class="line"><span class="cl">%V  <span class="c1"># ISO week number, with Monday as first day of week (01..53)</span>
+</span></span><span class="line"><span class="cl">%w  <span class="c1"># day of week (0..6); 0 is Sunday</span>
+</span></span><span class="line"><span class="cl">%W  <span class="c1"># week number of year, with Monday as first day of week (00..53)</span>
+</span></span><span class="line"><span class="cl">%x  <span class="c1"># 月/日/年 (e.g., 12/31/99)</span>
+</span></span><span class="line"><span class="cl">%X  <span class="c1"># 时:分:秒 12小时制 (e.g., 23:13:48)</span>
+</span></span><span class="line"><span class="cl">%y  <span class="c1"># last two digits of year (00..99)</span>
+</span></span><span class="line"><span class="cl">%Y  <span class="c1"># 年</span>
+</span></span><span class="line"><span class="cl">%z  <span class="c1"># 时区 (e.g., -0400)</span>
+</span></span><span class="line"><span class="cl">%:z <span class="c1"># +hh:mm numeric time zone (e.g., -04:00)</span>
+</span></span><span class="line"><span class="cl">%::z    <span class="c1">#  +hh:mm:ss numeric time zone (e.g., -04:00:00)</span>
+</span></span><span class="line"><span class="cl">%:::z   <span class="c1">#  numeric time zone with : to necessary precision (e.g., -04, +05:30)</span>
+</span></span><span class="line"><span class="cl">%Z      <span class="c1"># 时区单词缩写</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看当前系统时间</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># date</span>
+</span></span><span class="line"><span class="cl">Fri Aug <span class="m">12</span> 13:34:53 CST <span class="m">2022</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># date &#34;+%Y-%m-%d %H:%M:%S %Z%:z&#34; </span>
+</span></span><span class="line"><span class="cl">2022-08-12 13:36:11 CST+08:00</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="修改时区" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9%e6%97%b6%e5%8c%ba" class="heading-mark"></a>修改时区</h1><ul>
+<li>方法1：将时区信息文件复制到本地时区文件。</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span>cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="使用-ntpd-服务同步时间" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-ntpd-%e6%9c%8d%e5%8a%a1%e5%90%8c%e6%ad%a5%e6%97%b6%e9%97%b4" class="heading-mark"></a>使用 ntpd 服务同步时间</h1><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ntp ：网络时间协议
+</span></span><span class="line"><span class="cl">软件：ntp
+</span></span><span class="line"><span class="cl">服务：ntpd
+</span></span><span class="line"><span class="cl">端口：123/udp
+</span></span><span class="line"><span class="cl">配置文件： /etc/ntp.conf</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>安装软件</li>
+</ol>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum install -y ntp</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>编辑配置文件</li>
+</ol>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># vim /etc/ntp.conf</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 用于同步本机时间</span>
+</span></span><span class="line"><span class="cl">server 互联网时间服务器 iburst  <span class="c1">#或 server 127.127.1.0 iburst 同步硬件时间</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 这台服务器在整个时间服务器的级别</span>
+</span></span><span class="line"><span class="cl">fudge 127.127.1.0 stratum <span class="m">10</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 允许这个网段向我同步时间 但不能修改我的时间</span>
+</span></span><span class="line"><span class="cl"> restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="使用-timedatectl-查看或修改时间" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-timedatectl-%e6%9f%a5%e7%9c%8b%e6%88%96%e4%bf%ae%e6%94%b9%e6%97%b6%e9%97%b4" class="heading-mark"></a>使用 timedatectl 查看或修改时间</h1><p><code>timedatectl</code> 命令是超级守护进程 <code>systemd</code> 的一部分</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># timedatectl --help</span>
+</span></span><span class="line"><span class="cl">timedatectl <span class="o">[</span>OPTIONS...<span class="o">]</span> COMMAND ...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Query or change system <span class="nb">time</span> and date settings.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  -h --help                 <span class="c1"># 查看帮助 </span>
+</span></span><span class="line"><span class="cl">     --version             Show package version
+</span></span><span class="line"><span class="cl">     --no-pager            Do not pipe output into a pager
+</span></span><span class="line"><span class="cl">     --no-ask-password     Do not prompt <span class="k">for</span> password
+</span></span><span class="line"><span class="cl">  -H --host<span class="o">=[</span>USER@<span class="o">]</span>HOST     <span class="c1"># 在远程主机上操作</span>
+</span></span><span class="line"><span class="cl">  -M --machine<span class="o">=</span>CONTAINER    <span class="c1"># 在本地容器上操作</span>
+</span></span><span class="line"><span class="cl">     --adjust-system-clock Adjust system clock when changing <span class="nb">local</span> RTC mode
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Commands:
+</span></span><span class="line"><span class="cl">  status                   <span class="c1"># 查看时间信息</span>
+</span></span><span class="line"><span class="cl">  set-time TIME            <span class="c1"># 设置系统时间 </span>
+</span></span><span class="line"><span class="cl">  set-timezone ZONE        <span class="c1"># 设置系统时区</span>
+</span></span><span class="line"><span class="cl">  list-timezones           <span class="c1"># 查看支持的时区</span>
+</span></span><span class="line"><span class="cl">  set-local-rtc BOOL       <span class="c1"># 是否使用 RTC 时钟作为本地时间</span>
+</span></span><span class="line"><span class="cl">  set-ntp BOOL             <span class="c1"># 是否启用 ntp 服务</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看当前时间</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># timedatectl</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>centos7 设置时间</li>
+</ul>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">timedatectl set-time <span class="s2">&#34;YYYY-MM-DD HH:MM:SS&#34;</span>
+</span></span><span class="line"><span class="cl">timedatectl set-time <span class="s2">&#34;YYYY-MM-DD&#34;</span>
+</span></span><span class="line"><span class="cl">timedatectl set-time <span class="s2">&#34;HH:MM:SS&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>centos7 查看可用时区</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># timedatectl list-timezones</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>设置时区为亚洲上海</li>
+</ul>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># timedatectl set-timezone Asia/Shanghai</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>centos7启动自动同步时间</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># timedatectl set-ntp yes</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>centos7查看chrony时间同步源</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># chronyc sources -v</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="使用-chrony-同步时间" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-chrony-%e5%90%8c%e6%ad%a5%e6%97%b6%e9%97%b4" class="heading-mark"></a>使用 chrony 同步时间</h1><p><code>chrony</code> 的优势包括:</p>
+<ul>
+<li>更快的同步只需要数分钟而非数小时时间，从而最大程度的减少时间和频率误差，这对于并非全天运行的台式计算机或系统而言非常有用。</li>
+<li>能够更好的响应时间频率的快速变化，这对于具备不稳定时钟的虚拟机或导致时钟频率反生变化的节能技术而言非常有用。</li>
+<li>在初始同步后，它并不会停止时钟，以防对需要系统时间保持单调的程序造成影响。</li>
+<li>在应对临时非对称延迟时，（例如，大规模下载造成链接饱和时）提供了更好的稳定性。</li>
+<li>无需对服务器进行定期轮询，因此具备间歇性网络连接的系统仍然可以快速同步时钟。</li>
+</ul>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">chrony ：保持系统时钟与时钟服务器同步,由chronyd和chronyc组成
+</span></span><span class="line"><span class="cl">软件：chrony
+</span></span><span class="line"><span class="cl">服务：chronyd
+</span></span><span class="line"><span class="cl">端口：323/udp
+</span></span><span class="line"><span class="cl">配置文件：/etc/chrony.conf</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装chrony</p>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum install -y chrony</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>启动chrony服务</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[root@yh ~]# systemctl start chronyd</span></span></code></pre></td></tr></table>
+</div>
+</div><p>设置开机自动启动</p>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># systemctl enable chronyd</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改配置文件</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># vim /etc/chrony.conf</span>
+</span></span><span class="line"><span class="cl">···
+</span></span><span class="line"><span class="cl"><span class="c1"># 添加时间服务器，用于本机同步</span>
+</span></span><span class="line"><span class="cl">server 互联网时间服务器 iburst
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># stratumweight指令设置当chronyd从可用源中选择同步源时，每个层应该添加多少距离到同步距离。默认情况下，设置为0，让chronyd在选择源时忽略源的层级。</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># stratumweight 0</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># chronyd程序的主要行为之一，就是根据实际时间计算出计算机增减时间的比率，将它记录到一个文件中是最合理的，它会在重启后为系统时钟作出补偿，甚至可能的话，会从时钟服务器获得较好的估值</span>
+</span></span><span class="line"><span class="cl">driftfile /var/lib/chrony/drift
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 通常，chronyd将根据需求通过减慢或加速时钟，使得系统逐步纠正所有时间偏差。在某些特定情况下，系统时钟可能会漂移过快，导致该调整过程消耗很长的时间来纠正系统时钟。该指令强制chronyd在调整期大于某个阀值时步进调整系统时钟，但只有在因为chronyd启动时间超过指定限制（可使用负值来禁用限制），没有更多时钟更新时才生效。</span>
+</span></span><span class="line"><span class="cl">makestep 1.0 <span class="m">3</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1"># 这里你可以指定一台主机、子网，或者网络以允许或拒绝NTP连接到扮演时钟服务器的机器</span>
+</span></span><span class="line"><span class="cl">allow 允许同步本机的网段
+</span></span><span class="line"><span class="cl">deny 现在这个网段同步本机
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># bindcmdaddress - 该指令允许你限制chronyd监听哪个网络接口的命令包（由chronyc执行）。该指令通过cmddeny机制提供了一个除上述限制以外可用的额外的访问控制等级。</span>
+</span></span><span class="line"><span class="cl">bindcmdaddress 127.0.0.1
+</span></span><span class="line"><span class="cl">bindcmdaddress ::22</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="chronyc" class="heading-element">
+  <a href="#chronyc" class="heading-mark"></a>chronyc</h2><p>cronyc 是chrony的命令行界面。常用命令：</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">accheck		检查NTP访问是否对特定主机可用
+</span></span><span class="line"><span class="cl">activity	该命令会显示有多少NTP源在线/离线
+</span></span><span class="line"><span class="cl">add server	手动添加一台新的NTP服务器
+</span></span><span class="line"><span class="cl">clients		在客户端报告已访问到服务器
+</span></span><span class="line"><span class="cl">delete		手动移除NTP服务器或对等服务器
+</span></span><span class="line"><span class="cl">settime		手动设置守护进程时间
+</span></span><span class="line"><span class="cl">tracking	显示系统时间信息</span></span></code></pre></td></tr></table>
+</div>
+</div><p>进入chronyc控制界面，并查看有多少NTP源在线</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># chronyc</span>
+</span></span><span class="line"><span class="cl">chronyc&gt; activity</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="公共时间服务器" class="heading-element">
+  <a href="#%e5%85%ac%e5%85%b1%e6%97%b6%e9%97%b4%e6%9c%8d%e5%8a%a1%e5%99%a8" class="heading-mark"></a>公共时间服务器</h1><ul>
+<li>阿里云提供时间服务器</li>
+</ul>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">ntp1.aliyun.com-ntp7.aliyun.com</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-08-12 14:15:21">更新于 2022-08-12&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E7%A1%AC%E4%BB%B6%E6%97%B6%E9%97%B4/" class="post-tag" title="标签 - 硬件时间">硬件时间</a><a href="/tags/%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4/" class="post-tag" title="标签 - 系统时间">系统时间</a><a href="/tags/%E6%97%B6%E9%97%B4%E6%9C%8D%E5%8A%A1/" class="post-tag" title="标签 - 时间服务">时间服务</a><a href="/tags/%E6%97%B6%E5%8C%BA/" class="post-tag" title="标签 - 时区">时区</a><a href="/tags/%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - 命令">命令</a><a href="/tags/date-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - date 命令">date 命令</a><a href="/tags/timedatectl-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - timedatectl 命令">timedatectl 命令</a><a href="/tags/clock-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - clock 命令">clock 命令</a><a href="/tags/hwclock-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - hwclock 命令">hwclock 命令</a><a href="/tags/chronyc-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - chronyc 命令">chronyc 命令</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/tcp-wrappers/" class="post-nav-item" rel="prev" title="TCP_Wrappers"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>TCP_Wrappers</a>
+      <a href="/%E6%97%B6%E9%97%B4%E4%BB%BB%E5%8A%A1/" class="post-nav-item" rel="next" title="时间任务">时间任务<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

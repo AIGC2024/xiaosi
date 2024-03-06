@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>markdown 语法 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="[url]: markdown 语法Markdown 是一种轻量级标记语言，使用易读易写的纯文本格式编写文档，然后可以使用简单的方法转换成有效的 XHTML（或者HTML）" /><meta name="keywords" content='markdown' /><meta itemprop="name" content="markdown 语法">
+<meta itemprop="description" content="[url]: markdown 语法Markdown 是一种轻量级标记语言，使用易读易写的纯文本格式编写文档，然后可以使用简单的方法转换成有效的 XHTML（或者HTML）"><meta itemprop="datePublished" content="2019-11-16T11:17:40+08:00" />
+<meta itemprop="dateModified" content="2022-11-20T11:35:09+08:00" />
+<meta itemprop="wordCount" content="2246">
+<meta itemprop="keywords" content="markdown," /><meta property="og:title" content="markdown 语法" />
+<meta property="og:description" content="[url]: markdown 语法Markdown 是一种轻量级标记语言，使用易读易写的纯文本格式编写文档，然后可以使用简单的方法转换成有效的 XHTML（或者HTML）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/markdown/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2019-11-16T11:17:40+08:00" />
+<meta property="article:modified_time" content="2022-11-20T11:35:09+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="markdown 语法"/>
+<meta name="twitter:description" content="[url]: markdown 语法Markdown 是一种轻量级标记语言，使用易读易写的纯文本格式编写文档，然后可以使用简单的方法转换成有效的 XHTML（或者HTML）"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/markdown/" /><link rel="prev" href="/cmd/" /><link rel="next" href="/k8sSecret/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "markdown 语法",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/markdown\/"
+    },"genre": "posts","keywords": "markdown","wordcount":  2246 ,
+    "url": "\/markdown\/","datePublished": "2019-11-16T11:17:40+08:00","dateModified": "2022-11-20T11:35:09+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>markdown 语法</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/markdown/" class="post-category" title="分类 - markdown"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> markdown</a></span></div><div class="post-meta-line"><span title="发布于 2019-11-16 11:17:40"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2019-11-16">2019-11-16</time></span>&nbsp;<span title="更新于 2022-11-20 11:35:09"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-11-20">2022-11-20</time></span>&nbsp;<span title="2246 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#markdown-语法">markdown 语法</a>
+      <ul>
+        <li><a href="#特殊字符">特殊字符</a></li>
+        <li><a href="#段落和换行">段落和换行</a></li>
+        <li><a href="#标题">标题</a></li>
+      </ul>
+    </li>
+    <li><a href="#这是最高阶级标题">这是最高阶级标题</a>
+      <ul>
+        <li><a href="#这是第二阶级标题">这是第二阶级标题</a>
+          <ul>
+            <li>
+              <ul>
+                <li>
+                  <ul>
+                    <li><a href="#这是第四阶级标题">这是第四阶级标题</a>
+                      <ul>
+                        <li><a href="#这是第五阶级标题">这是第五阶级标题</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#区块引用">区块引用</a></li>
+        <li><a href="#列表">列表</a></li>
+        <li><a href="#代码">代码</a></li>
+        <li><a href="#代码区块">代码区块</a></li>
+        <li><a href="#分割线">分割线</a></li>
+        <li><a href="#强调">强调</a></li>
+        <li><a href="#链接">链接</a></li>
+        <li><a href="#图片">图片</a></li>
+        <li><a href="#文本内跳转">文本内跳转</a></li>
+        <li><a href="#折叠">折叠</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-11-20，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<!-- 网址链接 -->
+<p>[url]:</p>
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="markdown-语法" class="heading-element">
+  <a href="#markdown-%e8%af%ad%e6%b3%95" class="heading-mark"></a>markdown 语法</h1><p>Markdown 是一种轻量级标记语言，使用易读易写的纯文本格式编写文档，然后可以使用简单的方法转换成有效的 XHTML（或者HTML）文档。该语法只对应 HTML 标记中的一小部分功能，只覆盖纯文本可以涵盖的范围。可以在 Markdown 中直接添加 html 标签。在 html 标签的前后一行要保留一行空行，且标签中不能使用 Markdown 语法</p>
+<p><span id="10">索引：markdown语法基础操作</span></p>
+<h2 id="特殊字符" class="heading-element">
+  <a href="#%e7%89%b9%e6%ae%8a%e5%ad%97%e7%ac%a6" class="heading-mark"></a>特殊字符</h2><p>要显示以下字符需要使用转义符 \ ：</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">\   反斜线
+</span></span><span class="line"><span class="cl">`   反引号
+</span></span><span class="line"><span class="cl">*   星号
+</span></span><span class="line"><span class="cl">_   底线
+</span></span><span class="line"><span class="cl">{}  花括号
+</span></span><span class="line"><span class="cl">[]  方括号
+</span></span><span class="line"><span class="cl">()  括弧
+</span></span><span class="line"><span class="cl">##   井字号
+</span></span><span class="line"><span class="cl">+   加号
+</span></span><span class="line"><span class="cl">-   减号
+</span></span><span class="line"><span class="cl">.   英文句点
+</span></span><span class="line"><span class="cl">!   惊叹号</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="段落和换行" class="heading-element">
+  <a href="#%e6%ae%b5%e8%90%bd%e5%92%8c%e6%8d%a2%e8%a1%8c" class="heading-mark"></a>段落和换行</h2><p>一个 Markdown 段落是有一个或多个连续的文本组成，前后都是空行（可以有空格和制表符）</p>
+<p>Markdown 不会按照文本排版一样换行，多行文本显示为 1 行，如果想要换行需要使用 <code>&lt;br /&gt;</code> 标签或连续输入 2 个以上的空格再回车</p>
+<h2 id="标题" class="heading-element">
+  <a href="#%e6%a0%87%e9%a2%98" class="heading-mark"></a>标题</h2><p>Markdown 支持 2 种标题的语法: Setext 样式和 atx 样式</p>
+<p>Setext 样式是用底线的方式构成，利用 = 表示最高阶级标题；- 表示第二阶标题，不限制数量</p>
+<ul>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">这是最高阶级标题
+</span></span><span class="line"><span class="cl">=
+</span></span><span class="line"><span class="cl">这是第二阶级标题
+</span></span><span class="line"><span class="cl">-</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="这是最高阶级标题" class="heading-element">
+  <a href="#%e8%bf%99%e6%98%af%e6%9c%80%e9%ab%98%e9%98%b6%e7%ba%a7%e6%a0%87%e9%a2%98" class="heading-mark"></a>这是最高阶级标题</h1><h2 id="这是第二阶级标题" class="heading-element">
+  <a href="#%e8%bf%99%e6%98%af%e7%ac%ac%e4%ba%8c%e9%98%b6%e7%ba%a7%e6%a0%87%e9%a2%98" class="heading-mark"></a>这是第二阶级标题</h2><p>Atx 样式是在行首插入 1 到 6 个 # 号对应 1 到 6 阶级标题</p>
+<p>闭合式的 Atx 样式 （在标题左右凉边都使用 # 号）只是纯粹让排版看起来好看一些，没有实际差别；行尾的 # 号后面的数量可以是任意个。还可以加入文本，这些都是不显示的</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">##### 这是第四阶级标题 # fdsfd
+</span></span><span class="line"><span class="cl">###### 这是第五阶级标题
+</span></span><span class="line"><span class="cl">####### 这是第六阶级标题</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="这是第四阶级标题" class="heading-element">
+  <a href="#%e8%bf%99%e6%98%af%e7%ac%ac%e5%9b%9b%e9%98%b6%e7%ba%a7%e6%a0%87%e9%a2%98" class="heading-mark"></a>这是第四阶级标题</h5><h6 id="这是第五阶级标题" class="heading-element">
+  <a href="#%e8%bf%99%e6%98%af%e7%ac%ac%e4%ba%94%e9%98%b6%e7%ba%a7%e6%a0%87%e9%a2%98" class="heading-mark"></a>这是第五阶级标题</h6><p>####### 这是第六阶级标题</p>
+<h2 id="区块引用" class="heading-element">
+  <a href="#%e5%8c%ba%e5%9d%97%e5%bc%95%e7%94%a8" class="heading-mark"></a>区块引用</h2><p>在行首使用 &gt; 可以建立一个区块引用。引用的区块可以使用其他的 Markdown 语法</p>
+<p>一个区块引用段落可以在每行行首都使用 &gt; ，也可以只在段落首行行首使用 &gt; ，这两种看起来是没有差别的，还可以嵌套使用</p>
+<ul>
+<li>示例 ：</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&gt; 第一行 &lt;br /&gt;
+</span></span><span class="line"><span class="cl">第二行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt; 第一行 &lt;br /&gt;
+</span></span><span class="line"><span class="cl">&gt; 第二行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt; 第一行 &lt;br /&gt;
+</span></span><span class="line"><span class="cl">第二行
+</span></span><span class="line"><span class="cl">&gt;&gt; 第三行
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt; 第一行 &lt;br /&gt;
+</span></span><span class="line"><span class="cl">&gt; 第二行
+</span></span><span class="line"><span class="cl">&gt;&gt; 第三行</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>第一行 <br />
+第二行</p>
+</blockquote>
+<blockquote>
+<p>第一行 <br />
+第二行</p>
+</blockquote>
+<blockquote>
+<p>第一行 <br />
+第二行</p>
+<blockquote>
+<p>第三行</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>第一行 <br />
+第二行</p>
+<blockquote>
+<p>第三行</p>
+</blockquote>
+</blockquote>
+<h2 id="列表" class="heading-element">
+  <a href="#%e5%88%97%e8%a1%a8" class="heading-mark"></a>列表</h2><p>Markdown 支持无序列表和有序列表</p>
+<p>无序列表在行首使用 * 、+ 、- 作为列表标记</p>
+<ul>
+<li>示例 ：</li>
+</ul>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">- aaa
+</span></span><span class="line"><span class="cl">+ bbb
+</span></span><span class="line"><span class="cl">* ccc</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>aaa</li>
+</ul>
+<ul>
+<li>bbb</li>
+</ul>
+<ul>
+<li>ccc</li>
+</ul>
+<p>有序列表在行首使用 数字+. 作为列表标记，数字不影响输出结果</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">1. aaa
+</span></span><span class="line"><span class="cl">111. bbb
+</span></span><span class="line"><span class="cl">0. ccc</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>aaa</li>
+<li>bbb</li>
+<li>ccc</li>
+</ol>
+<p>列表项目可以包含多个段落或区块，每个项目中的段落或区块必须是 4 个空格或 1 个制表符（段落或区块首行行首必须缩进，其他行可以不用缩进）</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">1. 第 1 段
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    aaa &lt;br /&gt;
+</span></span><span class="line"><span class="cl">    bbb
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2. 第 2 段
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    &gt; aaa &lt;br /&gt;
+</span></span><span class="line"><span class="cl">bbb</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>
+<p>第 1 段</p>
+<p>aaa <br />
+bbb</p>
+</li>
+<li>
+<p>第 2 段</p>
+<blockquote>
+<p>aaa <br />
+bbb</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="代码" class="heading-element">
+  <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark"></a>代码</h2><p>如果要标记一小段行内代码，你可以用反引号把它包起来（`），例如：</p>
+<p><code>abc</code></p>
+<p>如果要在代码区段内插入反引号，你可以用多个反引号来开启和结束代码区段：</p>
+<p><code>``sd`f`s``</code></p>
+<h2 id="代码区块" class="heading-element">
+  <a href="#%e4%bb%a3%e7%a0%81%e5%8c%ba%e5%9d%97" class="heading-mark"></a>代码区块</h2><p>代码区块内的文本会按照原本内容显示</p>
+<p>建立代码区块方法：</p>
+<ol>
+<li>在首行使用 4 个空格或 1 个制表符，这种方式会自动减少行首的 4 个空格或 1 个制表符</li>
+<li>建立代码的方式包含多行（只需要在代码块上一行和下一行加入反引号）</li>
+</ol>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">    在首行使用 <span class="m">4</span> 个空格或 <span class="m">1</span> 个制表符
+</span></span><span class="line"><span class="cl">        在上一行缩进的基础再次缩进</span></span></code></pre></td></tr></table>
+</div>
+</div><pre><code>在首行使用 4 个空格或 1 个制表符
+    在上一行缩进的基础再次缩进
+</code></pre>
+<h2 id="分割线" class="heading-element">
+  <a href="#%e5%88%86%e5%89%b2%e7%ba%bf" class="heading-mark"></a>分割线</h2><p>一行行首用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">* * *
+</span></span><span class="line"><span class="cl">***
+</span></span><span class="line"><span class="cl">*****
+</span></span><span class="line"><span class="cl">- - -
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">----</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<hr>
+<hr>
+<hr>
+<hr>
+<h2 id="强调" class="heading-element">
+  <a href="#%e5%bc%ba%e8%b0%83" class="heading-mark"></a>强调</h2><p>可以使用任意符号作为标记强调字词，使用什么符号开始就需要使用什么符号结束，符号数量没有限制</p>
+<p>常用样式：</p>
+<ul>
+<li>
+<p>加粗：**  <br /></p>
+</li>
+<li>
+<p>倾斜：_    <br /></p>
+</li>
+<li>
+<p>划线：~~  <br /></p>
+</li>
+<li>
+<p>示例：</p>
+</li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">**加粗**  &lt;br /&gt;
+</span></span><span class="line"><span class="cl">_倾斜_    &lt;br /&gt;
+</span></span><span class="line"><span class="cl">~~划线~~  &lt;br /&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>加粗</strong>  <br />
+<em>倾斜</em>    <br />
+<del>划线</del>  <br /></p>
+<h2 id="链接" class="heading-element">
+  <a href="#%e9%93%be%e6%8e%a5" class="heading-mark"></a>链接</h2><p>Markdown 支持两种形式的链接语法： 行内式和参考式两种形式</p>
+<p>链接内容定义的形式为：</p>
+<ol>
+<li>方括号（前面可以选择性地加上至多三个空格来缩进），里面输入链接文字</li>
+<li>接着一个冒号</li>
+<li>接着链接的网址</li>
+<li>选择性地接着 title 内容，可以用单引号、双引号或是括弧包着</li>
+</ol>
+<p>要建立一个行内式的链接，只要在方块括号后面紧接着圆括号并插入 URL 地址链接即可，如果你还想要加上链接的 title 文字，只要在地址后面，用双引号把 title 文字包起来即可</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">这是[百度](https://www.baidu.com &#34;baidu&#34;)地址</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这是<a href="https://www.baidu.com" title="baidu"target="_blank" rel="external nofollow noopener noreferrer">百度</a>地址</p>
+<p>参考式的链接是在链接文字的括号后面再接上另一个方括号，而在第二个方括号里面要填入用以辨识链接的标记：</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">[百度]:https://www.baidu.com &#34;baidu&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这是[百度]地址 或者 这是[引用链接][百度]地址</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这是<a href="https://www.baidu.com" title="baidu"target="_blank" rel="external nofollow noopener noreferrer">百度</a>地址 或者 这是[引用链接] <a href="https://www.baidu.com" title="baidu"target="_blank" rel="external nofollow noopener noreferrer">链接百度地址</a>地址</p>
+<p>还有一种直接使用链接方式，这种方式会转换为 html 的 a 标签</p>
+<ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">&lt;http://baidu.com&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;a href=&#34;http://baidu.com&#34;&gt;baidu&lt;/a&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&amp;lt;https://www.baidu.com&amp;gt; </span></span></code></pre></td></tr></table>
+</div>
+</div><p><a href="http://baidu.com"target="_blank" rel="external nofollow noopener noreferrer">http://baidu.com</a></p>
+<p><a href="http://baidu.com">baidu</a></p>
+<p>&lt;https://www.baidu.com&gt;</p>
+<h2 id="图片" class="heading-element">
+  <a href="#%e5%9b%be%e7%89%87" class="heading-mark"></a>图片</h2><p>和 连接 使用方式类似，只是调用时需要使用 ! 调用</p>
+<p>图片定义的形式为：</p>
+<ol>
+<li>一个惊叹号 !</li>
+<li>接着一个方括号，里面放上图片的替代文字</li>
+<li>接着一个普通括号，里面放上图片的网址，最后还可以用引号包住并加上选择性的 &rsquo;title&rsquo; 文字</li>
+</ol>
+<p>Markdown 还没有办法指定图片的宽高，如果你需要的话，你可以使用普通的 <code>&lt;img&gt;</code> 标签</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">![markdown](http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg &#34;Optional title&#34;)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[markdown]:http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg &#34;baidu&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">![markdown] </span></span></code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=large" data-thumbnail="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=small" data-sub-html="<h2>markdown</h2><p>Optional title</p>"><img loading="lazy" src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg" alt="markdown" srcset="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=small, http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=medium 1.5x, http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=large 2x" sizes="auto" data-title="Optional title" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a><figcaption class="image-caption">markdown</figcaption>
+  </figure></p>
+<p><figure><a class="lightgallery" href="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=large" data-thumbnail="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=small" data-sub-html="<h2>markdown</h2><p>baidu</p>"><img loading="lazy" src="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg" alt="markdown" srcset="http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=small, http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=medium 1.5x, http://note.youdao.com/iyoudao/wp-content/uploads/2016/09/8881.jpg?size=large 2x" sizes="auto" data-title="baidu" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a><figcaption class="image-caption">markdown</figcaption>
+  </figure></p>
+<h2 id="文本内跳转" class="heading-element">
+  <a href="#%e6%96%87%e6%9c%ac%e5%86%85%e8%b7%b3%e8%bd%ac" class="heading-mark"></a>文本内跳转</h2><p>需要使用 html 标签实现</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">//span 标签可以放在任意位置
+</span></span><span class="line"><span class="cl">// id号必须是唯一的，可以是文本与字符串
+</span></span><span class="line"><span class="cl">// 显示文本可以为空：<span class="p">&lt;</span><span class="nt">span</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;10&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">// <span class="p">&lt;</span><span class="nt">span</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;10&#34;</span><span class="p">&gt;</span>显示的文本<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;10&#34;</span><span class="p">&gt;</span>索引：markdown语法基础操作<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> 
+</span></span><span class="line"><span class="cl">// 跳转显示内容不能为空
+</span></span><span class="line"><span class="cl">[跳转显示内容](#ID号)</span></span></code></pre></td></tr></table>
+</div>
+</div><p><a href="#10">跳转到id为10的位置</a></p>
+<h2 id="折叠" class="heading-element">
+  <a href="#%e6%8a%98%e5%8f%a0" class="heading-mark"></a>折叠</h2><div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&lt;details&gt;
+</span></span><span class="line"><span class="cl">&lt;summary&gt;这是标题，点击展开内容&lt;/summary&gt;
+</span></span><span class="line"><span class="cl">这是内容
+</span></span><span class="line"><span class="cl">&lt;!-- 这是注释 --&gt;
+</span></span><span class="line"><span class="cl">&lt;/details&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><details>
+<summary>这是标题，点击展开内容</summary>
+这是内容
+<!-- 这是注释 -->
+</details>
+<p>页内跳转需要使用 HTML 标签</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-11-20 11:35:09">更新于 2022-11-20&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/markdown/" class="post-tag" title="标签 - markdown">markdown</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/cmd/" class="post-nav-item" rel="prev" title="部分linux命令集合"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>部分linux命令集合</a>
+      <a href="/k8sSecret/" class="post-nav-item" rel="next" title="k8s Secret 对象">k8s Secret 对象<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

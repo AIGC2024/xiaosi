@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>使用 AIM 安全地控制对 AWS 资源的访问 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='iam' /><meta itemprop="name" content="使用 AIM 安全地控制对 AWS 资源的访问">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-05-24T14:41:17+08:00" />
+<meta itemprop="dateModified" content="2023-09-16T13:27:08+08:00" />
+<meta itemprop="wordCount" content="1600">
+<meta itemprop="keywords" content="iam," /><meta property="og:title" content="使用 AIM 安全地控制对 AWS 资源的访问" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsIam/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-05-24T14:41:17+08:00" />
+<meta property="article:modified_time" content="2023-09-16T13:27:08+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 AIM 安全地控制对 AWS 资源的访问"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsIam/" /><link rel="prev" href="/awsOrganization/" /><link rel="next" href="/k8sDeployment/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "使用 AIM 安全地控制对 AWS 资源的访问",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsIam\/"
+    },"genre": "posts","keywords": "iam","wordcount":  1600 ,
+    "url": "\/awsIam\/","datePublished": "2023-05-24T14:41:17+08:00","dateModified": "2023-09-16T13:27:08+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>使用 AIM 安全地控制对 AWS 资源的访问</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-05-24 14:41:17"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-24">2023-05-24</time></span>&nbsp;<span title="更新于 2023-09-16 13:27:08"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-09-16">2023-09-16</time></span>&nbsp;<span title="1600 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#策略文档">策略文档</a>
+      <ul>
+        <li><a href="#principal">Principal</a></li>
+      </ul>
+    </li>
+    <li><a href="#iam-用户">IAM 用户</a>
+      <ul>
+        <li><a href="#密码">密码</a></li>
+        <li><a href="#查看用户权限">查看用户权限</a></li>
+        <li><a href="#绑定策略">绑定策略</a></li>
+        <li><a href="#判断权限">判断权限</a></li>
+      </ul>
+    </li>
+    <li><a href="#aa">aa</a></li>
+    <li><a href="#iam-用户权限">IAM 用户权限</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/zh_cn/IAM/latest/UserGuide/reference_policies_elements.html"target="_blank" rel="external nofollow noopener noreferrer">IAM JSON 策略元素参考</a></li>
+<li><a href="https://docs.aws.amazon.com/cli/latest/reference/iam/index.html#cli-aws-iam"target="_blank" rel="external nofollow noopener noreferrer">AWS CLI IAM</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="策略文档" class="heading-element">
+  <a href="#%e7%ad%96%e7%95%a5%e6%96%87%e6%a1%a3" class="heading-mark"></a>策略文档</h1><p>策略文档是 <code>json</code> 格式，由以下部分组成</p>
+<ul>
+<li><code>Version</code>: 必选字段，指定策略语言的版本，值为<code>2012-10-17</code>或<code>2008-10-17</code></li>
+<li><code>Id</code>: 可选字段，指定标识符，某些产品可能要求唯一</li>
+<li><code>Statement</code>: 必选字段，指定策略元素数组，有以下元素
+<ul>
+<li><code>Sid</code>: 可选字段，指定标签符，策略文件中要求唯一</li>
+<li><code>Effect</code>: 必选字段，指定策略为允许(<code>Allow</code>)或拒绝(<code>Deny</code>)</li>
+<li><code>Principal</code>: 必选字段，指定访问资源的主体</li>
+<li><code>NotPrincipal</code>: 可选字段，指定策略排他性</li>
+<li><code>Action</code>: <code>Action</code> 或 <code>NotAction </code>字段必选其一，指定操作</li>
+<li><code>NotAction</code>: 可选字段，指定操作排他性</li>
+<li><code>Resource</code>: <code>Resource</code> 或 <code>NotResource</code> 字段必选其一，指定资源对象</li>
+<li><code>NotResource</code>: 可选字段，指定资源对象排他性</li>
+<li><code>Condition</code>: 可选字段，指定策略生效的条件</li>
+</ul>
+</li>
+</ul>
+<h2 id="principal" class="heading-element">
+  <a href="#principal" class="heading-mark"></a>Principal</h2><p>基于资源的策略必须使用 <code>Principal</code> 字段，且无法在基于身份的策略中使用。可以在策略中指定以下任意主体，当存到多个主体时，它们逻辑关系是或：</p>
+<ul>
+<li>AWS 服务：为 <code>AWS</code> 服务预定所需的<code>IAM</code>角色，打开<a href="https://docs.aws.amazon.com/zh_cn/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html"target="_blank" rel="external nofollow noopener noreferrer">使用IAM 的AWS服务</a>，检查服务在 <code>Service-linked role</code>（服务相关角色）列中是否具有 <code>Yes</code>，然后打开 <code>Yes</code>（是）链接以查看该服务的服务相关角色文档</li>
+<li>AWS 账户</li>
+<li>IAM 角色</li>
+<li>IAM 用户</li>
+<li>角色会话</li>
+<li>联合身份用户会话</li>
+<li>所有主体</li>
+</ul>
+<br>
+<p>以下是官方文档给出的示例</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">#</span> <span class="err">AWS</span> <span class="err">账户</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Principal&#34;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&#34;AWS&#34;</span><span class="p">:</span> <span class="s2">&#34;arn:aws:iam::123456789012:root&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">AWS</span> <span class="err">账户，等效上面</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Principal&#34;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&#34;AWS&#34;</span><span class="p">:</span> <span class="s2">&#34;123456789012&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Principal&#34;</span><span class="err">:</span> <span class="p">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;AWS&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;arn:aws:iam::123456789012:root&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;999999999999&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="err">#</span> <span class="err">规范用户</span> <span class="err">ID</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;CanonicalUser&#34;</span><span class="p">:</span> <span class="s2">&#34;79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">IAM</span> <span class="err">用户</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Principal&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;AWS&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;arn:aws:iam::AWS-account-ID:user/user-name-1&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;arn:aws:iam::AWS-account-ID:user/user-name-2&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">AWS</span> <span class="err">服务</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Principal&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;Service&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;ecs.amazonaws.com&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;elasticloadbalancing.amazonaws.com&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="iam-用户" class="heading-element">
+  <a href="#iam-%e7%94%a8%e6%88%b7" class="heading-mark"></a>IAM 用户</h1><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws sts get-caller-identity | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;UserId&#34;</span>: <span class="s2">&#34;AIDATIE4A5KS5IXIT2O2G&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Account&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Arn&#34;</span>: <span class="s2">&#34;arn:aws:iam::223665515173:user/xiaosi&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="密码" class="heading-element">
+  <a href="#%e5%af%86%e7%a0%81" class="heading-mark"></a>密码</h2><ul>
+<li>查看密码策略</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>cloudshell-user@ip-10-6-33-126 ~<span class="o">]</span>$ aws iam get-account-password-policy
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;PasswordPolicy&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;MinimumPasswordLength&#34;</span>: 22,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;RequireSymbols&#34;</span>: true,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;RequireNumbers&#34;</span>: true,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;RequireUppercaseCharacters&#34;</span>: true,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;RequireLowercaseCharacters&#34;</span>: true,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;AllowUsersToChangePassword&#34;</span>: true,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;ExpirePasswords&#34;</span>: true,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;MaxPasswordAge&#34;</span>: 1,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;PasswordReusePrevention&#34;</span>: 6,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;HardExpiry&#34;</span>: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看用户权限" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e7%94%a8%e6%88%b7%e6%9d%83%e9%99%90" class="heading-mark"></a>查看用户权限</h2><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 托管策略</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws iam list-attached-user-policies --user-name xiaosi --profile &#34;xiaosi:ap-southeast-1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;AttachedPolicies&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;PolicyName&#34;</span>: <span class="s2">&#34;AdministratorAccess&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;PolicyArn&#34;</span>: <span class="s2">&#34;arn:aws:iam::aws:policy/AdministratorAccess&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 用户定义策略</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws iam list-user-policies --user-name xiaosi --profile &#34;xiaosi&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;PolicyNames&#34;</span>: <span class="o">[]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws iam  get-policy --policy-arn &#34;arn:aws:iam::aws:policy/AdministratorAccess&#34; --profile &#34;xiaosi:ap-southeast-1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Policy&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;PolicyName&#34;</span>: <span class="s2">&#34;AdministratorAccess&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;PolicyId&#34;</span>: <span class="s2">&#34;ANPAIWMBCKSKIEE64ZLYK&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Arn&#34;</span>: <span class="s2">&#34;arn:aws:iam::aws:policy/AdministratorAccess&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Path&#34;</span>: <span class="s2">&#34;/&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;DefaultVersionId&#34;</span>: <span class="s2">&#34;v1&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;AttachmentCount&#34;</span>: 7,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;PermissionsBoundaryUsageCount&#34;</span>: 0,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;IsAttachable&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Description&#34;</span>: <span class="s2">&#34;Provides full access to AWS services and resources.&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;CreateDate&#34;</span>: <span class="s2">&#34;2015-02-06T18:39:46+00:00&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;UpdateDate&#34;</span>: <span class="s2">&#34;2015-02-06T18:39:46+00:00&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Tags&#34;</span>: <span class="o">[]</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws iam get-policy-version --policy-arn &#34;arn:aws:iam::aws:policy/AdministratorAccess&#34; --version-id v1 --profile &#34;xiaosi&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;PolicyVersion&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Document&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Version&#34;</span>: <span class="s2">&#34;2012-10-17&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Statement&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Effect&#34;</span>: <span class="s2">&#34;Allow&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Action&#34;</span>: <span class="s2">&#34;*&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Resource&#34;</span>: <span class="s2">&#34;*&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;VersionId&#34;</span>: <span class="s2">&#34;v1&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;IsDefaultVersion&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;CreateDate&#34;</span>: <span class="s2">&#34;2015-02-06T18:39:46+00:00&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="绑定策略" class="heading-element">
+  <a href="#%e7%bb%91%e5%ae%9a%e7%ad%96%e7%95%a5" class="heading-mark"></a>绑定策略</h2><h2 id="判断权限" class="heading-element">
+  <a href="#%e5%88%a4%e6%96%ad%e6%9d%83%e9%99%90" class="heading-mark"></a>判断权限</h2><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">aws iam simulate-principal-policy --policy-source-arn &lt;用户ARN或角色ARN&gt; --action-names &lt;要检查的权限操作&gt; --resource-arns &lt;资源ARN&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><p>V1 版本</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span><span class="line"><span class="cl">  &#34;Statement&#34;: [
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">      &#34;Sid&#34;: &#34;Statement1&#34;,
+</span></span><span class="line"><span class="cl">      &#34;Effect&#34;: &#34;Deny&#34;,
+</span></span><span class="line"><span class="cl">      &#34;Action&#34;: [
+</span></span><span class="line"><span class="cl">        &#34;account:GetAccountInformation&#34;, # 授予检索账户信息的权限
+</span></span><span class="line"><span class="cl">        &#34;account:GetContactInformation&#34;, # 授予权限以检索账户的主要联系人信息
+</span></span><span class="line"><span class="cl">        &#34;account:PutContactInformation&#34;, # 授予权限以更新账户的主要联系人信息
+</span></span><span class="line"><span class="cl">        &#34;billing:Get*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;billing:PutContractInformation&#34;,# 授予设置账户合同信息、最终用户组织名称，以及账户是否用于为公共部门客户提供服务的权限
+</span></span><span class="line"><span class="cl">        &#34;billing:RedeemCredits&#34;, # 授予兑换AWS服务抵扣金的权限
+</span></span><span class="line"><span class="cl">        &#34;consolidatedbilling:GetAccountBillingRole&#34;, # 授予获取账户角色（付款人、关联角色、常规）的权限
+</span></span><span class="line"><span class="cl">        &#34;invoicing:Get*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;payments:CreatePaymentInstrument&#34;, # 授予创建付款方式的权限
+</span></span><span class="line"><span class="cl">        &#34;payments:DeletePaymentInstrument&#34;, # 授予删除付款方式的权限
+</span></span><span class="line"><span class="cl">        &#34;payments:Get*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;payments:List*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;payments:Make*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;payments:Update*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;payments:UpdatePaymentPreferences&#34;, # 授予更新付款偏好（首选付款货币、首选付款方式等）的权限
+</span></span><span class="line"><span class="cl">        &#34;purchase-orders:ListPurchaseOrderInvoices&#34;, # 授予列出采购订单发票的权限
+</span></span><span class="line"><span class="cl">        &#34;purchase-orders:ListPurchaseOrders&#34;, # 授予列出账户所有采购订单的权限
+</span></span><span class="line"><span class="cl">        &#34;support:AddAttachmentsToSet&#34;, # 授予向 AWS Support 案例添加一个或多个附件的权限
+</span></span><span class="line"><span class="cl">        &#34;support:CreateCase&#34;, # 授予创建新 AWS Support 案例的权限
+</span></span><span class="line"><span class="cl">        &#34;tax:BatchPut*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;tax:Delete*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;tax:Get*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;tax:List*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;tax:ListTaxRegistrations&#34;, # 授予查看税务登记的权限
+</span></span><span class="line"><span class="cl">        &#34;tax:Put*&#34;,
+</span></span><span class="line"><span class="cl">        &#34;tax:PutTaxRegistration&#34;, # 授予权限以更新税登记数据
+</span></span><span class="line"><span class="cl">        &#34;tax:UpdateExemptions&#34;  # 授予更新免税数据的权限
+</span></span><span class="line"><span class="cl">      ],
+</span></span><span class="line"><span class="cl">      &#34;Resource&#34;: [
+</span></span><span class="line"><span class="cl">        &#34;*&#34;
+</span></span><span class="line"><span class="cl">      ]
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">  ]
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="aa" class="heading-element">
+  <a href="#aa" class="heading-mark"></a>aa</h1><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">account:PutAlternateContact             <span class="c1"># 修改账户的备用联系人</span>
+</span></span><span class="line"><span class="cl">account:PutContactInformation           <span class="c1"># 更新账户的主要联系人信息</span>
+</span></span><span class="line"><span class="cl">billing:GetBillingPreferences           <span class="c1"># 查看账单首选项的权限</span>
+</span></span><span class="line"><span class="cl">billing:GetCredits                      <span class="c1"># 查看已兑换的服务抵扣金的权限</span>
+</span></span><span class="line"><span class="cl">billing:PutContractInformation          <span class="c1"># 置账户合同信息、最终用户组织名称，以及账户是否用于为公共部门客户提供服务的权限</span>
+</span></span><span class="line"><span class="cl">billing:RedeemCredits                   <span class="c1"># 兑换AWS服务抵扣金的权限</span>
+</span></span><span class="line"><span class="cl">billing:UpdateBillingPreferences        <span class="c1"># 更新账单首选项的权限</span>
+</span></span><span class="line"><span class="cl">billing:UpdateIAMAccessPreference       <span class="c1"># 更新“允许 IAM 访问”账单首选项的权限</span>
+</span></span><span class="line"><span class="cl">budgets:CreateBudgetAction          
+</span></span><span class="line"><span class="cl">budgets:DeleteBudgetAction
+</span></span><span class="line"><span class="cl">budgets:DescribeBudgetAction
+</span></span><span class="line"><span class="cl">budgets:DescribeBudgetActionHistories
+</span></span><span class="line"><span class="cl">budgets:DescribeBudgetActionsForAccount
+</span></span><span class="line"><span class="cl">budgets:DescribeBudgetActionsForBudget
+</span></span><span class="line"><span class="cl">budgets:ExecuteBudgetAction
+</span></span><span class="line"><span class="cl">budgets:ModifyBudget
+</span></span><span class="line"><span class="cl">budgets:UpdateBudgetAction
+</span></span><span class="line"><span class="cl">budgets:ViewBudget
+</span></span><span class="line"><span class="cl">ce:CreateCostCategoryDefinition
+</span></span><span class="line"><span class="cl">ce:DeleteCostCategoryDefinition
+</span></span><span class="line"><span class="cl">ce:DescribeCostCategoryDefinition
+</span></span><span class="line"><span class="cl">ce:GetCostAndUsage
+</span></span><span class="line"><span class="cl">ce:ListCostAllocationTags
+</span></span><span class="line"><span class="cl">ce:ListCostCategoryDefinitions
+</span></span><span class="line"><span class="cl">ce:ListTagsForResource
+</span></span><span class="line"><span class="cl">ce:TagResource
+</span></span><span class="line"><span class="cl">ce:UntagResource
+</span></span><span class="line"><span class="cl">ce:UpdateCostAllocationTagsStatus
+</span></span><span class="line"><span class="cl">ce:UpdateCostCategoryDefinition
+</span></span><span class="line"><span class="cl">consolidatedbilling:Get*
+</span></span><span class="line"><span class="cl">consolidatedbilling:GetAccountBillingRole
+</span></span><span class="line"><span class="cl">consolidatedbilling:List*
+</span></span><span class="line"><span class="cl">cur:DeleteReportDefinition
+</span></span><span class="line"><span class="cl">cur:DescribeReportDefinitions
+</span></span><span class="line"><span class="cl">cur:Get*
+</span></span><span class="line"><span class="cl">cur:GetClassic*
+</span></span><span class="line"><span class="cl">cur:GetUsage*
+</span></span><span class="line"><span class="cl">cur:ModifyReportDefinition
+</span></span><span class="line"><span class="cl">cur:PutClassic*
+</span></span><span class="line"><span class="cl">cur:PutReportDefinition
+</span></span><span class="line"><span class="cl">cur:Validate*
+</span></span><span class="line"><span class="cl">freetier:Get
+</span></span><span class="line"><span class="cl">freetier:Get*
+</span></span><span class="line"><span class="cl">freetier:Put*
+</span></span><span class="line"><span class="cl">invoicing:Get*
+</span></span><span class="line"><span class="cl">invoicing:List*
+</span></span><span class="line"><span class="cl">invoicing:Put*
+</span></span><span class="line"><span class="cl">payments:CreatePaymentInstrument
+</span></span><span class="line"><span class="cl">payments:DeletePaymentInstrument
+</span></span><span class="line"><span class="cl">payments:Get*
+</span></span><span class="line"><span class="cl">payments:GetPaymentInstrument
+</span></span><span class="line"><span class="cl">payments:GetPaymentStatus
+</span></span><span class="line"><span class="cl">payments:List*
+</span></span><span class="line"><span class="cl">payments:Make*
+</span></span><span class="line"><span class="cl">payments:Update*
+</span></span><span class="line"><span class="cl">payments:UpdatePaymentPreferences
+</span></span><span class="line"><span class="cl">pricing:DescribeServices
+</span></span><span class="line"><span class="cl">purchase-orders:AddPurchaseOrder
+</span></span><span class="line"><span class="cl">purchase-orders:DeletePurchaseOrder
+</span></span><span class="line"><span class="cl">purchase-orders:GetPurchaseOrder
+</span></span><span class="line"><span class="cl">purchase-orders:ListPurchaseOrderInvoices
+</span></span><span class="line"><span class="cl">purchase-orders:ListPurchaseOrders
+</span></span><span class="line"><span class="cl">purchase-orders:UpdatePurchaseOrder
+</span></span><span class="line"><span class="cl">purchase-orders:UpdatePurchaseOrderStatus
+</span></span><span class="line"><span class="cl">s3:CreateBucket
+</span></span><span class="line"><span class="cl">s3:GetBucketLocation
+</span></span><span class="line"><span class="cl">s3:ListAllMyBuckets
+</span></span><span class="line"><span class="cl">s3:PutBucketPolicy
+</span></span><span class="line"><span class="cl">support:AddAttachmentsToSet
+</span></span><span class="line"><span class="cl">support:CreateCase
+</span></span><span class="line"><span class="cl">sustainability:GetCarbonFootprintSummary
+</span></span><span class="line"><span class="cl">tax:BatchPut*
+</span></span><span class="line"><span class="cl">tax:Delete*
+</span></span><span class="line"><span class="cl">tax:Get*
+</span></span><span class="line"><span class="cl">tax:List*
+</span></span><span class="line"><span class="cl">tax:ListTaxRegistrations
+</span></span><span class="line"><span class="cl">tax:Put*
+</span></span><span class="line"><span class="cl">tax:PutTaxRegistration
+</span></span><span class="line"><span class="cl">tax:UpdateExemptions</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="iam-用户权限" class="heading-element">
+  <a href="#iam-%e7%94%a8%e6%88%b7%e6%9d%83%e9%99%90" class="heading-mark"></a>IAM 用户权限</h1><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&#34;iam:UpdateLoginProfile&#34;, # 
+</span></span><span class="line"><span class="cl">&#34;iam:DeleteAccessKey&#34;,
+</span></span><span class="line"><span class="cl">&#34;iam:ListMFADevices&#34;,
+</span></span><span class="line"><span class="cl">&#34;iam:GetLoginProfile&#34;,
+</span></span><span class="line"><span class="cl">&#34;iam:ChangePassword&#34;,
+</span></span><span class="line"><span class="cl">&#34;iam:CreateAccessKey&#34;,
+</span></span><span class="line"><span class="cl">&#34;iam:ListAccessKeys&#34;
+</span></span><span class="line"><span class="cl">&#34;iam:GetUser           # 查看用户ARN 创建日期等 
+</span></span><span class="line"><span class="cl">&#34;iam:ListUserPolicies  # 查看权限</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-09-16 13:27:08">更新于 2023-09-16&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/iam/" class="post-tag" title="标签 - iam">iam</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/awsOrganization/" class="post-nav-item" rel="prev" title="组织多账户管理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>组织多账户管理</a>
+      <a href="/k8sDeployment/" class="post-nav-item" rel="next" title="k8s Deployment 控制器">k8s Deployment 控制器<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

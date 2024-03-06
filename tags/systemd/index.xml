@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>systemd - 标签 - 小厮</title>
+    <link>/tags/systemd/</link>
+    <description>systemd - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 05 Aug 2023 12:02:17 &#43;0800</lastBuildDate><atom:link href="/tags/systemd/" rel="self" type="application/rss+xml" /><item>
+  <title>systemd.service - systemd 服务单元</title>
+  <link>/linuxSystemdService/</link>
+  <pubDate>Sat, 05 Aug 2023 12:02:17 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxSystemdService/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>systemd.timer - 定时器单元</title>
+  <link>/linuxSystemdTimer/</link>
+  <pubDate>Thu, 03 Aug 2023 20:56:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxSystemdTimer/</guid>
+  <description><![CDATA[名称以<code>.timer</code> 结尾的单元配置文件编码有关由 <code>systemd</code> 控制和监督的计时器的信息，用于基于计时器的激活。]]></description>
+</item>
+</channel>
+</rss>

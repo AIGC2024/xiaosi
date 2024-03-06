@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>ps - 标签 - 小厮</title>
+    <link>/tags/ps/</link>
+    <description>ps - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 02 Nov 2022 21:30:21 &#43;0800</lastBuildDate><atom:link href="/tags/ps/" rel="self" type="application/rss+xml" /><item>
+  <title>ps - 查看进程信息快照</title>
+  <link>/linuxCmdPs/</link>
+  <pubDate>Wed, 02 Nov 2022 21:30:21 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdPs/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

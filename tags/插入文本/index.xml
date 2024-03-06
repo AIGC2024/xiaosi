@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>插入文本 - 标签 - 小厮</title>
+    <link>/tags/%E6%8F%92%E5%85%A5%E6%96%87%E6%9C%AC/</link>
+    <description>插入文本 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 13 Dec 2022 08:56:35 &#43;0800</lastBuildDate><atom:link href="/tags/%E6%8F%92%E5%85%A5%E6%96%87%E6%9C%AC/" rel="self" type="application/rss+xml" /><item>
+  <title>vim中插入文本</title>
+  <link>/vim-insert/</link>
+  <pubDate>Tue, 13 Dec 2022 08:56:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/vim-insert/</guid>
+  <description><![CDATA[运行环境： vim: 8 vim: 9 内容来自以下文档： Vim 中文文档计划 vim官方文档英文版 vim官方文档其它语言版本 Willis翻译的中文文档 插入模式以下命令可]]></description>
+</item>
+</channel>
+</rss>

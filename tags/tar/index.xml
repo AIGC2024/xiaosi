@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>tar - 标签 - 小厮</title>
+    <link>/tags/tar/</link>
+    <description>tar - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 05 Aug 2023 11:25:27 &#43;0800</lastBuildDate><atom:link href="/tags/tar/" rel="self" type="application/rss+xml" /><item>
+  <title>tar - 将许多文件一起保存到单个磁带或磁盘存档中，并且可以从存档中恢复单个文件</title>
+  <link>/linuxCmdTar/</link>
+  <pubDate>Sat, 05 Aug 2023 11:25:27 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdTar/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

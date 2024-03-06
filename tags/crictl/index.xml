@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>crictl - 标签 - 小厮</title>
+    <link>/tags/crictl/</link>
+    <description>crictl - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 10 Aug 2022 20:26:33 &#43;0800</lastBuildDate><atom:link href="/tags/crictl/" rel="self" type="application/rss+xml" /><item>
+  <title>kubelet CRI 工具</title>
+  <link>/kubelet-CRI-%E5%B7%A5%E5%85%B7/</link>
+  <pubDate>Wed, 10 Aug 2022 20:26:33 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/kubelet-CRI-%E5%B7%A5%E5%85%B7/</guid>
+  <description><![CDATA[crictl、critest]]></description>
+</item>
+</channel>
+</rss>

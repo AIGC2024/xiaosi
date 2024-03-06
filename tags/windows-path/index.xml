@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>windows path - 标签 - 小厮</title>
+    <link>/tags/windows-path/</link>
+    <description>windows path - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 16 Nov 2022 21:38:28 &#43;0800</lastBuildDate><atom:link href="/tags/windows-path/" rel="self" type="application/rss+xml" /><item>
+  <title>windows 系统中添加 PATH 环境变量</title>
+  <link>/windows-path/</link>
+  <pubDate>Wed, 16 Nov 2022 21:38:28 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/windows-path/</guid>
+  <description><![CDATA[运行环境： windows: 11 内容来自以下文档： 右键开始菜单，点击搜索 在搜索框中输入变量，点击第编辑系统环境变量 点击高级选项卡中的环境变量 点击用户变量中 Path 行]]></description>
+</item>
+</channel>
+</rss>

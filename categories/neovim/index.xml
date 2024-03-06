@@ -1,0 +1,39 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>neovim - 分类 - 小厮</title>
+    <link>/categories/neovim/</link>
+    <description>neovim - 分类 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 30 Apr 2023 12:16:03 &#43;0800</lastBuildDate><atom:link href="/categories/neovim/" rel="self" type="application/rss+xml" /><item>
+  <title>neovim 快捷键</title>
+  <link>/neovimShortcutKey/</link>
+  <pubDate>Sun, 30 Apr 2023 12:16:03 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/neovimShortcutKey/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>neovim Ex 命令</title>
+  <link>/neovimExCmd/</link>
+  <pubDate>Tue, 25 Apr 2023 01:35:31 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/neovimExCmd/</guid>
+  <description><![CDATA[neovim Ex 命令操作]]></description>
+</item>
+<item>
+  <title>noevim 自动命令</title>
+  <link>/neovimAutocmd/</link>
+  <pubDate>Sat, 22 Apr 2023 13:16:11 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/neovimAutocmd/</guid>
+  <description><![CDATA[通过某些事件触发一系列命令]]></description>
+</item>
+<item>
+  <title>neovim 初始化</title>
+  <link>/neovimInitialization/</link>
+  <pubDate>Sat, 22 Apr 2023 01:48:59 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/neovimInitialization/</guid>
+  <description><![CDATA[vim 的分支、重构的 vim]]></description>
+</item>
+</channel>
+</rss>

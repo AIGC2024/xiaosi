@@ -1,0 +1,55 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>windows - 分类 - 小厮</title>
+    <link>/categories/windows/</link>
+    <description>windows - 分类 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 18 Apr 2023 08:57:55 &#43;0800</lastBuildDate><atom:link href="/categories/windows/" rel="self" type="application/rss+xml" /><item>
+  <title>Windows Subsystem for Linux </title>
+  <link>/windowsWsl/</link>
+  <pubDate>Tue, 18 Apr 2023 08:57:55 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/windowsWsl/</guid>
+  <description><![CDATA[ ]]></description>
+</item>
+<item>
+  <title>Windows PowerShell</title>
+  <link>/powerShell/</link>
+  <pubDate>Thu, 09 Feb 2023 11:02:15 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/powerShell/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>mtr使用方法</title>
+  <link>/mtr/</link>
+  <pubDate>Sun, 11 Dec 2022 16:29:04 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/mtr/</guid>
+  <description><![CDATA[ ]]></description>
+</item>
+<item>
+  <title>windows中vmware使用</title>
+  <link>/vmware/</link>
+  <pubDate>Sun, 20 Nov 2022 10:47:13 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/vmware/</guid>
+  <description><![CDATA[运行环境： vmware: 16 内容来自以下文档： 浪漫歌 VMware虚拟机共享目录普通用户无法访问 vmware 密钥vmware 15： 1 CG392-4PX5J-H816Z-HYZNG-PQRG2 vmware 16： 1 ZF3R0-FHED2-M80TY-8QYGC-NPKYF vmware 17: 1 MC60H-DWHD5-H80U9-6V85M-8280D 共享主机目录]]></description>
+</item>
+<item>
+  <title>windows 系统中添加 PATH 环境变量</title>
+  <link>/windows-path/</link>
+  <pubDate>Wed, 16 Nov 2022 21:38:28 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/windows-path/</guid>
+  <description><![CDATA[运行环境： windows: 11 内容来自以下文档： 右键开始菜单，点击搜索 在搜索框中输入变量，点击第编辑系统环境变量 点击高级选项卡中的环境变量 点击用户变量中 Path 行]]></description>
+</item>
+<item>
+  <title>windows terminal</title>
+  <link>/WindwosTerminal/</link>
+  <pubDate>Fri, 30 Jul 2021 11:09:13 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/WindwosTerminal/</guid>
+  <description><![CDATA[内容来自以下文档： 官方文档 YuZhuQue: SSH 保持连接 ssh连接WindosTerminal只是个外壳，没有保存密码之类的功能。只是使用openssh 使用密]]></description>
+</item>
+</channel>
+</rss>

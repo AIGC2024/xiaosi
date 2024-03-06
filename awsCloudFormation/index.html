@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>使用 AWS CloudFormation 部署 AWS 资源 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='aws, CloudFormation' /><meta itemprop="name" content="使用 AWS CloudFormation 部署 AWS 资源">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-05-15T20:41:12+08:00" />
+<meta itemprop="dateModified" content="2023-05-17T14:52:44+08:00" />
+<meta itemprop="wordCount" content="5074">
+<meta itemprop="keywords" content="aws,CloudFormation," /><meta property="og:title" content="使用 AWS CloudFormation 部署 AWS 资源" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsCloudFormation/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-05-15T20:41:12+08:00" />
+<meta property="article:modified_time" content="2023-05-17T14:52:44+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 AWS CloudFormation 部署 AWS 资源"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsCloudFormation/" /><link rel="prev" href="/k8sApiControllingAccess/" /><link rel="next" href="/awsCloudFormationCli/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "使用 AWS CloudFormation 部署 AWS 资源",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsCloudFormation\/"
+    },"genre": "posts","keywords": "aws, CloudFormation","wordcount":  5074 ,
+    "url": "\/awsCloudFormation\/","datePublished": "2023-05-15T20:41:12+08:00","dateModified": "2023-05-17T14:52:44+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>使用 AWS CloudFormation 部署 AWS 资源</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-05-15 20:41:12"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-15">2023-05-15</time></span>&nbsp;<span title="更新于 2023-05-17 14:52:44"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-17">2023-05-17</time></span>&nbsp;<span title="5074 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 11 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#cloudformation">CloudFormation</a></li>
+    <li><a href="#模板文件格式">模板文件格式</a></li>
+    <li><a href="#parameters-补充">Parameters 补充</a></li>
+    <li><a href="#resources-补充">Resources 补充</a>
+      <ul>
+        <li><a href="#creationpolicy">CreationPolicy</a></li>
+        <li><a href="#updatepolicy">UpdatePolicy</a></li>
+        <li><a href="#awselasticloadbalancingv2listener">AWS::ElasticLoadBalancingV2::Listener</a></li>
+        <li><a href="#awselasticloadbalancingv2loadbalancer">AWS::ElasticLoadBalancingV2::LoadBalancer</a></li>
+        <li><a href="#awselasticloadbalancingv2targetgroup">AWS::ElasticLoadBalancingV2::TargetGroup</a></li>
+        <li><a href="#awsautoscalingautoscalinggroup">AWS::AutoScaling::AutoScalingGroup</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>awscli: 2</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/zh_cn/AWSCloudFormation/latest/UserGuide/Welcome.html"target="_blank" rel="external nofollow noopener noreferrer">AWS CloudFormation 用户指南</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<p><a href="https://docs.aws.amazon.com/zh_cn/autoscaling/ec2/APIReference/API_SuspendProcesses.html"target="_blank" rel="external nofollow noopener noreferrer">ScalingProcesses.member.N</a></p>
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="cloudformation" class="heading-element">
+  <a href="#cloudformation" class="heading-mark"></a>CloudFormation</h1><p><code>AWS CloudFormation</code> 可以通过模板文件快速部署 <code>aws</code> 资源。</p>
+<ul>
+<li>模板文件可以是<code>.ymal</code>、<code>.json</code>、<code>.txt</code>结尾，但必须使用以下格式
+<ul>
+<li><a href="https://www.json.org/json-zh.html"target="_blank" rel="external nofollow noopener noreferrer">ECMA-404 JSON 标准</a></li>
+<li>支持<a href="https://yaml.org/spec/1.1/"target="_blank" rel="external nofollow noopener noreferrer">yaml v1.1</a>，除了以下功能
+<ul>
+<li><code>binary</code>、<code>omap</code>、<code>pairs</code>、<code>set</code> 和 <code>timestamp</code></li>
+<li><code>Aliases</code></li>
+<li>哈希合并</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>模板文件是保存在<code>S3</code> 中。虽然可以引用本地模板文件，但 <code>CloudFormation</code> 会将其上传到您 <code>AWS</code> 账户中的 <code>S3</code> 桶。<code>CloudFormation</code> 为您上传模板文件的每个区域创建一个桶。具有您 <code>AWS</code> 账户中 <code>Amazon Simple Storage Service（Amazon S3）</code>权限的任何人均可访问桶。如果 <code>CloudFormation</code> 创建的存储桶已存在，则将模板添加到该存储桶。</li>
+</ul>
+<h1 id="模板文件格式" class="heading-element">
+  <a href="#%e6%a8%a1%e6%9d%bf%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f" class="heading-mark"></a>模板文件格式</h1><p>以下是模板文件组成部分</p>
+<ul>
+<li><code>AWSTemplateFormatVersion</code> 可选字段，定义的模板格式版本，只有唯一值：&ldquo;2010-09-09&rdquo;。模板格式版本与 API 或 WSDL 版本不同。模板格式版本可独立于 API 和 WSDL 版本，进行独立更改</li>
+<li><code>Description</code> 可选字段，模板相关描述。描述声明的值必须是长度介于 <code>0</code> 和 <code>1024</code> 个字节之间的文字字符串。在堆栈更新期间，无法更新 <code>Description</code> 部分本身。只能在包括添加、修改或删除资源的更改时更新
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># 示例</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Description</span><span class="p">:</span><span class="w"> </span><span class="p">&gt;</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">  Here are some
+</span></span></span><span class="line"><span class="cl"><span class="sd">  details about
+</span></span></span><span class="line"><span class="cl"><span class="sd">  the template.</span><span class="w">  </span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><code>Metadata</code> 可选字段，自定义对象。某些 <code>AWS CloudFormation</code> 功能可在 <code>Metadata</code> 部分中检索自定义的设置或配置信息。在堆栈更新期间，无法更新 <code>Metadata</code> 部分本身。只能在包括添加、修改或删除资源的更改时更新。此外 <code>CloudFormation</code> 不会转换、修改或编辑 <code>Metadata</code> 部分中包含的任何信息
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># 示例</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AWS::CloudFormation::Interface</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ParameterGroups</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ParameterGroup</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ParameterLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="l">ParameterLabel</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><code>Parameters</code> 可选字段，定义对象。用于自定义参数。其它部分可以引用该值。
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 格式</span>
+</span></span><span class="line"><span class="cl">Parameters:
+</span></span><span class="line"><span class="cl">  ParameterLogicalID:
+</span></span><span class="line"><span class="cl">    Type: DataType
+</span></span><span class="line"><span class="cl">    ParameterProperty: value</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>一个 <code>AWS CloudFormation</code> 模板中最多可包含 <code>200</code> 个参数</li>
+<li>必须为每个参数提供一个逻辑名称 (也称为逻辑 <code>ID</code>)，该名称必须是字母数字，并且在模板内的所有逻辑名称中必须是唯一的</li>
+<li>必须向每个参数指定一个 <code>AWS CloudFormation</code> 支持的参数类型</li>
+<li>必须向每个参数分配一个运行时的值，使 <code>AWS CloudFormation</code> 能够成功预置堆栈</li>
+<li>必须在同一模板内声明和引用参数</li>
+</ul>
+</li>
+<li><code>Rules</code>: 可选字段。判断堆栈创建或堆栈更新过程中传递给模板的参数</li>
+<li><code>Mappings</code>: 可选字段。预设键值对，使用 <code>Fn::FindInMap</code> 内部函数来检索映射中的值</li>
+<li><code>Conditions</code>: 可选字段。条件满足时创建或更新资源</li>
+<li><code>Transform</code>: 可选字段。可重复引用的对象</li>
+<li><code>Resources</code>: 必选字段。定义部署的资源</li>
+<li><code>Outputs</code>: 可选字段。输出信息</li>
+</ul>
+<h1 id="parameters-补充" class="heading-element">
+  <a href="#parameters-%e8%a1%a5%e5%85%85" class="heading-mark"></a>Parameters 补充</h1><p>示例</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Parameters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">InstanceTypeParameter</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Default</span><span class="p">:</span><span class="w"> </span><span class="l">t2.micro</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">AllowedValues</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">t2.micro</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">m1.small</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">m1.large</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Description</span><span class="p">:</span><span class="w"> </span><span class="l">Enter t2.micro, m1.small, or m1.large. Default is t2.micro.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Ec2Instance</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">AWS::EC2::Instance</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Properties</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">InstanceType</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="c"># Ref 字段引用了 Parameters.InstanceTypeParameter 字段值</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Ref</span><span class="p">:</span><span class="w"> </span><span class="l">InstanceTypeParameter </span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ImageId</span><span class="p">:</span><span class="w"> </span><span class="l">ami-0ff8a91507f77f867</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Properties.Name</code>字段支持以下值</p>
+<ul>
+<li><code>Type</code> 必须指定，该字段指定数据类型，有以下值：
+<ul>
+<li><code>String</code>：字符串</li>
+<li><code>Number</code>: 整数或浮点数，但模板中的其他位置使用该参数时，该参数值将变成字符串</li>
+<li><code>List&lt;Number&gt;</code>: 一组用逗号分隔的整数或浮点数。但模板中的其他位置使用该参数时，该参数值将变成字符串列表</li>
+<li><code>CommaDelimitedList</code>: 一组用逗号分隔的文本字符串。但模板中的其他位置使用该参数时，该参数值将变成字符串列表</li>
+<li><code>AWS::EC2::AvailabilityZone::Name</code>: 可用区</li>
+<li><code>List&lt;AWS::EC2::AvailabilityZone::Name&gt;</code>: 某个区域内的可有区列表</li>
+<li><code>AWS::EC2::Image::Id</code>: <code>EC2</code> 镜像 <code>ID</code></li>
+<li><code>List&lt;AWS::EC2::Image::Id&gt;</code>: <code>EC2</code> 镜像 <code>ID</code> 列表</li>
+<li><code>AWS::EC2::Instance::Id</code>: <code>EC2</code> 实例 <code>ID</code></li>
+<li><code>List&lt;AWS::EC2::Instance::Id&gt;</code>: <code>EC2</code> 实例 <code>ID</code> 列表</li>
+<li><code>AWS::EC2::KeyPair::KeyName</code>: <code>EC2</code> 密钥对名称</li>
+<li><code>AWS::EC2::SecurityGroup::GroupName</code>: <code>EC2-Classic</code> 或默认 <code>VPC</code> 安全组名称</li>
+<li><code>List&lt;AWS::EC2::SecurityGroup::GroupName&gt;</code>: <code>EC2-Classic</code> 或默认 <code>VPC</code> 安全组名称列表</li>
+<li><code>AWS::EC2::SecurityGroup::Id</code>: 安全组 <code>ID</code></li>
+<li><code>List&lt;AWS::EC2::SecurityGroup::Id&gt;</code>: 安全组 <code>ID</code> 列表</li>
+<li><code>AWS::EC2::Subnet::Id</code>: 子网 <code>ID</code></li>
+<li><code>List&lt;AWS::EC2::Subnet::Id&gt;</code>: 子网 <code>ID</code> 列表</li>
+<li><code>AWS::EC2::Volume::Id</code>: <code>EBS ID</code></li>
+<li><code>List&lt;AWS::EC2::Volume::Id&gt;</code>: <code>EBS ID</code> 列表</li>
+<li><code>AWS::EC2::VPC::Id</code>: <code>VPC ID</code></li>
+<li><code>List&lt;AWS::EC2::VPC::Id&gt;</code>: <code>VPC ID</code> 列表</li>
+<li><code>AWS::Route53::HostedZone::Id</code>: <code>Route 53</code> 托管区域 <code>ID</code></li>
+<li><code>List&lt;AWS::Route53::HostedZone::Id&gt;</code>: <code>Route 53</code> 托管区域 <code>ID</code> 列表</li>
+<li><code>AWS::SSM::Parameter::Name</code>: <code>Systems Manager</code> 参数键的名称</li>
+<li><code>AWS::SSM::Parameter::Value&lt;String&gt;</code>: 字符串的 <code>Systems Manager</code> 参数</li>
+<li><code>AWS::SSM::Parameter::Value&lt;List&lt;String&gt;&gt;</code>: 字符串列表的 <code>Systems Manager</code> 参数</li>
+<li><code>AWS::SSM::Parameter::Value&lt;CommaDelimitedList&gt;</code>: 字符串列表的 <code>Systems Manager</code> 参数</li>
+<li><code>AWS::SSM::Parameter::Value&lt;AWS-specific&gt;</code>: 特定于 <code>AWS</code> 的参数类型的 <code>Systems Manager</code> 参数</li>
+<li><code>AWS::SSM::Parameter::Value&lt;List&lt;AWS-specific&gt;&gt;</code>: 特定于 <code>AWS</code> 的参数类型的列表 <code>Systems Manager</code> 参数</li>
+</ul>
+</li>
+<li><code>AllowedPattern</code>: 值为正则表达式，适用于以下类型：
+<ul>
+<li><code>String</code>: 匹配整个字符串</li>
+<li><code>CommaDelimitedList</code>: 匹配字符串列表中的每个值</li>
+</ul>
+</li>
+<li><code>AllowedValues</code>: 包含参数允许字符串值或字符串列表</li>
+<li><code>ConstraintDescription</code>: 用于在违反约束时的错误提示</li>
+<li><code>Default</code>: 模板适当类型的值，用于在创建堆栈时未指定值的情况下</li>
+<li><code>Description</code>: 用于描述参数的长度最多为 <code>4000</code> 个字符的字符串</li>
+<li><code>MaxLength</code>: <code>String</code> 类型最大长度</li>
+<li><code>MinLength</code>: <code>String</code> 类型最小长度</li>
+<li><code>MinValue</code>: <code>Number</code> 类型最大值</li>
+<li><code>MaxValue</code>: <code>Number</code> 类型最大值</li>
+<li><code>NoEcho</code>: 值为<code>true</code>时使用星号替代参数输出信息，以下信息除外
+<ul>
+<li><code>Metadata</code>模板部分</li>
+<li><code>Outputs</code>模板部分</li>
+</ul>
+</li>
+</ul>
+<h1 id="resources-补充" class="heading-element">
+  <a href="#resources-%e8%a1%a5%e5%85%85" class="heading-mark"></a>Resources 补充</h1><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># 格式</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Logical ID</span><span class="p">:</span><span class="w"> </span><span class="c"># 自定义的资源名称，整个模板唯一。必须为字母数字</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">Resource type</span><span class="w"> </span><span class="c"># 资源类型</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Properties</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="l">Set of properties</span><span class="w"> </span><span class="c"># 资源声明</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">CreationPolicy</span><span class="w"> </span><span class="c"># 可选的资源属性</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">DeletionPolicy</span><span class="w"> </span><span class="c"># 可选的资源属性</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">DependsOn     </span><span class="w"> </span><span class="c"># 可选的资源属性</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">Metadata      </span><span class="w"> </span><span class="c"># 可选的资源属性</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">UpdatePolicy  </span><span class="w"> </span><span class="c"># 可选的资源属性</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">UpdateReplacePolicy</span><span class="w"> </span><span class="c"># 可选的资源属性</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="creationpolicy" class="heading-element">
+  <a href="#creationpolicy" class="heading-mark"></a>CreationPolicy</h2><p><a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-creationpolicy.html"target="_blank" rel="external nofollow noopener noreferrer">CreationPolicy</a> 属性与以下资源关联，以防止其状态达到创建完成（<code>CREATE_COMPLETE</code>），直到<code>AWS CloudFormation</code>收到指定数量的成功信号或超过超时时间。</p>
+<ul>
+<li><code>AWS::AppStream::Fleet</code></li>
+<li><code>AWS::AutoScaling::AutoScalingGroup</code></li>
+<li><code>AWS::EC2::Instance</code></li>
+<li><code>AWS::CloudFormation::WaitCondition</code></li>
+</ul>
+<br>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># EC2 格式如下</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">CreationPolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AutoScalingCreationPolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">MinSuccessfulInstancesPercent</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ResourceSignal</span><span class="p">:</span><span class="w">    
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Count</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Timeout</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># AppStream 格式如下</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">CreationPolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">StartFleet</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>AutoScalingCreationPolicy: </code> 自动伸缩组状态为 <code>CREATE_COMPLETE</code> 所需要收到成功信号数量占比。满足条件后自动伸缩组状态为 <code>CREATE_COMPLETE</code>。默认值为 <code>1</code>
+<ul>
+<li><code>MinSuccessfulInstancesPercent: </code> 可选字段，值为整数（<code>1~100</code>）。指定收到成功信号占比，向下取整。默认值为 <code>100</code></li>
+</ul>
+</li>
+<li><code>ResourceSignal: </code> 自动伸缩组状态为 <code>CREATE_COMPLETE</code> 所需要收到成功信号数量与超时时间。如果资源在超时期限过期之前收到失败信号或未收到指定数目的信号，则资源创建将失败并且将回滚 <code>CloudFormation</code> 堆栈
+<ul>
+<li><code>Count: </code> 可选字段，值为整数。用于指定收到成功信号数量，</li>
+<li><code>Timeout: </code> 可选字段，值为字符串（<a href="https://en.wikipedia.org/wiki/ISO_8601#Durations"target="_blank" rel="external nofollow noopener noreferrer">ISO_8601 时间格式</a>(<code>PT#H#M#S</code>)）。用于指定超时时间。超时期限自 <code>CloudFormation</code> 开始创建资源后开始计算，但最长指定时间为<code>12</code>小时。默认值为 <code>PT5M</code></li>
+</ul>
+</li>
+</ul>
+<br>
+<p>示例</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="w">  </span><span class="nt">WebServerGroup</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;AWS::AutoScaling::AutoScalingGroup&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Properties</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">VPCZoneIdentifier</span><span class="p">:</span><span class="w"> </span>!<span class="l">Ref Subnets</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">LaunchConfigurationName</span><span class="p">:</span><span class="w"> </span>!<span class="l">Ref LaunchConfig</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">MinSize</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;1&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">MaxSize</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;5&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">DesiredCapacity</span><span class="p">:</span><span class="w"> </span>!<span class="l">Ref WebServerCapacity</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">TargetGroupARNs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- !<span class="l">Ref ALBTargetGroup</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">CreationPolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">ResourceSignal</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">Timeout</span><span class="p">:</span><span class="w"> </span><span class="l">PT5M</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">Count</span><span class="p">:</span><span class="w"> </span>!<span class="l">Ref WebServerCapacity</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">UpdatePolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">AutoScalingRollingUpdate</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">MinInstancesInService</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;1&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">MaxBatchSize</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;1&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">PauseTime</span><span class="p">:</span><span class="w"> </span><span class="l">PT15M</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">WaitOnResourceSignals</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;true&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="updatepolicy" class="heading-element">
+  <a href="#updatepolicy" class="heading-mark"></a>UpdatePolicy</h2><p><a href="https://docs.aws.amazon.com/zh_cn/AWSCloudFormation/latest/UserGuide/aws-attribute-updatepolicy.html"target="_blank" rel="external nofollow noopener noreferrer">UpdatePolicy</a> 属性指定 <code>AWS CloudFormation</code> 如何处理以下资源的更新：</p>
+<ul>
+<li><code>AWS::AppStream::Fleet</code></li>
+<li><code>AWS::AutoScaling::AutoScalingGroup</code></li>
+<li><code>AWS::ElastiCache::ReplicationGroup</code></li>
+<li><code>AWS::OpenSearchService::Domain</code></li>
+<li><code>AWS::Elasticsearch::Domain</code></li>
+<li><code>AWS::Lambda::Alias</code></li>
+</ul>
+<br>
+<p><code>AWS::AppStream::Fleet</code> 更新策略</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">UpdatePolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">StopBeforeUpdate</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">StartAfterUpdate</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>StopBeforeUpdate: </code> 可选字段，值为<code>yes</code> 或 <code>no</code>。用于指定更新前停止指定的实例集</li>
+<li><code>StopBeforeUpdate: </code> 可选字段，值为<code>yes</code> 或 <code>no</code>。用于指定更新后启动指定的实例集</li>
+</ul>
+<br>
+<p><code>AWS::AutoScaling::AutoScalingGroup</code> 资源更新策略</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">UpdatePolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AutoScalingReplacingUpdate</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">WillReplace</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">UpdatePolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AutoScalingRollingUpdate</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">MaxBatchSize</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">MinInstancesInService</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">MinSuccessfulInstancesPercent</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">PauseTime</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">SuspendProcesses</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">List of processes</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">WaitOnResourceSignals</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">UpdatePolicy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AutoScalingScheduledAction</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">IgnoreUnmodifiedGroupSizeProperties</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>AutoScalingReplacingUpdate.WillReplace: </code> 字段值为 <code>true</code> 时，保留旧的伸缩组，直到新的伸缩组创建完成，在创建新组时，不会分离或附加任何实例。如果更新组成功，则删除旧的伸缩组；如果更新失败，则回滚到旧的伸缩组，删除新的伸缩组。有以下注意事项：
+<ul>
+<li>要有足够的 <code>EC2</code> 容量来容纳旧的和新的自动扩缩组</li>
+<li>指定匹配的 <code>CreationPolicy</code> 策略，可能会导致状态失败</li>
+<li>当 <code>WillReplace: true</code> 且同时使用 <code>AutoScalingRollingUpdate</code> 策略时，<code>AutoScalingReplacingUpdate</code> 策略优先级高</li>
+</ul>
+</li>
+<li><code>AutoScalingRollingUpdate: </code> 滚动更新
+<ul>
+<li><code>MaxBatchSize: </code> 可选字段，值为整数（<code>1~100</code>）。用于指定单次滚动更新最大数量</li>
+<li><code>MinInstancesInService: </code> 可选字段，值为整数。用于指定旧的伸缩组中保持服务的数量。默认值为<code>0</code></li>
+<li><code>MinSuccessfulInstancesPercent: </code> 可选字段，值为整数（<code>0~100</code>），默认值为 <code>100</code>。指定更新成功状态所需要的新实例数量百分比，向上去整。必须与 <code>WaitOnResourceSignal</code>、<code>PauseTime</code> 字段同时使用</li>
+<li><code>WaitOnResourceSignal: </code> 可选字段，值为 <code>true</code> 或 <code>false</code>，默认值为 <code>false</code>。指定自动扩缩组在更新期间是否等待来自新实例的信号。可以使用该属性确保在自动扩缩组继续更新之前实例已完成应用程序安装和配置。</li>
+<li><code>PauseTime: </code> 可选字段，值为字符串（<a href="https://en.wikipedia.org/wiki/ISO_8601#Durations"target="_blank" rel="external nofollow noopener noreferrer">ISO_8601 时间格式</a>(<code>PT#H#M#S</code>)）。指定滚动更新间隔时间，在该时间内如果没有收到新实例更新成功信号，则认为更新失败，触发回滚。最大值为<code>PT1H</code>，在 <code>WaitOnResourceSignal</code> 启用的情况下默认值为 <code>PT5M</code></li>
+<li><code>SuspendProcesses: </code> 可选字段，值为[ScalingProcesses.member.N][ScalingProcesses.member.N]之一。用于暂停更新</li>
+</ul>
+</li>
+</ul>
+<h2 id="awselasticloadbalancingv2listener" class="heading-element">
+  <a href="#awselasticloadbalancingv2listener" class="heading-mark"></a>AWS::ElasticLoadBalancingV2::Listener</h2><p>为应用程序负载平衡器、网络负载平衡器或网关负载平衡器指定侦听器。</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">AWS::ElasticLoadBalancingV2::Listener</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Properties</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AlpnPolicy</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Certificates</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">Certificate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">DefaultActions</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">AuthenticateCognitoConfig</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">AuthenticateCognitoConfig</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">AuthenticateOidcConfig</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">AuthenticateOidcConfig</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">FixedResponseConfig</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">FixedResponseConfig</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">ForwardConfig</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">ForwardConfig</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Order</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">RedirectConfig</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">RedirectConfig</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">TargetGroupArn</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">LoadBalancerArn</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Port</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Protocol</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">SslPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">String</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>LoadBalancerArn</code>: 必须字段，指定负载均衡器的<code>Amazon Resource Name (ARN)</code>。</li>
+<li><code>Port</code>: 可选字段，值为<code>1~65535</code>。负载均衡器正在侦听的端口。不能为网关负载均衡器指定端口</li>
+<li><code>Protocol</code>: 可选字段，值为 <code>( GENEVE | HTTP | HTTPS | TCP | TCP_UDP | TLS | UDP )</code>。用于从客户端连接到负载均衡器的协议</li>
+<li><code>DefaultActions</code>: 必选字段，默认规则的操作。不能为默认规则定义条件。
+<ul>
+<li><code>Type:</code> 必选字段，不中断更新, 指定动作类型。字符串值为 <code>( authenticate-cognito | authenticate-oidc | fixed-response | forward | redirect )</code></li>
+<li><code>TargetGroupArn:</code> 可选字段，不中断更新。指定目标组的<code>ARN (Amazon Resource Name)</code>。仅当<code>Tyep: forward</code>且希望路由到单个目标组时才需要指定。要路由到一个或多个目标组，请使用<code>ForwardConfig</code></li>
+</ul>
+</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">Resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ALBListener</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;AWS::ElasticLoadBalancingV2::Listener&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Properties</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">DefaultActions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">forward</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">TargetGroupArn</span><span class="p">:</span><span class="w"> </span>!<span class="l">Ref ALBTargetGroup</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">LoadBalancerArn</span><span class="p">:</span><span class="w"> </span>!<span class="l">Ref ApplicationLoadBalancer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Port</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;80&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Protocol</span><span class="p">:</span><span class="w"> </span><span class="l">HTTP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ALBTargetGroup</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;AWS::ElasticLoadBalancingV2::TargetGroup&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Properties</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">HealthCheckIntervalSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">HealthCheckTimeoutSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">HealthyThresholdCount</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Protocol</span><span class="p">:</span><span class="w"> </span><span class="l">HTTP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">UnhealthyThresholdCount</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">VpcId</span><span class="p">:</span><span class="w"> </span>!<span class="l">Ref VpcId</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">TargetGroupAttributes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">Key</span><span class="p">:</span><span class="w"> </span><span class="l">stickiness.enabled</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">Value</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">Key</span><span class="p">:</span><span class="w"> </span><span class="l">stickiness.type</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">Value</span><span class="p">:</span><span class="w"> </span><span class="l">lb_cookie</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">Key</span><span class="p">:</span><span class="w"> </span><span class="l">stickiness.lb_cookie.duration_seconds</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">Value</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;30&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="awselasticloadbalancingv2loadbalancer" class="heading-element">
+  <a href="#awselasticloadbalancingv2loadbalancer" class="heading-mark"></a>AWS::ElasticLoadBalancingV2::LoadBalancer</h2><p>指定应用程序负载均衡器、网络负载均衡器或网关负载均衡器。</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">AWS::ElasticLoadBalancingV2::LoadBalancer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Properties</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">IpAddressType</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">LoadBalancerAttributes</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">LoadBalancerAttribute</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Name</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Scheme</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">SecurityGroups</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">SubnetMappings</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">SubnetMapping</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Subnets</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Tags</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">Tag</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">String</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>Subnets</code>: 公网子网<code>id</code>。每个可用分区只能指定一个子网。必须指定子网或子网映射，但不能同时指定两者。如果要指定弹性<code>IP</code>地址，请指定子网映射，而不是子网。
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Parameters:
+</span></span><span class="line"><span class="cl">  Subnets:
+</span></span><span class="line"><span class="cl">    Type: <span class="s1">&#39;List&lt;AWS::EC2::Subnet::Id&gt;&#39;</span>
+</span></span><span class="line"><span class="cl">    Description: The list of SubnetIds in your Virtual Private Cloud <span class="o">(</span>VPC<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    ConstraintDescription: &gt;-
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例</span>
+</span></span><span class="line"><span class="cl">Resources:
+</span></span><span class="line"><span class="cl">  ApplicationLoadBalancer:
+</span></span><span class="line"><span class="cl">    Type: <span class="s1">&#39;AWS::ElasticLoadBalancingV2::LoadBalancer&#39;</span>
+</span></span><span class="line"><span class="cl">    Properties:
+</span></span><span class="line"><span class="cl">      Subnets: !Ref Subnets</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="awselasticloadbalancingv2targetgroup" class="heading-element">
+  <a href="#awselasticloadbalancingv2targetgroup" class="heading-mark"></a>AWS::ElasticLoadBalancingV2::TargetGroup</h2><p><a href="https://docs.aws.amazon.com/zh_cn/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html"target="_blank" rel="external nofollow noopener noreferrer">AWS::ElasticLoadBalancingV2::TargetGroup</a> 指定应用程序负载均衡器、网络负载均衡器或网关负载均衡器的目标组。</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># 格式</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">AWS::ElasticLoadBalancingV2::TargetGroup</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Properties</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthCheckEnabled</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthCheckIntervalSeconds</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthCheckPath</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthCheckPort</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthCheckProtocol</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthCheckTimeoutSeconds</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthyThresholdCount</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">IpAddressType</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Matcher</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">Matcher</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Name</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Port</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Protocol</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ProtocolVersion</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Tags</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">Tag</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">TargetGroupAttributes</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">Key</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Value</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Targets</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">TargetDescription</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">TargetType</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">UnhealthyThresholdCount</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">VpcId</span><span class="p">:</span><span class="w"> </span><span class="l">String</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>HealthCheckIntervalSeconds: </code> 可选字段，不中断更新，值为整数（<code>5~300</code>）。用于指定单个目标的运行存活探测检查间隔时间（秒）。以下是各协议默认时间：
+<ul>
+<li><code>GENEVE</code>: <code>10</code></li>
+<li><code>lambda</code>: <code>35</code></li>
+<li><code>TCP</code>、<code>TLS</code>、<code>UDP</code>、<code>TCP_UDP</code>、<code>HTTP</code>、<code>HTTPS</code>: <code>30</code></li>
+</ul>
+</li>
+<li><code>HealthCheckTimeoutSeconds: </code> 可选字段，不中断更新，值为整数（<code>2~120</code>）。用于判断存活探测失败的超时时间（秒）。以下是各协议默认超时时间
+<ul>
+<li><code>GENEVE</code>: <code>5</code></li>
+<li><code>lambda</code>: <code>30</code></li>
+<li><code>TCP</code>、<code>TLS</code>、<code>UDP</code>、<code>TCP_UDP</code>、<code>HTTP</code>、<code>HTTPS</code>: <code>6</code></li>
+</ul>
+</li>
+<li><code>HealthyThresholdCount: </code> 可选字段，不中断更新，值为整数（<code>2~10</code>）。用于判断单个目标为健康状态的存活探测成功次数。各协议默认时间为 <code>5</code></li>
+<li><code>Port: </code> 视情况可选字段，重建更新，值为整数（<code>1~65535</code>）。用于指定与后端目标端口。分为以下情况：
+<ul>
+<li>后端为 <code>lambda</code> 时不用指定</li>
+<li>后端为 <code>GENEVE</code> 协议时端口为 <code>6081</code></li>
+</ul>
+</li>
+<li><code>Protocol: </code> 视情况可选字段，重建更新，值为字符串（<code>GENEVE | HTTP | HTTPS | TCP | TCP_UDP | TLS | UDP</code>）。用于指定与后端连接使用的协议。当后端为 <code>lambda</code> 时不指定</li>
+<li><code>UnhealthyThresholdCount: </code> 可选字段，不中断更新，值为整数（<code>2~10</code>）。用于判断单个目标为不健康状态的存活探测失败次数。以下是各协议默认失败次数：
+<ul>
+<li><code>GENEVE</code>、<code>TCP</code>、<code>TLS</code>、<code>UDP</code>、<code>TCP_UDP</code>、<code>HTTP</code>、<code>HTTPS</code>: <code>2</code></li>
+<li><code>lambda</code>: <code>5</code></li>
+</ul>
+</li>
+<li><code>VpcId: </code> 视情况可选字段，重建更新，值为字符串（<code>VPC ID</code>）。用于指定负载均衡器使用的 <code>VPC</code>。除 <code>lambda</code> 后端以外必须指定该字段</li>
+<li><code>TargetGroupAttributes: </code> 可选字段，值为<code>k/v</code>列表，不中断更新。用于指定目标组属性。有以下<code>Key</code>：
+<ul>
+<li>所有负载均衡器都支持的 <code>key</code>
+<ul>
+<li><code>stickiness.lb_cookie.duration_seconds</code></li>
+<li><code>stickiness.enabled</code> 是否启用会话粘连。值为 <code>（true | false ）</code>。默认值为 <code>false</code></li>
+<li><code>stickiness.type</code> 会话粘连类型，有以下值：
+<ul>
+<li><code>lb_cookie</code></li>
+<li><code>app_cookie</code></li>
+<li><code>source_ip</code>: 源 <code>ip</code></li>
+<li><code>source_ip_dast_ip</code></li>
+<li><code>source_ip_dast_ip_proto</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>ALB</code> 类型且后端目标为<code>IP</code>或实例支持的 <code>key</code>
+<ul>
+<li><code>load_balancing.algorithm.type</code></li>
+<li><code>slow_start.duration_seconds</code></li>
+<li><code>stickiness.app_cookie.cookie_name</code></li>
+<li><code>stickiness.app_cookie.duration_seconds</code></li>
+<li><code>stickiness.lb_cookie.duration_seconds</code>: 基于<code>lb_cookie</code>会话粘连时间，即 <code>lb_cookie</code> 有效期。值为<code>（1~604800）</code>秒，默认值为<code>86400</code>秒</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<br/>
+<p>示例</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Parameters</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ALBTargetGroup</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;AWS::ElasticLoadBalancingV2::TargetGroup&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Properties</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">HealthCheckIntervalSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">HealthCheckTimeoutSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">HealthyThresholdCount</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Protocol</span><span class="p">:</span><span class="w"> </span><span class="l">HTTP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">UnhealthyThresholdCount</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">VpcId</span><span class="p">:</span><span class="w"> </span>!<span class="l">Ref VpcId</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">TargetGroupAttributes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">Key</span><span class="p">:</span><span class="w"> </span><span class="l">stickiness.enabled</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">Value</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">Key</span><span class="p">:</span><span class="w"> </span><span class="l">stickiness.type</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">Value</span><span class="p">:</span><span class="w"> </span><span class="l">lb_cookie</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">Key</span><span class="p">:</span><span class="w"> </span><span class="l">stickiness.lb_cookie.duration_seconds</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">Value</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;30&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="awsautoscalingautoscalinggroup" class="heading-element">
+  <a href="#awsautoscalingautoscalinggroup" class="heading-mark"></a>AWS::AutoScaling::AutoScalingGroup</h2><p><a href="https://docs.aws.amazon.com/zh_cn/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html"target="_blank" rel="external nofollow noopener noreferrer">AWS::AutoScaling::AutoScalingGroup</a> 定义自动伸缩 <code>EC2</code> 实例集合</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># 格式</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">AWS::AutoScaling::AutoScalingGroup</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Properties</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AutoScalingGroupName</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">AvailabilityZones</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">CapacityRebalance</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Context</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Cooldown</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">DefaultInstanceWarmup</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">DesiredCapacity</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">DesiredCapacityType</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthCheckGracePeriod</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">HealthCheckType</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">InstanceId</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">LaunchConfigurationName</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">LaunchTemplate</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">LaunchTemplateSpecification</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">LifecycleHookSpecificationList</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">LifecycleHookSpecification</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">LoadBalancerNames</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">MaxInstanceLifetime</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">MaxSize</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">MetricsCollection</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">MetricsCollection</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">MinSize</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">MixedInstancesPolicy</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">MixedInstancesPolicy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">NewInstancesProtectedFromScaleIn</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">NotificationConfigurations</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">NotificationConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">PlacementGroup</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ServiceLinkedRoleARN</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Tags</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">TagProperty</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">TargetGroupARNs</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">TerminationPolicies</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">VPCZoneIdentifier</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">String</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>VPCZoneIdentifier: </code> 视情况可选字段，中断后更新，值为字符串列表（<code>subnets id</code>）。用于创建“自动伸缩”组实例的<code>VPC</code>子网<code>id</code>列表。如果该资源属于公网子网，且属于同一<code>stack</code>模板中定义的<code>VPC</code>，则必须使用 <code>DependsOn</code> 属性声明 <code>vpc</code> 网关依赖。默认情况下更新该字段时，它将保留相同的<code>Auto Scaling</code>组，并根据指定的子网用新实例替换旧实例。</li>
+<li><code>LaunchConfigurationName: </code> 可选字段，不中断更新，值为字符串（<code>AWS::AutoScaling::LaunchConfiguration</code>类型的资源名称），用于指定启动实例的配置信息。不能与<code>LaunchTemplate</code>、<code>MixedInstancesPolicy</code>、<code>InstanceId</code> 字段同时使用</li>
+<li><code>MinSize: </code> 必选字段，不中断更新，值为字符串。用于指定伸缩组实例最小数量</li>
+<li><code>MaxSize: </code> 必选字段，不中断更新，值为字符串。用于指定伸缩组实例最大数量。在使用使用实例加权的混合实例策略实，扩展实例可能高于该值才能满足需求，在这种情况下该值解释为权重(定义每个实例对组的期望容量贡献多少个单元的权重)</li>
+<li><code>DesiredCapacity: </code> 可选字段，不中断更新，值为字符串（<code>MixSize =&lt; DesiredCapacity &gt;= MaxSize</code>）。用于指定初始所需容量。默认值与 <code>MixSize</code> 字段相同。当自动伸缩达到该值时，状态更新为 <code>CREATE_COMPLETE</code></li>
+<li><code>TargetGroupARNs: </code> 可选字段，不中断更新，值为字符串列表。指定需要与自动伸缩组关联的弹性负载均衡目标组的<code>ARN (Amazon Resource Names)</code></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-05-17 14:52:44">更新于 2023-05-17&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/aws/" class="post-tag" title="标签 - aws">aws</a><a href="/tags/CloudFormation/" class="post-tag" title="标签 - CloudFormation">CloudFormation</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sApiControllingAccess/" class="post-nav-item" rel="prev" title="k8s API 访问控制"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s API 访问控制</a>
+      <a href="/awsCloudFormationCli/" class="post-nav-item" rel="next" title="aws CloudFormation 相关命令行">aws CloudFormation 相关命令行<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>eks中部署prometheus - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='' /><meta itemprop="name" content="eks中部署prometheus">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2024-03-01T10:18:16+08:00" />
+<meta itemprop="dateModified" content="2024-03-02T00:06:31+08:00" />
+<meta itemprop="wordCount" content="1532">
+<meta itemprop="keywords" content="," /><meta property="og:title" content="eks中部署prometheus" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/eksPrometheus/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-01T10:18:16+08:00" />
+<meta property="article:modified_time" content="2024-03-02T00:06:31+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="eks中部署prometheus"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/eksPrometheus/" /><link rel="prev" href="/awsCloudWatchMetric/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "eks中部署prometheus",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/eksPrometheus\/"
+    },"genre": "posts","keywords": "","wordcount":  1532 ,
+    "url": "\/eksPrometheus\/","datePublished": "2024-03-01T10:18:16+08:00","dateModified": "2024-03-02T00:06:31+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>eks中部署prometheus</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/eks/" class="post-category" title="分类 - eks"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> eks</a></span></div><div class="post-meta-line"><span title="发布于 2024-03-01 10:18:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-03-01">2024-03-01</time></span>&nbsp;<span title="更新于 2024-03-02 00:06:31"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-03-02">2024-03-02</time></span>&nbsp;<span title="1532 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#设置默认存储类">设置默认存储类</a></li>
+    <li><a href="#使用-aws-load-balancer-做为ingress">使用 AWS Load Balancer 做为Ingress</a></li>
+    <li><a href="#部署kube-prometheus-stack">部署kube-prometheus-stack</a></li>
+    <li><a href="#配置alertmanager告警">配置alertmanager告警</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+eks: 1.29</p>
+</blockquote>
+<!--start of attachment line-->
+<!--End of attachment line-->
+<h1 id="设置默认存储类" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae%e9%bb%98%e8%ae%a4%e5%ad%98%e5%82%a8%e7%b1%bb" class="heading-mark"></a>设置默认存储类</h1><p>如果已有默认的存储类，则可跳过这部分。以下是使用<code>gp3</code>做为默认存储类</p>
+<ol>
+<li>
+<p>查找集群是否有<code>OIDC ID</code></p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/enable-iam-roles-for-service-accounts.html</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##  搜索 OIDC ID ，确定集群是否拥有现有 IAM OIDC 提供商。</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws eks describe-cluster \</span>
+</span></span><span class="line"><span class="cl">--profile  <span class="s2">&#34;zjc-yuhai&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--region <span class="s2">&#34;ap-southeast-1&#34;</span>  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--name <span class="s2">&#34;eks01&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--query <span class="s2">&#34;cluster.identity.oidc.issuer&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--output text <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">5</span>
+</span></span><span class="line"><span class="cl">363BFA878EE4DF9B3569DE2E5010DAA5</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>确定账户中是否已存在集群<code>IAM OIDC ID</code>商。下面表示没有</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws iam list-open-id-connect-providers \</span>
+</span></span><span class="line"><span class="cl">--profile  <span class="s2">&#34;zjc-yuhai&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--region <span class="s2">&#34;ap-southeast-1&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;OpenIDConnectProviderList&#34;</span>: <span class="o">[]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>创建 <code>IAM OIDC</code></p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># eksctl utils associate-iam-oidc-provider \</span>
+</span></span><span class="line"><span class="cl">--profile <span class="s2">&#34;zjc-yuhai&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--region <span class="s2">&#34;ap-southeast-1&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--cluster <span class="s2">&#34;eks01&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--approve</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>再次验证</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws iam  --profile  &#34;zjc-yuhai&#34; --region &#34;ap-southeast-1&#34; list-open-id-connect-providers</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;OpenIDConnectProviderList&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Arn&#34;</span>: <span class="s2">&#34;arn:aws:iam::968767926216:oidc-provider/oidc.eks.ap-southeast-1.amazonaws.com/id/363BFA878EE4DF9B3569DE2E5010DAA5&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>创建拥有使用<code>EBS</code>的<code>IAM</code>角色附加给<code>EKS</code></p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/csi-iam-role.html</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果集群位于 AWS GovCloud（美国东部）或 AWS GovCloud（美国西部）AWS 区域，则将 arn:aws: 替换为 arn:aws-us-gov:。</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost singapore<span class="o">]</span><span class="c1"># eksctl create iamserviceaccount \</span>
+</span></span><span class="line"><span class="cl">--profile  <span class="s2">&#34;zjc-yuhai&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--region <span class="s2">&#34;ap-southeast-1&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--cluster <span class="s2">&#34;eks01&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--name ebs-csi-controller-sa <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--namespace kube-system <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--role-name AmazonEKS_EBS_CSI_DriverRole <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--role-only <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--approve</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># eksctl get iamserviceaccount \</span>
+</span></span><span class="line"><span class="cl">--profile  <span class="s2">&#34;zjc-yuhai&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--region <span class="s2">&#34;ap-southeast-1&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--cluster <span class="s2">&#34;eks01&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--name ebs-csi-controller-sa <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--output json <span class="p">|</span> jq</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>添加 <code>EBS CSI</code> 组件</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost singapore<span class="o">]</span><span class="c1"># eksctl create addon \</span>
+</span></span><span class="line"><span class="cl">--profile <span class="s2">&#34;zjc-yuhai&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--region <span class="s2">&#34;ap-southeast-1&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--name <span class="s2">&#34;aws-ebs-csi-driver&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--cluster <span class="s2">&#34;eks01&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--service-account-role-arn arn:aws:iam::968767926216:role/AmazonEKS_EBS_CSI_DriverRole <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--force</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看 <code>EBS</code> 插件状态</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost yh-eks<span class="o">]</span><span class="c1"># eksctl get addon \</span>
+</span></span><span class="line"><span class="cl">&gt; --profile <span class="s2">&#34;zjc-yuhai&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; --region <span class="s2">&#34;ap-southeast-1&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; --cluster <span class="s2">&#34;yh-eks&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; --name <span class="s2">&#34;aws-ebs-csi-driver&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; --output json <span class="p">|</span> jq
+</span></span><span class="line"><span class="cl">2023-07-27 15:56:02 <span class="o">[</span>ℹ<span class="o">]</span>  Kubernetes version <span class="s2">&#34;1.27&#34;</span> in use by cluster <span class="s2">&#34;yh-eks&#34;</span>
+</span></span><span class="line"><span class="cl">2023-07-27 15:56:03 <span class="o">[</span>ℹ<span class="o">]</span>  to see issues <span class="k">for</span> an addon run <span class="sb">`</span>eksctl get addon --name &lt;addon-name&gt; --cluster &lt;cluster-name&gt;<span class="sb">`</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Name&#34;</span>: <span class="s2">&#34;aws-ebs-csi-driver&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Version&#34;</span>: <span class="s2">&#34;v1.21.0-eksbuild.1&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;NewerVersion&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;IAMRole&#34;</span>: <span class="s2">&#34;arn:aws:iam::968767926216:role/AmazonEKS_EBS_CSI_DriverRole&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Status&#34;</span>: <span class="s2">&#34;ACTIVE&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;ConfigurationValues&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Issues&#34;</span>: null
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>EKS</code> 不会自动为集群更新 <code>Amazon EBS CSI</code>。使用下面命令更新 EBS 驱动插件(如果需要)</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># eksctl update addon \</span>
+</span></span><span class="line"><span class="cl">--name <span class="s2">&#34;aws-ebs-csi-driver&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--version <span class="s2">&#34;v1.11.4-eksbuild.1&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--cluster <span class="s2">&#34;my-cluster&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--force</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>删除默认的<code>GP2</code>存储类，后续创建 <code>GP3</code> 做为默认的存储类</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl delete storageclass gp2 \</span>
+</span></span><span class="line"><span class="cl">--kubeconfig .kube/singapore-eks01-config</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>创建<code>gp3</code> 为默认存储类</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat aws-ebs.yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: storage.k8s.io/v1
+</span></span><span class="line"><span class="cl">kind: StorageClass
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  annotations:
+</span></span><span class="line"><span class="cl">    storageclass.kubernetes.io/is-default-class: <span class="s2">&#34;true&#34;</span>
+</span></span><span class="line"><span class="cl">  name: aws-ebs
+</span></span><span class="line"><span class="cl">provisioner: ebs.csi.aws.com
+</span></span><span class="line"><span class="cl">reclaimPolicy: Delete
+</span></span><span class="line"><span class="cl">volumeBindingMode: WaitForFirstConsumer
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl apply -f aws-ebs.yaml --kubeconfig /root/.kube/singapore-eks01-config</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h1 id="使用-aws-load-balancer-做为ingress" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-aws-load-balancer-%e5%81%9a%e4%b8%baingress" class="heading-mark"></a>使用 AWS Load Balancer 做为Ingress</h1><p>如果不使用<code>aws</code>负载均衡器可跳过这部分，以下是使用<code>AWS Load Balancer Ingress</code> 控制器步骤</p>
+<ol>
+<li>
+<p>创建 <code>iam</code> 策略</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">## github: https://github.com/kubernetes-sigs/aws-load-balancer-controller</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 美国地区使用：https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/install/iam_policy_us-gov.json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># mkdir AwsLoadBalancerController ; cd AwsLoadBalancerController</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 下载 IAM 策略文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># curl -Os https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.3/docs/install/iam_policy.json</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># ls</span>
+</span></span><span class="line"><span class="cl">iam_policy.json
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建策略</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># aws iam create-policy \</span>
+</span></span><span class="line"><span class="cl">--policy-name AWSLoadBalancerControllerIAMPolicy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--policy-document file://iam_policy.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--region <span class="s2">&#34;ap-southeast-1&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--profile <span class="s2">&#34;zjc-yuhai&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Policy&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;PolicyName&#34;</span>: <span class="s2">&#34;AWSLoadBalancerControllerIAMPolicy&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;PolicyId&#34;</span>: <span class="s2">&#34;ANPA6DDYRN7EOPWLETHPG&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Arn&#34;</span>: <span class="s2">&#34;arn:aws:iam::968767926216:policy/AWSLoadBalancerControllerIAMPolicy&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;Path&#34;</span>: <span class="s2">&#34;/&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;DefaultVersionId&#34;</span>: <span class="s2">&#34;v1&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;AttachmentCount&#34;</span>: 0,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;PermissionsBoundaryUsageCount&#34;</span>: 0,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;IsAttachable&#34;</span>: true,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;CreateDate&#34;</span>: <span class="s2">&#34;2023-07-09T08:35:26+00:00&#34;</span>,
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;UpdateDate&#34;</span>: <span class="s2">&#34;2023-07-09T08:35:26+00:00&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>创建角色，引用上面创建的策略</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># eksctl create iamserviceaccount \</span>
+</span></span><span class="line"><span class="cl">--cluster<span class="o">=</span>eks01 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--namespace<span class="o">=</span>kube-system <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--name<span class="o">=</span>aws-load-balancer-controller <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--role-name AmazonEKSLoadBalancerControllerRole <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--attach-policy-arn<span class="o">=</span>arn:aws:iam::968767926216:policy/AWSLoadBalancerControllerIAMPolicy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--approve <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--region <span class="s2">&#34;ap-southeast-1&#34;</span> --profile <span class="s2">&#34;zjc-yuhai&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># wget https://github.com/jetstack/cert-manager/releases/download/v1.12.3/cert-manager.yaml</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># kubectl apply --validate=false  -f cert-manager.yaml --kubeconfig /root/.kube/singapore-eks01-config</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>安装 <code>AWS Load Balancer Controller</code> 附加组件</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># wget https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.5.3/v2_5_3_full.yaml \</span>
+</span></span><span class="line"><span class="cl">-O aws-load-balancer-controller-v2_5_3_full.yaml</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>删除服务账户</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># sed -i.bak -e &#39;595,603d&#39; aws-load-balancer-controller-v2_5_3_full.yaml</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改集群名称</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># sed -i.bak -e &#39;s/your-cluster-name/eks01/&#39;  aws-load-balancer-controller-v2_5_3_full.yaml</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>创建 <code>AWS Load Balancer Controller</code></p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost AwsLoadBalancerController<span class="o">]</span><span class="c1"># kubectl apply -f aws-load-balancer-controller-v2_5_3_full.yaml \</span>
+</span></span><span class="line"><span class="cl">--kubeconfig /root/.kube/singapore-eks01-config</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h1 id="部署kube-prometheus-stack" class="heading-element">
+  <a href="#%e9%83%a8%e7%bd%b2kube-prometheus-stack" class="heading-mark"></a>部署kube-prometheus-stack</h1><ol>
+<li>
+<p>修改<code>grafana</code>服务暴露方式</p>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># cat grafana-service-values.yaml</span>
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">grafana:
+</span></span><span class="line"><span class="cl">  service:
+</span></span><span class="line"><span class="cl">    portName: http-web
+</span></span><span class="line"><span class="cl">    annotations:
+</span></span><span class="line"><span class="cl">      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+</span></span><span class="line"><span class="cl">      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+</span></span><span class="line"><span class="cl">      service.beta.kubernetes.io/aws-load-balancer-type: external
+</span></span><span class="line"><span class="cl">    type: LoadBalancer</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>部署</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># helm repo add prometheus-community https://prometheus-community.github.io/helm-charts</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># helm repo update</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># helm install prometheus prometheus-community/kube-prometheus-stack \</span>
+</span></span><span class="line"><span class="cl">-n prometheus-stack --create-namespace <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-f grafana-service-values.yaml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">NAME: prometheus
+</span></span><span class="line"><span class="cl">LAST DEPLOYED: Fri Mar  <span class="m">1</span> 14:24:27 <span class="m">2024</span>
+</span></span><span class="line"><span class="cl">NAMESPACE: prometheus-stack
+</span></span><span class="line"><span class="cl">STATUS: deployed
+</span></span><span class="line"><span class="cl">REVISION: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">NOTES:
+</span></span><span class="line"><span class="cl">kube-prometheus-stack has been installed. Check its status by running:
+</span></span><span class="line"><span class="cl">  kubectl --namespace prometheus-stack get pods -l <span class="s2">&#34;release=prometheus&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Visit https://github.com/prometheus-operator/kube-prometheus <span class="k">for</span> instructions on how to create <span class="p">&amp;</span> configure Alertmanager and Prometheus instances using the Operator.</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看<code>grafana</code>地址</p>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># kubectl get service -n prometheus-stack prometheus-grafana</span>
+</span></span><span class="line"><span class="cl">NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP                                                                          PORT<span class="o">(</span>S<span class="o">)</span>        AGE
+</span></span><span class="line"><span class="cl">prometheus-grafana   LoadBalancer   172.20.88.52   k8s-promethe-promethe-x-x.elb.ap-southeast-1.amazonaws.com   80:30181/TCP   55s</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>在浏览器中登录，<code>grafana</code>用户名与密码可用以下方式查看</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 用户名</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># kubectl get secret prometheus-grafana \</span>
+</span></span><span class="line"><span class="cl">-n prometheus-stack <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-o <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">&#34;{.data.admin-user}&#34;</span> <span class="p">|</span> base64 --decode <span class="p">;</span> <span class="nb">echo</span>
+</span></span><span class="line"><span class="cl">admin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 密码</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># kubectl get secret prometheus-grafana \</span>
+</span></span><span class="line"><span class="cl">-n prometheus-stack <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-o <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">&#34;{.data.admin-password}&#34;</span> <span class="p">|</span> base64 --decode<span class="p">;</span> <span class="nb">echo</span>
+</span></span><span class="line"><span class="cl">prom-operator</span></span></code></pre></td></tr></table>
+</div>
+</div><p>登陆后<code>node-exporter</code>界面</p>
+<p><img loading="lazy" src="node-exporter-nodes.png" alt="node-exporter-nodes.png" srcset="node-exporter-nodes.png?size=small, node-exporter-nodes.png?size=medium 1.5x, node-exporter-nodes.png?size=large 2x" sizes="auto" data-title="node-exporter-nodes.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+</ol>
+<h1 id="配置alertmanager告警" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%aealertmanager%e5%91%8a%e8%ad%a6" class="heading-mark"></a>配置alertmanager告警</h1><ol>
+<li>
+<p>更新 <code>Alertmanager.spec</code> 以下字段，使其能匹配后续的 <code>AlertmanagerConfig</code> 资源</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># kubectl get Alertmanager -A -o yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">items:
+</span></span><span class="line"><span class="cl">- apiVersion: monitoring.coreos.com/v1
+</span></span><span class="line"><span class="cl">  kind: Alertmanager
+</span></span><span class="line"><span class="cl">  metadata:
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">  spec:
+</span></span><span class="line"><span class="cl">    alertmanagerConfigNamespaceSelector: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">    alertmanagerConfigSelector:
+</span></span><span class="line"><span class="cl">      matchLabels:
+</span></span><span class="line"><span class="cl">        alertmanager: main
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>定义警告通知人信息</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost kube-prometheus-stack<span class="o">]</span><span class="c1"># cat alertmanagerConfig-test.yaml</span>
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">apiVersion: monitoring.coreos.com/v1alpha1
+</span></span><span class="line"><span class="cl">kind: AlertmanagerConfig
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: <span class="nb">test</span>
+</span></span><span class="line"><span class="cl">  namespace:  prometheus-stack
+</span></span><span class="line"><span class="cl">  labels:
+</span></span><span class="line"><span class="cl">    alertmanager: main
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  route:
+</span></span><span class="line"><span class="cl">    groupBy:
+</span></span><span class="line"><span class="cl">    - <span class="nb">test</span>
+</span></span><span class="line"><span class="cl">    receiver: 163email
+</span></span><span class="line"><span class="cl">  receivers:
+</span></span><span class="line"><span class="cl">  - name: 163email
+</span></span><span class="line"><span class="cl">    emailConfigs:
+</span></span><span class="line"><span class="cl">    - sendResolved: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">      to: 3131516796@qq.com
+</span></span><span class="line"><span class="cl">      from: xq4096@163.com
+</span></span><span class="line"><span class="cl">      hello: 163.com
+</span></span><span class="line"><span class="cl">      smarthost: smtp.163.com:465
+</span></span><span class="line"><span class="cl">      requireTLS: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">      authUsername: xq4096@163.com
+</span></span><span class="line"><span class="cl">      authPassword:
+</span></span><span class="line"><span class="cl">        name:
+</span></span><span class="line"><span class="cl">        key:</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-03-02 00:06:31">更新于 2024-03-02&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/awsCloudWatchMetric/" class="post-nav-item" rel="prev" title="Amazon CloudWatch - Amazon CloudWatch 可实时监控您的亚马逊云科技 (AWS) 资源以及您在 AWS 上运行的应用程序。"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Amazon CloudWatch - Amazon CloudWatch 可实时监控您的亚马逊云科技 (AWS) 资源以及您在 AWS 上运行的应用程序。</a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

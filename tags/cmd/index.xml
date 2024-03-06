@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>cmd - 标签 - 小厮</title>
+    <link>/tags/cmd/</link>
+    <description>cmd - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 22 Jul 2023 11:22:35 &#43;0800</lastBuildDate><atom:link href="/tags/cmd/" rel="self" type="application/rss+xml" /><item>
+  <title>dmesg - 打印或控制内核环缓冲区</title>
+  <link>/linuxCmdDemsg/</link>
+  <pubDate>Sat, 22 Jul 2023 11:22:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdDemsg/</guid>
+  <description><![CDATA[dmesg 用于检查或控制内核环缓冲区。默认操作是从内核环缓冲区读取所有消息。]]></description>
+</item>
+<item>
+  <title>uptime - 查看系统运行时长</title>
+  <link>/linuxCmdUptime/</link>
+  <pubDate>Sat, 22 Jul 2023 10:12:36 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdUptime/</guid>
+  <description><![CDATA[uptime 命令以一行显示以下信息。当前时间，系统运行了多长时间，当前有多少用户登录，以及过去1分钟、5分钟和15分钟的系统平均负载。]]></description>
+</item>
+</channel>
+</rss>

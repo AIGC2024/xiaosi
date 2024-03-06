@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s RESTfula - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='k8s' /><meta itemprop="name" content="k8s RESTfula">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-06-18T17:37:17+08:00" />
+<meta itemprop="dateModified" content="2023-07-22T21:04:57+08:00" />
+<meta itemprop="wordCount" content="511">
+<meta itemprop="keywords" content="k8s," /><meta property="og:title" content="k8s RESTfula" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sApiConcepts/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-06-18T17:37:17+08:00" />
+<meta property="article:modified_time" content="2023-07-22T21:04:57+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s RESTfula"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sApiConcepts/" /><link rel="prev" href="/k8sCoreDNS/" /><link rel="next" href="/awsECR/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s RESTfula",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sApiConcepts\/"
+    },"genre": "posts","keywords": "k8s","wordcount":  511 ,
+    "url": "\/k8sApiConcepts\/","datePublished": "2023-06-18T17:37:17+08:00","dateModified": "2023-07-22T21:04:57+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s RESTfula</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2023-06-18 17:37:17"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-06-18">2023-06-18</time></span>&nbsp;<span title="更新于 2023-07-22 21:04:57"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-07-22">2023-07-22</time></span>&nbsp;<span title="511 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#restful">RESTful</a></li>
+    <li><a href="#常用参数">常用参数</a>
+      <ul>
+        <li><a href="#whact">whact</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/using-api/"target="_blank" rel="external nofollow noopener noreferrer">API 概述</a></li>
+<li><a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#verbs-on-resources"target="_blank" rel="external nofollow noopener noreferrer">API 惯例</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/using-api/api-concepts/"target="_blank" rel="external nofollow noopener noreferrer">Kubernetes API 概念</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="restful" class="heading-element">
+  <a href="#restful" class="heading-mark"></a>RESTful</h1><p><code>Kubernetes</code> <code>API</code> 是通过 <code>HTTP</code> 提供的基于资源 (<code>RESTful</code>) 的编程接口。 它支持通过标准 <code>HTTP</code> 动词（<code>POST</code>、<code>PUT</code>、<code>PATCH</code>、<code>DELETE</code>、<code>GET</code>）检索、创建、更新和删除主要资源。</p>
+<p>资源 <code>URL</code> 大致格式为：<code>/apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE/NAME</code>（大写字段表示需要替换对应名称）</p>
+<ul>
+<li><code>apis/GROUP/</code>: 表示<code>api</code> 资源组，如果是核心资料则以 <code>api</code>表示，且没有<code>GROUP</code>部分。如 <code>/api/v1/pods</code></li>
+<li><code>namespaces/NAMESPACE/</code>: 名称空间，如果为集群资源，则缺省</li>
+<li><code>RESOURCETYPE</code>: 表示资源类型，如果缺省后面资源名称则表示某类资源集合</li>
+<li><code>NAME</code>: 具体的资源名称</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><code>HTTP</code> 请求方式</th>
+<th style="text-align:left"><code>API</code> 请求动词</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>GET</code> 或 <code>HEAD</code></td>
+<td style="text-align:left"><code>get</code></td>
+<td style="text-align:left">获取单个资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>GET</code> 或 <code>HEAD</code></td>
+<td style="text-align:left"><code>list</code></td>
+<td style="text-align:left">获取某类资源集合</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>POST</code></td>
+<td style="text-align:left"><code>create</code></td>
+<td style="text-align:left">创建资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>PUT</code></td>
+<td style="text-align:left"><code>update</code></td>
+<td style="text-align:left">更新资源，如果资源不存在则创建</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>PATH</code></td>
+<td style="text-align:left"><code>patch</code></td>
+<td style="text-align:left">修改资源字段</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DELETE</code></td>
+<td style="text-align:left"><code>delete</code></td>
+<td style="text-align:left">删除单个资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DELETE</code></td>
+<td style="text-align:left"><code>deletecollection</code></td>
+<td style="text-align:left">删除某类型资源</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>post</code> 示例</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">PS 2023/06/18 21:03:35 &gt; curl.exe -s -w <span class="s2">&#34;\n响应状态码：%{http_code}&#34;</span> <span class="sb">`</span>
+</span></span><span class="line"><span class="cl">&gt;&gt; --cert .<span class="se">\l</span>ocalK8s<span class="se">\x</span>iaosi.crt  --key .<span class="se">\l</span>ocalK8s<span class="se">\x</span>iaosi.key --cacert .<span class="se">\l</span>ocalK8s<span class="se">\c</span>a.crt <span class="sb">`</span>
+</span></span><span class="line"><span class="cl">&gt;&gt; -H <span class="s2">&#34;Content-Type: application/yaml&#34;</span> <span class="sb">`</span>
+</span></span><span class="line"><span class="cl">&gt;&gt;  --data-binary <span class="s2">&#34;@xiaosiNamespace.yaml&#34;</span> <span class="sb">`</span>
+</span></span><span class="line"><span class="cl">&gt;&gt; -X POST https://192.168.232.100:6443/api/v1/namespaces
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;kind&#34;</span>: <span class="s2">&#34;Status&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;apiVersion&#34;</span>: <span class="s2">&#34;v1&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;metadata&#34;</span>: <span class="o">{}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;status&#34;</span>: <span class="s2">&#34;Failure&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;message&#34;</span>: <span class="s2">&#34;namespaces is forbidden: User \&#34;xiaosi\&#34; cannot create resource \&#34;namespaces\&#34; in API group \&#34;\&#34; at the cluster scope&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;reason&#34;</span>: <span class="s2">&#34;Forbidden&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;details&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;kind&#34;</span>: <span class="s2">&#34;namespaces&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;code&#34;</span>: <span class="m">403</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">响应状态码：403</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="常用参数" class="heading-element">
+  <a href="#%e5%b8%b8%e7%94%a8%e5%8f%82%e6%95%b0" class="heading-mark"></a>常用参数</h1><h2 id="whact" class="heading-element">
+  <a href="#whact" class="heading-mark"></a>whact</h2><p><code>watch</code> 参数能持续监控某资源或某类资源变更，需要与 <code>resourceVersion</code> 参数一起使用</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-07-22 21:04:57">更新于 2023-07-22&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sCoreDNS/" class="post-nav-item" rel="prev" title="CoreDNS 是 Kubernetes 的默认 DNS 服务"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>CoreDNS 是 Kubernetes 的默认 DNS 服务</a>
+      <a href="/awsECR/" class="post-nav-item" rel="next" title="aws">aws<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

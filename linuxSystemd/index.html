@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>超级守护进程 systemd - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="systemctl" /><meta name="keywords" content='systemctl' /><meta itemprop="name" content="超级守护进程 systemd">
+<meta itemprop="description" content="systemctl"><meta itemprop="datePublished" content="2018-12-10T17:08:10+08:00" />
+<meta itemprop="dateModified" content="2024-01-10T18:45:10+08:00" />
+<meta itemprop="wordCount" content="4074">
+<meta itemprop="keywords" content="systemctl," /><meta property="og:title" content="超级守护进程 systemd" />
+<meta property="og:description" content="systemctl" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linuxSystemd/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T17:08:10+08:00" />
+<meta property="article:modified_time" content="2024-01-10T18:45:10+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="超级守护进程 systemd"/>
+<meta name="twitter:description" content="systemctl"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linuxSystemd/" /><link rel="prev" href="/history/" /><link rel="next" href="/linux_iptables/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "超级守护进程 systemd",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linuxSystemd\/"
+    },"genre": "posts","keywords": "systemctl","wordcount":  4074 ,
+    "url": "\/linuxSystemd\/","datePublished": "2018-12-10T17:08:10+08:00","dateModified": "2024-01-10T18:45:10+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>超级守护进程 systemd</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 17:08:10"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2024-01-10 18:45:10"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-10">2024-01-10</time></span>&nbsp;<span title="4074 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#systemd">systemd</a></li>
+    <li><a href="#单元">单元</a>
+      <ul>
+        <li><a href="#单元管理命令">单元管理命令</a>
+          <ul>
+            <li><a href="#查看单元使用帮助">查看单元使用帮助</a></li>
+            <li><a href="#查看单元文件与状态">查看单元文件与状态</a></li>
+            <li><a href="#启动一个单元">启动一个单元</a></li>
+            <li><a href="#停止一个单元">停止一个单元</a></li>
+            <li><a href="#重新加载一个单元的配置文件">重新加载一个单元的配置文件</a></li>
+            <li><a href="#重新启动一个单元">重新启动一个单元</a></li>
+            <li><a href="#查看单元运行状态">查看单元运行状态</a></li>
+            <li><a href="#查看已经激活的单元">查看已经激活的单元</a></li>
+            <li><a href="#查看激活的单元">查看激活的单元</a></li>
+            <li><a href="#查看单元是否开机启动">查看单元是否开机启动</a></li>
+            <li><a href="#设置单元开机自动启动">设置单元开机自动启动</a></li>
+            <li><a href="#设置单元开机自动启动并启动">设置单元开机自动启动并启动</a></li>
+            <li><a href="#取消开机启动">取消开机启动</a></li>
+            <li><a href="#禁用一个单元">禁用一个单元</a></li>
+            <li><a href="#启用一个单元">启用一个单元</a></li>
+            <li><a href="#重新加载systemd扫描新的或有变动的单元">重新加载systemd扫描新的或有变动的单元</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#电源管理及命令">电源管理及命令</a>
+      <ul>
+        <li><a href="#重启系统">重启系统</a></li>
+        <li><a href="#退出系统并关闭电源">退出系统并关闭电源</a></li>
+        <li><a href="#待机">待机</a></li>
+        <li><a href="#休眠">休眠</a></li>
+        <li><a href="#同时休眠到硬盘并待机">同时休眠到硬盘并待机</a></li>
+      </ul>
+    </li>
+    <li><a href="#运行级别与运行目标">运行级别与运行目标</a>
+      <ul>
+        <li><a href="#运行目标相关命令">运行目标相关命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#临时文件">临时文件</a></li>
+    <li><a href="#定时器">定时器</a></li>
+    <li><a href="#挂载">挂载</a></li>
+    <li><a href="#日志">日志</a></li>
+    <li><a href="#配置文件">配置文件</a>
+      <ul>
+        <li><a href="#单元属性">单元属性</a>
+          <ul>
+            <li><a href="#before与after">Before与After</a></li>
+            <li><a href="#description">Description</a></li>
+          </ul>
+        </li>
+        <li><a href="#安装信息">安装信息</a>
+          <ul>
+            <li><a href="#wantedby与requiredby">WantedBy与RequiredBy</a></li>
+          </ul>
+        </li>
+        <li><a href="#单元终止过程">单元终止过程</a>
+          <ul>
+            <li><a href="#killmode">KillMode</a></li>
+            <li><a href="#killsignal">KillSignal</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+<li>centos: 8</li>
+<li>Rocky Linux 8.5</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.html" title="systemd介绍"target="_blank" rel="external nofollow noopener noreferrer">systemd介绍</a></li>
+<li><a href="https://www.freedesktop.org/wiki/Software/systemd/" title="systemd文档主页"target="_blank" rel="external nofollow noopener noreferrer">systemd文档主页</a></li>
+<li><a href="https://systemd.io/" title="systemd官网"target="_blank" rel="external nofollow noopener noreferrer">systemd官网</a></li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/" title="systemd项目帮助手册索引"target="_blank" rel="external nofollow noopener noreferrer">systemd项目帮助手册索引</a></li>
+<li><a href="https://github.com/systemd/systemd" title="systemd-github"target="_blank" rel="external nofollow noopener noreferrer">systemd-github</a></li>
+</ul>
+</blockquote>
+<h1 id="systemd" class="heading-element">
+  <a href="#systemd" class="heading-mark"></a>systemd</h1><p>systemd 是 linux 系统的一组基本构建块，它提供了一个系统和服务管理器，作为超级守护进程（PID=1）运行，同时也是启动并维护用户空间服务的系统初始化。为登陆用户启动单独实例服务</p>
+<p>systemd 通常不是由用户直接启动，而是作为 <code>/sbin/init</code> 符号链接安装并在系统引导期间启动。为了和 SysV 兼容，如果二进制文件叫 Init 而不是计算机上的第一个进程（PID 不为 1），它将执行 telint 并传递所有未修改的命令行参数。因此，正常登陆会话调用中，init 和 telinit 几乎等效</p>
+<p>当作为系统实例运行时，配置文件为 <code>system.conf</code> 和 <code>system.conf.d</code> 目录中的文件；当作为用户运行实例时，配置文件为 <code>user.conf</code> 和 <code>user.con.d</code> 目录中的文件</p>
+<h1 id="单元" class="heading-element">
+  <a href="#%e5%8d%95%e5%85%83" class="heading-mark"></a>单元</h1><p>systemd 有 11 种不同的单元类型（&ldquo;unit&rdquo;）的各种实体之间提供依赖系统，它封装了与系统启动和维护相关的各种对象：</p>
+<ul>
+<li>系统服务：文件名以<code>.service</code>为后缀</li>
+<li>标识进程之间通信使用的<code>socket</code>文件：文件名以<code>.socket</code>为后缀</li>
+<li>启动目标：文件名以<code>.target</code>为后缀</li>
+<li>设备：文件名以<code>.device</code>为后缀</li>
+<li>系统快照：文件名以<code>.snapshot</code>为后缀</li>
+<li>系统挂载点：文件名以<code>.moount</code>为后缀</li>
+<li>系统自动挂载点：文件名以<code>.automount</code>为后缀</li>
+<li>交换分区：文件名以.<code>swap</code>为后缀</li>
+<li>计划任务：文件名以<code>.timet</code>为后缀</li>
+<li>文件路径：文件名以<code>.path</code>为后缀</li>
+<li>资源管理：文件名以<code>.slice</code>为后缀</li>
+<li>外部创建的进程：文件名以<code>.scopr</code>为后缀</li>
+</ul>
+<p>特征：</p>
+<ol>
+<li>基于socket的激活机制，systemd为支持此机制的服务监听socket，当接收到来自客户端的socket通信时，由systemd激活对应的服务，应答客户端的请求；</li>
+<li>基于bus的激活机制。</li>
+<li>基于device的激活机制，当有设备接入到系统时，systemd会自动激活device、mount、automount等unit来识别、挂载、接入对应的设备</li>
+<li>基于path的激活机制，当某个文件路径变得可用时或路径出现相应的文件时，激活相应的服务；</li>
+<li>系统快照机制，保存各unit的当前状态信息到持久存储中，在下次开机时可恢复之前某次快照时的系统状态，必要时可自动载入；</li>
+<li>兼容Centos 5的SysV init 以及Centos 6的upstart机子，能够继续使用/etc/rc.d/init.d目录中的服务管理脚本。</li>
+<li>系统引导时，其服务的启动时并行的；</li>
+<li>按需激活进程；</li>
+<li>基于依赖关系定义了服务控制逻辑；</li>
+</ol>
+<p>unit是用于对相关配置文件进行标识、识别和配置，unit文件中主要包含了系统服务、监听的socket接口、保存的快照以及其他与init启动相关的信息。
+相关文件：</p>
+<ul>
+<li>软件包安装的单元：<code>/usr/lib/systemd/systemd/</code></li>
+<li><code>/run/systemd/system/</code></li>
+<li>系统管理员安装的单元：<code>/etc/systemd/system/</code></li>
+</ul>
+<h2 id="单元管理命令" class="heading-element">
+  <a href="#%e5%8d%95%e5%85%83%e7%ae%a1%e7%90%86%e5%91%bd%e4%bb%a4" class="heading-mark"></a>单元管理命令</h2><p>唯一的单元名称可以省略单元类型。
+如果<code>sshd</code>只有<code>.service</code>单元类型，则以下命令等效:</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl status sshd 
+</span></span><span class="line"><span class="cl"><span class="c1">#等效</span>
+</span></span><span class="line"><span class="cl">systemctl status sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看单元使用帮助" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%8d%95%e5%85%83%e4%bd%bf%e7%94%a8%e5%b8%ae%e5%8a%a9" class="heading-mark"></a>查看单元使用帮助</h3><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl <span class="nb">help</span> sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看单元文件与状态" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%8d%95%e5%85%83%e6%96%87%e4%bb%b6%e4%b8%8e%e7%8a%b6%e6%80%81" class="heading-mark"></a>查看单元文件与状态</h3><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 相关目录：/usr/lib/systemd/system/， /etc/systemd/system/</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认是查找所有单元文件</span>
+</span></span><span class="line"><span class="cl">systemctl list-unit-files</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 参数</span>
+</span></span><span class="line"><span class="cl">--type<span class="o">=</span>timer
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定单元类型，缺省该选项为查看所有单元</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="启动一个单元" class="heading-element">
+  <a href="#%e5%90%af%e5%8a%a8%e4%b8%80%e4%b8%aa%e5%8d%95%e5%85%83" class="heading-mark"></a>启动一个单元</h3><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl start sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="停止一个单元" class="heading-element">
+  <a href="#%e5%81%9c%e6%ad%a2%e4%b8%80%e4%b8%aa%e5%8d%95%e5%85%83" class="heading-mark"></a>停止一个单元</h3><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#（停止sshd单元）</span>
+</span></span><span class="line"><span class="cl">systemctl stop sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="重新加载一个单元的配置文件" class="heading-element">
+  <a href="#%e9%87%8d%e6%96%b0%e5%8a%a0%e8%bd%bd%e4%b8%80%e4%b8%aa%e5%8d%95%e5%85%83%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>重新加载一个单元的配置文件</h3><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl reload nginx.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="重新启动一个单元" class="heading-element">
+  <a href="#%e9%87%8d%e6%96%b0%e5%90%af%e5%8a%a8%e4%b8%80%e4%b8%aa%e5%8d%95%e5%85%83" class="heading-mark"></a>重新启动一个单元</h3><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl restart sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看单元运行状态" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%8d%95%e5%85%83%e8%bf%90%e8%a1%8c%e7%8a%b6%e6%80%81" class="heading-mark"></a>查看单元运行状态</h3><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl status sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看已经激活的单元" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%b7%b2%e7%bb%8f%e6%bf%80%e6%b4%bb%e7%9a%84%e5%8d%95%e5%85%83" class="heading-mark"></a>查看已经激活的单元</h3><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl 或 systemctl list-units</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看激活的单元" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%bf%80%e6%b4%bb%e7%9a%84%e5%8d%95%e5%85%83" class="heading-mark"></a>查看激活的单元</h3><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl --state<span class="o">=</span>failed</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看单元是否开机启动" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%8d%95%e5%85%83%e6%98%af%e5%90%a6%e5%bc%80%e6%9c%ba%e5%90%af%e5%8a%a8" class="heading-mark"></a>查看单元是否开机启动</h3><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl is-enabled sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="设置单元开机自动启动" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae%e5%8d%95%e5%85%83%e5%bc%80%e6%9c%ba%e8%87%aa%e5%8a%a8%e5%90%af%e5%8a%a8" class="heading-mark"></a>设置单元开机自动启动</h3><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span>  sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="设置单元开机自动启动并启动" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae%e5%8d%95%e5%85%83%e5%bc%80%e6%9c%ba%e8%87%aa%e5%8a%a8%e5%90%af%e5%8a%a8%e5%b9%b6%e5%90%af%e5%8a%a8" class="heading-mark"></a>设置单元开机自动启动并启动</h3><div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> --now sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="取消开机启动" class="heading-element">
+  <a href="#%e5%8f%96%e6%b6%88%e5%bc%80%e6%9c%ba%e5%90%af%e5%8a%a8" class="heading-mark"></a>取消开机启动</h3><div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl disable  sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="禁用一个单元" class="heading-element">
+  <a href="#%e7%a6%81%e7%94%a8%e4%b8%80%e4%b8%aa%e5%8d%95%e5%85%83" class="heading-mark"></a>禁用一个单元</h3><div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#（禁用后是不能启动的）</span>
+</span></span><span class="line"><span class="cl">systemctl mask sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="启用一个单元" class="heading-element">
+  <a href="#%e5%90%af%e7%94%a8%e4%b8%80%e4%b8%aa%e5%8d%95%e5%85%83" class="heading-mark"></a>启用一个单元</h3><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl unmask sshd.service</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="重新加载systemd扫描新的或有变动的单元" class="heading-element">
+  <a href="#%e9%87%8d%e6%96%b0%e5%8a%a0%e8%bd%bdsystemd%e6%89%ab%e6%8f%8f%e6%96%b0%e7%9a%84%e6%88%96%e6%9c%89%e5%8f%98%e5%8a%a8%e7%9a%84%e5%8d%95%e5%85%83" class="heading-mark"></a>重新加载systemd扫描新的或有变动的单元</h3><div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl daemon-reload</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="电源管理及命令" class="heading-element">
+  <a href="#%e7%94%b5%e6%ba%90%e7%ae%a1%e7%90%86%e5%8f%8a%e5%91%bd%e4%bb%a4" class="heading-mark"></a>电源管理及命令</h1><p>安装<code>polkit</code>后才能以普通用户身份使用电源管理。
+如果是本地登录用户无需<code>root</code>权限但要输入<code>root</code>密码</p>
+<h2 id="重启系统" class="heading-element">
+  <a href="#%e9%87%8d%e5%90%af%e7%b3%bb%e7%bb%9f" class="heading-mark"></a>重启系统</h2><div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl reboot</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="退出系统并关闭电源" class="heading-element">
+  <a href="#%e9%80%80%e5%87%ba%e7%b3%bb%e7%bb%9f%e5%b9%b6%e5%85%b3%e9%97%ad%e7%94%b5%e6%ba%90" class="heading-mark"></a>退出系统并关闭电源</h2><div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">### systemctl poweroff</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="待机" class="heading-element">
+  <a href="#%e5%be%85%e6%9c%ba" class="heading-mark"></a>待机</h2><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl suspend</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="休眠" class="heading-element">
+  <a href="#%e4%bc%91%e7%9c%a0" class="heading-mark"></a>休眠</h2><div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl hibernate</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="同时休眠到硬盘并待机" class="heading-element">
+  <a href="#%e5%90%8c%e6%97%b6%e4%bc%91%e7%9c%a0%e5%88%b0%e7%a1%ac%e7%9b%98%e5%b9%b6%e5%be%85%e6%9c%ba" class="heading-mark"></a>同时休眠到硬盘并待机</h2><div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">systemctl hybrid-sleep</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="运行级别与运行目标" class="heading-element">
+  <a href="#%e8%bf%90%e8%a1%8c%e7%ba%a7%e5%88%ab%e4%b8%8e%e8%bf%90%e8%a1%8c%e7%9b%ae%e6%a0%87" class="heading-mark"></a>运行级别与运行目标</h1><p><code>systemd</code>引入了一个和运行级别功能相似又不同的概念叫<code>target</code>(目标)。不像数字表示的启动级别，每个目标都有名字和独特的功能，
+并且能同时启用多个。一些目标继承其他目标的服务，并启动新服务。
+<code>systemd</code>提供了一些模仿<code>sysvinit</code>运行级别的目标，仍可以使用旧的<code>telinit</code>命令切换运行级别 。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">SysV 启动级别</th>
+<th style="text-align:left">SysV 运行级别目标</th>
+<th style="text-align:left">systemd目标</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0</td>
+<td style="text-align:left">runlevel0.target</td>
+<td style="text-align:left">poweroff.target</td>
+<td style="text-align:left">关机</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:left">runlevel1.target</td>
+<td style="text-align:left">rescue.target</td>
+<td style="text-align:left">单用户模式</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">runlevel2.target</td>
+<td style="text-align:left">multi-user.target</td>
+<td style="text-align:left">多用户模式，没有NFS网络</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">runlevel3.target</td>
+<td style="text-align:left">multi-user.target</td>
+<td style="text-align:left">完整的多用户模式，默认运行级别</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">runlevel4.target</td>
+<td style="text-align:left">multi-user.target</td>
+<td style="text-align:left">系统保留</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">runlevel5.target</td>
+<td style="text-align:left">graphical.targe</td>
+<td style="text-align:left">图形化</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">runlevel6.target</td>
+<td style="text-align:left">reboot.target</td>
+<td style="text-align:left">重启模式</td>
+</tr>
+<tr>
+<td style="text-align:left">emergency</td>
+<td style="text-align:left">emergency.target</td>
+<td style="text-align:left">emergency.target</td>
+<td style="text-align:left">急救模式</td>
+</tr>
+</tbody>
+</table>
+<h2 id="运行目标相关命令" class="heading-element">
+  <a href="#%e8%bf%90%e8%a1%8c%e7%9b%ae%e6%a0%87%e7%9b%b8%e5%85%b3%e5%91%bd%e4%bb%a4" class="heading-mark"></a>运行目标相关命令</h2><div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看当前目标</span>
+</span></span><span class="line"><span class="cl">runlevel</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#切换当前运行目标（临时有效）</span>
+</span></span><span class="line"><span class="cl">systemctl isolate runlevel3.target</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#验证当前的启动目标，</span>
+</span></span><span class="line"><span class="cl">systemctl get-default</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#修改开机默认启动目标，方法一：systemctl命令修改</span>
+</span></span><span class="line"><span class="cl">systemctl set-default runlevel3.target</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="临时文件" class="heading-element">
+  <a href="#%e4%b8%b4%e6%97%b6%e6%96%87%e4%bb%b6" class="heading-mark"></a>临时文件</h1><p>/usr/lib/tmpfiles.d/ 和 /etc/tmpfiles.d/ 中的文件描述了 systemd-tmpfiles 如何创建、清理、删除临时文件和目录，这些文件和目录通常存放在 /run 和 /tmp 中。配置文件名称为 /etc/tmpfiles.d/<program>.conf。此处的配置能覆盖 /usr/lib/tmpfiles.d/ 目录中的同名配置。</p>
+<h1 id="定时器" class="heading-element">
+  <a href="#%e5%ae%9a%e6%97%b6%e5%99%a8" class="heading-mark"></a>定时器</h1><p>一个定时器是一个以 .timer 为结尾的单元配置文件并包含由 systemd 控制和监督的信息，可以做一些时间任务</p>
+<h1 id="挂载" class="heading-element">
+  <a href="#%e6%8c%82%e8%bd%bd" class="heading-mark"></a>挂载</h1><p>因为 systemd 也负责按 /etc/fstab 挂载目录。在系统启动和重新加载系统管理器时，systemd-fstab-generator(8) 会将 /etc/fstab 中的配置转化为 systemd 单元。</p>
+<p>systemd 扩展了 fstab 的传统功能，提供了额外的挂载选项。例如可以确保一个挂载仅在网络已经连接时进行，或者仅当另外一个分区已挂载时再挂载。这些选项通常以 x-systemd. 开头，systemd.mount(5) 中包含了完整说明。</p>
+<h1 id="日志" class="heading-element">
+  <a href="#%e6%97%a5%e5%bf%97" class="heading-mark"></a>日志</h1><p><code>systemd</code>提供了自己的日志系统称为<code>journal</code>。无需额外安装日志服务。
+默认情况下（配置文件<code>/etc/systemd/journald.conf</code> 中<code>Storage=auto</code>），日志记录将被写入<code>/var/log/journal/</code>目录。
+该目录是<code>systemd</code>软件包的一部分。如果被删除，<code>systemd</code>不会自动创建它，直到下次升级软件包时重建该目录。
+如果该目录缺失，则会将日志记录写入<code>/run/systemd/journal</code>目录，这意味着，系统重启后日志将丢失。</p>
+<p>注意：如果<code>/var/log/journal/</code>位于<code>btrfs</code>文件系统，应该考虑对这个目录禁用写入时复制</p>
+<p>日志也有优先级和记录（0-7）类型（0-23）。<code>Systemd</code>日志事件提示信息的记录安装优先级和更能进行分离，符合经典的<code>BSD syslog</code>协议风格</p>
+<p>默认日志最大限制为所在文件系统容量的 10%，即：如果 <code>/var/log/journal</code> 储存在 50GiB 的根分区中，那么日志最多存储 5GiB 数据</p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#读取日志的命令</span>
+</span></span><span class="line"><span class="cl">journalctl</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示本次启动的日志</span>
+</span></span><span class="line"><span class="cl">journalctl -b -0</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示上一次启动的日志</span>
+</span></span><span class="line"><span class="cl">journalctl -b -1</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示错误、冲突、警告日志</span>
+</span></span><span class="line"><span class="cl">journalctl -p err..alert</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示从指定日期开始的日志</span>
+</span></span><span class="line"><span class="cl">journalctl --since<span class="o">=</span><span class="s2">&#34;2018-10-6 18:17:16&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示指定时间开始的日志</span>
+</span></span><span class="line"><span class="cl">journalctl --since <span class="s2">&#34;20 min ago&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示最日志</span>
+</span></span><span class="line"><span class="cl">journalctl -f</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示特定程序的所有日志</span>
+</span></span><span class="line"><span class="cl">journalctl /usr/lib/systemd/systemd</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示特定进程所有日志</span>
+</span></span><span class="line"><span class="cl">journalctl <span class="nv">_PID</span><span class="o">=</span><span class="m">1577</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示指定单元的日志</span>
+</span></span><span class="line"><span class="cl">journalctl -u service</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#显示内存缓存的日志</span>
+</span></span><span class="line"><span class="cl">journalctl -k</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#查看指定进程的错误日志</span>
+</span></span><span class="line"><span class="cl">journalctl -b <span class="nv">_PID</span><span class="o">=</span><span class="m">15630</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="配置文件" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>配置文件</h1><p>配置文件在：<code>/usr/lib/systemd/system/</code></p>
+<p>配置选项说明：https://www.freedesktop.org/software/systemd/man/systemd.directives.html</p>
+<p>新的配置文件生成后需要使用<code>systemctl daemon-reload</code>重新载入</p>
+<h2 id="单元属性" class="heading-element">
+  <a href="#%e5%8d%95%e5%85%83%e5%b1%9e%e6%80%a7" class="heading-mark"></a>单元属性</h2><div class="highlight" id="id-40"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 说明文档：https://www.freedesktop.org/software/systemd/man/systemd.unit.html</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="before与after" class="heading-element">
+  <a href="#before%e4%b8%8eafter" class="heading-mark"></a>Before与After</h3><div class="highlight" id="id-41"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.unit.html#Before=</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 单元启动顺序，多个单元以空格分开</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Before：如果这些单元也在启动中，则当前单元优先启动</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例表示 bar.service 与当前单元同时启动时，当前单元启动之后在启动 bar.service</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Before</span><span class="o">=</span>bar.service
+</span></span><span class="line"><span class="cl"><span class="c1"># After：如果这些单元也在启动中，则当前单元最后启动 </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例表示：如果这些也在启动中，则等它们启动后再启动当前单元</span>
+</span></span><span class="line"><span class="cl"><span class="nv">After</span><span class="o">=</span>network.target remote-fs.target nss-lookup.target</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="description" class="heading-element">
+  <a href="#description" class="heading-mark"></a>Description</h3><div class="highlight" id="id-42"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.unit.html#Description=</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Description：添加描述说明</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Description</span><span class="o">=</span>The nginx HTTP and reverse proxy server</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="安装信息" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85%e4%bf%a1%e6%81%af" class="heading-mark"></a>安装信息</h2><div class="highlight" id="id-43"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.unit.html</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 其中包含该单元的安装信息</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Install<span class="o">]</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="wantedby与requiredby" class="heading-element">
+  <a href="#wantedby%e4%b8%8erequiredby" class="heading-mark"></a>WantedBy与RequiredBy</h3><div class="highlight" id="id-44"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.unit.html#WantedBy=</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 该选项可以多次使用，或者可以给出以空格分隔的单元名称列表</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 在给定的运行目标中设置单元开机启动</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># - 示例：执行命令 systemctl enable ... 后链接到 multi-user.target 级别</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   如果开机启动级别为 multi-user.target ，则会自动启动当前单元</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span><span class="o">=</span>multi-user.target</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-45"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># nginx服务单元设置开机启动链接的运行目标</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># grep &#34;WantedBy&#34; /usr/lib/systemd/system/nginx.service </span>
+</span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># multi-user.target运行目标的开机启动单元目录：</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># /etc/systemd/system/multi-user.target.wants/</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 开机启动方式是创建软链接</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl enable nginx.service</span>
+</span></span><span class="line"><span class="cl">Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /usr/lib/systemd/system/nginx.service.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 取消删除软链接</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl disable nginx.service</span>
+</span></span><span class="line"><span class="cl">Removed /etc/systemd/system/multi-user.target.wants/nginx.service.</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="单元终止过程" class="heading-element">
+  <a href="#%e5%8d%95%e5%85%83%e7%bb%88%e6%ad%a2%e8%bf%87%e7%a8%8b" class="heading-mark"></a>单元终止过程</h2><p>进程终止过程：</p>
+<ol>
+<li>使用信号SIGTERM（除非要发送的信号通过KillSignal=或更改RestartKillSignal=）</li>
+<li>可选地，这后面紧跟一个SIGHUP（如果启用了 SendSIGHUP=）。</li>
+<li>如果在单元的主进程退出后进程仍然存在或通过 TimeoutStopSec= 配置的延迟已经过去，则使用 SIGKILL 信号或通过 FinalKillSignal= 指定的信号重复终止请求（除非通过 SendSIGKILL= 选项禁用此功能</li>
+</ol>
+<h3 id="killmode" class="heading-element">
+  <a href="#killmode" class="heading-mark"></a>KillMode</h3><div class="highlight" id="id-46"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 终止单元的进程方式，有以下值</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - control-group：单元的控制组中的所有剩余进程将在单元停止时被杀死</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - process：则仅杀死主进程本身</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - none: 单元停止时只会执行停止命令，否则不会杀死任何进程。</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   停止后仍处于活动状态的进程将留在其控制组中，并且控制组在停止后继续存在，</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   除非为空</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - mixed，则 SIGTERM信号被发送到主进程，而后续 SIGKILL信号被发送到单元控制组</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   的所有剩余进程</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="killsignal" class="heading-element">
+  <a href="#killsignal" class="heading-mark"></a>KillSignal</h3><div class="highlight" id="id-47"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 停止时使用的信号，默认为SIGTERM</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.kill.html#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#  在发送此设置中指定的信号后，systemd 将始终发送 SIGCONT，以确保即使挂起的任务也可以干净地终止。</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-01-10 18:45:10">更新于 2024-01-10&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/systemctl/" class="post-tag" title="标签 - systemctl">systemctl</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/history/" class="post-nav-item" rel="prev" title="使用命令记录"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>使用命令记录</a>
+      <a href="/linux_iptables/" class="post-nav-item" rel="next" title="iptables">iptables<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

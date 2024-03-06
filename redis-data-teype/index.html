@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>redis数据类型 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content=" " /><meta name="keywords" content='redis, 数据类型' /><meta itemprop="name" content="redis数据类型">
+<meta itemprop="description" content=" "><meta itemprop="datePublished" content="2022-12-31T13:30:16+08:00" />
+<meta itemprop="dateModified" content="2023-01-07T17:37:39+08:00" />
+<meta itemprop="wordCount" content="9339">
+<meta itemprop="keywords" content="redis,数据类型," /><meta property="og:title" content="redis数据类型" />
+<meta property="og:description" content=" " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/redis-data-teype/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-31T13:30:16+08:00" />
+<meta property="article:modified_time" content="2023-01-07T17:37:39+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="redis数据类型"/>
+<meta name="twitter:description" content=" "/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/redis-data-teype/" /><link rel="prev" href="/postfix/" /><link rel="next" href="/goland/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "redis数据类型",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/redis-data-teype\/"
+    },"genre": "posts","keywords": "redis, 数据类型","wordcount":  9339 ,
+    "url": "\/redis-data-teype\/","datePublished": "2022-12-31T13:30:16+08:00","dateModified": "2023-01-07T17:37:39+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": " "
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>redis数据类型</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/redis/" class="post-category" title="分类 - redis"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> redis</a></span></div><div class="post-meta-line"><span title="发布于 2022-12-31 13:30:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-31">2022-12-31</time></span>&nbsp;<span title="更新于 2023-01-07 17:37:39"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-07">2023-01-07</time></span>&nbsp;<span title="9339 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 9400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 19 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#redis-整体的存储结构">redis 整体的存储结构</a>
+      <ul>
+        <li><a href="#sds">sds</a></li>
+        <li><a href="#ziplist">ziplist</a></li>
+        <li><a href="#linkedlist">linkedlist</a></li>
+        <li><a href="#intset">intset</a></li>
+        <li><a href="#dict">dict</a></li>
+        <li><a href="#skiplist">skiplist</a></li>
+      </ul>
+    </li>
+    <li><a href="#数据类型">数据类型</a>
+      <ul>
+        <li><a href="#string-类型">string 类型</a>
+          <ul>
+            <li><a href="#创建字符串类型-key">创建字符串类型 key</a></li>
+            <li><a href="#创建多个字符串类型的-key">创建多个字符串类型的 key</a></li>
+            <li><a href="#新建多个字符串类型的-key">新建多个字符串类型的 key</a></li>
+            <li><a href="#获取字符串的长度">获取字符串的长度</a></li>
+            <li><a href="#获取字符串类型的值">获取字符串类型的值</a></li>
+            <li><a href="#获取多个字符串类型的值">获取多个字符串类型的值</a></li>
+            <li><a href="#获取字符串类型的值后删除-key">获取字符串类型的值后删除 key</a></li>
+            <li><a href="#获取字符串类型的值后设置-key-的有效期">获取字符串类型的值后设置 key 的有效期</a></li>
+            <li><a href="#获取字符串的子串">获取字符串的子串</a></li>
+            <li><a href="#追加字符串">追加字符串</a></li>
+            <li><a href="#整数减一">整数减一</a></li>
+            <li><a href="#整数做减法">整数做减法</a></li>
+            <li><a href="#整数加一">整数加一</a></li>
+            <li><a href="#整数做加法">整数做加法</a></li>
+            <li><a href="#浮点数加法与减法运算">浮点数加法与减法运算</a></li>
+            <li><a href="#获取两个字符串类型的公共子序列">获取两个字符串类型的公共子序列</a></li>
+            <li><a href="#修改字符串的中子串">修改字符串的中子串</a></li>
+          </ul>
+        </li>
+        <li><a href="#list-类型">list 类型</a></li>
+        <li><a href="#hash-类型">hash 类型</a></li>
+        <li><a href="#set-类型">set 类型</a></li>
+        <li><a href="#zset-类型">zset 类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#error-denied-redis-is-running-in-protected">(error) DENIED Redis is running in protected</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-01-07，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+redis: 7.0.7</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/7ct-mvSIaT3o4-tsMaKRWA"target="_blank" rel="external nofollow noopener noreferrer">一洺：一文搞懂redis</a></li>
+<li><a href="https://redis.io/docs/data-types/"target="_blank" rel="external nofollow noopener noreferrer">redis官方文档：Redis data types</a></li>
+<li><a href="https://redis.io/commands/"target="_blank" rel="external nofollow noopener noreferrer">redis官方文档：Commands</a></li>
+<li><a href="https://blog.51cto.com/u_14637492/2898907"target="_blank" rel="external nofollow noopener noreferrer">肉眼品世界公号：一文深入了解 Redis 内存模型，Redis 的快是有原因的！</a></li>
+<li><a href="https://blog.csdn.net/xmtblog/article/details/117639171"target="_blank" rel="external nofollow noopener noreferrer">业余草：从根上理解，一个 Redis 字符串为什么要设计的这么复杂！</a></li>
+<li><a href="https://www.cnblogs.com/hunternet/p/12624691.html"target="_blank" rel="external nofollow noopener noreferrer">Mr于：Redis数据结构——快速列表(quicklist)</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="redis-整体的存储结构" class="heading-element">
+  <a href="#redis-%e6%95%b4%e4%bd%93%e7%9a%84%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84" class="heading-mark"></a>redis 整体的存储结构</h1><p><code>redis</code>内部整体的存储结构是一个大的<code>hashmap</code>，内部是数组实现的<code>hash</code>，<code>key</code>冲突通过挂链表去实现，每个<code>dictEntry</code>为一个<code>key/value</code>对象，<code>value</code>为定义的<code>redisObject</code>。</p>
+<p><img loading="lazy" src="redis%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84.png" alt="redis存储结构" srcset="redis%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84.png?size=small, redis%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84.png?size=medium 1.5x, redis%e5%ad%98%e5%82%a8%e7%bb%93%e6%9e%84.png?size=large 2x" sizes="auto" data-title="redis存储结构" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>其中<code>dictEntry</code>是存储<code>key/value</code>的地主，以下是<code>dictEntry</code>结构体</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 字典
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">dictEntry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 键
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">void</span> <span class="o">*</span><span class="n">key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">union</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 指向具体redisObject
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">void</span> <span class="o">*</span><span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">uint64_t</span> <span class="n">u64</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int64_t</span> <span class="n">s64</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 指向下个哈希表节点，形成链表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">dictEntry</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">dictEntry</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>redisObject</code> 结构体如下：</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * Redis 对象
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">redisObject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 类型 4bits
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="nl">type</span><span class="p">:</span><span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 编码方式 4bits
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="nl">encoding</span><span class="p">:</span><span class="mi">4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// LRU 时间（相对于 server.lruclock） 24bits
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="nl">lru</span><span class="p">:</span><span class="mi">22</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 引用计数 Redis里面的数据可以通过引用计数进行共享 32bits
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">refcount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 指向对象的值 64bits
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">robj</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>*ptr</code> 指向具体的数据结构的地址</li>
+<li><code>type</code> 表示<code>redis</code>对象类型（数据类型）。如 <code>string</code>、<code>list</code> 等</li>
+<li><code>encoding</code> 表示对象底层使用的编码。为了提高存储效率与程序执行效率，每种数据类型的底层数据结构实现都可能不止一种。<code>redis</code> 对象底层有以下几种数据结构
+-<code>REDIS_ENCODING_INT</code>：<code>long</code> 类型的整数
+-<code>REDIS_ENCODING_EMBSTR</code>：<code>embstr</code>编码的简单动态字符串
+-<code>REDIS_ENCODING_RAW</code>：简单动态字符串
+-<code>REDIS_ENCODING_HT</code>：字典
+-<code>REDIS_ENCODING_LINKEDLIST</code>：双端链表
+-<code>REDIS_ENCODING_ZIPLIST</code>：压缩列表
+-<code>REDIS_ENCODING_INTSET</code>：整数集合
+-<code>REDIS_ENCODING_SKIPLIST</code>：跳跃表和字典</li>
+</ul>
+<p>下图是每种数据类型使用的数据结构</p>
+<p><img loading="lazy" src="redis%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84.png" alt="redis数据结构" srcset="redis%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84.png?size=small, redis%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84.png?size=medium 1.5x, redis%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84.png?size=large 2x" sizes="auto" data-title="redis数据结构" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="sds" class="heading-element">
+  <a href="#sds" class="heading-mark"></a>sds</h2><p>以下是 <code>sds</code> 结构体</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/* 针对不同长度整形做了相应的数据结构
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * Note: sdshdr5 is never used, we just access the flags byte directly.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * However is here to document the layout of type 5 SDS strings. 
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nf">__attribute__</span> <span class="p">((</span><span class="n">__packed__</span><span class="p">))</span> <span class="n">sdshdr5</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">flags</span><span class="p">;</span> <span class="cm">/* 3 lsb of type, and 5 msb of string length */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buf</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nf">__attribute__</span> <span class="p">((</span><span class="n">__packed__</span><span class="p">))</span> <span class="n">sdshdr8</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint8_t</span> <span class="n">len</span><span class="p">;</span> <span class="cm">/* used */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint8_t</span> <span class="n">alloc</span><span class="p">;</span> <span class="cm">/* excluding the header and null terminator */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">flags</span><span class="p">;</span> <span class="cm">/* 3 lsb of type, 5 unused bits */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buf</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nf">__attribute__</span> <span class="p">((</span><span class="n">__packed__</span><span class="p">))</span> <span class="n">sdshdr16</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">len</span><span class="p">;</span> <span class="cm">/* used */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">alloc</span><span class="p">;</span> <span class="cm">/* excluding the header and null terminator */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">flags</span><span class="p">;</span> <span class="cm">/* 3 lsb of type, 5 unused bits */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buf</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nf">__attribute__</span> <span class="p">((</span><span class="n">__packed__</span><span class="p">))</span> <span class="n">sdshdr32</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">len</span><span class="p">;</span> <span class="cm">/* used */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">alloc</span><span class="p">;</span> <span class="cm">/* excluding the header and null terminator */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">flags</span><span class="p">;</span> <span class="cm">/* 3 lsb of type, 5 unused bits */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buf</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nf">__attribute__</span> <span class="p">((</span><span class="n">__packed__</span><span class="p">))</span> <span class="n">sdshdr64</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint64_t</span> <span class="n">len</span><span class="p">;</span> <span class="cm">/* used */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint64_t</span> <span class="n">alloc</span><span class="p">;</span> <span class="cm">/* excluding the header and null terminator */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">flags</span><span class="p">;</span> <span class="cm">/* 3 lsb of type, 5 unused bits */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">buf</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用 <code>sds</code> 实现 <code>string</code> 相比 <code>c</code> 语言的 <code>string</code> 有以下好处：</p>
+<ul>
+<li>低复杂度获取字符串长度：由于 <code>len</code> 存在，可以直接查出字符串长度，复杂度O(1)；如果用c语言字符串，查询字符串长度需要遍历整个字符串，复杂度为O(n)；</li>
+<li>避免缓冲区溢出：进行两个字符串拼接 <code>c</code> 语言可使用 <code>strcat</code> 函数，但如果没有足够的内存空间。就会造成缓冲区溢出；而用 <code>sds</code> 在进行合并时会先用 <code>len</code> 检查内存空间是否满足需求，如果不满足，进行空间扩展，不会造成缓冲区溢出；</li>
+<li>减少修改字符串的内存重新分配次数： <code>c</code> 语言字符串不记录字符串长度，如果要修改字符串要重新分配内存，如果不进行重新分配会造成内存缓冲区泄露；</li>
+</ul>
+<p><code>redis sds</code> 实现了空间预分配和惰性空间释放两种策略：</p>
+<ul>
+<li>如果 <code>sds</code> 修改后， <code>sds</code> 长度（ <code>len</code> 的值）将于 <code>1mb</code> ，那么会分配与 <code>len</code> 相同大小的未使用空间，此时 <code>len</code> 与 <code>free</code> 值相同。例如，修改之后字符串长度为 <code>100</code> 字节，那么会给分配 <code>100</code> 字节的未使用空间。最终 <code>sds</code> 空间实际为  <code>100+100+1</code> (保存空字符&rsquo;\0')</li>
+<li>如果大于等于 <code>1mb</code> ，每次给分配 <code>1mb</code> 未使用空间</li>
+<li>对字符串进行缩短操作时，程序不立即使用内存重新分配来回收缩短后多余的字节，而是使用  <code>free</code>  属性将这些字节的数量记录下来，等待后续使用（ <code>sds</code> 也提供 <code>api</code> ，我们可以手动触发字符串缩短）；</li>
+<li>因为 <code>C</code> 字符串以空字符作为字符串结束的标识，而对于一些二进制文件（如图片等），内容可能包括空字符串，因此 <code>C</code> 字符串无法正确存取；而所有  <code>SDS</code>  的 <code>API</code>  都是以处理二进制的方式来处理  <code>buf</code>  里面的元素，并且  <code>SDS</code>  不是以空字符串来判断是否结束，而是以  <code>len</code>  属性表示的长度来判断字符串是否结束；</li>
+</ul>
+<h2 id="ziplist" class="heading-element">
+  <a href="#ziplist" class="heading-mark"></a>ziplist</h2><p><code>ziplist</code> 是一种压缩链表，它最大的优点是能节省内存空间，它所存储的内容都是连续的内存区域中，当 <code>list</code> 元素过大时就不好用了。这是由于保证他存储内容在内存中的连续性，插入的时间复杂度是<code>O(N)</code>，即每次插入都会重新进行<code>realloc</code> 做内存扩展。如果超过 <code>ziplist</code> 的内存大小还会重新分配内存空间。并把内容复制到新的内存空间。如果数量大的话，重新分配内存与拷贝数据会消耗大量时间。因此不适合存储过多元素。</p>
+<p><code>ziplist</code> 结构有以下组成：</p>
+<ul>
+<li><code>zlbytes</code>: 用于记录整个压缩列表占用的内存字节数</li>
+<li><code>zltail</code>: 记录要列表尾节点距离压缩列表的起始地址有多少字节</li>
+<li><code>zllen</code>: 记录了压缩列表包含的节点数量</li>
+<li><code>entry</code>: 列表包含的节点，可能存在多个节点</li>
+<li><code>zlend</code>: 于标记压缩列表的末端</li>
+</ul>
+<p>当 <code>zset</code> 数据类型使用 <code>ziplist</code> 存储时会对 <code>ziplist</code> 进行排序：每个集合元素使用两个紧挨在一起的压缩列表节点来保存，第一个节点保存元素的成员（ <code>member</code> ），而第二个元素则保存元素的分值（ <code>score</code> ）。如下图</p>
+<p><img loading="lazy" src="redisZsetZiplist.png" alt="redisZsetZiplist" srcset="redisZsetZiplist.png?size=small, redisZsetZiplist.png?size=medium 1.5x, redisZsetZiplist.png?size=large 2x" sizes="auto" data-title="redisZsetZiplist" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="linkedlist" class="heading-element">
+  <a href="#linkedlist" class="heading-mark"></a>linkedlist</h2><p><code>linkedlist</code> 的附加空间相对太高，<code>prev</code> 和 <code>netx</code> 指针要占用 <code>16</code> 个字节，而且每一个结点都是单独分配，会加剧内存的碎片化，影响内存管理效率。因此使用 <code>quickList</code> 替换它。<code>quicklist</code> 是 <code>ziplist</code> 和 <code>linkedlist</code> 的混合体，是将 <code>linkedlist</code> 按段切分，每段用 <code>ziplist</code> 来紧凑存储，多个 <code>ziplist</code> 之间使用双向指针链接。以下是 <code>quicklist</code> 结构图</p>
+<p><img loading="lazy" src="redisQuickList.png" alt="redisQuickList" srcset="redisQuickList.png?size=small, redisQuickList.png?size=medium 1.5x, redisQuickList.png?size=large 2x" sizes="auto" data-title="redisQuickList" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>以下是 <code>quicklist</code> 结构定义</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">quicklist</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 指向quicklist的头部
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">quicklistNode</span> <span class="o">*</span><span class="n">head</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 指向quicklist的尾部
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">quicklistNode</span> <span class="o">*</span><span class="n">tail</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">len</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ziplist大小限定，由list-max-ziplist-size给定
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="nl">fill</span> <span class="p">:</span> <span class="mi">16</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 节点压缩深度设置，由list-compress-depth给定
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">compress</span> <span class="p">:</span> <span class="mi">16</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">quicklist</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">quicklistNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 指向上一个ziplist节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">quicklistNode</span> <span class="o">*</span><span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 指向下一个ziplist节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">quicklistNode</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 数据指针，如果没有被压缩，就指向ziplist结构，反之指向quicklistLZF结构
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">zl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 表示指向ziplist结构的总长度(内存占用长度)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">sz</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ziplist数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">count</span> <span class="p">:</span> <span class="mi">16</span><span class="p">;</span>     <span class="cm">/* count of items in ziplist */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">encoding</span> <span class="p">:</span> <span class="mi">2</span><span class="p">;</span>   <span class="cm">/* RAW==1 or LZF==2 */</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 预留字段，存放数据的方式，1--NONE，2--ziplist
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">container</span> <span class="p">:</span> <span class="mi">2</span><span class="p">;</span>  <span class="cm">/* NONE==1 or ZIPLIST==2 */</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 解压标记，当查看一个被压缩的数据时，需要暂时解压，标记此参数为1，之后再重新进行压缩
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">recompress</span> <span class="p">:</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* was this node previous compressed? */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">attempted_compress</span> <span class="p">:</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* node can&#39;t compress; too small */</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 扩展字段
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="nl">extra</span> <span class="p">:</span> <span class="mi">10</span><span class="p">;</span> <span class="cm">/* more bits to steal for future usage */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">quicklistNode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">quicklistLZF</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// LZF压缩后占用的字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">sz</span><span class="p">;</span> <span class="cm">/* LZF size in bytes*/</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 柔性数组，存放压缩后的ziplist字节数组
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">char</span> <span class="n">compressed</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">quicklistLZF</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>quicklist</code> 内部单个 <code>ziplist</code>长度由 <code>list-max-ziplist-siz</code> 配置项设置。默认为 <code>8k</code> 字节，超过该值时会新建一个 <code>ziplist</code>。为了进一歩节约空间，<code>redis</code> 还会对 <code>ziplist</code> 使用 <code>LZF</code> 算法进行压缩。压缩深度由 <code>list-compress-depth</code> 配置项设置，默认值为 <code>0</code>。为了支持快速 <code>push/pop</code> 操作，<code>quicklist</code> 首尾两个 <code>ziplist</code> 不进行压缩，即深度为 <code>1</code>。如果深度为 <code>2</code> 表示首尾两个 <code>ziplist</code> 都不压缩</p>
+<h2 id="intset" class="heading-element">
+  <a href="#intset" class="heading-mark"></a>intset</h2><p><code>intset</code> 数据结构体如下</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">intset</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">encoding</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// length就是数组的实际长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint32_t</span> <span class="n">length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// contents 数组是实际保存元素的地方，数组中的元素有以下两个特性：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 1.没有重复元素
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 2.元素在数组中从小到大排列
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int8_t</span> <span class="n">contents</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">intset</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// encoding 的值可以是以下三个常量的其中一个
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define INTSET_ENC_INT16 (sizeof(int16_t))
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define INTSET_ENC_INT32 (sizeof(int32_t))
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define INTSET_ENC_INT64 (sizeof(int64_t))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>intset</code> 是一个有序的集合（只是单纯的对整数进行升序）。查找元素的时间复杂度为 <code>O(logN)</code>（采用二分法），但插入时不一定。这是因为有可能涉及到升级操作。比如当集合里全是 <code>int16_t</code> 型的整数，这时要插入一个 <code>int32_t</code> ，那么为了维持集合中数据类型的一致，那么所有的数据都会被转换成 <code>int32_t</code> 类型，涉及到内存的重新分配，这时插入的复杂度就为 <code>O(N)</code> 了。 <code>intset</code> 不支持降级操作。</p>
+<h2 id="dict" class="heading-element">
+  <a href="#dict" class="heading-mark"></a>dict</h2><p>以下是 <code>dict</code> 结构体定义</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">dict</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dictType</span> <span class="o">*</span><span class="n">type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">privdata</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dictht</span> <span class="n">ht</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">rehashidx</span><span class="p">;</span> <span class="cm">/* rehashing not in progress if rehashidx == -1 */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">iterators</span><span class="p">;</span> <span class="cm">/* number of iterators currently running */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">dict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">dictht</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//指针数组，这个hash的桶
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">dictEntry</span> <span class="o">**</span><span class="n">table</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//元素个数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">sizemask</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">used</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">dictht</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dictEntry</span> <span class="err">在上面有讲，使用来真正存储</span><span class="n">key</span><span class="o">-&gt;</span><span class="n">value</span><span class="err">的地方</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">dictEntry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 键
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">void</span> <span class="o">*</span><span class="n">key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">union</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 指向具体redisObject
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">void</span> <span class="o">*</span><span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">uint64_t</span> <span class="n">u64</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int64_t</span> <span class="n">s64</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 指向下个哈希表节点，形成链表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">dictEntry</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">dictEntry</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>结构图如下</p>
+<p><img loading="lazy" src="redisDict.png" alt="redisDict" srcset="redisDict.png?size=small, redisDict.png?size=medium 1.5x, redisDict.png?size=large 2x" sizes="auto" data-title="redisDict" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>每个 <code>dict</code> 中都有两个 <code>hashtable</code>，虽然 <code>dict</code> 结构有两个 <code>hashtable</code> ，但是通常情况下只有一个 <code>hashtable</code> 是有值的。但是在 <code>dict</code> 扩容缩容的时候，需要分配新的 <code>hashtable</code> ，然后进行渐近式搬迁，这时候两个 <code>hashtable</code> 存储的旧的 <code>hashtable</code> 和新的 <code>hashtable</code> 。搬迁结束后，旧 <code>hashtable</code> 删除，新的取而代之。</p>
+<p>渐进式 <code>rehash</code> 是指我们的大字典的扩容是比较消耗时间的，需要重新申请新的数组，然后将旧字典所有链表的元素重新挂接到新的数组下面，是一个 <code>O(n)</code> 的操作。但是因为我们的 <code>redis</code> 是单线程的，无法承受这样的耗时过程，所以采用了渐进式 <code>rehash</code> 小步搬迁，虽然慢一点，但是可以搬迁完毕。由于它采取分而治之的方式，避免了集中式 <code>rehash</code>  带来的庞大计算量。特别的在进行 <code>rehash</code> 时只能对 <code>h[0]</code> 元素减少的操作，如查询和删除；而查询是在两个哈希表中查找的，而插入只能在 <code>ht[1]</code> 中进行， <code>ht[1]</code> 也可以查询和删除</p>
+<p>扩容一般会在 <code>Hash</code> 表中的元素个数等于第一维数组的长度的时候，就会开始扩容。扩容的大小是原数组的两倍。不过在 <code>redis</code> 在做 <code>bgsave</code> （ <code>RDB</code> 持久化操作的过程），为了减少内存页的过多分离（<code>Copy On Write</code>）， <code>redis</code> 不会去扩容。不扩容主要是为了尽可能减少内存页过多分离，系统需要更多的开销去回收内存。但是如果 <code>hash</code> 表的元素个数已经到达了第一维数组长度的 <code>5</code> 倍的时候，就会强制扩容，不管你是否在持久化。</p>
+<p><code>hash</code> 表元素逐渐删除的越来越少的时候。 <code>redis</code> 于是就会对 <code>hash</code> 表进行缩容来减少第一维数组长度的空间占用。缩容的条件是元素个数低于数组长度的 <code>10%</code> ，并且缩容不考虑是否在做 <code>redis</code> 持久化。不用考虑 <code>bgsave</code> 主要是因为我们的缩容的内存都是已经使用过的，缩容的时候可以直接置空，而且由于申请的内存比较小，同时会释放掉一些已经使用的内存，不会增大系统的压力。</p>
+<p><code>rehash</code> 过程如下图</p>
+<p><img loading="lazy" src="redisRehash.png" alt="redisRehash" srcset="redisRehash.png?size=small, redisRehash.png?size=medium 1.5x, redisRehash.png?size=large 2x" sizes="auto" data-title="redisRehash" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>步骤如下：</p>
+<ol>
+<li>为 <code>ht[1]</code> 分配空间，让字典同时持有 <code>ht[0]</code> 和 <code>hy[1]</code> 两个 <code>hashtabe</code></li>
+<li>定时维持一个索引计数器变量 <code>rehashidx</code> ，并将它的值设置为 <code>0</code> ，表示 <code>rehash</code>  开始</li>
+<li>在 <code>rehash</code> 进行期间，每次对字典执行 <code>CRUD</code> 操作时，程序除了执行指定的操作以外，还会将 <code>ht[0]</code> 中的数据 <code>rehash</code> 迁移到 <code>ht[1]</code> 表中，并且将 <code>rehashidx</code> 加 <code>1</code></li>
+<li>当 <code>ht[0]</code> 中所有数据转移到 <code>ht[1]</code> 中时，将 <code>rehashidx</code>  设置成- <code>1</code> ，表示 <code>rehash</code>  结束</li>
+<li>将 <code>ht[0]</code> 释放，然后将 <code>ht[1]</code> 设置成 <code>ht[0]</code> ，最后为 <code>ht[1]</code> 分配一个空白哈希表</li>
+</ol>
+<h2 id="skiplist" class="heading-element">
+  <a href="#skiplist" class="heading-mark"></a>skiplist</h2><p><code>skiplist</code> 是与 <code>dict</code> 结合来使用的，结构体如下</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 跳跃表
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">zskiplist</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 头节点，尾节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">zskiplistNode</span> <span class="o">*</span><span class="n">header</span><span class="p">,</span> <span class="o">*</span><span class="n">tail</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 节点数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 目前表内节点的最大层数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">level</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">zskiplist</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * 跳跃表节点
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">zskiplistNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// member 对象
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">robj</span> <span class="o">*</span><span class="n">obj</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 分值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">double</span> <span class="n">score</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 后退指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">zskiplistNode</span> <span class="o">*</span><span class="n">backward</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 层
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">zskiplistLevel</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 前进指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">struct</span> <span class="n">zskiplistNode</span> <span class="o">*</span><span class="n">forward</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 这个层跨越的节点数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">span</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="n">level</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">zskiplistNode</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如下图</p>
+<p><img loading="lazy" src="rediszskiplist.png" alt="rediszskiplist" srcset="rediszskiplist.png?size=small, rediszskiplist.png?size=medium 1.5x, rediszskiplist.png?size=large 2x" sizes="auto" data-title="rediszskiplist" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ul>
+<li><code>header</code>: 指向跳跃表的表头节点，通过这个指针程序定位表头节点的时间复杂度就为 <code>O(1)</code></li>
+<li><code>tail</code>: 指向跳跃表的表尾节点,通过这个指针程序定位表尾节点的时间复杂度就为 <code>O(1)</code></li>
+<li><code>level</code>: 记录目前跳跃表内,层数最大的那个节点的层数(表头节点的层数不计算在内)，通过这个属性可以在 <code>O(1)</code> 的时间复杂度内获取层高最好的节点的层数</li>
+<li><code>length</code>: 记录跳跃表的长度,也即是,跳跃表目前包含节点的数量(表头节点不计算在内)，通过这个属性，程序可以在 <code>O(1)</code> 的时间复杂度内返回跳跃表的长度</li>
+<li><code>Ln</code>: 节点中用 <code>L1</code> 、 <code>L2</code> 、 <code>L3</code> 等字样标记节点的各个层, <code>L1</code> 代表第一层, <code>L2</code> 代表第二层,以此类推。每次创建一个新跳跃表节点的时候,程序都根据幂次定律( <code>powerlaw</code> ,越大的数出现的概率越小)随机生成一个介于 <code>1</code> 和 <code>32</code> 之间的值作为 <code>level</code> 数组的大小,这个大小就是层的高度。每个层都带有两个属性：前进指针和跨度。前进指针用于访问位于表尾方向的其他节点,而跨度则记录了前进指针所指向节点和当前节点的距离(跨度越大、距离越远)。在上图中,连线上带有数字的箭头就代表前进指针,而那个数字就是跨度。当程序从表头向表尾进行遍历时,访问会沿着层的前进指针进行。</li>
+<li>后退(<code>backward</code>)指针: 节点中用 <code>BW</code> 字样标记节点的后退指针,它指向位于当前节点的前一个节点。后退指针在程序从表尾向表头遍历时使用。与前进指针所不同的是每个节点只有一个后退指针，因此每次只能后退一个节点。</li>
+<li>分值( <code>score</code> ): 各个节点中的 <code>1.0</code> 、 <code>2.0</code> 和 <code>3.0</code> 是节点所保存的分值。在跳跃表中,节点按各自所保存的分值从小到大排列。多个节点保存的分值却可以是相同的:分值相同的节点将按照成员对象在字典序中的大小来进行排序,成员对象较小的节点会排在前面(靠近表头的方向),而成员对象较大的节点则会排在后面(靠近表尾的方向)。</li>
+<li>成员对象( <code>oj</code> ): 各个节点中的 <code>o1</code> 、 <code>o2</code> 和 <code>o3</code> 是节点所保存的成员对象。在同一个跳跃表中,各个节点保存的成员对象必须是唯一的</li>
+</ul>
+<h1 id="数据类型" class="heading-element">
+  <a href="#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>数据类型</h1><h2 id="string-类型" class="heading-element">
+  <a href="#string-%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>string 类型</h2><p><code>Redis</code> 字符串存储字节序列，包括文本、序列化对象和二进制数组。因此，字符串是最基本的 <code>Redis</code> 数据类型。通常用于缓存，但也支持其他功能，这些功能也可能实现计数器并执行按位运算。默认情况下，单个 <code>Redis</code> 字符串的最大大小为 <code>512 MB</code>。</p>
+<p><code>string</code> 类型的底层数据结构转换顺序：</p>
+<ol>
+<li>当值为整数且值的大小不超过<code>long</code>的范围，使用<code>int</code>编码</li>
+<li>当字符串长度不超过<code>44</code>字节时，使用<code>EMBSTR</code> 编码
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">分配空间 - redisObject占用空间 - sdshdr8占用空间
+</span></span><span class="line"><span class="cl">redisObject：type + encoding + lru + refcount + *ptr<span class="o">=</span>16字节
+</span></span><span class="line"><span class="cl">sdshdr8：1（uint8_t） + 1（uint8_t）+ <span class="m">1</span> （unsigned char）+ 1（buf<span class="o">[]</span>中结尾的<span class="s1">&#39;\0&#39;</span>字符）<span class="o">=</span> 4字节
+</span></span><span class="line"><span class="cl">64-16-4<span class="o">=</span><span class="m">44</span> 字节
+</span></span><span class="line"><span class="cl">在 3.2 版本之前存储 embstr 需要 <span class="m">8</span> 字节，因此 3.2 版本之前只有 <span class="m">39</span> 字节</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>大于<code>44</code>字节时，使用<code>raw</code>编码</li>
+</ol>
+<p><code>embstr</code>与<code>raw</code>都使用<code>redisObject</code>和<code>sds</code>保存数据，区别在于，<code>embstr</code>的使用只分配一次内存空间（因此<code>redisObject</code>和<code>sds</code>是连续的），而<code>raw</code>需要分配两次内存空间（分别为<code>redisObject</code>和<code>sds</code>分配空间）。因此与<code>raw</code>相比，<code>embstr</code>的好处在于创建时少分配一次空间，删除时少释放一次空间，以及对象的所有数据连在一起，寻找方便。而<code>embstr</code>的坏处也很明显，如果字符串的长度增加需要重新分配内存时，整个<code>redisObject</code>和<code>sds</code>都需要重新分配空间，因此<code>redis</code>中的<code>embstr</code>实现为只读。在对<code>embstr</code>对象进行修改时，都会先转化为<code>raw</code>再进行修改，因此，只要是修改<code>embstr</code>对象，修改后的对象不管是否超过<code>44</code>字节一定是<code>raw</code>的</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key1 hello
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; OBJECT ENCODING key1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;embstr&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; APPEND key1 <span class="s1">&#39; world&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">11</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; OBJECT ENCODING key1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;raw&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="创建字符串类型-key" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%ba%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b-key" class="heading-mark"></a>创建字符串类型 key</h3><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">SET key value <span class="o">[</span>NX <span class="p">|</span> XX<span class="o">]</span> <span class="o">[</span>GET<span class="o">]</span> <span class="o">[</span>EX seconds <span class="p">|</span> PX milliseconds <span class="p">|</span> EXAT unix-time-seconds <span class="p">|</span> PXAT unix-time-milliseconds <span class="p">|</span> KEEPTTL<span class="o">]</span>
+</span></span><span class="line"><span class="cl">可用版本: 1.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @slow
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 从 2.6.12 开始加入以下选项</span>
+</span></span><span class="line"><span class="cl">- EX <span class="c1"># 设置 key 有效时间 seconds (秒)</span>
+</span></span><span class="line"><span class="cl">- PX <span class="c1"># 设置 key 有效时间 milliseconds (毫秒)</span>
+</span></span><span class="line"><span class="cl">- NX <span class="c1"># 当 key 不存在时才创建。从 7.0.0 版本开始可以与 GET 选项同时使用</span>
+</span></span><span class="line"><span class="cl">- XX <span class="c1"># 当 key 存在时才创建</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 从 6.0.0 开始加入以下选项</span>
+</span></span><span class="line"><span class="cl">- KEEPTTL <span class="c1"># 保留 key 的有效时间</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 从 6.2.0 开始加入以下选项</span>
+</span></span><span class="line"><span class="cl">- GET   <span class="c1"># 同时返回旧的值，如果没有旧的值，则返回(nil) 从 7.0.0 版本开始可以与 GET 选项同时使用</span>
+</span></span><span class="line"><span class="cl">- EXAT  <span class="c1"># 设置 key 有效 Unix 时间。单位为秒</span>
+</span></span><span class="line"><span class="cl">- PXAT  <span class="c1"># 设置 key 有效 Unix 时间。单位为豪秒</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令有以下返回值：</p>
+<ul>
+<li><code>ok</code>：<code>SET</code> 命令执行成功</li>
+<li><code>nil</code>: <code>NX</code> 或 <code>XX</code> 条件不满足。或 <code>GET</code> 没有旧的值</li>
+<li>字符串: <code>GET</code> 选项返回旧的值</li>
+</ul>
+<p>如果 <code>key</code> 已经存在则替换</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key1 <span class="m">1</span>
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key1 <span class="m">2</span>
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;2&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="创建多个字符串类型的-key" class="heading-element">
+  <a href="#%e5%88%9b%e5%bb%ba%e5%a4%9a%e4%b8%aa%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b%e7%9a%84-key" class="heading-mark"></a>创建多个字符串类型的 key</h3><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">MSET key value <span class="o">[</span>key value ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">可用版本: 1.0.1
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>N<span class="o">)</span> <span class="c1"># N 为 key 的数量</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @slow</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果 <code>key</code> 已经存在则替换。操作是原子的，即所有的 <code>key</code> 都是一次设置。客户端无法查看哪些 <code>key</code> 是修改，哪些是新建</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">redis&gt; MSET key1 <span class="s2">&#34;Hello&#34;</span> key2 <span class="s2">&#34;World&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;OK&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; GET key1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; GET key2
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;World&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="新建多个字符串类型的-key" class="heading-element">
+  <a href="#%e6%96%b0%e5%bb%ba%e5%a4%9a%e4%b8%aa%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b%e7%9a%84-key" class="heading-mark"></a>新建多个字符串类型的 key</h3><div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">MSETNX key value <span class="o">[</span>key value ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">可用版本: 1.0.1
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>N<span class="o">)</span> <span class="c1"># N 为 key 的数量</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @slow</span></span></code></pre></td></tr></table>
+</div>
+</div><p>只能新建字符串类型的 <code>key</code> ，如果 <code>key</code> 已存在则忽略</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; MGET keya keyb keyc
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; MSETNX keya <span class="m">1</span> keyb <span class="m">2</span> keyc <span class="m">3</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; MSETNX keya a keyb b keyc c
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; MGET keya keyb keyc
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;1&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;2&#34;</span>
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;3&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="获取字符串的长度" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%9a%84%e9%95%bf%e5%ba%a6" class="heading-mark"></a>获取字符串的长度</h3><div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">STRLEN key
+</span></span><span class="line"><span class="cl">可用版本: 2.2.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>返回存储在键的字符串值的长度。如果键保存非字符串值时返回错误；<code>key</code> 不存在时返回 <code>0</code></p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">redis&gt; SET mykey <span class="s2">&#34;Hello world&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;OK&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; STRLEN mykey
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">11</span>
+</span></span><span class="line"><span class="cl">redis&gt; STRLEN nonexisting
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="获取字符串类型的值" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b%e7%9a%84%e5%80%bc" class="heading-mark"></a>获取字符串类型的值</h3><div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">GET key
+</span></span><span class="line"><span class="cl">可用版本: 1.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @read, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令有以下返回值：</p>
+<ul>
+<li><code>nil</code>: 指定的 <code>key</code> 不存在</li>
+<li><code>err</code>: 指定的 <code>key</code> 不是字符串类型</li>
+<li>字符串: 指定的字符串类型 <code>key</code> 的值</li>
+</ul>
+<h3 id="获取多个字符串类型的值" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e5%a4%9a%e4%b8%aa%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b%e7%9a%84%e5%80%bc" class="heading-mark"></a>获取多个字符串类型的值</h3><div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">MGET key <span class="o">[</span>key ...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">可用版本: 1.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>N<span class="o">)</span> <span class="c1"># N 为 key 的数量</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @read, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时查看多个字符串类型的值</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">redis&gt; SET key1 <span class="s2">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;OK&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; SET key2 <span class="s2">&#34;World&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;OK&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; MGET key1 key2 nonexisting
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;Hello&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> <span class="s2">&#34;World&#34;</span>
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="o">(</span>nil<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="获取字符串类型的值后删除-key" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b%e7%9a%84%e5%80%bc%e5%90%8e%e5%88%a0%e9%99%a4-key" class="heading-mark"></a>获取字符串类型的值后删除 key</h3><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">GETDEL key
+</span></span><span class="line"><span class="cl">可用版本: 6.2.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>返回字符串类型的值后删除 <code>key</code></p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key1 <span class="m">1</span>
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GETDEL key1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;1&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key1
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GETDEL key1
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nil<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="获取字符串类型的值后设置-key-的有效期" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b%e7%9a%84%e5%80%bc%e5%90%8e%e8%ae%be%e7%bd%ae-key-%e7%9a%84%e6%9c%89%e6%95%88%e6%9c%9f" class="heading-mark"></a>获取字符串类型的值后设置 key 的有效期</h3><div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">GETEX key <span class="o">[</span>EX seconds <span class="p">|</span> PX milliseconds <span class="p">|</span> EXAT unix-time-seconds <span class="p">|</span> PXAT unix-time-milliseconds <span class="p">|</span> PERSIST<span class="o">]</span>
+</span></span><span class="line"><span class="cl">可用版本: 6.2.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">有以下选项
+</span></span><span class="line"><span class="cl">- EX <span class="c1"># 设置 key 有效时间 seconds (秒)</span>
+</span></span><span class="line"><span class="cl">- PX <span class="c1"># 设置 key 有效时间 milliseconds (毫秒)</span>
+</span></span><span class="line"><span class="cl">- EXAT  <span class="c1"># 设置 key 有效 Unix 时间。单位为秒</span>
+</span></span><span class="line"><span class="cl">- PXAT  <span class="c1"># 设置 key 有效 Unix 时间。单位为豪秒</span>
+</span></span><span class="line"><span class="cl">- PERSIST <span class="c1"># 删除为 key 设置的有效期</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>获取字符串类型的值后可以设置 key 的有效期</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; GETEX key1 EX <span class="m">20</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key1
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key1 <span class="m">1</span>
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GETEX key1 EX <span class="m">20</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;1&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="获取字符串的子串" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%9a%84%e5%ad%90%e4%b8%b2" class="heading-mark"></a>获取字符串的子串</h3><div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">GETRANGE key start end
+</span></span><span class="line"><span class="cl">可用版本: 2.4.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>N<span class="o">)</span> <span class="c1"># N 为返回字符串的长度</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @read, @string, @slow</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根据下标获取字符串的子串</p>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">redis&gt; SET mykey <span class="s2">&#34;This is a string&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;OK&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; GETRANGE mykey <span class="m">0</span> <span class="m">3</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;This&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; GETRANGE mykey -3 -1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;ing&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; GETRANGE mykey <span class="m">0</span> -1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;This is a string&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; GETRANGE mykey <span class="m">10</span> <span class="m">100</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;string&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="追加字符串" class="heading-element">
+  <a href="#%e8%bf%bd%e5%8a%a0%e5%ad%97%e7%ac%a6%e4%b8%b2" class="heading-mark"></a>追加字符串</h3><div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">APPEND key value
+</span></span><span class="line"><span class="cl">可用版本: 2.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果  <code>key</code>  已存在并且是字符串，则此命令会将值追加到字符串的末尾。如果  <code>key</code>  不存在，则会将其创建并设置为空字符串再追加</p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key2
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; APPEND key2 <span class="s1">&#39;heloo&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">5</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key2
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;heloo&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; APPEND key2 <span class="s1">&#39;heloo&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">10</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key2
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;helooheloo&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="整数减一" class="heading-element">
+  <a href="#%e6%95%b4%e6%95%b0%e5%87%8f%e4%b8%80" class="heading-mark"></a>整数减一</h3><div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">DECR key
+</span></span><span class="line"><span class="cl">可用版本: 1.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>把字符串类型值减一（范围： <code>64</code> 位有符号整数）。如果 <code>key</code> 不存在则会将其创建并设置为 <code>0</code> 再减一。如果 <code>key</code> 不是字符串类型或值超过 <code>64</code> 位有符号整数范围则返回错误</p>
+<div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key3
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; DECR key3
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> -1
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key3
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;-1&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="整数做减法" class="heading-element">
+  <a href="#%e6%95%b4%e6%95%b0%e5%81%9a%e5%87%8f%e6%b3%95" class="heading-mark"></a>整数做减法</h3><div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">DECRBY key decrement
+</span></span><span class="line"><span class="cl">可用版本: 1.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>把字符串类型做减法（范围： <code>64</code> 位有符号整数）。如果 <code>key</code> 不存在则会将其创建并设置为 <code>0</code> 再做减法。如果 <code>key</code> 不是字符串类型或值超过 <code>64</code> 位有符号整数范围则返回错误</p>
+<div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; GET decrby
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; DECRBY decrby <span class="m">99</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> -99
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET decrby
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;-99&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="整数加一" class="heading-element">
+  <a href="#%e6%95%b4%e6%95%b0%e5%8a%a0%e4%b8%80" class="heading-mark"></a>整数加一</h3><div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">INCR key
+</span></span><span class="line"><span class="cl">可用版本: 1.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>把字符串类型值加一（范围： <code>64</code> 位有符号整数）。如果 <code>key</code> 不存在则会将其创建并设置为 <code>0</code> 再加一。如果 <code>key</code> 不是字符串类型或值超过 <code>64</code> 位有符号整数范围则返回错误</p>
+<div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">redis&gt; SET mykey <span class="s2">&#34;10&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;OK&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; INCR mykey
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">11</span>
+</span></span><span class="line"><span class="cl">redis&gt; GET mykey
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;11&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="整数做加法" class="heading-element">
+  <a href="#%e6%95%b4%e6%95%b0%e5%81%9a%e5%8a%a0%e6%b3%95" class="heading-mark"></a>整数做加法</h3><div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">INCRBY key increment
+</span></span><span class="line"><span class="cl">可用版本: 1.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>把字符串类型做加法（范围： <code>64</code> 位有符号整数）。如果 <code>key</code> 不存在则会将其创建并设置为 <code>0</code> 再做加法。如果 <code>key</code> 不是字符串类型或值超过 <code>64</code> 位有符号整数范围则返回错误</p>
+<div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; SET mykey <span class="s2">&#34;10&#34;</span>
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; INCRBY mykey <span class="m">5</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">15</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET mykey
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;15&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="浮点数加法与减法运算" class="heading-element">
+  <a href="#%e6%b5%ae%e7%82%b9%e6%95%b0%e5%8a%a0%e6%b3%95%e4%b8%8e%e5%87%8f%e6%b3%95%e8%bf%90%e7%ae%97" class="heading-mark"></a>浮点数加法与减法运算</h3><div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">INCRBYFLOAT key increment
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><p>把浮点数做加法或减法运算，如果 <code>key</code> 不存在则会将其创建并设置为 <code>0</code> 再做加法或减法。如果 <code>key</code> 不是字符串类型或值超过 <code>64</code> 位有符号整数范围则返回错误。输出的精度固定在小数点后 <code>17</code> 位。</p>
+<div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; SET mykey 11.11
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; INCRBYFLOAT mykey 22.33
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;33.44&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; INCRBYFLOAT mykey -0.4
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;33.04&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET mykey
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;33.04&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; SET mykey 5.0e3
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;OK&#34;</span>
+</span></span><span class="line"><span class="cl">redis&gt; INCRBYFLOAT mykey 2.0e2
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;5200&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="获取两个字符串类型的公共子序列" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e4%b8%a4%e4%b8%aa%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b%e7%9a%84%e5%85%ac%e5%85%b1%e5%ad%90%e5%ba%8f%e5%88%97" class="heading-mark"></a>获取两个字符串类型的公共子序列</h3><div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">LCS key1 key2 <span class="o">[</span>LEN<span class="o">]</span> <span class="o">[</span>IDX<span class="o">]</span> <span class="o">[</span>MINMATCHLEN len<span class="o">]</span> <span class="o">[</span>WITHMATCHLEN<span class="o">]</span>
+</span></span><span class="line"><span class="cl">可用版本: 7.0.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>N*M<span class="o">)</span> <span class="c1"># N 表示 key1 值的长度，M 表示 key2 值的长度，* 表示乘法</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @read, @string, @slow
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">有以下可选项
+</span></span><span class="line"><span class="cl">- LEN <span class="c1"># 只获取总长度</span>
+</span></span><span class="line"><span class="cl">- IDX <span class="c1"># 显示其中公共子字串的位置</span>
+</span></span><span class="line"><span class="cl">- MINMATCHLEN   <span class="c1"># 指定最小长度的公共子串，与 IDX 选项使用才有实际效果</span>
+</span></span><span class="line"><span class="cl">- WITHMATCHLEN  <span class="c1"># 分别统计公共子字串长度，与 IDX  选项使用才有实际效果</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>简单说就是对比两个字符串共同使用的子字串，判断2个字符串的相似度</p>
+<div class="highlight" id="id-40"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; MSET key1 ohmytext key2 mynewtext
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 公共子字串其实分别为 my 与 text , redis 没加分隔符</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; LCS key1 key2
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;mytext&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; LCS key1 key2 LEN
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">6</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 匹配方式从后往前，因此先匹配 text 再匹配 my</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; LCS key1 key2 IDX
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;matches&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第二列表示对比组，1) 表示最后一组相同的公共子串，2) 表示倒数第二组</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第三列表示 key 的顺序，1) 表示第一个 key , 2) 表示第二个 key</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第四列与最后的值： 1) 表示公共子串的起始下标，2) 表示结束下标</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> 1<span class="o">)</span> 1<span class="o">)</span> 1<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">4</span> 
+</span></span><span class="line"><span class="cl">         2<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">7</span> <span class="c1"># 结合上下文表示 key1 从下标4到7，即 text</span>
+</span></span><span class="line"><span class="cl">      2<span class="o">)</span> 1<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">5</span> <span class="c1"># 结合上下文表示 key2 从下标5到8，即 text</span>
+</span></span><span class="line"><span class="cl">         2<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">8</span>
+</span></span><span class="line"><span class="cl">   2<span class="o">)</span> 1<span class="o">)</span> 1<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">2</span> <span class="c1"># 第二对比组</span>
+</span></span><span class="line"><span class="cl">         2<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">3</span> <span class="c1"># 结合上下文表示 key1 从下标2到3，即 my</span>
+</span></span><span class="line"><span class="cl">      2<span class="o">)</span> 1<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">0</span> <span class="c1"># 结合上下文表示 key2 从下标0到1，即 my</span>
+</span></span><span class="line"><span class="cl">         2<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;len&#34;</span>
+</span></span><span class="line"><span class="cl">4<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">6</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; LCS key1 key2 IDX MINMATCHLEN <span class="m">3</span>
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;matches&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> 1<span class="o">)</span> 1<span class="o">)</span> 1<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl">         2<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">7</span>
+</span></span><span class="line"><span class="cl">      2<span class="o">)</span> 1<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">5</span>
+</span></span><span class="line"><span class="cl">         2<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">8</span>
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;len&#34;</span>
+</span></span><span class="line"><span class="cl">4<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">6</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; LCS key1 key2 WITHMATCHLEN IDX MINMATCHLEN <span class="m">3</span>
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;matches&#34;</span>
+</span></span><span class="line"><span class="cl">2<span class="o">)</span> 1<span class="o">)</span> 1<span class="o">)</span> 1<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl">         2<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">7</span>
+</span></span><span class="line"><span class="cl">      2<span class="o">)</span> 1<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">5</span>
+</span></span><span class="line"><span class="cl">         2<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">8</span>
+</span></span><span class="line"><span class="cl">      3<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">4</span>
+</span></span><span class="line"><span class="cl">3<span class="o">)</span> <span class="s2">&#34;len&#34;</span>
+</span></span><span class="line"><span class="cl">4<span class="o">)</span> <span class="o">(</span>integer<span class="o">)</span> <span class="m">6</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="修改字符串的中子串" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%9a%84%e4%b8%ad%e5%ad%90%e4%b8%b2" class="heading-mark"></a>修改字符串的中子串</h3><div class="highlight" id="id-41"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">SETRANGE key offset value
+</span></span><span class="line"><span class="cl">可用版本: 2.2.0
+</span></span><span class="line"><span class="cl">时间复杂度: O<span class="o">(</span>M<span class="o">)</span> <span class="c1"># M 为参数长度</span>
+</span></span><span class="line"><span class="cl">ACL 分类: @write, @string, @slow</span></span></code></pre></td></tr></table>
+</div>
+</div><p>从指定下标开始修改子串，如果下标值超过字符串长度则以零值填充；如果 <code>key</code> 不存在则先创建。</p>
+<div class="highlight" id="id-42"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key1 <span class="s2">&#34;Hello World&#34;</span>
+</span></span><span class="line"><span class="cl">OK
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; SETRANGE key1 <span class="m">6</span> <span class="s2">&#34;Redis&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">11</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key1
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Hello Redis&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key2
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nil<span class="o">)</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; SETRANGE key2 <span class="m">6</span> <span class="s2">&#34;Redis&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">11</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># \x00 为16进制，表示 Null</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; GET key2
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;\x00\x00\x00\x00\x00\x00Redis&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="list-类型" class="heading-element">
+  <a href="#list-%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>list 类型</h2><p>在 <code>reids 3.2</code> 版本之前 <code>list</code> 底层实现方式为：压缩列表(<code>ziplist</code>)或双向循环链表(<code>linkedlist</code>)。从 <code>redis 3.2</code> 版本开始 <code>list</code> 底层实现方式为 <code>quicklist</code>。它是一个基于 <code>ziplist</code> 的双向链表，<code>quicklist</code> 每个节点都是一个 <code>ziplist</code>。结合了双向链表和 <code>ziplist</code> 的优点</p>
+<p>当<code>list</code>同时满足以下条件时使用 <code>ziplist</code> 存储数据：</p>
+<ul>
+<li><code>list</code> 中保存的每个元素长度小于 <code>64</code> 字节</li>
+<li><code>list</code> 中数据个数少于 <code>512</code>个</li>
+</ul>
+<h2 id="hash-类型" class="heading-element">
+  <a href="#hash-%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>hash 类型</h2><p><code>hash</code> 满足以下条件时使用 <code>ziplist</code> 存储数据，随着数据的增加，底层的 <code>ziplist</code> 就可能会转成 <code>dict</code></p>
+<ul>
+<li>每个元素的长度小于 <code>64</code> 字节。可以使用 <code>hash-max-ziplist-entries</code> 配置项修改</li>
+<li>元素个数少于 <code>512</code> 个。可以使用 <code>hash-max-ziplist-value</code> 配置项修改</li>
+</ul>
+<h2 id="set-类型" class="heading-element">
+  <a href="#set-%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>set 类型</h2><p><code>redis set</code>（集合）的 <code>key/value</code> 是无序的、唯一的。内部实现相当于一个特殊的字典，字典所有的 <code>value</code> 都是一个值 <code>NULL</code>。</p>
+<p>当存储数据满足以下所有条件时，<code>redis</code> 使用 <code>intset</code> 结构，否则使用 <code>hashtable</code> 结构存储</p>
+<ul>
+<li>存储的数据都是整数</li>
+<li>存储的元素个数小于 <code>512</code> 个</li>
+</ul>
+<h2 id="zset-类型" class="heading-element">
+  <a href="#zset-%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>zset 类型</h2><p><code>zset</code>  （有序集合）保留了 <code>set</code> （集合）不能有重复成员的特性，但不同的是，有序集合中的元素是可以排序的，但是它和列表的使用索引下标作为排序依据不同的是，它给每个元素设置一个分数，作为排序的依据。 <code>zet</code> 的底层编码有两种数据结构，一个 <code>ziplist</code> ，一个是 <code>skiplist</code> 。当<code>zset</code>同时满足以下条件时使用 <code>ziplist</code> 存储数据：</p>
+<ul>
+<li>每个元素的长度小于 <code>64</code> 字节</li>
+<li>元素个数少于 <code>512</code> 个</li>
+</ul>
+<h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="error-denied-redis-is-running-in-protected" class="heading-element">
+  <a href="#error-denied-redis-is-running-in-protected" class="heading-mark"></a>(error) DENIED Redis is running in protected</h2><div class="highlight" id="id-43"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># redis-cli -h 103.106.246.17 -p 6973</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; SET key1 hello
+</span></span><span class="line"><span class="cl"><span class="o">(</span>error<span class="o">)</span> DENIED Redis is running in protected mode because protected mode is enabled and no password is <span class="nb">set</span> <span class="k">for</span> the default user. In this mode connections are only accepted from the loopback interface. If you want to connect from external computers to Redis you may adopt one of the following solutions: 1<span class="o">)</span> Just disable protected mode sending the <span class="nb">command</span> <span class="s1">&#39;CONFIG SET protected-mode no&#39;</span> from the loopback interface by connecting to Redis from the same host the server is running, however MAKE SURE Redis is not publicly accessible from internet <span class="k">if</span> you <span class="k">do</span> so. Use CONFIG REWRITE to make this change permanent. 2<span class="o">)</span> Alternatively you can just disable the protected mode by editing the Redis configuration file, and setting the protected mode option to <span class="s1">&#39;no&#39;</span>, and <span class="k">then</span> restarting the server. 3<span class="o">)</span> If you started the server manually just <span class="k">for</span> testing, restart it with the <span class="s1">&#39;--protected-mode no&#39;</span> option. 4<span class="o">)</span> Setup a an authentication password <span class="k">for</span> the default user. NOTE: You only need to <span class="k">do</span> one of the above things in order <span class="k">for</span> the server to start accepting connections from the outside.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根据提示有以下方法</p>
+<ul>
+<li><code>protected-mode</code> 配置项修改值为 <code>no</code></li>
+<li>为默认用户设置身份验证密码
+<div class="highlight" id="id-44"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># grep &#39;^requirepass&#39; redis.conf</span>
+</span></span><span class="line"><span class="cl">requirepass <span class="m">123456</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-01-07 17:37:39">更新于 2023-01-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/redis/" class="post-tag" title="标签 - redis">redis</a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="post-tag" title="标签 - 数据类型">数据类型</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/postfix/" class="post-nav-item" rel="prev" title="postfix"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>postfix</a>
+      <a href="/goland/" class="post-nav-item" rel="next" title="jetbrains goland">jetbrains goland<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>neovim 初始化 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="vim 的分支、重构的 vim" /><meta name="keywords" content='vim, neovim' /><meta itemprop="name" content="neovim 初始化">
+<meta itemprop="description" content="vim 的分支、重构的 vim"><meta itemprop="datePublished" content="2023-04-22T01:48:59+08:00" />
+<meta itemprop="dateModified" content="2023-04-25T01:40:01+08:00" />
+<meta itemprop="wordCount" content="2186">
+<meta itemprop="keywords" content="vim,neovim," /><meta property="og:title" content="neovim 初始化" />
+<meta property="og:description" content="vim 的分支、重构的 vim" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/neovimInitialization/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-22T01:48:59+08:00" />
+<meta property="article:modified_time" content="2023-04-25T01:40:01+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="neovim 初始化"/>
+<meta name="twitter:description" content="vim 的分支、重构的 vim"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/neovimInitialization/" /><link rel="prev" href="/ansible/" /><link rel="next" href="/vimAutocmd/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "neovim 初始化",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/neovimInitialization\/"
+    },"genre": "posts","keywords": "vim, neovim","wordcount":  2186 ,
+    "url": "\/neovimInitialization\/","datePublished": "2023-04-22T01:48:59+08:00","dateModified": "2023-04-25T01:40:01+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>neovim 初始化</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/neovim/" class="post-category" title="分类 - neovim"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> neovim</a></span></div><div class="post-meta-line"><span title="发布于 2023-04-22 01:48:59"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-22">2023-04-22</time></span>&nbsp;<span title="更新于 2023-04-25 01:40:01"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-25">2023-04-25</time></span>&nbsp;<span title="2186 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#neovim-安装">neovim 安装</a></li>
+    <li><a href="#初始化过程">初始化过程</a>
+      <ul>
+        <li><a href="#shell-配置项">shell 配置项</a></li>
+        <li><a href="#处理参数">处理参数</a></li>
+        <li><a href="#启动服务">启动服务</a></li>
+        <li><a href="#连接用户界面">连接用户界面</a></li>
+        <li><a href="#设置默认映射默认自动命令创建弹出菜单">设置默认映射、默认自动命令、创建弹出菜单</a></li>
+        <li><a href="#启用文件插件语法与缩进">启用文件插件(语法与缩进)</a></li>
+        <li><a href="#加载初始化配置">加载初始化配置</a></li>
+        <li><a href="#启用文件类型检测">启用文件类型检测</a></li>
+        <li><a href="#加载插件脚本">加载插件脚本</a></li>
+        <li><a href="#设置-shellpipe-配置项和-shellredir-配置项">设置 shellpipe 配置项和 shellredir 配置项</a></li>
+        <li><a href="#如果使用-n命令参数则将-updatecount-配置项设置为零">如果使用-n命令参数，则将 updatecount 配置项设置为零</a></li>
+        <li><a href="#如果给出了--b-配置项则启用binary配置项">如果给出了 -b 配置项，则启用binary配置项</a></li>
+        <li><a href="#读取共享数据文件">读取共享数据文件</a></li>
+        <li><a href="#如果给出--q-配置项则读取-quickfix-文件">如果给出 -q 配置项，则读取 quickfix 文件</a></li>
+        <li><a href="#打开缓冲区窗口">打开缓冲区窗口</a></li>
+        <li><a href="#执行启动命令">执行启动命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#配置项">配置项</a>
+      <ul>
+        <li><a href="#shell">shell</a></li>
+        <li><a href="#exrc">exrc</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+nvim: 0.10.0</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://neovim.io/doc/user/starting.html#initialization"target="_blank" rel="external nofollow noopener noreferrer">neovim 初始化过程</a></li>
+<li><a href="https://yianwillis.github.io/vimcdoc/doc/starting.html#initialization"target="_blank" rel="external nofollow noopener noreferrer">vim 初始化过程</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="neovim-安装" class="heading-element">
+  <a href="#neovim-%e5%ae%89%e8%a3%85" class="heading-mark"></a>neovim 安装</h1><p><code>neovim</code> (简写 <code>Nvim</code>)是 <code>vim</code> 重构版本，不再兼容 <code>vi</code>，它与 <code>vim</code> 操作基本没有区别。没有 <code>vim</code> 那么重的历史包袱。是一个干净的 <code>vim</code>。可以从 <a href="https://github.com/neovim/neovim/releases"target="_blank" rel="external nofollow noopener noreferrer">neovimReleases</a>下载安装包</p>
+<h1 id="初始化过程" class="heading-element">
+  <a href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e8%bf%87%e7%a8%8b" class="heading-mark"></a>初始化过程</h1><p>在启动时，<code>Nvim</code> 检查环境变量和文件并相应地设置值，过程如下：</p>
+<ol>
+<li>设置 <code>shell</code> 配置项</li>
+<li>处理参数</li>
+<li>启动服务器（除非给出 <code>--listen</code>）并设置 <code>v:servername</code></li>
+<li>等待 <code>UI</code> 连接</li>
+<li>设置默认映射和默认自动命令，创建弹出菜单</li>
+<li>启用文件插件(语法和缩进)</li>
+<li>加载用户配置</li>
+<li>启用文件类型检测</li>
+<li>启用语法高亮</li>
+<li>加载插件脚本</li>
+<li>设置<code>shellpipe</code> 配置项和<code>shellredir</code> 配置项</li>
+<li>如果使用<code>-n</code>命令参数，则将<code>updatecount</code> 配置项设置为零</li>
+<li>如果给出了 <code>-b</code> 配置项，则设置<code>binary</code>配置项</li>
+<li>读取共享数据文件</li>
+<li>如果给出 <code>-q</code> 配置项，则读取 <code>quickfix 文件</code>，否则退出</li>
+<li>打开缓冲区窗口</li>
+<li>执行启动命令</li>
+</ol>
+<p>如果 <code>Nvim -u</code> 指定配置文件或使用 <code>Nvim -es</code> 启动，则跳过第<code>5</code>步之前的所有初始化。如果未设置 <code>$MYVIMRC</code> 变量，使用<code>nvim -u NORC</code>不读取文件。如果使用 <code>nvim -u NONE</code> 选项不加载语法插件与语法高亮</p>
+<h2 id="shell-配置项" class="heading-element">
+  <a href="#shell-%e9%85%8d%e7%bd%ae%e9%a1%b9" class="heading-mark"></a>shell 配置项</h2><p>环境变量 <code>SHELL</code>（如果存在）用于设置<code>shell</code>配置项。 在 <code>Win32</code> 上，如果未设置 <code>SHELL</code>，则使用 <code>COMSPEC</code> 变量。</p>
+<p><code>shell</code> 配置项指定执行外部命令时使用的<code>shell</code>路径</p>
+<h2 id="处理参数" class="heading-element">
+  <a href="#%e5%a4%84%e7%90%86%e5%8f%82%e6%95%b0" class="heading-mark"></a>处理参数</h2><p>检查启动 <code>NVim</code> 命令的配置项和文件名。 为所有文件创建缓冲区（但尚未加载）。 <code>-V</code> 参数可用于显示或记录接下来发生的事情，对于调试初始化很有用。</p>
+<h2 id="启动服务" class="heading-element">
+  <a href="#%e5%90%af%e5%8a%a8%e6%9c%8d%e5%8a%a1" class="heading-mark"></a>启动服务</h2><p>在管道或<code>tcp</code>地址上启动 <code>RPC</code>服务器并设备监听地址</p>
+<h2 id="连接用户界面" class="heading-element">
+  <a href="#%e8%bf%9e%e6%8e%a5%e7%94%a8%e6%88%b7%e7%95%8c%e9%9d%a2" class="heading-mark"></a>连接用户界面</h2><p><code>Nvim --embed</code> 配置项开始等待用户界面连接，然后再继续加载用户配置。该配置项使用 <code>stdin/stdout</code> 作为 <code>msgpack-RPC</code> 通道，因此应用程序可以通过 <code>RPC</code> <code>API</code> 嵌入并控制 <code>Nvim</code>使用 <code>stdin/stdout</code> 作为 <code>msgpack-RPC</code> 通道，因此应用程序可以通过 <code>RPC</code> <code>API</code> 嵌入并控制 <code>Nvim</code>。等待客户端（<code>embedder</code>）在获取启动文件和读取缓冲区之前调用 <code>nvim_ui_attach()</code>，以便 <code>UI</code> 可以确定性地处理（显示）早期消息、对话框等。客户端可以在 <code>nvim_ui_attach</code> 之前执行其他请求（例如 <code>nvim_get_api_info</code> <code>for</code> 特征检测）。 在此预启动阶段，用户配置当然不可用（类似于 <code>--cmd</code>）。</p>
+<h2 id="设置默认映射默认自动命令创建弹出菜单" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae%e9%bb%98%e8%ae%a4%e6%98%a0%e5%b0%84%e9%bb%98%e8%ae%a4%e8%87%aa%e5%8a%a8%e5%91%bd%e4%bb%a4%e5%88%9b%e5%bb%ba%e5%bc%b9%e5%87%ba%e8%8f%9c%e5%8d%95" class="heading-mark"></a>设置默认映射、默认自动命令、创建弹出菜单</h2><p><code>Nvim</code> 在启动时创建以下默认映射，可以通过简单地删除映射来禁用配置中的任何这些</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-vim" data-lang="vim"><span class="line"><span class="cl"><span class="nx">nnoremap</span> <span class="nx">Y</span> <span class="nx">y</span>$<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">nnoremap</span> <span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">L</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nx">Cmd</span><span class="p">&gt;</span><span class="nx">nohlsearch</span><span class="p">&lt;</span><span class="nx">Bar</span><span class="p">&gt;</span><span class="nx">diffupdate</span><span class="p">&lt;</span><span class="nx">Bar</span><span class="p">&gt;</span><span class="nx">normal</span><span class="p">!</span> <span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">L</span><span class="p">&gt;&lt;</span><span class="nx">CR</span><span class="p">&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">inoremap</span> <span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">U</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">G</span><span class="p">&gt;</span><span class="nx">u</span><span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">U</span><span class="p">&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">inoremap</span> <span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">W</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">G</span><span class="p">&gt;</span><span class="nx">u</span><span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">W</span><span class="p">&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">xnoremap</span> * <span class="nx">y</span>/\<span class="nx">V</span><span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">R</span><span class="p">&gt;</span>&#34;<span class="p">&lt;</span><span class="nx">CR</span><span class="p">&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">xnoremap</span> # <span class="nx">y</span>?\<span class="nx">V</span><span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">R</span><span class="p">&gt;</span>&#34;<span class="p">&lt;</span><span class="nx">CR</span><span class="p">&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">nnoremap</span> &amp; :&amp;&amp;<span class="p">&lt;</span><span class="nx">CR</span><span class="p">&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>默认自动命令存在于以下组中。 可以使用<code>:autocmd! {group}</code>删除、使用 <code>:autocmd {group}</code> 查看是如何定义的。</p>
+<ul>
+<li><code>BufReadCmd</code>: 创建<a href="https://neovim.io/doc/user/nvim_terminal_emulator.html#terminal"target="_blank" rel="external nofollow noopener noreferrer">终端缓冲区</a></li>
+<li><code>nvim_cmdwin</code>: <a href="https://neovim.io/doc/user/cmdline.html#cmdwin"target="_blank" rel="external nofollow noopener noreferrer">命令行窗口</a>限制为<code>1</code>行(<code>maxlines=1</code>)</li>
+</ul>
+<p>如果<code>mousemodel</code> 设置为<code>popup</code> 或<code>popup_setpos</code>，则这是按下鼠标右键时显示的菜单。菜单定义如下</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-vim" data-lang="vim"><span class="line"><span class="cl"><span class="nx">aunmenu</span> <span class="nx">PopUp</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">vnoremenu</span> <span class="nx">PopUp</span>.<span class="nx">Cut</span>                         <span class="c">&#34;+x</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">vnoremenu</span> <span class="nx">PopUp</span>.<span class="nx">Copy</span>                        <span class="c">&#34;+y</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">anoremenu</span> <span class="nx">PopUp</span>.<span class="nx">Paste</span>                       <span class="c">&#34;+gP</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">vnoremenu</span> <span class="nx">PopUp</span>.<span class="nx">Paste</span>                       <span class="c">&#34;+P</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">vnoremenu</span> <span class="nx">PopUp</span>.<span class="nx">Delete</span>                      <span class="c">&#34;_x</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">nnoremenu</span> <span class="nx">PopUp</span>.<span class="nx">Select</span>\ <span class="nx">All</span>                 <span class="nx">ggVG</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">vnoremenu</span> <span class="nx">PopUp</span>.<span class="nx">Select</span>\ <span class="nx">All</span>                 <span class="nx">gg0oG</span>$<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">inoremenu</span> <span class="nx">PopUp</span>.<span class="nx">Select</span>\ <span class="nx">All</span>                 <span class="p">&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">Home</span><span class="p">&gt;&lt;</span><span class="nx">C</span><span class="p">-</span><span class="nx">O</span><span class="p">&gt;</span><span class="nx">VG</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">anoremenu</span> <span class="nx">PopUp</span>.<span class="m">-1</span><span class="p">-</span>                         <span class="p">&lt;</span><span class="nx">Nop</span><span class="p">&gt;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="nx">anoremenu</span> <span class="nx">PopUp</span>.<span class="nx">How</span><span class="p">-</span><span class="nx">to</span>\ <span class="nx">disable</span>\ <span class="nx">mouse</span>      <span class="p">&lt;</span><span class="nx">Cmd</span><span class="p">&gt;</span><span class="nx">help</span> <span class="nx">disable</span><span class="p">-</span><span class="nx">mouse</span><span class="p">&lt;</span><span class="nx">CR</span><span class="p">&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="启用文件插件语法与缩进" class="heading-element">
+  <a href="#%e5%90%af%e7%94%a8%e6%96%87%e4%bb%b6%e6%8f%92%e4%bb%b6%e8%af%ad%e6%b3%95%e4%b8%8e%e7%bc%a9%e8%bf%9b" class="heading-mark"></a>启用文件插件(语法与缩进)</h2><p>执行以下命令，如果指定 <code>-u</code> 选项则跳过</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-vim" data-lang="vim"><span class="line"><span class="cl"><span class="p">:</span><span class="nx">runtime</span><span class="p">!</span> <span class="nx">ftplugin</span>.<span class="nx">vim</span> <span class="nx">indent</span>.<span class="nx">vim</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="加载初始化配置" class="heading-element">
+  <a href="#%e5%8a%a0%e8%bd%bd%e5%88%9d%e5%a7%8b%e5%8c%96%e9%85%8d%e7%bd%ae" class="heading-mark"></a>加载初始化配置</h2><p>如果 <code>exrc</code> 配置项开启，则在当前目录下搜索以下文件，文件优先级顺序如下</p>
+<ol>
+<li><code>.nvim.lua</code></li>
+<li><code>.nvimrc</code></li>
+<li><code>.exrc</code></li>
+</ol>
+<p>初始化配置文件按以下顺序加载：</p>
+<ol>
+<li><code>$VIMINIT</code> 环境变量指定的 <code>Ex</code> 命令行</li>
+<li>加载用户初始化配置文件</li>
+<li><code>$XDG_CONFIG_DIRS/nvim/init.vim</code></li>
+<li><code>$EXINIT</code> 环境变量指定的 <code>Ex</code> 命令行与 <code>$MYVIMRC</code> 环境变量的第一个有效果位置</li>
+</ol>
+<p>用户初始化配置文件（<code>init.vim</code>或<code>init.lua</code>）在以下目录，它们不能同时存在：</p>
+<ul>
+<li><code>unix</code>: <code>~/.config/nvim/init.vim</code></li>
+<li><code>windows</code>: <code>~/AppData/Local/nvim/init.vim</code></li>
+<li><code>$XDG_CONFIG_HOME/nvim/init.vim</code>: <code>$XDG_CONFIG_HOME</code> 变量默认值如下
+<ul>
+<li><code>unix</code>: <code>~/.config/nvim/</code></li>
+<li><code>windows</code>: <code>~/AppData/Local/nvim/</code></li>
+</ul>
+</li>
+</ul>
+<p>加载 <code>sysint.vim</code> 文件，优先级如下：</p>
+<ol>
+<li><code>$XDG_CONFIG_DIRS</code> 变量目录下的 <code>sysint.vim</code> 文件</li>
+<li><code>:version</code>输出中的提示，通常是<code>$VIM/sysinit.vim</code></li>
+</ol>
+<h2 id="启用文件类型检测" class="heading-element">
+  <a href="#%e5%90%af%e7%94%a8%e6%96%87%e4%bb%b6%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%b5%8b" class="heading-mark"></a>启用文件类型检测</h2><p>执行以下命令，可以使用<code>filetype off</code> 关闭。如果使用 <code>-u NONE</code>选项则跳过</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-vim" data-lang="vim"><span class="line"><span class="cl"><span class="p">:</span><span class="nx">runtime</span><span class="p">!</span> <span class="nx">filetype</span>.<span class="nx">lua</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="加载插件脚本" class="heading-element">
+  <a href="#%e5%8a%a0%e8%bd%bd%e6%8f%92%e4%bb%b6%e8%84%9a%e6%9c%ac" class="heading-mark"></a>加载插件脚本</h2><p>加载 <code>runtimepath</code> 配置项指定目录中的配置文件，按以下规则顺序如下：</p>
+<ul>
+<li>按字母排序</li>
+<li>优先加载<code>*.vim</code>，其次加载<code>*.lua</code></li>
+<li>以<code>after</code>结尾的目录中配置文件最后加载
+<br></li>
+</ul>
+<p>相当于执行以下命令：</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-vim" data-lang="vim"><span class="line"><span class="cl"><span class="p">:</span><span class="nx">runtime</span><span class="p">!</span> <span class="nx">plugin</span><span class="sr">/**/</span>*.<span class="nx">vim</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="p">:</span><span class="nx">runtime</span><span class="p">!</span> <span class="nx">plugin</span><span class="sr">/**/</span>*.<span class="nx">lua</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在以下情况下不会加载插件：</p>
+<ul>
+<li><code>loadplugins</code> 配置项在用户初始化文件中被重置</li>
+<li>使用 <code>--noplugin</code> 选项运行</li>
+<li>使用 <code>--clean</code> 选项运行</li>
+<li>使用 <code>-u NONE</code> 选项运行</li>
+</ul>
+<h2 id="设置-shellpipe-配置项和-shellredir-配置项" class="heading-element">
+  <a href="#%e8%ae%be%e7%bd%ae-shellpipe-%e9%85%8d%e7%bd%ae%e9%a1%b9%e5%92%8c-shellredir-%e9%85%8d%e7%bd%ae%e9%a1%b9" class="heading-mark"></a>设置 shellpipe 配置项和 shellredir 配置项</h2><ul>
+<li><code>shellredir</code> 选项用于指定<code>:!</code>命令输出信息流向哪里（标准输出、错误输出、临时文件、文件）</li>
+<li><code>shellpipe</code> 选项用于指定 <code>:make</code> 命令输出信息流向哪里</li>
+</ul>
+<h2 id="如果使用-n命令参数则将-updatecount-配置项设置为零" class="heading-element">
+  <a href="#%e5%a6%82%e6%9e%9c%e4%bd%bf%e7%94%a8-n%e5%91%bd%e4%bb%a4%e5%8f%82%e6%95%b0%e5%88%99%e5%b0%86-updatecount-%e9%85%8d%e7%bd%ae%e9%a1%b9%e8%ae%be%e7%bd%ae%e4%b8%ba%e9%9b%b6" class="heading-mark"></a>如果使用-n命令参数，则将 updatecount 配置项设置为零</h2><p><code>updatecount</code> 选项用于指定 <code>.swp</code> （交换分区）文件写入磁盘的条件，单位是字符数量。当为<code>0</code>时表示不创建 <code>.swp</code> 文件</p>
+<h2 id="如果给出了--b-配置项则启用binary配置项" class="heading-element">
+  <a href="#%e5%a6%82%e6%9e%9c%e7%bb%99%e5%87%ba%e4%ba%86--b-%e9%85%8d%e7%bd%ae%e9%a1%b9%e5%88%99%e5%90%af%e7%94%a8binary%e9%85%8d%e7%bd%ae%e9%a1%b9" class="heading-mark"></a>如果给出了 -b 配置项，则启用binary配置项</h2><p><code>binary</code> 配置选项是为编辑二进制文件设置一系列配置项，该选项默认是关闭的</p>
+<h2 id="读取共享数据文件" class="heading-element">
+  <a href="#%e8%af%bb%e5%8f%96%e5%85%b1%e4%ba%ab%e6%95%b0%e6%8d%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>读取共享数据文件</h2><p>共享数据文件（<code>shared data file</code>、<code>Shada file</code>、<code>ShaDa file</code>）记录以下信息：</p>
+<ul>
+<li>命令行历史</li>
+<li>搜索字符串历史记录</li>
+<li>输入行历史记录</li>
+<li>非空寄存器的内容</li>
+<li>多个文件的标记</li>
+<li>位置标记</li>
+<li>最后执行的搜索或替换模式</li>
+<li>缓冲区列表</li>
+<li>全局变量</li>
+</ul>
+<h2 id="如果给出--q-配置项则读取-quickfix-文件" class="heading-element">
+  <a href="#%e5%a6%82%e6%9e%9c%e7%bb%99%e5%87%ba--q-%e9%85%8d%e7%bd%ae%e9%a1%b9%e5%88%99%e8%af%bb%e5%8f%96-quickfix-%e6%96%87%e4%bb%b6" class="heading-mark"></a>如果给出 -q 配置项，则读取 quickfix 文件</h2><p><code>quickfix</code> 文件由 <code>quickfix</code> 指定。它用于记录编译器错误信息的文件，方便通过跳转方式到错误位置进行修复</p>
+<h2 id="打开缓冲区窗口" class="heading-element">
+  <a href="#%e6%89%93%e5%bc%80%e7%bc%93%e5%86%b2%e5%8c%ba%e7%aa%97%e5%8f%a3" class="heading-mark"></a>打开缓冲区窗口</h2><ul>
+<li>如果使用 <code>-o</code> 命令行选项，则打开一个空白缓冲区窗口用于初始化完成后加载文件</li>
+<li>如果使用 <code>-p</code> 命令行选项，则打开一个空白标签页用于初始化完成后加载文件</li>
+<li>如果给出 <code>-q</code> 命令行选项，则跳转到第一个错误。将加载所有窗口的缓冲区，而不会触发 <code>BufAdd</code> 自动命令</li>
+</ul>
+<h2 id="执行启动命令" class="heading-element">
+  <a href="#%e6%89%a7%e8%a1%8c%e5%90%af%e5%8a%a8%e5%91%bd%e4%bb%a4" class="heading-mark"></a>执行启动命令</h2><ul>
+<li>如果使用 <code>-t</code> 命令行选项，则跳转到指定标记</li>
+<li>如果使用 <code>-c</code> 与 <code>+cmd</code> 命令行选项，则执行指定的命令</li>
+<li>重置起始标记，<code>has(&quot;vim_starting&quot;)</code> 的输出为 <code>0</code></li>
+<li><code>v:vim_did_enter</code> 变量值设置为 <code>1</code></li>
+<li>执行 <code>VimEnter</code> 自动命令</li>
+</ul>
+<h1 id="配置项" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e9%a1%b9" class="heading-mark"></a>配置项</h1><h2 id="shell" class="heading-element">
+  <a href="#shell" class="heading-mark"></a>shell</h2><ul>
+<li><a href="https://yianwillis.github.io/vimcdoc/doc/options.html#%27shell%27"target="_blank" rel="external nofollow noopener noreferrer">https://yianwillis.github.io/vimcdoc/doc/options.html#'shell'</a></li>
+<li><a href="https://neovim.io/doc/user/options.html#%27shell%27"target="_blank" rel="external nofollow noopener noreferrer">https://neovim.io/doc/user/options.html#'shell'</a></li>
+</ul>
+<h2 id="exrc" class="heading-element">
+  <a href="#exrc" class="heading-mark"></a>exrc</h2><ul>
+<li><a href="https://neovim.io/doc/user/options.html#%27exrc%27"target="_blank" rel="external nofollow noopener noreferrer">https://neovim.io/doc/user/options.html#'exrc'</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-04-25 01:40:01">更新于 2023-04-25&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/vim/" class="post-tag" title="标签 - vim">vim</a><a href="/tags/neovim/" class="post-tag" title="标签 - neovim">neovim</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/ansible/" class="post-nav-item" rel="prev" title="Ansible 是一种 IT 自动化工具"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Ansible 是一种 IT 自动化工具</a>
+      <a href="/vimAutocmd/" class="post-nav-item" rel="next" title="vim 自动命令">vim 自动命令<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

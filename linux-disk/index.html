@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>linux系统中磁盘管理 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content=" " /><meta name="keywords" content='linux, 磁盘管理' /><meta itemprop="name" content="linux系统中磁盘管理">
+<meta itemprop="description" content=" "><meta itemprop="datePublished" content="2022-12-17T14:21:06+08:00" />
+<meta itemprop="dateModified" content="2023-02-03T16:36:27+08:00" />
+<meta itemprop="wordCount" content="2315">
+<meta itemprop="keywords" content="linux,磁盘管理," /><meta property="og:title" content="linux系统中磁盘管理" />
+<meta property="og:description" content=" " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linux-disk/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-17T14:21:06+08:00" />
+<meta property="article:modified_time" content="2023-02-03T16:36:27+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="linux系统中磁盘管理"/>
+<meta name="twitter:description" content=" "/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linux-disk/" /><link rel="prev" href="/vim-insert/" /><link rel="next" href="/nginxLog/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "linux系统中磁盘管理",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linux-disk\/"
+    },"genre": "posts","keywords": "linux, 磁盘管理","wordcount":  2315 ,
+    "url": "\/linux-disk\/","datePublished": "2022-12-17T14:21:06+08:00","dateModified": "2023-02-03T16:36:27+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": " "
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>linux系统中磁盘管理</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-12-17 14:21:06"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-17">2022-12-17</time></span>&nbsp;<span title="更新于 2023-02-03 16:36:27"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-02-03">2023-02-03</time></span>&nbsp;<span title="2315 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#proc-文件">proc 文件</a>
+      <ul>
+        <li><a href="#磁盘io">磁盘I/O</a></li>
+      </ul>
+    </li>
+    <li><a href="#iostat-查看磁盘总体信息">iostat 查看磁盘总体信息</a></li>
+    <li><a href="#查看进程或线程磁盘-io">查看进程或线程磁盘 IO</a></li>
+    <li><a href="#查看磁盘-io-进度">查看磁盘 IO 进度</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-02-03，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+<li>kernel: 5.4.227</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://www.kernel.org/doc/html/v5.4/admin-guide/iostats.html"target="_blank" rel="external nofollow noopener noreferrer">linux内核文档：I/O 统计信息字段</a></li>
+<li><a href="https://www.cnblogs.com/wshenjin/p/12662834.html"target="_blank" rel="external nofollow noopener noreferrer">wshenJin：/proc/diskstats 文件内容记录</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="proc-文件" class="heading-element">
+  <a href="#proc-%e6%96%87%e4%bb%b6" class="heading-mark"></a>proc 文件</h1><p>以下 <code>/proc</code> 文件可查看磁盘文件</p>
+<ul>
+<li><code>/proc/diskstats</code>: 此文件包含每个磁盘设备的磁盘 <code>I/O</code> 统计信息</li>
+<li><code>/sys/block/*/stat</code> : 此文件包含指定磁盘（<code>*</code>）设备的磁盘 <code>I/O</code> 统计信息</li>
+</ul>
+<h2 id="磁盘io" class="heading-element">
+  <a href="#%e7%a3%81%e7%9b%98io" class="heading-mark"></a>磁盘I/O</h2><p>磁盘 <code>I/O</code> 信息可以从以下文件获取</p>
+<ul>
+<li><code>/proc/diskstats</code>: 此文件包含每个磁盘设备的磁盘 <code>I/O</code> 统计信息</li>
+<li><code>/sys/block/*/stat</code> : 此文件包含指定磁盘（<code>*</code>）设备的磁盘 <code>I/O</code> 统计信息</li>
+</ul>
+<p><code>/proc/diskstats</code> 文件比 <code>/sys/block/*/stat</code> 多了三个字段。从左至右分别对应主设备号，次设备号和设备名称。</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost hugo<span class="o">]</span><span class="c1"># cat /proc/diskstats | column -t</span>
+</span></span><span class="line"><span class="cl"><span class="m">202</span>  <span class="m">0</span>   xvda   <span class="m">22206</span>  <span class="m">41</span>  <span class="m">985763</span>  <span class="m">62090</span>  <span class="m">145665</span>  <span class="m">17906</span>  <span class="m">3643071</span>  <span class="m">371719</span>  <span class="m">0</span>  <span class="m">146840</span>  <span class="m">361102</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="m">202</span>  <span class="m">1</span>   xvda1  <span class="m">660</span>    <span class="m">0</span>   <span class="m">13182</span>   <span class="m">408</span>    <span class="m">519</span>     <span class="m">0</span>      <span class="m">4120</span>     <span class="m">156</span>     <span class="m">0</span>  <span class="m">390</span>     <span class="m">297</span>     <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="m">202</span>  <span class="m">2</span>   xvda2  <span class="m">21494</span>  <span class="m">41</span>  <span class="m">969493</span>  <span class="m">61561</span>  <span class="m">130046</span>  <span class="m">17906</span>  <span class="m">3638951</span>  <span class="m">365444</span>  <span class="m">0</span>  <span class="m">146141</span>  <span class="m">356438</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="m">202</span>  <span class="m">16</span>  xvdb   <span class="m">3444</span>   <span class="m">7</span>   <span class="m">233055</span>  <span class="m">29457</span>  <span class="m">4280</span>    <span class="m">467</span>    <span class="m">122794</span>   <span class="m">13100</span>   <span class="m">0</span>  <span class="m">9846</span>    <span class="m">39035</span>   <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="m">202</span>  <span class="m">17</span>  xvdb1  <span class="m">3391</span>   <span class="m">7</span>   <span class="m">229959</span>  <span class="m">29292</span>  <span class="m">4267</span>    <span class="m">467</span>    <span class="m">122794</span>   <span class="m">13099</span>   <span class="m">0</span>  <span class="m">9787</span>    <span class="m">38898</span>   <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="m">253</span>  <span class="m">0</span>   dm-0   <span class="m">13069</span>  <span class="m">0</span>   <span class="m">961109</span>  <span class="m">13712</span>  <span class="m">143305</span>  <span class="m">0</span>      <span class="m">3859453</span>  <span class="m">360743</span>  <span class="m">0</span>  <span class="m">142829</span>  <span class="m">374455</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="m">253</span>  <span class="m">1</span>   dm-1   <span class="m">86</span>     <span class="m">0</span>   <span class="m">4144</span>    <span class="m">27</span>     <span class="m">0</span>       <span class="m">0</span>      <span class="m">0</span>        <span class="m">0</span>       <span class="m">0</span>  <span class="m">27</span>      <span class="m">27</span>      <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost hugo<span class="o">]</span><span class="c1"># cat  /sys/block/xvda/stat | column -t</span>
+</span></span><span class="line"><span class="cl"><span class="m">22206</span>  <span class="m">41</span>  <span class="m">985763</span>  <span class="m">62090</span>  <span class="m">145665</span>  <span class="m">17906</span>  <span class="m">3643071</span>  <span class="m">371719</span>  <span class="m">0</span>  <span class="m">146840</span>  <span class="m">361102</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span>  <span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>字段信息如下（这些值都是近似值，这是由于磁盘多个分区的<code>I/O</code>、从 <code>kernel v:2.6+</code> 每个 <code>CPU</code> 都有计数器，避免引入性能瓶颈，并没锁定计数器导致的）：</p>
+<ul>
+<li>第一列：从系统启动后成功已完成的读取次数。</li>
+<li>第二列：从系统启动后已合并读取完成次数。为了提高效率，合并彼此相邻的读取和写入。</li>
+<li>第三列：从系统启动后成功读取扇区总数。</li>
+<li>第四列：从系统启动后所有读取花费的时间（毫秒）。</li>
+<li>第五列：从系统启动后成功已完成的写入次数。</li>
+<li>第六列：从系统启动后已合并写入完成次数。为了提高效率，合并彼此相邻的读取和写入。</li>
+<li>第七列：从系统启动后成功写入扇区总数。</li>
+<li>第八列：从系统启动后所有写入花费的时间（毫秒）。</li>
+<li>第九列：当前正在进行 <code>I/O</code> 数量（队列数量）</li>
+<li>第十列：从系统启动后执行所有 <code>I/O</code> 花费的时间（毫秒）。</li>
+<li>第十一列：执行 <code>I/O</code> 所花费的毫秒数加权数。此字段在每次 <code>I/O</code> 启动、<code>I/O</code> 完成、<code>I/O </code>合并或读取这些统计信息时按正在进行的 <code>I/O</code> 数（字段 <code>9</code>）乘以自上次更新此字段以来执行 <code>I/O</code> 所花费的毫秒数。这可以轻松衡量 <code>I/O</code> 完成时间和可能累积的积压工作。</li>
+<li>第十二列：从系统启动后成功完成的丢弃总数。</li>
+<li>第十三列：同第二例</li>
+<li>第十四列：从系统启用后成功丢弃的扇区总数。</li>
+<li>第十五列：从系统启用后丢弃所花费的总毫秒数。</li>
+</ul>
+<h1 id="iostat-查看磁盘总体信息" class="heading-element">
+  <a href="#iostat-%e6%9f%a5%e7%9c%8b%e7%a3%81%e7%9b%98%e6%80%bb%e4%bd%93%e4%bf%a1%e6%81%af" class="heading-mark"></a>iostat 查看磁盘总体信息</h1><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 安装</span>
+</span></span><span class="line"><span class="cl">yum install -y sysstat</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># -z 省略没有活动的设备</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -y 指定频率显示多少报告时，则省略自系统启动以来的第一个带有统计信息</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -x 显示更多指标</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -N 显示注册 dev ，如 lvm container 注册的</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 1 每隔 1 秒频率显示，直到手动结束进程</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># iostat -zyxN 1</span>
+</span></span><span class="line"><span class="cl">Linux 5.4.227-1.el7.elrepo.x86_64 <span class="o">(</span>localhost.localdomain<span class="o">)</span>       02/03/2023      _x86_64_        <span class="o">(</span><span class="m">4</span> CPU<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+</span></span><span class="line"><span class="cl">           0.25    0.00    0.25    0.00    0.00   99.50
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
+</span></span><span class="line"><span class="cl">xvda              0.00     0.00    0.00    1.00     0.00     4.00     8.00     0.00    0.00    0.00    0.00   1.00   0.10
+</span></span><span class="line"><span class="cl">centos-root       0.00     0.00    0.00    1.00     0.00     4.00     8.00     0.00    0.00    0.00    0.00   1.00   0.10
+</span></span><span class="line"><span class="cl">....</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出字段说明</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">%user   <span class="c1"># 显示用户级别进程 CPU 利用率百分比</span>
+</span></span><span class="line"><span class="cl">%nice
+</span></span><span class="line"><span class="cl">%system <span class="c1"># 显示内核级别进程 CPU 利用率百分比</span>
+</span></span><span class="line"><span class="cl">%iowait <span class="c1"># CPU 等待磁盘 IO 反馈时间比</span>
+</span></span><span class="line"><span class="cl">%steal  <span class="c1"># 虚机等待 CPU 资源的时间(虚机分到的是虚拟 CPU，当需要真实的 CPU 时，可能真实的 CPU 正在运行其它虚机的任务，所以需要等待)。</span>
+</span></span><span class="line"><span class="cl">%idle   <span class="c1"># CPU 空闲比</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Device  <span class="c1"># 设备名</span>
+</span></span><span class="line"><span class="cl">tps     <span class="c1"># 每秒发送到设备的 I/O 请求数。多个逻辑请求可以组合成对设备的单个 I/O 请求。</span>
+</span></span><span class="line"><span class="cl">Blk_read <span class="o">(</span>kB_read, MB_read<span class="o">)</span> <span class="c1"># 读取的块的总数</span>
+</span></span><span class="line"><span class="cl">Blk_wrtn <span class="o">(</span>kB_wrtn, MB_wrtn<span class="o">)</span> <span class="c1"># 写入的块的总数</span>
+</span></span><span class="line"><span class="cl">rrqm/s  <span class="c1"># 每秒合并到设备的读取请求数</span>
+</span></span><span class="line"><span class="cl">wrqm/s  <span class="c1"># 每秒合并到设备的写入请求数。</span>
+</span></span><span class="line"><span class="cl">r/s     <span class="c1"># 设备每秒完成的读请求数(合并后)</span>
+</span></span><span class="line"><span class="cl">w/s     <span class="c1"># 设备每秒完成的写请求数(合并后)</span>
+</span></span><span class="line"><span class="cl">Blk_read/s <span class="o">(</span>kB_read/s, MB_read/s<span class="o">)</span> <span class="c1"># 每秒读取的磁盘块的大小</span>
+</span></span><span class="line"><span class="cl">Blk_wrtn/s <span class="o">(</span>kB_wrtn/s, MB_wrtn/s<span class="o">)</span> <span class="c1"># 每秒写入的磁盘块的大小</span>
+</span></span><span class="line"><span class="cl">rsec/s <span class="o">(</span>rkB/s, rMB/s<span class="o">)</span>             <span class="c1"># 每秒从设备读取的扇区数（千字节、兆字节）</span>
+</span></span><span class="line"><span class="cl">wsec/s <span class="o">(</span>wkB/s, wMB/s<span class="o">)</span>             <span class="c1"># 每秒写入设备的扇区数（千字节、兆字节）</span>
+</span></span><span class="line"><span class="cl">avgrq-sz <span class="c1"># 向设备发出的请求的平均大小（以扇区为单位）。</span>
+</span></span><span class="line"><span class="cl">avgqu-sz <span class="c1"># 向设备发出的请求的平均队列长度</span>
+</span></span><span class="line"><span class="cl">await    <span class="c1"># 向要处理的设备发出的 I/O 请求的平均时间（以毫秒为单位）</span>
+</span></span><span class="line"><span class="cl">         <span class="c1"># 这包括队列中的请求所花费的时间以及处理这些请求所花费的时间</span>
+</span></span><span class="line"><span class="cl">r_await  <span class="c1"># 向要处理的设备发出的读取请求的平均时间（以毫秒为单位）</span>
+</span></span><span class="line"><span class="cl">         <span class="c1"># 这包括队列中的请求所花费的时间以及处理这些请求所花费的时间</span>
+</span></span><span class="line"><span class="cl">w_await  <span class="c1"># 向要处理的设备发出的写入请求的平均时间（以毫秒为单位）</span>
+</span></span><span class="line"><span class="cl">         <span class="c1"># 这包括队列中的请求所花费的时间以及处理这些请求所花费的时间</span>
+</span></span><span class="line"><span class="cl">svctm    <span class="c1"># 向设备发出的 I/O 请求的平均服务时间（以毫秒为单位）。</span>
+</span></span><span class="line"><span class="cl">         <span class="c1"># 由于 I/O 统计信息现在是在块级别计算的，</span>
+</span></span><span class="line"><span class="cl">         <span class="c1"># 不知道磁盘驱动程序何时开始处理。因此该字段不可信，</span>
+</span></span><span class="line"><span class="cl">         <span class="c1"># 后续会被删除</span>
+</span></span><span class="line"><span class="cl">%util    <span class="c1"># 向设备发出 I/O 请求的运行时间百分比(设备的带宽利用率)，</span>
+</span></span><span class="line"><span class="cl">         <span class="c1"># 换句话说就是一秒中有百分之多少的时间用于 I/O 操作。</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="查看进程或线程磁盘-io" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e8%bf%9b%e7%a8%8b%e6%88%96%e7%ba%bf%e7%a8%8b%e7%a3%81%e7%9b%98-io" class="heading-mark"></a>查看进程或线程磁盘 IO</h1><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 安装</span>
+</span></span><span class="line"><span class="cl">yum install -y iotop</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># iotop -o</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出字段说明</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># TID   : 进程 ID</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># PRIO  : 优先级</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># USER  : 用户</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># DISK READ     : 读取 </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># DISK WRITE    : 写入</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># SWAPIN        : swap交换百分比</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># IO&gt;           : IO等待所占用百分比</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># COMMAND       : 进程或线程名</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Total DISK READ   : 磁盘总读取量</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Total DISK WRITE  : 磁盘总写入量</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Actual DISK READ  : 当前读取量</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Actual DISK WRITE : 当前写入量</span>
+</span></span><span class="line"><span class="cl">Total DISK READ :       0.00 B/s <span class="p">|</span> Total DISK WRITE :       0.00 B/s
+</span></span><span class="line"><span class="cl">Actual DISK READ:       0.00 B/s <span class="p">|</span> Actual DISK WRITE:       0.00 B/s
+</span></span><span class="line"><span class="cl">  TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO&gt;    COMMAND</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="查看磁盘-io-进度" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e7%a3%81%e7%9b%98-io-%e8%bf%9b%e5%ba%a6" class="heading-mark"></a>查看磁盘 IO 进度</h1><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y blktrace</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>实时查看 <code>xvda I/O</code> 进度</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># -d 指定跟踪磁盘</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -o 输出到 - （标准输出）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -i 从 - （标准输入中）读取</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># blktrace -d /dev/xvda -o - | blkparse -i -</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">1</span>     0.000000000   <span class="m">767</span>  A   W <span class="m">3856336</span> + <span class="m">8</span> &lt;- <span class="o">(</span>253,0<span class="o">)</span> <span class="m">1757136</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">2</span>     0.000000760   <span class="m">767</span>  A   W <span class="m">4882384</span> + <span class="m">8</span> &lt;- <span class="o">(</span>202,2<span class="o">)</span> <span class="m">3856336</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">3</span>     0.000001471   <span class="m">767</span>  Q   W <span class="m">4882384</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">4</span>     0.000014815   <span class="m">767</span>  G   W <span class="m">4882384</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">5</span>     0.000016575   <span class="m">767</span>  P   N <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">6</span>     0.000132515   <span class="m">767</span>  A   W <span class="m">16702816</span> + <span class="m">8</span> &lt;- <span class="o">(</span>253,0<span class="o">)</span> <span class="m">14603616</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">7</span>     0.000132925   <span class="m">767</span>  A   W <span class="m">17728864</span> + <span class="m">8</span> &lt;- <span class="o">(</span>202,2<span class="o">)</span> <span class="m">16702816</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">8</span>     0.000133225   <span class="m">767</span>  Q   W <span class="m">17728864</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>        <span class="m">9</span>     0.000136703   <span class="m">767</span>  G   W <span class="m">17728864</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>       <span class="m">10</span>     0.000140345   <span class="m">767</span>  U   N <span class="o">[</span>kworker/u8:0<span class="o">]</span> <span class="m">2</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>       <span class="m">11</span>     0.000141508   <span class="m">767</span>  I   W <span class="m">4882384</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>       <span class="m">12</span>     0.000142950   <span class="m">767</span>  I   W <span class="m">17728864</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>       <span class="m">13</span>     0.000148343   <span class="m">767</span>  D   W <span class="m">4882384</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>       <span class="m">14</span>     0.000162408   <span class="m">767</span>  D   W <span class="m">17728864</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>       <span class="m">15</span>     0.000601858     <span class="m">0</span>  C   W <span class="m">17728864</span> + <span class="m">8</span> <span class="o">[</span>0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">202,0    <span class="m">0</span>       <span class="m">16</span>     0.000619046     <span class="m">0</span>  C   W <span class="m">4882384</span> + <span class="m">8</span> <span class="o">[</span>0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">^CCPU0 <span class="o">(</span>202,0<span class="o">)</span>:
+</span></span><span class="line"><span class="cl"> Reads Queued:           0,        0KiB  Writes Queued:           2,        8KiB
+</span></span><span class="line"><span class="cl"> Read Dispatches:        0,        0KiB  Write Dispatches:        2,        8KiB
+</span></span><span class="line"><span class="cl"> Reads Requeued:         <span class="m">0</span>               Writes Requeued:         <span class="m">0</span>
+</span></span><span class="line"><span class="cl"> Reads Completed:        0,        0KiB  Writes Completed:        2,        8KiB
+</span></span><span class="line"><span class="cl"> Read Merges:            0,        0KiB  Write Merges:            0,        0KiB
+</span></span><span class="line"><span class="cl"> Read depth:             <span class="m">0</span>               Write depth:             <span class="m">2</span>
+</span></span><span class="line"><span class="cl"> IO unplugs:             <span class="m">1</span>               Timer unplugs:           <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Throughput <span class="o">(</span>R/W<span class="o">)</span>: 0KiB/s / 0KiB/s
+</span></span><span class="line"><span class="cl">Events <span class="o">(</span>202,0<span class="o">)</span>: <span class="m">16</span> entries
+</span></span><span class="line"><span class="cl">Skips: <span class="m">0</span> forward <span class="o">(</span><span class="m">0</span> -   0.0%<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-02-03 16:36:27">更新于 2023-02-03&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a><a href="/tags/%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/" class="post-tag" title="标签 - 磁盘管理">磁盘管理</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/vim-insert/" class="post-nav-item" rel="prev" title="vim中插入文本"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>vim中插入文本</a>
+      <a href="/nginxLog/" class="post-nav-item" rel="next" title="nginx日志">nginx日志<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

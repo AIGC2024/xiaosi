@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>k8s kubelet - 标签 - 小厮</title>
+    <link>/tags/k8s-kubelet/</link>
+    <description>k8s kubelet - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 06 Aug 2022 19:33:45 &#43;0800</lastBuildDate><atom:link href="/tags/k8s-kubelet/" rel="self" type="application/rss+xml" /><item>
+  <title>k8s kubelet</title>
+  <link>/k8sKubelet/</link>
+  <pubDate>Sat, 06 Aug 2022 19:33:45 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sKubelet/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

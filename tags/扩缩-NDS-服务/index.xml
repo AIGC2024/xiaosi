@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>扩缩 NDS 服务 - 标签 - 小厮</title>
+    <link>/tags/%E6%89%A9%E7%BC%A9-NDS-%E6%9C%8D%E5%8A%A1/</link>
+    <description>扩缩 NDS 服务 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 17 Jun 2023 20:12:38 &#43;0800</lastBuildDate><atom:link href="/tags/%E6%89%A9%E7%BC%A9-NDS-%E6%9C%8D%E5%8A%A1/" rel="self" type="application/rss+xml" /><item>
+  <title>k8s DNS服务自动扩缩</title>
+  <link>/k8sElasticDnsServer/</link>
+  <pubDate>Sat, 17 Jun 2023 20:12:38 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sElasticDnsServer/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

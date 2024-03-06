@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>ss 命令使用帮助 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='' /><meta itemprop="name" content="ss 命令使用帮助">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-01-09T11:45:18+08:00" />
+<meta itemprop="dateModified" content="2023-01-10T14:07:44+08:00" />
+<meta itemprop="wordCount" content="842">
+<meta itemprop="keywords" content="," /><meta property="og:title" content="ss 命令使用帮助" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/ss/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-09T11:45:18+08:00" />
+<meta property="article:modified_time" content="2023-01-10T14:07:44+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ss 命令使用帮助"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/ss/" /><link rel="prev" href="/tcp/" /><link rel="next" href="/linux-limit/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ss 命令使用帮助",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/ss\/"
+    },"genre": "posts","keywords": "","wordcount":  842 ,
+    "url": "\/ss\/","datePublished": "2023-01-09T11:45:18+08:00","dateModified": "2023-01-10T14:07:44+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>ss 命令使用帮助</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2023-01-09 11:45:18"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-09">2023-01-09</time></span>&nbsp;<span title="更新于 2023-01-10 14:07:44"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-10">2023-01-10</time></span>&nbsp;<span title="842 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#帮助信息">帮助信息</a></li>
+    <li><a href="#tcp-状态说明">tcp 状态说明</a></li>
+    <li><a href="#示例">示例</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-01-10，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+centos: 7</p>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="帮助信息" class="heading-element">
+  <a href="#%e5%b8%ae%e5%8a%a9%e4%bf%a1%e6%81%af" class="heading-mark"></a>帮助信息</h1><p><code>man ss</code> 输出有以下信息</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> -H, --no-header
+</span></span><span class="line"><span class="cl">    <span class="c1"># 不显示标题行</span>
+</span></span><span class="line"><span class="cl">-r, --resolve
+</span></span><span class="line"><span class="cl">    <span class="c1"># 解析端口与 ip</span>
+</span></span><span class="line"><span class="cl">-a, --all
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示所有连接</span>
+</span></span><span class="line"><span class="cl">-l, --listening
+</span></span><span class="line"><span class="cl">    <span class="c1"># 仅显示侦听套接字</span>
+</span></span><span class="line"><span class="cl">-o, --options
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示计时器信息</span>
+</span></span><span class="line"><span class="cl">-e, --extended
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示详细的套接字信息</span>
+</span></span><span class="line"><span class="cl">-m, --memory
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 socket 占用内存情况</span>
+</span></span><span class="line"><span class="cl">-p, --processes
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示进程信息</span>
+</span></span><span class="line"><span class="cl">-i, --info
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 TCP 内部信息</span>
+</span></span><span class="line"><span class="cl"> -K, --kill
+</span></span><span class="line"><span class="cl">    <span class="c1"># 尝试强行关闭套接字。它支持 IPv4 和 IPv6</span>
+</span></span><span class="line"><span class="cl">-s, --summary
+</span></span><span class="line"><span class="cl">    <span class="c1"># 打印汇总统计信息。此选项不会分析从各种源获取摘要的套接字列表。</span>
+</span></span><span class="line"><span class="cl">-z, --contexts
+</span></span><span class="line"><span class="cl">    <span class="c1"># 类似 -p 选项，但显示进程安全上下文</span>
+</span></span><span class="line"><span class="cl">-N NSNAME, --net<span class="o">=</span>NSNAME
+</span></span><span class="line"><span class="cl">    <span class="c1"># 切换到指定的网络命名空间名称。</span>
+</span></span><span class="line"><span class="cl">-f FAMILY, --family<span class="o">=</span>FAMILY
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示指定套接字类型，FAMILY 有 unix, inet, inet6, link, netlink, vsock</span>
+</span></span><span class="line"><span class="cl">-A QUERY, --query<span class="o">=</span>QUERY, --socket<span class="o">=</span>QUERY
+</span></span><span class="line"><span class="cl">    <span class="c1"># 要转储的套接字表列表，以逗号分隔。</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># all, inet, tcp, udp, raw, unix, packet, netlink, unix_dgram, unix_stream, </span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># unix_seqpacket,  packet_raw, packet_dgram, dccp, sctp, </span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># vsock_stream, vsock_dgram.</span>
+</span></span><span class="line"><span class="cl">-b, --bpf
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示套接字 BPF 筛选器（仅允许管理员获取这些信息）。</span>
+</span></span><span class="line"><span class="cl">-4, --ipv4
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 ipv4 等效 -f inet</span>
+</span></span><span class="line"><span class="cl">-6, --ipv6
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 ipv6 等效 -f inet6</span>
+</span></span><span class="line"><span class="cl">-0, --packet
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 ESTAB 状态的连接，等效 -f link</span>
+</span></span><span class="line"><span class="cl">-t, --tcp
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 TCP 套接字</span>
+</span></span><span class="line"><span class="cl">-u, --udp
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 UDP 套接字</span>
+</span></span><span class="line"><span class="cl">-d, --dccp
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 DDCP 套接字</span>
+</span></span><span class="line"><span class="cl">-w, --raw
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 RAW 套接字</span>
+</span></span><span class="line"><span class="cl">-x, --unix
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 unix 套接字，等效 -f unix</span>
+</span></span><span class="line"><span class="cl">-S, --sctp
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 SCTP 套接字</span>
+</span></span><span class="line"><span class="cl">--vsock
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示 vsock 套接字，等效 -f vscol</span>
+</span></span><span class="line"><span class="cl">-D FILE, --diag<span class="o">=</span>FILE
+</span></span><span class="line"><span class="cl">    <span class="c1"># 输入到文件或标准输入</span>
+</span></span><span class="line"><span class="cl">-F FILE, --filter<span class="o">=</span>FILE
+</span></span><span class="line"><span class="cl">    <span class="c1"># 从文件读取</span>
+</span></span><span class="line"><span class="cl">state STATE-FILTER
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定 TCP 状态 </span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># STATE-FILTER 取值为 {all|connected|synchronized|bucket|big|TCP-STATES}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TCP-STATES 取值为 {established|syn-sent|syn-recv|fin-wait-{1,2}|time-wait|closed|close-wait|last-ack|listen|closing}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># all: 所有 TCP 状态</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># connected: 比 all 少 listen, closed, closing</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># synchronized: 比 all 少 syn-sent, listen, closed, closing</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># big: 比 all 少 syn-recv, time-wait</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># bucket: syn-recv 或 time-wait</span>
+</span></span><span class="line"><span class="cl">EXPRESSION
+</span></span><span class="line"><span class="cl">    <span class="c1"># 表达式</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># dport: 目标端口</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># sport: 源端口</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># dst: 目标 ip</span>
+</span></span><span class="line"><span class="cl">    ...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="tcp-状态说明" class="heading-element">
+  <a href="#tcp-%e7%8a%b6%e6%80%81%e8%af%b4%e6%98%8e" class="heading-mark"></a>tcp 状态说明</h1><p><code>tcp</code> 状态信息</p>
+<ul>
+<li><code>closed</code>: 关闭状态</li>
+<li><code>listen</code>: 等待连接状态</li>
+<li><code>syn-sent</code>: 请求连接状态，即开始第一次握手：发送 <code>SYN</code> 后的状态</li>
+<li><code>syn-recv</code>(<code>SYN-RCVD</code>): 收到请求连接状态。即开始第二次握手：收到请求后发送 <code>SYN+ACK</code> 后的状态</li>
+<li><code>established</code>: 完成三次握手后数据传输状态</li>
+<li><code>fin-wait-1</code>: 请求断开连接状态，即开始第一次分手。发送 <code>FIN</code> 后进入的状态</li>
+<li><code>closing</code>(<code>close-wait</code>): 完成第一次分手。即收到<code>FIN</code> 后发送 <code>ACK</code> 后进入的状态</li>
+<li><code>fin-wait-2</code>: 断开连接第二阶段收到 <code>FIN</code>，即完成第二次分手，开始第三次分手阶段</li>
+<li><code>time-wait</code>: 第四次分手，等待<code>2MSL</code>后进入<code>closed</code>状态</li>
+</ul>
+<h1 id="示例" class="heading-element">
+  <a href="#%e7%a4%ba%e4%be%8b" class="heading-mark"></a>示例</h1><ul>
+<li>查看所有 http 或 https 连接</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ss &#39;( sport = :http or sport = :https )&#39;</span>
+</span></span><span class="line"><span class="cl">Netid State      Recv-Q Send-Q                                      Local Address:Port                                                       Peer Address:Port   </span></span></code></pre></td></tr></table>
+</div>
+</div><br/>
+<ul>
+<li>查看 <code>193.233.7.9</code> 的 ssh 连接</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ss dst 193.233.7.9:ssh</span>
+</span></span><span class="line"><span class="cl">Netid State      Recv-Q Send-Q                                      Local Address:Port                                                       Peer Address:Port    </span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-01-10 14:07:44">更新于 2023-01-10&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/tcp/" class="post-nav-item" rel="prev" title="tcp 协议"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>tcp 协议</a>
+      <a href="/linux-limit/" class="post-nav-item" rel="next" title="进程可用资源限制">进程可用资源限制<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

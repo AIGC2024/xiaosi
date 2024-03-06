@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>容器仓库 - 标签 - 小厮</title>
+    <link>/tags/%E5%AE%B9%E5%99%A8%E4%BB%93%E5%BA%93/</link>
+    <description>容器仓库 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 29 Apr 2023 19:39:18 &#43;0800</lastBuildDate><atom:link href="/tags/%E5%AE%B9%E5%99%A8%E4%BB%93%E5%BA%93/" rel="self" type="application/rss+xml" /><item>
+  <title>docker 仓库</title>
+  <link>/dockerRepository/</link>
+  <pubDate>Sat, 29 Apr 2023 19:39:18 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/dockerRepository/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

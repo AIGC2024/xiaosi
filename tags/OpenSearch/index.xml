@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>OpenSearch - 标签 - 小厮</title>
+    <link>/tags/OpenSearch/</link>
+    <description>OpenSearch - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 10 Dec 2023 14:08:18 &#43;0800</lastBuildDate><atom:link href="/tags/OpenSearch/" rel="self" type="application/rss+xml" /><item>
+  <title>使用nginx代理访问私有子网中的OpenSearch 控制面板</title>
+  <link>/awsNginxToOpenSearchDashboard/</link>
+  <pubDate>Sun, 10 Dec 2023 14:08:18 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/awsNginxToOpenSearchDashboard/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

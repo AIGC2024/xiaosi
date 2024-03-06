@@ -1,0 +1,39 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>golang - 标签 - 小厮</title>
+    <link>/tags/golang/</link>
+    <description>golang - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 27 Oct 2023 16:27:40 &#43;0800</lastBuildDate><atom:link href="/tags/golang/" rel="self" type="application/rss+xml" /><item>
+  <title>go 方法</title>
+  <link>/goMethod/</link>
+  <pubDate>Fri, 27 Oct 2023 16:27:40 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/goMethod/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>go 数据类型</title>
+  <link>/go-date-type/</link>
+  <pubDate>Tue, 03 Jan 2023 20:33:18 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/go-date-type/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>go 函数</title>
+  <link>/go-function/</link>
+  <pubDate>Fri, 26 Aug 2022 15:26:21 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/go-function/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>Go每日一题</title>
+  <link>/goQuestion/</link>
+  <pubDate>Wed, 16 Feb 2022 13:15:41 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/goQuestion/</guid>
+  <description><![CDATA[Go面试题]]></description>
+</item>
+</channel>
+</rss>

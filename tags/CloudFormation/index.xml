@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>CloudFormation - 标签 - 小厮</title>
+    <link>/tags/CloudFormation/</link>
+    <description>CloudFormation - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 15 May 2023 20:41:12 &#43;0800</lastBuildDate><atom:link href="/tags/CloudFormation/" rel="self" type="application/rss+xml" /><item>
+  <title>aws CloudFormation 相关命令行</title>
+  <link>/awsCloudFormationCli/</link>
+  <pubDate>Mon, 15 May 2023 20:41:12 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/awsCloudFormationCli/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>使用 AWS CloudFormation 部署 AWS 资源</title>
+  <link>/awsCloudFormation/</link>
+  <pubDate>Mon, 15 May 2023 20:41:12 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/awsCloudFormation/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

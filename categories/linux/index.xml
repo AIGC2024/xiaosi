@@ -1,0 +1,167 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>linux - 分类 - 小厮</title>
+    <link>/categories/linux/</link>
+    <description>linux - 分类 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 10 Feb 2024 16:06:53 &#43;0800</lastBuildDate><atom:link href="/categories/linux/" rel="self" type="application/rss+xml" /><item>
+  <title>mailx - 发送和接收网络邮件</title>
+  <link>/mailx/</link>
+  <pubDate>Sat, 10 Feb 2024 16:06:53 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/mailx/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>FreshRSS - 轻量、易于使用的 RSS 聚合器</title>
+  <link>/freshRSS/</link>
+  <pubDate>Fri, 26 Jan 2024 16:13:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/freshRSS/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>MialCow - 一个基于 Docker 的开源群件/电子邮件套件</title>
+  <link>/MailCow/</link>
+  <pubDate>Tue, 09 Jan 2024 11:39:04 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/MailCow/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>uuidgen - 创建一个新的UUID值</title>
+  <link>/linuxCMDuuidgen/</link>
+  <pubDate>Sat, 02 Sep 2023 14:46:52 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCMDuuidgen/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>systemd.service - systemd 服务单元</title>
+  <link>/linuxSystemdService/</link>
+  <pubDate>Sat, 05 Aug 2023 12:02:17 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxSystemdService/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>tar - 将许多文件一起保存到单个磁带或磁盘存档中，并且可以从存档中恢复单个文件</title>
+  <link>/linuxCmdTar/</link>
+  <pubDate>Sat, 05 Aug 2023 11:25:27 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdTar/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>systemd.timer - 定时器单元</title>
+  <link>/linuxSystemdTimer/</link>
+  <pubDate>Thu, 03 Aug 2023 20:56:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxSystemdTimer/</guid>
+  <description><![CDATA[名称以<code>.timer</code> 结尾的单元配置文件编码有关由 <code>systemd</code> 控制和监督的计时器的信息，用于基于计时器的激活。]]></description>
+</item>
+<item>
+  <title>ssh-keygen — OpenSSH 身份验证密钥实用程序</title>
+  <link>/cmdSsh-keygen/</link>
+  <pubDate>Sun, 23 Jul 2023 12:54:05 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/cmdSsh-keygen/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>sar —收集、报告或保存系统活动信息</title>
+  <link>/linuxCmdSar/</link>
+  <pubDate>Sat, 22 Jul 2023 14:58:23 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdSar/</guid>
+  <description><![CDATA[sar命令将操作系统中选定的累积活动计数器的内容写入标准输出。]]></description>
+</item>
+<item>
+  <title>free - 显示系统中空闲和已使用内存的数量</title>
+  <link>/linuxCmdFree/</link>
+  <pubDate>Sat, 22 Jul 2023 14:19:37 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdFree/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>pidstat - 报告Linux任务的统计信息</title>
+  <link>/linuxCmdPidstat/</link>
+  <pubDate>Sat, 22 Jul 2023 13:47:39 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdPidstat/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>mpstat - 报告处理器相关的统计信息</title>
+  <link>/linuxCmdMpstat/</link>
+  <pubDate>Sat, 22 Jul 2023 12:01:21 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdMpstat/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>vmstat — 报告虚拟内存统计信息</title>
+  <link>/linuxCmdVmstat/</link>
+  <pubDate>Sat, 22 Jul 2023 11:35:27 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdVmstat/</guid>
+  <description><![CDATA[vmstat 报告有关进程、内存、分页、磁盘IO、traps、磁盘和cpu活动的信息]]></description>
+</item>
+<item>
+  <title>dmesg - 打印或控制内核环缓冲区</title>
+  <link>/linuxCmdDemsg/</link>
+  <pubDate>Sat, 22 Jul 2023 11:22:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdDemsg/</guid>
+  <description><![CDATA[dmesg 用于检查或控制内核环缓冲区。默认操作是从内核环缓冲区读取所有消息。]]></description>
+</item>
+<item>
+  <title>uptime - 查看系统运行时长</title>
+  <link>/linuxCmdUptime/</link>
+  <pubDate>Sat, 22 Jul 2023 10:12:36 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdUptime/</guid>
+  <description><![CDATA[uptime 命令以一行显示以下信息。当前时间，系统运行了多长时间，当前有多少用户登录，以及过去1分钟、5分钟和15分钟的系统平均负载。]]></description>
+</item>
+<item>
+  <title>DNF是YUM的下一个主要版本</title>
+  <link>/linuxDnf/</link>
+  <pubDate>Tue, 25 Apr 2023 18:38:26 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxDnf/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>iftop - 显示主机在接口上的带宽使用情况</title>
+  <link>/linuxCmdIftop/</link>
+  <pubDate>Wed, 12 Apr 2023 11:03:11 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdIftop/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>convmv -将文件名从一种编码转换为另一种编码</title>
+  <link>/linux_cmd_convmv/</link>
+  <pubDate>Sun, 02 Apr 2023 17:10:00 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linux_cmd_convmv/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>sort - 对文本文件行进行排序</title>
+  <link>/linux-cmd-sort/</link>
+  <pubDate>Sat, 18 Mar 2023 20:22:23 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linux-cmd-sort/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>使用 iotop 查进程或线程使用磁盘 I/O 情况</title>
+  <link>/iotop/</link>
+  <pubDate>Fri, 03 Feb 2023 09:50:37 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/iotop/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

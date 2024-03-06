@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>k8s dns - 标签 - 小厮</title>
+    <link>/tags/k8s-dns/</link>
+    <description>k8s dns - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 18 Mar 2020 16:52:11 &#43;0800</lastBuildDate><atom:link href="/tags/k8s-dns/" rel="self" type="application/rss+xml" /><item>
+  <title>k8s NDS 服务</title>
+  <link>/k8s-DNS%E6%9C%8D%E5%8A%A1/</link>
+  <pubDate>Wed, 18 Mar 2020 16:52:11 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8s-DNS%E6%9C%8D%E5%8A%A1/</guid>
+  <description><![CDATA[运行环境： k8s: 1.14 内容来自以下文档： k8s 官方文档: 使用 CoreDNS 进行服务发现 k8s 官方文档: 自定义 DNS 服务 k8s官方文档-Pod 与 Service 的 DNS k8s官方文档-Kube]]></description>
+</item>
+</channel>
+</rss>

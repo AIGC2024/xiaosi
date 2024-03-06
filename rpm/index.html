@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>yum - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="linux 中软件包管理" /><meta name="keywords" content='rpm, yum, dnf' /><meta itemprop="name" content="yum">
+<meta itemprop="description" content="linux 中软件包管理"><meta itemprop="datePublished" content="2018-12-10T15:37:41+08:00" />
+<meta itemprop="dateModified" content="2023-08-22T01:30:11+08:00" />
+<meta itemprop="wordCount" content="4828">
+<meta itemprop="keywords" content="rpm,yum,dnf," /><meta property="og:title" content="yum" />
+<meta property="og:description" content="linux 中软件包管理" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/rpm/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T15:37:41+08:00" />
+<meta property="article:modified_time" content="2023-08-22T01:30:11+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="yum"/>
+<meta name="twitter:description" content="linux 中软件包管理"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/rpm/" /><link rel="prev" href="/%E6%97%B6%E9%97%B4%E4%BB%BB%E5%8A%A1/" /><link rel="next" href="/yum/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "yum",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/rpm\/"
+    },"genre": "posts","keywords": "rpm, yum, dnf","wordcount":  4828 ,
+    "url": "\/rpm\/","datePublished": "2018-12-10T15:37:41+08:00","dateModified": "2023-08-22T01:30:11+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>yum</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 15:37:41"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2023-08-22 01:30:11"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-22">2023-08-22</time></span>&nbsp;<span title="4828 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装包">安装包</a></li>
+    <li><a href="#rpm">rpm</a>
+      <ul>
+        <li><a href="#安装软件">安装软件</a></li>
+        <li><a href="#升级软件">升级软件</a></li>
+        <li><a href="#卸载软件">卸载软件</a></li>
+        <li><a href="#查询软件的描述">查询软件的描述</a></li>
+      </ul>
+    </li>
+    <li><a href="#dnf">dnf</a>
+      <ul>
+        <li><a href="#安装包-1">安装包</a></li>
+        <li><a href="#重新安装包">重新安装包</a></li>
+        <li><a href="#卸载已安装的包">卸载已安装的包</a></li>
+        <li><a href="#检查本地包文件库的问题">检查本地包文件库的问题</a></li>
+        <li><a href="#查看信息">查看信息</a></li>
+        <li><a href="#历史记录">历史记录</a>
+          <ul>
+            <li><a href="#历史列表">历史列表</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#yum">yum</a></li>
+    <li><a href="#源码安装">源码安装</a></li>
+    <li><a href="#repos">repos</a>
+      <ul>
+        <li><a href="#repl">repl</a></li>
+      </ul>
+    </li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#no-more-mirrors-to-try">No more mirrors to try</a></li>
+        <li><a href="#error-failed-to-download-metadata-for-repo-appstream-cannot-prepare-internal-mirrorlist-no-urls-in-mirrorlist">Error: Failed to download metadata for repo &lsquo;appstream&rsquo;: Cannot prepare internal mirrorlist: No URLs in mirrorlist</a></li>
+        <li><a href="#error-rpmdb-open-failed">Error: rpmdb open failed</a></li>
+        <li><a href="#insufficient-space-in-download-directory">Insufficient space in download directory</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://dnf.readthedocs.io/en/latest/index.html" title="dnf官方文档"target="_blank" rel="external nofollow noopener noreferrer">dnf 官方文档</a></li>
+<li><a href="http://rpm.org/documentation.html"target="_blank" rel="external nofollow noopener noreferrer">rpm 官方文档</a></li>
+<li><a href="http://yum.baseurl.org/index.html"target="_blank" rel="external nofollow noopener noreferrer">yum 官方文档</a></li>
+</ul>
+</blockquote>
+<h1 id="安装包" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85%e5%8c%85" class="heading-mark"></a>安装包</h1><p>cnetos 下的安装包称为<code>rpm</code>包，通常是 <code>.rpm</code> 的<code>RPM</code>包和 <code>src.rpm</code> 的<code>SRPM</code>包以及源码包</p>
+<ul>
+<li><code>.rpm</code> 包可以直接使用 <code>rpm</code> 命令安装</li>
+<li><code>srpm</code> 包含有编译时的源码文件和编译的参数，所以在使用的时候要重新编译</li>
+</ul>
+<p>除了上述方式，可以使用源码包编译安装</p>
+<p>通常 <code>RPM</code> 包的命令方式：<code>名称-版本号-发行号.系统.CPU架构.rpm</code>（<code>noarch</code> 表示所有 <code>CPU</code> 架构通用）</p>
+<p><code>RPM</code> 包之间存在依赖关系。如：安装 <code>a</code> 包的前提要安装 <code>b</code> 包，否则失败</p>
+<p><code>ldd</code> 命令可以查看二进制文件共享库的依赖关系</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldd <span class="sb">`</span>which sshd<span class="sb">`</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看缓存的所有可用库文件</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ldconfig -lp</span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置文件：</p>
+<ul>
+<li><code>/etc/ld.so.conf</code></li>
+<li><code>/etc/ld.so.conf.d/*</code></li>
+</ul>
+<p>缓存文件：<code>/etc/ld.so.cache</code>
+重新加载配置文件： <code>ldconfig</code></p>
+<p>获取RPM包方式</p>
+<ul>
+<li>系统镜像</li>
+<li>官方下载</li>
+<li>第三方组织：fedora-epel</li>
+<li>搜索引擎：pkgs</li>
+</ul>
+<p>下载的文件或安装包需要检查来源合法性和文件完整性</p>
+<h1 id="rpm" class="heading-element">
+  <a href="#rpm" class="heading-mark"></a>rpm</h1><p><code>rpm</code>  命令是 <code>rpm</code> 包管理工具</p>
+<h2 id="安装软件" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85%e8%bd%af%e4%bb%b6" class="heading-mark"></a>安装软件</h2><p><code>rpm -ivh name.rpm</code> (软件包的位置可以是本地、<code>ftp</code> 地址、<code>http</code> 地址)</p>
+<ul>
+<li><code>--text</code> ：测试安装（非真正的安装）</li>
+<li><code>--notriggers</code>：忽略依赖包（有可能无法正常使用）</li>
+<li><code>--replacepkgs</code>：重新安装（原配置可能被覆盖）</li>
+<li><code>--nodigest</code>：不检查完整性</li>
+<li><code>--nosignature</code>：不检查来源合法性</li>
+<li><code>--noscript</code>：不执行安装包脚本</li>
+<li><code>--nopre</code> ：安装前的脚本</li>
+<li><code>--nopost</code> ：安装后的脚本</li>
+<li><code>--nopreun</code> ：卸载前脚本</li>
+<li><code>--nopostun</code>：卸载后脚本</li>
+</ul>
+<h2 id="升级软件" class="heading-element">
+  <a href="#%e5%8d%87%e7%ba%a7%e8%bd%af%e4%bb%b6" class="heading-mark"></a>升级软件</h2><p>不要直接对内核升级。可以直接安装新版本的内核。升级后，如果原配置文件发生变化，则新的配置文件以<code>.rpmnew</code>为后缀</p>
+<p><code>rpm -Uvh name.rpm</code></p>
+<ul>
+<li><code>-F</code>：只升级但不安装</li>
+<li><code>--oldpackage</code>：降级</li>
+<li><code>--force</code>：强行升级</li>
+</ul>
+<h2 id="卸载软件" class="heading-element">
+  <a href="#%e5%8d%b8%e8%bd%bd%e8%bd%af%e4%bb%b6" class="heading-mark"></a>卸载软件</h2><p><code>rpm -e name.rpm</code></p>
+<h2 id="查询软件的描述" class="heading-element">
+  <a href="#%e6%9f%a5%e8%af%a2%e8%bd%af%e4%bb%b6%e7%9a%84%e6%8f%8f%e8%bf%b0" class="heading-mark"></a>查询软件的描述</h2><p><code>rpm -qpi name.rpm</code>，其他附加选项：（必须加 <code>-q</code> ）</p>
+<ul>
+<li><code>-a</code>：所有包。</li>
+<li><code>-f</code>：查看文件由哪个程序包提供（可以接 <code>which 命令</code>）</li>
+<li><code>--whatprovides</code>：查看指定功能有哪里包提供</li>
+<li><code>--whatrequires</code>：查看指定功能有哪些包依赖</li>
+<li><code>--changelog</code>：查看RPM包的更新日志</li>
+<li><code>-c</code>：查看安装包生成的配置文件</li>
+<li><code>--conflicts</code>：查看与之冲突的软件包</li>
+<li><code>-d</code>：查看安装包的帮助文档</li>
+<li><code>-l</code>：查看安装包后生成的文件</li>
+<li><code>--scripts</code>：查看脚本</li>
+<li><code>--provides</code>：查看软件提供的功能</li>
+<li><code>-R</code>：查看软件依赖的功能</li>
+</ul>
+<p>校验软件：<code>rpm -V name.rpm</code></p>
+<ul>
+<li><code>S</code>：文件大小是否改变
+M：模式是否改变（包括权限和文件类型）
+5：以前的MD5总和是否改变
+D：设备主要/次要编号不匹配
+L：路径不匹配
+U：用户所有权是否改变
+G：用户组所有权是否改变
+T ：mTime是否改变
+P ：caPabilities是否改变</li>
+</ul>
+<p>校验软件是否完整性和安全性</p>
+<ul>
+<li>导入公钥：<code>rpm --import GPGkeyfile</code></li>
+<li><code>rpm -K name.rpm</code></li>
+</ul>
+<p>rpm的库路径：<code>/var/lib/rpm/*</code>
+rpm库重建：<code>rpm --rebuilddb</code></p>
+<h1 id="dnf" class="heading-element">
+  <a href="#dnf" class="heading-mark"></a>dnf</h1><p><code>dnf</code> 全称 &ldquo;Dandified Yum&rdquo;，是 <code>yum</code> 的下一代 rpm 包管理工具，在 centos 8 中，已经是默认 rpm 包管理工具，<code>yum</code> 命令也只是 <code>dnf</code> 的软链接</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># ll $(which yum)</span>
+</span></span><span class="line"><span class="cl">lrwxrwxrwx. <span class="m">1</span> root root <span class="m">5</span> Apr <span class="m">25</span> 03:57 /usr/bin/yum -&gt; dnf-3</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>dnf</code> 命令使用上和 <code>yum</code> 方式一样，使用方式：<code>dnf [Option] [Command]</code></p>
+<p>相关文件：</p>
+<ul>
+<li>主配置文件：<code>/etc/dnf/dnf.conf</code></li>
+<li>仓库文件： <code>/etc/yum.repos.d/</code></li>
+<li>缓存目录：<code>/var/cache/dnf/</code></li>
+</ul>
+<p>获取帮助：</p>
+<ul>
+<li><code>dnf -h</code> ：获取帮助信息</li>
+<li><code>man dnf</code> ：获取帮助信息</li>
+<li>官方文档：<a href="https://dnf.readthedocs.io/en/latest/index.html" title="dnf官方文档"target="_blank" rel="external nofollow noopener noreferrer">dnf官方文档</a></li>
+</ul>
+<p>子命令及其选项</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">alias</span>			列出或创建命令别名
+</span></span><span class="line"><span class="cl">autoremove		删除所有原先因为依赖关系安装的不需要的软件包
+</span></span><span class="line"><span class="cl">check			在包数据库中寻找问题
+</span></span><span class="line"><span class="cl">check-update	检查是否有软件包升级
+</span></span><span class="line"><span class="cl">clean			删除已缓存的数据
+</span></span><span class="line"><span class="cl">deplist			列出软件包的依赖关系和提供这些软件包的源
+</span></span><span class="line"><span class="cl">distro-sync		同步已经安装的软件包到最新可用版本
+</span></span><span class="line"><span class="cl">downgrade		降级包
+</span></span><span class="line"><span class="cl">group			显示或使用组信息
+</span></span><span class="line"><span class="cl"><span class="nb">help</span>			显示一个有帮助的用法信息
+</span></span><span class="line"><span class="cl"><span class="nb">history</span>			显示或使用事务历史
+</span></span><span class="line"><span class="cl">info			显示关于软件包或软件包组的详细信息
+</span></span><span class="line"><span class="cl">install			向系统中安装一个或多个软件包
+</span></span><span class="line"><span class="cl">list			列出一个或一组软件包
+</span></span><span class="line"><span class="cl">makecache		创建元数据缓存
+</span></span><span class="line"><span class="cl">mark			在已安装的软件包中标记或者取消标记由用户安装的软件包。
+</span></span><span class="line"><span class="cl">module			与模块交互
+</span></span><span class="line"><span class="cl">provides		查找提供指定命令由哪个软件包提供
+</span></span><span class="line"><span class="cl">reinstall		重装一个包
+</span></span><span class="line"><span class="cl">remove			从系统中移除一个或多个软件包
+</span></span><span class="line"><span class="cl">repolist		显示已配置的软件仓库
+</span></span><span class="line"><span class="cl">repoquery		搜索匹配关键字的软件包
+</span></span><span class="line"><span class="cl">repository-packages	对指定仓库中的所有软件包运行命令
+</span></span><span class="line"><span class="cl">search			在软件包详细信息中搜索指定字符串
+</span></span><span class="line"><span class="cl">shell			运行交互式的 DNF 终端
+</span></span><span class="line"><span class="cl">swap			运行交互式的
+</span></span><span class="line"><span class="cl">DNF			    终端以删除或者安装
+</span></span><span class="line"><span class="cl">spec			描述文件
+</span></span><span class="line"><span class="cl">updateinfo		显示软件包的参考建议
+</span></span><span class="line"><span class="cl">upgrade			升级系统中的一个或多个软件包
+</span></span><span class="line"><span class="cl">upgrade-minimal		升级，但只有“最新”的软件包已修复可能影响你的系统的问题
+</span></span><span class="line"><span class="cl">config-manager --enable	启用某个库
+</span></span><span class="line"><span class="cl">config-manager -disable 禁用某个库</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="安装包-1" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85%e5%8c%85-1" class="heading-mark"></a>安装包</h2><p><code>dnf install</code> 命令可以安装一个或多个包、包组、模块</p>
+<h2 id="重新安装包" class="heading-element">
+  <a href="#%e9%87%8d%e6%96%b0%e5%ae%89%e8%a3%85%e5%8c%85" class="heading-mark"></a>重新安装包</h2><p><code>yum reinstall</code> 命令</p>
+<h2 id="卸载已安装的包" class="heading-element">
+  <a href="#%e5%8d%b8%e8%bd%bd%e5%b7%b2%e5%ae%89%e8%a3%85%e7%9a%84%e5%8c%85" class="heading-mark"></a>卸载已安装的包</h2><p><code>dnf remove</code> 命令可以</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Remove command-specific options:
+</span></span><span class="line"><span class="cl">  --duplicates          remove duplicated packages
+</span></span><span class="line"><span class="cl">  --oldinstallonly      remove installonly packages over the limit
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  PACKAGE               Package to remove</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="检查本地包文件库的问题" class="heading-element">
+  <a href="#%e6%a3%80%e6%9f%a5%e6%9c%ac%e5%9c%b0%e5%8c%85%e6%96%87%e4%bb%b6%e5%ba%93%e7%9a%84%e9%97%ae%e9%a2%98" class="heading-mark"></a>检查本地包文件库的问题</h2><p><code>dnf [options] check [--dependencies] [--duplicates] [--obsoleted] [--provides]</code></p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  --all             <span class="c1"># 显示所有问题，默认值</span>
+</span></span><span class="line"><span class="cl">  --dependencies    <span class="c1"># 显示依赖问题</span>
+</span></span><span class="line"><span class="cl">  --duplicates      <span class="c1"># 显示重复的问题</span>
+</span></span><span class="line"><span class="cl">  --obsoleted       <span class="c1"># 显示过时的包</span>
+</span></span><span class="line"><span class="cl">  --provides            show problems with provides</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看信息" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e4%bf%a1%e6%81%af" class="heading-mark"></a>查看信息</h2><p><code>dnf [options] info [&lt;package-file-spec&gt;...]</code></p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">  --all         <span class="c1"># 显示所有包信息，默认值</span>
+</span></span><span class="line"><span class="cl">  --available           show only available packages
+</span></span><span class="line"><span class="cl">  --installed           show only installed packages
+</span></span><span class="line"><span class="cl">  --extras              show only extras packages
+</span></span><span class="line"><span class="cl">  --updates             show only upgrades packages
+</span></span><span class="line"><span class="cl">  --upgrades            show only upgrades packages
+</span></span><span class="line"><span class="cl">  --autoremove          show only autoremove packages
+</span></span><span class="line"><span class="cl">  --recent              show only recently changed packages</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看 <code>acl</code> 包的信息</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># dnf info acl</span>
+</span></span><span class="line"><span class="cl">Last metadata expiration check: 1:35:30 ago on Fri <span class="m">09</span> Sep <span class="m">2022</span> 02:47:07 PM CST.
+</span></span><span class="line"><span class="cl">Installed Packages
+</span></span><span class="line"><span class="cl">Name         : acl
+</span></span><span class="line"><span class="cl">Version      : 2.2.53
+</span></span><span class="line"><span class="cl">Release      : 1.el8.1
+</span></span><span class="line"><span class="cl">Architecture : x86_64
+</span></span><span class="line"><span class="cl">Size         : <span class="m">194</span> k
+</span></span><span class="line"><span class="cl">Source       : acl-2.2.53-1.el8.1.src.rpm
+</span></span><span class="line"><span class="cl">Repository   : @System
+</span></span><span class="line"><span class="cl">From repo    : anaconda
+</span></span><span class="line"><span class="cl">Summary      : Access control list utilities
+</span></span><span class="line"><span class="cl">URL          : https://savannah.nongnu.org/projects/acl
+</span></span><span class="line"><span class="cl">License      : GPLv2+
+</span></span><span class="line"><span class="cl">Description  : This package contains the getfacl and setfacl utilities needed <span class="k">for</span>
+</span></span><span class="line"><span class="cl">             : manipulating access control lists.</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="历史记录" class="heading-element">
+  <a href="#%e5%8e%86%e5%8f%b2%e8%ae%b0%e5%bd%95" class="heading-mark"></a>历史记录</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># dnf history --help</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">  --reverse             display <span class="nb">history</span> list output reversed
+</span></span><span class="line"><span class="cl">  -o OUTPUT, --output OUTPUT
+</span></span><span class="line"><span class="cl">                        For the store command, file path to store the
+</span></span><span class="line"><span class="cl">                        transaction to
+</span></span><span class="line"><span class="cl">  --ignore-installed    For the replay command, don<span class="s1">&#39;t check for installed
+</span></span></span><span class="line"><span class="cl"><span class="s1">                        packages matching those in transaction
+</span></span></span><span class="line"><span class="cl"><span class="s1">  --ignore-extras       For the replay command, don&#39;</span>t check <span class="k">for</span> extra packages
+</span></span><span class="line"><span class="cl">                        pulled into the transaction
+</span></span><span class="line"><span class="cl">  --skip-unavailable    For the replay command, skip packages that are not
+</span></span><span class="line"><span class="cl">                        available or have missing dependencies
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  COMMAND               <span class="c1"># 子命令，有以下值：</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1"># - list: 查看列表</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1"># - info: 查看信息</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1"># redo</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1"># replay, rollback, store, undo, userinstalled</span>
+</span></span><span class="line"><span class="cl">  TRANSACTION           For commands working with <span class="nb">history</span> transactions,
+</span></span><span class="line"><span class="cl">                        Transaction ID <span class="o">(</span>&lt;number&gt;, <span class="s1">&#39;last&#39;</span> or <span class="s1">&#39;last-&lt;number&gt;&#39;</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">for</span> one transaction, &lt;transaction-id&gt;..&lt;transaction-
+</span></span><span class="line"><span class="cl">                        id&gt; <span class="k">for</span> a range<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  TRANSACTION_FILE      For the replay command, path to the stored transaction
+</span></span><span class="line"><span class="cl">                        file to replay</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="历史列表" class="heading-element">
+  <a href="#%e5%8e%86%e5%8f%b2%e5%88%97%e8%a1%a8" class="heading-mark"></a>历史列表</h3><p><code>dnf history list</code></p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">History command-specific options:
+</span></span><span class="line"><span class="cl">  --reverse         <span class="c1"># 反转</span>
+</span></span><span class="line"><span class="cl">  -o OUTPUT, --output OUTPUT
+</span></span><span class="line"><span class="cl">                        For the store command, file path to store the
+</span></span><span class="line"><span class="cl">                        transaction to
+</span></span><span class="line"><span class="cl">  --ignore-installed    For the replay command, don<span class="s1">&#39;t check for installed
+</span></span></span><span class="line"><span class="cl"><span class="s1">                        packages matching those in transaction
+</span></span></span><span class="line"><span class="cl"><span class="s1">  --ignore-extras       For the replay command, don&#39;</span>t check <span class="k">for</span> extra packages
+</span></span><span class="line"><span class="cl">                        pulled into the transaction
+</span></span><span class="line"><span class="cl">  --skip-unavailable    For the replay command, skip packages that are not
+</span></span><span class="line"><span class="cl">                        available or have missing dependencies
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  COMMAND               Available commands: list <span class="o">(</span>default<span class="o">)</span>, info, redo,
+</span></span><span class="line"><span class="cl">                        replay, rollback, store, undo, userinstalled
+</span></span><span class="line"><span class="cl">  TRANSACTION           For commands working with <span class="nb">history</span> transactions,
+</span></span><span class="line"><span class="cl">                        Transaction ID <span class="o">(</span>&lt;number&gt;, <span class="s1">&#39;last&#39;</span> or <span class="s1">&#39;last-&lt;number&gt;&#39;</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">for</span> one transaction, &lt;transaction-id&gt;..&lt;transaction-
+</span></span><span class="line"><span class="cl">                        id&gt; <span class="k">for</span> a range<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  TRANSACTION_FILE      For the replay command, path to the stored transaction
+</span></span><span class="line"><span class="cl">                        file to replay</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看命令历史记录</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># dnf history list</span>
+</span></span><span class="line"><span class="cl">ID     <span class="p">|</span> Command line                            <span class="p">|</span> Date and <span class="nb">time</span>    <span class="p">|</span> Action<span class="o">(</span>s<span class="o">)</span>      <span class="p">|</span> Altered
+</span></span><span class="line"><span class="cl">----------------------------------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">     <span class="m">3</span> <span class="p">|</span> install -y jq                           <span class="p">|</span> 2022-09-08 14:27 <span class="p">|</span> Install        <span class="p">|</span>    <span class="m">2</span>
+</span></span><span class="line"><span class="cl">     <span class="m">2</span> <span class="p">|</span> update -y                               <span class="p">|</span> 2022-09-08 13:45 <span class="p">|</span> I, U           <span class="p">|</span>  <span class="m">204</span>
+</span></span><span class="line"><span class="cl">     <span class="m">1</span> <span class="p">|</span>                                         <span class="p">|</span> 2022-09-08 11:18 <span class="p">|</span> Install        <span class="p">|</span>  <span class="m">351</span> EE</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看已启用的仓库</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf repolist</span>
+</span></span><span class="line"><span class="cl">repo id                                                       repo name
+</span></span><span class="line"><span class="cl">AppStream                                                     CentOS-8 - AppStream
+</span></span><span class="line"><span class="cl">BaseOS                                                        CentOS-8 - Base
+</span></span><span class="line"><span class="cl">docker-ce-stable                                              Docker CE Stable - x86_64
+</span></span><span class="line"><span class="cl">extras                                                        CentOS-8 - Extras</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看所有仓库</li>
+</ul>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf repolist all</span>
+</span></span><span class="line"><span class="cl">repo id                                            repo name                                                                 status
+</span></span><span class="line"><span class="cl">AppStream                                          CentOS-8 - AppStream                                                      enabled
+</span></span><span class="line"><span class="cl">AppStream-source                                   CentOS-8 - AppStream Sources                                              disabled
+</span></span><span class="line"><span class="cl">BaseOS                                             CentOS-8 - Base                                                           enabled
+</span></span><span class="line"><span class="cl">BaseOS-source                                      CentOS-8 - BaseOS Sources                                                 disabled
+</span></span><span class="line"><span class="cl">Devel                                              CentOS-8 - Devel WARNING! FOR BUILDROOT USE ONLY!                         disabled
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看所有软件包</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf list | head -n 10</span>
+</span></span><span class="line"><span class="cl">Last metadata expiration check: 2:10:06 ago on Mon <span class="m">29</span> Jun <span class="m">2020</span> 12:48:36 PM CST.
+</span></span><span class="line"><span class="cl">Installed Packages
+</span></span><span class="line"><span class="cl">NetworkManager.x86_64                                1:1.22.8-4.el8                                   @BaseOS          
+</span></span><span class="line"><span class="cl">NetworkManager-libnm.x86_64                          1:1.22.8-4.el8                                   @BaseOS          
+</span></span><span class="line"><span class="cl">NetworkManager-team.x86_64                           1:1.22.8-4.el8                                   @BaseOS          
+</span></span><span class="line"><span class="cl">NetworkManager-tui.x86_64                            1:1.22.8-4.el8                                   @BaseOS          
+</span></span><span class="line"><span class="cl">acl.x86_64                                           2.2.53-1.el8                                     @anaconda        
+</span></span><span class="line"><span class="cl">adobe-mappings-cmap.noarch                           20171205-3.el8                                   @AppStream       
+</span></span><span class="line"><span class="cl">adobe-mappings-cmap-deprecated.noarch                20171205-3.el8                                   @AppStream       
+</span></span><span class="line"><span class="cl">adobe-mappings-pdf.noarch                            20180407-1.el8                                   @AppStream       </span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看仓库中是否有 docker</li>
+</ul>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf list | grep docker</span>
+</span></span><span class="line"><span class="cl">docker-ce.x86_64                                     3:19.03.12-3.el7                                 @docker-ce-stable
+</span></span><span class="line"><span class="cl">docker-ce-cli.x86_64                                 1:19.03.12-3.el7                                 @docker-ce-stable
+</span></span><span class="line"><span class="cl">docker-ce-selinux.noarch                             17.03.3.ce-1.el7                                 docker-ce-stable 
+</span></span><span class="line"><span class="cl">pcp-pmda-docker.x86_64                               5.0.2-5.el8                                      AppStream        
+</span></span><span class="line"><span class="cl">podman-docker.noarch                                 1.6.4-10.module_el8.2.0+305+5e198a41             AppStream        </span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看已经安装的软件包</li>
+</ul>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf list installed</span>
+</span></span><span class="line"><span class="cl">Installed Packages
+</span></span><span class="line"><span class="cl">NetworkManager.x86_64                                        1:1.22.8-4.el8                                            @BaseOS          
+</span></span><span class="line"><span class="cl">NetworkManager-libnm.x86_64                                  1:1.22.8-4.el8                                            @BaseOS          
+</span></span><span class="line"><span class="cl">NetworkManager-team.x86_64                                   1:1.22.8-4.el8                                            @BaseOS          
+</span></span><span class="line"><span class="cl">NetworkManager-tui.x86_64                                    1:1.22.8-4.el8                                            @BaseOS          </span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>搜索有 docker 描述相关的软件包</li>
+</ul>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf search docker</span>
+</span></span><span class="line"><span class="cl">Last metadata expiration check: 2:12:56 ago on Mon <span class="m">29</span> Jun <span class="m">2020</span> 12:48:36 PM CST.
+</span></span><span class="line"><span class="cl"><span class="o">====================================================</span> Name <span class="p">&amp;</span> Summary Matched: <span class="nv">docker</span> <span class="o">====================================================</span>
+</span></span><span class="line"><span class="cl">podman-docker.noarch : Emulate Docker CLI using podman
+</span></span><span class="line"><span class="cl">pcp-pmda-docker.x86_64 : Performance Co-Pilot <span class="o">(</span>PCP<span class="o">)</span> metrics from the Docker <span class="nv">daemon</span>
+</span></span><span class="line"><span class="cl"><span class="o">=========================================================</span> Name Matched: <span class="nv">docker</span> <span class="o">=========================================================</span>
+</span></span><span class="line"><span class="cl">docker-ce.x86_64 : The open-source application container engine
+</span></span><span class="line"><span class="cl">docker-ce-cli.x86_64 : The open-source application container engine
+</span></span><span class="line"><span class="cl">docker-ce-selinux.noarch : SELinux Policies <span class="k">for</span> the open-source application container engine</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看该文件是哪个安装包提供</li>
+</ul>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf provides /bin/docker</span>
+</span></span><span class="line"><span class="cl">Last metadata expiration check: 2:14:32 ago on Mon <span class="m">29</span> Jun <span class="m">2020</span> 12:48:36 PM CST.
+</span></span><span class="line"><span class="cl">docker-ce-17.03.0.ce-1.el7.centos.x86_64 : The open-source application container engine
+</span></span><span class="line"><span class="cl">Repo        : docker-ce-stable
+</span></span><span class="line"><span class="cl">Matched from:
+</span></span><span class="line"><span class="cl">Filename    : /usr/bin/docker</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看软件包详细信息</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf info docker-ce</span>
+</span></span><span class="line"><span class="cl">Last metadata expiration check: 2:16:06 ago on Mon <span class="m">29</span> Jun <span class="m">2020</span> 12:48:36 PM CST.
+</span></span><span class="line"><span class="cl">Installed Packages
+</span></span><span class="line"><span class="cl">Name         : docker-ce
+</span></span><span class="line"><span class="cl">Epoch        : <span class="m">3</span>
+</span></span><span class="line"><span class="cl">Version      : 19.03.12
+</span></span><span class="line"><span class="cl">Release      : 3.el7
+</span></span><span class="line"><span class="cl">Architecture : x86_64
+</span></span><span class="line"><span class="cl">Size         : <span class="m">102</span> M
+</span></span><span class="line"><span class="cl">Source       : docker-ce-19.03.12-3.el7.src.rpm
+</span></span><span class="line"><span class="cl">Repository   : @System
+</span></span><span class="line"><span class="cl">From repo    : docker-ce-stable
+</span></span><span class="line"><span class="cl">Summary      : The open-source application container engine
+</span></span><span class="line"><span class="cl">URL          : https://www.docker.com
+</span></span><span class="line"><span class="cl">License      : ASL 2.0
+</span></span><span class="line"><span class="cl">Description  : Docker is a product <span class="k">for</span> you to build, ship and run any application as a
+</span></span><span class="line"><span class="cl">             : lightweight container.
+</span></span><span class="line"><span class="cl">             : 
+</span></span><span class="line"><span class="cl">             : Docker containers are both hardware-agnostic and platform-agnostic. This means
+</span></span><span class="line"><span class="cl">             : they can run anywhere, from your laptop to the largest cloud compute instance and
+</span></span><span class="line"><span class="cl">             : everything in between - and they don<span class="err">&#39;</span>t require you to use a particular
+</span></span><span class="line"><span class="cl">             : language, framework or packaging system. That makes them great building blocks
+</span></span><span class="line"><span class="cl">             : <span class="k">for</span> deploying and scaling web apps, databases, and backend services without
+</span></span><span class="line"><span class="cl">             : depending on a particular stack or provider.</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>安装软件包</li>
+</ul>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf install -y docker-ce</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>升级软件包</li>
+</ul>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf update docker-ce -y</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看已经安装软件中可升级的软件包</li>
+</ul>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf check-update</span>
+</span></span><span class="line"><span class="cl">Last metadata expiration check: 2:18:16 ago on Mon <span class="m">29</span> Jun <span class="m">2020</span> 12:48:36 PM CST.</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>更新系统安装的所有软件包</li>
+</ul>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf update -y</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>删除软件包</li>
+</ul>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf remove docker-ce -y </span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看所有软件包组</li>
+</ul>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf grouplist</span>
+</span></span><span class="line"><span class="cl">Last metadata expiration check: 2:20:47 ago on Mon <span class="m">29</span> Jun <span class="m">2020</span> 12:48:36 PM CST.
+</span></span><span class="line"><span class="cl">Available Environment Groups:
+</span></span><span class="line"><span class="cl">   Server with GUI
+</span></span><span class="line"><span class="cl">   Server
+</span></span><span class="line"><span class="cl">   Workstation
+</span></span><span class="line"><span class="cl">   Virtualization Host
+</span></span><span class="line"><span class="cl">   Custom Operating System
+</span></span><span class="line"><span class="cl">Installed Environment Groups:
+</span></span><span class="line"><span class="cl">   Minimal Install
+</span></span><span class="line"><span class="cl">Available Groups:
+</span></span><span class="line"><span class="cl">   Container Management
+</span></span><span class="line"><span class="cl">   .NET Core Development
+</span></span><span class="line"><span class="cl">   RPM Development Tools
+</span></span><span class="line"><span class="cl">   Development Tools
+</span></span><span class="line"><span class="cl">   Graphical Administration Tools
+</span></span><span class="line"><span class="cl">   Headless Management
+</span></span><span class="line"><span class="cl">   Legacy UNIX Compatibility
+</span></span><span class="line"><span class="cl">   Network Servers
+</span></span><span class="line"><span class="cl">   Scientific Support
+</span></span><span class="line"><span class="cl">   Security Tools
+</span></span><span class="line"><span class="cl">   Smart Card Support
+</span></span><span class="line"><span class="cl">   System Tools</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>安装软件包组</li>
+</ul>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf groupinstall &#34;System Tools&#34; -y</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>升级软件包组</li>
+</ul>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf groupupdate &#34;System Tools&#34; -y</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看指定仓库中的所有软件包</li>
+</ul>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf repository-packages epel list</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>从指定仓库中安装软件包</li>
+</ul>
+<div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># dnf --enablerepo=&#34;docker-ce-stable&#34;  install -y docker-ce</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="yum" class="heading-element">
+  <a href="#yum" class="heading-mark"></a>yum</h1><p>yum：RPM包管理的前端管理工具</p>
+<p>作用：解决RPM包的依赖
+配置文件：</p>
+<ul>
+<li>公共配置文件： <code>/etc/yum.conf</code></li>
+<li>rpm包配置：
+<ul>
+<li><code>/etc/yum/version-groups.conf</code></li>
+<li><code>/etc/yum.repos.d/</code></li>
+<li><code>/etc/yum/pluginconf.d/</code></li>
+<li><code>/var/cache/yum/</code></li>
+</ul>
+</li>
+</ul>
+<p>yum命令语法格式：<code>yum [options] [command] [package ...]</code>
+常用选项：
+<code>-y</code>：确认
+<code>-q</code>：静默模式
+<code>--disablerepo=repoidglob</code>：临时禁用指定的源
+<code>--enablerepo=repoidglo</code>：临时启用指定的源
+<code>--noplugins</code>：临时禁用所有的差异
+<code>--disableexcludes</code>：</p>
+<ul>
+<li>列出可用的yum仓库</li>
+</ul>
+<div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum repolist</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>列出所有的软件包</li>
+</ul>
+<div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum list all</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>列出所有软件包版本</li>
+</ul>
+<div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--showduplicates</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>列出可用的升级包</li>
+</ul>
+<div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum check-update</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>安装软件包（默认安装最新版本，可以指定版本）</li>
+</ul>
+<div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum  install -y   package1 [package2] [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>重新安装软件包</li>
+</ul>
+<div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum  reinstall -y    package1 [package2] [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>升级软件包</li>
+</ul>
+<div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum update -y [package1] [package2] [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>降级软件包</li>
+</ul>
+<div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum downgrade  -y package1 [package2] [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>卸载软件包</li>
+</ul>
+<div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum remove -y  | erase package1 [package2] [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看软件包信息</li>
+</ul>
+<div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum info [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看指定特性（可以是文件）是有哪些软件包提供</li>
+</ul>
+<div class="highlight" id="id-40"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum provides | whatprovides feature1 [feature2] [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>清理缓存</li>
+</ul>
+<div class="highlight" id="id-41"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum  clean [ packages | metadata | expire-cache | rpmdb | plugins | all ]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>手动生成缓存</li>
+</ul>
+<div class="highlight" id="id-42"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum makecache [fast]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>指定关键字模糊搜索安装包</li>
+</ul>
+<div class="highlight" id="id-43"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum search string1 [string2] [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看软件包依赖关系</li>
+</ul>
+<div class="highlight" id="id-44"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum deplist package1 [package2] [...]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看历史事务（安装和卸载）</li>
+</ul>
+<div class="highlight" id="id-45"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum history [info|list|stats]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查找命令相关的软件包</li>
+</ul>
+<div class="highlight" id="id-46"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@vps ~<span class="o">]</span><span class="c1"># yum search command</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看软件包组</li>
+</ul>
+<div class="highlight" id="id-47"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum grouplist</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>安装软包组（也会安装相关依赖）</li>
+</ul>
+<div class="highlight" id="id-48"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum group install -y packages</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>安装软件包组（也会安装相关依赖）</li>
+</ul>
+<div class="highlight" id="id-49"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum group update packages</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>卸载软包组（也会安装相关依赖）</li>
+</ul>
+<div class="highlight" id="id-50"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum group  remove packages</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看软包组信息</li>
+</ul>
+<div class="highlight" id="id-51"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum group  info packages</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>/etc/yum.conf配置文件简介</p>
+<div class="highlight" id="id-52"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>main<span class="o">]</span> <span class="c1">#ID 必须具有唯一性</span>
+</span></span><span class="line"><span class="cl"><span class="nv">cachedir</span><span class="o">=</span>/var/cache/yum/<span class="nv">$basearch</span>/<span class="nv">$releasever</span>
+</span></span><span class="line"><span class="cl"><span class="nv">keepcache</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">debuglevel</span><span class="o">=</span><span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="nv">logfile</span><span class="o">=</span>/var/log/yum.log
+</span></span><span class="line"><span class="cl"><span class="nv">exactarch</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">obsoletes</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">gpgcheck</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">installonly_limit</span><span class="o">=</span><span class="m">5</span>
+</span></span><span class="line"><span class="cl"><span class="nv">bugtracker_url</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">distroverpkg</span><span class="o">=</span>centos-release</span></span></code></pre></td></tr></table>
+</div>
+</div><p>yum仓库使用帮助：man yum.conf</p>
+<p>自定义yum源：
+在配置文件/etc/yum.repos.d/以.repo结尾都可以</p>
+<div class="highlight" id="id-53"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[yun id]
+</span></span><span class="line"><span class="cl">name=描述
+</span></span><span class="line"><span class="cl">baseurl=仓库URL
+</span></span><span class="line"><span class="cl">gpgcheck=检查来源是否完整和合法，0 表示关闭，1表示开启
+</span></span><span class="line"><span class="cl">enabled= 是否启动0表示关闭，1表示开启（此行没有则默认为1）
+</span></span><span class="line"><span class="cl">gpgkey=密钥URL</span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置文件中可用的变量
+系统发行主版本号：$releasever
+CPU架构：$arch
+CPU基础架构：$basearch
+自定义变量：$YUM0到$YUM9</p>
+<p>自定义YUM仓库：</p>
+<ol>
+<li>安装软件</li>
+</ol>
+<div class="highlight" id="id-54"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># yum install -y createrepo</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>创建目录作为软件包存放位置，并下载软件包到此目录</li>
+</ol>
+<div class="highlight" id="id-55"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh erpo<span class="o">]</span><span class="c1"># mkdir /erpo</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@yh media<span class="o">]</span><span class="c1"># cp Packages/zip-3.0-11.el7.x86_64.rpm /erpo/</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>生成yum仓库，配置yum源即可使用</li>
+</ol>
+<div class="highlight" id="id-56"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh erpo<span class="o">]</span><span class="c1"># createrepo /erpo/</span>
+</span></span><span class="line"><span class="cl">Spawning worker <span class="m">0</span> with <span class="m">1</span> pkgs
+</span></span><span class="line"><span class="cl">Spawning worker <span class="m">1</span> with <span class="m">0</span> pkgs
+</span></span><span class="line"><span class="cl">Workers Finished
+</span></span><span class="line"><span class="cl">Saving Primary metadata
+</span></span><span class="line"><span class="cl">Saving file lists metadata
+</span></span><span class="line"><span class="cl">Saving other metadata
+</span></span><span class="line"><span class="cl">Generating sqlite DBs
+</span></span><span class="line"><span class="cl">Sqlite DBs complete</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看信息</li>
+</ul>
+<div class="highlight" id="id-57"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@yh ~<span class="o">]</span><span class="c1"># ls /erpo/repodata/</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>createrepo命令的其他选项</p>
+<h1 id="源码安装" class="heading-element">
+  <a href="#%e6%ba%90%e7%a0%81%e5%ae%89%e8%a3%85" class="heading-mark"></a>源码安装</h1><p>通常命令方式 名称-版本号.tar.gz
+获取帮助：configure &ndash;help，或者insert文件
+第一步 ：./configure#运行这个脚本 进行软件安装的环境测试，可加软件安装路径与模块选项，用于定制软件功能
+第二步：make #进行软件编译
+第三步：make install #进行安装</p>
+<p>安装后
+（1）导出二进制文件(bin)到变量中并让其开机执行</p>
+<div class="highlight" id="id-58"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1">#echo &#34;export PATH=PATH1 PATH2&#34; &gt; /etc/profile.d/name.sh</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>（2）导出库文件(lib)路径</p>
+<div class="highlight" id="id-59"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># echo &#34;库文件目录&#34; &gt; /etc/ld.so.conf.d/name.conf</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>（3）导出头文件(include)</p>
+<div class="highlight" id="id-60"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ln s 目录  目录</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（4）导出帮助手册</p>
+<div class="highlight" id="id-61"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/man_db.conf
+</span></span><span class="line"><span class="cl">MANPATH 目录</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="repos" class="heading-element">
+  <a href="#repos" class="heading-mark"></a>repos</h1><h2 id="repl" class="heading-element">
+  <a href="#repl" class="heading-mark"></a>repl</h2><p><a href="https://docs.fedoraproject.org/en-US/epel/#_el8"target="_blank" rel="external nofollow noopener noreferrer">地址</a></p>
+<div class="highlight" id="id-62"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># CentOS 7</span>
+</span></span><span class="line"><span class="cl">yum install epel-release -y
+</span></span><span class="line"><span class="cl"><span class="c1"># CentOS Linux 8, AlmaLinux 8, Rocky Linux 8</span>
+</span></span><span class="line"><span class="cl">dnf install epel-release -y <span class="o">&amp;&amp;</span> dnf config-manager --set-enabled powertools</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="no-more-mirrors-to-try" class="heading-element">
+  <a href="#no-more-mirrors-to-try" class="heading-mark"></a>No more mirrors to try</h2><ul>
+<li>详情：安装包时报错</li>
+</ul>
+<div class="highlight" id="id-63"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Error downloading packages:
+</span></span><span class="line"><span class="cl">  kubelet-1.17.2-0.x86_64: <span class="o">[</span>Errno 256<span class="o">]</span> No more mirrors to try.</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>解决：刷新 yum  缓存</li>
+</ul>
+<div class="highlight" id="id-64"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@master ~<span class="o">]</span><span class="c1"># yum clean all</span>
+</span></span><span class="line"><span class="cl">Loaded plugins: fastestmirror
+</span></span><span class="line"><span class="cl">Cleaning repos: base docker-ce-stable epel extras kubernetes updates
+</span></span><span class="line"><span class="cl">Cleaning up list of fastest mirrors
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@master ~<span class="o">]</span><span class="c1"># yum makecache</span>
+</span></span><span class="line"><span class="cl">Loaded plugins: fastestmirror
+</span></span><span class="line"><span class="cl">Determining fastest mirrors</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="error-failed-to-download-metadata-for-repo-appstream-cannot-prepare-internal-mirrorlist-no-urls-in-mirrorlist" class="heading-element">
+  <a href="#error-failed-to-download-metadata-for-repo-appstream-cannot-prepare-internal-mirrorlist-no-urls-in-mirrorlist" class="heading-mark"></a>Error: Failed to download metadata for repo &lsquo;appstream&rsquo;: Cannot prepare internal mirrorlist: No URLs in mirrorlist</h2><div class="highlight" id="id-65"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://stackoverflow.com/questions/70926799/centos-through-vm-no-urls-in-mirrorlist</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://mirrors.tuna.tsinghua.edu.cn/help/centos-vault/</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># centos 8 不在维护，镜像已经迁移</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># vault.centos.org是提供不在维护的centos版本yum源</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/mirrorlist/#mirrorlist/g&#39;</span> /etc/yum.repos.d/CentOS-*
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g&#39;</span> /etc/yum.repos.d/CentOS-*</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="error-rpmdb-open-failed" class="heading-element">
+  <a href="#error-rpmdb-open-failed" class="heading-mark"></a>Error: rpmdb open failed</h2><div class="highlight" id="id-66"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@US01-C6220-DS050-03 lib<span class="o">]</span><span class="c1"># yum clean all</span>
+</span></span><span class="line"><span class="cl">error: db5 error<span class="o">(</span>11<span class="o">)</span> from dbenv-&gt;open: Resource temporarily unavailable
+</span></span><span class="line"><span class="cl">error: cannot open Packages index using db5 - Resource temporarily unavailable <span class="o">(</span>11<span class="o">)</span>
+</span></span><span class="line"><span class="cl">error: cannot open Packages database in /var/lib/rpm
+</span></span><span class="line"><span class="cl">CRITICAL:yum.main:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Error: rpmdb open failed</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="insufficient-space-in-download-directory" class="heading-element">
+  <a href="#insufficient-space-in-download-directory" class="heading-mark"></a>Insufficient space in download directory</h2><div class="highlight" id="id-67"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Error downloading packages:
+</span></span><span class="line"><span class="cl">  gitlab-jh-16.2.4-jh.0.el7.x86_64: Insufficient space in download directory /var/cache/yum/x86_64/7/gitlab-jh/packages
+</span></span><span class="line"><span class="cl">    * free   <span class="m">748</span> M
+</span></span><span class="line"><span class="cl">    * needed 1.4 G</span></span></code></pre></td></tr></table>
+</div>
+</div><p>缓存空间不够，要清理空间或扩容</p>
+<div class="highlight" id="id-68"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 清理 yum 缓存</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum clean all</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-08-22 01:30:11">更新于 2023-08-22&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/rpm/" class="post-tag" title="标签 - rpm">rpm</a><a href="/tags/yum/" class="post-tag" title="标签 - yum">yum</a><a href="/tags/dnf/" class="post-tag" title="标签 - dnf">dnf</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/%E6%97%B6%E9%97%B4%E4%BB%BB%E5%8A%A1/" class="post-nav-item" rel="prev" title="时间任务"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>时间任务</a>
+      <a href="/yum/" class="post-nav-item" rel="next" title="yum">yum<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

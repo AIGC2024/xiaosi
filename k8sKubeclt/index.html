@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s kubectl - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="kubectl 命令使用" /><meta name="keywords" content='k8s, kubectl, kubeconfig' /><meta itemprop="name" content="k8s kubectl">
+<meta itemprop="description" content="kubectl 命令使用"><meta itemprop="datePublished" content="2022-08-06T16:24:55+08:00" />
+<meta itemprop="dateModified" content="2023-12-11T17:26:44+08:00" />
+<meta itemprop="wordCount" content="2632">
+<meta itemprop="keywords" content="k8s,kubectl,kubeconfig," /><meta property="og:title" content="k8s kubectl" />
+<meta property="og:description" content="kubectl 命令使用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sKubeclt/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-06T16:24:55+08:00" />
+<meta property="article:modified_time" content="2023-12-11T17:26:44+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s kubectl"/>
+<meta name="twitter:description" content="kubectl 命令使用"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sKubeclt/" /><link rel="prev" href="/Service/" /><link rel="next" href="/JsonPath/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s kubectl",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sKubeclt\/"
+    },"genre": "posts","keywords": "k8s, kubectl, kubeconfig","wordcount":  2632 ,
+    "url": "\/k8sKubeclt\/","datePublished": "2022-08-06T16:24:55+08:00","dateModified": "2023-12-11T17:26:44+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s kubectl</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-06 16:24:55"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-06">2022-08-06</time></span>&nbsp;<span title="更新于 2023-12-11 17:26:44"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-12-11">2023-12-11</time></span>&nbsp;<span title="2632 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kubectl">kubectl</a></li>
+    <li><a href="#命令行自动补全">命令行自动补全</a></li>
+    <li><a href="#命令行操作">命令行操作</a></li>
+    <li><a href="#输出选项">输出选项</a>
+      <ul>
+        <li><a href="#格式化输出">格式化输出</a></li>
+        <li><a href="#输出排序">输出排序</a></li>
+      </ul>
+    </li>
+    <li><a href="#查看容器日志">查看容器日志</a></li>
+    <li><a href="#调试容器">调试容器</a></li>
+    <li><a href="#修改-kubeconfig-文件">修改 kubeconfig 文件</a></li>
+    <li><a href="#运行一个-kubernetes-api-服务器代理">运行一个 kubernetes API 服务器代理</a></li>
+    <li><a href="#查看-api-资源">查看 API 资源</a></li>
+    <li><a href="#节点污点">节点污点</a></li>
+    <li><a href="#删除污点">删除污点</a></li>
+    <li><a href="#更新资源字段">更新资源字段</a></li>
+    <li><a href="#进入-pod-容器">进入 pod 容器</a></li>
+    <li><a href="#查看容器日志-1">查看容器日志</a></li>
+    <li><a href="#kubctl-error">kubctl error</a>
+      <ul>
+        <li><a href="#-bash-_get_comp_words_by_ref-command-not-found">-bash: _get_comp_words_by_ref: command not found</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+<li>内核: 4.18.0-348.el8.0.2.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/kubectl/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：kubectl</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/kubectl/kubectl/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：kubectl options</a></li>
+<li><code>k8s</code>官方文档：<a href="https://kubernetes.io/zh-cn/docs/concepts/configuration/organize-cluster-access-kubeconfig/"target="_blank" rel="external nofollow noopener noreferrer">使用 kubeconfig 文件组织集群访问</a></li>
+<li><code>k8s</code>官方文档：<a href="https://kubernetes.io/zh-cn/docs/tasks/access-application-cluster/configure-access-multiple-clusters/"target="_blank" rel="external nofollow noopener noreferrer">配置对多集群的访问</a></li>
+<li><code>k8s</code>官方文档：<a href="https://kubernetes.io/docs/reference/config-api/kubeconfig.v1/"target="_blank" rel="external nofollow noopener noreferrer">kubeconfig (v1)</a></li>
+<li><code>上海_运维_Q先生</code>: <a href="https://blog.csdn.net/qq_29974229/article/details/102890267"target="_blank" rel="external nofollow noopener noreferrer">K8s kubectl 报错 c-bash: _get_comp_words_by_ref: command not found解决过程</a></li>
+</ul>
+</blockquote>
+<h1 id="kubectl" class="heading-element">
+  <a href="#kubectl" class="heading-mark"></a>kubectl</h1><p><code>kubectl</code> 是使用 <code>k8s API</code> 与 <code>k8s</code> 集群控制平面通信的命令行工具。安装方式如下</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 添加 yum 源</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+</span></span></span><span class="line"><span class="cl"><span class="s">[kubernetes]
+</span></span></span><span class="line"><span class="cl"><span class="s">name=Kubernetes
+</span></span></span><span class="line"><span class="cl"><span class="s">baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+</span></span></span><span class="line"><span class="cl"><span class="s">enabled=1
+</span></span></span><span class="line"><span class="cl"><span class="s">gpgcheck=1
+</span></span></span><span class="line"><span class="cl"><span class="s">gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+</span></span></span><span class="line"><span class="cl"><span class="s">exclude=kubelet kubeadm kubectl
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y kubectl --disableexcludes=kubernetes</span>
+</span></span><span class="line"><span class="cl">Loaded plugins: fastestmirror
+</span></span><span class="line"><span class="cl">Loading mirror speeds from cached hostfile
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="命令行自动补全" class="heading-element">
+  <a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e8%87%aa%e5%8a%a8%e8%a1%a5%e5%85%a8" class="heading-mark"></a>命令行自动补全</h1><p>实现自动补全需先安装 <code>bash-completion</code> 包</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># yum install -y bash-completion</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># source /usr/share/bash-completion/bash_completion</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在当前 <code>bash</code> 中设置自动补全</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> &lt;<span class="o">(</span>kubectl completion bash<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>bash shell</code> 中永久地添加自动补全</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;source &lt;(kubectl completion bash)&#34;</span> &gt;&gt; ~/.bashrc</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="命令行操作" class="heading-element">
+  <a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e6%93%8d%e4%bd%9c" class="heading-mark"></a>命令行操作</h1><p><code>kubeclt</code>使用语法如下：</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># TYPE: 指定资源类型</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># NAME: 指定资源名称</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># command: 对指定的资源执行操作</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># flags: 可选参数</span>
+</span></span><span class="line"><span class="cl">kubectl <span class="o">[</span>command<span class="o">]</span> <span class="o">[</span>TYPE<span class="o">]</span> <span class="o">[</span>NAME<span class="o">]</span> <span class="o">[</span>flags<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 获取帮助信息</span>
+</span></span><span class="line"><span class="cl">kubectl help</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下表列出 <code>kubectl</code> 部分操作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">操作与语法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>kubectl annotate ...</code></td>
+<td style="text-align:left">添加或更新一个或多个资源的注解</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl api-resources [flags]</code></td>
+<td style="text-align:left">列出可用的 <code>API</code> 资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl api-versions [flags]</code></td>
+<td style="text-align:left">列出可用的 <code>API</code> 版本</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl apply -f FILENAME [flags]</code></td>
+<td style="text-align:left">从文件或 <code>stdin</code> 对资源应用配置更改</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl attach POD -c CONTAINER [-i] [-t] [flags]</code></td>
+<td style="text-align:left">挂接到正在运行的容器，查看输出流或与容器交互</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl auth [flags] [options]</code></td>
+<td style="text-align:left">检查授权</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl certificate SUBCOMMAND [options]</code></td>
+<td style="text-align:left">修改证书资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl cluster-info [flags]</code></td>
+<td style="text-align:left">显示有关集群中主服务器和服务的端口信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl config SUBCOMMAND [flags]</code></td>
+<td style="text-align:left">修改 <code>kubeconfig</code> 文件</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl cordon NODE [options]</code></td>
+<td style="text-align:left">将节点标记为不可调度</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl cp &lt;file-spec-src&gt; &lt;file-spec-dest&gt; [options]</code></td>
+<td style="text-align:left">从容器复制文件、目录或将文件、目录复制到容器</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl delete ...</code></td>
+<td style="text-align:left">删除资源</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl describe ...</code></td>
+<td style="text-align:left">显示一个或多个资源的详细状态</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl drain NODE [options]</code></td>
+<td style="text-align:left">腾空节点以准备维护</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl edit ...</code></td>
+<td style="text-align:left">使用默认编辑器编辑和更新服务器上一个或多个资源的定义</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl explain [--recursive=false] [flags]</code></td>
+<td style="text-align:left">获取多种资源的文档</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl logs POD [-c CONTAINER] [--follow] [flags]</code></td>
+<td style="text-align:left">打印 <code>Pod</code> 中容器的日志</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl options</code></td>
+<td style="text-align:left">全局命令行选项列表，这些选项适用于所有命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl proxy ...</code></td>
+<td style="text-align:left">运行访问 <code>Kubernetes API</code> 服务器的代理</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl top [flags] [options]</code></td>
+<td style="text-align:left">显示资源（<code>CPU</code>、内存、存储）的使用情况</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl uncordon NODE [options]</code></td>
+<td style="text-align:left">将节点标记为可调度</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl version [--client] [flags]</code></td>
+<td style="text-align:left">显示运行在客户端和服务器上的 <code>Kubernetes</code> 版本</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kubectl logs POD [-c CONTAINER] [--follow] [flags]</code></td>
+<td style="text-align:left">查看 <code>pod</code> 中容器日志</td>
+</tr>
+</tbody>
+</table>
+<h1 id="输出选项" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e9%80%89%e9%a1%b9" class="heading-mark"></a>输出选项</h1><h2 id="格式化输出" class="heading-element">
+  <a href="#%e6%a0%bc%e5%bc%8f%e5%8c%96%e8%be%93%e5%87%ba" class="heading-mark"></a>格式化输出</h2><p>部分操作（如 <code>get</code>）支持特定格式输出详细信息（通常是 <code>-o, --output=''</code>选项）。通常有以下输出格式：</p>
+<ul>
+<li><code>-o custom-columns=&lt;spec&gt;</code>: 使用逗号分隔的自定义列列表打印表</li>
+<li><code>-o custom-columns-file=&lt;filename&gt;</code>: 使用文件中的自定义列模板打印表</li>
+<li><code>-o json</code>: 以 <code>JSON</code> 格式输出</li>
+<li><code>-o jsonpath=&lt;template&gt;</code>: 输出 <code>jsonpath</code> 表达式定义的字段</li>
+<li><code>-o jsonpath-file=&lt;filename&gt;</code>: 以文件中的 <code>jsonpath</code> 表达式定义的字段输出</li>
+<li><code>-o name</code>: 仅打印资源名称</li>
+<li><code>-o wide</code>: 以纯文本格式输出</li>
+<li><code>-o yaml</code>: 以 <code>YAML</code> 格式输出</li>
+</ul>
+<br>
+<p><code>Kubectl</code> 支持使用 <code>JSONPath</code> 表达式来过滤 <code>JSON</code> 对象中的特定字段并格式化输出。 除了原始的 <code>JSONPath</code> 模板语法，以下函数和语法也是有效的:</p>
+<ul>
+<li>使用双引号将 <code>JSONPath</code> 表达式内的文本引起来</li>
+<li>使用 <code>range</code>，<code>end</code> 运算符来迭代列表。</li>
+<li>使用负片索引后退列表。负索引不会“环绕”列表，并且只要 <code>-index + listLength&gt; = 0</code> 就有效</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><code>JsonPath</code></th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>$</code></td>
+<td style="text-align:left">根对象</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>@</code></td>
+<td style="text-align:left">当前对象</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>·</code> 或 <code> []</code></td>
+<td style="text-align:left">子运算符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>..</code></td>
+<td style="text-align:left">递归下降</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>*</code></td>
+<td style="text-align:left">通配符。获取所有对象</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[start:end :step]</code></td>
+<td style="text-align:left">下标运算符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[,]</code></td>
+<td style="text-align:left">并集运算符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>()</code></td>
+<td style="text-align:left">分组</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>?()</code></td>
+<td style="text-align:left">过滤分组</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>range, end</code></td>
+<td style="text-align:left">迭代列表</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>''</code></td>
+<td style="text-align:left">引用解释执行字符串</td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl get pods -o json
+</span></span><span class="line"><span class="cl">kubectl get pods -o<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{@}&#39;</span>
+</span></span><span class="line"><span class="cl">kubectl get pods -o<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0]}&#39;</span>
+</span></span><span class="line"><span class="cl">kubectl get pods -o<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span>
+</span></span><span class="line"><span class="cl">kubectl get pods -o<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s2">&#34;{.items[*][&#39;metadata.name&#39;, &#39;status.capacity&#39;]}&#34;</span>
+</span></span><span class="line"><span class="cl">kubectl get pods -o<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{range .items[*]}{.metadata.name}{&#34;\t&#34;}{.status.startTime}{&#34;\n&#34;}{end}&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="输出排序" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e6%8e%92%e5%ba%8f" class="heading-mark"></a>输出排序</h2><p>部分操作支持 <code>--sort-by</code> 参数指定任何数字或字符串字段（<code>jsonpath</code> 表达式）来对对象进行排序。</p>
+<h1 id="查看容器日志" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e6%97%a5%e5%bf%97" class="heading-mark"></a>查看容器日志</h1><p>语法：<code>kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER]</code></p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--all-containers<span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看 pod 内所有容器日志，默认为 false</span>
+</span></span><span class="line"><span class="cl">-c, --container<span class="o">=</span><span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看指定容器日志</span>
+</span></span><span class="line"><span class="cl">-l, --selector<span class="o">=</span><span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 通过标签选择器筛选 Pod</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="调试容器" class="heading-element">
+  <a href="#%e8%b0%83%e8%af%95%e5%ae%b9%e5%99%a8" class="heading-mark"></a>调试容器</h1><p>语法：<code>kubectl debug (POD | TYPE[[.VERSION].GROUP]/NAME) [ -- COMMAND [args...] ]</code></p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-c, --container<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定调试容器和名称</span>
+</span></span><span class="line"><span class="cl">--image<span class="o">=</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定调试容器镜像</span>
+</span></span><span class="line"><span class="cl">-i, --stdin<span class="o">=</span><span class="nb">false</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 运行的指定</span>
+</span></span><span class="line"><span class="cl">-t, --tty<span class="o">=</span>false:
+</span></span><span class="line"><span class="cl">    <span class="c1"># 是否分配一个 tty 终端</span>
+</span></span><span class="line"><span class="cl">--target<span class="o">=</span><span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 创建临时容器时指定的进程名称空间</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="修改-kubeconfig-文件" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9-kubeconfig-%e6%96%87%e4%bb%b6" class="heading-mark"></a>修改 kubeconfig 文件</h1><p>用于配置集群访问的文件称为 <code>kubeconfig</code> 文件，使用 <code>kubeconfig</code> 文件来组织有关集群、用户、命名空间和身份认证机制的信息。<code>kubectl</code> 使用的 <code>kubeconfig</code> 文件路径为 <code>$HOME/.kube/config</code>。可以通过设置 <code>KUBECONFIG</code> 环境变量或 <code>kubectl config --kubeconfig</code> 选项修改</p>
+<p>使用 <code>kubeconfig</code> 文件，可以组织集群、用户和命名空间。还可以定义上下文，以便在集群和命名空间之间快速轻松地切换。下面是<code>kubectl</code> 默认使用的 <code>kubeconfig</code> 文件（使用 <code>kubectl config view</code> 命令可以查看<code>kubeconfig</code>内容）</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apiVersion: v1 <span class="c1"># api 版本</span>
+</span></span><span class="line"><span class="cl">kind: Config
+</span></span><span class="line"><span class="cl">preferences: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">current-context: kubernetes-admin@kubernetes <span class="c1"># 当前使用的上下文</span>
+</span></span><span class="line"><span class="cl">clusters:   <span class="c1"># 集群列表，必须有</span>
+</span></span><span class="line"><span class="cl">- name: kubernetes  <span class="c1"># 集群命令，必须有</span>
+</span></span><span class="line"><span class="cl">  cluster:
+</span></span><span class="line"><span class="cl">    certificate-authority-data: DATA+OMITTED <span class="c1"># 集群 CA 证书文件的 base64 编码格式，必须有</span>
+</span></span><span class="line"><span class="cl">    server: https://apiserver.cluster.local:6443 <span class="c1"># k8s 集群地址，必须的</span>
+</span></span><span class="line"><span class="cl">users: <span class="c1"># 用户列表，必须有</span>
+</span></span><span class="line"><span class="cl">- name: kubernetes-admin <span class="c1"># 命令用户，必须有，注意它不并不是集群中的用户</span>
+</span></span><span class="line"><span class="cl">  user:
+</span></span><span class="line"><span class="cl">    client-certificate-data: REDACTED <span class="c1"># 集群签发的客户端证书的 base64 编码格式，必须有</span>
+</span></span><span class="line"><span class="cl">    client-key-data: REDACTED <span class="c1">#  客户端密钥的 base64 编码格式</span>
+</span></span><span class="line"><span class="cl">contexts:   <span class="c1"># 命名上下文列表，必须有</span>
+</span></span><span class="line"><span class="cl">- name: kubernetes-admin@kubernetes <span class="c1"># 上下文名称，被 kubectl 引用</span>
+</span></span><span class="line"><span class="cl">  context:
+</span></span><span class="line"><span class="cl">    cluster: kubernetes  <span class="c1"># 使用的集群名称上下文，由前面的 clusters.name 字段定义</span>
+</span></span><span class="line"><span class="cl">    user: kubernetes-admin <span class="c1"># 使用的用户名上下文，由前面的 users.name 字段定义</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看当前使用的<code>kubeconfig</code> 上下文</li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl config current-context</span>
+</span></span><span class="line"><span class="cl">kubernetes-admin@kubernetes</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>永久修改当前使用的<code>kubeconfig</code> 上下文</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl config current-context</span>
+</span></span><span class="line"><span class="cl">xiaosi
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl config current-context</span>
+</span></span><span class="line"><span class="cl">xiaosi</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>永久删除指定的 <code>kubeconfig</code> 上下文（不会删除关联的集群与用户信息；也不会修改当前使用的上下文）</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl config delete-context kubernetes-admin@kubernetes</span>
+</span></span><span class="line"><span class="cl">deleted context kubernetes-admin@kubernetes from /root/.kube/config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除当前上下文会有警告提示，但不会阻止</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl config delete-context xiaosi</span>
+</span></span><span class="line"><span class="cl">warning: this removed your active context, use <span class="s2">&#34;kubectl config use-context&#34;</span> to <span class="k">select</span> a different one
+</span></span><span class="line"><span class="cl">deleted context xiaosi from /root/.kube/config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl get pod</span>
+</span></span><span class="line"><span class="cl">Error in configuration: context was not found <span class="k">for</span> specified context: xiaosi</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="运行一个-kubernetes-api-服务器代理" class="heading-element">
+  <a href="#%e8%bf%90%e8%a1%8c%e4%b8%80%e4%b8%aa-kubernetes-api-%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%bb%a3%e7%90%86" class="heading-mark"></a>运行一个 kubernetes API 服务器代理</h1><p><code>kubectl proxy</code> 以前台方式运行一个在<code>localhost</code>和<code>Kubernetes API</code>服务器之间创建一个代理服务器或应用程序级网关。它还允许通过指定的<code>HTTP</code>路径提供静态内容。所有传入的数据都通过一个端口进入，并转发到远程<code>Kubernetes API</code>服务器端口，除了与静态内容路径匹配的路径。</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl proxy <span class="o">[</span>--port<span class="o">=</span>PORT<span class="o">]</span> <span class="o">[</span>--www<span class="o">=</span>static-dir<span class="o">]</span> <span class="o">[</span>--www-prefix<span class="o">=</span>prefix<span class="o">]</span> <span class="o">[</span>--api-prefix<span class="o">=</span>prefix<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 选项</span>
+</span></span><span class="line"><span class="cl">accept-hosts <span class="c1"># 指定可访问的主机列表。主机列表以正则表示，以逗号分隔</span>
+</span></span><span class="line"><span class="cl">             <span class="c1"># 默认值为：^localhost$,^127.0.0.1$,^[::1]$</span>
+</span></span><span class="line"><span class="cl">address      <span class="c1"># 监听地址</span>
+</span></span><span class="line"><span class="cl">             <span class="c1"># 默认值为：127.0.0.1</span>
+</span></span><span class="line"><span class="cl">port         <span class="c1"># 监听端口</span>
+</span></span><span class="line"><span class="cl">             <span class="c1"># 默认值为：80001</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="查看-api-资源" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b-api-%e8%b5%84%e6%ba%90" class="heading-mark"></a>查看 API 资源</h1><p>查看位于名称空间内的资源</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl api-resources --namespaced=true</span>
+</span></span><span class="line"><span class="cl">NAME                        SHORTNAMES   APIVERSION                     NAMESPACED   KIND
+</span></span><span class="line"><span class="cl">bindings                                 v1                             <span class="nb">true</span>         Binding
+</span></span><span class="line"><span class="cl">configmaps                  cm           v1                             <span class="nb">true</span>         ConfigMap</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看全局资源</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl api-resources --namespaced=false</span>
+</span></span><span class="line"><span class="cl">NAME                              SHORTNAMES   APIVERSION                             NAMESPACED   KIND
+</span></span><span class="line"><span class="cl">componentstatuses                 cs           v1                                     <span class="nb">false</span>        ComponentStatus
+</span></span><span class="line"><span class="cl">namespaces                        ns           v1                                     <span class="nb">false</span>        Namespace</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="节点污点" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e6%b1%a1%e7%82%b9" class="heading-mark"></a>节点污点</h1><div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">PS 2023/06/17 23:12:49 &gt; curl.exe --cert .<span class="se">\l</span>ocalK8s<span class="se">\x</span>iaosi.crt --key .<span class="se">\l</span>ocalK8s<span class="se">\x</span>iaosi.key --cacert .<span class="se">\l</span>ocalK8s<span class="se">\c</span>a.crt -X GET https://192.168.232.100:6443/api/v1/nodes/node04.my.host  -s <span class="p">|</span> jq-win64.exe -r <span class="s1">&#39;.spec.taints&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;node.kubernetes.io/unreachable&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;effect&#34;</span>: <span class="s2">&#34;NoSchedule&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;timeAdded&#34;</span>: <span class="s2">&#34;2023-06-15T18:41:26Z&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;node.kubernetes.io/unreachable&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;effect&#34;</span>: <span class="s2">&#34;NoExecute&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;timeAdded&#34;</span>: <span class="s2">&#34;2023-06-17T16:43:14Z&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="删除污点" class="heading-element">
+  <a href="#%e5%88%a0%e9%99%a4%e6%b1%a1%e7%82%b9" class="heading-mark"></a>删除污点</h1><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl taint nodes node04.my.host node.kubernetes.io/unreachable:NoExecute-</span>
+</span></span><span class="line"><span class="cl">node/node04.my.host untainted</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="更新资源字段" class="heading-element">
+  <a href="#%e6%9b%b4%e6%96%b0%e8%b5%84%e6%ba%90%e5%ad%97%e6%ae%b5" class="heading-mark"></a>更新资源字段</h1><div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl patch <span class="o">(</span>-f FILENAME <span class="p">|</span> TYPE NAME<span class="o">)</span> <span class="o">[</span>-p PATCH<span class="p">|</span>--patch-file FILE<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--filename, -f
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定文件名（URL）更新资源</span>
+</span></span><span class="line"><span class="cl">--patch, -p
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定 json 格式更新资源</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>更新 <code>PVC</code> 资源指定的 <code>PV</code> 类</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus patch pvc prometheus-server -p &#39;{&#34;spec&#34;:{&#34;storageClassName&#34;: &#34;ebs&#34;}}&#39;</span>
+</span></span><span class="line"><span class="cl">persistentvolumeclaim/prometheus-server patched</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="进入-pod-容器" class="heading-element">
+  <a href="#%e8%bf%9b%e5%85%a5-pod-%e5%ae%b9%e5%99%a8" class="heading-mark"></a>进入 pod 容器</h1><div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl <span class="nb">exec</span> <span class="o">(</span>POD <span class="p">|</span> TYPE/NAME<span class="o">)</span> <span class="o">[</span>-c CONTAINER<span class="o">]</span> <span class="o">[</span>flags<span class="o">]</span> -- COMMAND <span class="o">[</span>args...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">--container, -c
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定 pod 中的容器名称</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1"># kubectl -n prometheus \</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exec</span> prometheus-server-74f95f965c-rf94c <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-c prometheus-server-configmap-reload <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-it -- /bin/sh
+</span></span><span class="line"><span class="cl">/ $</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="查看容器日志-1" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e6%97%a5%e5%bf%97-1" class="heading-mark"></a>查看容器日志</h1><div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus logs prometheus-server-74f95f965c-rf94c -c  prometheus-server</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ts</span><span class="o">=</span>2023-12-11T08:53:44.172Z <span class="nv">caller</span><span class="o">=</span>main.go:583 <span class="nv">level</span><span class="o">=</span>info <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Starting Prometheus Server&#34;</span> <span class="nv">mode</span><span class="o">=</span>server <span class="nv">version</span><span class="o">=</span><span class="s2">&#34;(version=2.48.0, branch=HEAD, revision=6d80b30990bc297d95b5c844e118c4011fad8054)&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ts</span><span class="o">=</span>2023-12-11T08:53:44.172Z <span class="nv">caller</span><span class="o">=</span>main.go:588 <span class="nv">level</span><span class="o">=</span>info <span class="nv">build_context</span><span class="o">=</span><span class="s2">&#34;(go=go1.21.4, platform=linux/amd64, user=root@26117804242c, date=20231116-04:35:21, tags=netgo,builtinassets,stringlabels)&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="kubctl-error" class="heading-element">
+  <a href="#kubctl-error" class="heading-mark"></a>kubctl error</h1><h2 id="-bash-_get_comp_words_by_ref-command-not-found" class="heading-element">
+  <a href="#-bash-_get_comp_words_by_ref-command-not-found" class="heading-mark"></a>-bash: _get_comp_words_by_ref: command not found</h2><p>使用 <code>&lt;Tab&gt;</code> 键补全 <code>kubectl</code> 命令时出错</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl -bash: _get_comp_words_by_ref: command not found</span>
+</span></span><span class="line"><span class="cl">-bash: _get_comp_words_by_ref: <span class="nb">command</span> not found</span></span></code></pre></td></tr></table>
+</div>
+</div><p>原因是缺少 <code>bash-completion</code> 包</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum install bash-completion -y
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> /usr/share/bash-completion/bash_completion</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-12-11 17:26:44">更新于 2023-12-11&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/kubectl/" class="post-tag" title="标签 - kubectl">kubectl</a><a href="/tags/kubeconfig/" class="post-tag" title="标签 - kubeconfig">kubeconfig</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/Service/" class="post-nav-item" rel="prev" title="k8s 服务暴露"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s 服务暴露</a>
+      <a href="/JsonPath/" class="post-nav-item" rel="next" title="JsonPath">JsonPath<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

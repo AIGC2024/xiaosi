@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s 调度器 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="kube-scheduler" /><meta name="keywords" content='k8s, 命令, kube-scheduler 命令' /><meta itemprop="name" content="k8s 调度器">
+<meta itemprop="description" content="kube-scheduler"><meta itemprop="datePublished" content="2022-08-14T12:57:42+08:00" />
+<meta itemprop="dateModified" content="2023-05-07T14:54:53+08:00" />
+<meta itemprop="wordCount" content="6719">
+<meta itemprop="keywords" content="k8s,命令,kube-scheduler 命令," /><meta property="og:title" content="k8s 调度器" />
+<meta property="og:description" content="kube-scheduler" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sScheduler/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-14T12:57:42+08:00" />
+<meta property="article:modified_time" content="2023-05-07T14:54:53+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s 调度器"/>
+<meta name="twitter:description" content="kube-scheduler"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sScheduler/" /><link rel="prev" href="/k8sProxy/" /><link rel="next" href="/00012022081801/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s 调度器",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sScheduler\/"
+    },"genre": "posts","keywords": "k8s, 命令, kube-scheduler 命令","wordcount":  6719 ,
+    "url": "\/k8sScheduler\/","datePublished": "2022-08-14T12:57:42+08:00","dateModified": "2023-05-07T14:54:53+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s 调度器</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-14 12:57:42"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-14">2022-08-14</time></span>&nbsp;<span title="更新于 2023-05-07 14:54:53"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-07">2023-05-07</time></span>&nbsp;<span title="6719 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 6800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 14 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kube-scheduler">kube-scheduler</a></li>
+    <li><a href="#配置与选项">配置与选项</a>
+      <ul>
+        <li><a href="#指定鉴权-kubeconfig-文件路径">指定鉴权 kubeconfig 文件路径</a></li>
+        <li><a href="#指定授权-kubeconfig-文件路径">指定授权 kubeconfig 文件路径</a></li>
+        <li><a href="#监听地址">监听地址</a></li>
+        <li><a href="#特性开关">特性开关</a></li>
+        <li><a href="#是否启用选举领导者">是否启用选举领导者</a></li>
+      </ul>
+    </li>
+    <li><a href="#调度框架">调度框架</a></li>
+    <li><a href="#kube-scheduler-调度流程">kube-scheduler 调度流程</a></li>
+    <li><a href="#调度到指定节点">调度到指定节点</a>
+      <ul>
+        <li><a href="#调度到指定某个节点">调度到指定某个节点</a></li>
+        <li><a href="#调度到有指定标签的节点">调度到有指定标签的节点</a></li>
+        <li><a href="#节点亲和性">节点亲和性</a></li>
+        <li><a href="#pod-容忍度">pod 容忍度</a></li>
+        <li><a href="#pod-之间和亲和性">pod 之间和亲和性</a></li>
+      </ul>
+    </li>
+    <li><a href="#资源开销">资源开销</a></li>
+    <li><a href="#拓扑分布">拓扑分布</a></li>
+    <li><a href="#pod-调度优先级">pod 调度优先级</a></li>
+    <li><a href="#节点压力驱逐">节点压力驱逐</a>
+      <ul>
+        <li><a href="#驱逐信号">驱逐信号</a></li>
+        <li><a href="#驱逐条件">驱逐条件</a></li>
+        <li><a href="#检测时间间隔">检测时间间隔</a></li>
+        <li><a href="#压力驱逐顺序">压力驱逐顺序</a></li>
+      </ul>
+    </li>
+    <li><a href="#api-发起的驱逐">API 发起的驱逐</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux: 8.5</li>
+<li>内核: 4.18.0-348.el8.0.2.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><code>k8s</code> 官方文档：<a href="https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/"target="_blank" rel="external nofollow noopener noreferrer">调度、抢占和驱逐</a></li>
+<li><code>k8s</code> 官方文档：<a href="https://kubernetes.io/zh-cn/docs/concepts/scheduling-eviction/kube-scheduler/"target="_blank" rel="external nofollow noopener noreferrer">Kubernetes 调度器</a></li>
+</ul>
+</blockquote>
+<h1 id="kube-scheduler" class="heading-element">
+  <a href="#kube-scheduler" class="heading-mark"></a>kube-scheduler</h1><p><code>k8s</code> 调度器是一个控制面进程，负责将 <code>Pods</code> 指派到节点上。 调度器基于约束和可用资源为调度队列中每个 <code>Pod</code> 确定其可合法放置的节点。 调度器之后对所有合法的节点进行排序，将 <code>Pod</code> 绑定到一个合适的节点。 在同一个集群中可以使用多个不同的调度器</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod -n kube-system kube-scheduler-k8s01.localdomain -o=jsonpath=&#39;{$.spec.containers[0].command}&#39; | jq</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;kube-scheduler&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--authentication-kubeconfig=/etc/kubernetes/scheduler.conf&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--authorization-kubeconfig=/etc/kubernetes/scheduler.conf&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--bind-address=0.0.0.0&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--feature-gates=TTLAfterFinished=true,EphemeralContainers=true&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--kubeconfig=/etc/kubernetes/scheduler.conf&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--leader-elect=true&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="配置与选项" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e4%b8%8e%e9%80%89%e9%a1%b9" class="heading-mark"></a>配置与选项</h1><h2 id="指定鉴权-kubeconfig-文件路径" class="heading-element">
+  <a href="#%e6%8c%87%e5%ae%9a%e9%89%b4%e6%9d%83-kubeconfig-%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>指定鉴权 kubeconfig 文件路径</h2><p><code>kube-scheduler -authentication-kubeconfig</code> 选项指定 <code>kubeconfig</code> 文件，该 <code>kubeconfig</code> 文件具有创建 <code>tokenaccessreviews.authentication.k8s.io</code> 核心服务的权限。如果此选项为空，则则所有令牌请求均被视为匿名请求，并且不会在集群中查找任何客户端 <code>CA</code> 证书</p>
+<h2 id="指定授权-kubeconfig-文件路径" class="heading-element">
+  <a href="#%e6%8c%87%e5%ae%9a%e6%8e%88%e6%9d%83-kubeconfig-%e6%96%87%e4%bb%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>指定授权 kubeconfig 文件路径</h2><p><code>kube-scheduler --authorization-kubeconfig</code> 选项指定 <code>kubeconfig</code> 文件，该 <code>kubeconfig</code> 文件具有创建 <code>subjectaccessreviews.authorization.k8s.io</code> 服务权限。 如果此选项为空，则所有未被鉴权机制略过的请求都会被禁止。</p>
+<h2 id="监听地址" class="heading-element">
+  <a href="#%e7%9b%91%e5%90%ac%e5%9c%b0%e5%9d%80" class="heading-mark"></a>监听地址</h2><p><code>kube-scheduler --bind-address</code> 选项指定监听 <code>ip</code> 地址</p>
+<h2 id="特性开关" class="heading-element">
+  <a href="#%e7%89%b9%e6%80%a7%e5%bc%80%e5%85%b3" class="heading-mark"></a>特性开关</h2><p><code>kube-scheduler --feature-gates</code> 指定特性开关</p>
+<h2 id="是否启用选举领导者" class="heading-element">
+  <a href="#%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8%e9%80%89%e4%b8%be%e9%a2%86%e5%af%bc%e8%80%85" class="heading-mark"></a>是否启用选举领导者</h2><p><code>kube-scheduler --leader-elect</code> 选项如果为 <code>true</code>, 则在执行主循环之前，开始领导者选举并选出领导者。 使用多副本来实现高可用性时，可启用此标志。</p>
+<h1 id="调度框架" class="heading-element">
+  <a href="#%e8%b0%83%e5%ba%a6%e6%a1%86%e6%9e%b6" class="heading-mark"></a>调度框架</h1><p>调度框架可以为现有的调度器添加了一组新的插件 <code>API</code>，调度框架定义了一些扩展点。调度器插件注册后在一个或多个扩展点处被调用。 这些插件中的一些可以改变调度决策，而另一些仅用于提供信息。</p>
+<p>每次调度一个 <code>Pod</code> 的尝试都分为两个阶段：</p>
+<ul>
+<li>调度周期：为 <code>Pod</code> 选择一个节点，是串行运行的</li>
+<li>绑定周期。将该决策应用于集群，可能是同时运行的</li>
+</ul>
+<p>如果确定 <code>Pod</code> 不可调度或者存在内部错误，则可以终止调度周期或绑定周期。 <code>Pod</code> 将返回队列并重试。</p>
+<p>一个 <code>Pod</code> 的调度上下文顺序及可扩展插件点，一个插件可以在多个扩展点处注册，以执行更复杂或有状态的任务：</p>
+<ol>
+<li>队列排序：这些插件用于对调度队列中的 <code>Pod</code> 进行排序。一次只能启动一个队列插件。</li>
+<li><code>PreFilter</code>: 这些插件用于预处理 <code>Pod</code> 的相关信息，或者检查集群或 <code>Pod</code> 必须满足的某些条件。 如果 <code>PreFilter</code> 插件返回错误，则调度周期将终止</li>
+<li><code>Filter</code>: 这些插件用于过滤出不能运行该 <code>Pod</code> 的节点。对于每个节点， 调度器将按照其配置顺序调用这些过滤插件。如果任何过滤插件将节点标记为不可行， 则不会为该节点调用剩下的过滤插件。节点可以被同时进行评估。</li>
+<li><code>PostFilter</code>: 这些插件在 <code>Filter</code> 阶段后调用，但仅在该 <code>Pod</code> 没有可行的节点时调用。 插件按其配置的顺序调用。如果任何 <code>PostFilter</code> 插件标记节点为 <code>Schedulable</code>， 则其余的插件不会调用。</li>
+<li><code>PreScore</code>: 这些插件用于执行 “前置评分（<code>pre</code>-<code>scoring</code>）” 工作，即生成一个可共享状态供 <code>Score</code> 插件使用。 如果 <code>PreScore</code> 插件返回错误，则调度周期将终止。</li>
+<li><code>Score</code>: 这些插件用于对通过过滤阶段的节点进行排序。调度器将为每个节点调用每个评分插件。 将有一个定义明确的整数范围，代表最小和最大分数。 在标准化评分阶段之后，调度器将根据配置的插件权重 合并所有插件的节点分数。</li>
+<li><code>NormalizeScore</code>: 这些插件用于在调度器计算 <code>Node</code> 排名之前修改分数。 在此扩展点注册的插件被调用时会使用同一插件的 <code>Score</code> 结果。 每个插件在每个调度周期调用一次。如果任何 <code>NormalizeScore</code> 插件返回错误，则调度阶段将终止。</li>
+<li><code>Reserve</code>: <code>Reserve</code> 是一个信息性的扩展点。 管理运行时状态的插件（也成为“有状态插件”）应该使用此扩展点，以便 调度器在节点给指定 <code>Pod</code> 预留了资源时能够通知该插件。 这是在调度器真正将 <code>Pod</code> 绑定到节点之前发生的，并且它存在是为了防止 在调度器等待绑定成功时发生竞争情况。这个是调度周期的最后一步。 一旦 <code>Pod</code> 处于保留状态，它将在绑定周期结束时触发 <code>Unreserve</code> 插件 （失败时）或 <code>PostBind</code> 插件（成功时）。</li>
+<li><code>Permit</code>: <code>Permit</code> 插件在每个 <code>Pod</code> 调度周期的最后调用，用于防止或延迟 <code>Pod</code> 的绑定。 一个允许插件可以做以下三件事之一：
+<ul>
+<li>允许：一旦所有 <code>Permit</code> 插件批准 <code>Pod</code> 后，该 <code>Pod</code> 将被发送以进行绑定。</li>
+<li>拒绝：如果任何 <code>Permit</code> 插件拒绝 <code>Pod</code>，则该 <code>Pod</code> 将被返回到调度队列。 这将触发<code>Unreserve</code> 插件。</li>
+<li>等待：如果一个 <code>Permit</code> 插件返回 “等待” 结果，则 <code>Pod</code> 将保持在一个内部的 “等待中” 的 <code>Pod</code> 列表，同时该 <code>Pod</code> 的绑定周期启动时即直接阻塞直到得到 批准。如果超时发生，等待 变成 拒绝，并且 <code>Pod</code> 将返回调度队列，从而触发 <code>Unreserve</code> 插件。</li>
+</ul>
+</li>
+<li><code>PreBind</code>: 这些插件用于执行 <code>Pod</code> 绑定前所需的所有工作。这些插件用于执行 <code>Pod</code> 绑定前所需的所有工作。</li>
+<li><code>Bind</code>: <code>Bind</code> 插件用于将 <code>Pod</code> 绑定到节点上。直到所有的 <code>PreBind</code> 插件都完成，<code>Bind</code> 插件才会被调用。 各 <code>Bind</code> 插件按照配置顺序被调用。<code>Bind</code> 插件可以选择是否处理指定的 <code>Pod</code>。 如果某 <code>Bind</code> 插件选择处理某 <code>Pod</code>，剩余的 <code>Bind</code> 插件将被跳过。</li>
+<li><code>PostBind</code>: 这是个信息性的扩展点。 <code>PostBind</code> 插件在 <code>Pod</code> 成功绑定后被调用。这是绑定周期的结尾，可用于清理相关的资源。</li>
+<li><code>Unreserve</code>: 这是个信息性的扩展点。 如果 <code>Pod</code> 被保留，然后在后面的阶段中被拒绝，则 <code>Unreserve</code> 插件将被通知。 <code>Unreserve</code> 插件应该清楚保留 <code>Pod</code> 的相关状态。使用此扩展点的插件通常也使用 <code>Reserve</code>。</li>
+</ol>
+<h1 id="kube-scheduler-调度流程" class="heading-element">
+  <a href="#kube-scheduler-%e8%b0%83%e5%ba%a6%e6%b5%81%e7%a8%8b" class="heading-mark"></a>kube-scheduler 调度流程</h1><p><code>kube-scheduler</code> 给一个 <code>pod</code> 做调度选择时包含两个步骤：</p>
+<ol>
+<li>过滤：将所有满足 <code>Pod</code> 调度需求的节点选出来。受以下因素影响：
+<ul>
+<li>节点名称</li>
+<li>节点标签</li>
+<li><code>pod</code> 标签</li>
+<li>资源限制</li>
+</ul>
+</li>
+<li>打分：根据当前启用的打分规则，调度器会给每一个可调度节点进行打分。<code>kube-scheduler</code> 会将 <code>Pod</code> 调度到得分最高的节点上。 如果存在多个得分最高的节点，<code>kube-scheduler</code> 会从中随机选取一个。</li>
+</ol>
+<p><code>kube-scheduler</code> 支持以下方式配置调度器的过滤和打分行为：</p>
+<ul>
+<li>调度策略：<code>k8s:1.23 &gt;=</code> 不再支持这种调度策略</li>
+<li>调度配置文件：可以通过配置文件实现不同调度阶段的插件</li>
+</ul>
+<h1 id="调度到指定节点" class="heading-element">
+  <a href="#%e8%b0%83%e5%ba%a6%e5%88%b0%e6%8c%87%e5%ae%9a%e8%8a%82%e7%82%b9" class="heading-mark"></a>调度到指定节点</h1><h2 id="调度到指定某个节点" class="heading-element">
+  <a href="#%e8%b0%83%e5%ba%a6%e5%88%b0%e6%8c%87%e5%ae%9a%e6%9f%90%e4%b8%aa%e8%8a%82%e7%82%b9" class="heading-mark"></a>调度到指定某个节点</h2><p><code>pod.spec.nodeName</code> 字段可以使 <code>pod</code> 调度到指定节点名，它的优先级比标签选择器、节点亲和性高。使用该方式有以下缺点：</p>
+<ul>
+<li>指定的节点名不存在的情况下无法调度到其它节点，而且在某些情况下可能会被自动删除。</li>
+<li>节点无法满足 <code>pod</code> 请求资源时，<code>pod</code> 会运行失败</li>
+</ul>
+<p>下面是示例</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl -n note get pod nginx-deployment-6df7db8cbb-g68tm -o=jsonpath=&#39;{$.spec.nodeName}{&#34;\n&#34;}&#39;</span>
+</span></span><span class="line"><span class="cl">k8s02.localdomain</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="调度到有指定标签的节点" class="heading-element">
+  <a href="#%e8%b0%83%e5%ba%a6%e5%88%b0%e6%9c%89%e6%8c%87%e5%ae%9a%e6%a0%87%e7%ad%be%e7%9a%84%e8%8a%82%e7%82%b9" class="heading-mark"></a>调度到有指定标签的节点</h2><p><code>pod.spec.nodeSelector</code> 字段可以使 <code>pod</code> 调度到带有指定标签的节点。下面示例表示该 <code>pod</code> 调度到有 <code>disktype=ssd</code> 标签的节点</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">IfNotPresent</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">nodeSelector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">disktype</span><span class="p">:</span><span class="w"> </span><span class="l">ssd</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="节点亲和性" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e4%ba%b2%e5%92%8c%e6%80%a7" class="heading-mark"></a>节点亲和性</h2><p>亲和性和反亲和类似标签选择器，性扩展了你可以定义的约束类型。使用亲和性与反亲和性的一些好处有：</p>
+<ul>
+<li>表达能力比 <code>nodeSelector</code> 方式更强</li>
+<li>可以设置偏好，调度器在无法找到匹配节点时仍然调度该 <code>Pod</code></li>
+<li>不只依赖节点标签</li>
+</ul>
+<p>设置节点亲和性有以下方式：</p>
+<ul>
+<li><code>pod.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution</code>: 调度器只有在规则被满足的时候才能执行调度。功能类似 <code>nodeSelector</code></li>
+<li><code>pod.spec.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution</code>: 调度器会尝试寻找满足对应规则的节点。如果找不到匹配的节点，调度器仍然会调度该 <code>Pod</code></li>
+</ul>
+<p>如果同时指定 <code>pod.spec.nodeSelector</code>字段和 <code>pod.spec.affinity.nodeAffinity</code>字段，必须同时满足， <code>pod</code> 才能调度到候选节点上。</p>
+<p>如果指定多个 <code>pod.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms</code> 字段，只要满足其一，就可以作为候选节点。</p>
+<p>如果在同个 <code>pod.spec.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms</code> 字段中指定多个 <code>matchExpressions</code> 字段，则当所有 <code>matchExpressions</code> 满足时，就可以作为候选节点</p>
+<p>下面示例通过以下方式选择节点，优先级从上往下</p>
+<ol>
+<li>节点必须含有 <code>topology.kubernetes.io/zone</code> 标签，且值为 <code>antarctica-east1</code> 或 <code>antarctica-west1</code></li>
+<li>优先调度到具有标签值 <code>label-1=key-1</code> 或 <code>label-2=key-2</code> 节点上。<code>weight</code> 表示权重，该值会加到 <code>kube-scheduler</code> 节点打分上，使其更有优势</li>
+</ol>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">with-node-affinity</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">affinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">nodeAffinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">topology.kubernetes.io/zone</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">antarctica-east1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">antarctica-west1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">preferredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">preference</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">label-1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">key-1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">50</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">preference</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">label-2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">key-2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">with-node-affinity</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/pause:2.0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pod-容忍度" class="heading-element">
+  <a href="#pod-%e5%ae%b9%e5%bf%8d%e5%ba%a6" class="heading-mark"></a>pod 容忍度</h2><p>在 <code>pod.spec.taints</code> 字段可以设置标签选择器为节点添加污点，当 <code>pod</code> 无法容忍这些污点时（由 <code>pod.spec.tolerations</code> 字段指定，立即生效），根据污点策略调度执行相应的动作。该方式使节点能够排斥一类特定的 <code>Pod</code>。节点污点策略由 <code>node.spec.taints.effect</code> 字段设置，有以下可用值：</p>
+<ul>
+<li><code>NoExecute</code>: <code>pod</code> 无法容忍污点时，节点控制器会驱逐这些 <code>pod</code></li>
+<li><code>NoSchedule</code>: <code>pod</code> 无法容忍污点时，调度器不会把新 <code>pod</code> 调度到该节点。已有 <code>pod</code> 继续运行</li>
+<li><code>PreferNoSchedule</code>: <code>pod</code> 无法容忍污点时，调度器尽量不调度到该节点</li>
+</ul>
+<p>当有多个容忍度设置或多个污点设置时，要满足所有污点策略</p>
+<p>可以使用 <code>kubectl taint nodes</code> 命令为节点添加污点，如下面示例为 <code>k8s02.localdomain</code> 节点添加一个 <code>NoSchedule</code> 类型的污点。亲的不容忍该污点 <code>pod</code> 不会调度到该节点</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl taint nodes k8s02.localdomain key1=value1:NoSchedule</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get node k8s02.localdomain -o=jsonpath=&#39;{@.spec.taints}&#39; | jq</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;effect&#34;</span>: <span class="s2">&#34;NoSchedule&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key&#34;</span>: <span class="s2">&#34;key1&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;value&#34;</span>: <span class="s2">&#34;value1&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面是 <code>pod</code> 设置容忍度示例，有以下含义：</p>
+<ul>
+<li>能容忍含有 <code>example-key</code> 污点键的节点运行</li>
+<li>禁止调度到含有键为 <code>key1</code> 的污点节点</li>
+<li>如果节点增加了 <code>NoExecute</code> 类型的污点 <code>node.kubernetes.io/unreachable</code> 时，延迟 <code>3600</code> 秒驱逐（<code>tolerationSeconds</code> 字段只有污点策略为 <code>NoExecute</code> 时有效）</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">tolerations</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;example-key&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Exists&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;key1&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Equal&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;value1&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;NoExecute&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;node.kubernetes.io/unreachable&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Exists&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;NoExecute&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">tolerationSeconds</span><span class="p">:</span><span class="w"> </span><span class="m">6000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当某种条件为真时，节点控制器会自动给节点添加污点：</p>
+<ul>
+<li><code>node.kubernetes.io/not-ready</code>: 节点未准备好。这相当于节点状况 <code>Ready</code> 为 <code>False</code></li>
+<li><code>node.kubernetes.io/unreachable</code>: 节点控制器访问不到节点. 这相当于节点状况 <code>Ready</code> 为 <code>Unknown</code></li>
+<li><code>node.kubernetes.io/memory-pressure</code>: 节点存在内存压力</li>
+<li><code>node.kubernetes.io/disk-pressure</code>: 节点存在磁盘压力</li>
+<li><code>node.kubernetes.io/pid-pressure</code>: 节点的 <code>PID</code> 压力</li>
+<li><code>node.kubernetes.io/network-unavailable</code>: 节点网络不可用</li>
+<li><code>node.kubernetes.io/unschedulable</code>: 节点不可调度</li>
+</ul>
+<h2 id="pod-之间和亲和性" class="heading-element">
+  <a href="#pod-%e4%b9%8b%e9%97%b4%e5%92%8c%e4%ba%b2%e5%92%8c%e6%80%a7" class="heading-mark"></a>pod 之间和亲和性</h2><p><code>pod</code> 亲和性可以基于已经在节点上运行的 <code>Pod</code> 的标签来过滤掉节点。人性化来说就是 <code>pod</code> 更倾向与哪些 <code>pod</code> 在同个节点上。该方式需要相当的计算量，因此会在大规模集群中显著降低调度速度。</p>
+<p><code>pod.spec.affinity.podAffinity</code> 字段表示 <code>pod</code> 之间亲和性，<code>pod.spec.affinity.podAntiAffinity</code> 字段表示 <code>pod</code> 之间反亲和性，它们都有以下字段：</p>
+<ul>
+<li><code>requiredDuringSchedulingIgnoredDuringExecution</code>: <code>pod</code> 亲和</li>
+<li><code>preferredDuringSchedulingIgnoredDuringExecution</code>: <code>pod</code> 反亲和</li>
+</ul>
+<p>下面示例表示有以下含义：</p>
+<ul>
+<li><code>pod.spec.affinity.podAffinity.requiredDuringSchedulingIgnoredDuringExecution``: 字段表示调度器必须将 </code>pod<code>调度到具有</code>topology.kubernetes.io/zone=V<code>标签的节点上，并且集群中至少有一个位于该可用区的节点上运行着带有</code>security=S1<code>标签的</code>pod`</li>
+<li><code>pod.spec.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution</code>: 字段表示调度器不能调度到运行带有 <code>security=S2</code> 标签的 <code>pod</code> 且带有<code>topology.kubernetes.io/zone=R</code> 标签的节点上</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">with-pod-affinity</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">affinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">podAffinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">requiredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">labelSelector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">security</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">S1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">topologyKey</span><span class="p">:</span><span class="w"> </span><span class="l">topology.kubernetes.io/zone</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">podAntiAffinity</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">preferredDuringSchedulingIgnoredDuringExecution</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">podAffinityTerm</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">labelSelector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">matchExpressions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">security</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l">In</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">values</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span>- <span class="l">S2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">topologyKey</span><span class="p">:</span><span class="w"> </span><span class="l">topology.kubernetes.io/zone</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">with-pod-affinity</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/pause:2.0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>topologyKey</code> 字段指定节点标签，出于性能和安全原因有以下限制：</p>
+<ul>
+<li><code>pod.spec.affinity.podAffinity</code> 字段中，<code>topologyKey</code> 字段不能为空</li>
+<li><code>requiredDuringSchedulingIgnoredDuringExecution</code> 字段中，准入控制器 <code>LimitPodHardAntiAffinityTopology</code> 要求 <code>topologyKey</code> 只能是 <code>kubernetes.io/hostname</code></li>
+</ul>
+<h1 id="资源开销" class="heading-element">
+  <a href="#%e8%b5%84%e6%ba%90%e5%bc%80%e9%94%80" class="heading-mark"></a>资源开销</h1><p>一个 <code>pod</code> 实际可能占用的资源 <code>=</code> 运行 <code>pod</code> 本身资源 <code>+</code> <code>pod</code> 内容器所需资源总合。目前默认调度不会考虑 <code>pod</code> 本身资源开销，除非启用了 <code>ResourceQuota</code> 对象</p>
+<p><code>pod</code> 本身开销 <code>k8s</code> 目前无法自动识别，要在 <code>pod.spec.overhead</code> 字段中指定。该字段无法直接设置，它会在 <code>RuntimeClass</code> 准入控制器中引用 <code>RuntimeClass.overhead</code> 字段值。因此要先创建 <code>RuntimeClass</code> 资源。</p>
+<p>示例</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">node.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">RuntimeClass</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kata-fc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">handler</span><span class="p">:</span><span class="w"> </span><span class="l">kata-fc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">overhead</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">podFixed</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;120Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;250m&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">runtimeClassName</span><span class="p">:</span><span class="w"> </span><span class="l">kata-fc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">busybox-ctr</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">busybox:1.28</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">stdin</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">tty</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l">500m</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l">100Mi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-ctr</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l">1500m</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l">100Mi</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="拓扑分布" class="heading-element">
+  <a href="#%e6%8b%93%e6%89%91%e5%88%86%e5%b8%83" class="heading-mark"></a>拓扑分布</h1><p>该方法是尽量将 <code>pod</code> 副本分散到不同节点上。由 <code>pod.spec.topologySpreadConstraints</code> 字段设置。示例：</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">example-pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 配置一个拓扑分布约束</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">topologySpreadConstraints</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">maxSkew</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;integer&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">minDomains</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;integer&gt;</span><span class="w"> </span><span class="c"># 可选；自从 v1.24 开始成为 Alpha</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">topologyKey</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;string&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">whenUnsatisfiable</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;string&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labelSelector</span><span class="p">:</span><span class="w"> </span><span class="l">&lt;object&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c">### 其他 Pod 字段置于此处</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>whenUnsatisfiable</code> 字段表示不满足分布条件时处理方式。有以下值：
+<ul>
+<li><code>DoNotSchedule</code>: 默认值，告诉调度器不要调度</li>
+<li><code>ScheduleAnyway</code>: 根据如何能将偏差最小化来对节点进行排序调度</li>
+</ul>
+</li>
+<li><code>topologyKey</code>: 指定节点标签名进行分组，相同的值认为是同组节点</li>
+<li><code>labelSelector</code>: 标签选择器，在分组中根据 <code>pod</code> 标签统计其数量</li>
+<li><code>maxSkew</code>: 描述这些 <code>Pod</code> 可能被均匀分布的程度，值大于 <code>0</code>，受以下影响:
+<ul>
+<li>当 <code>whenUnsatisfiable: DoNotSchedule</code> 时，则表示 <code>pod</code> 调度最大允许差值。比如目前有2个分组节点，有4个 <code>pod</code> 需要调度，不同的值有不同差异：
+<ul>
+<li><code>maxSkew: 1</code> 时，每个分组分配 <code>2</code> 个 <code>pod</code>(2-2=0 满足条件)</li>
+<li><code>maxSkew: 2</code> 时，同分组分配1~3个 <code>pod</code>(3-1=2，2-2=0 才能满足条件)</li>
+<li><code>maxSkew: 3</code> 时，同分组分配1~3个 <code>pod</code></li>
+<li><code>maxSkew</code> 值大于4时，可能都调度到同分组</li>
+</ul>
+</li>
+<li>当 <code>whenUnsatisfiable: ScheduleAnyway</code> 时，该调度器会更为偏向能够降低偏差值的分组</li>
+</ul>
+</li>
+<li><code> minDomains</code> 字段要启动 <code>MinDomainsInPodToplogySpread</code> 特性才能使用</li>
+</ul>
+<p>该方式存在以下问题：</p>
+<ul>
+<li>当 <code>Pod</code> 被移除时，无法保证差值仍被满足（不会重新调度正在运行的 <code>pod</code>）</li>
+<li>具有污点的节点上匹配的 <code>Pod</code> 也会被统计</li>
+<li>该调度器不会预先知道集群拥有的所有可用分组和其他拓扑域</li>
+</ul>
+<p>下面是多个拓扑分布约束示例</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="l">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="l">spec</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="l">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="l">bar</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">topologySpreadConstraints</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">maxSkew</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">topologyKey</span><span class="p">:</span><span class="w"> </span><span class="l">zone</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">whenUnsatisfiable</span><span class="p">:</span><span class="w"> </span><span class="l">DoNotSchedule</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">labelSelector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="l">bar</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">maxSkew</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">topologyKey</span><span class="p">:</span><span class="w"> </span><span class="l">node</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">whenUnsatisfiable</span><span class="p">:</span><span class="w"> </span><span class="l">DoNotSchedule</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">labelSelector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="l">bar</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">pause</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/pause:3.1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果节点标签像以下方式定义时，每个节点将分配一个 <code>pod</code> 才满足条件</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">node1: <span class="nv">zone</span><span class="o">=</span>1,foo<span class="o">=</span>bar,...
+</span></span><span class="line"><span class="cl">node2: <span class="nv">zone</span><span class="o">=</span>1,foo<span class="o">=</span>bar,...
+</span></span><span class="line"><span class="cl">node3: <span class="nv">zone</span><span class="o">=</span>2,foo<span class="o">=</span>bar,...
+</span></span><span class="line"><span class="cl">node4: <span class="nv">zone</span><span class="o">=</span>2,foo<span class="o">=</span>bar,...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="pod-调度优先级" class="heading-element">
+  <a href="#pod-%e8%b0%83%e5%ba%a6%e4%bc%98%e5%85%88%e7%ba%a7" class="heading-mark"></a>pod 调度优先级</h1><p><code>pod</code> 有优先级，优先级高的 <code>pod</code> 不仅可以更快被调度，还可以驱逐优先级低的 <code>pod</code> 使自己可以被调度。</p>
+<p><code>pod</code> 优先级使用 <code>PriorityClass</code> 资源实现，它是一个无命名空间对象，定义了从优先级类名称到优先级整数值的映射。下面是一个示例</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">scheduling.k8s.io/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">PriorityClass</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">high-priority</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="m">1000000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">globalDefault</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;此优先级类应仅用于 XYZ 服务 Pod。&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">globalDefault</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">preemptionPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">IfNotPresent</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">priorityClassName</span><span class="p">:</span><span class="w"> </span><span class="l">high-priority</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>PriorityClass.metadata.name</code> 字段定义 <code>PriorityClass</code> 资源名称，名称必须是有效的 <code>DNS</code> 子域名， 并且它不能用 <code>system-</code> 做为前缀</li>
+<li><code>pod.spec.priorityClassName</code> 字段指定引用 <code>PriorityClass</code> 资源名称</li>
+<li><code>PriorityClass.value</code> 字段定义优先级，数值越大优先级越高，最大值为 <code>10</code> 亿</li>
+<li><code>PriorityClass.globalDefault</code> 字段中可选的，表示没有引用 <code>PriorityClass</code> 资源 的 <code>pod</code> 默认优先级。该字段应该在所有 <code>priorityClassName</code> 只存在一个，如果有多少则使用最小值。都缺省时为 <code>0</code></li>
+<li><code>PriorityClass.description</code> 字段是可选的，定义了说明信息
+-<code>priorityClass.preemptionPolicy</code> 字段要可选的，有以下值：
+<ul>
+<li><code>Never</code>: 表示非抢占式，没有足够的可用资源， 它才可以被调度</li>
+<li><code>PreemptLowerPriority</code>: 表示抢占式，也是默认值。<code>Pod</code> 被创建后会进入队列等待调度。 调度器从队列中挑选一个 <code>Pod</code> 并尝试将它调度到某个节点上。 如果没有找到满足 <code>Pod</code> 的所指定的所有要求的节点，则试图找到一个节点， 在该节点中删除一个或多个优先级低的 <code>Pod</code>，然后调度到该节点上。</li>
+</ul>
+</li>
+</ul>
+<p>当 <code>pod</code> 抢占节点上的 <code>pod</code> 时，抢占方 <code>pod</code> 状态中 <code>nominatedNodeName</code> 字段被设置为抢占的节点名称。抢占有以下情况：</p>
+<ul>
+<li>抢占成功，此时，<code>nominatedNodeName</code> 字段与 <code>nodeName</code> 相同</li>
+<li>抢占不占用，在驱逐 <code>pod</code> 过程中，有其它节点满足调度条件，会被调度到其它节点。此时，<code>nominatedNodeName</code> 字段与 <code>nodeName</code> 不相同。</li>
+<li>抢占失败，在成功驱逐后被优先级更高的 <code>pod</code> 占用需要重新找合适节点抢占。这种情况下调度程序会清除 <code>nominatedNodeName</code> 字段，</li>
+</ul>
+<p>被抢占的 <code>pod</code> 不会立即杀死，在一定时间内（默认 30 秒，可以使用 <code>pod.spec.terminationGracePeriodSeconds</code> 字段修改）让容器正常退出，超时会被强制杀死释放资源。在这期间，调度器会继续调度其他待处理的 <code>Pod</code>。当牺牲者退出或被终止时， 调度程序会尝试在待处理队列中调度 <code>Pod</code>。 因此，调度器抢占牺牲者的时间点与抢占方 <code>Pod</code> 被调度的时间点之间通常存在时间间隔。 为了最小化这个差距，可以将低优先级 <code>Pod</code> 的强制终止时间设置为零或一个小数字。</p>
+<h1 id="节点压力驱逐" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e5%8e%8b%e5%8a%9b%e9%a9%b1%e9%80%90" class="heading-mark"></a>节点压力驱逐</h1><p>当节点资源使用到指定阀值时，<code>kubelet</code> 可以主动地删除节点上一个或者多个 <code>Pod</code> 回收资源防止饥饿。</p>
+<p><code>kubelet</code> 在驱逐 <code>Pod</code> 之前会先尝试回收节点级资源。当满足 <code>memory.available</code> 信号时，会根据节点上的文件系统回收节点级资源，优先级从上往下：</p>
+<ol>
+<li><code>imagefs</code> 文件系统满足驱逐条件， 将删除所有未使用的镜像。（如果节点有一个专用的 <code>imagefs</code> 文件系统供容器运行时使用）</li>
+<li>对死亡的 <code>Pod</code> 和容器进行垃圾收集</li>
+<li>删除未使用的镜像</li>
+</ol>
+<p><code>kubelet</code> 驱逐决定受以下因素决定：</p>
+<ul>
+<li>驱逐信号</li>
+<li>驱逐条件</li>
+<li>监控间隔</li>
+</ul>
+<h2 id="驱逐信号" class="heading-element">
+  <a href="#%e9%a9%b1%e9%80%90%e4%bf%a1%e5%8f%b7" class="heading-mark"></a>驱逐信号</h2><p>驱逐信号是特定资源在特定时间点的当前状态。 <code>kubelete</code> 通过将信号与驱逐条件进行比较来做出驱逐决定， 驱逐条件是节点上应该可用资源的最小量。有以下驱逐信号：</p>
+<ul>
+<li><code>memory.available</code>: 值为 <code>node.status.capacity.memory - node.stats.memory.workingSet</code> 字段值（问题：后面字段什么意识，从哪里获得）值来自 <code>cgroupfs</code></li>
+<li><code>nodefs.available</code>: 值为 <code>node.stats.fs.available</code></li>
+<li><code>nodefs.inodesFree</code>: 值为 <code>node.stats.fs.inodesFree</code></li>
+<li><code>imagefs.available</code>: 值为 <code>node.stats.runtime.imagefs.available</code></li>
+<li><code>imagefs.inodesFree</code>: 值为 <code>node.stats.runtime.imagefs.inodesFree</code></li>
+<li><code>pid.available</code>: 值为 <code>node.stats.rlimit.maxpid - node.stats.rlimit.curproc</code></li>
+</ul>
+<h2 id="驱逐条件" class="heading-element">
+  <a href="#%e9%a9%b1%e9%80%90%e6%9d%a1%e4%bb%b6" class="heading-mark"></a>驱逐条件</h2><p>驱逐条件的形式为 <code>[eviction-signal][operator][quantity]</code>，驱逐方式分为软驱逐与硬驱逐</p>
+<ul>
+<li><code>eviction-signal</code>: 表示驱逐信号</li>
+<li><code>operator</code>: 表示关系运算符</li>
+<li><code>quantity</code>: 表示驱逐条件数量</li>
+</ul>
+<p>比如 <code>memory.available&lt; 1G</code> 表示可用内存低于 <code>1Gi</code> 时触发驱逐。在某些情况下，节点在软驱逐条件上下振荡，而没有保持定义的宽限期。 这会导致报告的节点条件在 <code>true</code> 和 <code>false</code> 之间不断切换，从而导致错误的驱逐决策。为了防止振荡，可以在 <code>kubelet</code> 配置文件中设置 <code>evictionPressureTransitionPeriod</code> 参数设置驱逐压力状况解除之前的最长等待时间。该参数默认时间为 <code>5m</code></p>
+<p>软驱逐是条件满足时在一定时间内，<code>kubelet</code> 不会驱逐 <code>Pod</code>。必须指定的宽限期，<code>kubelet</code> 会在启动时返回错误。使用以下来配置软驱逐条件：</p>
+<ul>
+<li><code>kubelet --eviction-soft</code>: 指定驱逐条件，如果驱逐条件持续时长超过指定的宽限期，可以触发 <code>Pod</code> 驱逐。如 <code>memory.available&lt;1.5Gi</code></li>
+<li><code>kubelet --eviction-soft-grace-period</code>: 指定驱逐宽限时间。如 <code>memory.available=90m</code></li>
+<li><code>kubelet --eviction-max-pod-grace-period</code>: 触发强制驱逐时间</li>
+</ul>
+<p>硬驱逐是条件满足时触发强制驱逐，而不会正常终止以回收紧缺的资源。可以使用 <code>kubelet --eviction-hard</code> 指定强制驱逐条件，<code>kubelet</code> 具有以下默认硬驱逐条件：</p>
+<ul>
+<li><code>memory.available&lt;100Mi</code></li>
+<li><code>nodefs.available&lt;10%</code></li>
+<li><code>imagefs.available&lt;15%</code></li>
+<li><code>nodefs.inodesFree&lt;5%</code></li>
+</ul>
+<h2 id="检测时间间隔" class="heading-element">
+  <a href="#%e6%a3%80%e6%b5%8b%e6%97%b6%e9%97%b4%e9%97%b4%e9%9a%94" class="heading-mark"></a>检测时间间隔</h2><p><code>kubelet --node-status-update-frequency</code> 指定更新节点状态时间间隔，</p>
+<h2 id="压力驱逐顺序" class="heading-element">
+  <a href="#%e5%8e%8b%e5%8a%9b%e9%a9%b1%e9%80%90%e9%a1%ba%e5%ba%8f" class="heading-mark"></a>压力驱逐顺序</h2><p>回收节点资源后没有使驱逐信号低于条件， 则使用以下参数来确定 <code>Pod</code> 驱逐顺序：</p>
+<ul>
+<li><code>Pod</code> 的资源使用超过其请求，根据它们的优先级以及它们的资源使用级别超过其请求的程度被逐出。</li>
+<li><code>pod</code> 优先级，计算机资源不足时，优先级低的被驱逐。<code>inode</code> 或 <code>PID</code> 不足时，优先级高的被驱逐</li>
+<li><code>Pod</code> 相对于请求的资源使用情况，使用资源高的被驱逐</li>
+</ul>
+<p>在某些情况下，驱逐 <code>Pod</code> 只会回收少量的紧俏资源。 这可能导致 <code>kubelet</code> 反复达到配置的驱逐条件并触发多次驱逐。可以使用 <code>kubelet --eviction-minimum-reclaim</code> 选项或 <code>kubelet</code> 配置文件指定最小回收值减少触发频率，下面是配置文件示例</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">kubelet.config.k8s.io/v1beta1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">KubeletConfiguration</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">evictionHard</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">memory.available</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;500Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">nodefs.available</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;1Gi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">imagefs.available</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;100Gi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">evictionMinimumReclaim</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">memory.available</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;0Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">nodefs.available</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;500Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">imagefs.available</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2Gi&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于所有资源，默认的 <code> --eviction-minimum-reclaim</code> 为 <code>0</code></p>
+<h1 id="api-发起的驱逐" class="heading-element">
+  <a href="#api-%e5%8f%91%e8%b5%b7%e7%9a%84%e9%a9%b1%e9%80%90" class="heading-mark"></a>API 发起的驱逐</h1><p><code>API</code> 发起的驱逐是调用 <code>Eviction</code> 对象删除 <code>pod</code>。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-05-07 14:54:53">更新于 2023-05-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - 命令">命令</a><a href="/tags/kube-scheduler-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - kube-scheduler 命令">kube-scheduler 命令</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sProxy/" class="post-nav-item" rel="prev" title="k8s 网络代理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s 网络代理</a>
+      <a href="/00012022081801/" class="post-nav-item" rel="next" title="个人文档系统">个人文档系统<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

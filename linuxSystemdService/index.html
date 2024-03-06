@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>systemd.service - systemd 服务单元 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='linux, systemd, systemd.service' /><meta itemprop="name" content="systemd.service - systemd 服务单元">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-08-05T12:02:17+08:00" />
+<meta itemprop="dateModified" content="2023-08-05T13:13:33+08:00" />
+<meta itemprop="wordCount" content="1044">
+<meta itemprop="keywords" content="linux,systemd,systemd.service," /><meta property="og:title" content="systemd.service - systemd 服务单元" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/linuxSystemdService/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-08-05T12:02:17+08:00" />
+<meta property="article:modified_time" content="2023-08-05T13:13:33+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="systemd.service - systemd 服务单元"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/linuxSystemdService/" /><link rel="prev" href="/linuxCmdTar/" /><link rel="next" href="/awsS3/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "systemd.service - systemd 服务单元",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/linuxSystemdService\/"
+    },"genre": "posts","keywords": "linux, systemd, systemd.service","wordcount":  1044 ,
+    "url": "\/linuxSystemdService\/","datePublished": "2023-08-05T12:02:17+08:00","dateModified": "2023-08-05T13:13:33+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>systemd.service - systemd 服务单元</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2023-08-05 12:02:17"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-05">2023-08-05</time></span>&nbsp;<span title="更新于 2023-08-05 13:13:33"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-05">2023-08-05</time></span>&nbsp;<span title="1044 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#服务单元配置">服务单元配置</a>
+      <ul>
+        <li><a href="#type">Type</a></li>
+        <li><a href="#pidfile">PIDFile</a></li>
+        <li><a href="#execstart">ExecStart</a></li>
+        <li><a href="#execstartpre与execstartpost">ExecStartPre与ExecStartPost</a></li>
+        <li><a href="#execreload">ExecReload</a></li>
+        <li><a href="#execstop">ExecStop</a></li>
+        <li><a href="#execstoppost">ExecStopPost</a></li>
+        <li><a href="#timeoutstopsec">TimeoutStopSec</a></li>
+        <li><a href="#privatetmp">PrivateTmp</a></li>
+        <li><a href="#示例">示例</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+<li>centos: 8</li>
+<li>Rocky Linux 8.5</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://www.freedesktop.org/software/systemd/man/systemd.html" title="systemd介绍"target="_blank" rel="external nofollow noopener noreferrer">systemd介绍</a></li>
+<li><a href="https://www.freedesktop.org/wiki/Software/systemd/" title="systemd文档主页"target="_blank" rel="external nofollow noopener noreferrer">systemd文档主页</a></li>
+<li><a href="https://systemd.io/" title="systemd官网"target="_blank" rel="external nofollow noopener noreferrer">systemd官网</a></li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/" title="systemd项目帮助手册索引"target="_blank" rel="external nofollow noopener noreferrer">systemd项目帮助手册索引</a></li>
+<li><a href="https://github.com/systemd/systemd" title="systemd-github"target="_blank" rel="external nofollow noopener noreferrer">systemd-github</a></li>
+</ul>
+</blockquote>
+<h1 id="服务单元配置" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e5%8d%95%e5%85%83%e9%85%8d%e7%bd%ae" class="heading-mark"></a>服务单元配置</h1><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 说明文档：https://www.freedesktop.org/software/systemd/man/systemd.service.html</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Service<span class="o">]</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="type" class="heading-element">
+  <a href="#type" class="heading-mark"></a>Type</h2><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.service.html#Type=</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Type</code>：表示进程启动类型，有以下值：</p>
+<ul>
+<li><code>simple</code>: 表示服务的主进程在 <code>ExecStart</code> 中定义的命令或程序上运行二进制文件，<code>systemd</code> 不会监控该进程的状态，且认为服务启动成功。这适用于常驻后台运行的服务或简单的一次性任务。如果指定了 <code>ExecStart=</code> 但 <code>Type=</code> 和 <code>BusName=</code> 均未指定，则为默认值</li>
+<li>exec: 和 simple 类似，但会延迟启动，直到子进程创建之后成功后才继续启动后续
+单元</li>
+<li>forking: 守护进程方式支行。由子进程创建，当启动完成并设置所有通信通道时。
+父进程退出，子进程转入后台
+父进程退出后 systemd 将继续启动后续单元</li>
+<li><code>oneshot</code>: 执行完命令后直接退出。非常适合一次性任务</li>
+<li>dbus</li>
+<li>notify</li>
+<li>idle</li>
+</ul>
+<h2 id="pidfile" class="heading-element">
+  <a href="#pidfile" class="heading-mark"></a>PIDFile</h2><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.service.html#PIDFile=</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># PID文件位置。notify或simple方式启动的进程不需要该配置确定PID</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 示例：指定 nginx PID文件位置</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PIDFile</span><span class="o">=</span>/usr/local/nginx/logs/nginx.pid</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="execstart" class="heading-element">
+  <a href="#execstart" class="heading-mark"></a>ExecStart</h2><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># systemctl start ... </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动服务的操作，可以的多少该指令，会按顺序串行执行</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 说明文档：https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStart=</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStart</span><span class="o">=</span>/usr/local/nginx/sbin/nginx</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="execstartpre与execstartpost" class="heading-element">
+  <a href="#execstartpre%e4%b8%8eexecstartpost" class="heading-mark"></a>ExecStartPre与ExecStartPost</h2><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 在ExecStart之前执行的命令，与ExecStart用法相同</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStartPre</span><span class="o">=</span>/usr/bin/rm -f /usr/local/nginx/logs/nginx.pid
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStartPre</span><span class="o">=</span>/usr/local/nginx/sbin/nginx -t
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 在ExecStart之后执行的命令，与ExecStart用法相同</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="execreload" class="heading-element">
+  <a href="#execreload" class="heading-mark"></a>ExecReload</h2><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecReload=</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># systemctl reload ...</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 重载配置文件，与ExecStart用法相同</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecReload</span><span class="o">=</span>/usr/local/nginx/sbin/nginx -s reload</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="execstop" class="heading-element">
+  <a href="#execstop" class="heading-mark"></a>ExecStop</h2><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStop=</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 执行 systemctl stop ... 的操作</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 停止服务的指令，与ExecStart用法相同</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="execstoppost" class="heading-element">
+  <a href="#execstoppost" class="heading-mark"></a>ExecStopPost</h2><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.service.html#ExecStop=</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ExecStop 之后使用的命令，与ExecStart用法相同</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="timeoutstopsec" class="heading-element">
+  <a href="#timeoutstopsec" class="heading-mark"></a>TimeoutStopSec</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># https://www.freedesktop.org/software/systemd/man/systemd.service.html#TimeoutStopSec=</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 1。每个 ExecStop=命令超时时间。如果其中任何一个超时，后续ExecStop=命令将被跳</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#    ，服务将被终止SIGTERM</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 如果未ExecStop= 指定命令，则服务SIGTERM立即获取</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="privatetmp" class="heading-element">
+  <a href="#privatetmp" class="heading-mark"></a>PrivateTmp</h2><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 布尔值：</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - 如果为 true，则为已执行的进程设置一个新的文件系统命名空间，并在其中挂载私有的</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#  /tmp/ 和 /var/tmp/ 目录，</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#  这些目录不被命名空间外的进程共享。 这对于保护对进程临时文件的访问很有用，但</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   无法通过 /tmp/ 或 /var/tmp/ 在进程之间进行共享。</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#  服务停止后，服务在这些目录中创建的所有临时文件都将被删除 </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - false: 默认值 </span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="示例" class="heading-element">
+  <a href="#%e7%a4%ba%e4%be%8b" class="heading-mark"></a>示例</h2></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-08-05 13:13:33">更新于 2023-08-05&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a><a href="/tags/systemd/" class="post-tag" title="标签 - systemd">systemd</a><a href="/tags/systemd.service/" class="post-tag" title="标签 - systemd.service">systemd.service</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linuxCmdTar/" class="post-nav-item" rel="prev" title="tar - 将许多文件一起保存到单个磁带或磁盘存档中，并且可以从存档中恢复单个文件"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>tar - 将许多文件一起保存到单个磁带或磁盘存档中，并且可以从存档中恢复单个文件</a>
+      <a href="/awsS3/" class="post-nav-item" rel="next" title="s3 - AWS 对象存储服务">s3 - AWS 对象存储服务<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

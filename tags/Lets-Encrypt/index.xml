@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Let’s Encrypt - 标签 - 小厮</title>
+    <link>/tags/Lets-Encrypt/</link>
+    <description>Let’s Encrypt - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 13 Aug 2022 10:15:20 &#43;0800</lastBuildDate><atom:link href="/tags/Lets-Encrypt/" rel="self" type="application/rss+xml" /><item>
+  <title>nginx 配置 https</title>
+  <link>/nginx-https/</link>
+  <pubDate>Sat, 13 Aug 2022 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-https/</guid>
+  <description><![CDATA[nginx 使用 https 协议]]></description>
+</item>
+</channel>
+</rss>

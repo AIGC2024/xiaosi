@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s 网络代理 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="k8s proxy 组件" /><meta name="keywords" content='k8s, kube-proxy, 命令, kube-proxy 命令' /><meta itemprop="name" content="k8s 网络代理">
+<meta itemprop="description" content="k8s proxy 组件"><meta itemprop="datePublished" content="2022-08-13T12:27:29+08:00" />
+<meta itemprop="dateModified" content="2024-01-29T16:16:26+08:00" />
+<meta itemprop="wordCount" content="1260">
+<meta itemprop="keywords" content="k8s,kube-proxy,命令,kube-proxy 命令," /><meta property="og:title" content="k8s 网络代理" />
+<meta property="og:description" content="k8s proxy 组件" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sProxy/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-13T12:27:29+08:00" />
+<meta property="article:modified_time" content="2024-01-29T16:16:26+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s 网络代理"/>
+<meta name="twitter:description" content="k8s proxy 组件"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sProxy/" /><link rel="prev" href="/nginx-https/" /><link rel="next" href="/k8sScheduler/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s 网络代理",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sProxy\/"
+    },"genre": "posts","keywords": "k8s, kube-proxy, 命令, kube-proxy 命令","wordcount":  1260 ,
+    "url": "\/k8sProxy\/","datePublished": "2022-08-13T12:27:29+08:00","dateModified": "2024-01-29T16:16:26+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s 网络代理</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-13 12:27:29"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-13">2022-08-13</time></span>&nbsp;<span title="更新于 2024-01-29 16:16:26"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-29">2024-01-29</time></span>&nbsp;<span title="1260 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kube-proxy">kube-proxy</a></li>
+    <li><a href="#监听的-ip-地址">监听的 IP 地址</a></li>
+    <li><a href="#无法绑定端口是否退出">无法绑定端口是否退出</a></li>
+    <li><a href="#api-server-通信的突发数量">api server 通信的突发数量</a></li>
+    <li><a href="#发送到-apiserver-的请求的内容类型">发送到 apiserver 的请求的内容类型</a></li>
+    <li><a href="#与-k8s-apiserver-交互时使用的-qps">与 k8s apiserver 交互时使用的 QPS</a></li>
+    <li><a href="#鉴权信息的-kubeconfig-文件的路径">鉴权信息的 kubeconfig 文件的路径</a></li>
+    <li><a href="#集群中-pod-的-cidr-范围">集群中 Pod 的 CIDR 范围。</a></li>
+    <li><a href="#apiserver-的配置的刷新频率">apiserver 的配置的刷新频率</a></li>
+    <li><a href="#每个-cpu-核跟踪的最大-nat-连接数">每个 CPU 核跟踪的最大 NAT 连接数</a></li>
+    <li><a href="#代理模式">代理模式</a>
+      <ul>
+        <li><a href="#ipvs-代理白名单-cidr-列表">IPVS 代理白名单 CIDR 列表</a></li>
+        <li><a href="#ipvs-规则刷新时间">IPVS 规则刷新时间</a></li>
+        <li><a href="#ipvs-调度算法类型">IPVS 调度算法类型</a></li>
+        <li><a href="#ipvs-是否启用严格的-arp">IPVS 是否启用严格的 ARP</a></li>
+        <li><a href="#ipvs-tcp-保持连接时间">IPVS TCP 保持连接时间</a></li>
+        <li><a href="#ipvs-连接超时时间">IPVS 连接超时时间</a></li>
+        <li><a href="#ipvs-udp-连接超时时间">IPVS UDP 连接超时时间</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+<li>内核: 4.18.0-348.el8.0.2.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kube-proxy/"target="_blank" rel="external nofollow noopener noreferrer">k8s 官方文档：kube-proxy</a></li>
+</ul>
+</blockquote>
+<h1 id="kube-proxy" class="heading-element">
+  <a href="#kube-proxy" class="heading-mark"></a>kube-proxy</h1><p><code>k8s</code> 网络代理在每个节点上运行。网络代理反映了每个节点上 <code>k8s API</code> 中定义的服务，并且可以执行简单的 <code>TCP</code>、<code>UDP</code> 和 <code>SCTP</code> 流转发</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod -n kube-system -l &#34;k8s-app=kube-proxy&#34;</span>
+</span></span><span class="line"><span class="cl">NAME               READY   STATUS    RESTARTS       AGE
+</span></span><span class="line"><span class="cl">kube-proxy-n24f7   1/1     Running   <span class="m">6</span> <span class="o">(</span>169m ago<span class="o">)</span>   19d
+</span></span><span class="line"><span class="cl">kube-proxy-rwvq9   1/1     Running   <span class="m">6</span> <span class="o">(</span>169m ago<span class="o">)</span>   19d
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod -n kube-system kube-proxy-rwvq9 -o=jsonpath=&#39;{$.spec.containers[0].command}&#39; | jq</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;/usr/local/bin/kube-proxy&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--config=/var/lib/kube-proxy/config.conf&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;--hostname-override=</span><span class="k">$(</span>NODE_NAME<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># crictl exec -it edc69d0ad9fb1 sh</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cat /var/lib/kube-proxy/config.conf</span>
+</span></span><span class="line"><span class="cl">apiVersion: kubeproxy.config.k8s.io/v1alpha1
+</span></span><span class="line"><span class="cl">bindAddress: 0.0.0.0
+</span></span><span class="line"><span class="cl">bindAddressHardFail: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">clientConnection:
+</span></span><span class="line"><span class="cl">  acceptContentTypes: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  burst: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  contentType: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  kubeconfig: /var/lib/kube-proxy/kubeconfig.conf
+</span></span><span class="line"><span class="cl">  qps: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">clusterCIDR: 100.64.0.0/10
+</span></span><span class="line"><span class="cl">configSyncPeriod: 0s
+</span></span><span class="line"><span class="cl">conntrack:
+</span></span><span class="line"><span class="cl">  maxPerCore: null
+</span></span><span class="line"><span class="cl">  min: null
+</span></span><span class="line"><span class="cl">  tcpCloseWaitTimeout: null
+</span></span><span class="line"><span class="cl">  tcpEstablishedTimeout: null
+</span></span><span class="line"><span class="cl">detectLocal:
+</span></span><span class="line"><span class="cl">  bridgeInterface: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  interfaceNamePrefix: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">detectLocalMode: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">enableProfiling: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">healthzBindAddress: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">hostnameOverride: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">iptables:
+</span></span><span class="line"><span class="cl">  masqueradeAll: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  masqueradeBit: null
+</span></span><span class="line"><span class="cl">  minSyncPeriod: 0s
+</span></span><span class="line"><span class="cl">  syncPeriod: 0s
+</span></span><span class="line"><span class="cl">ipvs:
+</span></span><span class="line"><span class="cl">  excludeCIDRs:
+</span></span><span class="line"><span class="cl">  - 10.103.97.2/32
+</span></span><span class="line"><span class="cl">  minSyncPeriod: 0s
+</span></span><span class="line"><span class="cl">  scheduler: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  strictARP: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  syncPeriod: 0s
+</span></span><span class="line"><span class="cl">  tcpFinTimeout: 0s
+</span></span><span class="line"><span class="cl">  tcpTimeout: 0s
+</span></span><span class="line"><span class="cl">  udpTimeout: 0s
+</span></span><span class="line"><span class="cl">kind: KubeProxyConfiguration
+</span></span><span class="line"><span class="cl">metricsBindAddress: 0.0.0.0
+</span></span><span class="line"><span class="cl">mode: ipvs
+</span></span><span class="line"><span class="cl">nodePortAddresses: null
+</span></span><span class="line"><span class="cl">oomScoreAdj: null
+</span></span><span class="line"><span class="cl">portRange: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">showHiddenMetricsForVersion: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">udpIdleTimeout: 0s
+</span></span><span class="line"><span class="cl">winkernel:
+</span></span><span class="line"><span class="cl">  enableDSR: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  forwardHealthCheckVip: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  networkName: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  rootHnsEndpointName: <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  sourceVip: <span class="s2">&#34;&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="监听的-ip-地址" class="heading-element">
+  <a href="#%e7%9b%91%e5%90%ac%e7%9a%84-ip-%e5%9c%b0%e5%9d%80" class="heading-mark"></a>监听的 IP 地址</h1><p><code>kube-proxy --bind-address</code> 选项指定代理服务器的 <code>IP</code> 地址。如果配置文件中指定 <code>bindAddress</code> 配置项，则忽略此参数</p>
+<h1 id="无法绑定端口是否退出" class="heading-element">
+  <a href="#%e6%97%a0%e6%b3%95%e7%bb%91%e5%ae%9a%e7%ab%af%e5%8f%a3%e6%98%af%e5%90%a6%e9%80%80%e5%87%ba" class="heading-mark"></a>无法绑定端口是否退出</h1><p><code>kube-proxy --bind-address-hard-fail</code> 选项值为 <code>true</code> 时，将无法绑定端口的失败操作视为致命错误并退出。</p>
+<h1 id="api-server-通信的突发数量" class="heading-element">
+  <a href="#api-server-%e9%80%9a%e4%bf%a1%e7%9a%84%e7%aa%81%e5%8f%91%e6%95%b0%e9%87%8f" class="heading-mark"></a>api server 通信的突发数量</h1><p><code>kube-proxy --kube-api-burst</code> 选项设置与 <code>k8s  apiserver</code> 通信的突发数量。配置文件中指定</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">clientConnection:
+</span></span><span class="line"><span class="cl">  burst: <span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="发送到-apiserver-的请求的内容类型" class="heading-element">
+  <a href="#%e5%8f%91%e9%80%81%e5%88%b0-apiserver-%e7%9a%84%e8%af%b7%e6%b1%82%e7%9a%84%e5%86%85%e5%ae%b9%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>发送到 apiserver 的请求的内容类型</h1><p><code>kube-proxy --kube-api-content-type</code> 选项设置发送到 <code>k8s apiserver</code> 的请求的内容类型。配置文件中指定：</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">clientConnection:
+</span></span><span class="line"><span class="cl">  contentType: <span class="s2">&#34;&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="与-k8s-apiserver-交互时使用的-qps" class="heading-element">
+  <a href="#%e4%b8%8e-k8s-apiserver-%e4%ba%a4%e4%ba%92%e6%97%b6%e4%bd%bf%e7%94%a8%e7%9a%84-qps" class="heading-mark"></a>与 k8s apiserver 交互时使用的 QPS</h1><p><code>kube-proxy --kube-api-qps</code> 选项设置与 <code>k8s apiserver</code> 交互时使用的 <code>QPS</code>。在配置文件中设置：</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">clientConnection:
+</span></span><span class="line"><span class="cl">  qps: <span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="鉴权信息的-kubeconfig-文件的路径" class="heading-element">
+  <a href="#%e9%89%b4%e6%9d%83%e4%bf%a1%e6%81%af%e7%9a%84-kubeconfig-%e6%96%87%e4%bb%b6%e7%9a%84%e8%b7%af%e5%be%84" class="heading-mark"></a>鉴权信息的 kubeconfig 文件的路径</h1><p><code>kube-proxy --kubeconfig</code> 选项指定 <code>kubeconfig</code> 文件路径，主控节点位置由 <code>master</code> 标志设置。在配置文件中指定：</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">clientConnection:
+</span></span><span class="line"><span class="cl">  kubeconfig: /var/lib/kube-proxy/kubeconfig.conf</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="集群中-pod-的-cidr-范围" class="heading-element">
+  <a href="#%e9%9b%86%e7%be%a4%e4%b8%ad-pod-%e7%9a%84-cidr-%e8%8c%83%e5%9b%b4" class="heading-mark"></a>集群中 Pod 的 CIDR 范围。</h1><p><code>kube-proxy --cluster-cidr</code> 选项配置集群中 <code>Pod</code> 的 <code>CIDR</code> 范围。配置后，将从该范围之外发送到服务集群 <code>IP</code> 的流量被伪装，从 <code>Pod</code> 发送到外部 <code>LoadBalancer IP</code> 的流量将被重定向到相应的集群 <code>IP</code>。 对于双协议栈集群，接受一个逗号分隔的列表， 每个 <code>IP</code> 协议族（<code>IPv4</code> 和 <code>IPv6</code>）至少包含一个 <code>CIDR</code>。 如果在配置文件指定，则忽略此参数。</p>
+<h1 id="apiserver-的配置的刷新频率" class="heading-element">
+  <a href="#apiserver-%e7%9a%84%e9%85%8d%e7%bd%ae%e7%9a%84%e5%88%b7%e6%96%b0%e9%a2%91%e7%8e%87" class="heading-mark"></a>apiserver 的配置的刷新频率</h1><p><code>kube-proxy --config-sync-period</code> 选项设置 <code>apiserver</code> 的配置的刷新频率。必须大于 0。</p>
+<h1 id="每个-cpu-核跟踪的最大-nat-连接数" class="heading-element">
+  <a href="#%e6%af%8f%e4%b8%aa-cpu-%e6%a0%b8%e8%b7%9f%e8%b8%aa%e7%9a%84%e6%9c%80%e5%a4%a7-nat-%e8%bf%9e%e6%8e%a5%e6%95%b0" class="heading-mark"></a>每个 CPU 核跟踪的最大 NAT 连接数</h1><p><code>kube-proxy --conntrack-max-per-core</code> 选项指定每个 <code>CPU</code> 核跟踪的最大 <code>NAT</code> 连接数（<code>0</code> 表示保留当前限制并忽略 <code>kube-proxy --conntrack-min</code> 设置）。在配置文件中指定：</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conntrack:
+</span></span><span class="line"><span class="cl">  maxPerCore: null</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="代理模式" class="heading-element">
+  <a href="#%e4%bb%a3%e7%90%86%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>代理模式</h1><p><code>kube-proxy --proxy-mode</code> 选项指定 <code>kube-proxy</code> 工作模式，有以下值：</p>
+<ul>
+<li><code>iptabes</code>: 使用防火墙规则，仅 <code>linux</code> 系统可用</li>
+<li><code>ipvs</code>: 使用 <code>lvs</code> ，仅 <code>linux</code> 系统可用</li>
+<li><code>kernelspace</code>: 仅 <code>linux</code> 系统可用</li>
+<li><code>userspace</code>:</li>
+</ul>
+<p>如果在配置文件在指定，则忽略此选项</p>
+<h2 id="ipvs-代理白名单-cidr-列表" class="heading-element">
+  <a href="#ipvs-%e4%bb%a3%e7%90%86%e7%99%bd%e5%90%8d%e5%8d%95-cidr-%e5%88%97%e8%a1%a8" class="heading-mark"></a>IPVS 代理白名单 CIDR 列表</h2><p><code>kube-proxy --ipvs-exclude-cidrs</code> 选项指定 <code>ipvs</code> 代理在清理 <code>IPVS</code> 规则时不会此列表中的地址范围</p>
+<h2 id="ipvs-规则刷新时间" class="heading-element">
+  <a href="#ipvs-%e8%a7%84%e5%88%99%e5%88%b7%e6%96%b0%e6%97%b6%e9%97%b4" class="heading-mark"></a>IPVS 规则刷新时间</h2><p><code>kube-proxy --ipvs-min-sync-period</code> 选项指定 <code>ipvs</code> 规则可以随着端点和服务的更改而刷新的最小间隔</p>
+<h2 id="ipvs-调度算法类型" class="heading-element">
+  <a href="#ipvs-%e8%b0%83%e5%ba%a6%e7%ae%97%e6%b3%95%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>IPVS 调度算法类型</h2><p><code>kube-proxy --ipvs-scheduler</code> 选项指定 <code>kube-proxy --proxy-mode ipvs</code> 时 <code>lvs</code> 调度模式</p>
+<h2 id="ipvs-是否启用严格的-arp" class="heading-element">
+  <a href="#ipvs-%e6%98%af%e5%90%a6%e5%90%af%e7%94%a8%e4%b8%a5%e6%a0%bc%e7%9a%84-arp" class="heading-mark"></a>IPVS 是否启用严格的 ARP</h2><p>如果指定 <code>kube-proxy --ipvs-strict-arp</code> 选项或要配置文件中指定 <code>ipvs.strictARP: false</code> 则启用严格的 <code>ARP</code>。（通过 <code>arp_ignore=1</code> 和 <code>arp_announce=2</code>）</p>
+<h2 id="ipvs-tcp-保持连接时间" class="heading-element">
+  <a href="#ipvs-tcp-%e4%bf%9d%e6%8c%81%e8%bf%9e%e6%8e%a5%e6%97%b6%e9%97%b4" class="heading-mark"></a>IPVS TCP 保持连接时间</h2><p><code>kube-proxy --ipvs-tcp-timeout</code> 选项指定空间 <code>IPVS TCP</code> 连接保持时间，如果值为 <code>0</code> 表示持续连接</p>
+<h2 id="ipvs-连接超时时间" class="heading-element">
+  <a href="#ipvs-%e8%bf%9e%e6%8e%a5%e8%b6%85%e6%97%b6%e6%97%b6%e9%97%b4" class="heading-mark"></a>IPVS 连接超时时间</h2><p><code>kube-proxy --ipvs-tcpfin-timeout</code> 选项指 <code>IPVS</code> 模式下收到 <code>FIN</code> 数据包后 <code>TCP</code> 连接超时时间</p>
+<h2 id="ipvs-udp-连接超时时间" class="heading-element">
+  <a href="#ipvs-udp-%e8%bf%9e%e6%8e%a5%e8%b6%85%e6%97%b6%e6%97%b6%e9%97%b4" class="heading-mark"></a>IPVS UDP 连接超时时间</h2><p><code>kube-proxy --ipvs-udp-timeout</code> 选项指定 <code>IPVS</code> 模式下 <code>UDP</code> 连接超时时间</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-01-29 16:16:26">更新于 2024-01-29&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/kube-proxy/" class="post-tag" title="标签 - kube-proxy">kube-proxy</a><a href="/tags/%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - 命令">命令</a><a href="/tags/kube-proxy-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - kube-proxy 命令">kube-proxy 命令</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx-https/" class="post-nav-item" rel="prev" title="nginx 配置 https"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx 配置 https</a>
+      <a href="/k8sScheduler/" class="post-nav-item" rel="next" title="k8s 调度器">k8s 调度器<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

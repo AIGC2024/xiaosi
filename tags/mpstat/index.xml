@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>mpstat - 标签 - 小厮</title>
+    <link>/tags/mpstat/</link>
+    <description>mpstat - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 22 Jul 2023 12:01:21 &#43;0800</lastBuildDate><atom:link href="/tags/mpstat/" rel="self" type="application/rss+xml" /><item>
+  <title>mpstat - 报告处理器相关的统计信息</title>
+  <link>/linuxCmdMpstat/</link>
+  <pubDate>Sat, 22 Jul 2023 12:01:21 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdMpstat/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

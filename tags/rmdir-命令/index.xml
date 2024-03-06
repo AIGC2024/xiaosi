@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>rmdir 命令 - 标签 - 小厮</title>
+    <link>/tags/rmdir-%E5%91%BD%E4%BB%A4/</link>
+    <description>rmdir 命令 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 23 Aug 2022 16:42:58 &#43;0800</lastBuildDate><atom:link href="/tags/rmdir-%E5%91%BD%E4%BB%A4/" rel="self" type="application/rss+xml" /><item>
+  <title>linux 中删除空目录</title>
+  <link>/rmdir%E5%91%BD%E4%BB%A4/</link>
+  <pubDate>Tue, 23 Aug 2022 16:42:58 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/rmdir%E5%91%BD%E4%BB%A4/</guid>
+  <description><![CDATA[rmdir 命令使用]]></description>
+</item>
+</channel>
+</rss>

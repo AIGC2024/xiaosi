@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>error - 标签 - 小厮</title>
+    <link>/tags/error/</link>
+    <description>error - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 11 Dec 2022 13:45:11 &#43;0800</lastBuildDate><atom:link href="/tags/error/" rel="self" type="application/rss+xml" /><item>
+  <title>linux 使用过程中遇到的错误</title>
+  <link>/linux-error/</link>
+  <pubDate>Sun, 11 Dec 2022 13:45:11 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linux-error/</guid>
+  <description><![CDATA[网卡激活失败No suitable device found for this connection Failed to start LSB: Bring up/down networking. 详情 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 [root@master ~]# systemctl status network ● network.service - LSB: Bring up/down networking Loaded: loaded (/etc/rc.d/init.d/network; bad; vendor preset: disabled) Active: failed (Result: exit-code) since Thu 2020-03-19 10:17:37 CST; 5min ago Docs: man:systemd-sysv-generator(8)]]></description>
+</item>
+<item>
+  <title>nginx运行错误</title>
+  <link>/nginx-error/</link>
+  <pubDate>Fri, 13 Nov 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-error/</guid>
+  <description><![CDATA[运行环境： nginx: 1.23 error: the invalid value in &ndash;with-ld-opt=&quot;-ltcmalloc&quot; 编译时安装出错 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 [root@centos7 nginx-1.18.0]# ./configure \ --with-http_auth_request_module \ --with-http_realip_module \ --with-http_v2_module \ --with-debug \ --add-module=/home/web/nginx-http-concat/ \ --with-http_random_index_module \ --with-http_sub_module]]></description>
+</item>
+</channel>
+</rss>

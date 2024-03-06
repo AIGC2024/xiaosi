@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>ingress - 标签 - 小厮</title>
+    <link>/tags/ingress/</link>
+    <description>ingress - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 30 Aug 2022 18:48:06 &#43;0800</lastBuildDate><atom:link href="/tags/ingress/" rel="self" type="application/rss+xml" /><item>
+  <title>ingress 与 ingress 控制器</title>
+  <link>/ingress/</link>
+  <pubDate>Tue, 30 Aug 2022 18:48:06 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/ingress/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

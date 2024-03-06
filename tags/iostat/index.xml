@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>iostat - 标签 - 小厮</title>
+    <link>/tags/iostat/</link>
+    <description>iostat - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 23 Jan 2023 21:13:59 &#43;0800</lastBuildDate><atom:link href="/tags/iostat/" rel="self" type="application/rss+xml" /><item>
+  <title>iostat — 报告中央处理单元(CPU)的统计信息以及块设备和分区的输入/输出统计信息。</title>
+  <link>/linuxCmdIostat/</link>
+  <pubDate>Mon, 23 Jan 2023 21:13:59 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdIostat/</guid>
+  <description><![CDATA[iostat 命令用于通过观察设备活动时间与其平均传输速率的关系来监视系统输入/输出设备负载]]></description>
+</item>
+</channel>
+</rss>

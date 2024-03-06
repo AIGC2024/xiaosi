@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>jq - 标签 - 小厮</title>
+    <link>/tags/jq/</link>
+    <description>jq - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 03 Sep 2022 16:49:39 &#43;0800</lastBuildDate><atom:link href="/tags/jq/" rel="self" type="application/rss+xml" /><item>
+  <title>jq - 命令行 josn 数据处理工具</title>
+  <link>/CMDjq/</link>
+  <pubDate>Sat, 03 Sep 2022 16:49:39 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/CMDjq/</guid>
+  <description><![CDATA[jq 是一个轻量级且灵活的命令行 json 处理器]]></description>
+</item>
+</channel>
+</rss>

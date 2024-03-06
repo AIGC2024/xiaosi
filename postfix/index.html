@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>postfix - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： centos: 7 内容来自以下文档： 廖雪峰：3分钟安装配置Postfix邮件服务器 Postfix配置通过远程SMTP服务器发送邮件 所以怎样：50" /><meta name="keywords" content='linux, mail' /><meta itemprop="name" content="postfix">
+<meta itemprop="description" content="运行环境： centos: 7 内容来自以下文档： 廖雪峰：3分钟安装配置Postfix邮件服务器 Postfix配置通过远程SMTP服务器发送邮件 所以怎样：50"><meta itemprop="datePublished" content="2022-12-28T16:53:12+08:00" />
+<meta itemprop="dateModified" content="2024-02-16T23:12:28+08:00" />
+<meta itemprop="wordCount" content="5119">
+<meta itemprop="keywords" content="linux,mail," /><meta property="og:title" content="postfix" />
+<meta property="og:description" content="运行环境： centos: 7 内容来自以下文档： 廖雪峰：3分钟安装配置Postfix邮件服务器 Postfix配置通过远程SMTP服务器发送邮件 所以怎样：50" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/postfix/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-28T16:53:12+08:00" />
+<meta property="article:modified_time" content="2024-02-16T23:12:28+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="postfix"/>
+<meta name="twitter:description" content="运行环境： centos: 7 内容来自以下文档： 廖雪峰：3分钟安装配置Postfix邮件服务器 Postfix配置通过远程SMTP服务器发送邮件 所以怎样：50"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/postfix/" /><link rel="prev" href="/docker-network/" /><link rel="next" href="/redis-data-teype/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "postfix",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/postfix\/"
+    },"genre": "posts","keywords": "linux, mail","wordcount":  5119 ,
+    "url": "\/postfix\/","datePublished": "2022-12-28T16:53:12+08:00","dateModified": "2024-02-16T23:12:28+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>postfix</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-12-28 16:53:12"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-28">2022-12-28</time></span>&nbsp;<span title="更新于 2024-02-16 23:12:28"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-16">2024-02-16</time></span>&nbsp;<span title="5119 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 11 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装">安装</a>
+      <ul>
+        <li><a href="#yum-安装">yum 安装</a></li>
+        <li><a href="#源码安装">源码安装</a></li>
+      </ul>
+    </li>
+    <li><a href="#地址类">地址类</a></li>
+    <li><a href="#基础配置">基础配置</a></li>
+    <li><a href="#配置项">配置项</a></li>
+    <li><a href="#smtp-服务端配置">SMTP 服务端配置</a>
+      <ul>
+        <li><a href="#基于客户端地址限制">基于客户端地址限制</a></li>
+        <li><a href="#基于-ehlo-或-helo-命令的合法性">基于 EHLO 或 HELO 命令的合法性</a></li>
+        <li><a href="#基于form做限制">基于FORM做限制</a></li>
+        <li><a href="#基于rcpt-to地址限制垃圾邮件">基于RCPT TO地址限制垃圾邮件</a></li>
+        <li><a href="#基于rcpt-to地址判断中继">基于RCPT TO地址判断中继</a></li>
+        <li><a href="#对-data-部分限制">对 DATA 部分限制</a></li>
+        <li><a href="#基于内容的筛选">基于内容的筛选</a></li>
+        <li><a href="#灰名单">灰名单</a></li>
+        <li><a href="#sasl-身份验证">SASL 身份验证</a>
+          <ul>
+            <li><a href="#cyrus--sasldb-存储用户密码">cyrus  sasldb 存储用户密码</a></li>
+          </ul>
+        </li>
+        <li><a href="#postfix-tls">Postfix TLS</a></li>
+      </ul>
+    </li>
+    <li><a href="#smtp-客户端">SMTP 客户端</a></li>
+    <li><a href="#命令行工具">命令行工具</a></li>
+    <li><a href="#postfix-连接到-dovecot">postfix 连接到 dovecot</a></li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#smtp-server-503-551-error-authentication-not-enabled">smtp-server: 503 5.5.1 Error: authentication not enabled</a></li>
+        <li><a href="#no-sasl-authentication-mechanisms">no SASL authentication mechanisms</a></li>
+        <li><a href="#noqueue-reject-rcpt-from--relay-access-denied">NOQUEUE: reject: RCPT from &hellip; Relay access denied</a></li>
+        <li><a href="#smtp-server-503-551-error-authentication-not-enabled-1">smtp-server: 503 5.5.1 Error: authentication not enabled</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://www.liaoxuefeng.com/article/895886450140288"target="_blank" rel="external nofollow noopener noreferrer"><code>廖雪峰</code>：3分钟安装配置Postfix邮件服务器</a></li>
+<li><a href="https://www.ourboke.com/?p=24598"target="_blank" rel="external nofollow noopener noreferrer">Postfix配置通过远程SMTP服务器发送邮件</a></li>
+<li><a href="https://blog.csdn.net/qq_14821541/article/details/51700859"target="_blank" rel="external nofollow noopener noreferrer"><code>所以怎样</code>：503 5.5.1 Error: authentication not enabled</a></li>
+<li><a href="http://www.postfix.org/documentation.html"target="_blank" rel="external nofollow noopener noreferrer">postfix官方文档</a></li>
+<li><a href="https://www.debian.org/doc/manuals/debian-handbook/network-services.zh-cn.html#sect.smtp-mail-server"target="_blank" rel="external nofollow noopener noreferrer"><code>Debian 管理员手册：</code>邮件服务器</a></li>
+<li><a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/9/html/deploying_mail_servers/index"target="_blank" rel="external nofollow noopener noreferrer"><code>Red Hat Enterprise Linux 9 产品文档：</code>部署邮件服务器</a></li>
+<li><a href="https://docs.gitlab.cn/jh/administration/reply_by_email_postfix_setup.html"target="_blank" rel="external nofollow noopener noreferrer">https://docs.gitlab.cn/jh/administration/reply_by_email_postfix_setup.html</a></li>
+<li><a href="https://docs.gitlab.cn/omnibus/settings/smtp.html"target="_blank" rel="external nofollow noopener noreferrer">https://docs.gitlab.cn/omnibus/settings/smtp.html</a></li>
+<li><a href="https://docs.gitlab.cn/jh/administration/incoming_email.html"target="_blank" rel="external nofollow noopener noreferrer">https://docs.gitlab.cn/jh/administration/incoming_email.html</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="安装" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark"></a>安装</h1><h2 id="yum-安装" class="heading-element">
+  <a href="#yum-%e5%ae%89%e8%a3%85" class="heading-mark"></a>yum 安装</h2><p>默认是有的，如果没有使用以下命令安装</p>
+<ol>
+<li>下载源码</li>
+</ol>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost etc<span class="o">]</span><span class="c1"># yum install -y postfix</span>
+</span></span><span class="line"><span class="cl">Loaded plugins: fastestmirror
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># tar zxf postfix-3.7.2.tar.gz</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cd postfix-3.7.2/</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="源码安装" class="heading-element">
+  <a href="#%e6%ba%90%e7%a0%81%e5%ae%89%e8%a3%85" class="heading-mark"></a>源码安装</h2><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># wget http://mirror.postfix.jp/postfix-release/official/postfix-3.7.2.tar.gz</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="地址类" class="heading-element">
+  <a href="#%e5%9c%b0%e5%9d%80%e7%b1%bb" class="heading-mark"></a>地址类</h1><blockquote>
+<p><a href="http://www.postfix.org/ADDRESS_CLASS_README.html"target="_blank" rel="external nofollow noopener noreferrer">http://www.postfix.org/ADDRESS_CLASS_README.html</a></p>
+</blockquote>
+<p><code>Postfix 2.0</code> 版引入了地址类的概念。这是一种按收件人地址的递送方法对收件人地址进行分组的方法，决定接受哪些邮件以及如何发送邮件的方式（域可理解为邮地址<code>@</code>后面域名部分）。</p>
+<ul>
+<li>默认域类，代表授权客户将邮件转发到互联网
+<ul>
+<li>邮件传送传输由 <a href="http://www.postfix.org/postconf.5.html#default_transport"target="_blank" rel="external nofollow noopener noreferrer">default_transport 配置项</a>指定（默认值为<a href="http://www.postfix.org/smtp.8.html"target="_blank" rel="external nofollow noopener noreferrer">smtp</a>）</li>
+<li>更多信息参考：<a href="http://www.postfix.org/BASIC_CONFIGURATION_README.html"target="_blank" rel="external nofollow noopener noreferrer">Postfix基本配置</a></li>
+</ul>
+</li>
+<li>本地域类：最终传递传统<code>UNIX</code>系统帐户和传统<code>Sendmail</code>风格的别名，通常是：<code>user@localhost.localdomain</code>（这里<code>user</code>特指系统用户名）。
+<ul>
+<li>域名由<a href="http://www.postfix.org/postconf.5.html#mydestination"target="_blank" rel="external nofollow noopener noreferrer">mydestination 配置项</a>指定，当<a href="http://www.postfix.org/postconf.5.html#inet_interfaces"target="_blank" rel="external nofollow noopener noreferrer">inet_interfaces 配置项</a>或<a href="http://www.postfix.org/postconf.5.html#proxy_interfaces"target="_blank" rel="external nofollow noopener noreferrer">proxy_interfaces 配置项</a>时，邮件形式包含<code>user@[ipaddress]</code></li>
+<li>允许收件从由<a href="http://www.postfix.org/postconf.5.html#local_recipient_maps"target="_blank" rel="external nofollow noopener noreferrer">local_recipient_maps 配置项</a>指定（默认值为<code>local:$myhostname</code>），如果为空，则接受所有本地域类地址</li>
+<li>邮件传送传输由<a href="http://www.postfix.org/postconf.5.html#local_transport"target="_blank" rel="external nofollow noopener noreferrer">local_transport 配置项</a>指定，由<a href="http://www.postfix.org/local.8.html"target="_blank" rel="external nofollow noopener noreferrer">local</a>代理交付</li>
+</ul>
+</li>
+<li>中继域类，将邮件发送到其它邮件服务端
+<ul>
+<li>域名由<a href="http://www.postfix.org/postconf.5.html#relay_domains"target="_blank" rel="external nofollow noopener noreferrer">relay_domains 配置项</a>指定</li>
+<li>允许收件人由<a href="http://www.postfix.org/postconf.5.html#relay_recipient_maps"target="_blank" rel="external nofollow noopener noreferrer">relay_recipient_maps 配置项</a>指定，如果值为空，则只接受由<a href="http://www.postfix.org/postconf.5.html#relay_domains"target="_blank" rel="external nofollow noopener noreferrer">relay_domains 配置项</a>列出的域做为收件人。</li>
+<li>邮件传送传输由<a href="http://www.postfix.org/postconf.5.html#relay_transport"target="_blank" rel="external nofollow noopener noreferrer">relay_transport 配置项</a>指定</li>
+<li>更多信息参考：<a href="http://www.postfix.org/BASIC_CONFIGURATION_README.html"target="_blank" rel="external nofollow noopener noreferrer">Postfix基本配置</a>。</li>
+</ul>
+</li>
+<li>虚拟邮箱域类</li>
+<li>虚拟别名域类</li>
+</ul>
+<h1 id="基础配置" class="heading-element">
+  <a href="#%e5%9f%ba%e7%a1%80%e9%85%8d%e7%bd%ae" class="heading-mark"></a>基础配置</h1><p>大至分为以下步骤</p>
+<ol>
+<li>接收哪些<code>IP</code>地址的邮件，接收哪些邮件域？</li>
+<li>允许哪些邮件域通过什么方式发送到哪里去</li>
+</ol>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 接收客户端IP列表有以下方式。选其中一个</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mynetworks_style</span> <span class="o">=</span> class  <span class="c1"># 指定网络接口</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mynetworks_style</span> <span class="o">=</span> subnet <span class="c1"># IP class A/B/C</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mynetworks_style</span> <span class="o">=</span> host   <span class="c1"># 当前主机</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mynetworks</span> <span class="o">=</span> 127.0.0.0/8 168.100.189.2/32  <span class="c1"># 指定客户端IP列表</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 接收邮件域，以空格为分隔</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mydestination</span><span class="o">=</span> <span class="nv">$myhostname</span> localhost.<span class="nv">$mydomain</span> localhost <span class="nv">$mydomain</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 允许发送的邮件域</span>
+</span></span><span class="line"><span class="cl"><span class="nv">relay_domains</span> <span class="o">=</span> <span class="nv">$mydestination</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 出站时使用的域名</span>
+</span></span><span class="line"><span class="cl"><span class="nv">myorigin</span> <span class="o">=</span> notify.xiaosi.host
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 方式到哪里去</span>
+</span></span><span class="line"><span class="cl"><span class="nv">relayhost</span> <span class="o">=</span>  <span class="c1"># 为空表示直接发送到目标，可以指定到其它中继服务器地址</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="配置项" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e9%a1%b9" class="heading-mark"></a>配置项</h1><p>配置目录为 <code>/etc/postfix/</code>，其中 <code>main.cf</code> 作为进程配置文件。可以使用 <code>postconf</code> 命令修改配置，也可以直接编辑配置文件</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">myhostname</span> <span class="o">=</span> smtp.xiaosi.host
+</span></span><span class="line"><span class="cl"><span class="nv">mydomain</span> <span class="o">=</span> xiaosi.host</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>myhostname</code> 参数指定主机名，在配置文件中它的值可以被 <code>$myhostname</code> 引用。<code>mydomain</code> 参数指定主机名。可以被 <code>$mydomain</code> 引用</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">myorigin</span> <span class="o">=</span> <span class="nv">$mydomain</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>发件地址</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">mydestination</span> <span class="o">=</span> <span class="nv">$myhostname</span>, localhost.<span class="nv">$mydomain</span>, localhost</span></span></code></pre></td></tr></table>
+</div>
+</div><p>收件地址</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">inet_interfaces</span> <span class="o">=</span> localhost
+</span></span><span class="line"><span class="cl"><span class="nv">inet_protocols</span> <span class="o">=</span> all <span class="c1"># 其它可选值有 IPv4、IPv6</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>默认只监听本地，</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 出站使用的域名，即发件人地址或代发件人地址</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 它不是强制的，可以被邮箱中 FORM 覆盖</span>
+</span></span><span class="line"><span class="cl"><span class="nv">myorigin</span> <span class="o">=</span> gitlab.xiaosi.host
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 接收邮件的域名，值可以有多个，用逗号分开</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mydestination</span> <span class="o">=</span> gitlab.xiaosi.host, localhost.localdomain, localhost
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 发送中继的客户端网段，即哪些网段可以发送邮件</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mynetworks</span> <span class="o">=</span> 103.106.246.103/24, 127.0.0.0/8
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 禁止中继</span>
+</span></span><span class="line"><span class="cl"><span class="nv">relay_domains</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 间接或直接发送，取决于网络环境，如果是内网，则要指定中继（SMTP）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 为空表示直接发送</span>
+</span></span><span class="line"><span class="cl"><span class="nv">relayhost</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 监听地址，可以是网卡接口</span>
+</span></span><span class="line"><span class="cl"><span class="nv">inet_interfaces</span> <span class="o">=</span> localhost, 103.106.246.103
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># IP 协议</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 其它可选值有 IPv4、IPv6、all</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Enable IPv4, and IPv6 if supported</span>
+</span></span><span class="line"><span class="cl"><span class="nv">inet_protocols</span> <span class="o">=</span> ipv4
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 邮件服务器使用的域</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mydomain</span> <span class="o">=</span> gitlab.xiaosi.host</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>sendmail</code> 可以直接使用 <code>-r xxx@xxx.xxx</code> 参数来以任意源地址发送邮件，但目前主流的邮箱都会将源地址和反向解析 <code>IP</code> 进行比较，如果解析不到或是解析的 <code>IP</code> 不匹配，轻则将邮件直接归为垃圾邮件，严重的就直接拒绝接收。</p>
+<p>测试</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat mail.txt</span>
+</span></span><span class="line"><span class="cl">From:note管理员 &lt;note@xiaosi.host&gt;
+</span></span><span class="line"><span class="cl">To:3023465141@qq.com
+</span></span><span class="line"><span class="cl">Subject: 这是标题
+</span></span><span class="line"><span class="cl">这是内容
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat mail.txt | sendmail  3023465141@qq.com</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="smtp-服务端配置" class="heading-element">
+  <a href="#smtp-%e6%9c%8d%e5%8a%a1%e7%ab%af%e9%85%8d%e7%bd%ae" class="heading-mark"></a>SMTP 服务端配置</h1><p>修改配置文件：<code>/etc/postfix/main.cf</code></p>
+<p>以下是基础配置</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 邮件服务器主机名，影响邮件头部和 SMTP 问候消息</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 也就是说，也是 SMTP 地址，并不是邮件域</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># postconf -e &#39;myhostname = mail-cow.xiaosi.host&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 邮件服务器监听地址</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># postconf -e &#39;inet_interfaces = $myhostname, localhost&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 邮件服务器监听IP地址类型</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 值有：ipv4, ipv6, all</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># postconf -e &#39;inet_protocols = ipv4&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 允许以下客户端地址连接</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># postconf -e &#39;mynetworks = $myhostname&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 允许发送的邮件域</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># postconf -e &#39;relay_domains = notify.xiaosi.host&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="基于客户端地址限制" class="heading-element">
+  <a href="#%e5%9f%ba%e4%ba%8e%e5%ae%a2%e6%88%b7%e7%ab%af%e5%9c%b0%e5%9d%80%e9%99%90%e5%88%b6" class="heading-mark"></a>基于客户端地址限制</h2><p><code>smtpd_client_restrictions</code>有以下值：</p>
+<ul>
+<li><code>permit_mynetworks</code>: 允许<code>mynetworks</code> 网络列表地址连接</li>
+<li><code>reject_unknown_client_hostname</code>: 拒绝<code>IP</code>无法反向解析<code>DNS</code>的域名，有部分邮件服务器无法满足，因此可以使用 <code>warn_if_reject</code> 修饰符改为警告而不是直接拒绝</li>
+<li><code>check_client_access</code>: 根据网络地址文件的策略决定，是<code>hash</code> 表</li>
+<li><code>reject_rhsbl_reverse_client</code>: 指定一个域名，如果域名A记录解析出的IP地址在黑名单上则拒绝。黑名单列表由<code>rbl_reply_map</code>配置项定义，该参数可以使用多个</li>
+<li><code>reject_rbl_client</code>: 指定一个域名，如果域名在黑名单上，则拒绝。黑名单列表由<code>rbl_reply_maps</code>配置项定义，该参数可以使用多少</li>
+</ul>
+<h2 id="基于-ehlo-或-helo-命令的合法性" class="heading-element">
+  <a href="#%e5%9f%ba%e4%ba%8e-ehlo-%e6%88%96-helo-%e5%91%bd%e4%bb%a4%e7%9a%84%e5%90%88%e6%b3%95%e6%80%a7" class="heading-mark"></a>基于 EHLO 或 HELO 命令的合法性</h2><p>在配置之前使用配置（<code>smtpd_helo_required = yes</code>）强制客户端使用 <code>HELO</code> 或 <code>EHLO</code></p>
+<p><code>smtpd_helo_restrictions</code> 指令检查 EHLO 或 HELO 命令的合法性：</p>
+<ul>
+<li><code>permit_mynetworks</code>: 允许<code>mynetworks</code> 网络列表地址连接</li>
+<li><code>reject_invalid_helo_hostname</code>: 当<code>HELO</code>或<code>EHLO</code>主机名语法错误时拒绝请求</li>
+<li><code>reject_non_fqdn_helo_hostname</code>: 当<code>HELO</code>或<code>EHLO</code>主机名不是<code>RFC</code>要求的完全限定域或地址文字形式时，拒绝请求</li>
+<li><code>reject_unknown_helo_hostname</code>: 当<code>HELO</code>或<code>EHLO</code>主机名没有<code>DNS</code> <code>A</code>或<code>MX</code>记录时，拒绝请求</li>
+<li><code>check_helo_access</code>: 值为<code>hash</code> 表，如果匹配<code>HELO</code>或<code>EHLO</code>中域名，则拒绝</li>
+<li><code>reject_rhsbl_helo</code>: 指定一个域名，如果<code>HELO</code>的域名<code>A</code>记录在黑名单中，则拒绝</li>
+</ul>
+<h2 id="基于form做限制" class="heading-element">
+  <a href="#%e5%9f%ba%e4%ba%8eform%e5%81%9a%e9%99%90%e5%88%b6" class="heading-mark"></a>基于FORM做限制</h2><p><code>smtpd_sender_restrictions</code> 限制发件人，有以下参数</p>
+<ul>
+<li><code>check_sender_access</code>: 值为<code>hash</code> 表文件，该文件定义的规则表决定允许还是拒绝</li>
+<li><code>reject_unknown_sender_domain</code>： <code>FORM</code>域名满足以下条件之一则拒绝：
+<ul>
+<li><code>DNS</code>无法解析出<code>A</code>记录和<code>MAX</code>记录</li>
+<li><code>MAX</code>记录不正常，如<code>MAX</code>长度为<code>0</code></li>
+</ul>
+</li>
+<li><code>reject_unlisted_sender</code>: 拒绝满足以下条件之一的邮件域
+<ul>
+<li>不是<code>virtual</code> 配置项定义别名</li>
+<li>不是<code>canonical</code>配置项定义的映射</li>
+<li>不是<code>postfix</code> 地址类</li>
+</ul>
+</li>
+<li><code>reject_non_fqdn_sender</code>：拒绝非全限定域名（<code>FQDN</code>）地址</li>
+<li><code>reject_rhsbl_sender</code>: 如果发件域<code>DNS</code> <code>A</code>记录解析出的<code>IP</code>地址在黑名单上则拒绝。黑名单列表由<code>rbl_reply_map</code>配置项定义，该参数可以使用多个</li>
+</ul>
+<ul>
+<li><code>permit</code>： 允许所有发送方地址发送邮件，没有限制。</li>
+<li><code>reject</code>： 拒绝所有发送方地址发送邮件，没有例外。</li>
+<li><code>check_sender_mx_access</code>： 检查发送方地址的 <code>MX</code> 记录，以确定是否允许发送邮件。</li>
+<li><code>check_sender_ns_access</code>： 检查发送方地址的 <code>NS</code> 记录，以确定是否允许发送邮件。</li>
+<li><code>check_sender_domain_access</code>： 检查发送方地址的域名是否在访问控制列表中。</li>
+<li><code>reject_authenticated_sender_login_mismatch</code>： 拒绝发送方地址与已验证的登录不匹配的邮件。</li>
+<li><code>reject_sender_login_mismatch</code>： 拒绝发送方地址与登录不匹配的邮件。</li>
+<li><code>permit_sasl_authenticated</code>： 仅允许经过 SASL 验证的用户发送邮件。</li>
+<li><code>reject_unauthenticated_sender_login_mismatch</code>： 拒绝未验证的发送方地址与登录不匹配的邮件。</li>
+</ul>
+<h2 id="基于rcpt-to地址限制垃圾邮件" class="heading-element">
+  <a href="#%e5%9f%ba%e4%ba%8ercpt-to%e5%9c%b0%e5%9d%80%e9%99%90%e5%88%b6%e5%9e%83%e5%9c%be%e9%82%ae%e4%bb%b6" class="heading-mark"></a>基于RCPT TO地址限制垃圾邮件</h2><p><code>smtpd_recipient_restrictions</code> 可以对收件地址检查：</p>
+<ul>
+<li><code>reject_unauth_destination</code>: 拒绝想向不服务的地址发送，需要满足以下条件之一
+<ul>
+<li>Postfix is a mail forwarder: the resolved RCPT TO domain matches <code>$relay_domains</code> or a subdomain thereof, and contains no sender-specified routing (user@elsewhere@domain),</li>
+<li>Postfix is the final destination: the resolved RCPT TO domain matches <code>$mydestination</code>, <code>$inet_interfaces</code>, <code>$proxy_interfaces</code>, <code>$virtual_alias_domains</code>, or <code>$virtual_mailbox_domains</code>, and contains no sender-specified routing (user@elsewhere@domain).</li>
+</ul>
+</li>
+<li><code>reject_unlisted_recipient</code>: 拒绝将消息发送给不存在的本地用户</li>
+<li><code>reject_non_fqdn_recipient</code>: 规则拒绝非完全合格的地址</li>
+<li><code>permit</code>: 允许</li>
+</ul>
+<h2 id="基于rcpt-to地址判断中继" class="heading-element">
+  <a href="#%e5%9f%ba%e4%ba%8ercpt-to%e5%9c%b0%e5%9d%80%e5%88%a4%e6%96%ad%e4%b8%ad%e7%bb%a7" class="heading-mark"></a>基于RCPT TO地址判断中继</h2><p>在<code>Postfix 2.10</code>之前中继权限判断是由<code>smtpd_recipient_restrictions</code>配置项指定，此后由<code>smtpd_relay_restrictions</code>指定，部分以下值：</p>
+<ul>
+<li><code>permit_mynetworks</code>: 允许<code>mynetworks</code> 网络列表地址连接</li>
+<li><code>permit_sasl_authenticated</code>: 允许经过 <code>SASL</code> 验证的用户发送邮件</li>
+<li><code>defer_unauth_destination</code>: 满意以下条件之一则请允许
+<ul>
+<li>目标地址匹配<code>relay_domains</code>配置项（如果发件人指定的域除外，如<code>user@elsewhere@domain</code>）</li>
+<li>目标地址匹配<code>$inet_interfaces</code>,<code>$proxy_interfaces</code>, <code>$mydestination</code>, <code>$virtual_alias_domains</code>, <code>$virtual_mailbox_domains</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="对-data-部分限制" class="heading-element">
+  <a href="#%e5%af%b9-data-%e9%83%a8%e5%88%86%e9%99%90%e5%88%b6" class="heading-mark"></a>对 DATA 部分限制</h2><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">smtpd_data_restrictions</span> <span class="o">=</span> reject_unauth_pipelining</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="基于内容的筛选" class="heading-element">
+  <a href="#%e5%9f%ba%e4%ba%8e%e5%86%85%e5%ae%b9%e7%9a%84%e7%ad%9b%e9%80%89" class="heading-mark"></a>基于内容的筛选</h2><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">header_checks</span> <span class="o">=</span> regexp:/etc/postfix/header_checks
+</span></span><span class="line"><span class="cl"><span class="nv">body_checks</span> <span class="o">=</span> regexp:/etc/postfix/body_checks</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="灰名单" class="heading-element">
+  <a href="#%e7%81%b0%e5%90%8d%e5%8d%95" class="heading-mark"></a>灰名单</h2><p>使用外部程序判断</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">smtpd_recipient_restrictions</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">    permit_mynetworks,
+</span></span><span class="line"><span class="cl">    <span class="o">[</span>...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    check_policy_service inet:127.0.0.1:10023</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="sasl-身份验证" class="heading-element">
+  <a href="#sasl-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81" class="heading-mark"></a>SASL 身份验证</h2><blockquote>
+<p><a href="https://www.postfix.org/SASL_README.html"target="_blank" rel="external nofollow noopener noreferrer">https://www.postfix.org/SASL_README.html</a></p>
+</blockquote>
+<p>可以使用以下命令查看哪些<code>SASL</code>实现被编译集成<code>Postfix</code></p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># SMTP server</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># postconf -A</span>
+</span></span><span class="line"><span class="cl">cyrus
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># SMTP+LMTP client</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># postconf -a</span>
+</span></span><span class="line"><span class="cl">cyrus
+</span></span><span class="line"><span class="cl">dovecot</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>连接到 dovecot</li>
+</ul>
+<ol>
+<li>
+<p>启用<code>SASL</code>: <code>smtpd_sasl_auth_enable = yes</code></p>
+</li>
+<li>
+<p>指定使用身份认证系统：<code>smtpd_sasl_type = dovecot</code></p>
+</li>
+<li>
+<p>连接到身份认证系统：</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 通过 UNIX-domain socket 连接</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_sasl_path</span> <span class="o">=</span> private/auth
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 通TCP连接</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_sasl_path</span> <span class="o">=</span> inet:127.0.0.1:12345</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h3 id="cyrus--sasldb-存储用户密码" class="heading-element">
+  <a href="#cyrus--sasldb-%e5%ad%98%e5%82%a8%e7%94%a8%e6%88%b7%e5%af%86%e7%a0%81" class="heading-mark"></a>cyrus  sasldb 存储用户密码</h3><ol>
+<li>
+<p>安装</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y cyrus-sasl-*</span>
+</span></span><span class="line"><span class="cl">Loaded plugins: fastestmirror
+</span></span><span class="line"><span class="cl">Loading mirror speeds from cached hostfile
+</span></span><span class="line"><span class="cl">epel/x86_64/metalink
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>配置<code>SASL</code>认证</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">### sasldb2建立smtp用户和密码</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建用户，用户必须指定username@example.com 为登录名，而不是username。</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># saslpasswd2 -c -u notify.xiaosi.host prometheus</span>
+</span></span><span class="line"><span class="cl">Password:
+</span></span><span class="line"><span class="cl">Again <span class="o">(</span><span class="k">for</span> verification<span class="o">)</span>:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># gFAFPdIQpFhoWh9HYYJHIV</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看用户列表</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># sasldblistusers2</span>
+</span></span><span class="line"><span class="cl">prometheus@notify.xiaosi.host: userPassword
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 删除用户</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># [root@localhost ~]# saslpasswd2 -d prometheus@notify.xiaosi.host</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改<code>smtpd.conf</code>文件</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /etc/sasl2/smtpd.conf</span>
+</span></span><span class="line"><span class="cl">Pwcheck_method: auxprop
+</span></span><span class="line"><span class="cl">Auxprop_plugin: sasldb
+</span></span><span class="line"><span class="cl">Mech_list: PLAIN LOGIN CRAM-MD5 DIGEST-MD5 NTLM</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改 <code>/etc/postfix/main.cf</code> 文件</p>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /etc/postfix/main.cf  </span>
+</span></span><span class="line"><span class="cl"><span class="c1">###################################################SASL</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## 启用身份认证</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_sasl_auth_enable</span> <span class="o">=</span> yes
+</span></span><span class="line"><span class="cl"><span class="c1">## 身份认证方式</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##smtpd_sasl_type = dovecot</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_sasl_type</span> <span class="o">=</span> cyrus
+</span></span><span class="line"><span class="cl"><span class="c1">## 是否支持像outlook、foxmail等非标准协议认证</span>
+</span></span><span class="line"><span class="cl"><span class="nv">broken_sasl_auth_clients</span> <span class="o">=</span> yes
+</span></span><span class="line"><span class="cl"><span class="c1">## 不支持匿名</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_sasl_security_options</span> <span class="o">=</span> noanonymous
+</span></span><span class="line"><span class="cl"><span class="c1">## 使用 Cyrus SASL 的服务器组件</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_sasl_path</span> <span class="o">=</span> smtpd
+</span></span><span class="line"><span class="cl"><span class="nv">cyrus_sasl_config_path</span><span class="o">=</span>/etc/sasl2/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## 是否强制使用TLS连接到身份认证服务</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##smtpd_tls_auth_only = yes</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 限制只允许经过身份认证才能转发邮件</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_relay_restrictions</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#  permit_mynetworks,</span>
+</span></span><span class="line"><span class="cl">  permit_sasl_authenticated,
+</span></span><span class="line"><span class="cl">  defer_unauth_destination</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h2 id="postfix-tls" class="heading-element">
+  <a href="#postfix-tls" class="heading-mark"></a>Postfix TLS</h2><blockquote>
+<p><a href="https://www.postfix.org/TLS_README.html"target="_blank" rel="external nofollow noopener noreferrer">https://www.postfix.org/TLS_README.html</a></p>
+</blockquote>
+<h1 id="smtp-客户端" class="heading-element">
+  <a href="#smtp-%e5%ae%a2%e6%88%b7%e7%ab%af" class="heading-mark"></a>SMTP 客户端</h1><p>Postfix SMTP/LMTP client是一种用于发送电子邮件的客户端程序，会连接到其它<code>SMTPD</code> 服务器</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 发件人邮件地址  邮件账号:邮件密码</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost postfix<span class="o">]</span><span class="c1"># echo &#39;test@notify.xiaosi.host prometheus@notify.xiaosi.host:gFAFPdIQpFhoWh9HYYJHIVAs&#39; &gt; sasl_passwd</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost postfix<span class="o">]</span><span class="c1"># postmap sasl_passwd  </span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="c1"># 发件人邮件地址  SMTP 服务器地址</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost postfix<span class="o">]</span><span class="c1"># echo &#39;test@notify.xiaosi.host [mail-notify.xiaosi.host]:25&#39; &gt; sender_relay</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost postfix<span class="o">]</span><span class="c1"># postmap sender_relay  </span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/etc/postfix/main.cf:
+</span></span><span class="line"><span class="cl">    smtp_sasl_auth_enable = yes
+</span></span><span class="line"><span class="cl">    smtp_tls_security_level = encrypt
+</span></span><span class="line"><span class="cl">    smtp_sasl_tls_security_options = noanonymous
+</span></span><span class="line"><span class="cl">    relayhost = [mail.isp.example]
+</span></span><span class="line"><span class="cl">    # Alternative form:
+</span></span><span class="line"><span class="cl">    # relayhost = [mail.isp.example]:submission
+</span></span><span class="line"><span class="cl">    smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd  
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">747 #smtp_sender_dependent_authentication = yes
+</span></span><span class="line"><span class="cl">748 #smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+</span></span><span class="line"><span class="cl">749 #sender_dependent_relayhost_maps = hash:/etc/postfix/sender_relay</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="命令行工具" class="heading-element">
+  <a href="#%e5%91%bd%e4%bb%a4%e8%a1%8c%e5%b7%a5%e5%85%b7" class="heading-mark"></a>命令行工具</h1><p><code>postfix check</code> 检查配置文档</p>
+<h1 id="postfix-连接到-dovecot" class="heading-element">
+  <a href="#postfix-%e8%bf%9e%e6%8e%a5%e5%88%b0-dovecot" class="heading-mark"></a>postfix 连接到 dovecot</h1><p><code>Dovecot</code> 是一个高性能邮件发送代理(<code>MDA</code>)，专注于安全性。您可以使用 <code>IMAP</code> 或 <code>POP3</code> 兼容电子邮件客户端连接到 <code>Dovecot</code> 服务器，并读取或下载电子邮件。</p>
+<ol>
+<li>
+<p>安装</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install postfix dovecot -y</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>创建用户用于接收电子邮件</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># mkdir -p /data/mail</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># useradd --home-dir /data/mail/ --shell /usr/sbin/nologin vmail</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>如果家目录不是<code>/var/mail/</code>，则修改<code>SELinux</code> 安全上下文</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">semanage fcontext -a -t mail_spool_t <span class="s2">&#34;&lt;path&gt;(/.*)?&#34;</span>
+</span></span><span class="line"><span class="cl">restorecon -Rv &lt;path&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改家目录权限</p>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># chown vmail:vmail /data/mail/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># chmod 700 /data/mail/</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改<code>/etc/dovecot/conf.d/10-mail.conf</code>文件以下配置</p>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 保存邮件格式</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mail_location</span> <span class="o">=</span> sdbox:/data/mail/%n/
+</span></span><span class="line"><span class="cl"><span class="c1"># 可以验证到 Dovecot 的最低用户 ID (UID)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">first_valid_uid</span> <span class="o">=</span> <span class="m">1000</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改 <code>/etc/dovecot/conf.d/auth-system.conf.ext</code></p>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># System users (NSS, /etc/passwd, or similiar). In many systems nowadays this</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># uses Name Service Switch, which is configured in /etc/nsswitch.conf.</span>
+</span></span><span class="line"><span class="cl">userdb <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># &lt;doc/wiki/AuthDatabase.Passwd.txt&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">driver</span> <span class="o">=</span> passwd
+</span></span><span class="line"><span class="cl">  <span class="c1"># 用户信息</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">override_fields</span> <span class="o">=</span> <span class="nv">uid</span><span class="o">=</span>vmail <span class="nv">gid</span><span class="o">=</span>vmail <span class="nv">home</span><span class="o">=</span>/data/mail/
+</span></span><span class="line"><span class="cl">  <span class="c1"># [blocking=no]</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#args =</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Override fields from passwd</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#override_fields = home=/home/virtual/%u</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>编辑<code>/etc/dovecot/conf.d/10-master.conf</code></p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">service auth <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定运行postfix进程用户信息</span>
+</span></span><span class="line"><span class="cl">  unix_listener auth-userdb <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">mode</span> <span class="o">=</span> <span class="m">0666</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">user</span> <span class="o">=</span> postfix
+</span></span><span class="line"><span class="cl">    <span class="nv">group</span> <span class="o">=</span> postfix
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Postfix unix socket </span>
+</span></span><span class="line"><span class="cl">  unix_listener /var/spool/postfix/private/auth <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">mode</span> <span class="o">=</span> <span class="m">0666</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Auth process is run as this user.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#user = $default_internal_user</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>编辑<code>/etc/dovecot/conf.d/10-auth.conf</code></p>
+<div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">auth_mechanisms</span> <span class="o">=</span> plain login</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>启用服务并开机启动</p>
+<div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl enable --now dovecot</span>
+</span></span><span class="line"><span class="cl">Created symlink from /etc/systemd/system/multi-user.target.wants/dovecot.service to /usr/lib/systemd/system/dovecot.service.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl status dovecot</span>
+</span></span><span class="line"><span class="cl">● dovecot.service - Dovecot IMAP/POP3 email server
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/usr/lib/systemd/system/dovecot.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since Thu 2024-02-15 00:43:09 CST<span class="p">;</span> 12s ago
+</span></span><span class="line"><span class="cl">     Docs: man:dovecot<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">           http://wiki2.dovecot.org/
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改<code>/etc/postfix/main.cf</code></p>
+<div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 指定 dovecot</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_sasl_type</span> <span class="o">=</span> dovecot
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定连接地址</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_sasl_path</span> <span class="o">=</span> /var/spool/postfix/private/auth
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 是否强制使用TLS连接到身份认证服务</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_tls_auth_only</span> <span class="o">=</span> yes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 限制只允许经过身份认证才能转发邮件</span>
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_relay_restrictions</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">  permit_mynetworks,
+</span></span><span class="line"><span class="cl">  permit_sasl_authenticated,
+</span></span><span class="line"><span class="cl">  defer_unauth_destination</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>重新载入 <code>postfix</code> 服务以应用更改 并测试</p>
+</li>
+</ol>
+<h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="smtp-server-503-551-error-authentication-not-enabled" class="heading-element">
+  <a href="#smtp-server-503-551-error-authentication-not-enabled" class="heading-mark"></a>smtp-server: 503 5.5.1 Error: authentication not enabled</h2><div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#34;test&#34; | mail -s &#34;主题&#34;  3023465141@qq.com</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># smtp-server: 503 5.5.1 Error: authentication not enabled</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/root/dead.letter&#34;</span> 11/304
+</span></span><span class="line"><span class="cl">. . . message not sent.
+</span></span><span class="line"><span class="cl">^C</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决方法：</p>
+<div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost postfix<span class="o">]</span><span class="c1"># postconf -e &#39;smtpd_sasl_auth_enable = yes&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost postfix<span class="o">]</span><span class="c1"># postfix check &amp;&amp; systemctl restart postfix ; ss -lantpd | grep master</span>
+</span></span><span class="line"><span class="cl">tcp    LISTEN     <span class="m">0</span>      <span class="m">100</span>    103.106.246.17:587                   *:*                   users:<span class="o">((</span><span class="s2">&#34;master&#34;</span>,pid<span class="o">=</span>8839,fd<span class="o">=</span>14<span class="o">))</span>
+</span></span><span class="line"><span class="cl">tcp    LISTEN     <span class="m">0</span>      <span class="m">100</span>    127.0.0.1:587                   *:*                   users:<span class="o">((</span><span class="s2">&#34;master&#34;</span>,pid<span class="o">=</span>8839,fd<span class="o">=</span>13<span class="o">))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>原因：<code>main.cf</code> 配置文件没有启动身份验证</p>
+<h2 id="no-sasl-authentication-mechanisms" class="heading-element">
+  <a href="#no-sasl-authentication-mechanisms" class="heading-mark"></a>no SASL authentication mechanisms</h2><div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># tail -n 30 /var/log/maillog</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:33 localhost postfix/smtpd<span class="o">[</span>11171<span class="o">]</span>: error: open database /etc/postfix/recipient_access.db: No such file or directory
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:33 localhost postfix/smtpd<span class="o">[</span>11171<span class="o">]</span>: connect from unknown<span class="o">[</span>103.106.246.17<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:33 localhost postfix/smtpd<span class="o">[</span>11171<span class="o">]</span>: warning: SASL authentication failure: Internal Error -4 in server.c near line <span class="m">1757</span>
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:33 localhost postfix/smtpd<span class="o">[</span>11171<span class="o">]</span>: warning: SASL authentication failure: Internal Error -4 in server.c near line <span class="m">1757</span>
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:33 localhost postfix/smtpd<span class="o">[</span>11171<span class="o">]</span>: warning: SASL authentication failure: Internal Error -4 in server.c near line <span class="m">1757</span>
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:33 localhost postfix/smtpd<span class="o">[</span>11171<span class="o">]</span>: warning: xsasl_cyrus_server_get_mechanism_list: no mechanism available
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:33 localhost postfix/smtpd<span class="o">[</span>11171<span class="o">]</span>: fatal: no SASL authentication mechanisms
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:34 localhost postfix/master<span class="o">[</span>11077<span class="o">]</span>: warning: process /usr/libexec/postfix/smtpd pid <span class="m">11171</span> <span class="nb">exit</span> status <span class="m">1</span>
+</span></span><span class="line"><span class="cl">Dec <span class="m">29</span> 10:49:34 localhost postfix/master<span class="o">[</span>11077<span class="o">]</span>: warning: /usr/libexec/postfix/smtpd: bad <span class="nb">command</span> startup -- throttling</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决方法</p>
+<div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install cyrus-sasl-plain -y</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="noqueue-reject-rcpt-from--relay-access-denied" class="heading-element">
+  <a href="#noqueue-reject-rcpt-from--relay-access-denied" class="heading-mark"></a>NOQUEUE: reject: RCPT from &hellip; Relay access denied</h2><p>使用 <code>smtp</code> 时邮件发送不出去，出现以下提示</p>
+<div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Dec <span class="m">30</span> 10:15:03 localhost postfix/smtpd<span class="o">[</span>8642<span class="o">]</span>: connect from 172-11-1-11.lightspeed.jcvlfl.sbcglobal.net<span class="o">[</span>172.11.1.11<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Dec <span class="m">30</span> 10:15:04 localhost postfix/smtpd<span class="o">[</span>8642<span class="o">]</span>: NOQUEUE: reject: RCPT from 172-11-1-11.lightspeed.jcvlfl.sbcglobal.net<span class="o">[</span>172.11.1.11<span class="o">]</span>: <span class="m">454</span> 4.7.1 &lt;xq4096@163.com&gt;: Relay access denied<span class="p">;</span> <span class="nv">from</span><span class="o">=</span>&lt;xiaosi@xiaosi.host&gt; <span class="nv">to</span><span class="o">=</span>&lt;xq4096@163.com&gt; <span class="nv">proto</span><span class="o">=</span>ESMTP <span class="nv">helo</span><span class="o">=</span>&lt;localhost&gt;
+</span></span><span class="line"><span class="cl">Dec <span class="m">30</span> 10:15:04 localhost postfix/smtpd<span class="o">[</span>8642<span class="o">]</span>: disconnect from 172-11-1-11.lightspeed.jcvlfl.sbcglobal.net<span class="o">[</span>172.11.1.11<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>出现原因：发件地址没有在 <code>smtp</code> 中过白明单</p>
+<p>解决方法：修改规则，使其能使用 <code>smtp</code> 发送邮件</p>
+<div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 172.11.1.0/24 是机器内部 IP，就直接加入 mynetworks 中</span>
+</span></span><span class="line"><span class="cl"><span class="nv">mynetworks</span> <span class="o">=</span> 103.106.246.17 172.11.1.0/24
+</span></span><span class="line"><span class="cl"><span class="nv">smtpd_relay_restrictions</span> <span class="o">=</span> permit_mynetworks,permit_sasl_authenticated,defer_unauth_destination</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="smtp-server-503-551-error-authentication-not-enabled-1" class="heading-element">
+  <a href="#smtp-server-503-551-error-authentication-not-enabled-1" class="heading-mark"></a>smtp-server: 503 5.5.1 Error: authentication not enabled</h2><div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># smtp-server: 503 5.5.1 Error: authentication not enabled</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/root/dead.letter&#34;</span> 11/306
+</span></span><span class="line"><span class="cl">. . . message not sent.
+</span></span><span class="line"><span class="cl">^C</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-02-16 23:12:28">更新于 2024-02-16&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a><a href="/tags/mail/" class="post-tag" title="标签 - mail">mail</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/docker-network/" class="post-nav-item" rel="prev" title="docker网络"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>docker网络</a>
+      <a href="/redis-data-teype/" class="post-nav-item" rel="next" title="redis数据类型">redis数据类型<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

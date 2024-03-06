@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>nginx unit - 分类 - 小厮</title>
+    <link>/categories/nginx-unit/</link>
+    <description>nginx unit - 分类 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 31 Jan 2023 17:14:38 &#43;0800</lastBuildDate><atom:link href="/categories/nginx-unit/" rel="self" type="application/rss+xml" /><item>
+  <title>nginx unit</title>
+  <link>/nginx-unit/</link>
+  <pubDate>Tue, 31 Jan 2023 17:14:38 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-unit/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

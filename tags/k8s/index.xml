@@ -1,0 +1,167 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>k8s - 标签 - 小厮</title>
+    <link>/tags/k8s/</link>
+    <description>k8s - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 29 Jan 2024 21:11:24 &#43;0800</lastBuildDate><atom:link href="/tags/k8s/" rel="self" type="application/rss+xml" /><item>
+  <title>promtheus监控k8s</title>
+  <link>/k8sMonitorKubernetes/</link>
+  <pubDate>Mon, 29 Jan 2024 21:11:24 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sMonitorKubernetes/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>helm - Kubernetes 的包管理器</title>
+  <link>/helm/</link>
+  <pubDate>Tue, 12 Dec 2023 10:45:47 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/helm/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>k8s ConfigMap 对象</title>
+  <link>/k8sConfigMap/</link>
+  <pubDate>Sun, 10 Dec 2023 12:51:13 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sConfigMap/</guid>
+  <description><![CDATA[ConfigMap - 用来将非机密性的数据保存到键值对中，Pod 可以将其用作环境变量、命令行参数或者存储卷中。]]></description>
+</item>
+<item>
+  <title>k8s RESTfula</title>
+  <link>/k8sApiConcepts/</link>
+  <pubDate>Sun, 18 Jun 2023 17:37:17 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sApiConcepts/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>CoreDNS 是 Kubernetes 的默认 DNS 服务</title>
+  <link>/k8sCoreDNS/</link>
+  <pubDate>Sat, 17 Jun 2023 20:12:38 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sCoreDNS/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>k8s DNS服务自动扩缩</title>
+  <link>/k8sElasticDnsServer/</link>
+  <pubDate>Sat, 17 Jun 2023 20:12:38 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sElasticDnsServer/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>k8s 定义非 Kubernetes 内置计算资源</title>
+  <link>/k8sExtendedResources/</link>
+  <pubDate>Sat, 17 Jun 2023 14:04:37 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sExtendedResources/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>k8s 网络插件 calico</title>
+  <link>/calicoForKubernets/</link>
+  <pubDate>Sun, 04 Jun 2023 15:12:09 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/calicoForKubernets/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>k8s Deployment 控制器</title>
+  <link>/k8sDeployment/</link>
+  <pubDate>Sun, 28 May 2023 05:50:29 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sDeployment/</guid>
+  <description><![CDATA[Deployment 控制器为 Pod 和 ReplicaSet 控制器提供声明式的更新能力。]]></description>
+</item>
+<item>
+  <title>k8s API 访问控制</title>
+  <link>/k8sApiControllingAccess/</link>
+  <pubDate>Mon, 01 May 2023 14:36:11 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sApiControllingAccess/</guid>
+  <description><![CDATA[访问 k8s API的过程]]></description>
+</item>
+<item>
+  <title>k8s问答</title>
+  <link>/k8sFAQ/</link>
+  <pubDate>Sat, 03 Sep 2022 08:35:42 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sFAQ/</guid>
+  <description><![CDATA[记录一些 k8s 相关的问题]]></description>
+</item>
+<item>
+  <title>k8s中的名称空间</title>
+  <link>/k8s%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4/</link>
+  <pubDate>Fri, 02 Sep 2022 22:49:47 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8s%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4/</guid>
+  <description><![CDATA[名称空间管理]]></description>
+</item>
+<item>
+  <title>ingress 与 ingress 控制器</title>
+  <link>/ingress/</link>
+  <pubDate>Tue, 30 Aug 2022 18:48:06 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/ingress/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>k8s 调度器</title>
+  <link>/k8sScheduler/</link>
+  <pubDate>Sun, 14 Aug 2022 12:57:42 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sScheduler/</guid>
+  <description><![CDATA[kube-scheduler]]></description>
+</item>
+<item>
+  <title>k8s 网络代理</title>
+  <link>/k8sProxy/</link>
+  <pubDate>Sat, 13 Aug 2022 12:27:29 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sProxy/</guid>
+  <description><![CDATA[k8s proxy 组件]]></description>
+</item>
+<item>
+  <title>kubelet CRI 工具</title>
+  <link>/kubelet-CRI-%E5%B7%A5%E5%85%B7/</link>
+  <pubDate>Wed, 10 Aug 2022 20:26:33 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/kubelet-CRI-%E5%B7%A5%E5%85%B7/</guid>
+  <description><![CDATA[crictl、critest]]></description>
+</item>
+<item>
+  <title>k8s controller manager</title>
+  <link>/k8sControllerManager/</link>
+  <pubDate>Sun, 07 Aug 2022 07:45:02 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sControllerManager/</guid>
+  <description><![CDATA[k8s 控制器管理简工具介与选项]]></description>
+</item>
+<item>
+  <title>k8s API 服务</title>
+  <link>/k8sKubeApiServer/</link>
+  <pubDate>Sat, 06 Aug 2022 21:20:14 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sKubeApiServer/</guid>
+  <description><![CDATA[k8s api 服务简介与选项]]></description>
+</item>
+<item>
+  <title>k8s kubelet</title>
+  <link>/k8sKubelet/</link>
+  <pubDate>Sat, 06 Aug 2022 19:33:45 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sKubelet/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>k8s kubectl</title>
+  <link>/k8sKubeclt/</link>
+  <pubDate>Sat, 06 Aug 2022 16:24:55 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sKubeclt/</guid>
+  <description><![CDATA[kubectl 命令使用]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>http proxy - 标签 - 小厮</title>
+    <link>/tags/http-proxy/</link>
+    <description>http proxy - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 24 Aug 2023 03:30:57 &#43;0800</lastBuildDate><atom:link href="/tags/http-proxy/" rel="self" type="application/rss+xml" /><item>
+  <title>nginx http 代理</title>
+  <link>/nginxHttpProxy/</link>
+  <pubDate>Thu, 24 Aug 2023 03:30:57 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginxHttpProxy/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>git - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='git' /><meta itemprop="name" content="git">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-02-06T14:55:34+08:00" />
+<meta itemprop="dateModified" content="2023-09-03T12:38:29+08:00" />
+<meta itemprop="wordCount" content="8469">
+<meta itemprop="keywords" content="git," /><meta property="og:title" content="git" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/git/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-02-06T14:55:34+08:00" />
+<meta property="article:modified_time" content="2023-09-03T12:38:29+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="git"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/git/" /><link rel="prev" href="/perl/" /><link rel="next" href="/powerShell/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "git",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/git\/"
+    },"genre": "posts","keywords": "git","wordcount":  8469 ,
+    "url": "\/git\/","datePublished": "2023-02-06T14:55:34+08:00","dateModified": "2023-09-03T12:38:29+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>git</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/git/" class="post-category" title="分类 - git"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> git</a></span></div><div class="post-meta-line"><span title="发布于 2023-02-06 14:55:34"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-02-06">2023-02-06</time></span>&nbsp;<span title="更新于 2023-09-03 12:38:29"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-09-03">2023-09-03</time></span>&nbsp;<span title="8469 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 8500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 17 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#快速入门">快速入门</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#初始化本地库">初始化本地库</a></li>
+        <li><a href="#已跟踪与未跟踪">已跟踪与未跟踪</a></li>
+        <li><a href="#忽略文件">忽略文件</a></li>
+        <li><a href="#提交更新到库">提交更新到库</a></li>
+        <li><a href="#移动文件">移动文件</a></li>
+        <li><a href="#移除文件">移除文件</a></li>
+        <li><a href="#提交记录与回滚">提交记录与回滚</a></li>
+      </ul>
+    </li>
+    <li><a href="#分支">分支</a></li>
+    <li><a href="#引用提交记录">引用提交记录</a>
+      <ul>
+        <li><a href="#sha-1">SHA-1</a></li>
+        <li><a href="#引用分支">引用分支</a></li>
+        <li><a href="#引用日志">引用日志</a></li>
+        <li><a href="#引用日期">引用日期</a></li>
+        <li><a href="#引用分支历史记录">引用分支历史记录</a></li>
+        <li><a href="#提交区间">提交区间</a></li>
+      </ul>
+    </li>
+    <li><a href="#远程仓库">远程仓库</a>
+      <ul>
+        <li><a href="#克隆远程库">克隆远程库</a></li>
+        <li><a href="#查看远程库">查看远程库</a></li>
+        <li><a href="#添加远程库地址再拉取">添加远程库地址再拉取</a></li>
+        <li><a href="#修改远程远程库名称">修改远程远程库名称</a></li>
+        <li><a href="#修改远程库地址">修改远程库地址</a></li>
+        <li><a href="#删除远程库">删除远程库</a></li>
+        <li><a href="#使用ssh协议搭建一个简单的git仓库">使用ssh协议搭建一个简单的git仓库</a></li>
+      </ul>
+    </li>
+    <li><a href="#标签">标签</a></li>
+    <li><a href="#命令">命令</a>
+      <ul>
+        <li><a href="#git-commit">git commit</a></li>
+        <li><a href="#git-branch">git branch</a></li>
+        <li><a href="#git-reset">git reset</a></li>
+        <li><a href="#git-checkout">git checkout</a></li>
+        <li><a href="#git-log">git log</a>
+          <ul>
+            <li><a href="#查看最近两周的所有提交">查看最近两周的所有提交：</a></li>
+            <li><a href="#查看所有提交记录">查看所有提交记录</a></li>
+          </ul>
+        </li>
+        <li><a href="#git-tag">git tag</a></li>
+        <li><a href="#git-status">git status</a></li>
+        <li><a href="#git-grep">git grep</a></li>
+        <li><a href="#git-config">git config</a></li>
+      </ul>
+    </li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#fatal-detected-dubious-ownership-in-repository-at">fatal: detected dubious ownership in repository at&hellip;</a></li>
+        <li><a href="#git-bash-显示中文为十六进制">git bash 显示中文为十六进制</a></li>
+        <li><a href="#lf-will-be-replaced-by-crlf-the-next-time-git-touches-it">LF will be replaced by CRLF the next time Git touches it</a></li>
+        <li><a href="#does-not-have-a-commit-checked-out">does not have a commit checked out</a></li>
+        <li><a href="#git-remote-https-is-not-a-git-command-see-git---help">git: &lsquo;remote-https&rsquo; is not a git command. See &lsquo;git &ndash;help&rsquo;.</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>git: 2.39.1</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://git-scm.com/book/zh/v2"target="_blank" rel="external nofollow noopener noreferrer">git book</a></li>
+<li><code>奔跑吧邓邓子</code>: <a href="https://blog.csdn.net/u012069313/article/details/123212142"target="_blank" rel="external nofollow noopener noreferrer">Git报错git: ‘remote-http‘ is not a git command. See ‘git &ndash;help‘</a></li>
+<li><code>JAVA编程Linux学习：</code><a href="https://mp.weixin.qq.com/s/et6QFZeFEcAXRM-3AsNIpg"target="_blank" rel="external nofollow noopener noreferrer">我看谁还不懂 Git ！(万字长文)</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="快速入门" class="heading-element">
+  <a href="#%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8" class="heading-mark"></a>快速入门</h1><h2 id="安装" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark"></a>安装</h2><p>windows系统可以从<a href="https://git-scm.com/downloads"target="_blank" rel="external nofollow noopener noreferrer">这里</a>下载安装包。<code>lintx</code>可以直接使用安装包
+管理工具安装，但部分发行版如<code>centos</code>发行版的版本有些旧，
+可以从<a href="https://mirrors.edge.kernel.org/pub/software/scm/git/"target="_blank" rel="external nofollow noopener noreferrer">下载压缩包</a>进行源码编译安装</p>
+<ul>
+<li>centos7安装git</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost pak<span class="o">]</span><span class="c1"># wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.37.1.tar.xz</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost pak<span class="o">]</span><span class="c1"># tar xJf git-2.37.1.tar.xz </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost pak<span class="o">]</span><span class="c1"># cd git-2.37.1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost git-2.37.1<span class="o">]</span><span class="c1"># ./configure</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost git-2.37.1<span class="o">]</span><span class="c1"># make &amp;&amp; make install</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost git-2.37.1<span class="o">]</span><span class="c1"># /usr/local/bin/git --version</span>
+</span></span><span class="line"><span class="cl">git version 2.37.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装后在使用前需要添加以下配置信息</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 指定用户名</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives
+</span></span><span class="line"><span class="cl">$ git config --global user.name <span class="s2">&#34;xiaosi&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定邮箱地址</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives
+</span></span><span class="line"><span class="cl">$ git config --global user.email <span class="s2">&#34;3131516796@qq.com&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定文本编辑器</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives
+</span></span><span class="line"><span class="cl">$ git config --global core.editor vim</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="初始化本地库" class="heading-element">
+  <a href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e6%9c%ac%e5%9c%b0%e5%ba%93" class="heading-mark"></a>初始化本地库</h2><p>开始使用</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 进行工作目录，即代码主目录</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span>  ..
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 初始化目录，会创建本地仓库 .git 目录</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives
+</span></span><span class="line"><span class="cl">$ git init .
+</span></span><span class="line"><span class="cl">hint: Using <span class="s1">&#39;master&#39;</span> as the name <span class="k">for</span> the initial branch. This default branch name</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="已跟踪与未跟踪" class="heading-element">
+  <a href="#%e5%b7%b2%e8%b7%9f%e8%b8%aa%e4%b8%8e%e6%9c%aa%e8%b7%9f%e8%b8%aa" class="heading-mark"></a>已跟踪与未跟踪</h2><p>工作目录下的每一个文件都不外乎这两种状态：已跟踪 或 未跟踪。 已跟踪的文件是指那些被纳入了版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后， 它们的状态可能是未修改，已修改或已放入暂存区。简而言之，已跟踪的文件就是 <code>Git</code> 已经知道的文件。未跟踪文件，它们既不存在于上次快照的记录中，也没有被放入暂存区。编辑过某些文件之后，由于自上次提交后你对它们做了修改，<code>Git</code> 将它们标记为已修改文件。 在工作时，可以选择性地将这些修改过的文件放入暂存区，然后提交所有已暂存的修改，如此反复。</p>
+<p><img loading="lazy" src="git%e6%96%87%e4%bb%b6%e7%8a%b6%e6%80%81%e5%8f%98%e5%8c%96%e5%91%a8%e6%9c%9f.png" alt="git文件状态变化周期" srcset="git%e6%96%87%e4%bb%b6%e7%8a%b6%e6%80%81%e5%8f%98%e5%8c%96%e5%91%a8%e6%9c%9f.png?size=small, git%e6%96%87%e4%bb%b6%e7%8a%b6%e6%80%81%e5%8f%98%e5%8c%96%e5%91%a8%e6%9c%9f.png?size=medium 1.5x, git%e6%96%87%e4%bb%b6%e7%8a%b6%e6%80%81%e5%8f%98%e5%8c%96%e5%91%a8%e6%9c%9f.png?size=large 2x" sizes="auto" data-title="git文件状态变化周期" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ul>
+<li><code>untracked</code>: 未跟踪，可以使用 <code>git add</code> 命令加入到暂存区</li>
+<li><code>staged</code>: 已跟踪，即暂存区</li>
+<li><code>unmodified</code>: 未修改，加入到版本库后文件没有被修改</li>
+<li><code>modified</code>: 已修改，加入到版本库后文件被修改，但没有加入到暂不区版本库</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 把当前目录所有文件加入到暂存区，未被 git 跟踪的文件会转换为已跟踪
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives
+</span></span><span class="line"><span class="cl">$ git add .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 查看状态
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives (master)
+</span></span><span class="line"><span class="cl">$ git status
+</span></span><span class="line"><span class="cl">On branch master
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">No commits yet
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Changes to be committed:
+</span></span><span class="line"><span class="cl">  (use &#34;git rm --cached &lt;file&gt;...&#34; to unstage)
+</span></span><span class="line"><span class="cl">        new file:   JsonPath.md
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="忽略文件" class="heading-element">
+  <a href="#%e5%bf%bd%e7%95%a5%e6%96%87%e4%bb%b6" class="heading-mark"></a>忽略文件</h2><p>一般我们总会有些文件无需纳入 <code>Git</code> 的管理，也不希望它们总出现在未跟踪文件列表。在这种情况下，我们可以创建一个名为 <code>.gitignore</code> 的文件，列出要忽略的文件的模式。
+该文件格式如下</p>
+<ul>
+<li>以 <code>#</code> 开头表示注释，会被 <code>git</code> 忽略</li>
+<li>可以使用标准的 <code>glob</code> 模式匹配，它会递归地应用在整个工作区中</li>
+<li>以 <code>/</code> 开头防止递归</li>
+<li>以 <code>/</code> 结尾指定目录</li>
+<li>以 <code>!</code> 开头表示取反</li>
+</ul>
+<p>在最简单的情况下，一个仓库可能只根目录下有一个 <code>.gitignore</code> 文件，它递归地应用到整个仓库中。 然而，子目录下也可以有额外的 <code>.gitignore</code> 文件。子目录中的 <code>.gitignore</code> 文件中的规则只作用于它所在的目录中。</p>
+<h2 id="提交更新到库" class="heading-element">
+  <a href="#%e6%8f%90%e4%ba%a4%e6%9b%b4%e6%96%b0%e5%88%b0%e5%ba%93" class="heading-mark"></a>提交更新到库</h2><p>只有提交到库的快照才可以在未来回溯。在此之前，请务必确认还有什么已修改或新建的文件还没有 <code>git add</code> 过， 否则提交的时候不会记录这些尚未暂存的变化。 这些已修改但未暂存的文件只会保留在本地磁盘。 所以，每次准备提交前，先用 <code>git status</code> 看下，你所需要的文件是不是都已暂存起来了， 然后再运行命令 <code>git commit</code> 提交</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 提交到本地仓库，</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git commit -m <span class="s1">&#39;第一次提交&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>master <span class="o">(</span>root-commit<span class="o">)</span> 6edbbde<span class="o">]</span> 第一次提交
+</span></span><span class="line"><span class="cl"> <span class="m">270</span> files changed, <span class="m">60573</span> insertions<span class="o">(</span>+<span class="o">)</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git commit -m</code> 选项可以在命令行中添加说明，如果未使用 <code>-m</code> 选项，则提交时使用 <code>core.editor</code> 配置项指定的文本编辑器编写说明信息，信息文本中默认添加注释信息（最后一次运行 <code>git status</code> 的输出），注释信息以 <code>#</code> 开头，保存退出时会丢弃注释行</p>
+<p>每次提交都会生成 <code>SHA-1</code> 校验和、提交分支等信息，可以使用 <code>git log</code> 查看提交记录信息</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /F/xiaosi/hugo/content/archives <span class="o">(</span>git<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git log
+</span></span><span class="line"><span class="cl">commit 920d168b7db009b1f9c834ecb4d84b91b1323866 <span class="o">(</span>HEAD -&gt; git, master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Author: xiaosi &lt;3131516796@qq.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Tue Feb <span class="m">7</span> 08:51:25 <span class="m">2023</span> +0800
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    第一次提交</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git commit -a</code> 选项可以会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 <code>git add</code> 步骤</p>
+<h2 id="移动文件" class="heading-element">
+  <a href="#%e7%a7%bb%e5%8a%a8%e6%96%87%e4%bb%b6" class="heading-mark"></a>移动文件</h2><p>不像其它的 <code>VCS</code> 系统，<code>Git</code> 并不显式跟踪文件移动操作。 如果在 <code>Git</code> 中重命名了某个文件，仓库中存储的元数据并不会体现出这是一次改名操作</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># git mv 命令等效执行以下命令集</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># mv README.md README</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># git rm README.md</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># git add README</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ git mv README.md README
+</span></span><span class="line"><span class="cl">$ git status
+</span></span><span class="line"><span class="cl">On branch master
+</span></span><span class="line"><span class="cl">Your branch is up-to-date with <span class="s1">&#39;origin/master&#39;</span>.
+</span></span><span class="line"><span class="cl">Changes to be committed:
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    renamed:    README.md -&gt; README</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="移除文件" class="heading-element">
+  <a href="#%e7%a7%bb%e9%99%a4%e6%96%87%e4%bb%b6" class="heading-mark"></a>移除文件</h2><p>使用 <code>git rm</code> 命令可以从 <code>git</code> 与本地磁盘中删除文件，可以使用 <code>git rm --cached</code> 只从 <code>git</code> 中移除跟踪</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 跟踪文件清单和硬盘中移除</span>
+</span></span><span class="line"><span class="cl">$ git rm PROJECTS.md
+</span></span><span class="line"><span class="cl"><span class="c1"># 移除 git 跟踪 README 文件</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># git rm --cached README</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="提交记录与回滚" class="heading-element">
+  <a href="#%e6%8f%90%e4%ba%a4%e8%ae%b0%e5%bd%95%e4%b8%8e%e5%9b%9e%e6%bb%9a" class="heading-mark"></a>提交记录与回滚</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 克隆 vim 项目</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost /<span class="o">]</span><span class="c1"># git clone https://github.com/vim/vim.git</span>
+</span></span><span class="line"><span class="cl">Cloning into <span class="s1">&#39;vim&#39;</span>...
+</span></span><span class="line"><span class="cl">remote: Enumerating objects: 165691, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Counting objects: 100% <span class="o">(</span>26/26<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Compressing objects: 100% <span class="o">(</span>19/19<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Total <span class="m">165691</span> <span class="o">(</span>delta 13<span class="o">)</span>, reused <span class="m">16</span> <span class="o">(</span>delta 7<span class="o">)</span>, pack-reused <span class="m">165665</span>
+</span></span><span class="line"><span class="cl">Receiving objects: 100% <span class="o">(</span>165691/165691<span class="o">)</span>, 198.99 MiB <span class="p">|</span> 1.54 MiB/s, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">Resolving deltas: 100% <span class="o">(</span>140951/140951<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">Updating files: 100% <span class="o">(</span>4158/4158<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost /<span class="o">]</span><span class="c1"># cd vim/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1">#</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git log</code> 可以查看历史的提交记录，不传入任何参数的默认情况下会按时间先后顺序列出所有的提交，最近的更新排在最上面。 这个命令会列出每个提交的 <code>SHA-1</code> 校验和、作者的名字和电子邮件地址、提交时间以及提交说明。</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git log</span>
+</span></span><span class="line"><span class="cl">commit af9e28a5b8f888b79459393ddb26fffe613c3f3c <span class="o">(</span>HEAD -&gt; master, tag: v9.0.1290, origin/master, origin/HEAD<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Author: zeertzjq &lt;zeertzjq@outlook.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Mon Feb <span class="m">6</span> 20:58:09 <span class="m">2023</span> +0000
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    patch 9.0.1290: CTRL-N and -P on cmdline don<span class="s1">&#39;t trigger CmdlineChanged
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">    Problem:    CTRL-N and -P on cmdline don&#39;</span>t trigger CmdlineChanged.
+</span></span><span class="line"><span class="cl">    Solution:   Jump to cmdline_changed instead of cmdline_not_changed.
+</span></span><span class="line"><span class="cl">                <span class="o">(</span>closes <span class="c1">#11956)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">commit 43e234e8b48caf59d6895a31628dad0bba4fd5c8 <span class="o">(</span>tag: v9.0.1289<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Author: Philip H &lt;47042125+pheiduck@users.noreply.github.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Mon Feb <span class="m">6</span> 20:22:48 <span class="m">2023</span> +0000
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    patch 9.0.1289: a newer version of clang can be used <span class="k">for</span> CI
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    Problem:    A newer version of clang can be used <span class="k">for</span> CI.
+</span></span><span class="line"><span class="cl">    Solution:   Switch from clang-15 to clang-16. <span class="o">(</span>closes <span class="c1">#11577)</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git log --pretty=format</code> 命令可以以指定方式展示提交记录</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git log --pretty=format:&#34;%h %s&#34; --graph</span>
+</span></span><span class="line"><span class="cl">* af9e28a5b patch 9.0.1290: CTRL-N and -P on cmdline don<span class="err">&#39;</span>t trigger CmdlineChanged
+</span></span><span class="line"><span class="cl">* 43e234e8b patch 9.0.1289: a newer version of clang can be used <span class="k">for</span> CI
+</span></span><span class="line"><span class="cl">* 91deac453 patch 9.0.1288: FunC files are not recognized
+</span></span><span class="line"><span class="cl">* 0261e3978 patch 9.0.1287: with the Kitty key protocl Esc with NumLock cannot be mapped
+</span></span><span class="line"><span class="cl">* 546933f49 patch 9.0.1286: Coverity warns <span class="k">for</span> using a NULL pointer
+</span></span><span class="line"><span class="cl">* a9a6b0323 patch 9.0.1285: various small problems
+</span></span><span class="line"><span class="cl">* 40b487296 patch 9.0.1284: compiler warnings <span class="k">for</span> uninitialized variables
+</span></span><span class="line"><span class="cl">* c72078b63 patch 9.0.1283: the code <span class="k">for</span> setting options is too complicated
+</span></span><span class="line"><span class="cl">* c8ef30bc2 patch 9.0.1282: Ron files are not recognized
+</span></span><span class="line"><span class="cl">* cb626a469 patch 9.0.1281: Cadence files are not recognized
+</span></span><span class="line"><span class="cl">* 7a1bdaecf patch 9.0.1280: inssufficient testing <span class="k">for</span> what 9.0.1265 fixes
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 <code>Git</code> 中任何已提交(<code>git commit</code>)的东西几乎总是可以恢复的。 甚至那些被删除的分支中的提交或使用 <code>--amend</code> 选项覆盖的提交也可以恢复 （阅读 数据恢复 了解数据恢复）</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git reset --hard 7a1bdaecf</span>
+</span></span><span class="line"><span class="cl">Updating files: 100% <span class="o">(</span>4158/4158<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">HEAD is now at 7a1bdaecf patch 9.0.1280: inssufficient testing <span class="k">for</span> what 9.0.1265 fixes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看最近一次提交</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git log -1</span>
+</span></span><span class="line"><span class="cl">commit 7a1bdaecf2d2a06eb06ed462e6ccae4954939fc9 <span class="o">(</span>HEAD -&gt; master, tag: v9.0.1280<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Author: Bram Moolenaar &lt;Bram@vim.org&gt;
+</span></span><span class="line"><span class="cl">Date:   Sat Feb <span class="m">4</span> 15:45:27 <span class="m">2023</span> +0000
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    patch 9.0.1280: inssufficient testing <span class="k">for</span> what 9.0.1265 fixes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    Problem:    Inssufficient testing <span class="k">for</span> what 9.0.1265 fixes.
+</span></span><span class="line"><span class="cl">    Solution:   Add a couple of <span class="nb">test</span> cases. <span class="o">(</span>issue <span class="c1">#11885)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面示例使用 <code>git reset --hard</code> 回滚到 <code>haed</code> 为 <code>7a1bdaecf</code> 的提交，工作目录所有的文件也会回到当时提交的状态</p>
+<h1 id="分支" class="heading-element">
+  <a href="#%e5%88%86%e6%94%af" class="heading-mark"></a>分支</h1><p>Git 保存的不是文件的变化或者差异，而是一系列不同时刻的 快照 。在进行提交操作时，Git 会保存一个提交对象（commit object）。该提交对象会包含一个指向暂存内容快照的指针、作者的姓名和邮箱、提交时输入的信息以及指向它的父对象的指针。 首次提交产生的提交对象没有父对象，普通提交操作产生的提交对象有一个父对象， 而由多个分支合并产生的提交对象有多个父对象。</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 创建分支</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git branch git
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看所有分支，HEAD 指针指向的分支还是初始 master 分支</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># HEAD 指针指向当前分支</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git log --oneline --decorate --graph --all
+</span></span><span class="line"><span class="cl">* 6edbbde <span class="o">(</span>HEAD -&gt; master, git<span class="o">)</span> 第一次提交
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 切换到 git 分支</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git checkout git
+</span></span><span class="line"><span class="cl">Switched to branch <span class="s1">&#39;git&#39;</span>
+</span></span><span class="line"><span class="cl">D       git/.git.md.swp
+</span></span><span class="line"><span class="cl">A       git/git.md
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>git<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git add .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 在 git 分支提交 </span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>git<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git commit -m <span class="s1">&#39;git 分支的第一次提交&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>git 8b9f426<span class="o">]</span> git 分支的第一次提交
+</span></span><span class="line"><span class="cl"> <span class="m">2</span> files changed, <span class="m">236</span> insertions<span class="o">(</span>+<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> delete mode <span class="m">100644</span> git/.git.md.swp
+</span></span><span class="line"><span class="cl"> create mode <span class="m">100644</span> git/git.md
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># HEAD 指针指向当前分支</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>git<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git log --oneline --decorate --graph --all
+</span></span><span class="line"><span class="cl">* 8b9f426 <span class="o">(</span>HEAD -&gt; git<span class="o">)</span> git 分支的第一次提交
+</span></span><span class="line"><span class="cl">* 6edbbde <span class="o">(</span>master<span class="o">)</span> 第一次提交</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="引用提交记录" class="heading-element">
+  <a href="#%e5%bc%95%e7%94%a8%e6%8f%90%e4%ba%a4%e8%ae%b0%e5%bd%95" class="heading-mark"></a>引用提交记录</h1><h2 id="sha-1" class="heading-element">
+  <a href="#sha-1" class="heading-mark"></a>SHA-1</h2><p>每次提交都会生成一组由 <code>40</code> 个字符组成的完整 <code>SHA-1</code> 散列值，如果前面部分字符串（至少 <code>4</code> 个）具有唯一性，则 <code>git</code> 能确定到是哪次提交，</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># --abbrev-commit 参数，输出结果里就会显示简短且唯一的值。（至少 7 个字符）</span>
+</span></span><span class="line"><span class="cl">PS 2023/02/09 14:44:51 &gt; git log --abbrev-commit --pretty<span class="o">=</span>oneline
+</span></span><span class="line"><span class="cl">c138639 <span class="o">(</span>HEAD -&gt; master, tag: git.v1.001<span class="o">)</span> git.md 添加、修改内容
+</span></span><span class="line"><span class="cl">cb460aa 第一次提交
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PS 2023/02/09 14:44:55 &gt; git show cb460aa
+</span></span><span class="line"><span class="cl">Author: xiaosi &lt;3131516796@qq.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Tue Feb <span class="m">7</span> 21:43:57 <span class="m">2023</span> +0800
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 等效  git show cb460aa</span>
+</span></span><span class="line"><span class="cl">PS 2023/02/09 14:46:49 &gt; git show cb46
+</span></span><span class="line"><span class="cl">Author: xiaosi &lt;3131516796@qq.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Tue Feb <span class="m">7</span> 21:43:57 <span class="m">2023</span> +0800
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="引用分支" class="heading-element">
+  <a href="#%e5%bc%95%e7%94%a8%e5%88%86%e6%94%af" class="heading-mark"></a>引用分支</h2><p>当引用分支时会默认指向最新的提交</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 假设 topic1 分支最后提交为 ca82a6... 则下在 2 条命令等效</span>
+</span></span><span class="line"><span class="cl">$ git show ca82a6dff817ec66f44342007202690a93763949
+</span></span><span class="line"><span class="cl">$ git show topic1</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="引用日志" class="heading-element">
+  <a href="#%e5%bc%95%e7%94%a8%e6%97%a5%e5%bf%97" class="heading-mark"></a>引用日志</h2><p><code>Git</code> 会在后台保存一个引用日志。引用日志记录了最近几个月你的 <code>HEAD</code> 和分支引用所指向的历史。引用日志只存在于本地仓库，它只是一个记录你在 自己 的仓库里做过什么的日志。 其他人拷贝的仓库里的引用日志不会和你的相同，而你新克隆一个仓库的时候，引用日志是空的，<code>git reflog</code> 命令可以查看引用日志。</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git reflog
+</span></span><span class="line"><span class="cl">734713b HEAD@<span class="o">{</span>0<span class="o">}</span>: commit: fixed refs handling, added gc auto, updated
+</span></span><span class="line"><span class="cl">d921970 HEAD@<span class="o">{</span>1<span class="o">}</span>: merge phedders/rdocs: Merge made by the <span class="s1">&#39;recursive&#39;</span> strategy.
+</span></span><span class="line"><span class="cl">1c002dd HEAD@<span class="o">{</span>2<span class="o">}</span>: commit: added some blame and merge stuff
+</span></span><span class="line"><span class="cl">1c36188 HEAD@<span class="o">{</span>3<span class="o">}</span>: rebase -i <span class="o">(</span>squash<span class="o">)</span>: updating HEAD
+</span></span><span class="line"><span class="cl">95df984 HEAD@<span class="o">{</span>4<span class="o">}</span>: commit: <span class="c1"># This is a combination of two commits.</span>
+</span></span><span class="line"><span class="cl">1c36188 HEAD@<span class="o">{</span>5<span class="o">}</span>: rebase -i <span class="o">(</span>squash<span class="o">)</span>: updating HEAD
+</span></span><span class="line"><span class="cl">7e05da5 HEAD@<span class="o">{</span>6<span class="o">}</span>: rebase -i <span class="o">(</span>pick<span class="o">)</span>: updating HEAD</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以使用 <code>HEAD@{n}</code> 方式指定提交记录</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看第五次前的所指向的提交，等效 git show 1c36188</span>
+</span></span><span class="line"><span class="cl">$ git show HEAD@<span class="o">{</span>5<span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="引用日期" class="heading-element">
+  <a href="#%e5%bc%95%e7%94%a8%e6%97%a5%e6%9c%9f" class="heading-mark"></a>引用日期</h2><p>如果查引用某分支某个时间的提交可以使用 <code>{branch}@{yesterday}</code></p>
+<h2 id="引用分支历史记录" class="heading-element">
+  <a href="#%e5%bc%95%e7%94%a8%e5%88%86%e6%94%af%e5%8e%86%e5%8f%b2%e8%ae%b0%e5%bd%95" class="heading-mark"></a>引用分支历史记录</h2><p><code>^</code> 脱字符可以引用上次提交，<code>^</code> 字符在 <code>windows</code> 系统中是特殊字符（在<code>powerShell</code>中可以正常使用），需要使用 <code>&quot;{HEAD}^&quot;</code> 或 <code>{HEAD}^^</code> 形式</p>
+<p><code>~</code> 字符可以回退版本，</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看上次提交</span>
+</span></span><span class="line"><span class="cl">git show HEAD^
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看 d921970^</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="提交区间" class="heading-element">
+  <a href="#%e6%8f%90%e4%ba%a4%e5%8c%ba%e9%97%b4" class="heading-mark"></a>提交区间</h2><div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看不在 master 分支中，但在 experiment 分支中的提交</span>
+</span></span><span class="line"><span class="cl">$ git log experiment..master</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看被 refA 或 refB 包含的但是不被 refC 包含的提交</span>
+</span></span><span class="line"><span class="cl">$ git log refA refB ^refC
+</span></span><span class="line"><span class="cl">$ git log refA refB --not refC</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 看 master 或者 experiment 中包含的但不是两者共有的提交</span>
+</span></span><span class="line"><span class="cl">$ git log master...experiment</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="远程仓库" class="heading-element">
+  <a href="#%e8%bf%9c%e7%a8%8b%e4%bb%93%e5%ba%93" class="heading-mark"></a>远程仓库</h1><p>远程仓库实际是也是在本地，是通过网络把对方本地仓库复制到自己主机上，修改后上到对方本地库，对方再合并修改</p>
+<h2 id="克隆远程库" class="heading-element">
+  <a href="#%e5%85%8b%e9%9a%86%e8%bf%9c%e7%a8%8b%e5%ba%93" class="heading-mark"></a>克隆远程库</h2><div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># git clone https://github.com/schacon/ticgit</span>
+</span></span><span class="line"><span class="cl">Cloning into <span class="s1">&#39;ticgit&#39;</span>...
+</span></span><span class="line"><span class="cl">remote: Enumerating objects: 1857, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Total <span class="m">1857</span> <span class="o">(</span>delta 0<span class="o">)</span>, reused <span class="m">0</span> <span class="o">(</span>delta 0<span class="o">)</span>, pack-reused <span class="m">1857</span>
+</span></span><span class="line"><span class="cl">Receiving objects: 100% <span class="o">(</span>1857/1857<span class="o">)</span>, 334.06 KiB <span class="p">|</span> 1.38 MiB/s, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">Resolving deltas: 100% <span class="o">(</span>837/837<span class="o">)</span>, <span class="k">done</span>.</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看远程库" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e8%bf%9c%e7%a8%8b%e5%ba%93" class="heading-mark"></a>查看远程库</h2><div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 第一列表示远程库名称</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第二列表示远程库地址</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -v 选项显示远程库地址</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ticgit<span class="o">]</span><span class="c1"># git remote -v</span>
+</span></span><span class="line"><span class="cl">origin  https://github.com/schacon/ticgit <span class="o">(</span>fetch<span class="o">)</span>
+</span></span><span class="line"><span class="cl">origin  https://github.com/schacon/ticgit <span class="o">(</span>push<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="添加远程库地址再拉取" class="heading-element">
+  <a href="#%e6%b7%bb%e5%8a%a0%e8%bf%9c%e7%a8%8b%e5%ba%93%e5%9c%b0%e5%9d%80%e5%86%8d%e6%8b%89%e5%8f%96" class="heading-mark"></a>添加远程库地址再拉取</h2><div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 添加远程库，名称为 pb 后面是库地址</span>
+</span></span><span class="line"><span class="cl">$ git remote add pb https://github.com/paulboone/ticgit
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ git remote -v
+</span></span><span class="line"><span class="cl">origin	https://github.com/schacon/ticgit <span class="o">(</span>fetch<span class="o">)</span>
+</span></span><span class="line"><span class="cl">origin	https://github.com/schacon/ticgit <span class="o">(</span>push<span class="o">)</span>
+</span></span><span class="line"><span class="cl">pb	https://github.com/paulboone/ticgit <span class="o">(</span>fetch<span class="o">)</span>
+</span></span><span class="line"><span class="cl">pb	https://github.com/paulboone/ticgit <span class="o">(</span>push<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># git fetch 拉取远程库</span>
+</span></span><span class="line"><span class="cl">$ git fetch pb
+</span></span><span class="line"><span class="cl">remote: Counting objects: 43, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Compressing objects: 100% <span class="o">(</span>36/36<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Total <span class="m">43</span> <span class="o">(</span>delta 10<span class="o">)</span>, reused <span class="m">31</span> <span class="o">(</span>delta 5<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Unpacking objects: 100% <span class="o">(</span>43/43<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">From https://github.com/paulboone/ticgit
+</span></span><span class="line"><span class="cl"> * <span class="o">[</span>new branch<span class="o">]</span>      master     -&gt; pb/master
+</span></span><span class="line"><span class="cl"> * <span class="o">[</span>new branch<span class="o">]</span>      ticgit     -&gt; pb/ticgit</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git fetch</code> 命令只会将数据下载到你的本地仓库,它并不会自动合并或修改你当前的工作。当准备好时你必须手动将其合并入你的工作。合并后可以使用 <code>git push</code> 命令上传（称为推送）到对方库</p>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 把 master 分支推送到 master 分支</span>
+</span></span><span class="line"><span class="cl">$ git push origin master</span></span></code></pre></td></tr></table>
+</div>
+</div><p>只有当你有所克隆服务器的写入权限，并且之前没有人推送过时，这条命令才能生效。 当你和其他人在同一时间克隆，他们先推送到上游然后你再推送到上游，你的推送就会毫无疑问地被拒绝。 你必须先抓取他们的工作并将其合并进你的工作后才能推送。</p>
+<p><code>git remote show</code> 命令可以查看远程库信息</p>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ticgit<span class="o">]</span><span class="c1"># git remote -v</span>
+</span></span><span class="line"><span class="cl">origin  https://github.com/schacon/ticgit <span class="o">(</span>fetch<span class="o">)</span>
+</span></span><span class="line"><span class="cl">origin  https://github.com/schacon/ticgit <span class="o">(</span>push<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看远程库 origin 信息</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ticgit<span class="o">]</span><span class="c1"># git remote show origin</span>
+</span></span><span class="line"><span class="cl">* remote origin
+</span></span><span class="line"><span class="cl">  Fetch URL: https://github.com/schacon/ticgit
+</span></span><span class="line"><span class="cl">  Push  URL: https://github.com/schacon/ticgit
+</span></span><span class="line"><span class="cl">  HEAD branch: master
+</span></span><span class="line"><span class="cl">  Remote branches:
+</span></span><span class="line"><span class="cl">    master tracked
+</span></span><span class="line"><span class="cl">    ticgit tracked
+</span></span><span class="line"><span class="cl">  Local branch configured <span class="k">for</span> <span class="s1">&#39;git pull&#39;</span>:
+</span></span><span class="line"><span class="cl">    master merges with remote master
+</span></span><span class="line"><span class="cl">  Local ref configured <span class="k">for</span> <span class="s1">&#39;git push&#39;</span>:
+</span></span><span class="line"><span class="cl">    master pushes to master <span class="o">(</span>up to date<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="修改远程远程库名称" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9%e8%bf%9c%e7%a8%8b%e8%bf%9c%e7%a8%8b%e5%ba%93%e5%90%8d%e7%a7%b0" class="heading-mark"></a>修改远程远程库名称</h2><p><code>git remote rename</code> 命令可以修改远程库名称</p>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git remote rename pb paul
+</span></span><span class="line"><span class="cl">$ git remote
+</span></span><span class="line"><span class="cl">origin
+</span></span><span class="line"><span class="cl">paul</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="修改远程库地址" class="heading-element">
+  <a href="#%e4%bf%ae%e6%94%b9%e8%bf%9c%e7%a8%8b%e5%ba%93%e5%9c%b0%e5%9d%80" class="heading-mark"></a>修改远程库地址</h2><div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\x</span>iaosi<span class="se">\n</span>ote&gt; git remote -v
+</span></span><span class="line"><span class="cl">origin  https://gitlab.xiaosi.host/root/note.git <span class="o">(</span>fetch<span class="o">)</span>
+</span></span><span class="line"><span class="cl">origin  https://gitlab.xiaosi.host/root/note.git <span class="o">(</span>push<span class="o">)</span>
+</span></span><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\x</span>iaosi<span class="se">\n</span>ote&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用 <code>git remote set-url</code> 命令修改，把 <code>http</code> 协议改为 <code>ssh</code> 协议</p>
+<div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\x</span>iaosi<span class="se">\n</span>ote&gt; git remote set-url origin git@gitlab.xiaosi.host:xiaosi/note.git
+</span></span><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\x</span>iaosi<span class="se">\n</span>ote&gt;
+</span></span><span class="line"><span class="cl">PS C:<span class="se">\U</span>sers<span class="se">\x</span>iaosi<span class="se">\n</span>ote&gt; git remote -v
+</span></span><span class="line"><span class="cl">origin  git@gitlab.xiaosi.host:xiaosi/note.git <span class="o">(</span>fetch<span class="o">)</span>
+</span></span><span class="line"><span class="cl">origin  git@gitlab.xiaosi.host:xiaosi/note.git <span class="o">(</span>push<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="删除远程库" class="heading-element">
+  <a href="#%e5%88%a0%e9%99%a4%e8%bf%9c%e7%a8%8b%e5%ba%93" class="heading-mark"></a>删除远程库</h2><p><code>git remote remove</code> 可以删除一个远程库，只是删除远程库连接方式，不会删除复制到本地的库与文档</p>
+<div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git remote remove paul
+</span></span><span class="line"><span class="cl">$ git remote
+</span></span><span class="line"><span class="cl">origin</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="使用ssh协议搭建一个简单的git仓库" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8ssh%e5%8d%8f%e8%ae%ae%e6%90%ad%e5%bb%ba%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84git%e4%bb%93%e5%ba%93" class="heading-mark"></a>使用ssh协议搭建一个简单的git仓库</h2><ul>
+<li>创建用户</li>
+</ul>
+<div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># useradd -d /data/git -s /sbin/nologin git</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># cd git/</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>ssh身份验证</li>
+</ul>
+<div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 采用密钥方式验证，减少每次ssh连接时的身份验证</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost note.git<span class="o">]</span><span class="c1"># cd ..</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost git<span class="o">]</span><span class="c1"># mkdir .ssh</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost git<span class="o">]</span><span class="c1"># cat id_rsa.pub &gt; .ssh/authorized_keys</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 禁用终端分配</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost git<span class="o">]</span><span class="c1"># sed &#39;s/^/no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty /&#39; .ssh/authorized_keys -i</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>创建git仓库</li>
+</ul>
+<div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost git<span class="o">]</span><span class="c1"># cd note.git/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost note.git<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost note.git<span class="o">]</span><span class="c1"># git init --bare</span>
+</span></span><span class="line"><span class="cl">Initialized empty Git repository in /data/git/note.git/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost note.git<span class="o">]</span><span class="c1"># pwd</span>
+</span></span><span class="line"><span class="cl">/data/git/note.git</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>此时可以提交或拉取</li>
+</ul>
+<div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"></code></pre></td></tr></table>
+</div>
+</div><h1 id="标签" class="heading-element">
+  <a href="#%e6%a0%87%e7%ad%be" class="heading-mark"></a>标签</h1><p><code>git</code> 以给仓库历史中的某一个提交打上标签，常用于版本标识。使用 <code>git tag</code> 命令可以查看标签</p>
+<div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看所有标签，以字符排序</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git tag -l</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看以 v9.0.003 开头的标签</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git tag -l &#34;v9.0.003*&#34;</span>
+</span></span><span class="line"><span class="cl">v9.0.0030
+</span></span><span class="line"><span class="cl">v9.0.0031
+</span></span><span class="line"><span class="cl">v9.0.0032
+</span></span><span class="line"><span class="cl">v9.0.0033
+</span></span><span class="line"><span class="cl">v9.0.0034
+</span></span><span class="line"><span class="cl">v9.0.0035
+</span></span><span class="line"><span class="cl">v9.0.0036
+</span></span><span class="line"><span class="cl">v9.0.0037
+</span></span><span class="line"><span class="cl">v9.0.0038
+</span></span><span class="line"><span class="cl">v9.0.0039</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git tag -a</code> 命令可以添加标签</p>
+<div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># -m 选项添加注释信息，缺省时 Git 会启动编辑器要求你输入信息</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git tag -a &#34;v9.0.00333&#34; -m &#39;这是测试&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git tag -l &#34;v9.0.0033*&#34;</span>
+</span></span><span class="line"><span class="cl">v9.0.0033
+</span></span><span class="line"><span class="cl">v9.0.00333
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 向 SHA-1 值为 9fceb02 开头的提交记录打标签</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git tag -a v1.2 9fceb02</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git show</code> 命令可以查看提交内容</p>
+<div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">查看标签为 v9.0.00333 的提交信息
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git show v9.0.00333</span>
+</span></span><span class="line"><span class="cl">tag v9.0.00333
+</span></span><span class="line"><span class="cl">Tagger: root &lt;root@localhost.localdomain&gt;
+</span></span><span class="line"><span class="cl">Date:   Wed Feb <span class="m">8</span> 15:15:22 <span class="m">2023</span> +0800
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这是测试
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">commit 7a1bdaecf2d2a06eb06ed462e6ccae4954939fc9 <span class="o">(</span>HEAD -&gt; master, tag: v9.0.1280, tag: v9.0.00333<span class="o">)</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>另一种给提交打标签的方式是使用轻量标签。 轻量标签本质上是将提交校验和存储到一个文件中——没有保存任何其他信息。 创建轻量标签，不需要使用 <code>-a</code>、<code>-s</code> 或 <code>-m</code> 选项，只需要提供标签名字。</p>
+<div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git tag v1.4-lw
+</span></span><span class="line"><span class="cl">$ git tag
+</span></span><span class="line"><span class="cl">v0.1
+</span></span><span class="line"><span class="cl">v1.3
+</span></span><span class="line"><span class="cl">v1.4
+</span></span><span class="line"><span class="cl">v1.4-lw
+</span></span><span class="line"><span class="cl">v1.5</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当向远程库推送时，默认并不会传送标签到远程仓库服务器上。 在创建完标签后你必须显式地推送标签到共享服务器上。</p>
+<div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 推送，附加 v1.5 的标签</span>
+</span></span><span class="line"><span class="cl">$ git push origin v1.5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 推送，并附加所有标签</span>
+</span></span><span class="line"><span class="cl">$ git push origin --tags</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git tag -d</code> 选项删除标签</p>
+<div class="highlight" id="id-40"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git tag -d &#34;v9.0.00333&#34;</span>
+</span></span><span class="line"><span class="cl">Deleted tag <span class="s1">&#39;v9.0.00333&#39;</span> <span class="o">(</span>was 48f41a722<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>想删除远程库的标签要使用以下方式</p>
+<div class="highlight" id="id-41"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 删除远程库 origin 的 v1.4-lw 标签</span>
+</span></span><span class="line"><span class="cl">$ git push origin --delete v1.4-lw
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 以下是第二种方式</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 将冒号前面的空值推送到远程标签名，从而高效地删除它。</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 从而实现删除远程库 origin 的 v1.4-lw 标签</span>
+</span></span><span class="line"><span class="cl">$ git push origin :refs/tags/v1.4-lw
+</span></span><span class="line"><span class="cl">To /git@github.com:schacon/simplegit.git
+</span></span><span class="line"><span class="cl"> - <span class="o">[</span>deleted<span class="o">]</span>         v1.4-lw</span></span></code></pre></td></tr></table>
+</div>
+</div><p>想查看某个标签所指向的文件版本且要修改时，应该先创建分支，否则会产生分离头指针（<code>detached HEAD</code>）状态，在该状态下做了某些更改然后提交它们，标签不会发生变化， 但你的新提交将不属于任何分支，并且只能通过确切的提交哈希才能访问。</p>
+<div class="highlight" id="id-42"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 切换到 tag 为 v2.0.0 的提交并创建分支 version2</span>
+</span></span><span class="line"><span class="cl">$ git checkout -b version2 v2.0.0
+</span></span><span class="line"><span class="cl">Switched to a new branch <span class="s1">&#39;version2&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 切换到 tag 为 v2.0.0 的提交</span>
+</span></span><span class="line"><span class="cl">$ git checkout 2.0.0</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="命令" class="heading-element">
+  <a href="#%e5%91%bd%e4%bb%a4" class="heading-mark"></a>命令</h1><h2 id="git-commit" class="heading-element">
+  <a href="#git-commit" class="heading-mark"></a>git commit</h2><p>提交记录</p>
+<div class="highlight" id="id-43"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git commit <span class="o">[</span>-a <span class="p">|</span> --interactive <span class="p">|</span> --patch<span class="o">]</span> <span class="o">[</span>-s<span class="o">]</span> <span class="o">[</span>-v<span class="o">]</span> <span class="o">[</span>-u&lt;mode&gt;<span class="o">]</span> <span class="o">[</span>--amend<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--dry-run<span class="o">]</span> <span class="o">[(</span>-c <span class="p">|</span> -C <span class="p">|</span> --squash<span class="o">)</span> &lt;commit&gt; <span class="p">|</span> --fixup <span class="o">[(</span>amend<span class="p">|</span>reword<span class="o">)</span>:<span class="o">]</span>&lt;commit&gt;<span class="o">)]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-F &lt;file&gt; <span class="p">|</span> -m &lt;msg&gt;<span class="o">]</span> <span class="o">[</span>--reset-author<span class="o">]</span> <span class="o">[</span>--allow-empty<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--allow-empty-message<span class="o">]</span> <span class="o">[</span>--no-verify<span class="o">]</span> <span class="o">[</span>-e<span class="o">]</span> <span class="o">[</span>--author<span class="o">=</span>&lt;author&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--date<span class="o">=</span>&lt;date&gt;<span class="o">]</span> <span class="o">[</span>--cleanup<span class="o">=</span>&lt;mode&gt;<span class="o">]</span> <span class="o">[</span>--<span class="o">[</span>no-<span class="o">]</span>status<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-i <span class="p">|</span> -o<span class="o">]</span> <span class="o">[</span>--pathspec-from-file<span class="o">=</span>&lt;file&gt; <span class="o">[</span>--pathspec-file-nul<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[(</span>--trailer &lt;token&gt;<span class="o">[(=</span><span class="p">|</span>:<span class="o">)</span>&lt;value&gt;<span class="o">])</span>…<span class="o">]</span> <span class="o">[</span>-S<span class="o">[</span>&lt;keyid&gt;<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--<span class="o">]</span> <span class="o">[</span>&lt;pathspec&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--amend     <span class="c1"># 撤消提交操作，用新的提交替换旧的提交</span>
+</span></span><span class="line"><span class="cl">-m &lt;msg&gt;, --message<span class="o">=</span>&lt;msg&gt;
+</span></span><span class="line"><span class="cl">            <span class="c1"># 在命令行添加提交说明，缺省时使用 core.editor 配置项指定的文本编辑器编写说明信息</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 不能与 -c, -C, -F 选项同时使用</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-branch" class="heading-element">
+  <a href="#git-branch" class="heading-mark"></a>git branch</h2><p>创建、查看、删除分支</p>
+<div class="highlight" id="id-44"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git branch <span class="o">[</span>--color<span class="o">[=</span>&lt;when&gt;<span class="o">]</span> <span class="p">|</span> --no-color<span class="o">]</span> <span class="o">[</span>--show-current<span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>-v <span class="o">[</span>--abbrev<span class="o">=</span>&lt;n&gt; <span class="p">|</span> --no-abbrev<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>--column<span class="o">[=</span>&lt;options&gt;<span class="o">]</span> <span class="p">|</span> --no-column<span class="o">]</span> <span class="o">[</span>--sort<span class="o">=</span>&lt;key&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>--merged <span class="o">[</span>&lt;commit&gt;<span class="o">]]</span> <span class="o">[</span>--no-merged <span class="o">[</span>&lt;commit&gt;<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>--contains <span class="o">[</span>&lt;commit&gt;<span class="o">]]</span> <span class="o">[</span>--no-contains <span class="o">[</span>&lt;commit&gt;<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>--points-at &lt;object&gt;<span class="o">]</span> <span class="o">[</span>--format<span class="o">=</span>&lt;format&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[(</span>-r <span class="p">|</span> --remotes<span class="o">)</span> <span class="p">|</span> <span class="o">(</span>-a <span class="p">|</span> --all<span class="o">)]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>--list<span class="o">]</span> <span class="o">[</span>&lt;pattern&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git branch <span class="o">[</span>--track<span class="o">[=(</span>direct<span class="p">|</span>inherit<span class="o">)]</span> <span class="p">|</span> --no-track<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>--recurse-submodules<span class="o">]</span> &lt;branchname&gt; <span class="o">[</span>&lt;start-point&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git branch <span class="o">(</span>--set-upstream-to<span class="o">=</span>&lt;upstream&gt; <span class="p">|</span> -u &lt;upstream&gt;<span class="o">)</span> <span class="o">[</span>&lt;branchname&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git branch --unset-upstream <span class="o">[</span>&lt;branchname&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git branch <span class="o">(</span>-m <span class="p">|</span> -M<span class="o">)</span> <span class="o">[</span>&lt;oldbranch&gt;<span class="o">]</span> &lt;newbranch&gt;
+</span></span><span class="line"><span class="cl">git branch <span class="o">(</span>-c <span class="p">|</span> -C<span class="o">)</span> <span class="o">[</span>&lt;oldbranch&gt;<span class="o">]</span> &lt;newbranch&gt;
+</span></span><span class="line"><span class="cl">git branch <span class="o">(</span>-d <span class="p">|</span> -D<span class="o">)</span> <span class="o">[</span>-r<span class="o">]</span> &lt;branchname&gt;…
+</span></span><span class="line"><span class="cl">git branch --edit-description <span class="o">[</span>&lt;branchname&gt;<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-reset" class="heading-element">
+  <a href="#git-reset" class="heading-mark"></a>git reset</h2><p>将当前 <code>HEAD</code> 重置为指定状态</p>
+<div class="highlight" id="id-45"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git reset <span class="o">[</span>-q<span class="o">]</span> <span class="o">[</span>&lt;tree-ish&gt;<span class="o">]</span> <span class="o">[</span>--<span class="o">]</span> &lt;pathspec&gt;…
+</span></span><span class="line"><span class="cl">git reset <span class="o">[</span>-q<span class="o">]</span> <span class="o">[</span>--pathspec-from-file<span class="o">=</span>&lt;file&gt; <span class="o">[</span>--pathspec-file-nul<span class="o">]]</span> <span class="o">[</span>&lt;tree-ish&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git reset <span class="o">(</span>--patch <span class="p">|</span> -p<span class="o">)</span> <span class="o">[</span>&lt;tree-ish&gt;<span class="o">]</span> <span class="o">[</span>--<span class="o">]</span> <span class="o">[</span>&lt;pathspec&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git reset <span class="o">[</span>--soft <span class="p">|</span> --mixed <span class="o">[</span>-N<span class="o">]</span> <span class="p">|</span> --hard <span class="p">|</span> --merge <span class="p">|</span> --keep<span class="o">]</span> <span class="o">[</span>-q<span class="o">]</span> <span class="o">[</span>&lt;commit&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">DEPRECATED: git reset <span class="o">[</span>-q<span class="o">]</span> <span class="o">[</span>--stdin <span class="o">[</span>-z<span class="o">]]</span> <span class="o">[</span>&lt;tree-ish&gt;<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>取消 <code>CONTRIBUTING.md</code> 文件暂存状态</p>
+<div class="highlight" id="id-46"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git status
+</span></span><span class="line"><span class="cl">On branch master
+</span></span><span class="line"><span class="cl">Changes to be committed:
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    renamed:    README.md -&gt; README
+</span></span><span class="line"><span class="cl">    modified:   CONTRIBUTING.md
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ git reset HEAD CONTRIBUTING.md
+</span></span><span class="line"><span class="cl">Unstaged changes after reset:
+</span></span><span class="line"><span class="cl">M	CONTRIBUTING.md
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ git status
+</span></span><span class="line"><span class="cl">On branch master
+</span></span><span class="line"><span class="cl">Changes to be committed:
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git reset HEAD &lt;file&gt;...&#34;</span> to unstage<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    renamed:    README.md -&gt; README
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Changes not staged <span class="k">for</span> commit:
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git add &lt;file&gt;...&#34;</span> to update what will be committed<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git checkout -- &lt;file&gt;...&#34;</span> to discard changes in working directory<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    modified:   CONTRIBUTING.md</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-checkout" class="heading-element">
+  <a href="#git-checkout" class="heading-mark"></a>git checkout</h2><p>切换到指定分支</p>
+<div class="highlight" id="id-47"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git checkout <span class="o">[</span>-q<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>-m<span class="o">]</span> <span class="o">[</span>&lt;branch&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git checkout <span class="o">[</span>-q<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>-m<span class="o">]</span> --detach <span class="o">[</span>&lt;branch&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git checkout <span class="o">[</span>-q<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>-m<span class="o">]</span> <span class="o">[</span>--detach<span class="o">]</span> &lt;commit&gt;
+</span></span><span class="line"><span class="cl">git checkout <span class="o">[</span>-q<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>-m<span class="o">]</span> <span class="o">[[</span>-b<span class="p">|</span>-B<span class="p">|</span>--orphan<span class="o">]</span> &lt;new-branch&gt;<span class="o">]</span> <span class="o">[</span>&lt;start-point&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git checkout <span class="o">[</span>-f<span class="p">|</span>--ours<span class="p">|</span>--theirs<span class="p">|</span>-m<span class="p">|</span>--conflict<span class="o">=</span>&lt;style&gt;<span class="o">]</span> <span class="o">[</span>&lt;tree-ish&gt;<span class="o">]</span> <span class="o">[</span>--<span class="o">]</span> &lt;pathspec&gt;…
+</span></span><span class="line"><span class="cl">git checkout <span class="o">[</span>-f<span class="p">|</span>--ours<span class="p">|</span>--theirs<span class="p">|</span>-m<span class="p">|</span>--conflict<span class="o">=</span>&lt;style&gt;<span class="o">]</span> <span class="o">[</span>&lt;tree-ish&gt;<span class="o">]</span> --pathspec-from-file<span class="o">=</span>&lt;file&gt; <span class="o">[</span>--pathspec-file-nul<span class="o">]</span>
+</span></span><span class="line"><span class="cl">git checkout <span class="o">(</span>-p<span class="p">|</span>--patch<span class="o">)</span> <span class="o">[</span>&lt;tree-ish&gt;<span class="o">]</span> <span class="o">[</span>--<span class="o">]</span> <span class="o">[</span>&lt;pathspec&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-b &lt;new-branch&gt;     <span class="c1"># 创建分支并切换过去</span>
+</span></span><span class="line"><span class="cl"> </span></span></code></pre></td></tr></table>
+</div>
+</div><p>用最近提交的版本覆盖 <code>CONTRIBUTING.md</code></p>
+<div class="highlight" id="id-48"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git checkout -- CONTRIBUTING.md</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-log" class="heading-element">
+  <a href="#git-log" class="heading-mark"></a>git log</h2><div class="highlight" id="id-49"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git log <span class="o">[</span>&lt;options&gt;<span class="o">]</span> <span class="o">[</span>&lt;revision-range&gt;<span class="o">]</span> <span class="o">[[</span>--<span class="o">]</span> &lt;path&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># options</span>
+</span></span><span class="line"><span class="cl">-L&lt;start&gt;,&lt;end&gt;:&lt;file&gt;, -L:&lt;funcname&gt;:&lt;file&gt;
+</span></span><span class="line"><span class="cl">--left-right        <span class="c1"># 查看区间提交时显示提交属于哪边分支</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 查看文件中函数的变更历史。可以与 --no-patch 组和使用不显示补丁</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>--<span class="o">]</span> &lt;path&gt;...      <span class="c1"># 某些文件或者目录的历史提交，-- 选项是与其它参数区分</span>
+</span></span><span class="line"><span class="cl">--no-merges         <span class="c1"># 不要打印具有多个父项的提交。这与 --max-parents=1 完全相同</span>
+</span></span><span class="line"><span class="cl">-S&lt;string&gt;          <span class="c1"># 仅显示添加或删除内容匹配指定字符串的提交</span>
+</span></span><span class="line"><span class="cl">--author<span class="o">=</span>&lt;pattern&gt;, --committer<span class="o">=</span>&lt;pattern&gt;
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 显示指定作者的提交，可以有多个该选项，它们关系是或</span>
+</span></span><span class="line"><span class="cl">--grep<span class="o">=</span>&lt;pattern&gt;    <span class="c1"># 仅按正则表达式匹配提交说明，可以有多个该选项，它位关系是或</span>
+</span></span><span class="line"><span class="cl">--all-match         <span class="c1"># 当有多个 --grep 选项时，它们的关系是和</span>
+</span></span><span class="line"><span class="cl">--graph             <span class="c1"># 在左测基于文本的图形表示形式绘制提交历史记录</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 不能与 `--no-walk`</span>
+</span></span><span class="line"><span class="cl">--since<span class="o">=</span>&lt;date&gt;, --after<span class="o">=</span>&lt;date&gt;
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 只显示晚于指定日期的提交，时间可以是相对日期，绝对日期</span>
+</span></span><span class="line"><span class="cl">--until<span class="o">=</span>&lt;date&gt;, --before<span class="o">=</span>&lt;date&gt;
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 只显示早于指定日期的提交。时间可以是相对日期，绝对日期</span>
+</span></span><span class="line"><span class="cl">--all               <span class="c1"># 查看所有提交，不受 HAED 指针影响</span>
+</span></span><span class="line"><span class="cl">--abbrev-commit     <span class="c1"># 显示唯一的 SHA-1 值前缀</span>
+</span></span><span class="line"><span class="cl">--relative-date     <span class="c1"># 使用较短的相对时间而不是完整格式显示日期（比如“2 weeks ago”）</span>
+</span></span><span class="line"><span class="cl">--decorate          <span class="c1"># 查看当前 head 指针所指的对象</span>
+</span></span><span class="line"><span class="cl">--name-only         <span class="c1"># 仅在提交信息后显示已修改的文件清单</span>
+</span></span><span class="line"><span class="cl">--name-status       <span class="c1"># 显示新增、修改、删除的文件清单</span>
+</span></span><span class="line"><span class="cl">-&lt;number&gt;, -n &lt;number&gt;, --max-count<span class="o">=</span>&lt;number&gt;
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 指定查看当前 head 对象最近提交的次数</span>
+</span></span><span class="line"><span class="cl">-p, -u, --patch     <span class="c1"># 显示提交所引入的差异，以 diff 方式</span>
+</span></span><span class="line"><span class="cl">--shortstat         <span class="c1"># 只显示 --stat 中最后的行数修改添加移除统计</span>
+</span></span><span class="line"><span class="cl">--stat<span class="o">[=</span>&lt;width&gt;<span class="o">[</span>,&lt;name-width&gt;<span class="o">[</span>,&lt;count&gt;<span class="o">]]]</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 显示修改统计信息</span>
+</span></span><span class="line"><span class="cl">--decorate<span class="o">[=</span>short<span class="p">|</span>full<span class="p">|</span>auto<span class="p">|</span>no<span class="o">]</span>, --no-decorate
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 打印出显示的任何提交的引用名称</span>
+</span></span><span class="line"><span class="cl">--oneline           <span class="c1"># --pretty=oneline --abbrev-commit 合用的简写</span>
+</span></span><span class="line"><span class="cl">--pretty<span class="o">[=</span>&lt;format&gt;<span class="o">]</span>, --format<span class="o">=</span>&lt;format&gt;
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 指定显示格式，有以下格式</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># oneline: 以行方式显示，会省略很多信息</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># short</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># medium</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># full</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># fuller</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># reference</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># email</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># raw</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># format:&lt;string&gt;: 按指定修饰格式显示</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># tformat:&lt;string&gt;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>git log --pretty=format</code> 常用的选项</p>
+<div class="highlight" id="id-50"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">%H  提交的完整哈希值
+</span></span><span class="line"><span class="cl">%h  提交的简写哈希值
+</span></span><span class="line"><span class="cl">%T  树的完整哈希值
+</span></span><span class="line"><span class="cl">%t  树的简写哈希值
+</span></span><span class="line"><span class="cl">%P  父提交的完整哈希值
+</span></span><span class="line"><span class="cl">%p  父提交的简写哈希值
+</span></span><span class="line"><span class="cl">%an 作者名字
+</span></span><span class="line"><span class="cl">%ae 作者的电子邮件地址
+</span></span><span class="line"><span class="cl">%ad 作者修订日期（可以用 --date<span class="o">=</span>选项 来定制格式）
+</span></span><span class="line"><span class="cl">%ar 作者修订日期，按多久以前的方式显示
+</span></span><span class="line"><span class="cl">%cn 提交者的名字
+</span></span><span class="line"><span class="cl">%ce 提交者的电子邮件地址
+</span></span><span class="line"><span class="cl">%cd 提交日期
+</span></span><span class="line"><span class="cl">%cr 提交日期（距今多长时间）
+</span></span><span class="line"><span class="cl">%s  提交说明</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看最近两周的所有提交" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%9c%80%e8%bf%91%e4%b8%a4%e5%91%a8%e7%9a%84%e6%89%80%e6%9c%89%e6%8f%90%e4%ba%a4" class="heading-mark"></a>查看最近两周的所有提交：</h3><div class="highlight" id="id-51"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git log --since<span class="o">=</span>2.weeks</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看所有提交记录" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%89%80%e6%9c%89%e6%8f%90%e4%ba%a4%e8%ae%b0%e5%bd%95" class="heading-mark"></a>查看所有提交记录</h3><div class="highlight" id="id-52"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">PS 2023/02/09 13:47:38 &gt; git log --abbrev-commit --pretty<span class="o">=</span>oneline --all
+</span></span><span class="line"><span class="cl">c138639 <span class="o">(</span>HEAD -&gt; master, tag: git.v1.001<span class="o">)</span> git.md 添加、修改内容
+</span></span><span class="line"><span class="cl">cb460aa 第一次提交</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-53"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">PS 2023/02/09 13:50:21 &gt; git log --pretty<span class="o">=</span>format:<span class="s1">&#39;%h %s&#39;</span> --graph --all
+</span></span><span class="line"><span class="cl">* c138639 git.md 添加、修改内容
+</span></span><span class="line"><span class="cl">* cb460aa 第一次提交</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-tag" class="heading-element">
+  <a href="#git-tag" class="heading-mark"></a>git tag</h2><div class="highlight" id="id-54"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git tag -h</span>
+</span></span><span class="line"><span class="cl">usage: git tag <span class="o">[</span>-a <span class="p">|</span> -s <span class="p">|</span> -u &lt;key-id&gt;<span class="o">]</span> <span class="o">[</span>-f<span class="o">]</span> <span class="o">[</span>-m &lt;msg&gt; <span class="p">|</span> -F &lt;file&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">               &lt;tagname&gt; <span class="o">[</span>&lt;head&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">   or: git tag -d &lt;tagname&gt;...
+</span></span><span class="line"><span class="cl">   or: git tag -l <span class="o">[</span>-n<span class="o">[</span>&lt;num&gt;<span class="o">]]</span> <span class="o">[</span>--contains &lt;commit&gt;<span class="o">]</span> <span class="o">[</span>--no-contains &lt;commit&gt;<span class="o">]</span> <span class="o">[</span>--points-at &lt;object&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">               <span class="o">[</span>--format<span class="o">=</span>&lt;format&gt;<span class="o">]</span> <span class="o">[</span>--merged &lt;commit&gt;<span class="o">]</span> <span class="o">[</span>--no-merged &lt;commit&gt;<span class="o">]</span> <span class="o">[</span>&lt;pattern&gt;...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">   or: git tag -v <span class="o">[</span>--format<span class="o">=</span>&lt;format&gt;<span class="o">]</span> &lt;tagname&gt;...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    -l, --list            <span class="c1"># 查看标签，可以接表达式缩小范围</span>
+</span></span><span class="line"><span class="cl">    -n<span class="o">[</span>&lt;n&gt;<span class="o">]</span>               print &lt;n&gt; lines of each tag message
+</span></span><span class="line"><span class="cl">    -d, --delete          delete tags
+</span></span><span class="line"><span class="cl">    -v, --verify          verify tags
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Tag creation options
+</span></span><span class="line"><span class="cl">    -a, --annotate        annotated tag, needs a message
+</span></span><span class="line"><span class="cl">    -m, --message &lt;message&gt;
+</span></span><span class="line"><span class="cl">                          tag message
+</span></span><span class="line"><span class="cl">    -F, --file &lt;file&gt;     <span class="nb">read</span> message from file
+</span></span><span class="line"><span class="cl">    -e, --edit            force edit of tag message
+</span></span><span class="line"><span class="cl">    -s, --sign            annotated and GPG-signed tag
+</span></span><span class="line"><span class="cl">    --cleanup &lt;mode&gt;      how to strip spaces and <span class="c1">#comments from message</span>
+</span></span><span class="line"><span class="cl">    -u, --local-user &lt;key-id&gt;
+</span></span><span class="line"><span class="cl">                          use another key to sign the tag
+</span></span><span class="line"><span class="cl">    -f, --force           replace the tag <span class="k">if</span> exists
+</span></span><span class="line"><span class="cl">    --create-reflog       create a reflog
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Tag listing options
+</span></span><span class="line"><span class="cl">    --column<span class="o">[=</span>&lt;style&gt;<span class="o">]</span>    show tag list in columns
+</span></span><span class="line"><span class="cl">    --contains &lt;commit&gt;   print only tags that contain the commit
+</span></span><span class="line"><span class="cl">    --no-contains &lt;commit&gt;
+</span></span><span class="line"><span class="cl">                          print only tags that don<span class="err">&#39;</span>t contain the commit
+</span></span><span class="line"><span class="cl">    --merged &lt;commit&gt;     print only tags that are merged
+</span></span><span class="line"><span class="cl">    --no-merged &lt;commit&gt;  print only tags that are not merged
+</span></span><span class="line"><span class="cl">    --sort &lt;key&gt;          field name to sort on
+</span></span><span class="line"><span class="cl">    --points-at &lt;object&gt;  print only tags of the object
+</span></span><span class="line"><span class="cl">    --format &lt;format&gt;     format to use <span class="k">for</span> the output
+</span></span><span class="line"><span class="cl">    --color<span class="o">[=</span>&lt;when&gt;<span class="o">]</span>      respect format colors
+</span></span><span class="line"><span class="cl">    -i, --ignore-case     sorting and filtering are <span class="k">case</span> insensitive</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-status" class="heading-element">
+  <a href="#git-status" class="heading-mark"></a>git status</h2><p><code>git status</code> 命令使用</p>
+<div class="highlight" id="id-55"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git status <span class="o">[</span>&lt;options&gt;<span class="o">]</span> <span class="o">[</span>--<span class="o">]</span> <span class="o">[</span>&lt;pathspec&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># options</span>
+</span></span><span class="line"><span class="cl">-s, --short               <span class="c1"># 简短格式显示</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>简短格式输出</p>
+<div class="highlight" id="id-56"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># X 和 Y 都是状态码，</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># X 表示暂存区和最近一次提交的差异，</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Y 表示工作目录和暂存区的差异。</span>
+</span></span><span class="line"><span class="cl">X          Y     Meaning
+</span></span><span class="line"><span class="cl">-------------------------------------------------
+</span></span><span class="line"><span class="cl">         <span class="o">[</span>AMD<span class="o">]</span>   not updated
+</span></span><span class="line"><span class="cl">M        <span class="o">[</span> MTD<span class="o">]</span>  updated in index
+</span></span><span class="line"><span class="cl">T        <span class="o">[</span> MTD<span class="o">]</span>  <span class="nb">type</span> changed in index
+</span></span><span class="line"><span class="cl">A        <span class="o">[</span> MTD<span class="o">]</span>  added to index
+</span></span><span class="line"><span class="cl">D                deleted from index
+</span></span><span class="line"><span class="cl">R        <span class="o">[</span> MTD<span class="o">]</span>  renamed in index
+</span></span><span class="line"><span class="cl">C        <span class="o">[</span> MTD<span class="o">]</span>  copied in index
+</span></span><span class="line"><span class="cl"><span class="o">[</span>MTARC<span class="o">]</span>          index and work tree matches
+</span></span><span class="line"><span class="cl"><span class="o">[</span> MTARC<span class="o">]</span>    M    work tree changed since index
+</span></span><span class="line"><span class="cl"><span class="o">[</span> MTARC<span class="o">]</span>    T    <span class="nb">type</span> changed in work tree since index
+</span></span><span class="line"><span class="cl"><span class="o">[</span> MTARC<span class="o">]</span>    D    deleted in work tree
+</span></span><span class="line"><span class="cl">            R    renamed in work tree
+</span></span><span class="line"><span class="cl">            C    copied in work tree
+</span></span><span class="line"><span class="cl">-------------------------------------------------
+</span></span><span class="line"><span class="cl">D           D    unmerged, both deleted
+</span></span><span class="line"><span class="cl">A           U    unmerged, added by us
+</span></span><span class="line"><span class="cl">U           D    unmerged, deleted by them
+</span></span><span class="line"><span class="cl">U           A    unmerged, added by them
+</span></span><span class="line"><span class="cl">D           U    unmerged, deleted by us
+</span></span><span class="line"><span class="cl">A           A    unmerged, both added
+</span></span><span class="line"><span class="cl">U           U    unmerged, both modified
+</span></span><span class="line"><span class="cl">-------------------------------------------------
+</span></span><span class="line"><span class="cl">?           ?    untracked
+</span></span><span class="line"><span class="cl">!           !    ignored
+</span></span><span class="line"><span class="cl">--------------------------------
+</span></span><span class="line"><span class="cl"><span class="s1">&#39; &#39;</span> <span class="o">=</span> unmodified
+</span></span><span class="line"><span class="cl"><span class="nv">M</span> <span class="o">=</span> modified
+</span></span><span class="line"><span class="cl"><span class="nv">T</span> <span class="o">=</span> file <span class="nb">type</span> changed <span class="o">(</span>regular file, symbolic link or submodule<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">A</span> <span class="o">=</span> added
+</span></span><span class="line"><span class="cl"><span class="nv">D</span> <span class="o">=</span> deleted
+</span></span><span class="line"><span class="cl"><span class="nv">R</span> <span class="o">=</span> renamed
+</span></span><span class="line"><span class="cl"><span class="nv">C</span> <span class="o">=</span> copied <span class="o">(</span><span class="k">if</span> config option status.renames is <span class="nb">set</span> to <span class="s2">&#34;copies&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">U</span> <span class="o">=</span> updated but unmerged</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-grep" class="heading-element">
+  <a href="#git-grep" class="heading-mark"></a>git grep</h2><p><code>Git</code> 提供了一个 <code>grep</code> 命令，你可以很方便地从提交历史、工作目录、甚至索引中查找一个字符串或者正则表达式。</p>
+<ul>
+<li>以文本行查找</li>
+<li>可以搜索任意的 <code>Git</code> 树，而只不是当前检出的版本。</li>
+</ul>
+<div class="highlight" id="id-57"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git grep <span class="o">[</span>-a <span class="p">|</span> --text<span class="o">]</span> <span class="o">[</span>-I<span class="o">]</span> <span class="o">[</span>--textconv<span class="o">]</span> <span class="o">[</span>-i <span class="p">|</span> --ignore-case<span class="o">]</span> <span class="o">[</span>-w <span class="p">|</span> --word-regexp<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-v <span class="p">|</span> --invert-match<span class="o">]</span> <span class="o">[</span>-h<span class="p">|</span>-H<span class="o">]</span> <span class="o">[</span>--full-name<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-E <span class="p">|</span> --extended-regexp<span class="o">]</span> <span class="o">[</span>-G <span class="p">|</span> --basic-regexp<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-P <span class="p">|</span> --perl-regexp<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-F <span class="p">|</span> --fixed-strings<span class="o">]</span> <span class="o">[</span>-n <span class="p">|</span> --line-number<span class="o">]</span> <span class="o">[</span>--column<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-l <span class="p">|</span> --files-with-matches<span class="o">]</span> <span class="o">[</span>-L <span class="p">|</span> --files-without-match<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[(</span>-O <span class="p">|</span> --open-files-in-pager<span class="o">)</span> <span class="o">[</span>&lt;pager&gt;<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-z <span class="p">|</span> --null<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span> -o <span class="p">|</span> --only-matching <span class="o">]</span> <span class="o">[</span>-c <span class="p">|</span> --count<span class="o">]</span> <span class="o">[</span>--all-match<span class="o">]</span> <span class="o">[</span>-q <span class="p">|</span> --quiet<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--max-depth &lt;depth&gt;<span class="o">]</span> <span class="o">[</span>--<span class="o">[</span>no-<span class="o">]</span>recursive<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--color<span class="o">[=</span>&lt;when&gt;<span class="o">]</span> <span class="p">|</span> --no-color<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--break<span class="o">]</span> <span class="o">[</span>--heading<span class="o">]</span> <span class="o">[</span>-p <span class="p">|</span> --show-function<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-A &lt;post-context&gt;<span class="o">]</span> <span class="o">[</span>-B &lt;pre-context&gt;<span class="o">]</span> <span class="o">[</span>-C &lt;context&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-W <span class="p">|</span> --function-context<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[(</span>-m <span class="p">|</span> --max-count<span class="o">)</span> &lt;num&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--threads &lt;num&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>-f &lt;file&gt;<span class="o">]</span> <span class="o">[</span>-e<span class="o">]</span> &lt;pattern&gt;
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--and<span class="p">|</span>--or<span class="p">|</span>--not<span class="p">|</span><span class="o">(</span><span class="p">|</span><span class="o">)</span><span class="p">|</span>-e &lt;pattern&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--recurse-submodules<span class="o">]</span> <span class="o">[</span>--parent-basename &lt;basename&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span> <span class="o">[</span>--<span class="o">[</span>no-<span class="o">]</span>exclude-standard<span class="o">]</span> <span class="o">[</span>--cached <span class="p">|</span> --no-index <span class="p">|</span> --untracked<span class="o">]</span> <span class="p">|</span> &lt;tree&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">           <span class="o">[</span>--<span class="o">]</span> <span class="o">[</span>&lt;pathspec&gt;…<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-n, --line-number       <span class="c1"># 显示其行号</span>
+</span></span><span class="line"><span class="cl">-c, --count             <span class="c1"># 只显示文件名与其统计次数</span>
+</span></span><span class="line"><span class="cl">-p, --show-function     <span class="c1"># 显示其上下文（字符串所在的方法或函数等）</span>
+</span></span><span class="line"><span class="cl">--and                   <span class="c1"># 逻辑和，可以有多个该选项</span>
+</span></span><span class="line"><span class="cl">--or                    <span class="c1"># 逻辑或，可以有多个该选项</span>
+</span></span><span class="line"><span class="cl">--not                   <span class="c1"># 逻辑取反，可以有多个该选项</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>...<span class="o">)</span>                   <span class="c1"># 逻辑分组，可以有多个该选项</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-config" class="heading-element">
+  <a href="#git-config" class="heading-mark"></a>git config</h2><div class="highlight" id="id-58"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git config -h
+</span></span><span class="line"><span class="cl">usage: git config <span class="o">[</span>&lt;options&gt;<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># options</span>
+</span></span><span class="line"><span class="cl">--global              <span class="c1"># 修改全局配置项</span>
+</span></span><span class="line"><span class="cl">--system              use system config file
+</span></span><span class="line"><span class="cl">--local               use repository config file
+</span></span><span class="line"><span class="cl">--worktree            use per-worktree config file
+</span></span><span class="line"><span class="cl">-f, --file &lt;file&gt;     use given config file
+</span></span><span class="line"><span class="cl">--blob &lt;blob-id&gt;      <span class="nb">read</span> config from given blob object
+</span></span><span class="line"><span class="cl">--get                 <span class="c1"># 查看配置项的值</span>
+</span></span><span class="line"><span class="cl">--get-all             get all values: key <span class="o">[</span>value-pattern<span class="o">]</span>
+</span></span><span class="line"><span class="cl">--get-regexp          get values <span class="k">for</span> regexp: name-regex <span class="o">[</span>value-pattern<span class="o">]</span>
+</span></span><span class="line"><span class="cl">--get-urlmatch        get value specific <span class="k">for</span> the URL: section<span class="o">[</span>.var<span class="o">]</span> URL
+</span></span><span class="line"><span class="cl">--replace-all         replace all matching variables: name value <span class="o">[</span>value-pattern<span class="o">]</span>
+</span></span><span class="line"><span class="cl">--add                 add a new variable: name value
+</span></span><span class="line"><span class="cl">--unset               remove a variable: name <span class="o">[</span>value-pattern<span class="o">]</span>
+</span></span><span class="line"><span class="cl">--unset-all           remove all matches: name <span class="o">[</span>value-pattern<span class="o">]</span>
+</span></span><span class="line"><span class="cl">--rename-section      rename section: old-name new-name
+</span></span><span class="line"><span class="cl">--remove-section      remove a section: name
+</span></span><span class="line"><span class="cl">-l, --list            <span class="c1"># 查看所有配置</span>
+</span></span><span class="line"><span class="cl">--fixed-value         use string equality when comparing values to <span class="s1">&#39;value-pattern&#39;</span>
+</span></span><span class="line"><span class="cl">-e, --edit            open an editor
+</span></span><span class="line"><span class="cl">--get-color           find the color configured: slot <span class="o">[</span>default<span class="o">]</span>
+</span></span><span class="line"><span class="cl">--get-colorbool       find the color setting: slot <span class="o">[</span>stdout-is-tty<span class="o">]</span>
+</span></span><span class="line"><span class="cl">-t, --type &lt;type&gt;     value is given this <span class="nb">type</span>
+</span></span><span class="line"><span class="cl">--bool                value is <span class="s2">&#34;true&#34;</span> or <span class="s2">&#34;false&#34;</span>
+</span></span><span class="line"><span class="cl">--int                 value is decimal number
+</span></span><span class="line"><span class="cl">--bool-or-int         value is --bool or --int
+</span></span><span class="line"><span class="cl">--bool-or-str         value is --bool or string
+</span></span><span class="line"><span class="cl">--path                value is a path <span class="o">(</span>file or directory name<span class="o">)</span>
+</span></span><span class="line"><span class="cl">--expiry-date         value is an expiry date
+</span></span><span class="line"><span class="cl">-z, --null            terminate values with NUL byte
+</span></span><span class="line"><span class="cl">--includes            respect include directives on lookup
+</span></span><span class="line"><span class="cl">--show-origin         <span class="c1"># 显示配置文件</span>
+</span></span><span class="line"><span class="cl">--show-scope          show scope of config <span class="o">(</span>worktree, local, global, system, <span class="nb">command</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">--default &lt;value&gt;     with --get, use default value when missing entry</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看现有配置项与所在文件</li>
+</ul>
+<div class="highlight" id="id-59"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>C:<span class="se">\~</span><span class="o">]</span>$ git config --list --show-origin
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	diff.astextplain.textconv<span class="o">=</span>astextplain
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	http.sslbackend<span class="o">=</span>openssl
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	http.sslcainfo<span class="o">=</span>e:/Git/mingw64/ssl/certs/ca-bundle.crt
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	core.autocrlf<span class="o">=</span>input
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	core.fscache<span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	core.symlinks<span class="o">=</span><span class="nb">false</span>
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	pull.rebase<span class="o">=</span><span class="nb">false</span>
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	credential.helper<span class="o">=</span>manager-core
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	credential.https://dev.azure.com.usehttppath<span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	init.defaultbranch<span class="o">=</span>master
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	gui.encoding<span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	i18n.commitencoding<span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl">file:E:/Git/etc/gitconfig	svn.pathnameencoding<span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl">file:C:/Users/xiaosi/.gitconfig	user.name<span class="o">=</span>Xiao Si
+</span></span><span class="line"><span class="cl">file:C:/Users/xiaosi/.gitconfig	user.email<span class="o">=</span>xiaosi@mail.com</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>中文乱码解决</li>
+</ul>
+<div class="highlight" id="id-60"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git config --global core.quotepath <span class="nb">false</span> <span class="c1"># 设置 git status utf-8编码</span>
+</span></span><span class="line"><span class="cl">$ git config --global gui.encoding utf-8 <span class="c1"># 设置Git GUI界面utf-8编码</span>
+</span></span><span class="line"><span class="cl">$ git config --global i18n.commit.encoding utf-8 <span class="c1">#设置commit信息utf-8编码</span>
+</span></span><span class="line"><span class="cl">$ git config --global i18n.logoutputencoding utf-8 <span class="c1"># 设置输出 log utf-8 编码</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">把统环境变量 LESSCHARSET并赋值为utf-8。注销重新进入系统</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="fatal-detected-dubious-ownership-in-repository-at" class="heading-element">
+  <a href="#fatal-detected-dubious-ownership-in-repository-at" class="heading-mark"></a>fatal: detected dubious ownership in repository at&hellip;</h2><div class="highlight" id="id-61"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives
+</span></span><span class="line"><span class="cl">$ git add *
+</span></span><span class="line"><span class="cl">fatal: detected dubious ownership in repository at <span class="s1">&#39;F:/xiaosi/hugo/content/archives&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;F:/xiaosi/hugo/content/archives&#39;</span> is owned by:
+</span></span><span class="line"><span class="cl">        <span class="s1">&#39;S-1-5-21-3134970382-1526891978-4219715912-1001&#39;</span>
+</span></span><span class="line"><span class="cl">but the current user is:
+</span></span><span class="line"><span class="cl">        <span class="s1">&#39;S-1-5-21-627419753-1426211234-1183549367-1001&#39;</span>
+</span></span><span class="line"><span class="cl">To add an exception <span class="k">for</span> this directory, call:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        git config --global --add safe.directory F:/xiaosi/hugo/content/archives</span></span></code></pre></td></tr></table>
+</div>
+</div><p>按照提示修改</p>
+<div class="highlight" id="id-62"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives
+</span></span><span class="line"><span class="cl">$ git config --global --add safe.directory F:/xiaosi/hugo/content/archives</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-bash-显示中文为十六进制" class="heading-element">
+  <a href="#git-bash-%e6%98%be%e7%a4%ba%e4%b8%ad%e6%96%87%e4%b8%ba%e5%8d%81%e5%85%ad%e8%bf%9b%e5%88%b6" class="heading-mark"></a>git bash 显示中文为十六进制</h2><div class="highlight" id="id-63"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git status
+</span></span><span class="line"><span class="cl">On branch master
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">No commits yet
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Untracked files:
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>use <span class="s2">&#34;git add &lt;file&gt;...&#34;</span> to include in what will be committed<span class="o">)</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;istio-\347\237\245\350\257\206\346\236\266\346\236\204\345\233\276.png&#34;</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决方法</p>
+<div class="highlight" id="id-64"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git config --global core.quotepath <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="lf-will-be-replaced-by-crlf-the-next-time-git-touches-it" class="heading-element">
+  <a href="#lf-will-be-replaced-by-crlf-the-next-time-git-touches-it" class="heading-mark"></a>LF will be replaced by CRLF the next time Git touches it</h2><div class="highlight" id="id-65"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git add *
+</span></span><span class="line"><span class="cl">warning: in the working copy of <span class="s1">&#39;JsonPath.md&#39;</span>, LF will be replaced by CRLF the next <span class="nb">time</span> Git touches it
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决方法</p>
+<div class="highlight" id="id-66"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 提交时转换为LF(\n)，检出时不转换</span>
+</span></span><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ git config --global core.autocrlf input
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 或使用以下方式禁止转换</span>
+</span></span><span class="line"><span class="cl">git config --global core.safecrlf false</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="does-not-have-a-commit-checked-out" class="heading-element">
+  <a href="#does-not-have-a-commit-checked-out" class="heading-mark"></a>does not have a commit checked out</h2><div class="highlight" id="id-67"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git add .
+</span></span><span class="line"><span class="cl">error: <span class="s1">&#39;vim/vimrc/&#39;</span> does not have a commit checked out
+</span></span><span class="line"><span class="cl">fatal: adding files failed</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该文件已有本地仓库(<code>.git</code>目录)，解决：删除或省略该目录</p>
+<div class="highlight" id="id-68"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xiaosi@DESKTOP-E1ASSM6 MINGW64 /f/xiaosi/hugo/content/archives <span class="o">(</span>master<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ rm -rf vim/vimrc/.git</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="git-remote-https-is-not-a-git-command-see-git---help" class="heading-element">
+  <a href="#git-remote-https-is-not-a-git-command-see-git---help" class="heading-mark"></a>git: &lsquo;remote-https&rsquo; is not a git command. See &lsquo;git &ndash;help&rsquo;.</h2><p>使用 <code>git clone</code> 报错</p>
+<div class="highlight" id="id-69"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost themes<span class="o">]</span><span class="c1"># git clone https://github.com/hugo-fixit/FixIt.git</span>
+</span></span><span class="line"><span class="cl">Cloning into <span class="s1">&#39;FixIt&#39;</span>...
+</span></span><span class="line"><span class="cl">git: <span class="s1">&#39;remote-https&#39;</span> is not a git command. See <span class="s1">&#39;git --help&#39;</span>.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决方法，安装 <code>libcurl-devel</code> 后重新编译</p>
+<div class="highlight" id="id-70"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost FixIt<span class="o">]</span><span class="c1"># yum install libcurl-devel  -y</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.37.1.tar.xz</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># tar -xJf git-2.37.1.tar.xz </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cd git-2.37.1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost git-2.37.1<span class="o">]</span><span class="c1"># ./configure </span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost git-2.37.1<span class="o">]</span><span class="c1"># make &amp;&amp; make install</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-09-03 12:38:29">更新于 2023-09-03&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/git/" class="post-tag" title="标签 - git">git</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/perl/" class="post-nav-item" rel="prev" title="perl"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>perl</a>
+      <a href="/powerShell/" class="post-nav-item" rel="next" title="Windows PowerShell">Windows PowerShell<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

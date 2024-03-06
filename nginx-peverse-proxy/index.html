@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>nginx 反向代理 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： nginx: 1.20.0 反向代理nginx支持以下7层反向代理： http/https uwsgi fastcgi scgi memecached websocket http/https 配置代理请求部分： 指定上游服务：proxy_pass 是否传递头部请求：p" /><meta name="keywords" content='反向代理, nginx' /><meta itemprop="name" content="nginx 反向代理">
+<meta itemprop="description" content="运行环境： nginx: 1.20.0 反向代理nginx支持以下7层反向代理： http/https uwsgi fastcgi scgi memecached websocket http/https 配置代理请求部分： 指定上游服务：proxy_pass 是否传递头部请求：p"><meta itemprop="datePublished" content="2020-12-03T10:15:20+08:00" />
+<meta itemprop="dateModified" content="2022-12-15T10:19:14+08:00" />
+<meta itemprop="wordCount" content="12218">
+<meta itemprop="keywords" content="反向代理,nginx," /><meta property="og:title" content="nginx 反向代理" />
+<meta property="og:description" content="运行环境： nginx: 1.20.0 反向代理nginx支持以下7层反向代理： http/https uwsgi fastcgi scgi memecached websocket http/https 配置代理请求部分： 指定上游服务：proxy_pass 是否传递头部请求：p" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/nginx-peverse-proxy/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-03T10:15:20+08:00" />
+<meta property="article:modified_time" content="2022-12-15T10:19:14+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nginx 反向代理"/>
+<meta name="twitter:description" content="运行环境： nginx: 1.20.0 反向代理nginx支持以下7层反向代理： http/https uwsgi fastcgi scgi memecached websocket http/https 配置代理请求部分： 指定上游服务：proxy_pass 是否传递头部请求：p"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/nginx-peverse-proxy/" /><link rel="prev" href="/nginx-architecture/" /><link rel="next" href="/CMDcurl/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "nginx 反向代理",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/nginx-peverse-proxy\/"
+    },"genre": "posts","keywords": "反向代理, nginx","wordcount":  12218 ,
+    "url": "\/nginx-peverse-proxy\/","datePublished": "2020-12-03T10:15:20+08:00","dateModified": "2022-12-15T10:19:14+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>nginx 反向代理</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/nginx/" class="post-category" title="分类 - nginx"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> nginx</a></span></div><div class="post-meta-line"><span title="发布于 2020-12-03 10:15:20"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2020-12-03">2020-12-03</time></span>&nbsp;<span title="更新于 2022-12-15 10:19:14"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-15">2022-12-15</time></span>&nbsp;<span title="12218 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 12300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 25 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#反向代理">反向代理</a></li>
+    <li><a href="#httphttps">http/https</a>
+      <ul>
+        <li><a href="#http反向代理流程">http反向代理流程</a>
+          <ul>
+            <li><a href="#第1步反向代理httphttps协议">第1步：反向代理http/https协议</a></li>
+            <li><a href="#第3步生成头部发送给上游服务">第3步：生成头部发送给上游服务</a></li>
+            <li><a href="#第4步读取主体">第4步：读取主体</a></li>
+            <li><a href="#第5步连接上游服务">第5步：连接上游服务</a></li>
+            <li><a href="#第8步接收上游服务返回的响应报文头部">第8步：接收上游服务返回的响应报文头部</a></li>
+            <li><a href="#第9步处理上游服务返回的响应报文头部">第9步：处理上游服务返回的响应报文头部</a></li>
+            <li><a href="#第10步是否接收完整的主体">第10步：是否接收完整的主体</a></li>
+            <li><a href="#上游服务错误时解决方案">上游服务错误时解决方案</a></li>
+            <li><a href="#对上游服务器使用ssl连接">对上游服务器使用SSL连接</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#fastcgi">fastcgi</a>
+      <ul>
+        <li><a href="#fastcgi_connect_timeout">fastcgi_connect_timeout</a></li>
+        <li><a href="#fastcgi_send_timeout">fastcgi_send_timeout</a></li>
+        <li><a href="#fastcgi_read_timeout">fastcgi_read_timeout</a></li>
+        <li><a href="#fastcgi_buffer_size">fastcgi_buffer_size</a></li>
+        <li><a href="#fastcgi_buffers">fastcgi_buffers</a></li>
+        <li><a href="#fastcgi_busy_buffers_size">fastcgi_busy_buffers_size</a></li>
+        <li><a href="#fastcgi_temp_file_write_size">fastcgi_temp_file_write_size</a></li>
+        <li><a href="#fastcgi_intercept_errors">fastcgi_intercept_errors</a></li>
+      </ul>
+    </li>
+    <li><a href="#uwsgi">uwsgi</a></li>
+    <li><a href="#scgi">scgi</a></li>
+    <li><a href="#memecached">memecached</a></li>
+    <li><a href="#websocket">websocket</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-15，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>nginx: 1.20.0</li>
+</ul>
+</blockquote>
+<h1 id="反向代理" class="heading-element">
+  <a href="#%e5%8f%8d%e5%90%91%e4%bb%a3%e7%90%86" class="heading-mark"></a>反向代理</h1><p>nginx支持以下7层反向代理：</p>
+<ul>
+<li>http/https</li>
+<li>uwsgi</li>
+<li>fastcgi</li>
+<li>scgi</li>
+<li>memecached</li>
+<li>websocket</li>
+</ul>
+<h1 id="httphttps" class="heading-element">
+  <a href="#httphttps" class="heading-mark"></a>http/https</h1><ul>
+<li>配置代理请求部分：
+<ul>
+<li>指定上游服务：<code>proxy_pass</code></li>
+<li>是否传递头部请求：<code>proxy_pass_request_headers</code></li>
+<li>是否传递请求主体部分：<code>proxy_pass_request_body</code></li>
+<li>指定请求方法：<code>proxy_method</code></li>
+<li>指定请求协议版本：<code>proxy_http_version</code></li>
+<li>增改请求头部：<code>proxy_set_header</code></li>
+<li>设置请求主体：<code>proxy_set_body</code></li>
+<li>是否缓存请求主体：<code>proxy_requset_buffering</code></li>
+</ul>
+</li>
+<li>与上游服务建立连接并发送请求：
+<ul>
+<li>连接上游超时时间：<code>proxy_connect_timeout</code></li>
+<li>连接绑定地址：<code>proxy_bind</code></li>
+<li>使用tcp长连接：<code>proxy_socket_keepalive</code></li>
+<li>忽略客户端连接：<code>proxy_ignore_client_abort</code></li>
+<li>设置http头部用的hash表：<code>proxy_headers_hash_bucket_size</code>,
+<code>proxy_headers_hash_bucket_max_size</code></li>
+<li>发送请求超时时间：<code>proxy_send_timeout</code></li>
+<li>出错时更换上游服务：<code>proxy_next_upstream</code></li>
+<li>更换上游服务超时：<code>proxy_next_upstream_timeout</code></li>
+<li>更换上游服务重试次数：<code>proxy_next_upstream_tries</code></li>
+</ul>
+</li>
+<li>接收上游服务返回的响应报文：
+<ul>
+<li>是否缓存上游响应：<code>proxy_buffering</code></li>
+<li>存放缓存的目录：<code>proxy_temp_path</code></li>
+<li>写入缓存文件的缓存大小：<code>proxy_temp_file_write_size</code></li>
+<li>缓存文件最大值：<code>proxy_max_temp_file_size</code></li>
+<li>接收响应头部缓存：<code>proxy_buffer_size</code></li>
+<li>接收响应主体缓存：<code>proxy_buffers</code></li>
+<li>缓存完成前转发主体：<code>proxy_busy_buffers_size</code></li>
+<li>持久化主体文件：<code>proxy_store</code></li>
+<li>读取响应超时时间：<code>proxy_read_timeout</code></li>
+<li>读取响应限速：<code>proxy_limit_rate</code></li>
+<li>连接上游错误响应：<code>proxy_intercept_errors</code></li>
+</ul>
+</li>
+<li>向客户端发送响应：
+<ul>
+<li>减少发给客户端的响应头部：<code>proxy_hide_header</code></li>
+<li>禁用响应头部：<code>proxy_ignore_header</code></li>
+<li>传递头部到客户端：<code>proxy_pass_header</code></li>
+<li>替换Set-Cookie头部中的域名：<code>proxy_cookit_domain</code></li>
+<li>替换Set-Cookie头部中的URL：<code>proxy_cookit_path</code></li>
+<li>修改重定向中location的值：<code>proxy_redirect</code></li>
+</ul>
+</li>
+<li>缓存类：
+<ul>
+<li>指定共享内存：<code>proxy_cache</code></li>
+<li>缓存文件存放目录：<code>proxy_cache_path</code></li>
+<li>设置哪些请求不使用缓存：<code>proxy_cache_bypass</code></li>
+<li>开启子请求更新过期缓存：<code>proxy_cache_background</code></li>
+<li>定义缓存关键字：<code>proxy_cache_key</code></li>
+<li>使用range协议的偏移：<code>proxy_cache_max_range_offset</code></li>
+<li>强制使用range协议：<code>prxoy_force_ranges</code></li>
+<li>缓存哪些请求方法：<code>proxy_cache_min_uses</code></li>
+<li>缓存哪些响应码以及缓存有效期：<code>proxy_cache_valid</code></li>
+<li>有过期缓存使用304：<code>proxy_cache_revalidate</code></li>
+<li>返回过期缓存：<code>proxy_cache_use_stale</code></li>
+<li>设置哪些响应不写如缓存：<code>proxy_no_cache</code></li>
+<li>加锁减少回源请求：<code>proxy_cache_lock</code></li>
+<li>回源请求超时放行时间：<code>proxy_cache_lock_age</code></li>
+<li>等待请求最长时间：<code>proxy_cache_lock_timeout</code></li>
+<li>将HEAD方法转换为GET方法：<code>proxy_cache_convert_head</code></li>
+</ul>
+</li>
+<li>上游与代理使用SSL
+<ul>
+<li>配置代理(或上游服务nginx)证书：<code>proxy_ssl_certificate</code></li>
+<li>配置代理(或上游服务nginx)私钥：<code>proxy_ssl_certificate_key</code></li>
+<li>验证上游服务证书：<code>proxy_ssl_trusted_certificate</code></li>
+<li>是否验证上游服务证书：<code>proxy_ssl_verify</code></li>
+<li>安全套件：<code>proxy_ssl_ciphers</code></li>
+<li>指定吊销证书链CRL文件验证上游的证书：<code>proxy_ssl_crl</code></li>
+<li>指定域名验证上游证书的域名：<code>proxy_ssl_name</code></li>
+<li>当私钥有密码时指定密码文件：<code>proxy_ssl_password_file</code></li>
+<li>指定具体某个版本协议：<code>proxy_ssl_protocols</code></li>
+<li>传递SNI信息到上游服务：<code>proxy_ssl_server_name</code></li>
+<li>是否重用SSL连接：<code>proxy_ssl_session_reuse</code></li>
+<li>设置验证证书链深度：<code>proxy_ssl_verify_depth</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="http反向代理流程" class="heading-element">
+  <a href="#http%e5%8f%8d%e5%90%91%e4%bb%a3%e7%90%86%e6%b5%81%e7%a8%8b" class="heading-mark"></a>http反向代理流程</h2><ol>
+<li>在content阶段的proxy_pass指令</li>
+<li>是否命中缓存：
+<ul>
+<li>未命中缓存或没有开启缓存进入下一步</li>
+<li>命中缓存直接进入第11步</li>
+</ul>
+</li>
+<li>通过指令生成头部和主体发给上游服务</li>
+<li>判断<code>proxy_requset_buffering</code>指令是否开启
+<ul>
+<li>开启(默认)：缓存请求报文主体部分再进入下一步</li>
+<li>关闭：进入下一步</li>
+</ul>
+</li>
+<li>更据负载均衡策略选择上游服务(<code>upstream</code>指令快)</li>
+<li>更据参数连接上游服务</li>
+<li>发送请求到上游服务，
+如果<code>proxy_requset_buffering</code>指令关闭则会在此时边读主体部分边发送</li>
+<li>接收上游服务返回的响应头部</li>
+<li>处理上游响应头部</li>
+<li>判断<code>proxy_buffering</code>指令是否开启：
+<ul>
+<li>开启：接收完整的响应主体部分再进入下一步</li>
+<li>关闭：直接进入下一步</li>
+</ul>
+</li>
+<li>发送响应头部给客户端</li>
+<li>发送响应主体部分给客户端，
+如果<code>proxy_buffering</code>指令关闭则会在此时边读主体边发送</li>
+<li>判断是否开启缓存：
+<ul>
+<li>开启：将主体部分加入缓存再进入下一步</li>
+<li>关闭：直接进入下一步</li>
+</ul>
+</li>
+<li>关闭或复用连接，也就是长连接(保存连接)</li>
+</ol>
+<h3 id="第1步反向代理httphttps协议" class="heading-element">
+  <a href="#%e7%ac%ac1%e6%ad%a5%e5%8f%8d%e5%90%91%e4%bb%a3%e7%90%86httphttps%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>第1步：反向代理http/https协议</h3><p>ngx_http_proxy_module模块默认编译进入nginx,
+编译时可通过<code>--without-ngx_http_proxy_module</code>取消</p>
+<p><code>proxy_pass {URL}</code>指令：</p>
+<ul>
+<li>对上游服务使用http/https协议进行反向第代理</li>
+<li>处于nginx处理http请求的第10个阶段(content)</li>
+<li>配置在location, if in location, limit_except指令块中</li>
+<li>URL有以下部分组成：
+<ol>
+<li>必须的http://或https://开头，</li>
+<li>域名,ip,unix socket,upstream名称之一，
+域名或ip可以加端口，默认为80，</li>
+<li>可选的URI，URI参数中可以有变量</li>
+</ol>
+</li>
+<li>有URI情况下，将location参数中匹配部分替换为该URI再发送给上游服务</li>
+<li>无URI情况下，直接发送给上游服务
+<ul>
+<li>location后使用正则表达式、@时应该使用该方式</li>
+</ul>
+</li>
+<li>示例：</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">upstream</span> <span class="s">rb1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">821</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">830</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">access_log</span> <span class="s">logs/830upstream_rb1.log</span> <span class="s">upstream1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">## 访问curl 127.0.0.1:830/abc/txt 得到：821 server uri:/abc/txt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_pass</span> <span class="s">http://rb1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">## 访问curl 127.0.0.1:830/abc/txt 得到：821 server uri:/file/txt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">##proxy_pass http://rb1/file/;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">821</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">default_type</span> <span class="s">text/plain</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">200</span> <span class="s">&#39;821</span> <span class="s">server</span> <span class="s">uri:</span><span class="nv">$uri</span>  <span class="s">\n&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="第3步生成头部发送给上游服务" class="heading-element">
+  <a href="#%e7%ac%ac3%e6%ad%a5%e7%94%9f%e6%88%90%e5%a4%b4%e9%83%a8%e5%8f%91%e9%80%81%e7%bb%99%e4%b8%8a%e6%b8%b8%e6%9c%8d%e5%8a%a1" class="heading-mark"></a>第3步：生成头部发送给上游服务</h3><p><code>proxy_method method</code>指令</p>
+<ul>
+<li>反向代理时修改http请求方法</li>
+<li>配置在http，server，location指令块中</li>
+<li>method代指http请求方法</li>
+</ul>
+<p><code>proxy_http_version 1.0|1.1</code>指令：</p>
+<ul>
+<li>反向代理时修改http协议版本</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值为1.0</li>
+<li>建议使用1.1(支持keepalive长连接和NTLM身份验证)</li>
+</ul>
+<p><code>porxy_set_header field value</code>指令：</p>
+<ul>
+<li>反向代理时修改http请求头部</li>
+<li>配置在http，server，location指令块中</li>
+<li>field代指请求头部名称</li>
+<li>value代指请求头部名称对应的值，值为空时不发送对应的头部</li>
+<li>该指令可以有多个</li>
+<li>默认值：
+<ul>
+<li>Host $proxy_hos</li>
+<li>Connection close</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_pass_request_headers on|off</code>指令：</p>
+<ul>
+<li>是否向上游服务发送用户请求头部内容</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:on</li>
+</ul>
+<p><code>proxy_pass_request_body on|off</code>指令：</p>
+<ul>
+<li>是否向上游服务发送请求报文的主体部分</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:on</li>
+</ul>
+<p><code>proxy_set_body value</code>指令：</p>
+<ul>
+<li>反向代理时创建一个请求主体</li>
+<li>配置在http，server，location指令块中</li>
+<li>value代指请求主体内容字符串</li>
+</ul>
+<br/>
+示例：
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">upstream</span> <span class="s">rb1</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">821</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">830</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">access_log</span> <span class="s">logs/830upstream_rb1.log</span> <span class="s">upstream1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://rb1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">     <span class="c1">## 以上配置使用curl -H &#39;name: lo&#39; 127.0.0.1:830/file 的：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>     <span class="c1">## 821 server,uri:/file,请求方法:GET,请求行:GET /file HTTP/1.0,name头部:lo
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">## 修改http版本为1.1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">## 去掉Connection头部（头部值为空时不发送该头部）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="s">&#34;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">## 修改请求方法为post
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">proxy_method</span> <span class="s">POST</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">821</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">default_type</span> <span class="s">text/plain</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">return</span> <span class="mi">200</span> <span class="s">&#39;821</span> <span class="s">server,uri:</span><span class="nv">$uri,请求方法:$request_method,请求行:$request,name头部:$http_name\n&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="第4步读取主体" class="heading-element">
+  <a href="#%e7%ac%ac4%e6%ad%a5%e8%af%bb%e5%8f%96%e4%b8%bb%e4%bd%93" class="heading-mark"></a>第4步：读取主体</h3><p><code>proxy_requset_buffering on|off</code>指令：</p>
+<ul>
+<li>是否现在读取(缓存)请求报文中的主体部分</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:on</li>
+<li>on：现在读取，适合以下场景：
+<ul>
+<li>客户的网络慢</li>
+<li>上游服务并发能力低</li>
+<li>高吞吐量</li>
+</ul>
+</li>
+<li>off：第7步再读取直接发给上游不会，适合以下场景：
+<ul>
+<li>更快进入第5,6步，加快响应</li>
+<li>降低nginx读写磁盘消耗（不用把主体写入磁盘）</li>
+<li>一旦开始发送内容，<code>proxy_next_upstream</code>指令失效</li>
+</ul>
+</li>
+</ul>
+<p><code>client_body_buffer_size size</code>指令：</p>
+<ul>
+<li>用于保存主体的最大内存大小</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:8k或16k</li>
+<li>如果接收头部时已经收到所有主体(主体太小)则不分配</li>
+<li>如果主体部分小于该指令值，则分配所需大小</li>
+<li>如果主体大于该指令值，都是通过该段内存分段接收</li>
+<li>该指令分配的内存用完时，写入临时文件，释放内容，接收下一段主体</li>
+</ul>
+<p><code>client_body_in_single_buffer on|off</code>指令：</p>
+<ul>
+<li>是否把所有主体都放入内存中</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+</ul>
+<p><code>client_max_body_size size</code>指令：</p>
+<ul>
+<li>限制最大主体部分长度</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:1m</li>
+<li>仅对请求报文中含有Content_Length头部值超过该指令值时返回413错误</li>
+</ul>
+<p><code>client_bodu_temp_path path</code>指令：</p>
+<ul>
+<li>保存临时文件的主目录</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:cilent_body_temp</li>
+</ul>
+<p><code>client_body_in_file_only on|clean|off</code>指令：</p>
+<ul>
+<li>是否把包体永久写入临时文件</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off(主体太小不用写入临时文件)</li>
+<li>clean表示请求完成之后文件会被删除</li>
+</ul>
+<p><code>client_body_timeout time</code>指令：</p>
+<ul>
+<li>读取主体部分超时时间</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:60s</li>
+<li>超时会返回408错误</li>
+</ul>
+<h3 id="第5步连接上游服务" class="heading-element">
+  <a href="#%e7%ac%ac5%e6%ad%a5%e8%bf%9e%e6%8e%a5%e4%b8%8a%e6%b8%b8%e6%9c%8d%e5%8a%a1" class="heading-mark"></a>第5步：连接上游服务</h3><p><code>prixy_connect_timeout time</code>指令：</p>
+<ul>
+<li>与上游服务tcp三次握手超时时间</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:60s</li>
+<li>超时会向客户端返回502错误(此时还在代理服务器，没有与上游服务连接上)</li>
+<li>可以通过<code>proxy_next_upstream http_502</code>指令选择其他上游服务解决该超时问题</li>
+</ul>
+<p><code>proxy_send_timeout time</code>指令:</p>
+<ul>
+<li>向上游服务发送http请求超时时间</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:60s</li>
+</ul>
+<p><code>proxy_socket_keepalive on|of</code>指令：</p>
+<ul>
+<li>连接上游服务时是否启用tcp连接中的keepalive</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+</ul>
+<p>tcp中的keepalive：</p>
+<ol>
+<li>数据传输之后进入倒计时定时器</li>
+<li>在计时器之间没有收到数据包时发送探测包</li>
+<li>等待探测包应答(超时则关闭)</li>
+</ol>
+<p>http中的keepalive:</p>
+<ul>
+<li><code>keepalive</code>指令指定长连接数量</li>
+<li><code>keepalive_requests</code>指令指定每个长连接可以处理请求数量</li>
+</ul>
+<p><code>proxy_bind address [transparent]|off</code>指令：</p>
+<ul>
+<li>修改tcp连接中的请求地址，即tcp报文中的请求地址(当前代理地址)</li>
+<li>配置在http，server，location指令块中</li>
+<li>address 表示ip地址，可以使用变量：
+<ul>
+<li><code>$remote_addr</code>：客户端地址</li>
+<li>如果地址不是本机的，需要加transparent参数
+(非linux操作系统要保证有root权限)</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_ignore_client_abort on|off</code>指令：</p>
+<ul>
+<li>是否忽略客户端关闭的连接</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+<li>如果开启，代理与上游服务的连接不会断开</li>
+</ul>
+<h3 id="第8步接收上游服务返回的响应报文头部" class="heading-element">
+  <a href="#%e7%ac%ac8%e6%ad%a5%e6%8e%a5%e6%94%b6%e4%b8%8a%e6%b8%b8%e6%9c%8d%e5%8a%a1%e8%bf%94%e5%9b%9e%e7%9a%84%e5%93%8d%e5%ba%94%e6%8a%a5%e6%96%87%e5%a4%b4%e9%83%a8" class="heading-mark"></a>第8步：接收上游服务返回的响应报文头部</h3><p><code>proxy_buffer_size size</code>指令：</p>
+<ul>
+<li>上游服务返回头部的最大大小</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:4k或8K</li>
+<li>响应头部大小超过该指令值时会记录错误日志：upstream sent too big header</li>
+</ul>
+<h3 id="第9步处理上游服务返回的响应报文头部" class="heading-element">
+  <a href="#%e7%ac%ac9%e6%ad%a5%e5%a4%84%e7%90%86%e4%b8%8a%e6%b8%b8%e6%9c%8d%e5%8a%a1%e8%bf%94%e5%9b%9e%e7%9a%84%e5%93%8d%e5%ba%94%e6%8a%a5%e6%96%87%e5%a4%b4%e9%83%a8" class="heading-mark"></a>第9步：处理上游服务返回的响应报文头部</h3><p><code>proxy_ignore_header field..</code>指令：</p>
+<ul>
+<li>禁用上哟服务某些可以改变nginx行为的http头部</li>
+<li>配置在http，server，location指令块中</li>
+<li>可禁用的头部有以下：
+<ul>
+<li>X-Accel-Readirect：上游服务指定在nginx内部重定向</li>
+<li>X-Accel-Limit-Rate：上游服务设置发往客户端的限速，等效<code>limit_rate</code>指令</li>
+<li>X-Accel-Buffering：上游服务设置是否缓存响应报文</li>
+<li>X-Accel-Expires：设置响应报文在nginx中的缓存时间(秒),@开头表示一天内某刻</li>
+<li>Expires：设置相应报文在nginx中的缓存时间(s)。优先级低于X-Accel-Expires</li>
+<li>Cache-Control：等效Expires头部</li>
+<li>Set-Cookit：出现该响应则不缓存</li>
+<li>Vary：值为*则不缓存</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_hide_header field</code>指令：</p>
+<ul>
+<li>不向客户端转发上游服务返回的某些头部</li>
+<li>配置在http，server，location指令块中</li>
+<li>该指令默认不会转发以下上游响应头部：
+<ul>
+<li>Date: 上游服务发送响应头部时间，由ngx_http_header_filter_module模块填写</li>
+<li>Server：上游服务nginx版本，由ngx_http_header_filter_module模块填写</li>
+<li>X-Pad：通常是Apache为避免浏览器BUG生成的头部</li>
+<li>X-Accel-开头头部</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_pass_header field</code>指令：</p>
+<ul>
+<li>向客户端转发上游服务返回的某些头部</li>
+<li>配置在http，server，location指令块中</li>
+</ul>
+<p><code>proxy_cookit_domain off|doamin replacemet</code>指令：</p>
+<ul>
+<li>修改上游服务返回(Set-Cookit)的域名记录</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+</ul>
+<p><code>proxy_cookit_path off|path replacemet</code>指令：</p>
+<ul>
+<li>修改上游服务返回(Set-Cookit)的url</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+</ul>
+<p><code>proxy_redirect off|default|redirect replacemet</code>指令：</p>
+<ul>
+<li>修改上游服务返回的location</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:default</li>
+</ul>
+<h3 id="第10步是否接收完整的主体" class="heading-element">
+  <a href="#%e7%ac%ac10%e6%ad%a5%e6%98%af%e5%90%a6%e6%8e%a5%e6%94%b6%e5%ae%8c%e6%95%b4%e7%9a%84%e4%b8%bb%e4%bd%93" class="heading-mark"></a>第10步：是否接收完整的主体</h3><p><code>proxy_buffering on|off</code>指令：</p>
+<ul>
+<li>是否接收(缓存)完整的响应主体</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:on</li>
+<li>off优点：更快发送响应头部</li>
+<li>该指令会被X-Accel-Buffering头部值替换：
+<ul>
+<li>yes表示接受主体，no相反</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_buffers number size</code>指令：</p>
+<ul>
+<li>能缓存上游服务主体大小</li>
+<li>配置在http，server，location指令块中</li>
+<li>主体小于此指令值时写入内存否则写入磁盘</li>
+<li>默认值: 8 4k或8k</li>
+</ul>
+<p><code>proxy_max_temp_file_size size</code>指令：</p>
+<ul>
+<li>临时文件的最大值</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:1024m</li>
+</ul>
+<p><code>proxy_temp_file_write_size size</code>指令：</p>
+<ul>
+<li>单次写入临时文件的最大值</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:8k或16k</li>
+</ul>
+<p><code>proxy_temp_path path</code>指令：</p>
+<ul>
+<li>临时文件存放主目录</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:proxy_temp</li>
+</ul>
+<p><code>proxy_busy_buffers_size size</code>指令：</p>
+<ul>
+<li>到达阀值之后先转发主体</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:8k或16k</li>
+</ul>
+<p><code>proxy_read_timeout time</code>指令：</p>
+<ul>
+<li>tcp读取超时时间</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:60s</li>
+</ul>
+<p><code>proxy_limit_rate rate</code>指令：</p>
+<ul>
+<li>读取上游服务的网络限速</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:0(不限制)</li>
+</ul>
+<p><code>proxy_store_access users:permissions...</code>指令：</p>
+<ul>
+<li>临时文件永久保存的权限</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:user:rw</li>
+</ul>
+<p><code>proxy_store on|off|string</code>指令：</p>
+<ul>
+<li>临时文件永久保存(另存为)的目录</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+<li>on表示使用root指令目录</li>
+<li>string代指自定义的目录字符串</li>
+</ul>
+<h3 id="上游服务错误时解决方案" class="heading-element">
+  <a href="#%e4%b8%8a%e6%b8%b8%e6%9c%8d%e5%8a%a1%e9%94%99%e8%af%af%e6%97%b6%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88" class="heading-mark"></a>上游服务错误时解决方案</h3><p><code>proxy_nex_upstream</code>指令：</p>
+<ul>
+<li>处理上游服务返回失败</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:error timeout</li>
+<li>该指令前提是还没有向客户端发送任何内容，也就是第11步之前</li>
+<li>有以下取值：
+<ul>
+<li>error：连接上游服务出错时，禁止调度到该服务</li>
+<li>timeout：连接上游服务超时时，禁止调度到该服务</li>
+<li>http_[500|502|503|504|404|429]：http响应码</li>
+<li>invalid_header：请求头部不合法</li>
+<li>non_idempotent：出错时重新选取上游服务</li>
+<li>off：不处理任何上游服务返回的错误</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_next_upstream_timeout time</code>指令：</p>
+<ul>
+<li>选择上游服务超时时间</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:0(不限制)</li>
+</ul>
+<p><code>proxy_next_upstream_tries number</code>指令：</p>
+<ul>
+<li>选取上游服务超时重试次数</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:0(不限制)</li>
+</ul>
+<p><code>proxy_intercept_errors on|of</code>指令：</p>
+<ul>
+<li>是否处理上游服务响应状态码大于或等于300的情况</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off(响应码返回给客户端)</li>
+<li>如果开启，由<code>error_page</code>指令处理</li>
+</ul>
+<h3 id="对上游服务器使用ssl连接" class="heading-element">
+  <a href="#%e5%af%b9%e4%b8%8a%e6%b8%b8%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%bd%bf%e7%94%a8ssl%e8%bf%9e%e6%8e%a5" class="heading-mark"></a>对上游服务器使用SSL连接</h3><p>如果nginx代理与上游服务都使用HTTPS，则需要双向认证：</p>
+<ul>
+<li>代理(nginx)使用的证书：
+<ul>
+<li><code>proxy_ssl_certificate</code></li>
+<li><code>proxy_ssl_certificate_key</code></li>
+</ul>
+</li>
+<li>代理(nginx)验证上游服务证书：
+<ul>
+<li><code>proxy_ssl_verify</code>：验证上游服务证书</li>
+<li><code>proxy_ssl_trusted_certificate</code>：验证上游证书颁发着</li>
+</ul>
+</li>
+<li>上游服务(nginx)使用的证书：
+<ul>
+<li><code>ssl_certificate</code></li>
+<li><code>ssl_certificate_key</code></li>
+</ul>
+</li>
+<li>上游服务(nginx)验证反向代理证书：
+<ul>
+<li><code>ssl_verify_client</code>：验证代理证书</li>
+<li><code>ssl_client_certificate</code>：验证代理证书颁发者</li>
+</ul>
+</li>
+</ul>
+<p>后期补充</p>
+<h1 id="fastcgi" class="heading-element">
+  <a href="#fastcgi" class="heading-mark"></a>fastcgi</h1><ul>
+<li>未分类：
+<ul>
+<li><code>fastcgi_param</code></li>
+<li><code>fastcgi_index</code></li>
+<li><code>fastcgi_catch_stderr</code></li>
+</ul>
+</li>
+<li>配置代理请求部分：
+<ul>
+<li>指定上游服务：<code>fastcgi_pass</code></li>
+<li>是否传递头部请求：<code>fastcgi_pass_request_headers</code></li>
+<li>是否传递请求主体部分：<code>fastcgi_pass_request_body</code></li>
+<li>是否缓存请求主体：<code>fastcgi_requset_buffering</code></li>
+</ul>
+</li>
+<li>与上游服务建立连接并发送请求：
+<ul>
+<li>连接上游超时时间：<code>fastcgi_connect_timeout</code></li>
+<li>连接绑定地址：<code>fastcgi_bind</code></li>
+<li>使用tcp长连接：<code>fastcgi_socket_keepalive</code></li>
+<li>忽略客户端连接：<code>fastcgi_ignore_client_abort</code></li>
+<li>发送请求超时时间：<code>fastcgi_send_timeout</code></li>
+<li>出错时更换上游服务：<code>fastcgi_next_upstream</code></li>
+<li>更换上游服务超时：<code>fastcgi_next_upstream_timeout</code></li>
+<li>更换上游服务重试次数：<code>fastcgi_next_upstream_tries</code></li>
+</ul>
+</li>
+<li>接收上游服务返回的响应报文：
+<ul>
+<li>是否缓存上游响应：<code>fastcgi_buffering</code></li>
+<li>存放缓存的目录：<code>fastcgi_temp_path</code></li>
+<li>写入缓存文件的缓存大小：<code>fastcgi_temp_file_write_size</code></li>
+<li>缓存文件最大值：<code>fastcgi_max_temp_file_size</code></li>
+<li>接收响应头部缓存：<code>fastcgi_buffer_size</code></li>
+<li>接收响应主体缓存：<code>fastcgi_buffers</code></li>
+<li>缓存完成前转发主体：<code>fastcgi_busy_buffers_size</code></li>
+<li>持久化主体文件：<code>fastcgi_store</code></li>
+<li>读取响应超时时间：<code>fastcgi_read_timeout</code></li>
+<li>读取响应限速：<code>fastcgi_limit_rate</code></li>
+<li>连接上游错误响应：<code>fastcgi_intercept_errors</code></li>
+</ul>
+</li>
+<li>向客户端发送响应：
+<ul>
+<li>减少发给客户端的响应头部：<code>fastcgi_hide_header</code></li>
+<li>禁用响应头部：<code>fastcgi_ignore_header</code></li>
+<li>传递头部到客户端：<code>fastcgi_pass_header</code></li>
+</ul>
+</li>
+<li>缓存类：
+<ul>
+<li>指定共享内存：<code>fastcgi_cache</code></li>
+<li>缓存文件存放目录：<code>fastcgi_cache_path</code></li>
+<li>设置哪些请求不使用缓存：<code>fastcgi_cache_bypass</code></li>
+<li>开启子请求更新过期缓存：<code>fastcgi_cache_background</code></li>
+<li>定义缓存关键字：<code>fastcgi_cache_key</code></li>
+<li>使用range协议的偏移：<code>fastcgi_cache_max_range_offset</code></li>
+<li>强制使用range协议：<code>prxoy_force_ranges</code></li>
+<li>缓存哪些请求方法：<code>fastcgi_cache_min_uses</code></li>
+<li>缓存哪些响应码以及缓存有效期：<code>fastcgi_cache_valid</code></li>
+<li>有过期缓存使用304：<code>fastcgi_cache_revalidate</code></li>
+<li>返回过期缓存：<code>fastcgi_cache_use_stale</code></li>
+<li>设置哪些响应不写如缓存：<code>fastcgi_no_cache</code></li>
+<li>加锁减少回源请求：<code>fastcgi_cache_lock</code></li>
+<li>回源请求超时放行时间：<code>fastcgi_cache_lock_age</code></li>
+<li>等待请求最长时间：<code>fastcgi_cache_lock_timeout</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="fastcgi_connect_timeout" class="heading-element">
+  <a href="#fastcgi_connect_timeout" class="heading-mark"></a>fastcgi_connect_timeout</h2><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 语法</span>
+</span></span><span class="line"><span class="cl">fastcgi_connect_timeout time<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认值</span>
+</span></span><span class="line"><span class="cl">fastcgi_connect_timeout 60s；
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置上下文</span>
+</span></span><span class="line"><span class="cl">http, server,location</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>定义与<code>FastCGI</code>服务器建立连接的超时时间。
+通常该值不会超过75s</li>
+</ul>
+<h2 id="fastcgi_send_timeout" class="heading-element">
+  <a href="#fastcgi_send_timeout" class="heading-mark"></a>fastcgi_send_timeout</h2><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 语法</span>
+</span></span><span class="line"><span class="cl">fastcgi_send_timeout time<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认值</span>
+</span></span><span class="line"><span class="cl">fastcgi_send_timeout 60s；
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置上下文</span>
+</span></span><span class="line"><span class="cl">http, server,location</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>设置将请求传输到 FastCGI 服务器的超时时间，
+如果 FastCGI 服务器在这段时间内没有收到任何内容，则关闭连接。</li>
+</ul>
+<h2 id="fastcgi_read_timeout" class="heading-element">
+  <a href="#fastcgi_read_timeout" class="heading-mark"></a>fastcgi_read_timeout</h2><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 语法</span>
+</span></span><span class="line"><span class="cl">fastcgi_read_timeout time<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认值</span>
+</span></span><span class="line"><span class="cl">fastcgi_read_timeout 60s；
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置上下文</span>
+</span></span><span class="line"><span class="cl">http, server,location</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>定义从 FastCGI 服务器读取响应的超时时间，
+如果 FastCGI 服务器在这段时间内没有传输任何内容，则关闭连接。</li>
+</ul>
+<h2 id="fastcgi_buffer_size" class="heading-element">
+  <a href="#fastcgi_buffer_size" class="heading-mark"></a>fastcgi_buffer_size</h2><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 语法</span>
+</span></span><span class="line"><span class="cl">fastcgi_buffer_size size<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认值</span>
+</span></span><span class="line"><span class="cl">fastcgi_buffer_size 4k<span class="p">|</span>8k<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置上下文</span>
+</span></span><span class="line"><span class="cl">http, server,location</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>设置用于读取从 FastCGI 服务器接收的响应的第一部分的缓冲区的大小</li>
+</ul>
+<h2 id="fastcgi_buffers" class="heading-element">
+  <a href="#fastcgi_buffers" class="heading-mark"></a>fastcgi_buffers</h2><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 语法</span>
+</span></span><span class="line"><span class="cl">fastcgi_buffers number size<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认值</span>
+</span></span><span class="line"><span class="cl">fastcgi_buffers <span class="m">8</span> 4k<span class="p">|</span>8k
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置上下文</span>
+</span></span><span class="line"><span class="cl">http, server,location</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>设置用于从 FastCGI 服务器读取响应的缓冲区的大小与数量</li>
+<li>number 表示缓存连接数量</li>
+<li>size 表示单个连接的缓冲区大小</li>
+</ul>
+<h2 id="fastcgi_busy_buffers_size" class="heading-element">
+  <a href="#fastcgi_busy_buffers_size" class="heading-mark"></a>fastcgi_busy_buffers_size</h2><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 语法</span>
+</span></span><span class="line"><span class="cl">fastcgi_busy_buffers_size size<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认值</span>
+</span></span><span class="line"><span class="cl">fastcgi_busy_buffers_size 8k<span class="p">|</span>16k<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置上下文</span>
+</span></span><span class="line"><span class="cl">http, server,location</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>启用<code>fastcgi_buffering</code>指令时生效</li>
+<li>当缓存大小超过该指令值时，先转发主体给客户端
+(边缓存边转发)</li>
+</ul>
+<h2 id="fastcgi_temp_file_write_size" class="heading-element">
+  <a href="#fastcgi_temp_file_write_size" class="heading-mark"></a>fastcgi_temp_file_write_size</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 语法</span>
+</span></span><span class="line"><span class="cl">fastcgi_temp_file_write_size size<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认值</span>
+</span></span><span class="line"><span class="cl">fastcgi_temp_file_write_size 8k<span class="p">|</span>16k<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置上下文</span>
+</span></span><span class="line"><span class="cl">http, server,location</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>启用<code>fastcgi_buffering</code>指令时生效</li>
+<li>限制单次写入缓冲区大小，
+表示在写入缓存文件时使用多大的数据块，</li>
+</ul>
+<h2 id="fastcgi_intercept_errors" class="heading-element">
+  <a href="#fastcgi_intercept_errors" class="heading-mark"></a>fastcgi_intercept_errors</h2><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 语法</span>
+</span></span><span class="line"><span class="cl">fastcgi_inercept_errors on<span class="p">|</span>off
+</span></span><span class="line"><span class="cl"><span class="c1"># 默认配置</span>
+</span></span><span class="line"><span class="cl">fastcgi_intercept_errors off<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置上下文</span>
+</span></span><span class="line"><span class="cl">http, server,location</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>FastCGI 服务器响应码大于300时是否交给<code>error_page</code>指令处理</li>
+<li>值为<code>on</code>时，由<code>error_page</code>指令处理，如果<code>error_page</code>指令也没
+有设置相应的状态码才有效</li>
+<li>值为<code>off</code>时，直接发给客户端</li>
+</ul>
+<h1 id="uwsgi" class="heading-element">
+  <a href="#uwsgi" class="heading-mark"></a>uwsgi</h1><ul>
+<li>未分类：
+<ul>
+<li><code>uwsgi_modifier1</code></li>
+<li><code>uwsgi_modifier2</code></li>
+<li><code>uwsgi_param</code></li>
+</ul>
+</li>
+<li>配置代理请求部分：
+<ul>
+<li>指定上游服务：<code>uwsgi_pass</code></li>
+<li>是否传递头部请求：<code>uwsgi_pass_request_headers</code></li>
+<li>是否传递请求主体部分：<code>uwsgi_pass_request_body</code></li>
+<li>是否缓存请求主体：<code>uwsgi_requset_buffering</code></li>
+</ul>
+</li>
+<li>与上游服务建立连接并发送请求：
+<ul>
+<li>连接上游超时时间：<code>uwsgi_connect_timeout</code></li>
+<li>连接绑定地址：<code>uwsgi_bind</code></li>
+<li>使用tcp长连接：<code>uwsgi_socket_keepalive</code></li>
+<li>忽略客户端连接：<code>uwsgi_ignore_client_abort</code></li>
+<li>发送请求超时时间：<code>uwsgi_send_timeout</code></li>
+<li>出错时更换上游服务：<code>uwsgi_next_upstream</code></li>
+<li>更换上游服务超时：<code>uwsgi_next_upstream_timeout</code></li>
+<li>更换上游服务重试次数：<code>uwsgi_next_upstream_tries</code></li>
+</ul>
+</li>
+<li>接收上游服务返回的响应报文：
+<ul>
+<li>是否缓存上游响应：<code>uwsgi_buffering</code></li>
+<li>存放缓存的目录：<code>uwsgi_temp_path</code></li>
+<li>写入缓存文件的缓存大小：<code>uwsgi_temp_file_write_size</code></li>
+<li>缓存文件最大值：<code>uwsgi_max_temp_file_size</code></li>
+<li>接收响应头部缓存：<code>uwsgi_buffer_size</code></li>
+<li>接收响应主体缓存：<code>uwsgi_buffers</code></li>
+<li>缓存完成前转发主体：<code>uwsgi_busy_buffers_size</code></li>
+<li>持久化主体文件：<code>uwsgi_store</code></li>
+<li>读取响应超时时间：<code>uwsgi_read_timeout</code></li>
+<li>读取响应限速：<code>uwsgi_limit_rate</code></li>
+<li>连接上游错误响应：<code>uwsgi_intercept_errors</code></li>
+</ul>
+</li>
+<li>向客户端发送响应：
+<ul>
+<li>减少发给客户端的响应头部：<code>uwsgi_hide_header</code></li>
+<li>禁用响应头部：<code>uwsgi_ignore_header</code></li>
+<li>传递头部到客户端：<code>uwsgi_pass_header</code></li>
+</ul>
+</li>
+<li>缓存类：
+<ul>
+<li>指定共享内存：<code>uwsgi_cache</code></li>
+<li>缓存文件存放目录：<code>uwsgi_cache_path</code></li>
+<li>设置哪些请求不使用缓存：<code>uwsgi_cache_bypass</code></li>
+<li>开启子请求更新过期缓存：<code>uwsgi_cache_background</code></li>
+<li>定义缓存关键字：<code>uwsgi_cache_key</code></li>
+<li>使用range协议的偏移：<code>uwsgi_cache_max_range_offset</code></li>
+<li>强制使用range协议：<code>prxoy_force_ranges</code></li>
+<li>缓存哪些请求方法：<code>uwsgi_cache_min_uses</code></li>
+<li>缓存哪些响应码以及缓存有效期：<code>uwsgi_cache_valid</code></li>
+<li>有过期缓存使用304：<code>uwsgi_cache_revalidate</code></li>
+<li>返回过期缓存：<code>uwsgi_cache_use_stale</code></li>
+<li>设置哪些响应不写如缓存：<code>uwsgi_no_cache</code></li>
+<li>加锁减少回源请求：<code>uwsgi_cache_lock</code></li>
+<li>回源请求超时放行时间：<code>uwsgi_cache_lock_age</code></li>
+<li>等待请求最长时间：<code>uwsgi_cache_lock_timeout</code></li>
+</ul>
+</li>
+<li>上游与代理使用SSL
+<ul>
+<li>配置代理(或上游服务nginx)证书：<code>uwsgi_ssl_certificate</code></li>
+<li>配置代理(或上游服务nginx)私钥：<code>uwsgi_ssl_certificate_key</code></li>
+<li>验证上游服务证书：<code>uwsgi_ssl_trusted_certificate</code></li>
+<li>是否验证上游服务证书：<code>uwsgi_ssl_verify</code></li>
+<li>安全套件：<code>uwsgi_ssl_ciphers</code></li>
+<li>指定吊销证书链CRL文件验证上游的证书：<code>uwsgi_ssl_crl</code></li>
+<li>指定域名验证上游证书的域名：<code>uwsgi_ssl_name</code></li>
+<li>当私钥有密码时指定密码文件：<code>uwsgi_ssl_password_file</code></li>
+<li>指定具体某个版本协议：<code>uwsgi_ssl_protocols</code></li>
+<li>传递SNI信息到上游服务：<code>uwsgi_ssl_server_name</code></li>
+<li>是否重用SSL连接：<code>uwsgi_ssl_session_reuse</code></li>
+<li>设置验证证书链深度：<code>uwsgi_ssl_verify_depth</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="scgi" class="heading-element">
+  <a href="#scgi" class="heading-mark"></a>scgi</h1><ul>
+<li>未分类：
+<ul>
+<li><code>scgi_param</code></li>
+</ul>
+</li>
+<li>配置代理请求部分：
+<ul>
+<li>指定上游服务：<code>scgi_pass</code></li>
+<li>是否传递头部请求：<code>scgi_pass_request_headers</code></li>
+<li>是否传递请求主体部分：<code>scgi_pass_request_body</code></li>
+<li>是否缓存请求主体：<code>scgi_requset_buffering</code></li>
+</ul>
+</li>
+<li>与上游服务建立连接并发送请求：
+<ul>
+<li>连接上游超时时间：<code>scgi_connect_timeout</code></li>
+<li>连接绑定地址：<code>scgi_bind</code></li>
+<li>使用tcp长连接：<code>scgi_socket_keepalive</code></li>
+<li>忽略客户端连接：<code>scgi_ignore_client_abort</code></li>
+<li>发送请求超时时间：<code>scgi_send_timeout</code></li>
+<li>出错时更换上游服务：<code>scgi_next_upstream</code></li>
+<li>更换上游服务超时：<code>scgi_next_upstream_timeout</code></li>
+<li>更换上游服务重试次数：<code>scgi_next_upstream_tries</code></li>
+</ul>
+</li>
+<li>接收上游服务返回的响应报文：
+<ul>
+<li>是否缓存上游响应：<code>scgi_buffering</code></li>
+<li>存放缓存的目录：<code>scgi_temp_path</code></li>
+<li>写入缓存文件的缓存大小：<code>scgi_temp_file_write_size</code></li>
+<li>缓存文件最大值：<code>scgi_max_temp_file_size</code></li>
+<li>接收响应头部缓存：<code>scgi_buffer_size</code></li>
+<li>接收响应主体缓存：<code>scgi_buffers</code></li>
+<li>缓存完成前转发主体：<code>scgi_busy_buffers_size</code></li>
+<li>持久化主体文件：<code>scgi_store</code></li>
+<li>读取响应超时时间：<code>scgi_read_timeout</code></li>
+<li>读取响应限速：<code>scgi_limit_rate</code></li>
+<li>连接上游错误响应：<code>scgi_intercept_errors</code></li>
+</ul>
+</li>
+<li>向客户端发送响应：
+<ul>
+<li>减少发给客户端的响应头部：<code>scgi_hide_header</code></li>
+<li>禁用响应头部：<code>scgi_ignore_header</code></li>
+<li>传递头部到客户端：<code>scgi_pass_header</code></li>
+</ul>
+</li>
+<li>缓存类：
+<ul>
+<li>指定共享内存：<code>scgi_cache</code></li>
+<li>缓存文件存放目录：<code>scgi_cache_path</code></li>
+<li>设置哪些请求不使用缓存：<code>scgi_cache_bypass</code></li>
+<li>开启子请求更新过期缓存：<code>scgi_cache_background</code></li>
+<li>定义缓存关键字：<code>scgi_cache_key</code></li>
+<li>使用range协议的偏移：<code>scgi_cache_max_range_offset</code></li>
+<li>强制使用range协议：<code>prxoy_force_ranges</code></li>
+<li>缓存哪些请求方法：<code>scgi_cache_min_uses</code></li>
+<li>缓存哪些响应码以及缓存有效期：<code>scgi_cache_valid</code></li>
+<li>有过期缓存使用304：<code>scgi_cache_revalidate</code></li>
+<li>返回过期缓存：<code>scgi_cache_use_stale</code></li>
+<li>设置哪些响应不写如缓存：<code>scgi_no_cache</code></li>
+<li>加锁减少回源请求：<code>scgi_cache_lock</code></li>
+<li>回源请求超时放行时间：<code>scgi_cache_lock_age</code></li>
+<li>等待请求最长时间：<code>scgi_cache_lock_timeout</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="memecached" class="heading-element">
+  <a href="#memecached" class="heading-mark"></a>memecached</h1><h1 id="websocket" class="heading-element">
+  <a href="#websocket" class="heading-mark"></a>websocket</h1></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-15 10:19:14">更新于 2022-12-15&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" class="post-tag" title="标签 - 反向代理">反向代理</a><a href="/tags/nginx/" class="post-tag" title="标签 - nginx">nginx</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx-architecture/" class="post-nav-item" rel="prev" title="nginx架构"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx架构</a>
+      <a href="/CMDcurl/" class="post-nav-item" rel="next" title="curl - 使用url进行传输数据的命令行工具">curl - 使用url进行传输数据的命令行工具<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s pod - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="pod使用，但不包含调度" /><meta name="keywords" content='k8s pod, k8s 容器, k8s 静态 pod' /><meta itemprop="name" content="k8s pod">
+<meta itemprop="description" content="pod使用，但不包含调度"><meta itemprop="datePublished" content="2022-07-27T18:42:51+08:00" />
+<meta itemprop="dateModified" content="2023-06-16T13:29:44+08:00" />
+<meta itemprop="wordCount" content="10769">
+<meta itemprop="keywords" content="k8s pod,k8s 容器,k8s 静态 pod," /><meta property="og:title" content="k8s pod" />
+<meta property="og:description" content="pod使用，但不包含调度" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sPod/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-27T18:42:51+08:00" />
+<meta property="article:modified_time" content="2023-06-16T13:29:44+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s pod"/>
+<meta name="twitter:description" content="pod使用，但不包含调度"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sPod/" /><link rel="prev" href="/k8sGarbageCollection/" /><link rel="next" href="/Service/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s pod",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sPod\/"
+    },"genre": "posts","keywords": "k8s pod, k8s 容器, k8s 静态 pod","wordcount":  10769 ,
+    "url": "\/k8sPod\/","datePublished": "2022-07-27T18:42:51+08:00","dateModified": "2023-06-16T13:29:44+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s pod</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-27 18:42:51"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-27">2022-07-27</time></span>&nbsp;<span title="更新于 2023-06-16 13:29:44"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-06-16">2023-06-16</time></span>&nbsp;<span title="10769 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 10800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 22 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#pod">pod</a></li>
+    <li><a href="#pod中的容器">pod中的容器</a>
+      <ul>
+        <li><a href="#镜像">镜像</a></li>
+        <li><a href="#容器生命周期回调">容器生命周期回调</a></li>
+        <li><a href="#容器探针">容器探针</a></li>
+        <li><a href="#容器状态">容器状态</a></li>
+        <li><a href="#容器的特权模式">容器的特权模式</a></li>
+        <li><a href="#基础容器">基础容器</a></li>
+        <li><a href="#init-容器">init 容器</a>
+          <ul>
+            <li><a href="#init-容器状态">init 容器状态</a></li>
+          </ul>
+        </li>
+        <li><a href="#临时容器">临时容器</a></li>
+      </ul>
+    </li>
+    <li><a href="#生命周期">生命周期</a></li>
+    <li><a href="#pod重启策略">pod重启策略</a></li>
+    <li><a href="#pod状况">pod状况</a>
+      <ul>
+        <li><a href="#pod就绪态">pod就绪态</a></li>
+      </ul>
+    </li>
+    <li><a href="#pod终止">pod终止</a>
+      <ul>
+        <li><a href="#强制终止pod">强制终止pod</a></li>
+      </ul>
+    </li>
+    <li><a href="#pod垃圾收集">pod垃圾收集</a></li>
+    <li><a href="#downward-api">Downward API</a>
+      <ul>
+        <li><a href="#通过环境变量将-pod-信息呈现给容器">通过环境变量将 Pod 信息呈现给容器</a></li>
+        <li><a href="#通过文件将-pod-信息呈现给容器">通过文件将 Pod 信息呈现给容器</a></li>
+      </ul>
+    </li>
+    <li><a href="#用户名称空间">用户名称空间</a></li>
+    <li><a href="#pod-与容器资源限制">pod 与容器资源限制</a>
+      <ul>
+        <li><a href="#限制-cpu">限制 CPU</a></li>
+        <li><a href="#限制内存">限制内存</a></li>
+      </ul>
+    </li>
+    <li><a href="#静态pod">静态pod</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24.3</li>
+<li>Rocky Linux: 8.5</li>
+<li>内核: 4.18.0-348.el8.0.2.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: Pod</a></li>
+<li><a href="https://lib.jimmysong.io/kubernetes-handbook/objects/pause-container/"target="_blank" rel="external nofollow noopener noreferrer"><code>Jimmy</code>: Pause 容器</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/debug/debug-application/debug-init-containers/"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: 调试 Init 容器</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/configure-pod-initialization/#create-a-pod-that-has-an-init-container"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: 配置 Pod 初始化</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: 配置 Pods 和容器</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/environment-variable-expose-pod-information/#the-downward-api"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: 通过环境变量将 Pod 信息呈现给容器</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: 通过文件将 Pod 信息呈现给容器</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/assign-cpu-resource/"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: 为容器和 Pods 分配 CPU 资源</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/assign-memory-resource/#specify-a-memory-request-and-a-memory-limit"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: 为容器和 Pod 分配内存资源</a></li>
+<li><a href="https://kubernetes.io/zh/docs/tasks/configure-pod-container/static-pod/" title="k8s官方文档-创建静态Pod"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s官方文档</code>: 创建静态Pod</a></li>
+</ul>
+</blockquote>
+<h1 id="pod" class="heading-element">
+  <a href="#pod" class="heading-mark"></a>pod</h1><p><code>Pod</code> 是可以在 <code>Kubernetes</code> 中创建和管理的、最小的可部署的计算单元。
+它由一个或多个容器组成。这些容器共享存储、网络、以及怎样运行这些容器的声明。
+<code>Pod</code> 中的内容总是并置（<code>colocated</code>）的并且一同调度，在共享的上下文中运行。
+这些容器相对紧密地耦合在一起。共享上下文包括一组 <code>Linux</code> 名字空间、控制组
+（<code>cgroup</code>）和可能一些其他的隔离方面。</p>
+<ul>
+<li>创建<code>pod</code>示例</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># cat simple-pod.yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">kind: Pod
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: nginx
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  containers:
+</span></span><span class="line"><span class="cl">  - name: nginx
+</span></span><span class="line"><span class="cl">    image: nginx:1.14.2
+</span></span><span class="line"><span class="cl">    ports:
+</span></span><span class="line"><span class="cl">    - containerPort: <span class="m">80</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl apply -f simple-pod.yaml</span>
+</span></span><span class="line"><span class="cl">pod/nginx created
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看现有`pod`</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pods</span>
+</span></span><span class="line"><span class="cl">NAME    READY   STATUS    RESTARTS   AGE
+</span></span><span class="line"><span class="cl">nginx   1/1     Running   <span class="m">0</span>          3m37s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看`pod`信息</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl describe pods nginx | grep &#39; IP:&#39;</span>
+</span></span><span class="line"><span class="cl">  IP:  100.120.95.67
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 测试</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># curl -I 100.120.95.67:80</span>
+</span></span><span class="line"><span class="cl">HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">Server: nginx/1.14.2
+</span></span><span class="line"><span class="cl">Date: Wed, <span class="m">27</span> Jul <span class="m">2022</span> 11:01:22 GMT
+</span></span><span class="line"><span class="cl">Content-Type: text/html
+</span></span><span class="line"><span class="cl">Content-Length: <span class="m">612</span>
+</span></span><span class="line"><span class="cl">Last-Modified: Tue, <span class="m">04</span> Dec <span class="m">2018</span> 14:44:49 GMT
+</span></span><span class="line"><span class="cl">Connection: keep-alive
+</span></span><span class="line"><span class="cl">ETag: <span class="s2">&#34;5c0692e1-264&#34;</span>
+</span></span><span class="line"><span class="cl">Accept-Ranges: bytes</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以<code>yaml</code>格式查看<code>pod</code>信息</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pods nginx -o yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">kind: Pod
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  annotations:
+</span></span><span class="line"><span class="cl">    cni.projectcalico.org/containerID: a756cb1a6d459422635ef839329c17797ea28d9af9432ac31711e47af419ff93
+</span></span><span class="line"><span class="cl">    cni.projectcalico.org/podIP: 100.120.95.67/32
+</span></span><span class="line"><span class="cl">    cni.projectcalico.org/podIPs: 100.120.95.67/32
+</span></span><span class="line"><span class="cl">    kubectl.kubernetes.io/last-applied-configuration: <span class="p">|</span>
+</span></span><span class="line"><span class="cl">      <span class="o">{</span><span class="s2">&#34;apiVersion&#34;</span>:<span class="s2">&#34;v1&#34;</span>,<span class="s2">&#34;kind&#34;</span>:<span class="s2">&#34;Pod&#34;</span>,<span class="s2">&#34;metadata&#34;</span>:<span class="o">{</span><span class="s2">&#34;annotations&#34;</span>:<span class="o">{}</span>,<span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;nginx&#34;</span>,<span class="s2">&#34;namespace&#34;</span>:<span class="s2">&#34;default&#34;</span><span class="o">}</span>,<span class="s2">&#34;spec&#34;</span>:<span class="o">{</span><span class="s2">&#34;containers&#34;</span>:<span class="o">[{</span><span class="s2">&#34;image&#34;</span>:<span class="s2">&#34;nginx:1.14.2&#34;</span>,<span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;nginx&#34;</span>,<span class="s2">&#34;ports&#34;</span>:<span class="o">[{</span><span class="s2">&#34;containerPort&#34;</span>:80<span class="o">}]}]}}</span>
+</span></span><span class="line"><span class="cl">  creationTimestamp: <span class="s2">&#34;2022-07-27T10:53:20Z&#34;</span>
+</span></span><span class="line"><span class="cl">  name: nginx
+</span></span><span class="line"><span class="cl">  namespace: default
+</span></span><span class="line"><span class="cl">  resourceVersion: <span class="s2">&#34;8029&#34;</span>
+</span></span><span class="line"><span class="cl">  uid: b1852d0e-d355-47b9-9b6d-7493dfffdf64
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  containers:
+</span></span><span class="line"><span class="cl">  - image: nginx:1.14.2
+</span></span><span class="line"><span class="cl">    imagePullPolicy: IfNotPresent
+</span></span><span class="line"><span class="cl">    name: nginx
+</span></span><span class="line"><span class="cl">    ports:
+</span></span><span class="line"><span class="cl">    - containerPort: <span class="m">80</span>
+</span></span><span class="line"><span class="cl">      protocol: TCP
+</span></span><span class="line"><span class="cl">    resources: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">    terminationMessagePath: /dev/termination-log
+</span></span><span class="line"><span class="cl">    terminationMessagePolicy: File
+</span></span><span class="line"><span class="cl">    volumeMounts:
+</span></span><span class="line"><span class="cl">    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+</span></span><span class="line"><span class="cl">      name: kube-api-access-98t5l
+</span></span><span class="line"><span class="cl">      readOnly: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">  dnsPolicy: ClusterFirst
+</span></span><span class="line"><span class="cl">  enableServiceLinks: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">  nodeName: k8s02.localdomain
+</span></span><span class="line"><span class="cl">  preemptionPolicy: PreemptLowerPriority
+</span></span><span class="line"><span class="cl">  priority: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  restartPolicy: Always
+</span></span><span class="line"><span class="cl">  schedulerName: default-scheduler
+</span></span><span class="line"><span class="cl">  securityContext: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">  serviceAccount: default
+</span></span><span class="line"><span class="cl">  serviceAccountName: default
+</span></span><span class="line"><span class="cl">  terminationGracePeriodSeconds: <span class="m">30</span>
+</span></span><span class="line"><span class="cl">  tolerations:
+</span></span><span class="line"><span class="cl">  - effect: NoExecute
+</span></span><span class="line"><span class="cl">    key: node.kubernetes.io/not-ready
+</span></span><span class="line"><span class="cl">    operator: Exists
+</span></span><span class="line"><span class="cl">    tolerationSeconds: <span class="m">300</span>
+</span></span><span class="line"><span class="cl">  - effect: NoExecute
+</span></span><span class="line"><span class="cl">    key: node.kubernetes.io/unreachable
+</span></span><span class="line"><span class="cl">    operator: Exists
+</span></span><span class="line"><span class="cl">    tolerationSeconds: <span class="m">300</span>
+</span></span><span class="line"><span class="cl">  volumes:
+</span></span><span class="line"><span class="cl">  - name: kube-api-access-98t5l
+</span></span><span class="line"><span class="cl">    projected:
+</span></span><span class="line"><span class="cl">      defaultMode: <span class="m">420</span>
+</span></span><span class="line"><span class="cl">      sources:
+</span></span><span class="line"><span class="cl">      - serviceAccountToken:
+</span></span><span class="line"><span class="cl">          expirationSeconds: <span class="m">3607</span>
+</span></span><span class="line"><span class="cl">          path: token
+</span></span><span class="line"><span class="cl">      - configMap:
+</span></span><span class="line"><span class="cl">          items:
+</span></span><span class="line"><span class="cl">          - key: ca.crt
+</span></span><span class="line"><span class="cl">            path: ca.crt
+</span></span><span class="line"><span class="cl">          name: kube-root-ca.crt
+</span></span><span class="line"><span class="cl">      - downwardAPI:
+</span></span><span class="line"><span class="cl">          items:
+</span></span><span class="line"><span class="cl">          - fieldRef:
+</span></span><span class="line"><span class="cl">              apiVersion: v1
+</span></span><span class="line"><span class="cl">              fieldPath: metadata.namespace
+</span></span><span class="line"><span class="cl">            path: namespace
+</span></span><span class="line"><span class="cl">status:
+</span></span><span class="line"><span class="cl">  conditions:
+</span></span><span class="line"><span class="cl">  - lastProbeTime: null
+</span></span><span class="line"><span class="cl">    lastTransitionTime: <span class="s2">&#34;2022-07-27T10:53:20Z&#34;</span>
+</span></span><span class="line"><span class="cl">    status: <span class="s2">&#34;True&#34;</span>
+</span></span><span class="line"><span class="cl">    type: Initialized
+</span></span><span class="line"><span class="cl">  - lastProbeTime: null
+</span></span><span class="line"><span class="cl">    lastTransitionTime: <span class="s2">&#34;2022-07-27T10:53:52Z&#34;</span>
+</span></span><span class="line"><span class="cl">    status: <span class="s2">&#34;True&#34;</span>
+</span></span><span class="line"><span class="cl">    type: Ready
+</span></span><span class="line"><span class="cl">  - lastProbeTime: null
+</span></span><span class="line"><span class="cl">    lastTransitionTime: <span class="s2">&#34;2022-07-27T10:53:52Z&#34;</span>
+</span></span><span class="line"><span class="cl">    status: <span class="s2">&#34;True&#34;</span>
+</span></span><span class="line"><span class="cl">    type: ContainersReady
+</span></span><span class="line"><span class="cl">  - lastProbeTime: null
+</span></span><span class="line"><span class="cl">    lastTransitionTime: <span class="s2">&#34;2022-07-27T10:53:20Z&#34;</span>
+</span></span><span class="line"><span class="cl">    status: <span class="s2">&#34;True&#34;</span>
+</span></span><span class="line"><span class="cl">    type: PodScheduled
+</span></span><span class="line"><span class="cl">  containerStatuses:
+</span></span><span class="line"><span class="cl">  - containerID: containerd://8cf375b23cded851fe3995706b5f0cbd84eebf5b84e9d0183d43ebdf6cc60517
+</span></span><span class="line"><span class="cl">    image: docker.io/library/nginx:1.14.2
+</span></span><span class="line"><span class="cl">    imageID: docker.io/library/nginx@sha256:f7988fb6c02e0ce69257d9bd9cf37ae20a60f1df7563c3a2a6abe24160306b8d
+</span></span><span class="line"><span class="cl">    lastState: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">    name: nginx
+</span></span><span class="line"><span class="cl">    ready: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">    restartCount: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">    started: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">    state:
+</span></span><span class="line"><span class="cl">      running:
+</span></span><span class="line"><span class="cl">        startedAt: <span class="s2">&#34;2022-07-27T10:53:51Z&#34;</span>
+</span></span><span class="line"><span class="cl">  hostIP: 192.168.64.112
+</span></span><span class="line"><span class="cl">  phase: Running
+</span></span><span class="line"><span class="cl">  podIP: 100.120.95.67
+</span></span><span class="line"><span class="cl">  podIPs:
+</span></span><span class="line"><span class="cl">  - ip: 100.120.95.67
+</span></span><span class="line"><span class="cl">  qosClass: BestEffort
+</span></span><span class="line"><span class="cl">  startTime: <span class="s2">&#34;2022-07-27T10:53:20Z&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>pod</code>通常是由控制器管理。很少有像上面那样单独创建。</p>
+<h1 id="pod中的容器" class="heading-element">
+  <a href="#pod%e4%b8%ad%e7%9a%84%e5%ae%b9%e5%99%a8" class="heading-mark"></a>pod中的容器</h1><p><code>pod</code>内通常只运行单个容器，也有多个容器组成的实例。每个 <code>Pod</code> 都旨在运行给定应用程序的单个实例。</p>
+<p>一个 <code>Pod</code> 可以设置一组共享的存储卷。 <code>Pod</code> 中的所有容器都可以访问该共享卷，从而允许这些容器共享数据。</p>
+<p>每个 <code>Pod</code> 都在每个地址族中获得一个唯一的 <code>IP</code> 地址。 <code>Pod</code> 中的每个容器共享网络名字空间，包括 <code>IP</code> 地址和网络端口。 <code>Pod</code> 内的容器可以使用 <code>localhost</code> 互相通信。 当 <code>Pod</code> 中的容器与 <code>Pod</code> 之外的实体通信时，它们必须协调如何使用共享的网络资源（例如端口）。</p>
+<p>在同一个 <code>Pod</code> 内，所有容器共享一个 <code>IP</code> 地址和端口空间，并且可以通过 <code>localhost</code> 发现对方。 他们也能通过如 <code>SystemV</code> 信号量或 <code>POSIX</code> 共享内存这类标准的进程间通信方式互相通信。 不同 <code>Pod</code> 中的容器的 <code>IP</code> 地址互不相同，没有特殊配置，无法通过 <code>OS</code> 级 <code>IPC</code> 进行通信就不能使用 <code>IPC</code> 进行通信。 如果某容器希望与运行于其他 <code>Pod</code> 中的容器通信，可以通过 <code>IP</code> 联网的方式实现。</p>
+<p><code>Pod</code> 中的容器所看到的系统主机名与为 <code>Pod</code> 配置的 <code>name</code> 属性值相同。即容器通过 <code>hostname</code> 命令或者调用 <code>libc</code> 中的 <code>gethostname</code> 函数等方式可以获取<code>pod</code>名称</p>
+<h2 id="镜像" class="heading-element">
+  <a href="#%e9%95%9c%e5%83%8f" class="heading-mark"></a>镜像</h2><p><code>pod.spec.containers.image</code>指定创建容器的镜像名称。镜像名称可以包包含仓库主机名、仓库端口号、镜像标签：</p>
+<ul>
+<li>如果不指定仓库主机名则使用<code>docker</code>公共仓库、</li>
+<li>如果不指定镜像标签则使用<code>latest</code>标签。镜像标签可以包含这些字符：字母、数字、<code>_</code>、<code>.</code>、<code>-</code></li>
+<li>也可以使用镜像<code>sha</code>(<code>&lt;image-name&gt;@&lt;digest&gt;</code>)，如 <code>image@sha256:45b23dee08af5e...</code></li>
+</ul>
+<p>查看<code>pod kube-apiserver-k8s01.localdomain</code>使用的<code>image</code>镜像</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod kube-apiserver-k8s01.localdomain -n kube-system -o yaml | grep &#34;image: &#34;</span>
+</span></span><span class="line"><span class="cl">    image: k8s.gcr.io/kube-apiserver:v1.24.3
+</span></span><span class="line"><span class="cl">    image: sealos.hub:5000/kube-apiserver:v1.24.3</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意仓库地址，有些地址要写仓库名</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl -n note get pod artalk-deployment-7668ccb557-z2rcg -o yaml | grep &#34;image: &#34;</span>
+</span></span><span class="line"><span class="cl">    image: docker.io/mysql:8.0.30
+</span></span><span class="line"><span class="cl">    image: docker.io/artalk/artalk-go:2.1.10</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>pod.spec.containers.imagePullPolicy</code>字段指定镜像取策略：</p>
+<ul>
+<li><code>IfNotPresent</code>: 只有当镜像在本地不存在时才会拉取。默认策略</li>
+<li><code>Always</code>: 每当 <code>kubelet</code> 启动一个容器时，<code>kubelet</code> 会查询容器的镜像仓库， 将名称解析为一个镜像摘要（<code>sha256</code>）如果能与本地有镜像且能对应镜像摘要，则使用它。否则 <code>kubelet</code> 就会使用解析后的摘要拉取镜像，并使用该镜像来启动容器。该方法要求能访问镜像仓库</li>
+<li><code>Never</code>: 不拉取镜像，该方式要求本地必须有镜像才会成功启动容器</li>
+</ul>
+<p>默认情况下，<code>kubelet</code> 以串行方式拉取镜像。 也就是说，<code>kubelet</code> 一次只向镜像服务发送一个镜像拉取请求。 其他镜像拉取请求必须等待，直到正在处理的那个请求完成。从 <code>kubelet v1.27</code> 开始，可以在 <code>kubelet</code> 配置 中将字段 <code>serializeImagePulls</code> 设置为 <code>false</code>，<code>kubelet</code> 会立即向镜像服务发送镜像拉取请求，多个镜像将同时被拉动。注意此功能要确定运行的容器运行时工具支持；此外<code>kubelet</code> 从不代表一个 <code>Pod</code> 并行地拉取多个镜像，它取决与节点拉取镜像的队列，并不是 <code>pod</code> 中所需的镜像。例如，有一个 <code>Pod</code>，它有一个初始容器和一个应用容器，那么这两个容器的镜像拉取将不会并行。 但是，如果有两个使用不同镜像的 <code>Pod</code>，当启用并行镜像拉取时，<code>kubelet</code> 会代表两个不同的 <code>Pod</code> 并行拉取镜像。</p>
+<h2 id="容器生命周期回调" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e5%9b%9e%e8%b0%83" class="heading-mark"></a>容器生命周期回调</h2><p>类似于许多具有生命周期回调组件的编程语言框架，<code>Kubernetes</code> 为容器提供了生命周期回调。 回调使容器能够了解其管理生命周期中的事件，并在执行相应的生命周期回调时运行在处理程序中实现的代码。有两个回调暴露给容器：</p>
+<ul>
+<li><code>PostStart</code> 在容器被创建之后立即被执行。 但是，不能保证回调会在容器入口点（<code>ENTRYPOINT</code>）之前执行，即 <code>postStart</code> 处理函数与容器的代码是异步执行的，但 <code>Kubernetes</code> 的容器管理逻辑会一直阻塞等待 <code>postStart</code> 处理函数执行完毕。 只有 <code>postStart</code> 处理函数执行完毕，容器的状态才会变成 <code>RUNNING</code>。</li>
+<li><code>PreStop</code> 在容器因 <code>API</code> 请求或者管理事件（诸如存活态探针、启动探针失败、资源抢占、资源竞争等） 而被终止之前，此回调会被调用。 如果容器已经处于已终止或者已完成状态，则对 <code>preStop</code> 回调的调用将失败。<code>PreStop</code> 回调在执行期间停滞不前，<code>Pod</code> 的阶段会变成 <code>Terminating</code> 并且一直处于该状态。在用来停止容器的 <code>TERM</code> 信号被发出之前，回调必须执行结束。 <code>Pod</code> 的终止宽限周期在 <code>PreStop</code> 回调被执行之前即开始计数， 所以无论回调函数的执行结果如何，容器最终都会在 <code>Pod</code> 的终止宽限期内被终止。</li>
+</ul>
+<p>如果<code>PostStart</code> 或 <code>PreStop</code> 回调失败，它会杀死容器。应该使他们的回调处理程序尽可能的轻量级。 但也需要考虑长时间运行的命令也很有用的情况，比如在停止容器之前保存状态。</p>
+<p>容器可以通过实现和注册该回调的处理程序来访问该回调。 针对容器，有两种类型的回调处理程序可供实现：</p>
+<ul>
+<li><code>exec</code>: 在容器的 <code>cgroups</code> 和名字空间中执行特定的命令（例如 <code>pre-stop.sh</code>）。 命令所消耗的资源计入容器的资源消耗。</li>
+<li><code>HTTP</code>: 对容器上的特定端点执行 <code>HTTP</code> 请求，它是由 <code>kubelet</code> 进程执行</li>
+</ul>
+<br>
+示例
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">lifecycle-demo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">lifecycle-demo-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">lifecycle</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">postStart</span><span class="p">:</span><span class="w"> </span><span class="c"># 容器创建后执行的命令</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">exec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;/bin/sh&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;echo Hello from the postStart handler &gt; /usr/share/message&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">preStop</span><span class="p">:</span><span class="w">  </span><span class="c"># 容器终止后执行的命令</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">exec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;/bin/sh&#34;</span><span class="p">,</span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="s2">&#34;nginx -s quit; while killall -0 nginx; do sleep 1; done&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>回调处理程序的日志不会在 <code>Pod</code> 事件中公开。 如果处理程序由于某种原因失败，它将播放一个事件。 对于 <code>PostStart</code>，这是 <code>FailedPostStartHook</code> 事件，对于 <code>PreStop</code>，这是 <code>FailedPreStopHook</code> 事件。</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># PostStart 回调处理程序失败事件</span>
+</span></span><span class="line"><span class="cl">Events:
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">  Warning  FailedPostStartHook  4s <span class="o">(</span>x2 over 5s<span class="o">)</span>  kubelet            Exec lifecycle hook <span class="o">([</span>badcommand<span class="o">])</span> <span class="k">for</span> Container <span class="s2">&#34;lifecycle-demo-container&#34;</span> in Pod <span class="s2">&#34;lifecycle-demo_default(30229739-9651-4e5a-9a32-a8f1688862db)&#34;</span> failed - error: <span class="nb">command</span> <span class="s1">&#39;badcommand&#39;</span> exited with 126: , message: <span class="s2">&#34;OCI runtime exec failed: exec failed: container_linux.go:380: starting container process caused: exec: \&#34;badcommand\&#34;: executable file not found in </span><span class="nv">$PATH</span><span class="s2">: unknown\r\n&#34;</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="容器探针" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e6%8e%a2%e9%92%88" class="heading-mark"></a>容器探针</h2><p>探针是由 <code>kubelet</code> 对容器执行的定期诊断。要执行诊断，<code>kubelet</code> 可以执行三种动作：</p>
+<ul>
+<li><code>ExecAction</code>（借助容器运行时执行）</li>
+<li><code>TCPSocketAction</code>（由 <code>kubelet</code> 直接检测）</li>
+<li><code>HTTPGetAction</code>（由 <code>kubelet</code> 直接检测）</li>
+</ul>
+<p>容器探针在<code>pod.spec.containers</code>字段下，针对运行中的容器，<code>kubelet</code> 可以选择是否执行以下三种探针类型，以及如何针对探测结果作出反应：</p>
+<ul>
+<li><code>livenessProbe</code>(存活态探针): 指示容器是否正在运行。如果存活态探测失败，则 <code>kubelet</code> 会杀死容器， 并且容器将根据其重启策略决定未来。如果容器不提供存活探针， 则默认状态为 <code>Success</code>。</li>
+<li><code>readinessProbe</code>(绪态探针): 指示容器是否准备好为请求提供服务。如果就绪态探测失败， 端点控制器将从与 <code>Pod</code> 匹配的所有服务的端点列表中删除该 <code>Pod</code> 的 <code>IP</code> 地址。 初始延迟之前的就绪态的状态值默认为 <code>Failure</code>。 如果容器不提供就绪态探针，则默认状态为 <code>Success</code>。</li>
+<li><code>startupProbe</code>(启动探针): 指示容器中的应用是否已经启动。如果提供了启动探针，则所有其他探针都会被 禁用，直到此探针成功为止。如果启动探测失败，<code>kubelet</code> 将杀死容器，而容器依其 重启策略进行重启。 如果容器没有提供启动探测，则默认状态为 <code>Success</code>。</li>
+</ul>
+<p>使用探针来检查容器有四种不同的方法。 每个探针都必须准确定义为这四种机制中的一种：</p>
+<ul>
+<li><code>exec</code>: 在容器内执行指定命令。如果命令退出时返回码为 <code>0</code> 则认为诊断成功。</li>
+<li><code>grpc</code>: 使用 <code>gRPC</code> 执行一个远程过程调用。 目标应该实现 <code>gRPC</code>健康检查。 如果响应的状态是 <code>SERVING</code>，则认为诊断成功。 <code>gRPC</code> 探针是一个 <code>alpha</code> 特性，只有在你启用了 <code>GRPCContainerProbe</code> 特性门控时才能使用。</li>
+<li><code>httpGet</code>: 对容器的 <code>IP</code> 地址上指定端口和路径执行 <code>HTTP GET</code> 请求。如果响应的状态码大于等于 <code>200</code> 且小于 <code>400</code>，则诊断被认为是成功的。</li>
+<li><code>tcpSocket</code>: 对容器的 <code>IP</code> 地址上的指定端口执行 <code>TCP</code> 检查。如果端口打开，则诊断被认为是成功的。 如果远程系统（容器）在打开连接后立即将其关闭，这算作是健康的。</li>
+</ul>
+<p>每次探测都将获得以下三种结果之一：</p>
+<ul>
+<li><code>Success</code>（成功）</li>
+<li><code>Failure</code>（失败）</li>
+<li><code>Unknown</code>（未知），诊断失败，因此不会采取任何行动。</li>
+</ul>
+<h2 id="容器状态" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e7%8a%b6%e6%80%81" class="heading-mark"></a>容器状态</h2><p>Kubernetes 会跟踪 Pod 中每个容器的状态，一旦调度器将 Pod 分派给某个节点，kubelet 就通过 容器运行时 开始为 Pod 创建容器。 容器的状态有三种：</p>
+<ul>
+<li><code>Waiting</code>(等待): 处于 Waiting 状态的容器仍在运行它完成启动所需要的操作：例如，从某个容器镜像 仓库拉取容器镜像，或者向容器应用 Secret 数据等等。 当你使用 kubectl 来查询包含 Waiting 状态的容器的 Pod 时，你也会看到一个 Reason 字段，其中给出了容器处于等待状态的原因。</li>
+<li><code>Running</code>(运行中): Running 状态表明容器正在执行状态并且没有问题发生。 如果配置了 postStart 回调，那么该回调已经执行且已完成。 如果你使用 kubectl 来查询包含 Running 状态的容器的 Pod 时，你也会看到 关于容器进入 Running 状态的信息。</li>
+<li><code>Terminated</code>(已终止): 已经开始执行并且或者正常结束或者因为某些原因失败。 如果你使用 kubectl 来查询包含 Terminated 状态的容器的 Pod 时，你会看到 容器进入此状态的原因、退出代码以及容器执行期间的起止时间。如果容器配置了 preStop 回调，则该回调会在容器进入 Terminated 状态之前执行</li>
+</ul>
+<p>可以使用以下方式查看容器状态</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl describe pod nginx</span>
+</span></span><span class="line"><span class="cl">Name:         nginx
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Containers:
+</span></span><span class="line"><span class="cl">  nginx:
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl">  State:          Running
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 或</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pods nginx -o yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">status:
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl">  containerStatuses:
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">    state:
+</span></span><span class="line"><span class="cl">      running:
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="容器的特权模式" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e7%9a%84%e7%89%b9%e6%9d%83%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>容器的特权模式</h2><p>容器运行时必须支持特权容器的概念才能使用这一配置。</p>
+<p>在 Linux 中，Pod 中的任何容器都可以使用容器规约中的 安全性上下文中的 privileged（Linux）参数启用特权模式。 这对于想要使用操作系统管理权能（Capabilities，如操纵网络堆栈和访问设备）的容器很有用。</p>
+<p>如果你的集群启用了 WindowsHostProcessContainers 特性，你可以使用 Pod 规约中安全上下文的 windowsOptions.hostProcess 参数来创建 Windows HostProcess Pod。 这些 Pod 中的所有容器都必须以 Windows HostProcess 容器方式运行。 HostProcess Pod 可以直接运行在主机上，它也能像 Linux 特权容器一样，用于执行管理任务。</p>
+<h2 id="基础容器" class="heading-element">
+  <a href="#%e5%9f%ba%e7%a1%80%e5%ae%b9%e5%99%a8" class="heading-mark"></a>基础容器</h2><p>由于容器原本是被名称空间与 <code>cgroups</code> 隔离的，基础容器是为了打破这个隔离。基础容器为 <code>pod</code> 内其它容器实现以下功能使容器间能够进行数据共享和通信：</p>
+<ul>
+<li>在 <code>pod</code> 中担任 <code>Linux</code> 命名空间共享的基础</li>
+<li>启用 <code>pid</code> 命名空间，开启 <code>init</code> 进程</li>
+</ul>
+<p>目前在 <code>k8s</code> 中使用 <code>pause</code> 容器作为基础容器，它有以下特点：</p>
+<ul>
+<li>镜像非常小，只有几百 <code>k</code></li>
+<li>永远处于 <code>Pause</code> (暂停) 状态</li>
+</ul>
+<h2 id="init-容器" class="heading-element">
+  <a href="#init-%e5%ae%b9%e5%99%a8" class="heading-mark"></a>init 容器</h2><p><code>init</code> 容器是一种特殊容器，它在应用容器启动之前运行。<code>init</code> 容器可以包括一些应用镜像中不存在的实用工具和安装脚本。每个 <code>pod</code> 内可以有多个 <code>init</code> 容器</p>
+<p><code>init</code> 容器在 <code>pod.spec.initContainers</code> 中定义。除了以下几点，其它与普通容器没有区别：</p>
+<ul>
+<li><code>init</code> 容器按顺序启动，每个 <code>init</code> 容器成功退出后才会启动下一个 <code>init</code> 容器。</li>
+<li>由于当 <code>pod</code> 重启策略为 <code>Always</code> 时，<code>init</code> 容器启动失败使用 <code>OnFailure</code> 策略.因此 <code>init</code> 容器失败有以下可能性：
+<ul>
+<li>当 <code>pod</code> 重启策略为 <code>Never</code> 或 <code>OnFailure</code>时，<code>kubelet</code> 会不断地重启该 <code>init</code> 容器直到该容器成功为止，此外由于垃圾收集机制的原因，<code>Init</code> 容器的完成记录将会丢失。</li>
+<li>当 <code>pod</code> 重启策略为 <code>Never</code> 时，<code>k8s</code> 会将整个 <code>Pod</code> 设置为失败状态。</li>
+</ul>
+</li>
+<li>由于 <code>init</code> 容器是在 <code>pod</code> 就绪之前运行完成，因此不支持容器探针</li>
+</ul>
+<p><code>pod</code> 重启，所有 <code>Init</code> 容器必须重新执行。</p>
+<p><code>k8s:1.20 &gt;=</code> 版本时，当 <code>Init</code> 容器的镜像发生改变或者 <code>Init</code> 容器的完成记录因为垃圾收集等原因被丢失时，<code>Pod</code> 不会被重启。</p>
+<p>因为 <code>Init</code> 容器可能会被重启、重试或者重新执行，所以 <code>Init</code> 容器的代码应该是幂等的。 特别地，基于 <code>emptyDirs</code> 写文件的代码，应该对输出文件可能已经存在做好准备。</p>
+<p>在 <code>Pod</code> 中的每个应用容器和 <code>Init</code> 容器的名称必须唯一； 与任何其它容器共享同一个名称，会在校验时抛出错误。</p>
+<p>在所有 <code>ini</code> 容器没成功之前，<code>Pod</code> 将不会变成 <code>Ready</code> 状态。<code>init</code> 容器的端口将不会在 <code>Service</code> 中进行聚集。正在初始化中的 <code>Pod</code> 处于 <code>Pending</code> 状态， 但会将状况 <code>Initializing</code> 设置为 <code>false</code>。</p>
+<p>在 <code>Pod</code> 上使用 <code>activeDeadlineSeconds</code> 和在容器上使用 <code>livenessProbe</code> 可以避免 <code>Init</code> 容器一直重复失败。 <code>activeDeadlineSeconds</code> 时间包含了 <code>Init</code> 容器启动的时间。 但建议仅在团队将其应用程序部署为 <code>Job</code> 时才使用 <code>activeDeadlineSeconds</code>， 因为 <code>activeDeadlineSeconds</code> 在 <code>Init</code> 容器结束后仍有效果。 如果你设置了 <code>activeDeadlineSeconds</code>，已经在正常运行的 <code>Pod</code> 会被杀死。</p>
+<p>这是一个官方文档的示例，<code>init</code> 容器在 <code>nginx</code> 容器运行之前下载网站文件</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">init-demo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">workdir</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/usr/share/nginx/html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># 这些容器在 Pod 初始化期间运行</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">initContainers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">install</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">busybox:1.28</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">wget</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;-O&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="s2">&#34;/work-dir/index.html&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">http://info.cern.ch</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">workdir</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/work-dir&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">dnsPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Default</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">workdir</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">emptyDir</span><span class="p">:</span><span class="w"> </span>{}</span></span></code></pre></td></tr></table>
+</div>
+</div><p>创建 <code>pod</code></p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl apply -f https://k8s.io/examples/pods/init-containers.yaml</span>
+</span></span><span class="line"><span class="cl">pod/init-demo created
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod init-demo</span>
+</span></span><span class="line"><span class="cl">NAME        READY   STATUS     RESTARTS   AGE
+</span></span><span class="line"><span class="cl">init-demo   0/1     Init:0/1   <span class="m">0</span>          11s
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod init-demo</span>
+</span></span><span class="line"><span class="cl">NAME        READY   STATUS            RESTARTS   AGE
+</span></span><span class="line"><span class="cl">init-demo   0/1     PodInitializing   <span class="m">0</span>          23s
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pod init-demo</span>
+</span></span><span class="line"><span class="cl">NAME        READY   STATUS    RESTARTS   AGE
+</span></span><span class="line"><span class="cl">init-demo   1/1     Running   <span class="m">0</span>          116s</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="init-容器状态" class="heading-element">
+  <a href="#init-%e5%ae%b9%e5%99%a8%e7%8a%b6%e6%80%81" class="heading-mark"></a>init 容器状态</h3><p>以 <code>Init:</code> 开头的 <code>Pod</code> 状态汇总了 <code>Init</code> 容器执行的状态：</p>
+<ul>
+<li><code>Init:N/M</code>: <code>pod</code> 中有 <code>M</code> 个 <code>Init</code> 容器，其中 <code>N</code> 个已经运行完成。</li>
+<li><code>Init:Error</code>: <code>Init</code> 容器已执行失败。</li>
+<li><code>Init:CrashLoopBackOf</code>: <code>init</code> 容器执行总是失败</li>
+<li><code>Pending</code>: <code>pod</code> 还没有开始执行 <code>init</code> 容器</li>
+<li><code>PodInitializing</code>: <code>pod</code> 已经完成执行 <code>init</code> 容器</li>
+<li><code>Running</code>: <code>pod</code> 已经完成执行 <code>init</code> 容器</li>
+</ul>
+<h2 id="临时容器" class="heading-element">
+  <a href="#%e4%b8%b4%e6%97%b6%e5%ae%b9%e5%99%a8" class="heading-mark"></a>临时容器</h2><p>特性状态： Kubernetes v1.23 [beta]</p>
+<p>临时容器是一种特殊的容器，该容器在现有 Pod 中临时运行，以便完成用户发起的操作，例如故障排查。与其他容器的不同之处在于，它们缺少对资源或执行的保证，并且永远不会自动重启， 因此不适用于构建应用程序。 临时容器使用与常规容器相同的 ContainerSpec 节来描述，但许多字段是不兼容和不允许的。具体查看：<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#ephemeralcontainer-v1-core"target="_blank" rel="external nofollow noopener noreferrer">临时容器参考文档</a></p>
+<p>当由于容器崩溃或容器镜像不包含调试程序而导致 <code>kubectl exec</code> 无法运行时，临时容器对于排除交互式故障很有用。</p>
+<p>与常规容器一样，将临时容器添加到 Pod 后，将不能更改或删除临时容器。但
+临时容器是使用 API 中的一种特殊的 ephemeralcontainers 处理器进行创建的， 而不是直接添加到 pod.spec 段，因此无法使用 kubectl edit 来添加一个临时容器。当由于容器崩溃或容器镜像不包含调试工具而导致 kubectl exec 无用时， 临时容器对于交互式故障排查很有用。</p>
+<p>使用临时容器时，启用 进程名字空间共享 很有帮助，可以查看其他容器中的进程</p>
+<p>添加临时容器是使用 <code>kubectl debug</code> 命令，下面是一个示例</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># --image 指定临时容器镜像</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --it 是指定交互式 TTY 终端，会自动挂接到临时容器的控制台</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --target 指定进程名称空间，由于创建 `pod` 时不会共享进程命名空间</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   因此这选项通常是必须的。该选项必须要 容器运行时支持 --target 参数才行</span>
+</span></span><span class="line"><span class="cl">kubectl debug -it ephemeral-demo --image<span class="o">=</span>busybox:1.28 --target<span class="o">=</span>ephemeral-demo</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="生命周期" class="heading-element">
+  <a href="#%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f" class="heading-mark"></a>生命周期</h1><p>Pod 遵循一个预定义的生命周期：<code>Pending</code>-&gt;<code>Running</code>-&gt;<code>Succeeded</code>或<code>Failed</code>或<code>Unknown</code>。这些状态记录在<code>pod.status.phase</code>字段中</p>
+<ul>
+<li><code>Pending</code>(悬决): Pod 已被 Kubernetes 系统接受，但有一个或者多个容器尚未创建亦未运行。此阶段包括等待 Pod 被调度的时间和通过网络下载镜像的时间。</li>
+<li><code>Running</code>(运行中): Pod 已经绑定到了某个节点，Pod 中所有的容器都已被创建。至少有一个容器仍在运行，或者正处于启动或重启状态</li>
+<li><code>Succeeded</code>(成功): Pod 中的所有容器都已成功终止，并且不会再重启。</li>
+<li><code>Failed</code>(失败): Pod 中的所有容器都已终止，并且至少有一个容器是因为失败终止。也就是说，容器以非 0 状态退出或者被系统终止。此外，如果某节点死掉或者与集群中其他节点失联，Kubernetes 会实施一种策略，将失去的节点上运行的所有 Pod 的 phase 设置为 Failed</li>
+<li><code>Unknown</code>(未知): 为某些原因无法取得 Pod 的状态。这种情况通常是因为与 Pod 所在主机通信失败。</li>
+</ul>
+<p>可以使用以下方式查看<code>pod</code>状态</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl describe pod nginx </span>
+</span></span><span class="line"><span class="cl">Name:         nginx
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Status:       Running
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 或</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get pods nginx -o yaml</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">status:
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">  phase: Running</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="pod重启策略" class="heading-element">
+  <a href="#pod%e9%87%8d%e5%90%af%e7%ad%96%e7%95%a5" class="heading-mark"></a>pod重启策略</h1><p><code>pod.spec.restartPolicy</code>字段定义了<code>pod</code>重启策略，有以下值：</p>
+<ul>
+<li><code>Always</code>: 默认值，容器失效时重启</li>
+<li><code>OnFailure</code>: 容器异常退出时重启（退出状态码不为 0 ）</li>
+<li><code>Never</code>: 不管容器什么情况，都不重启</li>
+</ul>
+<p>Pod 重启策略适用于 Pod 中所有容器，由 Pod 所在节点的 Kubelet 重启容器。重启时间上限为五分钟的指数延迟（10秒，20秒，40秒…）启动，并在成功执行十分钟后重置。通常一个 Pod 绑定到某个节点，将不会调度到其他节点</p>
+<h1 id="pod状况" class="heading-element">
+  <a href="#pod%e7%8a%b6%e5%86%b5" class="heading-mark"></a>pod状况</h1><p><code>pod.status.conditions</code>数组记录了<code>pod</code>状况，有以下字段值：</p>
+<ul>
+<li><code>lastProbeTime</code>: 上次探测 Pod 状况时的时间戳</li>
+<li><code>lastTransitionTime</code>: Pod 上次从一种状态转换到另一种状态时的时间戳</li>
+<li><code>status</code>: 表明该状况是否适用，可能的取值有 &ldquo;True&rdquo;, &ldquo;False&rdquo; 或 &ldquo;Unknown&rdquo;</li>
+<li><code>type</code>: 状况类型，有以下值：
+<ul>
+<li><code>PodScheduled</code>：Pod 是否已经被调度到某节点</li>
+<li><code>ContainersReady</code>：Pod 中所有容器都是否已就绪</li>
+<li><code>Initialized</code>: 所有的 Init 容器是否都已成功完成</li>
+<li><code>Ready</code>: Pod 是否可以为请求提供服务，并且应该被添加到对应服务的负载均衡池中</li>
+</ul>
+</li>
+<li><code>reason</code>: 表述上次状况变化的原因（驼峰编码）</li>
+<li><code>message</code>: 上次状态转换的详细信息（人类可读方式）</li>
+</ul>
+<h2 id="pod就绪态" class="heading-element">
+  <a href="#pod%e5%b0%b1%e7%bb%aa%e6%80%81" class="heading-mark"></a>pod就绪态</h2><p>特性状态： Kubernetes v1.14 [stable]</p>
+<p>你的应用可以向 PodStatus 中注入额外的反馈或者信号：Pod Readiness（Pod 就绪态）。 要使用这一特性，可以设置 Pod 规约中的 readinessGates 列表，为 kubelet 提供一组额外的状况供其评估 Pod 就绪态时使用。</p>
+<p>就绪态门控基于 Pod 的 status.conditions 字段的当前值来做决定。 如果 Kubernetes 无法在 status.conditions 字段中找到某状况，则该状况的 状态值默认为 &ldquo;False&rdquo;。</p>
+<p>你所添加的 Pod 状况名称必须满足 Kubernetes 标签键名格式。</p>
+<p>示例：</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">readinessGates</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">conditionType</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;www.example.com/feature-1&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">status</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">conditions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">Ready                             </span><span class="w"> </span><span class="c"># 内置的 Pod 状况</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;False&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">lastProbeTime</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="ld">2018-01-01T00:00:00Z</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;www.example.com/feature-1&#34;</span><span class="w">        </span><span class="c"># 额外的 Pod 状况</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;False&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">lastProbeTime</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="ld">2018-01-01T00:00:00Z</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containerStatuses</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">containerID</span><span class="p">:</span><span class="w"> </span><span class="l">docker://abcd...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">ready</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>命令 kubectl patch 不支持修改对象的状态。 如果需要设置 Pod 的 status.conditions，应用或者 Operators 需要使用 PATCH 操作。对于使用定制状况的 Pod 而言，只有当下面的陈述都适用时，该 Pod 才会被评估为就绪：</p>
+<ul>
+<li>Pod 中所有容器都已就绪；</li>
+<li><code>spec.readinessGates</code> 中的所有状况都为 True 值。</li>
+</ul>
+<p>当 Pod 的容器都已就绪，但至少一个定制状况没有取值或者取值为 False， kubelet 将 Pod 的状况设置为 ContainersReady</p>
+<h1 id="pod终止" class="heading-element">
+  <a href="#pod%e7%bb%88%e6%ad%a2" class="heading-mark"></a>pod终止</h1><p>由于 Pod 所代表的是在集群中节点上运行的进程，当不再需要这些进程时允许其体面地 终止是很重要的。一般不应武断地使用 KILL 信号终止它们，导致这些进程没有机会 完成清理操作。</p>
+<p>设计的目标是令你能够请求删除进程，并且知道进程何时被终止，同时也能够确保删除 操作终将完成。当你请求删除某个 Pod 时，集群会记录并跟踪 Pod 的体面终止周期， 而不是直接强制地杀死 Pod。在存在强制关闭设施的前提下， kubelet 会尝试体面地终止 Pod。
+通常情况下，容器运行时会发送一个 TERM 信号到每个容器中的主进程。 很多容器运行时都能够注意到容器镜像中 STOPSIGNAL 的值，并发送该信号而不是 TERM。 一旦超出了体面终止限期，容器运行时会向所有剩余进程发送 KILL 信号，之后 Pod 就会被从 API 服务器 上移除。如果 kubelet 或者容器运行时的管理服务在等待进程终止期间被重启， 集群会从头开始重试，赋予 Pod 完整的体面终止限期。</p>
+<p>体面终止流程：</p>
+<ol>
+<li>使用 kubectl 工具手动删除某个特定的 Pod，而该 Pod 的体面终止限期是默认值（30 秒）</li>
+<li>API 服务器中的 Pod 对象被更新，记录涵盖体面终止限期在内 Pod 的最终死期，超出所计算时间点则认为 Pod 已死（dead）。 如果你使用 kubectl describe 来查验你正在删除的 Pod，该 Pod 会显示为 &ldquo;Terminating&rdquo; （正在终止）。 在 Pod 运行所在的节点上：kubelet 一旦看到 Pod 被标记为正在终止（已经设置了体面终止限期），kubelet 即开始本地的 Pod 关闭过程：</li>
+<li>如果 Pod 中的容器之一定义了 preStop 回调， kubelet 开始在容器内运行该回调逻辑。如果超出体面终止限期时，preStop 回调逻辑 仍在运行，kubelet 会请求给予该 Pod 的宽限期一次性增加 2 秒钟 如果 preStop 回调所需要的时间长于默认的体面终止限期，你必须修改 terminationGracePeriodSeconds 属性值来使其正常工作</li>
+<li>kubelet 接下来触发容器运行时发送 TERM 信号给每个容器中的进程 1。od 中的容器会在不同时刻收到 TERM 信号，接收顺序也是不确定的。 如果关闭的顺序很重要，可以考虑使用 preStop 回调逻辑来协调。</li>
+<li>与此同时，kubelet 启动体面关闭逻辑，控制面会将 Pod 从对应的端点列表（以及端点切片列表， 如果启用了的话）中移除，过滤条件是 Pod 被对应的 服务以某 选择算符选定。 ReplicaSets和其他工作负载资源 不再将关闭进程中的 Pod 视为合法的、能够提供服务的副本。关闭动作很慢的 Pod 也无法继续处理请求数据，因为负载均衡器（例如服务代理）已经在终止宽限期开始的时候 将其从端点列表中移除。</li>
+<li>超出终止宽限期限时，kubelet 会触发强制关闭过程。容器运行时会向 Pod 中所有容器内 仍在运行的进程发送 SIGKILL 信号。 kubelet 也会清理隐藏的 pause 容器，如果容器运行时使用了这种容器的话</li>
+<li>kubelet 触发强制从 API 服务器上删除 Pod 对象的逻辑，并将体面终止限期设置为 0 （这意味着马上删除）</li>
+<li>API 服务器删除 Pod 的 API 对象，从任何客户端都无法再看到该对象</li>
+</ol>
+<h2 id="强制终止pod" class="heading-element">
+  <a href="#%e5%bc%ba%e5%88%b6%e7%bb%88%e6%ad%a2pod" class="heading-mark"></a>强制终止pod</h2><p>于某些工作负载及其 Pod 而言，强制删除很可能会带来某种破坏。
+默认情况下，所有的删除操作都会附有 30 秒钟的宽限期限。<code>kubectl delete -grace-period=&lt;seconds&gt;</code> 选项，允许你重载默认值， 设定自己希望的期限值。
+将宽限期限强制设置为 0 且使用<code>--force</code> 参数 意味着立即从 API 服务器删除 Pod。 如果 Pod 仍然运行于某节点上，强制删除操作会触发 kubelet 立即执行清理操作。</p>
+<p>执行强制删除操作时，API 服务器不再等待来自 kubelet 的、关于 Pod 已经在原来运行的节点上终止执行的确认消息。 API 服务器直接删除 Pod 对象，这样新的与之同名的 Pod 即可以被创建。 在节点侧，被设置为立即终止的 Pod 仍然会在被强行杀死之前获得一点点的宽限时间。</p>
+<h1 id="pod垃圾收集" class="heading-element">
+  <a href="#pod%e5%9e%83%e5%9c%be%e6%94%b6%e9%9b%86" class="heading-mark"></a>pod垃圾收集</h1><p>对于已失败的 Pod 而言，对应的 API 对象仍然会保留在集群的 API 服务器上，直到 用户或者控制器进程显式地 将其删除。</p>
+<p>控制面组件会在 Pod 个数超出所配置的阈值 （根据 kube-controller-manager 的 terminated-pod-gc-threshold 设置）时 删除已终止的 Pod（阶段值为 Succeeded 或 Failed）。 这一行为会避免随着时间演进不断创建和终止 Pod 而引起的资源泄露问题。</p>
+<h1 id="downward-api" class="heading-element">
+  <a href="#downward-api" class="heading-mark"></a>Downward API</h1><p><code>Downward API</code> 允许容器在不使用 <code>Kubernetes</code> 客户端或 <code>API</code> 服务器的情况下获得自己或集群的信息。在 <code>Kubernetes</code> 中，有两种方法可以将 <code>Pod</code> 和容器字段暴露给运行中的容器（这两种暴露 <code>Pod</code> 和容器字段的方式统称为 <code>Downward API</code>）：</p>
+<ul>
+<li>作为环境变量</li>
+<li>作为 <code>downwardAPI</code> 卷中的文件</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">含义</th>
+<th style="text-align:left">提供方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: metadata.name</code></td>
+<td style="text-align:left"><code>pod</code> 名称</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: metadata.namespace</code></td>
+<td style="text-align:left"><code>pod</code> 名称空间</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: metadata.uid</code></td>
+<td style="text-align:left"><code>pod ID</code></td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: metadata.annotations['&lt;KEY&gt;']</code></td>
+<td style="text-align:left"><code>pod</code> 注解 <code>&lt;KEY&gt;</code> 的值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: metadata.labels['&lt;KEY&gt;']</code></td>
+<td style="text-align:left"><code>pod</code> 标签 <code>&lt;KEY&gt;</code> 的值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: spec.serviceAccountName</code></td>
+<td style="text-align:left"><code>pod</code> 务账号名称</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: spec.nodeName</code></td>
+<td style="text-align:left"><code>pod</code> 所在节点名称</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: status.hostIP</code></td>
+<td style="text-align:left"><code>pod</code> 所在节点主 <code>IP</code></td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: status.podIP</code></td>
+<td style="text-align:left"><code>pod IP</code></td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>resourceFieldRef.resource: limits.cpu</code></td>
+<td style="text-align:left">容器 <code>cpu</code> 限制值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>resourceFieldRef.resource: limits.memory</code></td>
+<td style="text-align:left">容器内存限制值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>resourceFieldRef.resource: requests.cpu</code></td>
+<td style="text-align:left">容器 <code>cpu</code> 请示值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>resourceFieldRef.resource: requests.memory</code></td>
+<td style="text-align:left">容器内存请示值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>resourceFieldRef.resource: limits.hugepages-*</code></td>
+<td style="text-align:left">容器大内存页限制值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>resourceFieldRef.resource: requests.hugepages-*</code></td>
+<td style="text-align:left">容器大内存页请求值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>resourceFieldRef.resource: limits.ephemeral-storage</code></td>
+<td style="text-align:left">容器临时存储限制值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>resourceFieldRef.resource: requests.ephemeral-storage</code></td>
+<td style="text-align:left">容器临时存储请求值</td>
+<td style="text-align:left">环境变量或 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: metadata.labels</code></td>
+<td style="text-align:left"><code>pod</code> 所有标签，格式为<code>标签键名=&quot;转义后的标签值&quot;</code>，每行一个标签</td>
+<td style="text-align:left">只能用于 <code>downwardAPI</code> 卷</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fieldRef.fieldPath: metadata.annotations</code></td>
+<td style="text-align:left"><code>pod</code> 所有注解，格式为<code>注解键名=&quot;转义后的注解值&quot;</code>，每行一个注解</td>
+<td style="text-align:left">只能用于 <code>downwardAPI</code> 卷</td>
+</tr>
+</tbody>
+</table>
+<h2 id="通过环境变量将-pod-信息呈现给容器" class="heading-element">
+  <a href="#%e9%80%9a%e8%bf%87%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f%e5%b0%86-pod-%e4%bf%a1%e6%81%af%e5%91%88%e7%8e%b0%e7%bb%99%e5%ae%b9%e5%99%a8" class="heading-mark"></a>通过环境变量将 Pod 信息呈现给容器</h2><p>示例</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">dapi-envars-fieldref</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/busybox</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&#34;sh&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-c&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">while true; do</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">echo -en &#39;\n&#39;;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">printenv MY_NODE_NAME MY_POD_NAME MY_POD_NAMESPACE;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">printenv MY_POD_IP MY_POD_SERVICE_ACCOUNT;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">printenv MY_CPU_REQUEST MY_CPU_LIMIT;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">printenv MY_MEM_REQUEST MY_MEM_LIMIT;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">sleep 10;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">done;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">env</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_NODE_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">fieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l">spec.nodeName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_POD_NAME</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">fieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l">metadata.name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_POD_NAMESPACE</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">fieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l">metadata.namespace</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_POD_IP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">fieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l">status.podIP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_POD_SERVICE_ACCOUNT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">fieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l">spec.serviceAccountName</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_CPU_REQUEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">resourceFieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerName</span><span class="p">:</span><span class="w"> </span><span class="l">test-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">requests.cpu</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_CPU_LIMIT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">resourceFieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerName</span><span class="p">:</span><span class="w"> </span><span class="l">test-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">limits.cpu</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_MEM_REQUEST</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">resourceFieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerName</span><span class="p">:</span><span class="w"> </span><span class="l">test-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">requests.memory</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">MY_MEM_LIMIT</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">resourceFieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerName</span><span class="p">:</span><span class="w"> </span><span class="l">test-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">limits.memory</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">restartPolicy</span><span class="p">:</span><span class="w"> </span><span class="l">Never</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="通过文件将-pod-信息呈现给容器" class="heading-element">
+  <a href="#%e9%80%9a%e8%bf%87%e6%96%87%e4%bb%b6%e5%b0%86-pod-%e4%bf%a1%e6%81%af%e5%91%88%e7%8e%b0%e7%bb%99%e5%ae%b9%e5%99%a8" class="heading-mark"></a>通过文件将 Pod 信息呈现给容器</h2><p>示例</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">kubernetes-downwardapi-volume-example-2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">client-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">k8s.gcr.io/busybox:1.24</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;sh&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-c&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">while true; do</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">echo -en &#39;\n&#39;;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">if [[ -e /etc/podinfo/cpu_limit ]]; then</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="l">echo -en &#39;\n&#39;; cat /etc/podinfo/cpu_limit; fi;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">if [[ -e /etc/podinfo/cpu_request ]]; then</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="l">echo -en &#39;\n&#39;; cat /etc/podinfo/cpu_request; fi;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">if [[ -e /etc/podinfo/mem_limit ]]; then</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="l">echo -en &#39;\n&#39;; cat /etc/podinfo/mem_limit; fi;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">if [[ -e /etc/podinfo/mem_request ]]; then</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="l">echo -en &#39;\n&#39;; cat /etc/podinfo/mem_request; fi;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="l">sleep 5;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="l">done;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">requests</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;32Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;125m&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;64Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;250m&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">podinfo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/podinfo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">podinfo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">downwardAPI</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;cpu_limit&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">resourceFieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerName</span><span class="p">:</span><span class="w"> </span><span class="l">client-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">limits.cpu</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">divisor</span><span class="p">:</span><span class="w"> </span><span class="l">1m</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;cpu_request&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">resourceFieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerName</span><span class="p">:</span><span class="w"> </span><span class="l">client-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">requests.cpu</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">divisor</span><span class="p">:</span><span class="w"> </span><span class="l">1m</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;mem_limit&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">resourceFieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerName</span><span class="p">:</span><span class="w"> </span><span class="l">client-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">limits.memory</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">divisor</span><span class="p">:</span><span class="w"> </span><span class="l">1Mi</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;mem_request&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">resourceFieldRef</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerName</span><span class="p">:</span><span class="w"> </span><span class="l">client-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="l">requests.memory</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">divisor</span><span class="p">:</span><span class="w"> </span><span class="l">1Mi</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="用户名称空间" class="heading-element">
+  <a href="#%e7%94%a8%e6%88%b7%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4" class="heading-mark"></a>用户名称空间</h1><p><a href="https://kubernetes.io/docs/concepts/workloads/pods/user-namespaces/#set-up-a-node-to-support-user-namespaces"target="_blank" rel="external nofollow noopener noreferrer">https://kubernetes.io/docs/concepts/workloads/pods/user-namespaces/#set-up-a-node-to-support-user-namespaces</a></p>
+<h1 id="pod-与容器资源限制" class="heading-element">
+  <a href="#pod-%e4%b8%8e%e5%ae%b9%e5%99%a8%e8%b5%84%e6%ba%90%e9%99%90%e5%88%b6" class="heading-mark"></a>pod 与容器资源限制</h1><p>这里资源是指计算机资源，计算资源的数量是可测量的，可以被请求、被分配、被消耗。只能对容器指定请求资源与限制资源，它们的和就是 <code>pod</code> 请求与限制资源，但有 <code>init</code> 容器时，如果某个 <code>init</code> 容器请示与限制的资源与应用容器请求限制的资源总和还大，则使用 <code>init</code> 最大请求限制值</p>
+<p>请求值表示 <code>pod</code> 启动时向系统请求分配的资源，限制值表示 <code>pod</code> 最大使用的资源。以下这些字段都是容器的资源请求与限制</p>
+<ul>
+<li><code>spec.containers[].resources.limits.cpu</code>: 容器限制 <code>cpu</code> 值</li>
+<li><code>spec.containers[].resources.limits.memory</code>: 容器请求内存值</li>
+<li><code>spec.containers[].resources.limits.hugepages-&lt;size&gt;</code>:</li>
+<li><code>spec.containers[].resources.requests.cpu</code>: 容器限制 <code>cpu</code> 值</li>
+<li><code>spec.containers[].resources.requests.memory</code>: 容器限制内存</li>
+<li><code>spec.containers[].resources.requests.hugepages-&lt;size&gt;</code>:</li>
+</ul>
+<h2 id="限制-cpu" class="heading-element">
+  <a href="#%e9%99%90%e5%88%b6-cpu" class="heading-mark"></a>限制 CPU</h2><p><code>k8s</code> 中 <code>cpu</code> 单位只能使用绝对数量，1 表示1个cpu核心，0.5表示使用半个<code>cpu</code>核心。也可以使用 <code>m</code> (豪)单位</p>
+<p>示例</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">kind: Pod
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: cpu-demo-2
+</span></span><span class="line"><span class="cl">  namespace: cpu-example
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  containers:
+</span></span><span class="line"><span class="cl">  - name: cpu-demo-ctr-2
+</span></span><span class="line"><span class="cl">    image: vish/stress
+</span></span><span class="line"><span class="cl">    resources:
+</span></span><span class="line"><span class="cl">      limits:
+</span></span><span class="line"><span class="cl">        cpu: <span class="s2">&#34;100&#34;</span>
+</span></span><span class="line"><span class="cl">      requests:
+</span></span><span class="line"><span class="cl">        cpu: <span class="s2">&#34;100&#34;</span>
+</span></span><span class="line"><span class="cl">    args:
+</span></span><span class="line"><span class="cl">    - -cpus
+</span></span><span class="line"><span class="cl">    - <span class="s2">&#34;2</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="限制内存" class="heading-element">
+  <a href="#%e9%99%90%e5%88%b6%e5%86%85%e5%ad%98" class="heading-mark"></a>限制内存</h2><p>内存单位是字节，但也可以使用这些单位：E、P、T、G、M、K、Ei、Pi、Ti、Gi、Mi、Ki</p>
+<p>示例</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">memory-demo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">mem-example</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">memory-demo-ctr</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">polinux/stress</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">requests</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;100Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;200Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;stress&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;--vm&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;1&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;--vm-bytes&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;150M&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;--vm-hang&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;1&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="静态pod" class="heading-element">
+  <a href="#%e9%9d%99%e6%80%81pod" class="heading-mark"></a>静态pod</h1><p>静态 <code>Pod</code> 是在指定节点上由 <code>kubelet</code> 进程直接管理的  <code>Pod</code>。有以下特性：</p>
+<ul>
+<li>静态 <code>Pod</code> 永远都会绑定到一个指定节点上的 <code>kubelet</code></li>
+<li><code>kubelet</code> 监视每个静态 <code>Pod</code> ，在崩溃之后重新启动</li>
+<li><code>kubblet</code> 会尝试通过 <code>k8s API</code> 服务为每个静态 <code>Pod</code> 自动创建一个镜像 <code>Pod</code></li>
+<li><code>API</code> 服务虽然能检测到节点上运行的静态 <code>Pod</code> ，但不能控制静态 <code>Pod</code></li>
+<li>静态 <code>Pod</code> 也拥有应用 <code>Pod</code> 字段，但<code>Pod.spec</code> 不能引用其他的 <code>API</code> 对象（例如： <code>ServiceAccount</code>、 <code>ConfigMap</code>、 <code>Secret</code> 等）。</li>
+</ul>
+<p><code>kubelet</code> 使用以下方式管理静态 <code>pod</code></p>
+<ul>
+<li>使用 <code>kubelet --pod-manifest-path</code> 命令指定或者在 <code>kubelet</code> 配置文件中增加 <code>staticPodPath</code> 字段指定一个目录。<code>kubelet</code> 会定期扫描该目录下的清单文件（不能以 <code>.</code> 开头）来创建或删除 <code>Pod</code></li>
+<li>使用 <code>kubelet --manifest-url=&lt;URL&gt;</code> 指定一个定期下载文档地址，该文件会转换为清单文件格式，当清单文件内容发生变化时，更新相应的 <code>Pod</code></li>
+</ul>
+<br>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># grep manifest /var/lib/kubelet/config.yaml</span>
+</span></span><span class="line"><span class="cl">staticPodPath: /etc/kubernetes/manifests
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># ls  /etc/kubernetes/manifests</span>
+</span></span><span class="line"><span class="cl">etcd.yaml  kube-apiserver.yaml  kube-controller-manager.yaml  kube-scheduler.yaml  kube-vip.yaml</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-06-16 13:29:44">更新于 2023-06-16&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s-pod/" class="post-tag" title="标签 - k8s pod">k8s pod</a><a href="/tags/k8s-%E5%AE%B9%E5%99%A8/" class="post-tag" title="标签 - k8s 容器">k8s 容器</a><a href="/tags/k8s-%E9%9D%99%E6%80%81-pod/" class="post-tag" title="标签 - k8s 静态 pod">k8s 静态 pod</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sGarbageCollection/" class="post-nav-item" rel="prev" title="k8s 垃圾收集"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s 垃圾收集</a>
+      <a href="/Service/" class="post-nav-item" rel="next" title="k8s 服务暴露">k8s 服务暴露<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

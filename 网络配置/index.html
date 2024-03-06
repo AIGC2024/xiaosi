@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>网络配置 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content=" " /><meta name="keywords" content='ip, ipcofnig, ss, netstat, NetworkManager, 网络配置' /><meta itemprop="name" content="网络配置">
+<meta itemprop="description" content=" "><meta itemprop="datePublished" content="2018-12-18T02:09:06+08:00" />
+<meta itemprop="dateModified" content="2023-02-18T19:45:26+08:00" />
+<meta itemprop="wordCount" content="5059">
+<meta itemprop="keywords" content="ip,ipcofnig,ss,netstat,NetworkManager,网络配置," /><meta property="og:title" content="网络配置" />
+<meta property="og:description" content=" " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-18T02:09:06+08:00" />
+<meta property="article:modified_time" content="2023-02-18T19:45:26+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="网络配置"/>
+<meta name="twitter:description" content=" "/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/" /><link rel="prev" href="/%E5%8E%8B%E7%BC%A9%E4%B8%8E%E6%89%93%E5%8C%85/" /><link rel="next" href="/cmd/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "网络配置",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE\/"
+    },"genre": "posts","keywords": "ip, ipcofnig, ss, netstat, NetworkManager, 网络配置","wordcount":  5059 ,
+    "url": "\/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE\/","datePublished": "2018-12-18T02:09:06+08:00","dateModified": "2023-02-18T19:45:26+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": " "
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>网络配置</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-18 02:09:06"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-18">2018-12-18</time></span>&nbsp;<span title="更新于 2023-02-18 19:45:26"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-02-18">2023-02-18</time></span>&nbsp;<span title="5059 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 11 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#ipcofnig">ipcofnig</a></li>
+    <li><a href="#netstat">netstat</a></li>
+    <li><a href="#ip">IP</a></li>
+    <li><a href="#networkmanager">NetworkManager</a></li>
+    <li><a href="#停止某个网卡">停止某个网卡</a></li>
+    <li><a href="#开启某个网卡">开启某个网卡</a></li>
+    <li><a href="#ethtool">ethtool</a>
+      <ul>
+        <li><a href="#配置网卡多队列">配置网卡多队列</a></li>
+      </ul>
+    </li>
+    <li><a href="#其他工具">其他工具</a>
+      <ul>
+        <li><a href="#wget">wget</a></li>
+        <li><a href="#cur">cur</a></li>
+        <li><a href="#连通性检测">连通性检测</a></li>
+        <li><a href="#到对端路由检测">到对端路由检测</a></li>
+        <li><a href="#域名检测">域名检测</a></li>
+        <li><a href="#网络扫描工具">网络扫描工具</a></li>
+        <li><a href="#压力测试">压力测试</a></li>
+        <li><a href="#全方位监控工具好东西">全方位监控工具（好东西)</a></li>
+        <li><a href="#压力测试-1">压力测试</a></li>
+      </ul>
+    </li>
+    <li><a href="#tcp-连接内核参数说明">tcp 连接内核参数说明</a>
+      <ul>
+        <li><a href="#netipv4tcp_abort_on_overflow">net.ipv4.tcp_abort_on_overflow</a></li>
+        <li><a href="#netipv4tcp_adv_win_scale">net.ipv4.tcp_adv_win_scale</a></li>
+        <li><a href="#netipv4tcp_allowed_congestion_control">net.ipv4.tcp_allowed_congestion_control</a></li>
+        <li><a href="#netipv4tcp_app_win">net.ipv4.tcp_app_win</a></li>
+        <li><a href="#netipv4tcp_autocorking">net.ipv4.tcp_autocorking</a></li>
+        <li><a href="#netipv4tcp_available_congestion_control">net.ipv4.tcp_available_congestion_control</a></li>
+        <li><a href="#netipv4tcp_available_ulp">net.ipv4.tcp_available_ulp</a></li>
+        <li><a href="#netipv4tcp_base_mss">net.ipv4.tcp_base_mss</a></li>
+        <li><a href="#netipv4tcp_challenge_ack_limit">net.ipv4.tcp_challenge_ack_limit</a></li>
+        <li><a href="#netipv4tcp_comp_sack_delay_ns">net.ipv4.tcp_comp_sack_delay_ns</a></li>
+        <li><a href="#netipv4tcp_comp_sack_nr">net.ipv4.tcp_comp_sack_nr</a></li>
+        <li><a href="#netipv4tcp_congestion_control">net.ipv4.tcp_congestion_control</a></li>
+        <li><a href="#netipv4tcp_dsack">net.ipv4.tcp_dsack</a></li>
+        <li><a href="#netipv4tcp_early_demux">net.ipv4.tcp_early_demux</a></li>
+        <li><a href="#netipv4tcp_early_retrans">net.ipv4.tcp_early_retrans</a></li>
+        <li><a href="#netipv4tcp_ecn">net.ipv4.tcp_ecn</a></li>
+        <li><a href="#netipv4tcp_ecn_fallback">net.ipv4.tcp_ecn_fallback</a></li>
+        <li><a href="#netipv4tcp_fack">net.ipv4.tcp_fack</a></li>
+        <li><a href="#netipv4tcp_fastopen">net.ipv4.tcp_fastopen</a></li>
+        <li><a href="#netipv4tcp_fastopen_blackhole_timeout_sec">net.ipv4.tcp_fastopen_blackhole_timeout_sec</a></li>
+        <li><a href="#netipv4tcp_fastopen_key">net.ipv4.tcp_fastopen_key</a></li>
+        <li><a href="#netipv4tcp_fin_timeout">net.ipv4.tcp_fin_timeout</a></li>
+        <li><a href="#netipv4tcp_frto">net.ipv4.tcp_frto</a></li>
+        <li><a href="#netipv4tcp_fwmark_accept">net.ipv4.tcp_fwmark_accept</a></li>
+        <li><a href="#netipv4tcp_invalid_ratelimit">net.ipv4.tcp_invalid_ratelimit</a></li>
+        <li><a href="#netipv4tcp_keepalive_intvl">net.ipv4.tcp_keepalive_intvl</a></li>
+        <li><a href="#netipv4tcp_keepalive_probes">net.ipv4.tcp_keepalive_probes</a></li>
+        <li><a href="#netipv4tcp_keepalive_time">net.ipv4.tcp_keepalive_time</a></li>
+        <li><a href="#netipv4tcp_l3mdev_accept">net.ipv4.tcp_l3mdev_accept</a></li>
+        <li><a href="#netipv4tcp_limit_output_bytes">net.ipv4.tcp_limit_output_bytes</a></li>
+        <li><a href="#netipv4tcp_low_latency">net.ipv4.tcp_low_latency</a></li>
+        <li><a href="#netipv4tcp_max_orphans">net.ipv4.tcp_max_orphans</a></li>
+        <li><a href="#netipv4tcp_max_reordering">net.ipv4.tcp_max_reordering</a></li>
+        <li><a href="#netipv4tcp_max_syn_backlog">net.ipv4.tcp_max_syn_backlog</a></li>
+        <li><a href="#netipv4tcp_max_tw_buckets">net.ipv4.tcp_max_tw_buckets</a></li>
+        <li><a href="#netipv4tcp_mem">net.ipv4.tcp_mem</a></li>
+        <li><a href="#netipv4tcp_min_rtt_wlen">net.ipv4.tcp_min_rtt_wlen</a></li>
+        <li><a href="#netipv4tcp_min_snd_mss">net.ipv4.tcp_min_snd_mss</a></li>
+        <li><a href="#netipv4tcp_min_tso_segs">net.ipv4.tcp_min_tso_segs</a></li>
+        <li><a href="#netipv4tcp_moderate_rcvbuf">net.ipv4.tcp_moderate_rcvbuf</a></li>
+        <li><a href="#netipv4tcp_mtu_probe_floor">net.ipv4.tcp_mtu_probe_floor</a></li>
+        <li><a href="#netipv4tcp_mtu_probing">net.ipv4.tcp_mtu_probing</a></li>
+        <li><a href="#netipv4tcp_no_metrics_save">net.ipv4.tcp_no_metrics_save</a></li>
+        <li><a href="#netipv4tcp_notsent_lowat">net.ipv4.tcp_notsent_lowat</a></li>
+        <li><a href="#netipv4tcp_orphan_retries">net.ipv4.tcp_orphan_retries</a></li>
+        <li><a href="#netipv4tcp_pacing_ca_ratio">net.ipv4.tcp_pacing_ca_ratio</a></li>
+        <li><a href="#netipv4tcp_pacing_ss_ratio">net.ipv4.tcp_pacing_ss_ratio</a></li>
+        <li><a href="#netipv4tcp_probe_interval">net.ipv4.tcp_probe_interval</a></li>
+        <li><a href="#netipv4tcp_probe_threshold">net.ipv4.tcp_probe_threshold</a></li>
+        <li><a href="#netipv4tcp_recovery">net.ipv4.tcp_recovery</a></li>
+        <li><a href="#netipv4tcp_reordering">net.ipv4.tcp_reordering</a></li>
+        <li><a href="#netipv4tcp_retrans_collapse">net.ipv4.tcp_retrans_collapse</a></li>
+        <li><a href="#netipv4tcp_retries1">net.ipv4.tcp_retries1</a></li>
+        <li><a href="#netipv4tcp_retries2">net.ipv4.tcp_retries2</a></li>
+        <li><a href="#netipv4tcp_rfc1337">net.ipv4.tcp_rfc1337</a></li>
+        <li><a href="#netipv4tcp_rmem">net.ipv4.tcp_rmem</a></li>
+        <li><a href="#netipv4tcp_rx_skb_cache">net.ipv4.tcp_rx_skb_cache</a></li>
+        <li><a href="#netipv4tcp_sack">net.ipv4.tcp_sack</a></li>
+        <li><a href="#netipv4tcp_slow_start_after_idle">net.ipv4.tcp_slow_start_after_idle</a></li>
+        <li><a href="#netipv4tcp_stdurg">net.ipv4.tcp_stdurg</a></li>
+        <li><a href="#netipv4tcp_synack_retries">net.ipv4.tcp_synack_retries</a></li>
+        <li><a href="#netipv4tcp_syncookies">net.ipv4.tcp_syncookies</a></li>
+        <li><a href="#netipv4tcp_syn_retries">net.ipv4.tcp_syn_retries</a></li>
+        <li><a href="#netipv4tcp_thin_linear_timeouts">net.ipv4.tcp_thin_linear_timeouts</a></li>
+        <li><a href="#netipv4tcp_timestamps">net.ipv4.tcp_timestamps</a></li>
+        <li><a href="#netipv4tcp_tso_win_divisor">net.ipv4.tcp_tso_win_divisor</a></li>
+        <li><a href="#netipv4tcp_tw_reuse">net.ipv4.tcp_tw_reuse</a></li>
+        <li><a href="#netipv4tcp_tw_recycle">net.ipv4.tcp_tw_recycle</a></li>
+        <li><a href="#netipv4tcp_tx_skb_cache">net.ipv4.tcp_tx_skb_cache</a></li>
+        <li><a href="#netipv4tcp_window_scaling">net.ipv4.tcp_window_scaling</a></li>
+        <li><a href="#netipv4tcp_wmem">net.ipv4.tcp_wmem</a></li>
+        <li><a href="#netipv4tcp_workaround_signed_windows">net.ipv4.tcp_workaround_signed_windows</a></li>
+        <li><a href="#netcoresomaxconn">net.core.somaxconn</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-02-18，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>xiaosi/2018-12-10</p>
+<p>使用环境：</p>
+<ul>
+<li>centos:7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://blog.csdn.net/sinat_38723234/article/details/111394078"target="_blank" rel="external nofollow noopener noreferrer">sinat_38723234: 容器内TCP并发连接数参数解释</a></li>
+<li><a href="https://segmentfault.com/a/1190000019252960"target="_blank" rel="external nofollow noopener noreferrer">187J3X1: backlog参数对TCP连接建立的影响</a></li>
+</ul>
+</blockquote>
+<p>服务器需要连接网络需要几个必要的信息
+IP和掩码
+路由（网关）</p>
+<p>配置网络方式（命令行临时有效、配置文件永久有效）
+centos6：ipconfig家族、配置文件
+centos7：ip家族、配置文件、ss、tc</p>
+<h1 id="ipcofnig" class="heading-element">
+  <a href="#ipcofnig" class="heading-mark"></a>ipcofnig</h1><p>centos7使用ipcofnig家族命令</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@vps ~<span class="o">]</span><span class="c1"># yum install -y net-tools</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">语法：ifconfig  <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>interface<span class="o">]</span>
+</span></span><span class="line"><span class="cl">常用选项
+</span></span><span class="line"><span class="cl">-a：显示所有
+</span></span><span class="line"><span class="cl">ifconfig interface  options <span class="p">|</span> address …
+</span></span><span class="line"><span class="cl">常用选项
+</span></span><span class="line"><span class="cl">up/dowm：启动或关闭
+</span></span><span class="line"><span class="cl">IP/MASK：修改IP和掩码
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">DNS配置文件：/etc/resolv.conf
+</span></span><span class="line"><span class="cl">nameserver IP
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">查看DNS解析
+</span></span><span class="line"><span class="cl">正向解析
+</span></span><span class="line"><span class="cl">dig -t A hostname
+</span></span><span class="line"><span class="cl">host -t A hostname
+</span></span><span class="line"><span class="cl">反向解析
+</span></span><span class="line"><span class="cl">dig -x IP
+</span></span><span class="line"><span class="cl">host -x PIR IP</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="netstat" class="heading-element">
+  <a href="#netstat" class="heading-mark"></a>netstat</h1><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">netstat：查看网络连接，路由表，接口统计信息，伪装连接和组播成员
+</span></span><span class="line"><span class="cl">语法：netstat 选项
+</span></span><span class="line"><span class="cl">-t：TCP协议
+</span></span><span class="line"><span class="cl">-n：数值
+</span></span><span class="line"><span class="cl">-u：UDP协议
+</span></span><span class="line"><span class="cl">-w：裸套接字
+</span></span><span class="line"><span class="cl">-l：监听状态
+</span></span><span class="line"><span class="cl">-e：拓展格式
+</span></span><span class="line"><span class="cl">-p：显示进程及PID
+</span></span><span class="line"><span class="cl">-a：显示所有
+</span></span><span class="line"><span class="cl">-r：内核路由表
+</span></span><span class="line"><span class="cl">-i：显示接口数据统计</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="ip" class="heading-element">
+  <a href="#ip" class="heading-mark"></a>IP</h1><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Ip命令用于显示/配置 路由，设备，策略路由和隧道
+</span></span><span class="line"><span class="cl">语法：ip [ OPTIONS ] OBJECT { COMMAND | help }
+</span></span><span class="line"><span class="cl">link：管理设备
+</span></span><span class="line"><span class="cl">#查看ip link命令帮助 
+</span></span><span class="line"><span class="cl">[root@m1 ~]# man ip-link
+</span></span><span class="line"><span class="cl">语法：ip link  { COMMAND | help }
+</span></span><span class="line"><span class="cl">[root@m1 ~]# man ip-link
+</span></span><span class="line"><span class="cl">#启用网卡设备
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip link set dev ens33 up
+</span></span><span class="line"><span class="cl">#禁用网卡设备
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip link set dev ens33 down
+</span></span><span class="line"><span class="cl">#查看设备属性
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip link show dev ens33
+</span></span><span class="line"><span class="cl">查看活动的设备
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip link show up
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">addr：IP管理
+</span></span><span class="line"><span class="cl">语法：ip address { add |del |show] ip/mask  [其他命令]
+</span></span><span class="line"><span class="cl">label  &#34;name&#34;： 指定网卡别名
+</span></span><span class="line"><span class="cl">scope {global |link |host}：指定作用域（全局|链接|本机）
+</span></span><span class="line"><span class="cl">broadcast ADDRESS：指定广播地址
+</span></span><span class="line"><span class="cl">#查看帮助
+</span></span><span class="line"><span class="cl">[root@m1 ~]# man ip-addres
+</span></span><span class="line"><span class="cl">#添加ip
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip addr add 192.168.150.129/24 dev ens33
+</span></span><span class="line"><span class="cl">#删除IP
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip addr del 192.168.150.129/24 dev ens33
+</span></span><span class="line"><span class="cl">#清除网卡所有地址
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip addr flush dev ens33
+</span></span><span class="line"><span class="cl">#查看所有地址
+</span></span><span class="line"><span class="cl">[root@m1 ~]# p address show
+</span></span><span class="line"><span class="cl">#查看活动的地址
+</span></span><span class="line"><span class="cl">[root@vps ~]# ip address show up
+</span></span><span class="line"><span class="cl">#查看echo0的地址
+</span></span><span class="line"><span class="cl">[root@vps ~]# ip address show dev eth0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#添加路由（主机路由可以缺省mask）
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip ro add 192.168.150.12 via 192.168.150.2 dev ens33
+</span></span><span class="line"><span class="cl">#添加默认路由
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip route add default via 192.168.150.22 dev ens33
+</span></span><span class="line"><span class="cl">#删除路由
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip ro del default via 192.168.150.22
+</span></span><span class="line"><span class="cl">#清空路由表
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip ro del flush
+</span></span><span class="line"><span class="cl">#查看路由表
+</span></span><span class="line"><span class="cl">[root@m1 ~]# ip ro show</span></span></code></pre></td></tr></table>
+</div>
+</div><p>centos7网卡命令方式
+（1）以Firmware或BIOS主板上集成设备提供的索引信息命名：en0*
+（2）以Firmware或BIOSPCI-E扩展槽提供的索引信息和虚拟设备命名：ens*
+（3）以硬件接口物理位置信息命名：enp*
+（4）以用户显示启动或MAC命令：enx*
+（5）以上都不可用，使用传统方式：eth*
+en：enthernet
+wl：wlan
+ww：wwan</p>
+<h1 id="networkmanager" class="heading-element">
+  <a href="#networkmanager" class="heading-mark"></a>NetworkManager</h1><p>cetos7使用NetworkManager控制网络</p>
+<p>图形化配置网络</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[root@localhost ~]# nmtui
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">nmcli命令是用于控制NetworkManager的命令行工具
+</span></span><span class="line"><span class="cl"># 查看简单的命令帮助
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli --help
+</span></span><span class="line"><span class="cl">Usage: nmcli [OPTIONS] OBJECT { COMMAND | help }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#查看connetion使用帮助
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c -h
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#查看device使用帮助
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli d -h
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">OBJECT和COMMAND可以用全称也可以用简称
+</span></span><span class="line"><span class="cl">connection 与device用法差不多
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#查看设备状态。一块网卡可以有多个配置文件，但只能有一个生效
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli device status
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#显示所有连接状态连接
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c s
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#只显示活动的连接
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c s -a
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#只显示活动的设备
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli d s -a
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#查看设备属性
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli device show ens33
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#查看链接属性
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c s ens33
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#添加一个配置文件。（con-name 文件配置名称；  ifname 网卡设备名称；ip4 ipv4 ；gw4 ipv4网关）
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c add type ethernet con-name ens3a ifname ens33 ip4 192.168.157.132/24 gw4 192.168.157.3
+</span></span><span class="line"><span class="cl">Connection &#39;ens3a&#39; (4a486c58-6dde-499a-b2e7-0d8bca75d10b) successfully added.
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#查看新键的配置文件
+</span></span><span class="line"><span class="cl">[root@localhost ~]# cat  /etc/sysconfig/network-scripts/ifcfg-ens3a
+</span></span><span class="line"><span class="cl">TYPE=Ethernet
+</span></span><span class="line"><span class="cl">BOOTPROTO=none
+</span></span><span class="line"><span class="cl">IPADDR=192.168.157.132
+</span></span><span class="line"><span class="cl">PREFIX=24
+</span></span><span class="line"><span class="cl">GATEWAY=192.168.157.3
+</span></span><span class="line"><span class="cl">DEFROUTE=yes
+</span></span><span class="line"><span class="cl">IPV4_FAILURE_FATAL=no
+</span></span><span class="line"><span class="cl">IPV6INIT=yes
+</span></span><span class="line"><span class="cl">IPV6_AUTOCONF=yes
+</span></span><span class="line"><span class="cl">IPV6_DEFROUTE=yes
+</span></span><span class="line"><span class="cl">IPV6_PEERDNS=yes
+</span></span><span class="line"><span class="cl">IPV6_PEERROUTES=yes
+</span></span><span class="line"><span class="cl">IPV6_FAILURE_FATAL=no
+</span></span><span class="line"><span class="cl">IPV6_ADDR_GEN_MODE=stable-privacy
+</span></span><span class="line"><span class="cl">NAME=ens3a
+</span></span><span class="line"><span class="cl">UUID=4a486c58-6dde-499a-b2e7-0d8bca75d10b
+</span></span><span class="line"><span class="cl">DEVICE=ens33
+</span></span><span class="line"><span class="cl">ONBOOT=yes
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">修改语法：nmcli c mod  连接名称 属性 值 （属性值+-表示曾减，如添加ip +ipv4 ）
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#修改IPV4  （ip4=ipv4.addresses）
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c modify ens3a ip4 &#34;192.168.157.131/24&#34;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#修改网关  (gw4=ipv4.gateway)
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c modify ens3a gw4 &#34;192.168.157.2&#34;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#修改DNS
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c modify ens3a ipv4.dns &#34;8.8.8.8&#34;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">其他修改：
+</span></span><span class="line"><span class="cl">ipv4.method  修改连接方式(manual=none,auto=dhcp)
+</span></span><span class="line"><span class="cl">connection.autoconnect  是否开机启动
+</span></span><span class="line"><span class="cl">connection.id  连接名称
+</span></span><span class="line"><span class="cl">connection.interface-name  设备名称
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#重新加载 、启用，使ens3a配置文件生效
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c reload
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli c up ens3a
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">#删除配置文件
+</span></span><span class="line"><span class="cl">[root@localhost ~]# nmcli  c del 配置文件名称
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">修改主机名：
+</span></span><span class="line"><span class="cl">[root@yh ~]# hostnamectl  set-hostname yh.c7.cc
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">网卡配置文件信息：
+</span></span><span class="line"><span class="cl">[root@m1 ~]# cat /etc/sysconfig/network-scripts/ifcfg-ens33
+</span></span><span class="line"><span class="cl">TYPE=&#34;Ethernet&#34;   #网卡接口类型
+</span></span><span class="line"><span class="cl">PROXY_METHOD=&#34;none&#34;
+</span></span><span class="line"><span class="cl">BROWSER_ONLY=&#34;no&#34;
+</span></span><span class="line"><span class="cl">BOOTPROTO=&#34;dhcp&#34;  #IP获取地址方式（dhcp：动态协议，static：静态分配，none：不使用协议，bootp协议）
+</span></span><span class="line"><span class="cl">DEFROUTE=&#34;yes&#34;
+</span></span><span class="line"><span class="cl">IPV4_FAILURE_FATAL=&#34;no&#34;
+</span></span><span class="line"><span class="cl">IPV6INIT=&#34;yes&#34;
+</span></span><span class="line"><span class="cl">IPV6_AUTOCONF=&#34;yes&#34;
+</span></span><span class="line"><span class="cl">IPV6_DEFROUTE=&#34;yes&#34;
+</span></span><span class="line"><span class="cl">IPV6_FAILURE_FATAL=&#34;no&#34;
+</span></span><span class="line"><span class="cl">IPV6_ADDR_GEN_MODE=&#34;stable-privacy&#34;
+</span></span><span class="line"><span class="cl">NAME=&#34;ens33&#34;
+</span></span><span class="line"><span class="cl">UUID=&#34;bae99b80-02fd-425c-b490-e13b7ac76621&#34; #设备唯一标识
+</span></span><span class="line"><span class="cl">DEVICE=&#34;ens33&#34; #配置文件对应的网卡设备
+</span></span><span class="line"><span class="cl">ONBOOT=&#34;yes&#34; #是否系统引导时激活
+</span></span><span class="line"><span class="cl">NM_CONTROLLED=&#34;no&#34;：#是否支持NetworkManager控制
+</span></span><span class="line"><span class="cl">HWADDR：设备的MAC地址
+</span></span><span class="line"><span class="cl">USERCTL=&#34;no&#34;：普通用户是否能控制此设备
+</span></span><span class="line"><span class="cl">PEERDNS=yes：如果BOOTPROTO=&#34;dhcp&#34; 是否覆盖原有DNS
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">配置静态网址
+</span></span><span class="line"><span class="cl">IPADDR= #指定IP地址
+</span></span><span class="line"><span class="cl">IPADDR1= #指定第二个IP地址，可以添加N个同网关和同掩码的IP
+</span></span><span class="line"><span class="cl">NETMASK=#指定掩码
+</span></span><span class="line"><span class="cl">GATEWAY=#指定网关
+</span></span><span class="line"><span class="cl">DNS1=#指定主DNS
+</span></span><span class="line"><span class="cl">DNS2=#指定备用DNS
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">同网卡添加多IP。如果网关和掩码不同，则需要创建网卡别名（不能使用dhcp）
+</span></span><span class="line"><span class="cl">[root@m1 network-scripts]# cp ifcfg-ens33  ifcfg-ens33:0
+</span></span><span class="line"><span class="cl">[root@m1 network-scripts]# vim ifcfg-ens33:0
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">同网卡添加多个ip段
+</span></span><span class="line"><span class="cl"> /etc/sysconfig/network-scripts/ifcfg-ens33-range0
+</span></span><span class="line"><span class="cl">DEVICE=eth0                   //绑定IP段的网卡名称
+</span></span><span class="line"><span class="cl">ONBOOT=yes                    //开机启用此网卡
+</span></span><span class="line"><span class="cl">BOOTPROTO=static              //协议为静态
+</span></span><span class="line"><span class="cl">IPADDR_START=192.168.0.101    //网段的起始IP
+</span></span><span class="line"><span class="cl">IPADDR_END=192.168.0.120      //网段的截止IP
+</span></span><span class="line"><span class="cl">NETMASK=255.255.255.255       //子网掩码
+</span></span><span class="line"><span class="cl">CLONENUM_START=0              //这个数字是网卡别名的开始位置，比如这里的3是指eth0:0,并且会把IPADDR_START  //设置的IP192.168.0.101绑定到eth0:0上,以此类推
+</span></span><span class="line"><span class="cl">NO_ALIASROUTING=yes           //这个参数的作用是数据包始终通过eth0进出
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> </span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>本地回环配置文件</li>
+</ul>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /etc/sysconfig/network-scripts/ifcfg-lo
+</span></span><span class="line"><span class="cl"><span class="nv">DEVICE</span><span class="o">=</span>lo                <span class="c1">#网络设备名称</span>
+</span></span><span class="line"><span class="cl"><span class="nv">IPADDR</span><span class="o">=</span>127.0.0.1        <span class="c1">#IP地址</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NETMASK</span><span class="o">=</span>255.0.0.0        <span class="c1">#子网掩码</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NETWORK</span><span class="o">=</span>127.0.0.0        <span class="c1">#网络号</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># If you&#39;re having problems with gated making 127.0.0.0/8 a martian,</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># you can change this to something else (255.255.255.255, for example)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">BROADCAST</span><span class="o">=</span>127.255.255.255        <span class="c1">#lo接口的广播地址</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ONBOOT</span><span class="o">=</span>yes                        <span class="c1">#是否开机启动</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NAME</span><span class="o">=</span>loopback                        <span class="c1">#设置为回环地址</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">主机绑定IP配置文件：（第一部分是IP 第二部分是主机名.域名 第三部分是主机名） 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /etc/hosts</span>
+</span></span><span class="line"><span class="cl">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+</span></span><span class="line"><span class="cl">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">主机名配置文件：
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /etc/hostname</span>
+</span></span><span class="line"><span class="cl">localhost.localdomain
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">开启Linux代理转发功能：
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;1&#34;</span> &gt; /proc/sys/net/ipv4/ip_forward
+</span></span><span class="line"><span class="cl">设置开机启动：
+</span></span><span class="line"><span class="cl">vim /etc/sysctl.conf
+</span></span><span class="line"><span class="cl">net.ipv4.ip_forward <span class="o">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">sysctl -p <span class="c1">#立即生效</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">静态路由配置：
+</span></span><span class="line"><span class="cl">添加一个路由：
+</span></span><span class="line"><span class="cl">route add -net 103.106.245.0 netmask 255.255.255.0 gw 192.168.157.2 dev ens33
+</span></span><span class="line"><span class="cl">route add/del 添加/删除路由信息
+</span></span><span class="line"><span class="cl">route -net 添加一个网络 后面接入网络号
+</span></span><span class="line"><span class="cl">route -host 连接到单独主机路由
+</span></span><span class="line"><span class="cl">route netmask 子网掩码
+</span></span><span class="line"><span class="cl">route gw 网关IP
+</span></span><span class="line"><span class="cl">route dev 指定网络设备出口
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">查看路由表信息：route -n  或 route
+</span></span><span class="line"><span class="cl">路由管理：route（临时有效）
+</span></span><span class="line"><span class="cl">语法：route  <span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></span><span class="line"><span class="cl">-n：以数字显示
+</span></span><span class="line"><span class="cl">-ee：更详细的路由信息
+</span></span><span class="line"><span class="cl">add：添加路由（<span class="o">[</span>-net<span class="p">|</span>-host<span class="o">]</span> target <span class="o">[</span>netmask Nm<span class="o">]</span> <span class="o">[</span>gw Gw<span class="o">]</span>  <span class="o">[[</span>dev<span class="o">]</span> If<span class="o">]</span>）
+</span></span><span class="line"><span class="cl">add default gw：添加默认路由
+</span></span><span class="line"><span class="cl">del：删除路由（<span class="o">[</span>-net<span class="p">|</span>-host<span class="o">]</span> target <span class="o">[</span>gw Gw<span class="o">]</span> <span class="o">[</span>netmask Nm<span class="o">]</span>  <span class="o">[[</span>dev<span class="o">]</span> If<span class="o">]</span>）
+</span></span><span class="line"><span class="cl">信息：
+</span></span><span class="line"><span class="cl">Destination：目的地
+</span></span><span class="line"><span class="cl">Gateway  网关 0.0.0.0 表示本机
+</span></span><span class="line"><span class="cl">Genmask 子网掩码
+</span></span><span class="line"><span class="cl">Flags 路由标记 U代表启动 H代表目标是IP R代表使用动态路由事 恢复路由信息标示
+</span></span><span class="line"><span class="cl">G代表需要通过网络传递数据 M代表该路由已经修改 D代表动态路由 ！代表路由不接受
+</span></span><span class="line"><span class="cl">Metric 到达目的需要经过的节点数量
+</span></span><span class="line"><span class="cl">Ref 参考到此路由规则数量
+</span></span><span class="line"><span class="cl">Use 传送数据包参考到此路由规则数量
+</span></span><span class="line"><span class="cl">Iface 对应网络设备接口
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">删除刚创建的路由：
+</span></span><span class="line"><span class="cl">route del -net 103.106.245.0 netmask 255.255.255.0 gw 192.168.157.2 dev ens33
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="c1">#网关配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@m1 ~<span class="o">]</span><span class="c1"># cat /etc/sysconfig/network-scripts/route-ens33</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#目标地址/掩码 via 出口网关</span>
+</span></span><span class="line"><span class="cl">192.168.23.32/24 via 192.13.32.1
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">索引：dhcp服务
+</span></span><span class="line"><span class="cl">协议：ARRP
+</span></span><span class="line"><span class="cl">工作流程（广播）
+</span></span><span class="line"><span class="cl">（1）客户端通过广播请求DHCP服务
+</span></span><span class="line"><span class="cl">（2）服务端通过广播向客户端发送配置
+</span></span><span class="line"><span class="cl">（3）客户端接收最先到达的网络配置（广播内多个dhcp服务才会出现）
+</span></span><span class="line"><span class="cl">（4）客户端选定DHCP服务之后广播给所有dhcp服务端
+</span></span><span class="line"><span class="cl">被选择dhcp的服务端删除IP
+</span></span><span class="line"><span class="cl">未被选择的dhcp服务端等待下一个请求
+</span></span><span class="line"><span class="cl">（5）服务端确认
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">有限期（租约时间）：服务器端分配给客户端的IP使用时间，时间到期则强行回收IP
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">续租流程（单播）
+</span></span><span class="line"><span class="cl">当租期到50%时，向服务器发起续租，如果没有响应，则等待下一次
+</span></span><span class="line"><span class="cl">当租期到75%时，再次向服务器发起续租，如果没有响应，则等待下一次
+</span></span><span class="line"><span class="cl">当租期到87.5%时，再次向服务器发起续租，如果没有响应，则重新广播请求网络配置
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">dhcp中继（类似中转站）
+</span></span><span class="line"><span class="cl">（1）中继端（通常是路由器）收到客户端的广播请求
+</span></span><span class="line"><span class="cl">（2）中继端（通常是路由器）定向请求服务端
+</span></span><span class="line"><span class="cl">（3）服务端定向响应中继端（通常是路由器）
+</span></span><span class="line"><span class="cl">（4）中继端（通常是路由器）广播给客户端
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">ndsmass
+</span></span><span class="line"><span class="cl">安装软件：yum install -y dhcp
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">服务端监听端口：67/udp
+</span></span><span class="line"><span class="cl">客户端监听端口：68/udp
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">有2个守护进程，不能同时启动
+</span></span><span class="line"><span class="cl">/usr/sbin/dhcpd
+</span></span><span class="line"><span class="cl">/usr/sbin/dhcrelay
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">配置文件：
+</span></span><span class="line"><span class="cl">/etc/dhcp/dhcpd.conf
+</span></span><span class="line"><span class="cl">/etc/dhcp/dhcpd6.conf
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">地址分配文件
+</span></span><span class="line"><span class="cl">/var/lib/dhcpd/dhcpd.leases
+</span></span><span class="line"><span class="cl">/var/lib/dhcpd/dhcpd6.leases
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">模板文件
+</span></span><span class="line"><span class="cl"> cat /usr/share/doc/dhcp-4.2.5/dhcpd.conf.example
+</span></span><span class="line"><span class="cl">通用配置
+</span></span><span class="line"><span class="cl">额外属性：option
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">全局配置：
+</span></span><span class="line"><span class="cl">默认租约期限<span class="o">(</span>秒<span class="o">)</span>：default-lease-time 600<span class="p">;</span>
+</span></span><span class="line"><span class="cl">最大租约期限<span class="o">(</span>秒<span class="o">)</span>max-lease-time 7200<span class="p">;</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">局部配置
+</span></span><span class="line"><span class="cl">subnet 10.5.5.0 netmask 255.255.255.224 <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  range 10.5.5.26 10.5.5.30<span class="p">;</span>
+</span></span><span class="line"><span class="cl">  option domain-name-servers ns1.internal.example.org<span class="p">;</span>
+</span></span><span class="line"><span class="cl">  option domain-name <span class="s2">&#34;internal.example.org&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  option routers 10.5.5.1<span class="p">;</span>
+</span></span><span class="line"><span class="cl">  option broadcast-address 10.5.5.31<span class="p">;</span>
+</span></span><span class="line"><span class="cl">  default-lease-time 600<span class="p">;</span>
+</span></span><span class="line"><span class="cl">  max-lease-time 7200<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">客户端手动获取地址
+</span></span><span class="line"><span class="cl">dhclient
+</span></span><span class="line"><span class="cl">-d：在前台显示
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">其他配置
+</span></span><span class="line"><span class="cl">filename ：指定加载引导文件
+</span></span><span class="line"><span class="cl">next-server：提供引导文件服务的地址</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="停止某个网卡" class="heading-element">
+  <a href="#%e5%81%9c%e6%ad%a2%e6%9f%90%e4%b8%aa%e7%bd%91%e5%8d%a1" class="heading-mark"></a>停止某个网卡</h1><p>ifdown</p>
+<h1 id="开启某个网卡" class="heading-element">
+  <a href="#%e5%bc%80%e5%90%af%e6%9f%90%e4%b8%aa%e7%bd%91%e5%8d%a1" class="heading-mark"></a>开启某个网卡</h1><p>ifup</p>
+<h1 id="ethtool" class="heading-element">
+  <a href="#ethtool" class="heading-mark"></a>ethtool</h1><h2 id="配置网卡多队列" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e7%bd%91%e5%8d%a1%e5%a4%9a%e9%98%9f%e5%88%97" class="heading-mark"></a>配置网卡多队列</h2><h1 id="其他工具" class="heading-element">
+  <a href="#%e5%85%b6%e4%bb%96%e5%b7%a5%e5%85%b7" class="heading-mark"></a>其他工具</h1><h2 id="wget" class="heading-element">
+  <a href="#wget" class="heading-mark"></a>wget</h2><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 断点续传下载文件</span>
+</span></span><span class="line"><span class="cl">wget -c <span class="nv">$url</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">## 下载整站</span>
+</span></span><span class="line"><span class="cl">wget -r -p -np -k <span class="nv">$url</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="cur" class="heading-element">
+  <a href="#cur" class="heading-mark"></a>cur</h2><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 发送网络连接（常用)</span>
+</span></span><span class="line"><span class="cl">curl -XGET <span class="nv">$url</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="连通性检测" class="heading-element">
+  <a href="#%e8%bf%9e%e9%80%9a%e6%80%a7%e6%a3%80%e6%b5%8b" class="heading-mark"></a>连通性检测</h2><p>ping google.com</p>
+<h2 id="到对端路由检测" class="heading-element">
+  <a href="#%e5%88%b0%e5%af%b9%e7%ab%af%e8%b7%af%e7%94%b1%e6%a3%80%e6%b5%8b" class="heading-mark"></a>到对端路由检测</h2><p>tracepath google.com</p>
+<h2 id="域名检测" class="heading-element">
+  <a href="#%e5%9f%9f%e5%90%8d%e6%a3%80%e6%b5%8b" class="heading-mark"></a>域名检测</h2><p>dig google.com
+nslookup google.com</p>
+<h2 id="网络扫描工具" class="heading-element">
+  <a href="#%e7%bd%91%e7%bb%9c%e6%89%ab%e6%8f%8f%e5%b7%a5%e5%85%b7" class="heading-mark"></a>网络扫描工具</h2><p>nmap</p>
+<h2 id="压力测试" class="heading-element">
+  <a href="#%e5%8e%8b%e5%8a%9b%e6%b5%8b%e8%af%95" class="heading-mark"></a>压力测试</h2><p>iperf</p>
+<h2 id="全方位监控工具好东西" class="heading-element">
+  <a href="#%e5%85%a8%e6%96%b9%e4%bd%8d%e7%9b%91%e6%8e%a7%e5%b7%a5%e5%85%b7%e5%a5%bd%e4%b8%9c%e8%a5%bf" class="heading-mark"></a>全方位监控工具（好东西)</h2><p>nmon</p>
+<h2 id="压力测试-1" class="heading-element">
+  <a href="#%e5%8e%8b%e5%8a%9b%e6%b5%8b%e8%af%95-1" class="heading-mark"></a>压力测试</h2><p>wrk
+ab
+webbench
+http_load</p>
+<h1 id="tcp-连接内核参数说明" class="heading-element">
+  <a href="#tcp-%e8%bf%9e%e6%8e%a5%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0%e8%af%b4%e6%98%8e" class="heading-mark"></a>tcp 连接内核参数说明</h1><p>有以下参数</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ll /proc/sys/net/ipv4/tcp_* | awk -F&#39;/&#39; &#39;{print &#34;net.ipv4.tcp_&#34;$NF}&#39;</span>
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_abort_on_overflow
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_adv_win_scale
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_allowed_congestion_control
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_app_win
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_autocorking
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_available_congestion_control
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_available_ulp
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_base_mss
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_challenge_ack_limit
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_comp_sack_delay_ns
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_comp_sack_nr
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_congestion_control
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_dsack
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_early_demux
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_early_retrans
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_ecn
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_ecn_fallback
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_fack
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_fastopen
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_fastopen_blackhole_timeout_sec
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_fastopen_key
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_fin_timeout
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_frto
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_fwmark_accept
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_invalid_ratelimit
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_keepalive_intvl
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_keepalive_probes
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_keepalive_time
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_l3mdev_accept
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_limit_output_bytes
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_low_latency
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_max_orphans
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_max_reordering
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_max_syn_backlog
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_max_tw_buckets
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_mem
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_min_rtt_wlen
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_min_snd_mss
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_min_tso_segs
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_moderate_rcvbuf
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_mtu_probe_floor
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_mtu_probing
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_no_metrics_save
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_notsent_lowat
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_orphan_retries
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_pacing_ca_ratio
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_pacing_ss_ratio
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_probe_interval
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_probe_threshold
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_recovery
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_reordering
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_retrans_collapse
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_retries1
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_retries2
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_rfc1337
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_rmem
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_rx_skb_cache
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_sack
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_slow_start_after_idle
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_stdurg
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_synack_retries
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_syncookies
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_syn_retries
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_thin_linear_timeouts
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_timestamps
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_tso_win_divisor
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_tw_reuse
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_tx_skb_cache
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_window_scaling
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_wmem
+</span></span><span class="line"><span class="cl">net.ipv4.tcp_tcp_workaround_signed_windows</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看方式</p>
+<ul>
+<li>使用 <code>sysctl -a | grep </code></li>
+<li>查看 <code>/proc/sys/net/ipv4/tcp_*</code> 相关文件内容。如 <code>cat /proc/sys/net/ipv4/tcp_max_syn_backlog</code></li>
+</ul>
+<p>修改方式：</p>
+<ul>
+<li>临时修改：
+<ul>
+<li>直接修改 <code>/proc/sys/net/ipv4/</code> 目录下文件值。如 <code>echo 3 &gt; /proc/sys/net/ipv4/tcp_syn_retries</code></li>
+<li>使用 <code>sysctl -w</code> 修改，如 <code>sysctl -w net.ipv4.tcp_max_syn_backlog=256</code></li>
+</ul>
+</li>
+<li>永久修改：在以下配置文件中加入参数与值，再使用 <code>sysctl -p filename</code> 加载文件
+<ul>
+<li><code>/etc/sysctl.conf</code></li>
+<li><code>/etc/sysctl.d/</code></li>
+<li><code>/usr/lib/sysctl.d/00-system.conf</code></li>
+<li><code>/usr/lib/sysctl.d/</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="netipv4tcp_abort_on_overflow" class="heading-element">
+  <a href="#netipv4tcp_abort_on_overflow" class="heading-mark"></a>net.ipv4.tcp_abort_on_overflow</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 0 表示关闭，1表示开启</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/ipv4/tcp_abort_on_overflow</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当<code>TCP</code>连接已经建立，并塞到程序监听<code>backlog</code>队列时，如果检测到<code>backlog</code>队列已经满员后，<code>TCP</code>连接状态会回退到<code>SYN+ACK</code>状态，假装<code>TCP</code>三次握手第三次客户端的<code>ACK</code>包没收到，让客户端重传<code>ACK</code>，以便快速进入<code>ESTABLISHED</code>状态。如果设置了<code>net.ipv4.tcp_abort_on_overflow </code>参数，那么在检测到监听<code>backlog </code>队列已满时，直接发<code>RST</code>包给客户端终止此连接，此时客户端程序会收到<code>104 Connection reset by peer</code>错误。</p>
+<h2 id="netipv4tcp_adv_win_scale" class="heading-element">
+  <a href="#netipv4tcp_adv_win_scale" class="heading-mark"></a>net.ipv4.tcp_adv_win_scale</h2><h2 id="netipv4tcp_allowed_congestion_control" class="heading-element">
+  <a href="#netipv4tcp_allowed_congestion_control" class="heading-mark"></a>net.ipv4.tcp_allowed_congestion_control</h2><h2 id="netipv4tcp_app_win" class="heading-element">
+  <a href="#netipv4tcp_app_win" class="heading-mark"></a>net.ipv4.tcp_app_win</h2><h2 id="netipv4tcp_autocorking" class="heading-element">
+  <a href="#netipv4tcp_autocorking" class="heading-mark"></a>net.ipv4.tcp_autocorking</h2><h2 id="netipv4tcp_available_congestion_control" class="heading-element">
+  <a href="#netipv4tcp_available_congestion_control" class="heading-mark"></a>net.ipv4.tcp_available_congestion_control</h2><h2 id="netipv4tcp_available_ulp" class="heading-element">
+  <a href="#netipv4tcp_available_ulp" class="heading-mark"></a>net.ipv4.tcp_available_ulp</h2><h2 id="netipv4tcp_base_mss" class="heading-element">
+  <a href="#netipv4tcp_base_mss" class="heading-mark"></a>net.ipv4.tcp_base_mss</h2><h2 id="netipv4tcp_challenge_ack_limit" class="heading-element">
+  <a href="#netipv4tcp_challenge_ack_limit" class="heading-mark"></a>net.ipv4.tcp_challenge_ack_limit</h2><h2 id="netipv4tcp_comp_sack_delay_ns" class="heading-element">
+  <a href="#netipv4tcp_comp_sack_delay_ns" class="heading-mark"></a>net.ipv4.tcp_comp_sack_delay_ns</h2><h2 id="netipv4tcp_comp_sack_nr" class="heading-element">
+  <a href="#netipv4tcp_comp_sack_nr" class="heading-mark"></a>net.ipv4.tcp_comp_sack_nr</h2><h2 id="netipv4tcp_congestion_control" class="heading-element">
+  <a href="#netipv4tcp_congestion_control" class="heading-mark"></a>net.ipv4.tcp_congestion_control</h2><h2 id="netipv4tcp_dsack" class="heading-element">
+  <a href="#netipv4tcp_dsack" class="heading-mark"></a>net.ipv4.tcp_dsack</h2><h2 id="netipv4tcp_early_demux" class="heading-element">
+  <a href="#netipv4tcp_early_demux" class="heading-mark"></a>net.ipv4.tcp_early_demux</h2><h2 id="netipv4tcp_early_retrans" class="heading-element">
+  <a href="#netipv4tcp_early_retrans" class="heading-mark"></a>net.ipv4.tcp_early_retrans</h2><h2 id="netipv4tcp_ecn" class="heading-element">
+  <a href="#netipv4tcp_ecn" class="heading-mark"></a>net.ipv4.tcp_ecn</h2><h2 id="netipv4tcp_ecn_fallback" class="heading-element">
+  <a href="#netipv4tcp_ecn_fallback" class="heading-mark"></a>net.ipv4.tcp_ecn_fallback</h2><h2 id="netipv4tcp_fack" class="heading-element">
+  <a href="#netipv4tcp_fack" class="heading-mark"></a>net.ipv4.tcp_fack</h2><h2 id="netipv4tcp_fastopen" class="heading-element">
+  <a href="#netipv4tcp_fastopen" class="heading-mark"></a>net.ipv4.tcp_fastopen</h2><h2 id="netipv4tcp_fastopen_blackhole_timeout_sec" class="heading-element">
+  <a href="#netipv4tcp_fastopen_blackhole_timeout_sec" class="heading-mark"></a>net.ipv4.tcp_fastopen_blackhole_timeout_sec</h2><h2 id="netipv4tcp_fastopen_key" class="heading-element">
+  <a href="#netipv4tcp_fastopen_key" class="heading-mark"></a>net.ipv4.tcp_fastopen_key</h2><h2 id="netipv4tcp_fin_timeout" class="heading-element">
+  <a href="#netipv4tcp_fin_timeout" class="heading-mark"></a>net.ipv4.tcp_fin_timeout</h2><p><code>TIME-WAIT</code> 会持续 <code>2MSL</code> 时间，<code>RFC 793</code> 中规定 <code>MSL</code> 为2分钟，实际应用中可能不一样</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看 MSL 时间</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/ipv4/tcp_fin_timeout</span>
+</span></span><span class="line"><span class="cl"><span class="m">60</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="netipv4tcp_frto" class="heading-element">
+  <a href="#netipv4tcp_frto" class="heading-mark"></a>net.ipv4.tcp_frto</h2><h2 id="netipv4tcp_fwmark_accept" class="heading-element">
+  <a href="#netipv4tcp_fwmark_accept" class="heading-mark"></a>net.ipv4.tcp_fwmark_accept</h2><h2 id="netipv4tcp_invalid_ratelimit" class="heading-element">
+  <a href="#netipv4tcp_invalid_ratelimit" class="heading-mark"></a>net.ipv4.tcp_invalid_ratelimit</h2><h2 id="netipv4tcp_keepalive_intvl" class="heading-element">
+  <a href="#netipv4tcp_keepalive_intvl" class="heading-mark"></a>net.ipv4.tcp_keepalive_intvl</h2><h2 id="netipv4tcp_keepalive_probes" class="heading-element">
+  <a href="#netipv4tcp_keepalive_probes" class="heading-mark"></a>net.ipv4.tcp_keepalive_probes</h2><h2 id="netipv4tcp_keepalive_time" class="heading-element">
+  <a href="#netipv4tcp_keepalive_time" class="heading-mark"></a>net.ipv4.tcp_keepalive_time</h2><h2 id="netipv4tcp_l3mdev_accept" class="heading-element">
+  <a href="#netipv4tcp_l3mdev_accept" class="heading-mark"></a>net.ipv4.tcp_l3mdev_accept</h2><h2 id="netipv4tcp_limit_output_bytes" class="heading-element">
+  <a href="#netipv4tcp_limit_output_bytes" class="heading-mark"></a>net.ipv4.tcp_limit_output_bytes</h2><h2 id="netipv4tcp_low_latency" class="heading-element">
+  <a href="#netipv4tcp_low_latency" class="heading-mark"></a>net.ipv4.tcp_low_latency</h2><h2 id="netipv4tcp_max_orphans" class="heading-element">
+  <a href="#netipv4tcp_max_orphans" class="heading-mark"></a>net.ipv4.tcp_max_orphans</h2><h2 id="netipv4tcp_max_reordering" class="heading-element">
+  <a href="#netipv4tcp_max_reordering" class="heading-mark"></a>net.ipv4.tcp_max_reordering</h2><h2 id="netipv4tcp_max_syn_backlog" class="heading-element">
+  <a href="#netipv4tcp_max_syn_backlog" class="heading-mark"></a>net.ipv4.tcp_max_syn_backlog</h2><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/ipv4/tcp_max_syn_backlog</span>
+</span></span><span class="line"><span class="cl"><span class="m">256</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>控制系统中处于 <code>SYN_RECV</code> 状态的 <code>TCP</code> 连接数量</p>
+<h2 id="netipv4tcp_max_tw_buckets" class="heading-element">
+  <a href="#netipv4tcp_max_tw_buckets" class="heading-mark"></a>net.ipv4.tcp_max_tw_buckets</h2><h2 id="netipv4tcp_mem" class="heading-element">
+  <a href="#netipv4tcp_mem" class="heading-mark"></a>net.ipv4.tcp_mem</h2><h2 id="netipv4tcp_min_rtt_wlen" class="heading-element">
+  <a href="#netipv4tcp_min_rtt_wlen" class="heading-mark"></a>net.ipv4.tcp_min_rtt_wlen</h2><h2 id="netipv4tcp_min_snd_mss" class="heading-element">
+  <a href="#netipv4tcp_min_snd_mss" class="heading-mark"></a>net.ipv4.tcp_min_snd_mss</h2><h2 id="netipv4tcp_min_tso_segs" class="heading-element">
+  <a href="#netipv4tcp_min_tso_segs" class="heading-mark"></a>net.ipv4.tcp_min_tso_segs</h2><h2 id="netipv4tcp_moderate_rcvbuf" class="heading-element">
+  <a href="#netipv4tcp_moderate_rcvbuf" class="heading-mark"></a>net.ipv4.tcp_moderate_rcvbuf</h2><h2 id="netipv4tcp_mtu_probe_floor" class="heading-element">
+  <a href="#netipv4tcp_mtu_probe_floor" class="heading-mark"></a>net.ipv4.tcp_mtu_probe_floor</h2><h2 id="netipv4tcp_mtu_probing" class="heading-element">
+  <a href="#netipv4tcp_mtu_probing" class="heading-mark"></a>net.ipv4.tcp_mtu_probing</h2><h2 id="netipv4tcp_no_metrics_save" class="heading-element">
+  <a href="#netipv4tcp_no_metrics_save" class="heading-mark"></a>net.ipv4.tcp_no_metrics_save</h2><h2 id="netipv4tcp_notsent_lowat" class="heading-element">
+  <a href="#netipv4tcp_notsent_lowat" class="heading-mark"></a>net.ipv4.tcp_notsent_lowat</h2><h2 id="netipv4tcp_orphan_retries" class="heading-element">
+  <a href="#netipv4tcp_orphan_retries" class="heading-mark"></a>net.ipv4.tcp_orphan_retries</h2><h2 id="netipv4tcp_pacing_ca_ratio" class="heading-element">
+  <a href="#netipv4tcp_pacing_ca_ratio" class="heading-mark"></a>net.ipv4.tcp_pacing_ca_ratio</h2><h2 id="netipv4tcp_pacing_ss_ratio" class="heading-element">
+  <a href="#netipv4tcp_pacing_ss_ratio" class="heading-mark"></a>net.ipv4.tcp_pacing_ss_ratio</h2><h2 id="netipv4tcp_probe_interval" class="heading-element">
+  <a href="#netipv4tcp_probe_interval" class="heading-mark"></a>net.ipv4.tcp_probe_interval</h2><h2 id="netipv4tcp_probe_threshold" class="heading-element">
+  <a href="#netipv4tcp_probe_threshold" class="heading-mark"></a>net.ipv4.tcp_probe_threshold</h2><h2 id="netipv4tcp_recovery" class="heading-element">
+  <a href="#netipv4tcp_recovery" class="heading-mark"></a>net.ipv4.tcp_recovery</h2><h2 id="netipv4tcp_reordering" class="heading-element">
+  <a href="#netipv4tcp_reordering" class="heading-mark"></a>net.ipv4.tcp_reordering</h2><h2 id="netipv4tcp_retrans_collapse" class="heading-element">
+  <a href="#netipv4tcp_retrans_collapse" class="heading-mark"></a>net.ipv4.tcp_retrans_collapse</h2><h2 id="netipv4tcp_retries1" class="heading-element">
+  <a href="#netipv4tcp_retries1" class="heading-mark"></a>net.ipv4.tcp_retries1</h2><h2 id="netipv4tcp_retries2" class="heading-element">
+  <a href="#netipv4tcp_retries2" class="heading-mark"></a>net.ipv4.tcp_retries2</h2><h2 id="netipv4tcp_rfc1337" class="heading-element">
+  <a href="#netipv4tcp_rfc1337" class="heading-mark"></a>net.ipv4.tcp_rfc1337</h2><h2 id="netipv4tcp_rmem" class="heading-element">
+  <a href="#netipv4tcp_rmem" class="heading-mark"></a>net.ipv4.tcp_rmem</h2><h2 id="netipv4tcp_rx_skb_cache" class="heading-element">
+  <a href="#netipv4tcp_rx_skb_cache" class="heading-mark"></a>net.ipv4.tcp_rx_skb_cache</h2><h2 id="netipv4tcp_sack" class="heading-element">
+  <a href="#netipv4tcp_sack" class="heading-mark"></a>net.ipv4.tcp_sack</h2><h2 id="netipv4tcp_slow_start_after_idle" class="heading-element">
+  <a href="#netipv4tcp_slow_start_after_idle" class="heading-mark"></a>net.ipv4.tcp_slow_start_after_idle</h2><h2 id="netipv4tcp_stdurg" class="heading-element">
+  <a href="#netipv4tcp_stdurg" class="heading-mark"></a>net.ipv4.tcp_stdurg</h2><h2 id="netipv4tcp_synack_retries" class="heading-element">
+  <a href="#netipv4tcp_synack_retries" class="heading-mark"></a>net.ipv4.tcp_synack_retries</h2><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/ipv4/tcp_synack_retries</span>
+</span></span><span class="line"><span class="cl"><span class="m">5</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>处于 <code>SYN_RECV</code> 状态时重传 <code>SYN+ACK</code>(第二次) 包的次数</p>
+<h2 id="netipv4tcp_syncookies" class="heading-element">
+  <a href="#netipv4tcp_syncookies" class="heading-mark"></a>net.ipv4.tcp_syncookies</h2><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1 表示开启</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/ipv4/tcp_syncookies</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>是否打开 <code>TCP</code> 同步标签（<code>SYN_COOKIES</code>）
+当该参数被设置为 <code>1</code> 且 <code>SYN_RECV</code> 队列满了之后，内核会对 <code>SYN</code> 包的回复做一定的修改，即，在响应的 <code>SYN+ACK</code> 包中，初始的序列号是由源 <code>IP:Port</code>、目的 <code>IP:Port</code> 及时间这五个参数共同计算出一个值组成精心组装的 <code>TCP</code> 包。由于 <code>ACK</code> 包中确认的序列号并不是之前计算出的值，恶意攻击者无法响应或误判，而请求者会根据收到的 <code>SYN+ACK</code> 包做正确的响应。启用 <code>net.ipv4.tcp_syncookies</code> 后，会忽略 <code>net.ipv4.tcp_max_syn_backlog</code>。</p>
+<h2 id="netipv4tcp_syn_retries" class="heading-element">
+  <a href="#netipv4tcp_syn_retries" class="heading-mark"></a>net.ipv4.tcp_syn_retries</h2><div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/ipv4/tcp_syn_retries</span>
+</span></span><span class="line"><span class="cl"><span class="m">6</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>第一次握手的 <code>SYN</code> 超时重传次数</p>
+<h2 id="netipv4tcp_thin_linear_timeouts" class="heading-element">
+  <a href="#netipv4tcp_thin_linear_timeouts" class="heading-mark"></a>net.ipv4.tcp_thin_linear_timeouts</h2><h2 id="netipv4tcp_timestamps" class="heading-element">
+  <a href="#netipv4tcp_timestamps" class="heading-mark"></a>net.ipv4.tcp_timestamps</h2><div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 打开 TCP 时间戳</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/ipv4/tcp_timestamps</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="netipv4tcp_tso_win_divisor" class="heading-element">
+  <a href="#netipv4tcp_tso_win_divisor" class="heading-mark"></a>net.ipv4.tcp_tso_win_divisor</h2><h2 id="netipv4tcp_tw_reuse" class="heading-element">
+  <a href="#netipv4tcp_tw_reuse" class="heading-mark"></a>net.ipv4.tcp_tw_reuse</h2><div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 值为 0 禁止将处于TIME-WAIT状态超过1秒的socket（TIME-WAIT的端口）用于新的TCP连接</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 值为 1 表示允许，但需要 net.ipv4.tcp_timestamps=1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 2是只处理本机的lookback 流量</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/ipv4/tcp_tw_reuse</span>
+</span></span><span class="line"><span class="cl"><span class="m">2</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="netipv4tcp_tw_recycle" class="heading-element">
+  <a href="#netipv4tcp_tw_recycle" class="heading-mark"></a>net.ipv4.tcp_tw_recycle</h2><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 值为 1 表示开启，允许处于 TIME_WAIT 状态的连接被快速回收</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     net.ipv4.tcp_timestamps = 1 才有效，注意时在 NAT 的网络下是不安全的!</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="netipv4tcp_tx_skb_cache" class="heading-element">
+  <a href="#netipv4tcp_tx_skb_cache" class="heading-mark"></a>net.ipv4.tcp_tx_skb_cache</h2><h2 id="netipv4tcp_window_scaling" class="heading-element">
+  <a href="#netipv4tcp_window_scaling" class="heading-mark"></a>net.ipv4.tcp_window_scaling</h2><h2 id="netipv4tcp_wmem" class="heading-element">
+  <a href="#netipv4tcp_wmem" class="heading-mark"></a>net.ipv4.tcp_wmem</h2><h2 id="netipv4tcp_workaround_signed_windows" class="heading-element">
+  <a href="#netipv4tcp_workaround_signed_windows" class="heading-mark"></a>net.ipv4.tcp_workaround_signed_windows</h2><h2 id="netcoresomaxconn" class="heading-element">
+  <a href="#netcoresomaxconn" class="heading-mark"></a>net.core.somaxconn</h2><div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /proc/sys/net/core/somaxconn</span>
+</span></span><span class="line"><span class="cl"><span class="m">4096</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>tcp listen</code> 队列长度。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-02-18 19:45:26">更新于 2023-02-18&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/ip/" class="post-tag" title="标签 - ip">ip</a><a href="/tags/ipcofnig/" class="post-tag" title="标签 - ipcofnig">ipcofnig</a><a href="/tags/ss/" class="post-tag" title="标签 - ss">ss</a><a href="/tags/netstat/" class="post-tag" title="标签 - netstat">netstat</a><a href="/tags/NetworkManager/" class="post-tag" title="标签 - NetworkManager">NetworkManager</a><a href="/tags/%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/" class="post-tag" title="标签 - 网络配置">网络配置</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/%E5%8E%8B%E7%BC%A9%E4%B8%8E%E6%89%93%E5%8C%85/" class="post-nav-item" rel="prev" title="linux 中压缩与打包"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>linux 中压缩与打包</a>
+      <a href="/cmd/" class="post-nav-item" rel="next" title="部分linux命令集合">部分linux命令集合<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

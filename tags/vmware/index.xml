@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>vmware - 标签 - 小厮</title>
+    <link>/tags/vmware/</link>
+    <description>vmware - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 20 Nov 2022 10:47:13 &#43;0800</lastBuildDate><atom:link href="/tags/vmware/" rel="self" type="application/rss+xml" /><item>
+  <title>windows中vmware使用</title>
+  <link>/vmware/</link>
+  <pubDate>Sun, 20 Nov 2022 10:47:13 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/vmware/</guid>
+  <description><![CDATA[运行环境： vmware: 16 内容来自以下文档： 浪漫歌 VMware虚拟机共享目录普通用户无法访问 vmware 密钥vmware 15： 1 CG392-4PX5J-H816Z-HYZNG-PQRG2 vmware 16： 1 ZF3R0-FHED2-M80TY-8QYGC-NPKYF vmware 17: 1 MC60H-DWHD5-H80U9-6V85M-8280D 共享主机目录]]></description>
+</item>
+</channel>
+</rss>

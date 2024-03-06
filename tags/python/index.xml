@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>python - 标签 - 小厮</title>
+    <link>/tags/python/</link>
+    <description>python - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 11 Dec 2022 09:42:46 &#43;0800</lastBuildDate><atom:link href="/tags/python/" rel="self" type="application/rss+xml" /><item>
+  <title>更新与降级 python</title>
+  <link>/updatePython/</link>
+  <pubDate>Sun, 11 Dec 2022 09:42:46 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/updatePython/</guid>
+  <description><![CDATA[运行环境： centos: 7 安装相关的软件包避免出现编译出错，无法编译，升级之后无法使用等情况 1 [root@master ~]# yum install -y zlib* readline* gcc* libffi-devel 从Python官网下载python3.7]]></description>
+</item>
+</channel>
+</rss>

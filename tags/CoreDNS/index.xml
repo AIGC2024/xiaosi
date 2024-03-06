@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>CoreDNS - 标签 - 小厮</title>
+    <link>/tags/CoreDNS/</link>
+    <description>CoreDNS - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 17 Jun 2023 20:12:38 &#43;0800</lastBuildDate><atom:link href="/tags/CoreDNS/" rel="self" type="application/rss+xml" /><item>
+  <title>CoreDNS 是 Kubernetes 的默认 DNS 服务</title>
+  <link>/k8sCoreDNS/</link>
+  <pubDate>Sat, 17 Jun 2023 20:12:38 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sCoreDNS/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

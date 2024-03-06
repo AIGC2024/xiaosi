@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s 网络插件 calico - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='cni, k8s, calico' /><meta itemprop="name" content="k8s 网络插件 calico">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-06-04T15:12:09+08:00" />
+<meta itemprop="dateModified" content="2024-01-28T17:15:40+08:00" />
+<meta itemprop="wordCount" content="721">
+<meta itemprop="keywords" content="cni,k8s,calico," /><meta property="og:title" content="k8s 网络插件 calico" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/calicoForKubernets/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-06-04T15:12:09+08:00" />
+<meta property="article:modified_time" content="2024-01-28T17:15:40+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s 网络插件 calico"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/calicoForKubernets/" /><link rel="prev" href="/k8sDeployment/" /><link rel="next" href="/awsEks/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s 网络插件 calico",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/calicoForKubernets\/"
+    },"genre": "posts","keywords": "cni, k8s, calico","wordcount":  721 ,
+    "url": "\/calicoForKubernets\/","datePublished": "2023-06-04T15:12:09+08:00","dateModified": "2024-01-28T17:15:40+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s 网络插件 calico</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2023-06-04 15:12:09"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-06-04">2023-06-04</time></span>&nbsp;<span title="更新于 2024-01-28 17:15:40"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-28">2024-01-28</time></span>&nbsp;<span title="721 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#为-k8s-安装-calico-网络插件">为 k8s 安装 calico 网络插件</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>calico: 3.25.1</li>
+<li>k8s: 1.27</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.tigera.io/calico/latest/about/kubernetes-training/"target="_blank" rel="external nofollow noopener noreferrer">calico 官方文档</a></li>
+<li><a href="https://blog.csdn.net/wvxvsuizhong/article/details/124068957"target="_blank" rel="external nofollow noopener noreferrer">安装最新版Calico</a></li>
+<li><a href="https://docs.tigera.io/calico/latest/reference/installation/api"target="_blank" rel="external nofollow noopener noreferrer">calico 安装字段说明</a></li>
+<li><a href="https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart"target="_blank" rel="external nofollow noopener noreferrer">Kubernetes 上的 Calico 快速入门</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="为-k8s-安装-calico-网络插件" class="heading-element">
+  <a href="#%e4%b8%ba-k8s-%e5%ae%89%e8%a3%85-calico-%e7%bd%91%e7%bb%9c%e6%8f%92%e4%bb%b6" class="heading-mark"></a>为 k8s 安装 calico 网络插件</h1><ol>
+<li>
+<p>下载 <a href="https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-etcd-datastore"target="_blank" rel="external nofollow noopener noreferrer">yaml 文件</a></p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico-etcd.yaml</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>根据<a href="https://docs.tigera.io/calico/latest/reference/installation/api"target="_blank" rel="external nofollow noopener noreferrer">calico 安装字段说明</a>修改<code>yaml</code>文件</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># vi calico-etcd.yaml</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改 Secret 资源</span>
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl"><span class="c1"># Source: calico/templates/calico-etcd-secrets.yaml</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># The following contains k8s Secrets for use with a TLS enabled etcd cluster.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># For information on populating Secrets, see http://kubernetes.io/docs/user-guide/secrets/</span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">kind: Secret
+</span></span><span class="line"><span class="cl">type: Opaque
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: calico-etcd-secrets
+</span></span><span class="line"><span class="cl">  namespace: kube-system
+</span></span><span class="line"><span class="cl">data:
+</span></span><span class="line"><span class="cl">  <span class="c1"># Populate the following with etcd TLS configuration if desired, but leave blank if</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># not using TLS for etcd.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># The keys below should be uncommented and the values populated with the base64</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># encoded contents of each file that would be associated with the TLS data.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Example command for encoding a file contents: cat &lt;file&gt; | base64 -w 0</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># etcd 集群的 TLS 证书默认在 /etc/kubernetes/pki/etcd/</span>
+</span></span><span class="line"><span class="cl">  etcd-key: LS0tLS1CRUdJTiB... <span class="c1"># 指定 etcd 集群密钥（base64编码格式）</span>
+</span></span><span class="line"><span class="cl">  etcd-cert: LS0tLS1CRUdJTiB...  <span class="c1"># 指定 etcd 集群公钥（base64编码格式）</span>
+</span></span><span class="line"><span class="cl">  etcd-ca: LS0tLS1CRUdJ... <span class="c1"># 指定 etcd 集群CA 公钥（ase64编码格式）</span>
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl"><span class="c1"># Source: calico/templates/calico-config.yaml</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># This ConfigMap is used to configure a self-hosted Calico installation.</span>
+</span></span><span class="line"><span class="cl">kind: ConfigMap
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: calico-config
+</span></span><span class="line"><span class="cl">  namespace: kube-system
+</span></span><span class="line"><span class="cl">data:
+</span></span><span class="line"><span class="cl">  <span class="c1"># Configure this with the location of your etcd cluster.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定 etcd 地址</span>
+</span></span><span class="line"><span class="cl">  etcd_endpoints: <span class="s2">&#34;https://192.168.232.101:2379,https://192.168.232.102:2379,https://192.168.232.103:2379&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># If you&#39;re using TLS enabled etcd uncomment the following.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># You must also populate the Secret below with these files.</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 以下是证书挂在位置，不需要修改</span>
+</span></span><span class="line"><span class="cl">  etcd_key: <span class="s2">&#34;/calico-secrets/etcd-key&#34;</span>
+</span></span><span class="line"><span class="cl">  etcd_ca: <span class="s2">&#34;/calico-secrets/etcd-ca&#34;</span>
+</span></span><span class="line"><span class="cl">  etcd_cert: <span class="s2">&#34;/calico-secrets/etcd-cert&#34;</span>
+</span></span><span class="line"><span class="cl">  etcd_key: <span class="s2">&#34;/calico-secrets/etcd-key&#34;</span>
+</span></span><span class="line"><span class="cl">  ....
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl"><span class="c1"># Source: calico/templates/calico-node.yaml</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># This manifest installs the calico-node container, as well</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># as the CNI plugins and network config on</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># each master and worker node in a Kubernetes cluster.</span>
+</span></span><span class="line"><span class="cl">kind: DaemonSet
+</span></span><span class="line"><span class="cl">apiVersion: apps/v1
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: calico-node
+</span></span><span class="line"><span class="cl">  namespace: kube-system
+</span></span><span class="line"><span class="cl">  labels:
+</span></span><span class="line"><span class="cl">    k8s-app: calico-node
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">....
+</span></span><span class="line"><span class="cl">              <span class="c1"># calico-node 容器中添加或修改以下变量</span>
+</span></span><span class="line"><span class="cl">              <span class="c1"># 指定 pod IP 地址范围，有以下要求</span>
+</span></span><span class="line"><span class="cl">              <span class="c1"># 范围不能超过 kube-controller-manager --cluster-cidr 指定的范围</span>
+</span></span><span class="line"><span class="cl">              <span class="c1"># 不能与其它 k8s 网络插件 冲突</span>
+</span></span><span class="line"><span class="cl">            - name: CALICO_IPV4POOL_CIDR
+</span></span><span class="line"><span class="cl">              value: <span class="s2">&#34;192.168.0.0/16&#34;</span>
+</span></span><span class="line"><span class="cl">              <span class="c1"># k8s api server 地址，如果有代理（如高可用）则为代理地址</span>
+</span></span><span class="line"><span class="cl">            - name: KUBERNETES_SERVICE_HOST
+</span></span><span class="line"><span class="cl">              value: <span class="s2">&#34;192.168.232.100&#34;</span>
+</span></span><span class="line"><span class="cl">              <span class="c1"># k8s api server http 端口</span>
+</span></span><span class="line"><span class="cl">            - name: KUBERNETES_SERVICE_PORT
+</span></span><span class="line"><span class="cl">              value: <span class="s2">&#34;6443&#34;</span>
+</span></span><span class="line"><span class="cl">              <span class="c1"># k8s api server https 端口</span>
+</span></span><span class="line"><span class="cl">            - name: KUBERNETES_SERVICE_PORT_HTTPS
+</span></span><span class="line"><span class="cl">              value: <span class="s2">&#34;6443&#34;</span>
+</span></span><span class="line"><span class="cl">              <span class="c1"># 检测此主机的 IPv4 地址的方法</span>
+</span></span><span class="line"><span class="cl">            - name: IP_AUTODETECTION_METHOD
+</span></span><span class="line"><span class="cl">              value: <span class="s2">&#34;interface=ens160&#34;</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>部署</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl apply -f calico-etcd.yaml</span>
+</span></span><span class="line"><span class="cl">poddisruptionbudget.policy/calico-kube-controllers configured
+</span></span><span class="line"><span class="cl">serviceaccount/calico-kube-controllers unchanged
+</span></span><span class="line"><span class="cl">serviceaccount/calico-node unchanged
+</span></span><span class="line"><span class="cl">secret/calico-etcd-secrets unchanged
+</span></span><span class="line"><span class="cl">configmap/calico-config unchanged
+</span></span><span class="line"><span class="cl">clusterrole.rbac.authorization.k8s.io/calico-kube-controllers unchanged
+</span></span><span class="line"><span class="cl">clusterrole.rbac.authorization.k8s.io/calico-node unchanged
+</span></span><span class="line"><span class="cl">clusterrolebinding.rbac.authorization.k8s.io/calico-kube-controllers unchanged
+</span></span><span class="line"><span class="cl">clusterrolebinding.rbac.authorization.k8s.io/calico-node unchanged
+</span></span><span class="line"><span class="cl">daemonset.apps/calico-node created
+</span></span><span class="line"><span class="cl">deployment.apps/calico-kube-controllers created</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>确认部署的 <code>pod</code> 都在运行</p>
+</li>
+</ol>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl get pod -n kube-system | grep calico</span>
+</span></span><span class="line"><span class="cl">calico-kube-controllers-c4d664d7-svnv2   1/1     Running   <span class="m">0</span>               2m26s
+</span></span><span class="line"><span class="cl">calico-node-6sw54                        1/1     Running   <span class="m">0</span>               2m26s
+</span></span><span class="line"><span class="cl">calico-node-99qjf                        1/1     Running   <span class="m">0</span>               2m26s
+</span></span><span class="line"><span class="cl">calico-node-jmn8r                        1/1     Running   <span class="m">0</span>               2m26s
+</span></span><span class="line"><span class="cl">calico-node-mwlvc                        1/1     Running   <span class="m">0</span>               2m26s
+</span></span><span class="line"><span class="cl">calico-node-vbgjp                        1/1     Running   <span class="m">0</span>               2m26s</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-01-28 17:15:40">更新于 2024-01-28&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/cni/" class="post-tag" title="标签 - cni">cni</a><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/calico/" class="post-tag" title="标签 - calico">calico</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sDeployment/" class="post-nav-item" rel="prev" title="k8s Deployment 控制器"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s Deployment 控制器</a>
+      <a href="/awsEks/" class="post-nav-item" rel="next" title="eks">eks<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

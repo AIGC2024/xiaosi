@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>history 命令 - 标签 - 小厮</title>
+    <link>/tags/history-%E5%91%BD%E4%BB%A4/</link>
+    <description>history 命令 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 10 Dec 2018 16:23:34 &#43;0800</lastBuildDate><atom:link href="/tags/history-%E5%91%BD%E4%BB%A4/" rel="self" type="application/rss+xml" /><item>
+  <title>使用命令记录</title>
+  <link>/history/</link>
+  <pubDate>Mon, 10 Dec 2018 16:23:34 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/history/</guid>
+  <description><![CDATA[运行环境： centos:7 命令历史 登陆 shell 时会读取命令历史文件（~/.bash_history）中记录的命令。~/.bash_history 只会在首个打开终]]></description>
+</item>
+</channel>
+</rss>

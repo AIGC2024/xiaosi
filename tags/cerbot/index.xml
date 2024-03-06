@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>cerbot - 标签 - 小厮</title>
+    <link>/tags/cerbot/</link>
+    <description>cerbot - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 01 Aug 2023 20:12:31 &#43;0800</lastBuildDate><atom:link href="/tags/cerbot/" rel="self" type="application/rss+xml" /><item>
+  <title>使用 cerbot 生成 TLS 证书</title>
+  <link>/cerbotCreatesTls/</link>
+  <pubDate>Tue, 01 Aug 2023 20:12:31 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/cerbotCreatesTls/</guid>
+  <description><![CDATA[certbot是Let&rsquo;s Encrypt提供的一个获取证书的程序]]></description>
+</item>
+</channel>
+</rss>

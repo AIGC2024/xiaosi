@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>使用kubeadm搭建k8s集群 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content=" " /><meta name="keywords" content='k8s, 搭建k8s集群' /><meta itemprop="name" content="使用kubeadm搭建k8s集群">
+<meta itemprop="description" content=" "><meta itemprop="datePublished" content="2022-07-23T14:18:12+08:00" />
+<meta itemprop="dateModified" content="2023-07-16T15:58:09+08:00" />
+<meta itemprop="wordCount" content="4504">
+<meta itemprop="keywords" content="k8s,搭建k8s集群," /><meta property="og:title" content="使用kubeadm搭建k8s集群" />
+<meta property="og:description" content=" " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/kubeadmCreateK8sCluster/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-23T14:18:12+08:00" />
+<meta property="article:modified_time" content="2023-07-16T15:58:09+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用kubeadm搭建k8s集群"/>
+<meta name="twitter:description" content=" "/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/kubeadmCreateK8sCluster/" /><link rel="prev" href="/nginx%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/" /><link rel="next" href="/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "使用kubeadm搭建k8s集群",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/kubeadmCreateK8sCluster\/"
+    },"genre": "posts","keywords": "k8s, 搭建k8s集群","wordcount":  4504 ,
+    "url": "\/kubeadmCreateK8sCluster\/","datePublished": "2022-07-23T14:18:12+08:00","dateModified": "2023-07-16T15:58:09+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": " "
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>使用kubeadm搭建k8s集群</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-23 14:18:12"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-23">2022-07-23</time></span>&nbsp;<span title="更新于 2023-07-16 15:58:09"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-07-16">2023-07-16</time></span>&nbsp;<span title="4504 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本要求">基本要求</a></li>
+    <li><a href="#准备工作">准备工作</a>
+      <ul>
+        <li><a href="#确保每个节点product_uuid唯一性">确保每个节点product_uuid唯一性</a></li>
+        <li><a href="#确保每个节点ip唯一性">确保每个节点IP唯一性</a></li>
+        <li><a href="#确保每个节点网卡mac地址唯一性">确保每个节点网卡MAC地址唯一性</a></li>
+        <li><a href="#确保每个节点主机名唯一性与绑定解析">确保每个节点主机名唯一性与绑定解析</a></li>
+        <li><a href="#放行所需的端口">放行所需的端口</a></li>
+        <li><a href="#所有节点关闭selinux">所有节点关闭selinux</a></li>
+        <li><a href="#所有节点关闭交换分区">所有节点关闭交换分区</a></li>
+        <li><a href="#所有节点开启内核-ipv4-转发">所有节点开启内核 ipv4 转发</a></li>
+        <li><a href="#所有节点时间同步">所有节点时间同步</a></li>
+        <li><a href="#所有节点配置yum源">所有节点配置yum源</a></li>
+        <li><a href="#所有节点安装依赖包">所有节点安装依赖包</a></li>
+      </ul>
+    </li>
+    <li><a href="#所有节点安装容器运行时">所有节点安装容器运行时</a>
+      <ul>
+        <li><a href="#使用containerd作为容器运行时">使用containerd作为容器运行时</a>
+          <ul>
+            <li><a href="#安装-libseccomp">安装 libseccomp</a></li>
+            <li><a href="#安装containerd">安装containerd</a></li>
+            <li><a href="#检查是否能获取镜像">检查是否能获取镜像</a></li>
+            <li><a href="#开机启动">开机启动</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#在所有节点安装-kubelet-kubeadm-kubectl">在所有节点安装 kubelet kubeadm kubectl</a></li>
+    <li><a href="#控制面高可用">控制面高可用</a>
+      <ul>
+        <li><a href="#apiserver高可以方案选择">apiserver高可以方案选择</a></li>
+        <li><a href="#以静态-pod-方式运行-kube-vip">以静态 pod 方式运行 kube-vip</a></li>
+      </ul>
+    </li>
+    <li><a href="#搭建高可用集群">搭建高可用集群</a>
+      <ul>
+        <li><a href="#添加主节点">添加主节点</a></li>
+        <li><a href="#添加工作节点">添加工作节点</a></li>
+      </ul>
+    </li>
+    <li><a href="#网络插件">网络插件</a></li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#解决无法从-registryk8sio-拉取镜像问题">解决无法从 registry.k8s.io 拉取镜像问题</a>
+          <ul>
+            <li><a href="#使用其它镜像创库">使用其它镜像创库</a></li>
+          </ul>
+        </li>
+        <li><a href="#errrpc-error-code--unknown-desc--failed-to-get-sandbox-image-">err=&ldquo;rpc error: code = Unknown desc = failed to get sandbox image &hellip;&rdquo;</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>rockylinux: 8.6</li>
+<li>kernel: 4.18</li>
+<li>k8s: 1.27.1</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://i4t.com/5488.html"target="_blank" rel="external nofollow noopener noreferrer"><code>丛宇鸿</code>: Kubeadm搭建高可用(k8s)Kubernetes v1.23.5集群</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/setup/production-environment/tools/kubeadm/"target="_blank" rel="external nofollow noopener noreferrer">使用 kubeadm 引导集群</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/setup/production-environment/container-runtimes/"target="_blank" rel="external nofollow noopener noreferrer">容器运行时</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/networking/ports-and-protocols/"target="_blank" rel="external nofollow noopener noreferrer">k8s 组件使用的端口和协议</a></li>
+<li><a href="https://github.com/kubernetes/kubeadm/blob/main/docs/ha-considerations.md#options-for-software-load-balancing"target="_blank" rel="external nofollow noopener noreferrer">高可用性注意事项</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/"target="_blank" rel="external nofollow noopener noreferrer">网络插件</a></li>
+</ul>
+</blockquote>
+<h1 id="基本要求" class="heading-element">
+  <a href="#%e5%9f%ba%e6%9c%ac%e8%a6%81%e6%b1%82" class="heading-mark"></a>基本要求</h1><p>创建<code>k8s</code>集群满足以下要求：</p>
+<ul>
+<li>系统：<code>Debian</code> 或 <code>Red Hat</code> 发行版</li>
+<li>内存：至少<code>2GB</code>内存</li>
+<li>CPU：至少 <code>2</code> 核心</li>
+<li>节点数量：工作节点至少1台，控制节点1台（如果是高可用则至少需要<code>3</code>台控制节点且数量为奇数）</li>
+<li>节点之间能通过低延迟的网络连接</li>
+<li>能够获取安装包</li>
+</ul>
+<h1 id="准备工作" class="heading-element">
+  <a href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c" class="heading-mark"></a>准备工作</h1><p>开始创建<code>k8s</code>集群时必要的设置：</p>
+<ul>
+<li>节点之间能通过网络连接：
+<ul>
+<li>控制节点放行的端口：<code>6443/tcp</code>、<code>2379-2380/tcp</code>、<code>10250/tcp</code>、<code>10259/tcp</code>、<code>10257/tcp</code></li>
+<li>工作节点放行的端口：<code>10250/tcp</code>、<code>30000-32767/tcp</code></li>
+</ul>
+</li>
+<li>节点网络具有唯一性（<code>IP</code>、<code>MAC</code>、<code>product_uuid</code>、主机名）</li>
+<li>禁止用交换分区</li>
+</ul>
+<h2 id="确保每个节点product_uuid唯一性" class="heading-element">
+  <a href="#%e7%a1%ae%e4%bf%9d%e6%af%8f%e4%b8%aa%e8%8a%82%e7%82%b9product_uuid%e5%94%af%e4%b8%80%e6%80%a7" class="heading-mark"></a>确保每个节点product_uuid唯一性</h2><ul>
+<li>查看<code>product_uuid</code>, 这个通常不会重复</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># cat /sys/class/dmi/id/product_uuid</span>
+</span></span><span class="line"><span class="cl">d5064d56-792f-fe2e-666e-a2d1c4a140a1</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="确保每个节点ip唯一性" class="heading-element">
+  <a href="#%e7%a1%ae%e4%bf%9d%e6%af%8f%e4%b8%aa%e8%8a%82%e7%82%b9ip%e5%94%af%e4%b8%80%e6%80%a7" class="heading-mark"></a>确保每个节点IP唯一性</h2><ul>
+<li>使用静态IP</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># cat /etc/sysconfig/network-scripts/ifcfg-ens160</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TYPE</span><span class="o">=</span>Ethernet
+</span></span><span class="line"><span class="cl"><span class="nv">PROXY_METHOD</span><span class="o">=</span>none
+</span></span><span class="line"><span class="cl"><span class="nv">BROWSER_ONLY</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">DEFROUTE</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="nv">IPV4_FAILURE_FATAL</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6INIT</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6_AUTOCONF</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6_DEFROUTE</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6_FAILURE_FATAL</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6_ADDR_GEN_MODE</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">NAME</span><span class="o">=</span>ens160
+</span></span><span class="line"><span class="cl"><span class="nv">DEVICE</span><span class="o">=</span>ens160
+</span></span><span class="line"><span class="cl"><span class="nv">ONBOOT</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="nv">BOOTPROTO</span><span class="o">=</span>none
+</span></span><span class="line"><span class="cl"><span class="nv">IPADDR</span><span class="o">=</span>192.168.232.101
+</span></span><span class="line"><span class="cl"><span class="nv">PREFIX</span><span class="o">=</span><span class="m">24</span>
+</span></span><span class="line"><span class="cl"><span class="nv">GATEWAY</span><span class="o">=</span>192.168.232.2</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="确保每个节点网卡mac地址唯一性" class="heading-element">
+  <a href="#%e7%a1%ae%e4%bf%9d%e6%af%8f%e4%b8%aa%e8%8a%82%e7%82%b9%e7%bd%91%e5%8d%a1mac%e5%9c%b0%e5%9d%80%e5%94%af%e4%b8%80%e6%80%a7" class="heading-mark"></a>确保每个节点网卡MAC地址唯一性</h2><ul>
+<li>查看网卡<code>MAC</code>地址，这具通常不会重复</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># ip link | egrep &#39;ether [0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}&#39; -o</span>
+</span></span><span class="line"><span class="cl">ether 00:0c:29:a1:40:a1</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="确保每个节点主机名唯一性与绑定解析" class="heading-element">
+  <a href="#%e7%a1%ae%e4%bf%9d%e6%af%8f%e4%b8%aa%e8%8a%82%e7%82%b9%e4%b8%bb%e6%9c%ba%e5%90%8d%e5%94%af%e4%b8%80%e6%80%a7%e4%b8%8e%e7%bb%91%e5%ae%9a%e8%a7%a3%e6%9e%90" class="heading-mark"></a>确保每个节点主机名唯一性与绑定解析</h2><ul>
+<li>查看主机名</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># hostnamectl</span>
+</span></span><span class="line"><span class="cl">   Static hostname: node01.my.host
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>如果主机名重复，修改主机名方法</li>
+</ul>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 临时有效</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># hostnamectl set-hostname name</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 开机生效</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># echo &#39;name&#39; &gt; /etc/hostname</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>解析主机名（所有节点）</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># cat /etc/hosts</span>
+</span></span><span class="line"><span class="cl">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+</span></span><span class="line"><span class="cl">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># echo &gt;&gt; /etc/hosts </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># vi /etc/hosts</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># cat /etc/hosts</span>
+</span></span><span class="line"><span class="cl">127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+</span></span><span class="line"><span class="cl">::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">192.168.232.101 node01.my.host
+</span></span><span class="line"><span class="cl">192.168.232.102 node02.my.host
+</span></span><span class="line"><span class="cl">192.168.232.103 node03.my.host
+</span></span><span class="line"><span class="cl">192.168.232.104 node04.my.host
+</span></span><span class="line"><span class="cl">192.168.232.105 node05.my.host</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="放行所需的端口" class="heading-element">
+  <a href="#%e6%94%be%e8%a1%8c%e6%89%80%e9%9c%80%e7%9a%84%e7%ab%af%e5%8f%a3" class="heading-mark"></a>放行所需的端口</h2><p>如果不确定会使用到哪些端口，则可以临时关闭防火墙</p>
+<ul>
+<li>控制节点</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># firewall-cmd --zone=public --add-port=6443/tcp --add-port=2379-2380/tcp --add-port=10250/tcp --add-port=10259/tcp --add-port=10257/tcp &amp;&amp; firewall-cmd --runtime-to-permanent</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>工作节点</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">firewall-cmd --zone<span class="o">=</span>public --add-port<span class="o">=</span>10250/tcp --add-port<span class="o">=</span>30000-32767/tcp <span class="o">&amp;&amp;</span> firewall-cmd --runtime-to-permanent</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="所有节点关闭selinux" class="heading-element">
+  <a href="#%e6%89%80%e6%9c%89%e8%8a%82%e7%82%b9%e5%85%b3%e9%97%adselinux" class="heading-mark"></a>所有节点关闭selinux</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 临时关闭并禁止开机启动</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># setenforce 0 ; sed -i &#39;/^SELINUX=/ s/.*/SELINUX=permissive/g&#39; /etc/selinux/config</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="所有节点关闭交换分区" class="heading-element">
+  <a href="#%e6%89%80%e6%9c%89%e8%8a%82%e7%82%b9%e5%85%b3%e9%97%ad%e4%ba%a4%e6%8d%a2%e5%88%86%e5%8c%ba" class="heading-mark"></a>所有节点关闭交换分区</h2><div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 临时关闭 并禁止开机挂载 swap 分区</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># swapoff -a &amp;&amp; sed &#39;/swap/ s/^/#/&#39; /etc/fstab -i</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="所有节点开启内核-ipv4-转发" class="heading-element">
+  <a href="#%e6%89%80%e6%9c%89%e8%8a%82%e7%82%b9%e5%bc%80%e5%90%af%e5%86%85%e6%a0%b8-ipv4-%e8%bd%ac%e5%8f%91" class="heading-mark"></a>所有节点开启内核 ipv4 转发</h2><ul>
+<li>查看是否加载 <code>br_netfilter</code> 模块</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># br_netfilter 模块：用于将桥接流量转发至 iptables 链，NAT转发要依赖该模块</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ip_conntrack 模块：记录 iptables 网络包的状态，并把每条记录保存到 table 里</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#                    这个 table 在内存里，可以通过/proc/net/ip_conntrack 查看</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#                    当前已经记录的总数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看是否加载 br_netfilter 模块</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># lsmod | grep br_netfilter</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 临时加载 ip_conntrack、br_netfilter 模块 </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node02 ~<span class="o">]</span><span class="c1"># modprobe br_netfilter &amp;&amp; modprobe ip_conntrack &amp;&amp; lsmod | grep br_netfilter</span>
+</span></span><span class="line"><span class="cl">br_netfilter           <span class="m">24576</span>  <span class="m">0</span>
+</span></span><span class="line"><span class="cl">bridge                <span class="m">290816</span>  <span class="m">1</span> br_netfilter
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 开机自动加载脚本</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># cat /etc/rc.sysinit </span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> file in /etc/sysconfig/modules/*.modules <span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="o">[</span> -x <span class="nv">$file</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">$file</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建加载模快文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># echo &#34;modprobe br_netfilter&#34; &gt; /etc/sysconfig/modules/br_netfilter.modules</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># echo &#34;modprobe ip_conntrack&#34; &gt;/etc/sysconfig/modules/ip_conntrack.modules</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 增加执行权限</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># chmod 755 /etc/sysconfig/modules/*.modules</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>允许<code>ipv4</code> <code>nat</code>转发与过虑桥接流量</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看是否允许 ipv4 nat转发，0表示关闭</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sysctl -a | grep &#39;net.ipv4.ip_forward &#39;</span>
+</span></span><span class="line"><span class="cl">net.ipv4.ip_forward <span class="o">=</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 临时允许ipv4 nat转发</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># echo &#39;1&#39; &gt; /proc/sys/net/ipv4/ip_forward</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 开机允许ipv4 nat转发</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># echo &#34;net.ipv4.ip_forward = 1&#34; &gt;&gt; /etc/sysctl.conf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看是否允许过虑 ipv4 桥接流量</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sysctl -a | grep &#39;bridge.bridge-nf-call-iptables &#39;</span>
+</span></span><span class="line"><span class="cl">net.bridge.bridge-nf-call-iptables <span class="o">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 临时允许过虑ipv4桥接流量：</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   echo &#39;1&#39; &gt; /proc/sys/net/bridge/bridge-nf-call-iptables</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 开机允许过虑ipv4桥接流量：</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#   echo &#39;net.bridge.bridge-nf-call-iptables = 1&#39; &gt;&gt; /etc/sysctl.conf</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="所有节点时间同步" class="heading-element">
+  <a href="#%e6%89%80%e6%9c%89%e8%8a%82%e7%82%b9%e6%97%b6%e9%97%b4%e5%90%8c%e6%ad%a5" class="heading-mark"></a>所有节点时间同步</h2><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 设置时区</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># timedatectl set-timezone Asia/Shanghai</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动时间同步服务</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># systemctl start chronyd</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置开机启动</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># systemctl enable chronyd</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 启用时间同步</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># timedatectl set-ntp yes</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 将当前的 UTC 时间写入硬件时钟</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># timedatectl set-local-rtc 0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="所有节点配置yum源" class="heading-element">
+  <a href="#%e6%89%80%e6%9c%89%e8%8a%82%e7%82%b9%e9%85%8d%e7%bd%aeyum%e6%ba%90" class="heading-mark"></a>所有节点配置yum源</h2><ul>
+<li>配置 <code>kubeadm</code>、<code>kubeclt</code>、<code>kubelet</code>  所需的<code>yum</code>源(阿里)</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
+</span></span></span><span class="line"><span class="cl"><span class="s">[kubernetes]
+</span></span></span><span class="line"><span class="cl"><span class="s">name=Kubernetes
+</span></span></span><span class="line"><span class="cl"><span class="s">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+</span></span></span><span class="line"><span class="cl"><span class="s">enabled=1
+</span></span></span><span class="line"><span class="cl"><span class="s">gpgcheck=1
+</span></span></span><span class="line"><span class="cl"><span class="s">repo_gpgcheck=1
+</span></span></span><span class="line"><span class="cl"><span class="s">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">setenforce <span class="m">0</span>
+</span></span><span class="line"><span class="cl">yum install -y kubelet kubeadm kubectl
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> kubelet <span class="o">&amp;&amp;</span> systemctl start kubelet</span></span></code></pre></td></tr></table>
+</div>
+</div><p>官方<code>yum</code>源</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+</span></span></span><span class="line"><span class="cl"><span class="s">[kubernetes]
+</span></span></span><span class="line"><span class="cl"><span class="s">name=Kubernetes
+</span></span></span><span class="line"><span class="cl"><span class="s">baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+</span></span></span><span class="line"><span class="cl"><span class="s">enabled=1
+</span></span></span><span class="line"><span class="cl"><span class="s">gpgcheck=1
+</span></span></span><span class="line"><span class="cl"><span class="s">gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+</span></span></span><span class="line"><span class="cl"><span class="s">exclude=kubelet kubeadm kubectl
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="所有节点安装依赖包" class="heading-element">
+  <a href="#%e6%89%80%e6%9c%89%e8%8a%82%e7%82%b9%e5%ae%89%e8%a3%85%e4%be%9d%e8%b5%96%e5%8c%85" class="heading-mark"></a>所有节点安装依赖包</h2><ul>
+<li><code>iptables</code>是<code>Linux</code>服务器上进行网络隔离的核心技术，内核在处理网络请求时会对<code>iptables</code>中的策略进行逐条解析，因此当策略较多时效率较低；而是用<code>IPSet</code>技术可以将策略中的五元组(协议，源地址，源端口,目的地址，目的端口)合并到有限的集合中，可以大大减少<code>iptables</code>策略条目从而提高效率。</li>
+<li>从<code>k8s:1.8</code>版本开始，<code>kube-proxy</code>引入了<code>IPVS</code>模式，<code>IPVS</code>模式与<code>iptables</code>同样基于<code>Netfilter</code>，但是采用的<code>hash</code>表，因此当<code>service</code>数量达到一定规模时，<code>hash</code>查表的速度优势就会显现出来，从而提高<code>service</code>的服务性能。</li>
+</ul>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># yum install -y ipset ipvsadm conntrack libseccomp iproute-tc</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>ipvs</code>依赖<code>nf_conntrack_ipv4</code></li>
+</ul>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># ipvs依赖于nf_conntrack_ipv4内核模块,4.19包括之后内核里改名为nf_conntrack</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 其它在部分 3.10 版本中也增加了 nf_conntrack</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># cat /etc/sysconfig/modules/ipvs.modules</span>
+</span></span><span class="line"><span class="cl">modprobe -- ip_vs
+</span></span><span class="line"><span class="cl">modprobe -- ip_vs_rr
+</span></span><span class="line"><span class="cl">modprobe -- ip_vs_wrr
+</span></span><span class="line"><span class="cl">modprobe -- ip_vs_sh
+</span></span><span class="line"><span class="cl">modprobe -- nf_conntrack
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># bash /etc/sysconfig/modules/ipvs.modules</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># chmod 755 /etc/sysconfig/modules/ipvs.modules</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="所有节点安装容器运行时" class="heading-element">
+  <a href="#%e6%89%80%e6%9c%89%e8%8a%82%e7%82%b9%e5%ae%89%e8%a3%85%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e6%97%b6" class="heading-mark"></a>所有节点安装容器运行时</h1><p>容器运行时是指满足<code>k8s CRI</code>接口的运行容器工具，常见有以下：</p>
+<ul>
+<li><code>containerd</code>: <code>containerd</code>从<code>Docker</code>中拆分出来，支持大部分平台</li>
+<li><code>CRI-O</code>: 在<code>RedHat</code>相关系统轻量级的容器运行管理工具，其它平台不一定支持</li>
+<li><code>Docker Engine</code>: 从1.20版本开始已经被移除了，需要使用
+<code>cri-dockerd</code> 适配器来将 <code>Docker Engine</code> 与 <code>Kubernetes</code> 集成。</li>
+</ul>
+<h2 id="使用containerd作为容器运行时" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8containerd%e4%bd%9c%e4%b8%ba%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e6%97%b6" class="heading-mark"></a>使用containerd作为容器运行时</h2><p>若<code>CNI</code>插件尚未升级且/或<code>CNI</code>配置文件中未声明CNI配置版本时，则
+<code>containerd v1.6.0-v1.6.3</code>版本将导致<code>Pod CNI</code>网络<code>setup</code>及<code>tear down</code>发生问题。
+<code>containerd</code>团队报告称，这些问题已经在<code>containerd v1.6.4</code>中得到解决。</p>
+<h3 id="安装-libseccomp" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85-libseccomp" class="heading-mark"></a>安装 libseccomp</h3><p><code>libseccomp</code>版本要<code>&gt;2.4</code></p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># rpm -qa | grep libseccomp</span>
+</span></span><span class="line"><span class="cl">libseccomp-2.5.2-1.el8.x86_64</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>升级方法</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#下载高于2.4以上的包</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>i4t@web01 ~<span class="o">]</span><span class="c1"># wget http://rpmfind.net/linux/centos/8-stream/BaseOS/x86_64/os/Packages/libseccomp-2.5.1-1.el8.x86_64.rpm</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#安装</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>i4t@web01 ~<span class="o">]</span><span class="c1"># rpm -ivh libseccomp-2.5.1-1.el8.x86_64.rpm #下载高于2.4以上的包</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>i4t@web01 ~<span class="o">]</span><span class="c1"># wget http://rpmfind.net/linux/centos/8-stream/BaseOS/x86_64/os/Packages/libseccomp-2.5.1-1.el8.x86_64.rpm</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#安装</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>i4t@web01 ~<span class="o">]</span><span class="c1"># rpm -ivh libseccomp-2.5.1-1.el8.x86_64.rpm</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="安装containerd" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85containerd" class="heading-mark"></a>安装containerd</h3><ul>
+<li>从<a href="https://github.com/containerd/containerd/releases"target="_blank" rel="external nofollow noopener noreferrer">containerd/releases</a></li>
+</ul>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 命名规则：&lt;container&gt;-&lt;VERSION&gt;-&lt;OS&gt;-&lt;ARCH&gt;.tar.gz</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># container有以下值：</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># containerd: 容器管理工具</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cri-containerd: 支持作为容器运行时接口CRI</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># cri-containerd-cni: 支持k8s CRI CNI 接口</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>解压使用</li>
+</ul>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看内容</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># tar -ztvf cri-containerd-cni-1.6.20-linux-amd64.tar.gz</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x root/root         <span class="m">0</span> 2023-03-31 04:54 etc/
+</span></span><span class="line"><span class="cl">drwxr-xr-x root/root         <span class="m">0</span> 2023-03-31 04:51 etc/systemd/
+</span></span><span class="line"><span class="cl">drwxr-xr-x root/root         <span class="m">0</span> 2023-03-31 04:51 etc/systemd/system/
+</span></span><span class="line"><span class="cl">-rw-r--r-- root/root      <span class="m">1270</span> 2023-03-31 04:51 etc/systemd/system/containerd.service
+</span></span><span class="line"><span class="cl">drwxr-xr-x root/root         <span class="m">0</span> 2023-03-31 04:52 etc/cni/
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 解压</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># tar -zxf cri-containerd-cni-1.6.20-linux-amd64.tar.gz -C /</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># containerd --version</span>
+</span></span><span class="line"><span class="cl">containerd github.com/containerd/containerd v1.6.20 2806fc1057397dbaeefbea0e4e17bddfbd388f38</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>配置<code>systemctl</code>服务</li>
+</ul>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># cp /etc/systemd/system/containerd.service  /usr/lib/systemd/system/</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>配置containerd</li>
+</ul>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 创建配置目录</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># mkdir /etc/containerd -p</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 生成默认配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># containerd config default &gt; /etc/containerd/config.toml</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置 systemd cgroup 驱动程序</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sed -i &#39;s/SystemdCgroup = false/SystemdCgroup = true/&#39; /etc/containerd/config.toml</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="检查是否能获取镜像" class="heading-element">
+  <a href="#%e6%a3%80%e6%9f%a5%e6%98%af%e5%90%a6%e8%83%bd%e8%8e%b7%e5%8f%96%e9%95%9c%e5%83%8f" class="heading-mark"></a>检查是否能获取镜像</h3><ul>
+<li>检测是否能获沙箱镜像</li>
+</ul>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node05 ~<span class="o">]</span><span class="c1"># grep &#39;sandbox_image&#39; /etc/containerd/config.toml</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">sandbox_image</span> <span class="o">=</span> <span class="s2">&#34;registry.k8s.io/pause:3.6&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node05 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 检测失败</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># ctr -n k8s.io image pull registry.k8s.io/pause:3.6</span>
+</span></span><span class="line"><span class="cl">registry.k8s.io/pause:3.6: resolving      <span class="p">|</span>--------------------------------------<span class="p">|</span>
+</span></span><span class="line"><span class="cl">elapsed: 21.0s             total:   0.0 B <span class="o">(</span>0.0 B/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">INFO<span class="o">[</span>0021<span class="o">]</span> trying next host                              <span class="nv">error</span><span class="o">=</span><span class="s2">&#34;failed to do request: Head \&#34;https://asia-east1-docker.pkg.dev/v2/k8s-artifacts-prod/images/pause/manifests/3.6\&#34;: dial tcp 64.233.187.82:443: connect: connection refused&#34;</span> <span class="nv">host</span><span class="o">=</span>registry.k8s.io
+</span></span><span class="line"><span class="cl">ctr: failed to resolve reference <span class="s2">&#34;registry.k8s.io/pause:3.6&#34;</span>: failed to <span class="k">do</span> request: Head <span class="s2">&#34;https://asia-east1-docker.pkg.dev/v2/k8s-artifacts-prod/images/pause/manifests/3.6&#34;</span>: dial tcp 64.233.187.82:443: connect: connection refused
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 更换沙箱地址解决</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sed &#39;/sandbox_image/ s/r.*6/docker.io\/yuhais\/pause:3.9/&#39; /etc/containerd/config.toml -i</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># ctr -n k8s.io image pull docker.io/yuhais/pause:3.9</span>
+</span></span><span class="line"><span class="cl">docker.io/yuhais/pause:3.9:                                                       resolved       <span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+</span></span><span class="line"><span class="cl">manifest-sha256:0fc1f3b764be56f7c881a69cbd553ae25a2b5523c6901fbacb8270307c29d0c4: <span class="k">done</span>           <span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+</span></span><span class="line"><span class="cl">config-sha256:e6f1816883972d4be47bd48879a08919b96afcd344132622e4d444987919323c:   <span class="k">done</span>           <span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+</span></span><span class="line"><span class="cl">layer-sha256:61fec91190a0bab34406027bbec43d562218df6e80d22d4735029756f23c7007:    <span class="k">done</span>           <span class="p">|</span>++++++++++++++++++++++++++++++++++++++<span class="p">|</span>
+</span></span><span class="line"><span class="cl">elapsed: 2.5 s                                                                    total:   0.0 B <span class="o">(</span>0.0 B/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">unpacking linux/amd64 sha256:0fc1f3b764be56f7c881a69cbd553ae25a2b5523c6901fbacb8270307c29d0c4...
+</span></span><span class="line"><span class="cl"><span class="k">done</span>: 14.70142ms</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="开机启动" class="heading-element">
+  <a href="#%e5%bc%80%e6%9c%ba%e5%90%af%e5%8a%a8" class="heading-mark"></a>开机启动</h3><div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl start containerd <span class="o">&amp;&amp;</span> systemctl <span class="nb">enable</span> --now  containerd</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="在所有节点安装-kubelet-kubeadm-kubectl" class="heading-element">
+  <a href="#%e5%9c%a8%e6%89%80%e6%9c%89%e8%8a%82%e7%82%b9%e5%ae%89%e8%a3%85-kubelet-kubeadm-kubectl" class="heading-mark"></a>在所有节点安装 kubelet kubeadm kubectl</h1><div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum install -y kubelet kubeadm kubectl --disableexcludes<span class="o">=</span>kubernetes</span></span></code></pre></td></tr></table>
+</div>
+</div><p>开机启动<code>kubelet</code></p>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl <span class="nb">enable</span> --now kubelet</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="控制面高可用" class="heading-element">
+  <a href="#%e6%8e%a7%e5%88%b6%e9%9d%a2%e9%ab%98%e5%8f%af%e7%94%a8" class="heading-mark"></a>控制面高可用</h1><p>要实现<code>k8s</code>集群高可用，必须实现控制面与<code>etcd</code>的高可用。根据<code>etcd</code>运行的位置分为以下情况：</p>
+<ul>
+<li>堆叠<code>etcd</code>：控制平面与<code>etcd</code>运行在同一个节点上。架构如下
+<img loading="lazy" src="kubeadm-ha-topology-stacked-etcd.svg" alt="kubeadm-ha-topology-stacked-etcd" srcset="kubeadm-ha-topology-stacked-etcd.svg?size=small, kubeadm-ha-topology-stacked-etcd.svg?size=medium 1.5x, kubeadm-ha-topology-stacked-etcd.svg?size=large 2x" sizes="auto" data-title="kubeadm-ha-topology-stacked-etcd" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></li>
+<li>外部<code>etcd</code>： <code>etcd</code> 分布式数据存储集群在独立于控制平面节点的其他节点上运行。架构如下
+<img loading="lazy" src="kubeadm-ha-topology-external-etcd.svg" alt="kubeadm-ha-topology-external-etcd" srcset="kubeadm-ha-topology-external-etcd.svg?size=small, kubeadm-ha-topology-external-etcd.svg?size=medium 1.5x, kubeadm-ha-topology-external-etcd.svg?size=large 2x" sizes="auto" data-title="kubeadm-ha-topology-external-etcd" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></li>
+</ul>
+<h2 id="apiserver高可以方案选择" class="heading-element">
+  <a href="#apiserver%e9%ab%98%e5%8f%af%e4%bb%a5%e6%96%b9%e6%a1%88%e9%80%89%e6%8b%a9" class="heading-mark"></a>apiserver高可以方案选择</h2><p>高可用方案有很多，如<code>keepalived</code>和<code>haproxy</code>的组合、<code>kube-vip</code> 等等</p>
+<h2 id="以静态-pod-方式运行-kube-vip" class="heading-element">
+  <a href="#%e4%bb%a5%e9%9d%99%e6%80%81-pod-%e6%96%b9%e5%bc%8f%e8%bf%90%e8%a1%8c-kube-vip" class="heading-mark"></a>以静态 pod 方式运行 kube-vip</h2><p>准备<code>pod</code>相关文档，在初始化集群时使用(在所有控制节点)</p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 指定 VIP 地址</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># export VIP=192.168.232.100</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定网卡接口</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># export INTERFACE=ens160</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 获取 kube-vip 镜像（官方地址为：ghcr.io）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 版本号可通过获取：curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r &#34;.[0].name&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># ctr image pull docker.io/plndr/kube-vip:v0.5.12</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">unpacking linux/amd64 sha256:58d31ffc3b6bd0d6bcc091dbed7d9e52135bbd44f9fe861e97f80f2bf0a3d78c...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 生成 yaml 文件，采用的 arp 模式</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># ctr run --rm --net-host docker.io/plndr/kube-vip:v0.5.12 \</span>
+</span></span><span class="line"><span class="cl">vip /kube-vip manifest pod <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--interface <span class="nv">$INTERFACE</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--vip <span class="nv">$VIP</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--controlplane <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--services <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--arp <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--leaderElection <span class="p">|</span> tee  /etc/kubernetes/manifests/kube-vip.yaml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改镜像地址（官方地址无法连接的情况）</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sed &#39;/image:/ s/ghcr.io\/kube-vip/docker.io\/plndr/&#39;  /etc/kubernetes/manifests/kube-vip.yaml | grep docker</span>
+</span></span><span class="line"><span class="cl">    image: docker.io/plndr/kube-vip:v0.5.12
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sed &#39;/image:/ s/ghcr.io\/kube-vip/docker.io\/plndr/&#39;  /etc/kubernetes/manifests/kube-vip.yaml -i</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="搭建高可用集群" class="heading-element">
+  <a href="#%e6%90%ad%e5%bb%ba%e9%ab%98%e5%8f%af%e7%94%a8%e9%9b%86%e7%be%a4" class="heading-mark"></a>搭建高可用集群</h1><p>可以生成配置文件，修改文件后引用。或使用命令行</p>
+<div class="highlight" id="id-29"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 更详细的配置:</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># kubeadm config print init-defaults --component-configs KubeProxyConfiguration,KubeletConfiguration &gt; kubeadm-init.yaml</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>使用命令行搭建：</li>
+</ul>
+<div class="highlight" id="id-30"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#  kubeadm init --control-plane-endpoint &#34;192.168.232.100:6443&#34; \</span>
+</span></span><span class="line"><span class="cl">--image-repository <span class="s2">&#34;docker.io/yuhais&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--pod-network-cidr <span class="s2">&#34;172.16.0.0/12&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--upload-certs
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>init<span class="o">]</span> Using Kubernetes version: v1.27.1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 有以下信息说明初始化成功</span>
+</span></span><span class="line"><span class="cl">Your Kubernetes control-plane has initialized successfully!
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">To start using your cluster, you need to run the following as a regular user:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  mkdir -p <span class="nv">$HOME</span>/.kube
+</span></span><span class="line"><span class="cl">  sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
+</span></span><span class="line"><span class="cl">  sudo chown <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> <span class="nv">$HOME</span>/.kube/config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Alternatively, <span class="k">if</span> you are the root user, you can run:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span>/etc/kubernetes/admin.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">You should now deploy a pod network to the cluster.
+</span></span><span class="line"><span class="cl">Run <span class="s2">&#34;kubectl apply -f [podnetwork].yaml&#34;</span> with one of the options listed at:
+</span></span><span class="line"><span class="cl">  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">You can now join any number of the control-plane node running the following <span class="nb">command</span> on each as root:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  kubeadm join 192.168.232.100:6443 --token uspj6f.wi36dnkhvondpqrf <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        --discovery-token-ca-cert-hash sha256:d32886aa7f295949837f178474e85a536357d548aebcd194d683f1be35f6e760 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        --control-plane --certificate-key 04d400da9be71f5677f6ff8b7e01300c9072eaafc5dbef56a503dffc88e3cb0e
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
+</span></span><span class="line"><span class="cl">As a safeguard, uploaded-certs will be deleted in two hours<span class="p">;</span> If necessary, you can use
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;kubeadm init phase upload-certs --upload-certs&#34;</span> to reload certs afterward.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Then you can join any number of worker nodes by running the following on each as root:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">kubeadm join 192.168.232.100:6443 --token uspj6f.wi36dnkhvondpqrf <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        --discovery-token-ca-cert-hash sha256:d32886aa7f295949837f178474e85a536357d548aebcd194d683f1be35f6e760</span></span></code></pre></td></tr></table>
+</div>
+</div><p>添加 <code>kubelctl</code> 配置文件，用于连接集群<code>apiserver</code></p>
+<div class="highlight" id="id-31"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># mkdir -p $HOME/.kube</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sudo chown $(id -u):$(id -g) $HOME/.kube/config</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="添加主节点" class="heading-element">
+  <a href="#%e6%b7%bb%e5%8a%a0%e4%b8%bb%e8%8a%82%e7%82%b9" class="heading-mark"></a>添加主节点</h2><p>在另外<code>2</code>台控制节点服务器上使用以下命令</p>
+<div class="highlight" id="id-32"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node02 ~<span class="o">]</span><span class="c1"># kubeadm join 192.168.232.100:6443 --token uspj6f.wi36dnkhvondpqrf \</span>
+</span></span><span class="line"><span class="cl">&gt;         --discovery-token-ca-cert-hash sha256:d32886aa7f295949837f178474e85a536357d548aebcd194d683f1be35f6e760 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt;         --control-plane --certificate-key 04d400da9be71f5677f6ff8b7e01300c9072eaafc5dbef56a503dffc88e3cb0e
+</span></span><span class="line"><span class="cl"><span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+</span></span><span class="line"><span class="cl">        <span class="o">[</span>WARNING FileExisting-tc<span class="o">]</span>: tc not found in system path
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 有以下信息表示成功</span>
+</span></span><span class="line"><span class="cl">This node has joined the cluster and a new control plane instance was created:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">* Certificate signing request was sent to apiserver and approval was received.
+</span></span><span class="line"><span class="cl">* The Kubelet was informed of the new secure connection details.
+</span></span><span class="line"><span class="cl">* Control plane label and taint were applied to the new node.
+</span></span><span class="line"><span class="cl">* The Kubernetes control plane instances scaled up.
+</span></span><span class="line"><span class="cl">* A new etcd member was added to the local/stacked etcd cluster.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">To start administering your cluster from this node, you need to run the following as a regular user:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        mkdir -p <span class="nv">$HOME</span>/.kube
+</span></span><span class="line"><span class="cl">        sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
+</span></span><span class="line"><span class="cl">        sudo chown <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> <span class="nv">$HOME</span>/.kube/config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Run <span class="s1">&#39;kubectl get nodes&#39;</span> to see this node join the cluster.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>添加 <code>kubelctl</code> 配置文件，用于连接集群<code>apiserver</code></p>
+<div class="highlight" id="id-33"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># mkdir -p $HOME/.kube</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sudo chown $(id -u):$(id -g) $HOME/.kube/config</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果没有上面这些操作则会出现以下问题</p>
+<div class="highlight" id="id-34"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubectl get nodes</span>
+</span></span><span class="line"><span class="cl">E0430 21:30:03.825921    <span class="m">8777</span> memcache.go:265<span class="o">]</span> couldn<span class="s1">&#39;t get current server API group list: Get &#34;http://localhost:8080/api?timeout=32s&#34;: dial tcp [::1]:8080: connect: connection refused
+</span></span></span><span class="line"><span class="cl"><span class="s1">E0430 21:30:03.826608    8777 memcache.go:265] couldn&#39;</span>t get current server API group list: Get <span class="s2">&#34;http://localhost:8080/api?timeout=32s&#34;</span>: dial tcp <span class="o">[</span>::1<span class="o">]</span>:8080: connect: connection refused
+</span></span><span class="line"><span class="cl">E0430 21:30:03.829282    <span class="m">8777</span> memcache.go:265<span class="o">]</span> couldn<span class="s1">&#39;t get current server API group list: Get &#34;http://localhost:8080/api?timeout=32s&#34;: dial tcp [::1]:8080: connect: connection refused
+</span></span></span><span class="line"><span class="cl"><span class="s1">E0430 21:30:03.830864    8777 memcache.go:265] couldn&#39;</span>t get current server API group list: Get <span class="s2">&#34;http://localhost:8080/api?timeout=32s&#34;</span>: dial tcp <span class="o">[</span>::1<span class="o">]</span>:8080: connect: connection refused
+</span></span><span class="line"><span class="cl">E0430 21:30:03.832930    <span class="m">8777</span> memcache.go:265<span class="o">]</span> couldn<span class="err">&#39;</span>t get current server API group list: Get <span class="s2">&#34;http://localhost:8080/api?timeout=32s&#34;</span>: dial tcp <span class="o">[</span>::1<span class="o">]</span>:8080: connect: connection refused
+</span></span><span class="line"><span class="cl">The connection to the server localhost:8080 was refused - did you specify the right host or port?</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="添加工作节点" class="heading-element">
+  <a href="#%e6%b7%bb%e5%8a%a0%e5%b7%a5%e4%bd%9c%e8%8a%82%e7%82%b9" class="heading-mark"></a>添加工作节点</h2><p>在工作节点中使用以下命令</p>
+<div class="highlight" id="id-35"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node04 ~<span class="o">]</span><span class="c1"># kubeadm join 192.168.232.100:6443 --token uspj6f.wi36dnkhvondpqrf \</span>
+</span></span><span class="line"><span class="cl">&gt; --discovery-token-ca-cert-hash sha256:d32886aa7f295949837f178474e85a536357d548aebcd194d683f1be35f6e760
+</span></span><span class="line"><span class="cl"><span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 有以下信息表示成功</span>
+</span></span><span class="line"><span class="cl">This node has joined the cluster:
+</span></span><span class="line"><span class="cl">* Certificate signing request was sent to apiserver and a response was received.
+</span></span><span class="line"><span class="cl">* The Kubelet was informed of the new secure connection details.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Run <span class="s1">&#39;kubectl get nodes&#39;</span> on the control-plane to see this node join the cluster.</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="网络插件" class="heading-element">
+  <a href="#%e7%bd%91%e7%bb%9c%e6%8f%92%e4%bb%b6" class="heading-mark"></a>网络插件</h1><p><code>k8s</code>不管理网络管理，它提供了一个<code>CNI</code>接口，使用网络插件实现<code>k8s</code>网络模型与<code>pod</code>网络管理</p>
+<ul>
+<li><a href="https://note.xiaosi.host/calicoForKubernets"target="_blank" rel="external nofollow noopener noreferrer">使用 calico 作为网络插件</a></li>
+</ul>
+<h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="解决无法从-registryk8sio-拉取镜像问题" class="heading-element">
+  <a href="#%e8%a7%a3%e5%86%b3%e6%97%a0%e6%b3%95%e4%bb%8e-registryk8sio-%e6%8b%89%e5%8f%96%e9%95%9c%e5%83%8f%e9%97%ae%e9%a2%98" class="heading-mark"></a>解决无法从 registry.k8s.io 拉取镜像问题</h2><p>大致有以下几种方式</p>
+<ul>
+<li>使用其它的镜像仓库</li>
+<li>导入镜像文件</li>
+<li>使用代理</li>
+</ul>
+<h3 id="使用其它镜像创库" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8%e5%85%b6%e5%ae%83%e9%95%9c%e5%83%8f%e5%88%9b%e5%ba%93" class="heading-mark"></a>使用其它镜像创库</h3><p>查看初始化安装时需要哪些镜像</p>
+<div class="highlight" id="id-36"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubeadm config images list</span>
+</span></span><span class="line"><span class="cl">W0430 02:07:43.920523   <span class="m">23995</span> images.go:80<span class="o">]</span> could not find officially supported version of etcd <span class="k">for</span> Kubernetes v1.27.1, falling back to the nearest etcd version <span class="o">(</span>3.5.7-0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">registry.k8s.io/kube-apiserver:v1.27.1
+</span></span><span class="line"><span class="cl">registry.k8s.io/kube-controller-manager:v1.27.1
+</span></span><span class="line"><span class="cl">registry.k8s.io/kube-scheduler:v1.27.1
+</span></span><span class="line"><span class="cl">registry.k8s.io/kube-proxy:v1.27.1
+</span></span><span class="line"><span class="cl">registry.k8s.io/pause:3.9
+</span></span><span class="line"><span class="cl">registry.k8s.io/etcd:3.5.7-0
+</span></span><span class="line"><span class="cl">registry.k8s.io/coredns/coredns:v1.10.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过修改镜像源获取</p>
+<div class="highlight" id="id-37"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubeadm config images pull --image-repository &#34;docker.io/yuhais/&#34;</span>
+</span></span><span class="line"><span class="cl">imageRepository: Invalid value: <span class="s2">&#34;docker.io/yuhais/&#34;</span>: invalid image repository format
+</span></span><span class="line"><span class="cl">To see the stack trace of this error execute with --v<span class="o">=</span><span class="m">5</span> or higher
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubeadm config images pull --image-repository &#34;docker.io/yuhais&#34;</span>
+</span></span><span class="line"><span class="cl">W0430 04:30:40.951932   <span class="m">32015</span> images.go:80<span class="o">]</span> could not find officially supported version of etcd <span class="k">for</span> Kubernetes v1.27.1, falling back to the nearest etcd version <span class="o">(</span>3.5.7-0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>config/images<span class="o">]</span> Pulled docker.io/yuhais/kube-apiserver:v1.27.1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>config/images<span class="o">]</span> Pulled docker.io/yuhais/kube-controller-manager:v1.27.1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>config/images<span class="o">]</span> Pulled docker.io/yuhais/kube-scheduler:v1.27.1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>config/images<span class="o">]</span> Pulled docker.io/yuhais/kube-proxy:v1.27.1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>config/images<span class="o">]</span> Pulled docker.io/yuhais/pause:3.9
+</span></span><span class="line"><span class="cl"><span class="o">[</span>config/images<span class="o">]</span> Pulled docker.io/yuhais/etcd:3.5.7-0
+</span></span><span class="line"><span class="cl"><span class="o">[</span>config/images<span class="o">]</span> Pulled docker.io/yuhais/coredns:v1.10.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>containerd</code>也要修改</p>
+<div class="highlight" id="id-38"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sed &#39;/sandbox_image/ s/r.*6/docker.io\/yuhais\/pause:3.9/&#39; /etc/containerd/config.toml -i</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># systemctl restart containerd</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="errrpc-error-code--unknown-desc--failed-to-get-sandbox-image-" class="heading-element">
+  <a href="#errrpc-error-code--unknown-desc--failed-to-get-sandbox-image-" class="heading-mark"></a>err=&ldquo;rpc error: code = Unknown desc = failed to get sandbox image &hellip;&rdquo;</h2><p><code>kubeadm ini</code> 初始化集群时<code>kubelet</code> 报错，无法获取 <code>registry.k8s.io/pause:3.6</code></p>
+<div class="highlight" id="id-39"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Apr <span class="m">30</span> 04:54:15 node01.my.host kubelet<span class="o">[</span>32808<span class="o">]</span>: E0430 04:54:15.763905   <span class="m">32808</span> kuberuntime_manager.go:1122<span class="o">]</span> <span class="s2">&#34;CreatePodSandbox for pod failed&#34;</span> <span class="nv">err</span><span class="o">=</span><span class="s2">&#34;rpc error: code = Unknown desc = failed to get sandbox image \&#34;registry.k8s.io/pause:3.6\&#34;: failed to pull image \&#34;registry.k8s.io/pause:3.6\&#34;: failed to pull and unpack image \&#34;registry.k8s.io/pause:3.6\&#34;: failed to resolve reference \&#34;registry.k8s.io/pause:3.6\&#34;: failed to do request: Head \&#34;https://asia-east1-docker.pkg.dev/v2/k8s-artifacts-prod/images/pause/manifests/3.6\&#34;: dial tcp 142.251.170.82:443: connect: connection refused&#34;</span> <span class="nv">pod</span><span class="o">=</span><span class="s2">&#34;kube-system/etcd-node01.my.host&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>本地无法从 <code>registry.k8s.io</code> 中获取镜像，重新指定<code>sandbox image</code>地址</p>
+<div class="highlight" id="id-40"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># sed &#39;/sandbox_image/ s/r.*6/docker.io\/yuhais\/pause:3.9/&#39; /etc/containerd/config.toml -i</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># systemctl restart containerd</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-07-16 15:58:09">更新于 2023-07-16&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" class="post-tag" title="标签 - 搭建k8s集群">搭建k8s集群</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/" class="post-nav-item" rel="prev" title="nginx搭建文件下载服务"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx搭建文件下载服务</a>
+      <a href="/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" class="post-nav-item" rel="next" title="使用sealos搭建k8s集群">使用sealos搭建k8s集群<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

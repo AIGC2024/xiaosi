@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s概述 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="k8s简介、组件、API" /><meta name="keywords" content='k8s, k8s概述, k8s组件, k8s API' /><meta itemprop="name" content="k8s概述">
+<meta itemprop="description" content="k8s简介、组件、API"><meta itemprop="datePublished" content="2022-07-24T07:54:09+08:00" />
+<meta itemprop="dateModified" content="2022-07-24T14:29:01+08:00" />
+<meta itemprop="wordCount" content="1669">
+<meta itemprop="keywords" content="k8s,k8s概述,k8s组件,k8s API," /><meta property="og:title" content="k8s概述" />
+<meta property="og:description" content="k8s简介、组件、API" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8s%E6%A6%82%E8%BF%B0/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-24T07:54:09+08:00" />
+<meta property="article:modified_time" content="2022-07-24T14:29:01+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s概述"/>
+<meta name="twitter:description" content="k8s简介、组件、API"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8s%E6%A6%82%E8%BF%B0/" /><link rel="prev" href="/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" /><link rel="next" href="/k8s%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s概述",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8s%E6%A6%82%E8%BF%B0\/"
+    },"genre": "posts","keywords": "k8s, k8s概述, k8s组件, k8s API","wordcount":  1669 ,
+    "url": "\/k8s%E6%A6%82%E8%BF%B0\/","datePublished": "2022-07-24T07:54:09+08:00","dateModified": "2022-07-24T14:29:01+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s概述</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-24 07:54:09"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-24">2022-07-24</time></span>&nbsp;<span title="更新于 2022-07-24 14:29:01"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-24">2022-07-24</time></span>&nbsp;<span title="1669 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#k8s">k8s</a></li>
+    <li><a href="#k8s组件">k8s组件</a>
+      <ul>
+        <li><a href="#控制平面组件control-plane-components">控制平面组件（Control Plane Components）</a></li>
+        <li><a href="#node-组件">Node 组件</a></li>
+        <li><a href="#kubelet">kubelet</a></li>
+        <li><a href="#kube-proxy">kube-proxy</a></li>
+        <li><a href="#容器运行时container-runtime">容器运行时（Container Runtime）</a></li>
+        <li><a href="#插件addons">插件（Addons）</a></li>
+      </ul>
+    </li>
+    <li><a href="#k8s-api"><code>k8s</code> API</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-07-24，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/overview/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档</a></li>
+</ul>
+</blockquote>
+<h1 id="k8s" class="heading-element">
+  <a href="#k8s" class="heading-mark"></a>k8s</h1><p><code>Kubernetes</code>简称为<code>k8s</code>(<code>k</code> 和 <code>s</code> 之间有八个字符)是一个可移植、可扩展的开源平台
+，用于管理容器化的工作负载和服务，可促进声明式配置和自动化。</p>
+<p><code>k8s</code>可以做：</p>
+<ul>
+<li>服务发现和负载均衡：<code>k8s</code> 可以使用 <code>DNS</code> 名称或自己的 <code>IP</code> 地址来曝露容器。
+如果进入容器的流量很大， <code>K8s</code> 可以负载均衡并分配网络流量，从而使部署稳定</li>
+<li>存储编排：<code>k8s</code>允许自动挂载你选择的存储系统，例如本地存储、公共云提供商等</li>
+<li>自动部署和回滚：可以使用 <code>K8s</code> 描述已部署容器的所需状态，
+它可以以受控的速率将实际状态更改为期望状态</li>
+<li>自动完成装箱计算：可以指定每个容器所需的 <code>CPU</code> 和内存，当容器指定了资源请求时
+可以做出更好的决策来为容器分配资源</li>
+<li>自我修复：将重新启动失败的容器、替换容器、杀死不响应用户定义的运行状况检查的
+容器， 并且在准备好服务之前不将其通告给客户端</li>
+<li>密钥与配置管理：允许你存储和管理敏感信息，例如密码、OAuth 令牌和 ssh 密钥。
+你可以在不重建容器镜像的情况下部署和更新密钥和应用程序配置，也无需在堆栈配置
+中暴露密钥</li>
+</ul>
+<p><code>k8s</code>：</p>
+<ul>
+<li>不限制支持的应用程序类型</li>
+<li>不部署源代码</li>
+<li>不提供应用程序级别的服务作为内置服务</li>
+<li>不是日志记录、监视或警报的解决方案</li>
+<li>不提供也不要求配置用的语言、系统</li>
+<li>不提供也不采用任何全面的机器配置、维护、管理或自我修复系统</li>
+</ul>
+<h1 id="k8s组件" class="heading-element">
+  <a href="#k8s%e7%bb%84%e4%bb%b6" class="heading-mark"></a>k8s组件</h1><p>服务运行在容器中，<code>pod</code>封装了1个或多个容器。<code>k8s</code>管理这些<code>pod</code></p>
+<h2 id="控制平面组件control-plane-components" class="heading-element">
+  <a href="#%e6%8e%a7%e5%88%b6%e5%b9%b3%e9%9d%a2%e7%bb%84%e4%bb%b6control-plane-components" class="heading-mark"></a>控制平面组件（Control Plane Components）</h2><p>控制平面组件会为集群做出全局决策，比如资源的调度。 以及检测和响应集群事件，
+可以在集群中的任何节点上运行。 然而，为了简单起见，通常只在<code>master</code>节点运行</p>
+<p>控制平面组件包含以下组件：</p>
+<ul>
+<li><code>kube-apiserver</code>: 该组件负责公开了 <code>Kubernetes API</code>，负责处理接受请求的工作。
+<code>API</code> 服务器是 <code>Kubernetes</code> 控制平面的前端。由<code>kube-apiserver</code>实现</li>
+<li><code>etcd</code>: 是兼顾一致性与高可用性的键值数据库，可以作为保存 <code>k8s</code> 所有集群
+数据的后台数据库。</li>
+<li><code>kube-scheduler</code>: 负责<code>pod</code>调度</li>
+<li><code>kube-controller-manager</code>: 负责运行控制器进程，从逻辑上讲， 每个控制器都是一个
+单独的进程。 但是为了降低复杂性，它们都被编译到同一个可执行文件，并在同一个
+进程中运行。这些控制器包括：
+<ul>
+<li>节点控制器（Node Controller）：负责在节点出现故障时进行通知和响应</li>
+<li>任务控制器（Job Controller）：监测代表一次性任务的 Job 对象，然后创建 Pods 来运行这些任务直至完成</li>
+<li>端点控制器（Endpoints Controller）：填充端点（Endpoints）对象（即加入 Service 与 Pod）</li>
+<li>服务帐户和令牌控制器（Service Account &amp; Token Controllers）：为新的命名空间创建默认帐户和 API 访问令牌</li>
+</ul>
+</li>
+<li><code>cloud-controller-manager</code>: 仅运行特定于云平台的控制器。与
+<code>kube-controller-manager</code> 类似</li>
+</ul>
+<h2 id="node-组件" class="heading-element">
+  <a href="#node-%e7%bb%84%e4%bb%b6" class="heading-mark"></a>Node 组件</h2><p>节点组件会在每个节点上运行，负责维护运行的 <code>Pod</code> 并提供 <code>k8s</code> 运行环境</p>
+<h2 id="kubelet" class="heading-element">
+  <a href="#kubelet" class="heading-mark"></a>kubelet</h2><p><code>kubelet</code> 会在集群中每个节点（node）上运行。 它保证容器都运行在<code>Pod</code>中。
+<code>kubelet</code> 不会管理不是由 <code>k8s</code> 创建的容器。</p>
+<p><code>kubelet</code> 接收一组通过各类机制提供给它的 PodSpecs，
+确保这些 <code>PodSpecs</code> 中描述的容器处于运行状态且健康</p>
+<h2 id="kube-proxy" class="heading-element">
+  <a href="#kube-proxy" class="heading-mark"></a>kube-proxy</h2><p>kube-proxy 是集群中每个节点（node）所上运行的网络代理， 实现 <code>k8s</code> 服务（Service） 概念的一部分。</p>
+<p>kube-proxy 维护节点上的一些网络规则， 这些网络规则会允许从集群内部或外部的网络会话与 Pod 进行网络通信。</p>
+<p>如果操作系统提供了可用的数据包过滤层，则 kube-proxy 会通过它来实现网络规则。 否则，kube-proxy 仅做流量转发</p>
+<h2 id="容器运行时container-runtime" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e6%97%b6container-runtime" class="heading-mark"></a>容器运行时（Container Runtime）</h2><p>容器运行环境是负责运行容器的软件。Kubernetes 支持许多容器运行环境，例如 Docker、 containerd、 CRI-O 以及 <code>k8s</code> CRI (容器运行环境接口) 的其他任何实现</p>
+<h2 id="插件addons" class="heading-element">
+  <a href="#%e6%8f%92%e4%bb%b6addons" class="heading-mark"></a>插件（Addons）</h2><p>插件使用 <code>k8s</code> 资源（DaemonSet、 Deployment 等）实现集群功能。 因为这些插件提供集群级别的功能，插件中命名空间域的资源属于 kube-system 命名空间</p>
+<h1 id="k8s-api" class="heading-element">
+  <a href="#k8s-api" class="heading-mark"></a><code>k8s</code> API</h1><p>Kubernetes 控制面 的核心是 API 服务器。 API 服务器负责提供 HTTP API，以供用户、集群中的不同部分和集群外部组件相互通信。</p>
+<p>大部分操作都可以通过 kubectl 命令行接口或 类似 kubeadm 这类命令行工具来执行， 这些工具在背后也是调用 API。不过，你也可以使用 REST 调用来访问这些 API。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-07-24 14:29:01">更新于 2022-07-24&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s%E6%A6%82%E8%BF%B0/" class="post-tag" title="标签 - k8s概述">k8s概述</a><a href="/tags/k8s%E7%BB%84%E4%BB%B6/" class="post-tag" title="标签 - k8s组件">k8s组件</a><a href="/tags/k8s-API/" class="post-tag" title="标签 - k8s API">k8s API</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" class="post-nav-item" rel="prev" title="使用sealos搭建k8s集群"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>使用sealos搭建k8s集群</a>
+      <a href="/k8s%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="post-nav-item" rel="next" title="k8s中的对象">k8s中的对象<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

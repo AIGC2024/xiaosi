@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>nginx配置文件 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： nginx: 1.23.0 配置文件配置文件由指令块与指令组成: server 指令块，由服务相关模块解析 分离配置文件http指令块中可以指定include指令指定其他" /><meta name="keywords" content='conf, nginx' /><meta itemprop="name" content="nginx配置文件">
+<meta itemprop="description" content="运行环境： nginx: 1.23.0 配置文件配置文件由指令块与指令组成: server 指令块，由服务相关模块解析 分离配置文件http指令块中可以指定include指令指定其他"><meta itemprop="datePublished" content="2020-11-15T10:15:20+08:00" />
+<meta itemprop="dateModified" content="2022-12-15T09:52:24+08:00" />
+<meta itemprop="wordCount" content="1562">
+<meta itemprop="keywords" content="conf,nginx," /><meta property="og:title" content="nginx配置文件" />
+<meta property="og:description" content="运行环境： nginx: 1.23.0 配置文件配置文件由指令块与指令组成: server 指令块，由服务相关模块解析 分离配置文件http指令块中可以指定include指令指定其他" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/nginx-conf/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-11-15T10:15:20+08:00" />
+<meta property="article:modified_time" content="2022-12-15T09:52:24+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nginx配置文件"/>
+<meta name="twitter:description" content="运行环境： nginx: 1.23.0 配置文件配置文件由指令块与指令组成: server 指令块，由服务相关模块解析 分离配置文件http指令块中可以指定include指令指定其他"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/nginx-conf/" /><link rel="prev" href="/nginx-directives/" /><link rel="next" href="/nginx-cache/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "nginx配置文件",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/nginx-conf\/"
+    },"genre": "posts","keywords": "conf, nginx","wordcount":  1562 ,
+    "url": "\/nginx-conf\/","datePublished": "2020-11-15T10:15:20+08:00","dateModified": "2022-12-15T09:52:24+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>nginx配置文件</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/nginx/" class="post-category" title="分类 - nginx"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> nginx</a></span></div><div class="post-meta-line"><span title="发布于 2020-11-15 10:15:20"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2020-11-15">2020-11-15</time></span>&nbsp;<span title="更新于 2022-12-15 09:52:24"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-15">2022-12-15</time></span>&nbsp;<span title="1562 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#配置文件">配置文件</a>
+      <ul>
+        <li><a href="#分离配置文件">分离配置文件</a></li>
+        <li><a href="#重载配置文件">重载配置文件</a></li>
+      </ul>
+    </li>
+    <li><a href="#共享内存">共享内存</a></li>
+    <li><a href="#http请求处理的11个阶段">HTTP请求处理的11个阶段</a></li>
+    <li><a href="#模块">模块</a>
+      <ul>
+        <li><a href="#以编译的模块">以编译的模块</a></li>
+        <li><a href="#动态模块">动态模块</a></li>
+        <li><a href="#过滤模块">过滤模块</a></li>
+      </ul>
+    </li>
+    <li><a href="#变量">变量</a></li>
+    <li><a href="#提高cpu使用率">提高CPU使用率</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-15，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>nginx: 1.23.0</li>
+</ul>
+</blockquote>
+<h1 id="配置文件" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>配置文件</h1><p>配置文件由指令块与指令组成:</p>
+<ul>
+<li>server 指令块，由服务相关模块解析</li>
+</ul>
+<h2 id="分离配置文件" class="heading-element">
+  <a href="#%e5%88%86%e7%a6%bb%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>分离配置文件</h2><p><code>http</code>指令块中可以指定<code>include</code>指令指定其他配置文件（相对路径）</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx<span class="o">]</span><span class="c1"># cat conf/nginx.conf</span>
+</span></span><span class="line"><span class="cl">events <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    worker_connections  1024<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">http <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    include        html.conf<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 nginx<span class="o">]</span><span class="c1"># cat conf/html.conf </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">server <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	listen	801<span class="p">;</span>
+</span></span><span class="line"><span class="cl">	location / <span class="o">{</span>
+</span></span><span class="line"><span class="cl">		root	html<span class="p">;</span>
+</span></span><span class="line"><span class="cl">		index	index.html<span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="重载配置文件" class="heading-element">
+  <a href="#%e9%87%8d%e8%bd%bd%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>重载配置文件</h2><p>重载配置文件流程：</p>
+<ol>
+<li>向master进程发送HUP信号，即<code>nginx -s reload</code>命令</li>
+<li>master进程检擦配置文件是否正确</li>
+<li>master进程打开新的监听端口</li>
+<li>master进程用新配置文件启动新的worker子进程</li>
+<li>master进程向旧的worker子进程发送QUIT信号</li>
+<li>旧worker子进程优雅退出（关闭监听句柄，处理完连接之后再结束进程）</li>
+</ol>
+<h1 id="共享内存" class="heading-element">
+  <a href="#%e5%85%b1%e4%ba%ab%e5%86%85%e5%ad%98" class="heading-mark"></a>共享内存</h1><p>共享内存是worker进程之间通讯方式之一，
+用于多个进程共享使用同个内存</p>
+<p>slab是nginx共享内存管理器，
+bestfit分配方式：</p>
+<ul>
+<li>优点：
+<ol>
+<li>适合小对象</li>
+<li>避免碎片化</li>
+<li>避免重复初始化</li>
+</ol>
+</li>
+<li>缺点：最多会消耗双倍内存</li>
+</ul>
+<p>[ngx_slab_stat][]是第三方的模块，
+用于统计slab使用状态,
+该模块提供一个<code>slab_stat</code>指令用于返回统计数据。</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="p">=</span> <span class="s">/slab_stat</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kn">slab_stat</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl url/slab_stat</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="http请求处理的11个阶段" class="heading-element">
+  <a href="#http%e8%af%b7%e6%b1%82%e5%a4%84%e7%90%86%e7%9a%8411%e4%b8%aa%e9%98%b6%e6%ae%b5" class="heading-mark"></a>HTTP请求处理的11个阶段</h1><p>收到http请求之后进入以下11处理个阶段：</p>
+<ol>
+<li>POST_READ：读取请求头部之后，最原始的请求信息</li>
+<li>SERVER_REWRITE：</li>
+<li>FIND_CONFIG：</li>
+<li>REWRITE：</li>
+<li>POST_REWRITE：</li>
+<li>PREACCESS</li>
+<li>ACCESS</li>
+<li>POST_ACCESS</li>
+<li>PRECONTENT</li>
+<li>CONTENT</li>
+<li>LOG</li>
+</ol>
+<p>nginx会按照这11个阶段依次调用相关http模块处理请求。</p>
+<h1 id="模块" class="heading-element">
+  <a href="#%e6%a8%a1%e5%9d%97" class="heading-mark"></a>模块</h1><p>模块提供了nginx配置文件中的指令与变量：</p>
+<ul>
+<li>指令可以出现在多个指令块中，出现多次时：
+<ol>
+<li>值为值时，生效范围越小，优先级越高</li>
+<li>值为动作类型的指令不能合并记算</li>
+</ol>
+</li>
+</ul>
+<p>指令生效顺序与模块顺序以及处理请求顺序相关，
+具体顺序看编译之后<code>objs/ngx_modules.c</code>中<code>char *ngx_module_names[]</code>排序，
+在相同执行阶段，
+通常,
+排序规则是优先级从低到高</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">[root@centos7</span> <span class="s">nginx-1.18.0]</span><span class="c1"># cat objs/ngx_modules.c
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">#include &lt;ngx_config.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1">#include &lt;ngx_core.h&gt;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="s">...</span>
+</span></span><span class="line"><span class="cl"><span class="s">char</span> <span class="s">*ngx_module_names[]</span> <span class="p">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">&#34;ngx_core_module&#34;,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;ngx_errlog_module&#34;,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;ngx_conf_module&#34;,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;ngx_openssl_module&#34;,</span>
+</span></span><span class="line"><span class="cl"><span class="s">...</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;ngx_stream_ssl_preread_module&#34;,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;ngx_google_perftools_module&#34;,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">NULL</span>
+</span></span><span class="line"><span class="cl"><span class="err">}</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="以编译的模块" class="heading-element">
+  <a href="#%e4%bb%a5%e7%bc%96%e8%af%91%e7%9a%84%e6%a8%a1%e5%9d%97" class="heading-mark"></a>以编译的模块</h2><p>在源码编译之后(<code>./con</code>)，
+在<code>objs/ngx_modules.c</code>文件中表示已经编译到源码中</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># cat  nginx-1.18.0/objs/ngx_modules.c </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#include &lt;ngx_config.h&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#include &lt;ngx_core.h&gt;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">ngx_module_t *ngx_modules<span class="o">[]</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&amp;</span>ngx_core_module,
+</span></span><span class="line"><span class="cl">    <span class="p">&amp;</span>ngx_errlog_module,
+</span></span><span class="line"><span class="cl">    <span class="p">&amp;</span>ngx_conf_module,
+</span></span><span class="line"><span class="cl">    <span class="p">&amp;</span>ngx_openssl_module,
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">    <span class="p">&amp;</span>ngx_google_perftools_module,
+</span></span><span class="line"><span class="cl">    NULL
+</span></span><span class="line"><span class="cl"><span class="o">}</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="动态模块" class="heading-element">
+  <a href="#%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9d%97" class="heading-mark"></a>动态模块</h2><p>动态模块可以直接放入动态库目录中，
+不需要替换nginx二进制文件，
+直接替换模块文件</p>
+<p>动态模块可以在模块名称后面加<code>=dynamic</code>，
+表示以动态模块方式编译</p>
+<h2 id="过滤模块" class="heading-element">
+  <a href="#%e8%bf%87%e6%bb%a4%e6%a8%a1%e5%9d%97" class="heading-mark"></a>过滤模块</h2><p>http过滤模块是在CONTENT阶段之后LOG阶段之前，
+对响应内容做加工处理</p>
+<p>这些过滤模块名称带有filter关键字</p>
+<h1 id="变量" class="heading-element">
+  <a href="#%e5%8f%98%e9%87%8f" class="heading-mark"></a>变量</h1><p>提供变量的模块只提供变量名和获取该变量值的方法，
+使用变量时再通过指定的方法获取变量值，
+因此变量会在不同地方获取的值可能会不一样</p>
+<p><code>variables_hash_bucket_size</code>指令：</p>
+<ul>
+<li>保存变量hash桶的大小</li>
+<li>配置在http模块</li>
+<li>默认值为64（单位字节，变量名过长时要加大）</li>
+</ul>
+<p><code>variables_hash_max_size</code>指令：</p>
+<ul>
+<li>保存变量最大哈希值大小</li>
+<li>配置在http模块</li>
+<li>默认值为1024（单位字节）</li>
+</ul>
+<h1 id="提高cpu使用率" class="heading-element">
+  <a href="#%e6%8f%90%e9%ab%98cpu%e4%bd%bf%e7%94%a8%e7%8e%87" class="heading-mark"></a>提高CPU使用率</h1><p><code>worker_processes number|auto</code>指令：</p>
+<ul>
+<li>设置woker进程数量</li>
+<li>配置在main指令快中</li>
+<li>number代指数字</li>
+<li>auto表示与CPU核心数量相同</li>
+<li>worker进程数量应该大于或等于CPU核心数量(无其他业务竞争CPU情况下)</li>
+<li>worker进程大于CPU核心数量时会争抢CPU资源，也会造成资源消耗</li>
+</ul>
+<p><code>worker_cpu_affinity auto [cpumask]</code>指令：</p>
+<ul>
+<li>worker进程与CPU核心进行绑定</li>
+<li>配置在main指令快中</li>
+</ul>
+<p><code>worker_priority number</code>指令：</p>
+<ul>
+<li>设置wirker进程静态优先级</li>
+<li>配置在main指令快中</li>
+<li>number代指数字</li>
+<li>默认值为0</li>
+<li>避免woker进程优先级过低</li>
+</ul>
+<p>其他：</p>
+<ul>
+<li>worker进程不该调用API导致让出CPU情况</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-15 09:52:24">更新于 2022-12-15&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/conf/" class="post-tag" title="标签 - conf">conf</a><a href="/tags/nginx/" class="post-tag" title="标签 - nginx">nginx</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx-directives/" class="post-nav-item" rel="prev" title="nginx模块与指令"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx模块与指令</a>
+      <a href="/nginx-cache/" class="post-nav-item" rel="next" title="nginx 缓存">nginx 缓存<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

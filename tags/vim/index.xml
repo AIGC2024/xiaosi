@@ -1,0 +1,55 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>vim - 标签 - 小厮</title>
+    <link>/tags/vim/</link>
+    <description>vim - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 22 Apr 2023 13:16:11 &#43;0800</lastBuildDate><atom:link href="/tags/vim/" rel="self" type="application/rss+xml" /><item>
+  <title>vim 自动命令</title>
+  <link>/vimAutocmd/</link>
+  <pubDate>Sat, 22 Apr 2023 13:16:11 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/vimAutocmd/</guid>
+  <description><![CDATA[通过某些事件触发一系列命令]]></description>
+</item>
+<item>
+  <title>neovim 初始化</title>
+  <link>/neovimInitialization/</link>
+  <pubDate>Sat, 22 Apr 2023 01:48:59 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/neovimInitialization/</guid>
+  <description><![CDATA[vim 的分支、重构的 vim]]></description>
+</item>
+<item>
+  <title>vim中插入文本</title>
+  <link>/vim-insert/</link>
+  <pubDate>Tue, 13 Dec 2022 08:56:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/vim-insert/</guid>
+  <description><![CDATA[运行环境： vim: 8 vim: 9 内容来自以下文档： Vim 中文文档计划 vim官方文档英文版 vim官方文档其它语言版本 Willis翻译的中文文档 插入模式以下命令可]]></description>
+</item>
+<item>
+  <title>安装 vim</title>
+  <link>/%E5%AE%89%E8%A3%85-vim/</link>
+  <pubDate>Mon, 18 Jul 2022 16:34:42 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/%E5%AE%89%E8%A3%85-vim/</guid>
+  <description><![CDATA[Unix及类Unix系统文本编辑器]]></description>
+</item>
+<item>
+  <title>我的 vimrc</title>
+  <link>/%E6%88%91%E7%9A%84-vimrc/</link>
+  <pubDate>Mon, 18 Jul 2022 15:29:57 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/%E6%88%91%E7%9A%84-vimrc/</guid>
+  <description><![CDATA[自定义的vim配置文件]]></description>
+</item>
+<item>
+  <title>vim中nginx配置文件高亮</title>
+  <link>/vim-nginx/</link>
+  <pubDate>Mon, 13 Sep 2021 16:39:50 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/vim-nginx/</guid>
+  <description><![CDATA[下载nginx源码包中的nginx.vim 1 2 3 4 5 [root@localhost ~]# find nginx-1.20.2 -name &#34;nginx.vim&#34; nginx-1.20.2/contrib/vim/ftdetect/nginx.vim nginx-1.20.2/contrib/vim/ftplugin/nginx.vim nginx-1.20.2/contrib/vim/indent/nginx.vim nginx-1.20.2/contrib/vim/syntax/nginx.vim 合并成一个文件（nginx.vim）后在vimrc添加以下配置 1 2 3]]></description>
+</item>
+</channel>
+</rss>

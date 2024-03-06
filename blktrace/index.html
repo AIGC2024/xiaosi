@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>blktrace 命令使用 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="blktrace 是一种块层 IO 跟踪机制，它向用户空间提供有关请求队列操作的详细信息" /><meta name="keywords" content='linux, blktrace' /><meta itemprop="name" content="blktrace 命令使用">
+<meta itemprop="description" content="blktrace 是一种块层 IO 跟踪机制，它向用户空间提供有关请求队列操作的详细信息"><meta itemprop="datePublished" content="2023-01-24T18:05:18+08:00" />
+<meta itemprop="dateModified" content="2023-02-03T16:36:27+08:00" />
+<meta itemprop="wordCount" content="2143">
+<meta itemprop="keywords" content="linux,blktrace," /><meta property="og:title" content="blktrace 命令使用" />
+<meta property="og:description" content="blktrace 是一种块层 IO 跟踪机制，它向用户空间提供有关请求队列操作的详细信息" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blktrace/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-24T18:05:18+08:00" />
+<meta property="article:modified_time" content="2023-02-03T16:36:27+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="blktrace 命令使用"/>
+<meta name="twitter:description" content="blktrace 是一种块层 IO 跟踪机制，它向用户空间提供有关请求队列操作的详细信息"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/blktrace/" /><link rel="prev" href="/linuxCmdIostat/" /><link rel="next" href="/nginx-unit/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "blktrace 命令使用",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/blktrace\/"
+    },"genre": "posts","keywords": "linux, blktrace","wordcount":  2143 ,
+    "url": "\/blktrace\/","datePublished": "2023-01-24T18:05:18+08:00","dateModified": "2023-02-03T16:36:27+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>blktrace 命令使用</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2023-01-24 18:05:18"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-24">2023-01-24</time></span>&nbsp;<span title="更新于 2023-02-03 16:36:27"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-02-03">2023-02-03</time></span>&nbsp;<span title="2143 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#blktrace">blktrace</a></li>
+    <li><a href="#blkparse">blkparse</a>
+      <ul>
+        <li><a href="#设备号与驱动号">设备号与驱动号</a></li>
+        <li><a href="#io-事件">I/O 事件</a></li>
+        <li><a href="#操作类型">操作类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#debugfs-is-not-mounted-at-syskerneldebu">Debugfs is not mounted at /sys/kernel/debu</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-02-03，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li>blktrace 帮助手册</li>
+<li><a href="http://linuxperf.com/?cat=11"target="_blank" rel="external nofollow noopener noreferrer">LINUXPERFORMANCE: 利用BLKTRACE分析IO性能</a></li>
+<li><a href="https://www.haiqibiji.top/?p=897"target="_blank" rel="external nofollow noopener noreferrer">blktrace-分析 io 案例</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="安装" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark"></a>安装</h1><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y blktrace</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># rpm -ql blktrace | grep bin</span>
+</span></span><span class="line"><span class="cl">/usr/bin/blkiomon
+</span></span><span class="line"><span class="cl">/usr/bin/blkparse
+</span></span><span class="line"><span class="cl">/usr/bin/blkrawverify
+</span></span><span class="line"><span class="cl">/usr/bin/blktrace
+</span></span><span class="line"><span class="cl">/usr/bin/bno_plot.py
+</span></span><span class="line"><span class="cl">/usr/bin/btrace
+</span></span><span class="line"><span class="cl">/usr/bin/btrecord
+</span></span><span class="line"><span class="cl">/usr/bin/btreplay
+</span></span><span class="line"><span class="cl">/usr/bin/btt
+</span></span><span class="line"><span class="cl">/usr/bin/verify_blkparse</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="blktrace" class="heading-element">
+  <a href="#blktrace" class="heading-mark"></a>blktrace</h1><p><code>blktrace</code> 从内核收集事件跟踪的实用程序</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">blktrace -d devname <span class="o">[</span>options<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-A hex-mask<span class="p">;</span> --set-mask<span class="o">=</span>hex-mask
+</span></span><span class="line"><span class="cl">    <span class="c1"># 设置过滤器器</span>
+</span></span><span class="line"><span class="cl">-a mask<span class="p">;</span> --act-mask<span class="o">=</span>mask
+</span></span><span class="line"><span class="cl">    <span class="c1"># 追加过虑器，该选项可以有多个</span>
+</span></span><span class="line"><span class="cl">-b size<span class="p">;</span> --buffer-size<span class="o">=</span>size
+</span></span><span class="line"><span class="cl">    <span class="c1"># 存储事件缓冲区大小，以 1024 绽放。默认为 512KiB</span>
+</span></span><span class="line"><span class="cl">-d dev<span class="p">;</span> --dev<span class="o">=</span>dev
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定 dev , 可以有多个</span>
+</span></span><span class="line"><span class="cl">-I filel<span class="p">;</span> --input-devs<span class="o">=</span>file
+</span></span><span class="line"><span class="cl">    <span class="c1"># 从文件中读取跟踪的 dev</span>
+</span></span><span class="line"><span class="cl">-n num-sub<span class="p">;</span> --num-sub-buffers<span class="o">=</span>num-sub
+</span></span><span class="line"><span class="cl">    <span class="c1"># 缓冲区数量，默认为 4 个</span>
+</span></span><span class="line"><span class="cl">-l<span class="p">;</span> --listen
+</span></span><span class="line"><span class="cl">    <span class="c1"># 以守护进程方式运行</span>
+</span></span><span class="line"><span class="cl">-h hostname<span class="p">;</span> --host<span class="o">=</span>hostname
+</span></span><span class="line"><span class="cl">    <span class="c1"># 以守护进程方式运行时绑定的主机名</span>
+</span></span><span class="line"><span class="cl">-p number<span class="p">;</span> --port<span class="o">=</span>number
+</span></span><span class="line"><span class="cl">    <span class="c1"># 以守护进程方式运行时绑定的端口    </span>
+</span></span><span class="line"><span class="cl">-s<span class="p">;</span> --no-sendfile
+</span></span><span class="line"><span class="cl">    <span class="c1"># 使网络客户端不使用 sendfile（） 来传输数据</span>
+</span></span><span class="line"><span class="cl">-o basename<span class="p">;</span> --output<span class="o">=</span>basename
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定输出文件的基本名称。默认值为 device.blktrace.cpu。 </span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定 -o - 使用 blkparse 在实时模式下运行（将数据写入标准输出）</span>
+</span></span><span class="line"><span class="cl">-D dir<span class="p">;</span> --output-dir<span class="o">=</span>dir
+</span></span><span class="line"><span class="cl">    <span class="c1"># 附加输出到其它文件，仅在 -o - 选项时有效</span>
+</span></span><span class="line"><span class="cl">-r rel-path<span class="p">;</span> --relay<span class="o">=</span>rel-path
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定调试装入点。该文件默认为 /sys/kernel/debug </span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># blktrace 从缓冲区中的内核接收数据，这些缓冲区通过调试文件系统（中继）向上传递。</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 被跟踪的每个设备都有一个在挂载目录中为 debugfs 创建的文件，</span>
+</span></span><span class="line"><span class="cl">-v<span class="p">;</span> -V<span class="p">;</span> --version
+</span></span><span class="line"><span class="cl">    <span class="c1"># 打印版本</span>
+</span></span><span class="line"><span class="cl">-w seconds<span class="p">;</span> --stopwatch<span class="o">=</span>seconds
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将运行时间设置为指定的秒数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 过虑器</span>
+</span></span><span class="line"><span class="cl">barrier: 
+</span></span><span class="line"><span class="cl">complete:
+</span></span><span class="line"><span class="cl">fs:
+</span></span><span class="line"><span class="cl">issue:
+</span></span><span class="line"><span class="cl">pc:
+</span></span><span class="line"><span class="cl">queue:
+</span></span><span class="line"><span class="cl">read:
+</span></span><span class="line"><span class="cl">requeue:
+</span></span><span class="line"><span class="cl">sync:
+</span></span><span class="line"><span class="cl">write:
+</span></span><span class="line"><span class="cl">notify:
+</span></span><span class="line"><span class="cl">drv_data:</span></span></code></pre></td></tr></table>
+</div>
+</div><p>数据输出到标准输出</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># -o - 输出到标准输出，由 blkparse -i - 从管道符分析</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># blktrace -d /dev/mapper/centos-root -o - | blkparse -i -</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>数据输出到指定文件</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># blktrace -d /dev/mapper/centos-root  -o bl.txt</span>
+</span></span><span class="line"><span class="cl">^C<span class="o">===</span> dm-0 <span class="o">===</span>
+</span></span><span class="line"><span class="cl">  CPU  0:                   <span class="m">32</span> events,        <span class="m">2</span> KiB data
+</span></span><span class="line"><span class="cl">  CPU  1:                    <span class="m">1</span> events,        <span class="m">1</span> KiB data
+</span></span><span class="line"><span class="cl">  CPU  2:                   <span class="m">11</span> events,        <span class="m">1</span> KiB data
+</span></span><span class="line"><span class="cl">  CPU  3:                    <span class="m">8</span> events,        <span class="m">1</span> KiB data
+</span></span><span class="line"><span class="cl">  Total:                    <span class="m">52</span> events <span class="o">(</span>dropped 0<span class="o">)</span>,        <span class="m">3</span> KiB data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ls bl.txt*</span>
+</span></span><span class="line"><span class="cl">bl.txt.blktrace.0  bl.txt.blktrace.1  bl.txt.blktrace.2  bl.txt.blktrace.3</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果不指定输出，则会保存到当前目录下</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># blktrace -d /dev/mapper/centos-root</span>
+</span></span><span class="line"><span class="cl">^C<span class="o">===</span> dm-0 <span class="o">===</span>
+</span></span><span class="line"><span class="cl">  CPU  0:                   <span class="m">12</span> events,        <span class="m">1</span> KiB data
+</span></span><span class="line"><span class="cl">  CPU  1:                    <span class="m">0</span> events,        <span class="m">0</span> KiB data
+</span></span><span class="line"><span class="cl">  CPU  2:                    <span class="m">1</span> events,        <span class="m">1</span> KiB data
+</span></span><span class="line"><span class="cl">  CPU  3:                    <span class="m">9</span> events,        <span class="m">1</span> KiB data
+</span></span><span class="line"><span class="cl">  Total:                    <span class="m">22</span> events <span class="o">(</span>dropped 0<span class="o">)</span>,        <span class="m">2</span> KiB data
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ls | grep blk</span>
+</span></span><span class="line"><span class="cl">dm-0.blktrace.0
+</span></span><span class="line"><span class="cl">dm-0.blktrace.1
+</span></span><span class="line"><span class="cl">dm-0.blktrace.2
+</span></span><span class="line"><span class="cl">dm-0.blktrace.3</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="blkparse" class="heading-element">
+  <a href="#blkparse" class="heading-mark"></a>blkparse</h1><p>格式化 <code>blktrace</code> 收集的跟踪数据的实用程序</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">blkparse <span class="o">[</span> options <span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-A hex-mask<span class="p">;</span> --set-mask<span class="o">=</span>hex-mask
+</span></span><span class="line"><span class="cl">  <span class="c1"># 设置过滤器器</span>
+</span></span><span class="line"><span class="cl">-a mask<span class="p">;</span> --act-mask<span class="o">=</span>mask
+</span></span><span class="line"><span class="cl">  <span class="c1"># 追加过虑器，该选项可以有多个</span>
+</span></span><span class="line"><span class="cl">-D dir<span class="p">;</span> --input-directory<span class="o">=</span>dir
+</span></span><span class="line"><span class="cl">-b batch<span class="p">;</span> --batch<span class="o">={</span>batch<span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 标准输入读取批处理</span>
+</span></span><span class="line"><span class="cl">-i file<span class="p">;</span> --input<span class="o">=</span>file
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定数据源文件</span>
+</span></span><span class="line"><span class="cl">-F typ,fmt<span class="p">;</span> --format<span class="o">=</span>typ,fmt<span class="p">;</span> -f fmt<span class="p">;</span> --format-spec<span class="o">=</span>fmt
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定输出格式</span>
+</span></span><span class="line"><span class="cl">-M<span class="p">;</span> --no-msgs
+</span></span><span class="line"><span class="cl">-h<span class="p">;</span> --hash-by-name
+</span></span><span class="line"><span class="cl">  <span class="c1"># 以进程名做 hash , 默认是以 PID</span>
+</span></span><span class="line"><span class="cl">-o file<span class="p">;</span> --no-text-output
+</span></span><span class="line"><span class="cl">  <span class="c1"># 指定输出文件</span>
+</span></span><span class="line"><span class="cl">-O<span class="p">;</span> --no-text-output
+</span></span><span class="line"><span class="cl">  <span class="c1"># 使用 -d 选项时，不生成文本输出</span>
+</span></span><span class="line"><span class="cl">-d file<span class="p">;</span> --dump-binary<span class="o">=</span>file
+</span></span><span class="line"><span class="cl">  <span class="c1"># 以二进制文件方式输出</span>
+</span></span><span class="line"><span class="cl">-q<span class="p">;</span> --quiet
+</span></span><span class="line"><span class="cl">  <span class="c1"># 静默模式</span>
+</span></span><span class="line"><span class="cl">-s<span class="p">;</span> --per-program-stats
+</span></span><span class="line"><span class="cl">  <span class="c1"># 显示按程序排序的数据</span>
+</span></span><span class="line"><span class="cl">-t<span class="p">;</span> --track-ios
+</span></span><span class="line"><span class="cl">  <span class="c1"># 显示每个 IO 的时间增量</span>
+</span></span><span class="line"><span class="cl">-w span<span class="p">;</span> --stopwatch<span class="o">=</span>span
+</span></span><span class="line"><span class="cl">  <span class="c1"># 显示指定范围的跟踪，其中范围可以是：</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 开始:结束时间 -- 显示从开始时间(缺省为 0)到结束时间的跟踪（以 ns 为单位）。</span>
+</span></span><span class="line"><span class="cl">-v<span class="p">;</span> --verbose
+</span></span><span class="line"><span class="cl">  <span class="c1"># 显示更详细信息</span>
+</span></span><span class="line"><span class="cl">-V<span class="p">;</span> --version
+</span></span><span class="line"><span class="cl">  <span class="c1"># 显示版本</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出字段</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># blktrace -d /dev/mapper/centos-root -o - | blkparse -i -</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第一列：主,次设备号</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第二列：CPU 序列号（从0开始）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第三列：</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第四列：时间偏移（Time Stamp）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第五列：PID</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第六列：I/O 事件</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第七列：操作类型</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第八列~第十列：块编号 + 块数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 进程名</span>
+</span></span><span class="line"><span class="cl">253,0    <span class="m">2</span>        <span class="m">1</span>     0.000000000 <span class="m">22481</span>  Q   W <span class="m">14487928</span> + <span class="m">8</span> <span class="o">[</span>kworker/u8:2<span class="o">]</span>
+</span></span><span class="line"><span class="cl">253,0    <span class="m">0</span>        <span class="m">1</span>     0.063470526     <span class="m">0</span>  C   W <span class="m">14487928</span> + <span class="m">8</span> <span class="o">[</span>0<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 第个 CPU 核心统计</span>
+</span></span><span class="line"><span class="cl">^CCPU0 <span class="o">(</span>253,0<span class="o">)</span>:
+</span></span><span class="line"><span class="cl"> Reads Queued:           0,        0KiB  Writes Queued:           0,        0KiB
+</span></span><span class="line"><span class="cl"> Read Dispatches:        0,        0KiB  Write Dispatches:        0,        0KiB
+</span></span><span class="line"><span class="cl"> Reads Requeued:         <span class="m">0</span>               Writes Requeued:         <span class="m">0</span>
+</span></span><span class="line"><span class="cl"> Reads Completed:        0,        0KiB  Writes Completed:        1,        4KiB
+</span></span><span class="line"><span class="cl"> Read Merges:            0,        0KiB  Write Merges:            0,        0KiB
+</span></span><span class="line"><span class="cl"> Read depth:             <span class="m">0</span>               Write depth:             <span class="m">0</span>
+</span></span><span class="line"><span class="cl"> IO unplugs:             <span class="m">0</span>               Timer unplugs:           <span class="m">0</span>
+</span></span><span class="line"><span class="cl">CPU2 <span class="o">(</span>253,0<span class="o">)</span>:
+</span></span><span class="line"><span class="cl"> Reads Queued:           0,        0KiB  Writes Queued:           1,        4KiB
+</span></span><span class="line"><span class="cl"> Read Dispatches:        0,        0KiB  Write Dispatches:        0,        0KiB
+</span></span><span class="line"><span class="cl"> Reads Requeued:         <span class="m">0</span>               Writes Requeued:         <span class="m">0</span>
+</span></span><span class="line"><span class="cl"> Reads Completed:        0,        0KiB  Writes Completed:        0,        0KiB
+</span></span><span class="line"><span class="cl"> Read Merges:            0,        0KiB  Write Merges:            0,        0KiB
+</span></span><span class="line"><span class="cl"> Read depth:             <span class="m">0</span>               Write depth:             <span class="m">0</span>
+</span></span><span class="line"><span class="cl"> IO unplugs:             <span class="m">0</span>               Timer unplugs:           <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Total <span class="o">(</span>253,0<span class="o">)</span>:
+</span></span><span class="line"><span class="cl"> Reads Queued:           0,        0KiB  Writes Queued:           1,        4KiB
+</span></span><span class="line"><span class="cl"> Read Dispatches:        0,        0KiB  Write Dispatches:        0,        0KiB
+</span></span><span class="line"><span class="cl"> Reads Requeued:         <span class="m">0</span>               Writes Requeued:         <span class="m">0</span>
+</span></span><span class="line"><span class="cl"> Reads Completed:        0,        0KiB  Writes Completed:        1,        4KiB
+</span></span><span class="line"><span class="cl"> Read Merges:            0,        0KiB  Write Merges:            0,        0KiB
+</span></span><span class="line"><span class="cl"> IO unplugs:             <span class="m">0</span>               Timer unplugs:           <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Throughput <span class="o">(</span>R/W<span class="o">)</span>: 0KiB/s / 63KiB/s
+</span></span><span class="line"><span class="cl">Events <span class="o">(</span>253,0<span class="o">)</span>: <span class="m">2</span> entries
+</span></span><span class="line"><span class="cl">Skips: <span class="m">0</span> forward <span class="o">(</span><span class="m">0</span> -   0.0%<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="设备号与驱动号" class="heading-element">
+  <a href="#%e8%ae%be%e5%a4%87%e5%8f%b7%e4%b8%8e%e9%a9%b1%e5%8a%a8%e5%8f%b7" class="heading-mark"></a>设备号与驱动号</h2><ul>
+<li>主要设备号（major device number），同一设备驱动程序管理的设备有相同的major device number。这个数字实际是Kernel 中device driver table的索引。这个表保存着不同的设备驱动程序。</li>
+<li>次要设备号（minor device number），Kernel根据major device number找到设备驱动程序，然后再从minor device number获得设备位置等属性。</li>
+</ul>
+<h2 id="io-事件" class="heading-element">
+  <a href="#io-%e4%ba%8b%e4%bb%b6" class="heading-mark"></a>I/O 事件</h2><p>有以下 <code>I/O</code> 事件：</p>
+<ul>
+<li><code>A</code>: 表示映射（<code>remap</code>）。进来的 <code>I/O</code> 将被重新映射到 <code>I/O</code> 栈中的具体设备</li>
+<li><code>X</code>: 表示切片（<code>split</code>）。对于做了 <code>Raid</code> 或进行了 <code>device mapper(dm)</code> 的设备,进来的 <code>I/O</code> 可能需要切割,然后发送给不同的设备</li>
+<li><code>Q</code>: 请求队列（<code>queued</code>）。进入 <code>block layer</code>,将要被 <code>request</code> 代码处理（即将生成 <code>I/O</code> 请求）</li>
+<li><code>G</code>: 生成请求（<code>get request</code>）。 <code>I/O</code> 请求生成,为 I/O 分配一个请求结构体</li>
+<li>M : back merge 之前已经存在的 I/O request 的终止 block 号,和该 I/O 的起始 block 号一致,就会合并,也就是向后合并</li>
+<li>F : front merge 之前已经存在的 I/O request 的起始 block 号,和该 I/O 的终止 block 号一致,就会合并,也就是向前合并</li>
+<li>I : inserted I/O 请求被插入到 I/O scheduler 队列</li>
+<li>S : sleep 没有可用的 request 结构体,也就是 I/O 满了,只能等待有 request 结构体完成释放</li>
+<li>P : plug 当一个 I/O 入队一个空队列时,Linux 会锁住这个队列,不处理该 I/O,这样做是为了等待一会,看有没有新的 I/O 进来,可以合并</li>
+<li>U : unplug 当队列中已经有 I/O request 时,会放开这个队列,准备向磁盘驱动发送该 I/O.这个动作的触发条件是：超时（plug 的时候,会设置超时时间）;或者是有一些 I/O 在队列中（多于 1 个 I/O）</li>
+<li>D : issued I/O 将会被传送给磁盘驱动程序处理</li>
+<li>C : complete I/O 处理被磁盘处理完成</li>
+</ul>
+<h2 id="操作类型" class="heading-element">
+  <a href="#%e6%93%8d%e4%bd%9c%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>操作类型</h2><p>操作类型有以下：</p>
+<ul>
+<li><code>R</code> 表示读取，</li>
+<li><code>W</code> 表示写入</li>
+<li><code>D</code> 表示块丢弃操作</li>
+<li><code>B</code> 表示barrier（锁定）操作</li>
+<li><code>S</code> 表示同步操作</li>
+</ul>
+<h1 id="debugfs-is-not-mounted-at-syskerneldebu" class="heading-element">
+  <a href="#debugfs-is-not-mounted-at-syskerneldebu" class="heading-mark"></a>Debugfs is not mounted at /sys/kernel/debu</h1><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># blktrace -d /dev/mapper/centos-root -o - | blkparse -i -</span>
+</span></span><span class="line"><span class="cl">Debugfs is not mounted at /sys/kernel/debug
+</span></span><span class="line"><span class="cl"><span class="c1"># 解决方法</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># mount -t debugfs debugfs /sys/kernel/debug</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-02-03 16:36:27">更新于 2023-02-03&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a><a href="/tags/blktrace/" class="post-tag" title="标签 - blktrace">blktrace</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linuxCmdIostat/" class="post-nav-item" rel="prev" title="iostat — 报告中央处理单元(CPU)的统计信息以及块设备和分区的输入/输出统计信息。"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>iostat — 报告中央处理单元(CPU)的统计信息以及块设备和分区的输入/输出统计信息。</a>
+      <a href="/nginx-unit/" class="post-nav-item" rel="next" title="nginx unit">nginx unit<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

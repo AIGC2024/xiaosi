@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>dmesg - 标签 - 小厮</title>
+    <link>/tags/dmesg/</link>
+    <description>dmesg - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 22 Jul 2023 11:22:35 &#43;0800</lastBuildDate><atom:link href="/tags/dmesg/" rel="self" type="application/rss+xml" /><item>
+  <title>dmesg - 打印或控制内核环缓冲区</title>
+  <link>/linuxCmdDemsg/</link>
+  <pubDate>Sat, 22 Jul 2023 11:22:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdDemsg/</guid>
+  <description><![CDATA[dmesg 用于检查或控制内核环缓冲区。默认操作是从内核环缓冲区读取所有消息。]]></description>
+</item>
+</channel>
+</rss>

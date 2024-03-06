@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>redis - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="Redis 是一个开源（BSD 许可）内存数据结构存储，用作数据库、缓存、消息代理和流引擎" /><meta name="keywords" content='redis, redis 安装' /><meta itemprop="name" content="redis">
+<meta itemprop="description" content="Redis 是一个开源（BSD 许可）内存数据结构存储，用作数据库、缓存、消息代理和流引擎"><meta itemprop="datePublished" content="2021-06-15T10:30:50+08:00" />
+<meta itemprop="dateModified" content="2023-01-02T15:34:14+08:00" />
+<meta itemprop="wordCount" content="2264">
+<meta itemprop="keywords" content="redis,redis 安装," /><meta property="og:title" content="redis" />
+<meta property="og:description" content="Redis 是一个开源（BSD 许可）内存数据结构存储，用作数据库、缓存、消息代理和流引擎" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/redis/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-15T10:30:50+08:00" />
+<meta property="article:modified_time" content="2023-01-02T15:34:14+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="redis"/>
+<meta name="twitter:description" content="Redis 是一个开源（BSD 许可）内存数据结构存储，用作数据库、缓存、消息代理和流引擎"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/redis/" /><link rel="prev" href="/CMDcurl/" /><link rel="next" href="/WindwosTerminal/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "redis",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/redis\/"
+    },"genre": "posts","keywords": "redis, redis 安装","wordcount":  2264 ,
+    "url": "\/redis\/","datePublished": "2021-06-15T10:30:50+08:00","dateModified": "2023-01-02T15:34:14+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>redis</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/redis/" class="post-category" title="分类 - redis"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> redis</a></span></div><div class="post-meta-line"><span title="发布于 2021-06-15 10:30:50"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-06-15">2021-06-15</time></span>&nbsp;<span title="更新于 2023-01-02 15:34:14"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-02">2023-01-02</time></span>&nbsp;<span title="2264 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#redis">redis</a></li>
+    <li><a href="#安装">安装</a>
+      <ul>
+        <li><a href="#源代码编译安装">源代码编译安装</a>
+          <ul>
+            <li><a href="#下载源码包">下载源码包</a></li>
+            <li><a href="#解压编译">解压编译</a></li>
+            <li><a href="#运行-redis">运行 redis</a></li>
+          </ul>
+        </li>
+        <li><a href="#docker-安装"><code>docker</code> 安装</a></li>
+      </ul>
+    </li>
+    <li><a href="#key-value">Key Value</a>
+      <ul>
+        <li><a href="#查看-key-的数量">查看 key 的数量</a></li>
+        <li><a href="#搜索-key">搜索 key</a></li>
+      </ul>
+    </li>
+    <li><a href="#缓存穿透击穿雪崩">缓存穿透、击穿、雪崩</a>
+      <ul>
+        <li><a href="#缓存穿透">缓存穿透</a></li>
+        <li><a href="#缓存击穿">缓存击穿</a></li>
+        <li><a href="#缓存雪崩">缓存雪崩</a></li>
+      </ul>
+    </li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#redisservice-start-operation-timed-out-terminating">redis.service start operation timed out. Terminating.</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-01-02，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://redis.io/docs/getting-started/installation/install-redis-from-source/"target="_blank" rel="external nofollow noopener noreferrer">redis 官方文档: 安装</a></li>
+<li><a href="https://hub.docker.com/_/redis?tab=description&amp;page=1&amp;ordering=last_updated"target="_blank" rel="external nofollow noopener noreferrer">redis docker 镜像</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="redis" class="heading-element">
+  <a href="#redis" class="heading-mark"></a>redis</h1><p><code>Redis</code>  是一个开源（ <code>BSD</code>  许可）内存数据结构存储，用作数据库、缓存、消息代理和流引擎。它是用 <code>ANSI</code>   <code>C</code> 编写的，适用于大多数 <code>POSIX</code> 系统。如 <code>linux</code></p>
+<h1 id="安装" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark"></a>安装</h1><h2 id="源代码编译安装" class="heading-element">
+  <a href="#%e6%ba%90%e4%bb%a3%e7%a0%81%e7%bc%96%e8%af%91%e5%ae%89%e8%a3%85" class="heading-mark"></a>源代码编译安装</h2><h3 id="下载源码包" class="heading-element">
+  <a href="#%e4%b8%8b%e8%bd%bd%e6%ba%90%e7%a0%81%e5%8c%85" class="heading-mark"></a>下载源码包</h3><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># wget https://download.redis.io/redis-stable.tar.gz</span>
+</span></span><span class="line"><span class="cl">--2022-12-31 10:38:02--  https://download.redis.io/redis-stable.tar.gz
+</span></span><span class="line"><span class="cl">Resolving download.redis.io <span class="o">(</span>download.redis.io<span class="o">)</span>... 45.60.125.1
+</span></span><span class="line"><span class="cl">Connecting to download.redis.io <span class="o">(</span>download.redis.io<span class="o">)</span><span class="p">|</span>45.60.125.1<span class="p">|</span>:443... connected.
+</span></span><span class="line"><span class="cl">HTTP request sent, awaiting response... <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">Length: <span class="m">3058445</span> <span class="o">(</span>2.9M<span class="o">)</span> <span class="o">[</span>application/octet-stream<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Saving to: ‘redis-stable.tar.gz’
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">100%<span class="o">[==============================================================================</span>&gt;<span class="o">]</span> 3,058,445   8.22MB/s   in 0.4s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2022-12-31 10:38:03 <span class="o">(</span>8.22 MB/s<span class="o">)</span> - ‘redis-stable.tar.gz’ saved <span class="o">[</span>3058445/3058445<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="解压编译" class="heading-element">
+  <a href="#%e8%a7%a3%e5%8e%8b%e7%bc%96%e8%af%91" class="heading-mark"></a>解压编译</h3><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># tar -zxf redis-stable.tar.gz</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># cd redis-stable</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis-stable<span class="o">]</span><span class="c1"># make</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> src <span class="o">&amp;&amp;</span> make all
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="o">===============================================================================</span>
+</span></span><span class="line"><span class="cl">jemalloc version   : 5.2.1-0-g0
+</span></span><span class="line"><span class="cl">library revision   : <span class="m">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CONFIG             : --with-version<span class="o">=</span>5.2.1-0-g0 --with-lg-quantum<span class="o">=</span><span class="m">3</span> --with-jemalloc-prefix<span class="o">=</span>je_ <span class="s1">&#39;CFLAGS=-std=gnu99 -Wall -pipe -g3 -O3 -funroll-loops &#39;</span> <span class="nv">LDFLAGS</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl">CC                 : gcc
+</span></span><span class="line"><span class="cl">CONFIGURE_CFLAGS   : -std<span class="o">=</span>gnu11 -Wall -Wextra -Wsign-compare -Wundef -Wno-format-zero-length -pipe -g3 -fvisibility<span class="o">=</span>hidden -O3 -funroll-loops
+</span></span><span class="line"><span class="cl">SPECIFIED_CFLAGS   : -std<span class="o">=</span>gnu99 -Wall -pipe -g3 -O3 -funroll-loops
+</span></span><span class="line"><span class="cl">EXTRA_CFLAGS       :
+</span></span><span class="line"><span class="cl">CPPFLAGS           : -D_GNU_SOURCE -D_REENTRANT
+</span></span><span class="line"><span class="cl">CXX                : g++
+</span></span><span class="line"><span class="cl">CONFIGURE_CXXFLAGS : -fvisibility<span class="o">=</span>hidden -O3
+</span></span><span class="line"><span class="cl">SPECIFIED_CXXFLAGS :
+</span></span><span class="line"><span class="cl">EXTRA_CXXFLAGS     :
+</span></span><span class="line"><span class="cl">LDFLAGS            :
+</span></span><span class="line"><span class="cl">EXTRA_LDFLAGS      :
+</span></span><span class="line"><span class="cl">DSO_LDFLAGS        : -shared -Wl,-soname,<span class="k">$(</span>@F<span class="k">)</span>
+</span></span><span class="line"><span class="cl">LIBS               : -lm  -pthread -ldl
+</span></span><span class="line"><span class="cl">RPATH_EXTRA        :
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">XSLTPROC           : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">XSLROOT            :
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PREFIX             : /usr/local
+</span></span><span class="line"><span class="cl">BINDIR             : /usr/local/bin
+</span></span><span class="line"><span class="cl">DATADIR            : /usr/local/share
+</span></span><span class="line"><span class="cl">INCLUDEDIR         : /usr/local/include
+</span></span><span class="line"><span class="cl">LIBDIR             : /usr/local/lib
+</span></span><span class="line"><span class="cl">MANDIR             : /usr/local/share/man
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">srcroot            :
+</span></span><span class="line"><span class="cl">abs_srcroot        : /data/redis-stable/deps/jemalloc/
+</span></span><span class="line"><span class="cl">objroot            :
+</span></span><span class="line"><span class="cl">abs_objroot        : /data/redis-stable/deps/jemalloc/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">JEMALLOC_PREFIX    : je_
+</span></span><span class="line"><span class="cl">JEMALLOC_PRIVATE_NAMESPACE
+</span></span><span class="line"><span class="cl">                   : je_
+</span></span><span class="line"><span class="cl">install_suffix     :
+</span></span><span class="line"><span class="cl">malloc_conf        :
+</span></span><span class="line"><span class="cl">documentation      : <span class="m">1</span>
+</span></span><span class="line"><span class="cl">shared libs        : <span class="m">1</span>
+</span></span><span class="line"><span class="cl">static libs        : <span class="m">1</span>
+</span></span><span class="line"><span class="cl">autogen            : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">debug              : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">stats              : <span class="m">1</span>
+</span></span><span class="line"><span class="cl">experimetal_smallocx : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">prof               : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">prof-libunwind     : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">prof-libgcc        : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">prof-gcc           : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">fill               : <span class="m">1</span>
+</span></span><span class="line"><span class="cl">utrace             : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">xmalloc            : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">log                : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">lazy_lock          : <span class="m">0</span>
+</span></span><span class="line"><span class="cl">cache-oblivious    : <span class="m">1</span>
+</span></span><span class="line"><span class="cl">cxx                : <span class="nv">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================================================</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis-stable<span class="o">]</span><span class="c1"># make install</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编译完成后有以下二进制文件</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis-stable<span class="o">]</span><span class="c1"># redis-server -v</span>
+</span></span><span class="line"><span class="cl">Redis server <span class="nv">v</span><span class="o">=</span>7.0.7 <span class="nv">sha</span><span class="o">=</span>00000000:0 <span class="nv">malloc</span><span class="o">=</span>jemalloc-5.2.1 <span class="nv">bits</span><span class="o">=</span><span class="m">64</span> <span class="nv">build</span><span class="o">=</span>7ce2fddae0c636d5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis-stable<span class="o">]</span><span class="c1"># redis-</span>
+</span></span><span class="line"><span class="cl">redis-benchmark  redis-check-aof  redis-check-rdb  redis-cli        redis-sentinel   redis-server</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>redis-server</code>: <code>redis</code> 服务</li>
+<li><code>redis-cli</code>: 与 <code>redis</code> 服务通信的 <code>CLI</code> 命令行工具</li>
+</ul>
+<h3 id="运行-redis" class="heading-element">
+  <a href="#%e8%bf%90%e8%a1%8c-redis" class="heading-mark"></a>运行 redis</h3><ol>
+<li>添加普通用户作为<code>redis</code>运行用户
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># useradd redis -s /sbin/nologin -d /data/redis -c &#34;reids server&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># chown -R redis:redis /data/redis</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># mkdir /data/redis</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># cd /data/redis</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>修改配置文件
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 在源码包中找配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># find /data/redis-stable/ -name &#34;*.conf&#34;</span>
+</span></span><span class="line"><span class="cl">/data/redis-stable/tests/assets/default.conf
+</span></span><span class="line"><span class="cl">/data/redis-stable/tests/assets/minimal.conf
+</span></span><span class="line"><span class="cl">/data/redis-stable/tests/sentinel/tests/includes/sentinel.conf
+</span></span><span class="line"><span class="cl">/data/redis-stable/redis.conf
+</span></span><span class="line"><span class="cl">/data/redis-stable/sentinel.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># cp /data/redis-stable/redis.conf  redis.conf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># vim redis.conf</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改监听地址</span>
+</span></span><span class="line"><span class="cl"><span class="nb">bind</span> 103.106.246.17
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改监听端口</span>
+</span></span><span class="line"><span class="cl">port <span class="m">6973</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 以守护进程运行</span>
+</span></span><span class="line"><span class="cl">daemonize yes
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定redis工作目录</span>
+</span></span><span class="line"><span class="cl">dir /data/redis/
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定redis pid 文件</span>
+</span></span><span class="line"><span class="cl">pidfile /data/redis/redis.pid
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定日志文件</span>
+</span></span><span class="line"><span class="cl">logfile <span class="s2">&#34;/data/redis/redis.log&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>为 <code>redis</code> 创建 <code>systemctl unit</code> 文件
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 在源码包中找systemctl  service 配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># find /data/redis-stable/ -name &#34;*.service&#34;</span>
+</span></span><span class="line"><span class="cl">/data/redis-stable/utils/systemd-redis_multiple_servers@.service
+</span></span><span class="line"><span class="cl">/data/redis-stable/utils/systemd-redis_server.service
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># cat /data/redis-stable/utils/systemd-redis_server.service &gt; /usr/lib/systemd/system/redis.service</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改后systemctl service 配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># cat /usr/lib/systemd/system/redis.service</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># example systemd service unit file for redis-server</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># In order to use this as a template for providing a redis service in your</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># environment, _at the very least_ make sure to adapt the redis configuration</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># file you intend to use as needed (make sure to set &#34;supervised systemd&#34;), and</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># to set sane TimeoutStartSec and TimeoutStopSec property values in the unit&#39;s</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># &#34;[Service]&#34; section to fit your needs.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Some properties, such as User= and Group=, are highly desirable for virtually</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># all deployments of redis, but cannot be provided in a manner that fits all</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># expectable environments. Some of these properties have been commented out in</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># this example service unit file, but you are highly encouraged to set them to</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># fit your needs.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Please refer to systemd.unit(5), systemd.service(5), and systemd.exec(5) for</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># more information.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Description</span><span class="o">=</span>Redis data structure server
+</span></span><span class="line"><span class="cl"><span class="nv">Documentation</span><span class="o">=</span>https://redis.io/documentation
+</span></span><span class="line"><span class="cl"><span class="c1">#Before=your_application.service another_example_application.service</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#AssertPathExists=/var/lib/redis</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Wants</span><span class="o">=</span>network-online.target
+</span></span><span class="line"><span class="cl"><span class="nv">After</span><span class="o">=</span>network-online.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Service<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ExecStart=/usr/local/bin/redis-server --supervised systemd --daemonize no</span>
+</span></span><span class="line"><span class="cl"><span class="c1">## Alternatively, have redis-server load a configuration file:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#ExecStart=/usr/local/bin/redis-server /path/to/your/redis.conf</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定 redis 运行配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStart</span><span class="o">=</span>/usr/local/bin/redis-server /data/redis/redis.conf
+</span></span><span class="line"><span class="cl"><span class="nv">ExecReload</span><span class="o">=</span>/bin/kill -s HUP <span class="nv">$MAINPID</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStop</span><span class="o">=</span>/bin/kill -s QUIT <span class="nv">$MAINPID</span>
+</span></span><span class="line"><span class="cl"><span class="nv">LimitNOFILE</span><span class="o">=</span><span class="m">10032</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NoNewPrivileges</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="c1">#OOMScoreAdjust=-900</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 则为已执行的进程设置一个新的文件系统命名空间，可选</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PrivateTmp</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="c1"># 以守护进程方式运行</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span><span class="o">=</span>forking
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定启用超时时间</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TimeoutStartSec</span><span class="o">=</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定停止超时时间</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TimeoutStopSec</span><span class="o">=</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="nv">UMask</span><span class="o">=</span><span class="m">0077</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定运行身份的用户</span>
+</span></span><span class="line"><span class="cl"><span class="nv">User</span><span class="o">=</span>redis
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定运行身份的用户组</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Group</span><span class="o">=</span>redis
+</span></span><span class="line"><span class="cl"><span class="c1">#WorkingDirectory=/var/lib/redis</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Install<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span><span class="o">=</span>multi-user.target</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>运行
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 运行</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># systemctl daemon-reload</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># systemctl start redis</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># ps -ef | grep redis</span>
+</span></span><span class="line"><span class="cl">redis     <span class="m">2789</span>     <span class="m">1</span>  <span class="m">0</span> 13:03 ?        00:00:00 /usr/local/bin/redis-server 103.106.246.17:6973</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>测试
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># -h 指定地址 -p 指定端口 -u 指定用户名 -a 指定密码</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># redis-cli -h 103.106.246.17 -p 6973</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h2 id="docker-安装" class="heading-element">
+  <a href="#docker-%e5%ae%89%e8%a3%85" class="heading-mark"></a><code>docker</code> 安装</h2><ol>
+<li>创建目录用于存储</li>
+</ol>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># data 目录存储数据</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># conf 目录存储配置</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># mkdir -p redis/{data,conf}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>创建容器</li>
+</ol>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># docker container run --name redis \</span>
+</span></span><span class="line"><span class="cl">&gt; -v /root/redis/data/:/data <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -v /root/redis/conf/:/usr/local/etc/redis <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -d redis
+</span></span><span class="line"><span class="cl">fbc4af9ec097e38d5043a3e78c3422677ad039ba6bca40d42087f63abce49740
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># docker container ls</span>
+</span></span><span class="line"><span class="cl">CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS      NAMES
+</span></span><span class="line"><span class="cl">fbc4af9ec097   redis     <span class="s2">&#34;docker-entrypoint.s…&#34;</span>   <span class="m">7</span> minutes ago   Up <span class="m">7</span> minutes   6379/tcp   redis</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>查看相关命令</li>
+</ol>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># docker container exec -it redis /bin/bash</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># redi # 2次 TAB键</span>
+</span></span><span class="line"><span class="cl">root@fbc4af9ec097:/data# redis-
+</span></span><span class="line"><span class="cl">redis-benchmark  redis-check-aof  redis-check-rdb  redis-cli        redis-sentinel   redis-server</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>创建<code>alias</code>别名</li>
+</ol>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># alias redis-cli=&#34;docker container exec -it redis redis-cli&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@c8 ~<span class="o">]</span><span class="c1"># redis-cli --help</span>
+</span></span><span class="line"><span class="cl">redis-cli 6.2.4
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Usage: redis-cli <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>cmd <span class="o">[</span>arg <span class="o">[</span>arg ...<span class="o">]]]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="key-value" class="heading-element">
+  <a href="#key-value" class="heading-mark"></a>Key Value</h1><p><code>redis</code> 是使用 <code>k/v</code> 结构存储数据的，这些数据是缓存在内存中。<code>redis</code> 会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了<code>master-slave</code>(主从)同步。</p>
+<p><code>redis</code> 的 <code>key</code> 可以是任何二进制序列。大小最在为 <code>512MB</code> 。<code>key</code> 应该尽量简短，过长的 <code>key</code> 会带来额外的消耗</p>
+<h2 id="查看-key-的数量" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b-key-%e7%9a%84%e6%95%b0%e9%87%8f" class="heading-mark"></a>查看 key 的数量</h2><div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">DBSIZE
+</span></span><span class="line"><span class="cl">Available since: 1.0.0
+</span></span><span class="line"><span class="cl">Time complexity: O<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ACL categories: @keyspace, @read, @fast</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; DBSIZE
+</span></span><span class="line"><span class="cl"><span class="o">(</span>integer<span class="o">)</span> <span class="m">10</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="搜索-key" class="heading-element">
+  <a href="#%e6%90%9c%e7%b4%a2-key" class="heading-mark"></a>搜索 key</h2><div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">KEYS pattern
+</span></span><span class="line"><span class="cl">Available since: 1.0.0
+</span></span><span class="line"><span class="cl">Time complexity: O<span class="o">(</span>N<span class="o">)</span> <span class="c1"># N 为 key 的数量，由于常量时间相当低。redis 可以在 40 毫秒扫描 100 万个 key</span>
+</span></span><span class="line"><span class="cl">ACL categories: @keyspace, @read, @slow, @dangerous
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">pattern 是 go 风格的匹配模式：
+</span></span><span class="line"><span class="cl">- ?: 匹配单个字符，如 a?c 可以匹配 abc acc aac 等等
+</span></span><span class="line"><span class="cl">- *: 匹配任意字符，如 a*c 可以匹配 ac acccc abcdsc 等等
+</span></span><span class="line"><span class="cl">- <span class="o">[]</span>: 匹配其中一个字符，如 a<span class="o">[</span>bB<span class="o">]</span>c 可以匹配 abc 与 aBc
+</span></span><span class="line"><span class="cl">- <span class="o">[</span>a-z<span class="o">]</span>: 是<span class="o">[]</span>字母集的缩写，如 1<span class="o">[</span>a-c<span class="o">]</span> 可以匹配 1a 1b 1c
+</span></span><span class="line"><span class="cl">- <span class="o">[</span>^<span class="o">]</span>: 匹配以外的，如 1<span class="o">[</span>^a-c<span class="o">]</span> 结果与 1<span class="o">[</span>a-c<span class="o">]</span> 相反
+</span></span><span class="line"><span class="cl">- <span class="se">\:</span> 转义特殊字符，包括它本身，如 <span class="se">\[</span> 匹配 <span class="o">[</span> , <span class="se">\\</span> 匹配 <span class="err">\</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令用于调试和特殊操作，在生产环境中格外小心使用的命令。当它针对大型数据库执行时，它可能会破坏性能。</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">103.106.246.17:6973&gt; KEYS *
+</span></span><span class="line"><span class="cl"> 1<span class="o">)</span> <span class="s2">&#34;key2&#34;</span>
+</span></span><span class="line"><span class="cl"> 2<span class="o">)</span> <span class="s2">&#34;key3&#34;</span>
+</span></span><span class="line"><span class="cl"> 3<span class="o">)</span> <span class="s2">&#34;mykey&#34;</span>
+</span></span><span class="line"><span class="cl"> 4<span class="o">)</span> <span class="s2">&#34;keyc&#34;</span>
+</span></span><span class="line"><span class="cl"> 5<span class="o">)</span> <span class="s2">&#34;key6&#34;</span>
+</span></span><span class="line"><span class="cl"> 6<span class="o">)</span> <span class="s2">&#34;key1&#34;</span>
+</span></span><span class="line"><span class="cl"> 7<span class="o">)</span> <span class="s2">&#34;decrby&#34;</span>
+</span></span><span class="line"><span class="cl"> 8<span class="o">)</span> <span class="s2">&#34;keyb&#34;</span>
+</span></span><span class="line"><span class="cl"> 9<span class="o">)</span> <span class="s2">&#34;keya&#34;</span>
+</span></span><span class="line"><span class="cl">10<span class="o">)</span> <span class="s2">&#34;key4&#34;</span>
+</span></span><span class="line"><span class="cl">103.106.246.17:6973&gt; KEYS key1
+</span></span><span class="line"><span class="cl">1<span class="o">)</span> <span class="s2">&#34;key1&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="缓存穿透击穿雪崩" class="heading-element">
+  <a href="#%e7%bc%93%e5%ad%98%e7%a9%bf%e9%80%8f%e5%87%bb%e7%a9%bf%e9%9b%aa%e5%b4%a9" class="heading-mark"></a>缓存穿透、击穿、雪崩</h1><h2 id="缓存穿透" class="heading-element">
+  <a href="#%e7%bc%93%e5%ad%98%e7%a9%bf%e9%80%8f" class="heading-mark"></a>缓存穿透</h2><p>缓存穿透是指缓存和数据库中都没有的数据，而用户不断发起请求。由于缓存是不命中时被动写的，并且出于容错考虑，如果从存储层查不到数据则不写入缓存，这将导致这个不存在的数据每次请求都要到存储层去查询，失去了缓存的意义。在流量大时，可能导致数据库就挂掉，要是有人利用不存在的 <code>key</code> 频繁攻击我们的应用，这就是漏洞。</p>
+<h2 id="缓存击穿" class="heading-element">
+  <a href="#%e7%bc%93%e5%ad%98%e5%87%bb%e7%a9%bf" class="heading-mark"></a>缓存击穿</h2><p>缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期），这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力。</p>
+<h2 id="缓存雪崩" class="heading-element">
+  <a href="#%e7%bc%93%e5%ad%98%e9%9b%aa%e5%b4%a9" class="heading-mark"></a>缓存雪崩</h2><p>缓存雪崩是指缓存中数据大批量到过期时间，而查询数据量巨大，引起数据库压力过大甚至挂掉</p>
+<h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="redisservice-start-operation-timed-out-terminating" class="heading-element">
+  <a href="#redisservice-start-operation-timed-out-terminating" class="heading-mark"></a>redis.service start operation timed out. Terminating.</h2><div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost data<span class="o">]</span><span class="c1"># journalctl -u redis</span>
+</span></span><span class="line"><span class="cl">-- Logs begin at Thu 2022-12-29 12:33:34 CST, end at Sat 2022-12-31 11:22:34 CST. --
+</span></span><span class="line"><span class="cl">Dec <span class="m">31</span> 11:22:28 localhost.localdomain systemd<span class="o">[</span>1<span class="o">]</span>: Starting Redis data structure server...
+</span></span><span class="line"><span class="cl">Dec <span class="m">31</span> 11:22:28 localhost.localdomain systemd<span class="o">[</span>1<span class="o">]</span>: redis.service start operation timed out. Terminating.
+</span></span><span class="line"><span class="cl">Dec <span class="m">31</span> 11:22:28 localhost.localdomain systemd<span class="o">[</span>1<span class="o">]</span>: Failed to start Redis data structure server.
+</span></span><span class="line"><span class="cl">Dec <span class="m">31</span> 11:22:28 localhost.localdomain systemd<span class="o">[</span>1<span class="o">]</span>: Unit redis.service entered failed state.
+</span></span><span class="line"><span class="cl">Dec <span class="m">31</span> 11:22:28 localhost.localdomain systemd<span class="o">[</span>1<span class="o">]</span>: redis.service failed.</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决方法</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost redis<span class="o">]</span><span class="c1"># cat /usr/lib/systemd/system/redis.service</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定启动与停止超时时间，不能以infinity为值</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TimeoutStartSec</span><span class="o">=</span><span class="m">20</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TimeoutStopSec</span><span class="o">=</span><span class="m">20</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#TimeoutStartSec=infinity</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#TimeoutStopSec=infinity</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-01-02 15:34:14">更新于 2023-01-02&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/redis/" class="post-tag" title="标签 - redis">redis</a><a href="/tags/redis-%E5%AE%89%E8%A3%85/" class="post-tag" title="标签 - redis 安装">redis 安装</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/CMDcurl/" class="post-nav-item" rel="prev" title="curl - 使用url进行传输数据的命令行工具"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>curl - 使用url进行传输数据的命令行工具</a>
+      <a href="/WindwosTerminal/" class="post-nav-item" rel="next" title="windows terminal">windows terminal<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

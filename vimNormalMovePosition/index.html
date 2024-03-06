@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>vim 普通模式下光标移动 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="动作符、位置标记、跳转表、改变表" /><meta name="keywords" content='vim 动作符, vim 位置标记, vim 跳转表, vim 改变表' /><meta itemprop="name" content="vim 普通模式下光标移动">
+<meta itemprop="description" content="动作符、位置标记、跳转表、改变表"><meta itemprop="datePublished" content="2021-07-30T16:47:30+08:00" />
+<meta itemprop="dateModified" content="2023-04-09T14:35:38+08:00" />
+<meta itemprop="wordCount" content="7155">
+<meta itemprop="keywords" content="vim 动作符,vim 位置标记,vim 跳转表,vim 改变表," /><meta property="og:title" content="vim 普通模式下光标移动" />
+<meta property="og:description" content="动作符、位置标记、跳转表、改变表" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/vimNormalMovePosition/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-30T16:47:30+08:00" />
+<meta property="article:modified_time" content="2023-04-09T14:35:38+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="vim 普通模式下光标移动"/>
+<meta name="twitter:description" content="动作符、位置标记、跳转表、改变表"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/vimNormalMovePosition/" /><link rel="prev" href="/WindwosTerminal/" /><link rel="next" href="/vim%E6%96%87%E6%9C%AC%E5%AF%B9%E8%B1%A1%E4%B8%8E%E6%93%8D%E4%BD%9C%E7%AC%A6/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "vim 普通模式下光标移动",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/vimNormalMovePosition\/"
+    },"genre": "posts","keywords": "vim 动作符, vim 位置标记, vim 跳转表, vim 改变表","wordcount":  7155 ,
+    "url": "\/vimNormalMovePosition\/","datePublished": "2021-07-30T16:47:30+08:00","dateModified": "2023-04-09T14:35:38+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>vim 普通模式下光标移动</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/vim/" class="post-category" title="分类 - vim"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> vim</a></span></div><div class="post-meta-line"><span title="发布于 2021-07-30 16:47:30"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-07-30">2021-07-30</time></span>&nbsp;<span title="更新于 2023-04-09 14:35:38"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-09">2023-04-09</time></span>&nbsp;<span title="7155 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 7200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 15 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#动作符">动作符</a></li>
+    <li><a href="#左右动作">左右动作</a></li>
+    <li><a href="#上下动作">上下动作</a></li>
+    <li><a href="#单词动作">单词动作</a></li>
+    <li><a href="#文本对像动作">文本对像动作</a></li>
+    <li><a href="#其它动作">其它动作</a></li>
+    <li><a href="#位置标记">位置标记</a></li>
+    <li><a href="#跳转表">跳转表</a></li>
+    <li><a href="#改变表">改变表</a></li>
+    <li><a href="#相关选项">相关选项</a>
+      <ul>
+        <li><a href="#scrolljump">scrolljump</a></li>
+        <li><a href="#scrolloff">scrolloff</a></li>
+        <li><a href="#virtualedit">virtualedit</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>vim: 8.0</li>
+<li>vim: 9.0</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://github.com/yianwillis/vimcdoc/releases/" title="vim参考手册P620-P641"target="_blank" rel="external nofollow noopener noreferrer">vim参考手册P620-P641</a></li>
+</ul>
+</blockquote>
+<h1 id="动作符" class="heading-element">
+  <a href="#%e5%8a%a8%e4%bd%9c%e7%ac%a6" class="heading-mark"></a>动作符</h1><p>动作符用于移动光标(从一个位置移到另一个位置)。动作符分为开动作或闭动作或行动作：</p>
+<ul>
+<li>行动作：以文本行为单位移动，与操作符配合使用时会包含开始位置到结束位置的所有
+文本行</li>
+<li>闭动作：与操作符配合使用时，开始位置和结束位置都包含在操作范围内</li>
+<li>开动作：与操作符配合使用时，开始位置和结束位置范围中，不包含靠近缓冲区尾端的
+最后一个字符。但有以下特殊情况：
+<ul>
+<li>如果开动作的结尾在第一列，那么会移到上一行的结尾处，并转换为一个闭动作。
+如<code>}</code>与<code>d}</code></li>
+<li>如果开动作的结尾在第一列且开始处在一行的第一个非空白字符之前或之上，那么会
+转换为行动作。如一个段落以空白字符开头并在第一个非空白字符执行<code>d}</code>，那前面
+的空白字符也会删除</li>
+</ul>
+</li>
+</ul>
+<h1 id="左右动作" class="heading-element">
+  <a href="#%e5%b7%a6%e5%8f%b3%e5%8a%a8%e4%bd%9c" class="heading-mark"></a>左右动作</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">动作符</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">动作类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>h</code><br/>或 <code>&lt;Left&gt;</code> <br/>或 <code>&lt;BS&gt;</code><br/>或 <code>&lt;CTRL-H&gt;</code></td>
+<td style="text-align:left">向左<code>[count]</code>个字符</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>l</code><br/>或 <code>&lt;Right&gt;</code> <br/>或 <code>&lt;Space&gt;</code></td>
+<td style="text-align:left">向右<code>[count]</code>个字符</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>0</code></td>
+<td style="text-align:left">到文本行的第一个字符</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;Home&gt;</code></td>
+<td style="text-align:left">到文本行的第一个字符，<br/>如果一行以<code>&lt;Tab&gt;</code>开头，则和<code>0</code>有区别</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>^</code></td>
+<td style="text-align:left">到文本行的第一个非空白字符</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$</code><br/>或 <code>&lt;End&gt;</code></td>
+<td style="text-align:left">到文本行尾部，如果给出<code>[count]</code>，则先往下走<code>[count-1]</code>行<br/> 1. 可视模式下，光标移到紧贴该行最后一个字符之后的位置<br/> 2. 如果置位了<code>virtualedit</code>选项，<code>$</code>可从行尾之后的空白后退到行尾</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>g_</code></td>
+<td style="text-align:left">往下<code>[count-1]</code>行并到该行的最后一个非空白字符</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>g0</code><br/>或<code>g&lt;Home&gt;</code></td>
+<td style="text-align:left">到屏幕行的第一个字符</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>g^</code></td>
+<td style="text-align:left">到屏幕行的第一个非空白字符</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gm</code></td>
+<td style="text-align:left">尽可能向右移到屏幕(行)显示宽度的中间位置</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gM</code></td>
+<td style="text-align:left">到行文本的中间位置，带计数时: 行文本的此百分比位置</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>g$</code><br/>或 <code>g&lt;End&gt;</code></td>
+<td style="text-align:left">往下<code>[count-1]</code>屏幕行并到该屏幕行的行尾</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left">`</td>
+<td style="text-align:left">`</td>
+<td style="text-align:left">到当前行的<code>[count]</code>屏幕列</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>f{char}</code></td>
+<td style="text-align:left">到右侧第<code>[count]</code>次出现的字符<code>{char}</code>(可以输入二合字母), 光标放在<code>{char}</code>上</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>F{char}</code></td>
+<td style="text-align:left">到左侧第<code>[count]</code>次出现的字符<code>{char}</code>(可以输入二合字母), 光标放在<code>{char}</code>上</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>t{char}</code></td>
+<td style="text-align:left">到右侧第<code>[count]</code>次出现的字符<code>{char}</code>(可以输入二合字母), 光标放在<code>{char}</code>之前</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>T{char}</code></td>
+<td style="text-align:left">到左侧第<code>[count]</code>次出现的字符<code>{char}</code>(可以输入二合字母), 光标放在<code>{char}</code>之后</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>;</code></td>
+<td style="text-align:left">重复上次的<code>f</code>、<code>t</code>、<code>F</code>或者<code>T</code> 命令<code>[count]</code>次</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>,</code></td>
+<td style="text-align:left">反向重复上次的<code>f</code>、<code>t</code>、<code>F</code>或者<code>T</code> 命令<code>[count]</code>次</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="上下动作" class="heading-element">
+  <a href="#%e4%b8%8a%e4%b8%8b%e5%8a%a8%e4%bd%9c" class="heading-mark"></a>上下动作</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">动作符</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">动作类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>k</code><br/>或 <code>&lt;UP&gt;</code><br/>或 <code>&lt;CTRL-P&gt;</code></td>
+<td style="text-align:left">向上<code>[count]</code>文本行</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>j</code><br/>或 <code>&lt;Down&gt;</code><br/>或 <code>&lt;NL&gt;</code><br/>或 <code>&lt;CTRL-J&gt;</code><br/>或 <code>&lt;CTRL-N&gt;</code></td>
+<td style="text-align:left">向下<code>[count]</code>文本行</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gk</code><br/>或 <code>g&lt;Up&gt;</code></td>
+<td style="text-align:left">向上<code>[count]</code>屏幕行</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gj</code><br/>或 <code>g&lt;Down&gt;</code></td>
+<td style="text-align:left">向下<code>[count]</code>屏幕行</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>-</code></td>
+<td style="text-align:left">向上<code>[count]</code>文本行，停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>+</code><br/>或 <code>&lt;CTRL-M&gt;</code><br/>或 <code>&lt;CR&gt;</code></td>
+<td style="text-align:left">向下<code>[count]</code>文本行，停在第一个非空白字符上</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>_</code></td>
+<td style="text-align:left">向下<code>[count] - 1</code>文本行，停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>G</code></td>
+<td style="text-align:left">到第<code>[count]</code>文本行，缺省是最后一行。如果<code>startofline</code>选项没有置位，则保持在相同的列上，不然，停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;C-End&gt;</code></td>
+<td style="text-align:left">到第<code>[count]</code>文本行，缺省是最后一行并停在最后一个字符上</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gg</code><br/>或 <code>&lt;C-Home&gt;</code></td>
+<td style="text-align:left">到第<code>[count]</code>文本行，缺省是第一行。如果<code>startofline</code>选项没有置位，保持在相同的列上，不然，停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:[range]</code></td>
+<td style="text-align:left">把光标移到<code>[range]</code>的最后一行(<code>range</code>可以是行号)</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>{count}%</code></td>
+<td style="text-align:left">到文件的<code>{count}</code>百分比处并停在行的第一个非空白字符上。新的行号<code>=({count} * 总行数 + 99) / 100</code></td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:[range]go[to] [count]</code><br/>或 <code>[count]go</code></td>
+<td style="text-align:left">到缓冲区的第<code>[count]</code>个字节。缺省的<code>[count]</code>是<code>1</code>。如果给定<code>[range]</code>，则最后的一个数字用作字节的序号。<code>fileformat</code>选项的当前设置决定如何计算换行符的个数</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h1 id="单词动作" class="heading-element">
+  <a href="#%e5%8d%95%e8%af%8d%e5%8a%a8%e4%bd%9c" class="heading-mark"></a>单词动作</h1><p>这些动作符在在单词或字串间移动：</p>
+<ul>
+<li>一个单词由字符、数字和下划线序列或者其他的非空白字符的序列组成。单词间可以
+空白字符(空格、制表、换行)分隔。这一规则可以用<code>iskeyword</code>选项改变。空行也被
+认作单词</li>
+<li>一个字串由非空白字符序列组成。字串以空白分隔。空行也被认作字串</li>
+</ul>
+<p>特例:</p>
+<ul>
+<li>如果光标在非空白字符上，<code>cw</code>和<code>cW</code>等价于<code>ce</code>和<code>cE</code>。这是因为<code>cw</code>被诠释为
+修改-单词，而单词并不包括后续的空格</li>
+<li>如果<code>w</code>动作带操作符并且该动作的最后一个单词在行尾，则该操作范围结束于行尾
+而非下一行的第一个单词</li>
+</ul>
+<p>原始<code>Vi</code>的<code>e</code>实现有问题。例如，如果前一行为空而光标停在后一行的第一个字符，
+使用<code>e</code>就会卡在那里，但是你用<code>2e</code>就很正常</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">动作符</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">动作类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>w</code><br/>或 <code>&lt;S-Right&gt;</code></td>
+<td style="text-align:left">正向<code>[count]</code>个单词</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>b</code><br/>或 <code>&lt;S-Left&gt;</code></td>
+<td style="text-align:left">反向<code>[count]</code>个单词</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>W</code><br/>或 <code>&lt;C-Right&gt;</code></td>
+<td style="text-align:left">正向<code>[count]</code>个字串</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>B</code><br/>或 <code>&lt;C-Left&gt;</code></td>
+<td style="text-align:left">反向<code>[count]</code>个字串</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>e</code></td>
+<td style="text-align:left">正向到第<code>[count]</code>个单词的尾部，不停留在空行上</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>E</code></td>
+<td style="text-align:left">正向到第<code>[count]</code>个字串的尾部，不停留在空行上</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ge</code></td>
+<td style="text-align:left">反向到第<code>[count]</code>个单词的尾部</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gE</code></td>
+<td style="text-align:left">反向到第<code>[count]</code>个字串的尾部</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+</tbody>
+</table>
+<h1 id="文本对像动作" class="heading-element">
+  <a href="#%e6%96%87%e6%9c%ac%e5%af%b9%e5%83%8f%e5%8a%a8%e4%bd%9c" class="heading-mark"></a>文本对像动作</h1><p>这些命令在三类文本对象上移动：</p>
+<ul>
+<li>小节：一个小节从首列出现的换页符(<code>&lt;C-L&gt;</code>) 或某一个小节宏命令开始。小节宏由
+<code>sections</code>选项里成对出现的字符所定义。它的缺省值是<code>SHNHH HUnhsh</code>，也就是说
+小节可以从如下的<code>nroff</code>宏开始:  <code>.SH</code>、<code>.NH</code>、<code>.H</code>、<code>.HU</code>、<code>.nh</code> 和 <code>.sh</code></li>
+<li>段落：一个段落从空行或某一个段落宏命令开始，段落宏由<code>paragraphs</code>选项里成对
+出现的字符所定义。它的缺省值为<code>IPLPPPQPP TPHPLIPpLpItpplpipbp</code>，也就是宏
+<code>.IP</code>、<code>.LP</code>等 (这些是<code>nroff</code>宏，所以句号一定要出现在第一列)
+<ul>
+<li>小节边界也被视为段落边界</li>
+<li>空白行(只包含空白)不是段落边界</li>
+<li>这不包括首列出现的<code>{</code>或<code>}</code>。如果<code>cpoptions</code>选项里包含<code>{</code>标志位，那么首列的
+<code>{</code>用作段落边界</li>
+</ul>
+</li>
+<li>句子：一个句子以 <code>.</code>、<code>!</code> 或者 <code>?</code> 结尾并紧随着一个换行符、空格或者制表符。
+标点和空白字符之间可以出现任何数量的闭括号和引号: <code>)</code>、<code>]</code>、<code>&quot;</code> 和 <code>`</code>
+<ul>
+<li>段落和小节的边界也视为句子的边界</li>
+<li>如果<code>cpoptions</code>选项包含<code>J</code>标志位，那么标点之后的空格至少要出现两个，而且
+制表符不被视为空白字符</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">动作符</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">动作类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>(</code></td>
+<td style="text-align:left">反向<code>[count]</code>个句子</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>)</code></td>
+<td style="text-align:left">正向<code>[count]</code>个句子</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>{</code></td>
+<td style="text-align:left">反向<code>[count]</code>个段落</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>}</code></td>
+<td style="text-align:left">正向<code>[count]</code>个段落</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]]</code></td>
+<td style="text-align:left">正向<code>[count]</code>个小节或到出现在首列的 <code>{</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>][</code></td>
+<td style="text-align:left">反向<code>[count]</code>个段落</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[[</code></td>
+<td style="text-align:left">反向<code>[count]</code>个小节或到出现在首列的 <code>{</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[]</code></td>
+<td style="text-align:left">反向<code>[count]</code>个小节或到出现在首列的 <code>}</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+</tbody>
+</table>
+<h1 id="其它动作" class="heading-element">
+  <a href="#%e5%85%b6%e5%ae%83%e5%8a%a8%e4%bd%9c" class="heading-mark"></a>其它动作</h1><table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">动作类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>&lt;LeftMouse&gt;</code>(鼠标左键)</td>
+<td style="text-align:left">到屏幕上鼠标点击的位置。如果鼠标在状态行上，则所属的窗口被激活但光标位置不改变。启用鼠标才有效</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>H</code></td>
+<td style="text-align:left">到窗口从顶部算第 [count] 行 (缺省: 窗口的第一行) 并停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>L</code></td>
+<td style="text-align:left">到窗口从底部算第 [count] 行 (缺省: 窗口的最后一行) 并停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>M</code></td>
+<td style="text-align:left">到窗口的中间一行并停在第一个非空白字符</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>%</code></td>
+<td style="text-align:left">找到本行的光标所在或其后的下一个项目，并跳转到它的匹配</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[(</code></td>
+<td style="text-align:left">反向第 [count] 个的未匹配的 <code>(</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[{</code></td>
+<td style="text-align:left">反向第 [count] 个的未匹配的 <code>{</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>])</code></td>
+<td style="text-align:left">正向第 [count] 个的未匹配的 <code>)</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]m</code></td>
+<td style="text-align:left">正向第 [count] 个<code>{</code>位置。如果不在某个代码块开始处之前，则会跳转到<code>{</code>或<code>}</code>位置</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]M</code></td>
+<td style="text-align:left">正向第 [count] 个<code>}</code>位置。如果不在某个代码块开始处之前，则会跳转到<code>{</code>或<code>}</code>位置</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[m</code></td>
+<td style="text-align:left">反向第 [count] 个<code>{</code>位置。如果不在某个代码块开始处之前，则会跳转到<code>{</code>或<code>}</code>位置</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[M</code></td>
+<td style="text-align:left">反向第 [count] 个<code>}</code>位置。如果不在某个代码块开始处之前，则会跳转到<code>{</code>或<code>}</code>位置</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[#</code></td>
+<td style="text-align:left">反向第 [count] 个未匹配的 <code>#if</code> 或 <code>#else</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]#</code></td>
+<td style="text-align:left">正向第 [count] 个未匹配的 <code>#if</code> 或 <code>#else</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[*</code> <br> <code>[/</code></td>
+<td style="text-align:left">反向第 [count] 个类似<code>C</code>语言的注释开始处</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]*</code> <br> <code>]/</code></td>
+<td style="text-align:left">正向第 [count] 个类似<code>C</code>语言的注释结束处</td>
+<td style="text-align:left">开动作</td>
+</tr>
+</tbody>
+</table>
+<p><code>H</code>、<code>L</code>、<code>M</code> 这三个命令受到<code>startofline</code>选项影响。此外光标还要根据<code>scrolloff</code>调整，除非某个操作符处于
+等待状态，那时文本可能会滚动。例如<code>yH</code>从第一个可见行抽起，直到光标所在行为止 (闭区间)</p>
+<p><code>%</code>、<code>[(</code>、<code>[{</code>、<code>])</code>、<code>]}</code> 以上四个命令用于转到当前代码块的开始或者结尾位置</p>
+<p><code>]m</code>、<code>]M</code>、<code>[m</code>、<code>[M</code>这几个命令适用于用<code>{</code>和<code>}</code>包围的代码块，如下面<code>java</code>代码。
+光标在<code>method4</code>时，使用<code>]m</code>会跳转到所在行的<code>{</code>,再使用<code>]m</code>会跳转到<code>foo1</code>代码快结尾的<code>}</code>处</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">foo1</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nf">method2</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">body3</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nf">method4</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">body5</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">foo6</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nf">method7</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">body8</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nf">method9</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">body10</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="位置标记" class="heading-element">
+  <a href="#%e4%bd%8d%e7%bd%ae%e6%a0%87%e8%ae%b0" class="heading-mark"></a>位置标记</h1><p>位置标记在任何情况下都是不可见的，它只是文件中的一个位置记录：</p>
+<ul>
+<li>小写位置标记：<code>a-z</code>共<code>26</code>个。小写位置标记是记录在对应文件缓冲区的，因此：
+<ol>
+<li>文件缓冲区被删除，它的所有小写位置标记也会被删除</li>
+<li>文本行被删除对应的小写位置标记也会被删除；文本行在撤销/重做复原之后对应
+小写同样会被复原</li>
+<li>每个文件的小写位置标记是独立的，不会与其实文件的小写位置村发生冲突</li>
+<li>小写位置标记是当前文件的位置记录，因此可以和操作符合并使用(如：<code>d't</code>效果是
+删除光标位置到<code>'t</code>位置标记的文本)</li>
+</ol>
+</li>
+<li>大写位置标记：<code>A-Z</code>共<code>26</code>个。大写位置标记是所有文件缓冲区共同使用的，它是记录
+在<code>viminfo</code>文件中。可以和操作符配置使用，但是大写位置标记必须在当前文件中</li>
+<li>其它特殊位置标记，它们是不能设置的，只能从<code>viminfo</code>文件中获取
+<ul>
+<li>数字位置标记：<code>0-9</code>共<code>10</code>个。简单的说，<code>0</code>是你上次离开<code>Vim</code>时的光标位置。
+<code>1</code>是再上一次，等等</li>
+<li>上次插入位置 <code>^</code></li>
+<li>上次改变位置 <code>.</code></li>
+<li>上次影响的文本区域 <code>[</code> 和 <code>]</code></li>
+<li>可视选择区域 <code>&lt;</code> 和 <code>&gt;</code></li>
+<li>前次上下文标记 <code>''</code></li>
+</ul>
+</li>
+</ul>
+<p>跳转到一个位置标记有两种方法：</p>
+<ol>
+<li><code>’</code>(单引号): 光标放在指定位置所在行的第一个非空字符上，行动作</li>
+<li><code>‘</code>(反引号): 光标放在指定的位置，开动作</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>m{a-zA-Z}</code></td>
+<td style="text-align:left">把位置标记<code>{a-zA-Z}</code>设在当前光标位置。不移动光标，这不是动作命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>m’</code><br>或 <code>m‘</code></td>
+<td style="text-align:left">设置前次上下文标记。以后可以用<code>’’</code>或者<code>‘‘</code>跳转到这个位置(不移动光标，这不是动作命令)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>m[</code><br>或 <code>m]</code></td>
+<td style="text-align:left">设置<code>’[</code>或<code>’]</code>标记。可以用在执行多个命令的操作符的定义中(不移动光标，这不是动作命令)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>m&lt;</code><br>或 <code>m&gt;</code></td>
+<td style="text-align:left">设置<code>’&lt;</code>或<code>’&gt;</code>标记。可以用在改变<code>gv</code>命令选择的范围(不移动光标，这不是动作命令)。不能设置可视模式，只能设置开始和结束的位置</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:[range]ma[rk] {a-zA-Z’}</code></td>
+<td style="text-align:left">把位置标记<code>{a-zA-Z’}</code>设在<code>[range]</code>的最后一行，第<code>0</code>列。缺省的<code>[range]</code>是当前行</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:[range]k{a-zA-Z’}</code></td>
+<td style="text-align:left">和<code>:mark</code>相同， 但是标记名之前的空格可以省略</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’{a-zA-Z0-9}</code><br>或 <code>‘{a-zA-Z0-9}</code></td>
+<td style="text-align:left">跳转到设置位置标记<code>{a-zA-Z0-9}</code>的文件所在的标记位置(如果切换到另外一个文件，这就不是动作命令)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>g’{mark}</code><br>或 <code>g‘{mark}</code></td>
+<td style="text-align:left">跳转到指定的位置标记<code>{mark}</code>，但在当前缓冲区内跳转时不改变跳转表</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:marks</code></td>
+<td style="text-align:left">列出所有的位置标记(这不是动作命令)，但不包括<code>’(</code>,<code>’)</code>,<code>’{</code>和<code>’}</code>标记。第一列的编号为零</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:marks {arg}</code></td>
+<td style="text-align:left">列出所有<code>{arg}</code>包含的位置标记，如<code>:marks aB</code>表示列出位置标记<code>a</code>和<code>B</code>。这不是动作命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:delm[arks] {marks}</code></td>
+<td style="text-align:left">删除指定的位置标记，不能删除<code>’</code>位置标记。指定的方式包括给出位置标记名的列表和使用连字符分隔的范围，忽略空格。例如: <br>- <code>:delmarks a</code> : 删除位置标记<code>a</code><br>- <code>:delmarks \&quot;</code> : 删除位置标记<code>&quot;</code><br>- <code>:delmarks Aa</code> : 删除位置标记<code>A</code>和<code>a</code><br>- <code>:delmarks p-z</code> : 删除位置标记<code>p</code>到<code>z</code><br>- <code>:delmarks ^.[]</code> : 删除位置标记<code>^</code>,<code>.</code>,<code>[</code>,<code>]</code><br>- <code>:delmarks a b 1</code> : 删除位置标记<code>a</code>，<code>b</code> 和 <code>1</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:delm[arks]!</code></td>
+<td style="text-align:left">删除当前缓冲区所有的位置标记，不包括<code>A-Z</code>或<code>0-9</code>位置标记</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’[</code><br>或 <code>‘[</code></td>
+<td style="text-align:left">到上次改变或者复制文本的第一个字符位置</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’]</code><br>或 <code>‘]</code></td>
+<td style="text-align:left">到上次改变或者复制文本的最后一个字符位置</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’&lt;</code><br>或 <code>‘&lt;</code></td>
+<td style="text-align:left">到上次当前缓冲区选择的可视区域首行或第一个字符。对于列块模式而言，可能也是第一行的最后一个字符(为了能定义列块)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’&gt;</code><br>或 <code>‘&gt;</code></td>
+<td style="text-align:left">到上次当前缓冲区选择的可视区域末行或最后一个字符。对于列块模式而言，可能也是末行的第一个字符(为了能定义列块)。受<code>selection</code>选项影响该位置可能是刚刚在可视区域之后的位置</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’’</code><br>或 <code>‘‘</code></td>
+<td style="text-align:left">到上次跳转的位置，或者上次<code>m’</code>或<code>m‘</code>命令给出的位置。如果使用了<code>:keepjumps</code>命令修饰符，上次的上下文标记不会被改变</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’.</code><br>或 <code>‘.</code></td>
+<td style="text-align:left">到上次改变的位置。这个位置位于或者接近于改变开始的地方。有些命令引起几个改变，那么这个位置应该是接近于这个命令最后改变的地方。例如，插入一个单词的时候，这个位置是在最后一个的字符上。要跳转到较旧的改变，用<code>g;</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’(</code><br>或 <code>‘(</code></td>
+<td style="text-align:left">到当前句子的开始处</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’)</code><br>或 <code>‘)</code></td>
+<td style="text-align:left">到当前句子的结尾处</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’{</code><br>或 <code>‘{</code></td>
+<td style="text-align:left">到当前段落的开始处</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>’}</code><br>或 <code>‘}</code></td>
+<td style="text-align:left">到当前段落的结尾处</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]’</code></td>
+<td style="text-align:left"><code>[count]</code>次到当前行之后下一个包含小写位置标记的行的第一个非空白字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]‘</code></td>
+<td style="text-align:left"><code>[count]</code>次下一个小写位置标记</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[’</code></td>
+<td style="text-align:left"><code>[count]</code>次到当前行之前上一个包含小写位置标记的行的第一个非空白字符</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[‘</code></td>
+<td style="text-align:left"><code>[count]</code>次次上一个小写位置标记</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:loc[kmarks] {command}</code></td>
+<td style="text-align:left">执行命令<code>{command}</code>，并且不调整位置标记。如果行数发生变化，那么改变之后的标记将仍然保持它们的行号，从而实际上移到了别的行上</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:kee[pmarks] {command}</code></td>
+<td style="text-align:left">这只对过滤命令<code>:range!</code>有效&hellip;<code>P635</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:keepj[umps] {command}</code></td>
+<td style="text-align:left">在<code>{command}</code>的移动不改变<code>’’</code>，<code>’.</code>和<code>’^</code>标记</td>
+</tr>
+</tbody>
+</table>
+<h1 id="跳转表" class="heading-element">
+  <a href="#%e8%b7%b3%e8%bd%ac%e8%a1%a8" class="heading-mark"></a>跳转表</h1><blockquote>
+<p>编译时加入 <code>+jumplist</code> 特性才有效</p>
+</blockquote>
+<p>产生跳转动作的位置会记录在跳转表中，每个窗口有独立的跳转表，每个表最多能存储
+100 项。如果用了<code>:keepjumps</code>命令修饰符，跳转就不会被保存在跳转表里。
+如果在 <code>viminfo</code> 选项里有<code>'</code>项，跳转表会保存在<code>viminfo</code>文件里。这样，重新启动
+Vim 就会恢复跳转表。</p>
+<p>跳转表有以下列组成：</p>
+<ul>
+<li><code>jump</code>: 指示用<code>&lt;CTRL-O&gt;</code>或<code>&lt;CTRL-I&gt;</code>到该位置所需的次数</li>
+<li><code>line</code>: 产生跳转动作所在的行</li>
+<li><code>col</code>:  产生跳转动作所在的列</li>
+<li><code>file/text</code>: 如果是当前文件，则显示文件名；如果是当前文件则显示摘要</li>
+<li><code>&gt;</code>: 当前位置</li>
+</ul>
+<p>跳转是通常能移动光标数行之外的命令。如果你使光标跳转，那么跳转之前的光标位置会
+被记住。除非包含该位置的行被改变或者删除，你可以用<code>``</code>和<code>''</code>命令返回这个
+位置。以下命令是跳转命令:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">产生跳转动作的命令</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">动作类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>’</code></td>
+<td style="text-align:left">跳转到位置标记所在行的第一个非空字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>`</code></td>
+<td style="text-align:left">跳转到位置标记</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>G</code></td>
+<td style="text-align:left">到第<code>[count]</code>文本行，缺省是最后一行。如果<code>startofline</code>选项没有置位，则保持在相同的列上，不然，停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>/</code></td>
+<td style="text-align:left">正向搜索</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>?</code></td>
+<td style="text-align:left">反向搜索</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>n</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>N</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>%</code></td>
+<td style="text-align:left">找到本行的光标所在或其后的下一个项目，并跳转到它的匹配</td>
+<td style="text-align:left">闭动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>(</code></td>
+<td style="text-align:left">反向<code>[count]</code>个句子</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>)</code></td>
+<td style="text-align:left">正向<code>[count]</code>个句子</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[[</code></td>
+<td style="text-align:left">反向<code>[count]</code>个小节或到出现在首列的 <code>{</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>]]</code></td>
+<td style="text-align:left">正向<code>[count]</code>个小节或到出现在首列的 <code>{</code></td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>{</code></td>
+<td style="text-align:left">反向<code>[count]</code>个段落</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>}</code></td>
+<td style="text-align:left">正向<code>[count]</code>个段落</td>
+<td style="text-align:left">开动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:s</code></td>
+<td style="text-align:left">替换命令</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:tag</code></td>
+<td style="text-align:left">标签命令</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>L</code></td>
+<td style="text-align:left">到窗口从底部算第 [count] 行 (缺省: 窗口的最后一行) 并停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>M</code></td>
+<td style="text-align:left">到窗口的中间一行并停在第一个非空白字符</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>H</code></td>
+<td style="text-align:left">到窗口从顶部算第 [count] 行 (缺省: 窗口的第一行) 并停在第一个非空白字符上</td>
+<td style="text-align:left">行动作</td>
+</tr>
+<tr>
+<td style="text-align:left">开始编辑新文件的命令</td>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<p>跳转表相关操作</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-O&gt;</code></td>
+<td style="text-align:left">转到跳转表里第 [count] 个较旧的光标位置。不是动作命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&lt;CTRL-I&gt;</code></td>
+<td style="text-align:left">转到跳转表里第 [count] 个较新的光标位置。不是动作命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:ju[mps]</code></td>
+<td style="text-align:left">打出跳转表</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:cle[arjumps]</code></td>
+<td style="text-align:left">清除当前窗口的跳转表</td>
+</tr>
+</tbody>
+</table>
+<h1 id="改变表" class="heading-element">
+  <a href="#%e6%94%b9%e5%8f%98%e8%a1%a8" class="heading-mark"></a>改变表</h1><blockquote>
+<p>编译时加入 <code>+jumplist</code> 特性才有效</p>
+</blockquote>
+<p>在改变文本以后，光标的位置被记住。每个改变都会记住一个位置，从而可以使该操作
+能被撤销。除非，这个位置和上一个改变很接近。可以用<code>g;</code>或<code>a,</code>命令跳转到改变所在
+的位置，包括那些已被撤销的。如果用到<code>:keepjumps</code>命令修饰符，改变的位置不会被记住</p>
+<p>当两个可以撤销的改变在同一行，并且所在的列差小于<code>textwidth</code>选项值，只有后一个
+会被记住。如果<code>textwidth</code>选项值为 0，则使用<code>wrapmargin</code>选项值。
+如果它也没有设置，就用固定的数目79(字节)</p>
+<p>如果后来有插入和删除文本，尤其删除整行的时候，光标位置和当时改变的位置可能稍有不同</p>
+<p>改变表有以下列组成：</p>
+<ul>
+<li><code>change</code>: 可以使用<code>g;</code>或<code>g,</code>命令跳转的位置</li>
+<li><code>line</code>: 文本发生改变的位置所在行号</li>
+<li><code>col</code>: 文本发生改变的位置所在列</li>
+<li><code>text</code>: 文本摘要</li>
+<li><code>&gt;</code>: 当前位置</li>
+</ul>
+<p>改变表相关操作：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>:changes</code></td>
+<td style="text-align:left">打出改变表</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>g;</code></td>
+<td style="text-align:left">转到改变表里第 <code>[count]</code> 个较旧的位置。不是动作命令</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>g,</code></td>
+<td style="text-align:left">转到改变表里第 <code>[count]</code> 个较新的位置。不是动作命令</td>
+</tr>
+</tbody>
+</table>
+<h1 id="相关选项" class="heading-element">
+  <a href="#%e7%9b%b8%e5%85%b3%e9%80%89%e9%a1%b9" class="heading-mark"></a>相关选项</h1><h2 id="scrolljump" class="heading-element">
+  <a href="#scrolljump" class="heading-mark"></a>scrolljump</h2><blockquote>
+<p>P876 <br/>
+简写: <code>sj</code> <br/>
+作用域：全局 <br/>
+取值：数值型 <br>
+默认值：如果置位(开启)<code>compatible</code>选项，则为1 <br/></p>
+</blockquote>
+<p>光标离开屏幕时最少的滚动行数。如果设为 -1 到 -100 的负数，用作窗口高度的百分比。如： -50 表示滚动到窗口高度的一半。</p>
+<h2 id="scrolloff" class="heading-element">
+  <a href="#scrolloff" class="heading-mark"></a>scrolloff</h2><blockquote>
+<p>P876 <br>
+简写：<code>so</code> <br>
+作用域：全局或局部于窗口 <br>
+取值：数值型
+<br>
+默认值：0，<code>defaults.vim</code> 里设为 5</p>
+</blockquote>
+<p>光标上下两侧最少保留的屏幕行数。这使你工作时总有一些可见的上下文。
+如果你设置此选项为很大的值 (比如 999)，光标所在的行将总定位在窗口的中
+间位置 (除非你非常靠近文件开始或者结束的地方，或者有长行回绕)。</p>
+<p>使用局部值后，可用以下两者之一来回到全局值:</p>
+<ul>
+<li><code>setlocal scrolloff&lt;</code></li>
+<li><code>setlocal scrolloff=-1</code></li>
+</ul>
+<h2 id="virtualedit" class="heading-element">
+  <a href="#virtualedit" class="heading-mark"></a>virtualedit</h2><blockquote>
+<p>P909
+<br></p>
+</blockquote>
+<p>置位 ’virtualedit’ 选项使得光标可以移动到还没有字符或者半个字符的位置</p>
+<p>虚拟编辑意味着光标可以定位在没有实际字符的地方。这可以是制表的中间，也
+可以是行尾之后的位置。可用于在可视模式下选择一个方块，还有表格的编辑。
+&ldquo;onemore&rdquo; 不同，它只允许光标移动到刚刚超过行尾字符之后的位置。这使得有
+些命令更加一致。以前，在空行上光标总是刚刚超过行尾。但这和 Vi 远远不兼
+容，而且也有可能使一些插件或 Vim 脚本不能工作，比如因为
+l可以移动光标到行尾字符之后。小心使用！$命令总是移动到行尾字符上，而不是超过它。这使光标可能实际向左移动！g$ 命令则移动到屏幕行尾。
+组合使用 &ldquo;all&rdquo; 和 &ldquo;onemore&rdquo; 没有意义，但你不会因此得到警告。</p>
+<p>注意 : 如果置位 ’compatible’，本选项被设为 &ldquo;&quot;。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-04-09 14:35:38">更新于 2023-04-09&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/vim-%E5%8A%A8%E4%BD%9C%E7%AC%A6/" class="post-tag" title="标签 - vim 动作符">vim 动作符</a><a href="/tags/vim-%E4%BD%8D%E7%BD%AE%E6%A0%87%E8%AE%B0/" class="post-tag" title="标签 - vim 位置标记">vim 位置标记</a><a href="/tags/vim-%E8%B7%B3%E8%BD%AC%E8%A1%A8/" class="post-tag" title="标签 - vim 跳转表">vim 跳转表</a><a href="/tags/vim-%E6%94%B9%E5%8F%98%E8%A1%A8/" class="post-tag" title="标签 - vim 改变表">vim 改变表</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/WindwosTerminal/" class="post-nav-item" rel="prev" title="windows terminal"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>windows terminal</a>
+      <a href="/vim%E6%96%87%E6%9C%AC%E5%AF%B9%E8%B1%A1%E4%B8%8E%E6%93%8D%E4%BD%9C%E7%AC%A6/" class="post-nav-item" rel="next" title="vim文本对象与操作符">vim文本对象与操作符<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

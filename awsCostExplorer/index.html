@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>aws 成本浏览器 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='aws, 成本管理' /><meta itemprop="name" content="aws 成本浏览器">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-10-12T15:17:46+08:00" />
+<meta itemprop="dateModified" content="2024-02-03T11:12:37+08:00" />
+<meta itemprop="wordCount" content="1971">
+<meta itemprop="keywords" content="aws,成本管理," /><meta property="og:title" content="aws 成本浏览器" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsCostExplorer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-12T15:17:46+08:00" />
+<meta property="article:modified_time" content="2024-02-03T11:12:37+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="aws 成本浏览器"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsCostExplorer/" /><link rel="prev" href="/awsSdkGo/" /><link rel="next" href="/goMethod/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "aws 成本浏览器",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsCostExplorer\/"
+    },"genre": "posts","keywords": "aws, 成本管理","wordcount":  1971 ,
+    "url": "\/awsCostExplorer\/","datePublished": "2023-10-12T15:17:46+08:00","dateModified": "2024-02-03T11:12:37+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>aws 成本浏览器</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-10-12 15:17:46"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-10-12">2023-10-12</time></span>&nbsp;<span title="更新于 2024-02-03 11:12:37"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-03">2024-02-03</time></span>&nbsp;<span title="1971 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#aws-cost-explorer-api-reference">AWS Cost Explorer API Reference</a></li>
+    <li><a href="#获取维度值">获取维度值</a>
+      <ul>
+        <li><a href="#web">web</a></li>
+        <li><a href="#go">go</a></li>
+        <li><a href="#getcostandusageinput">GetCostAndUsageInput</a></li>
+      </ul>
+    </li>
+    <li><a href="#成本汇总依据">成本汇总依据</a></li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#查看组织savings-plans分摊成本">查看组织Savings Plans分摊成本</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Operations_AWS_Cost_Explorer_Service.html"target="_blank" rel="external nofollow noopener noreferrer"><code>AWS 官方文档：</code>AWS Cost Explorer API Reference</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="aws-cost-explorer-api-reference" class="heading-element">
+  <a href="#aws-cost-explorer-api-reference" class="heading-mark"></a>AWS Cost Explorer API Reference</h1><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">创建异常监视器：GreateAnomalyMonitor
+</span></span><span class="line"><span class="cl">创建异常订阅：CreateAnomalySubscription
+</span></span><span class="line"><span class="cl">创建成本类别定义：CreateCostCategoryDefinition
+</span></span><span class="line"><span class="cl">删除异常监视器：DeleteAnomalyMonitor
+</span></span><span class="line"><span class="cl">删除异常订阅：DeleteAnomalySubscription
+</span></span><span class="line"><span class="cl">删除成本类别定义：DeleteCostCategoryDefinition
+</span></span><span class="line"><span class="cl">描述成本类别定义：DescribeCostCategoryDefinition
+</span></span><span class="line"><span class="cl">获取异常情况：GetAnomalies
+</span></span><span class="line"><span class="cl">获取异常监视器：GetAnomalyMonitors
+</span></span><span class="line"><span class="cl">获取异常订阅：GetAnomalySubscriptions
+</span></span><span class="line"><span class="cl">获取成本和使用情况：GetCostAndUsage
+</span></span><span class="line"><span class="cl">获取资源成本和使用情况：GetCostAndUsageWithResources
+</span></span><span class="line"><span class="cl">获取成本类别：GetCostCategories
+</span></span><span class="line"><span class="cl">获取成本预测：GetCostForecast</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="获取维度值" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e7%bb%b4%e5%ba%a6%e5%80%bc" class="heading-mark"></a>获取维度值</h1><h2 id="web" class="heading-element">
+  <a href="#web" class="heading-mark"></a>web</h2><h2 id="go" class="heading-element">
+  <a href="#go" class="heading-mark"></a>go</h2><p>GetDimensionValues</p>
+<p><a href="https://docs.aws.amazon.com/zh_cn/aws-cost-management/latest/APIReference/API_GetDimensionValues.html"target="_blank" rel="external nofollow noopener noreferrer">https://docs.aws.amazon.com/zh_cn/aws-cost-management/latest/APIReference/API_GetDimensionValues.html</a></p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">获取预订范围：GetReservationCoverage
+</span></span><span class="line"><span class="cl">获取预约购买推荐：GetReservationPurchaseRecommendation
+</span></span><span class="line"><span class="cl">获取预订利用率：GetReservationUtilization
+</span></span><span class="line"><span class="cl">获取规模调整建议：GetRightsizingRecommendation
+</span></span><span class="line"><span class="cl">获取储蓄计划购买建议详细信息：GetSavingsPlanPurchaseRecommendationDetails
+</span></span><span class="line"><span class="cl">获得储蓄计划承保范围：GetSavingsPlansCoverage
+</span></span><span class="line"><span class="cl">获取储蓄计划购买建议：GetSavingsPlansPurchaseRecommendation
+</span></span><span class="line"><span class="cl">获取储蓄计划利用率：GetSavingsPlansUtilization
+</span></span><span class="line"><span class="cl">获取储蓄计划使用详情：GetSavingsPlansUtilizationDetails
+</span></span><span class="line"><span class="cl">获取标签：GetTags
+</span></span><span class="line"><span class="cl">获取使用量预测：GetUsageForecast
+</span></span><span class="line"><span class="cl">列出成本分配标签：ListCostAllocationTags
+</span></span><span class="line"><span class="cl">列出成本类别定义：ListCostCategoryDefinitions
+</span></span><span class="line"><span class="cl">列出储蓄计划购买建议生成：ListSavingsPlansPurchaseRecommendationGeneration
+</span></span><span class="line"><span class="cl">列出资源标签：ListTagsForResource
+</span></span><span class="line"><span class="cl">提供异常反馈：ProvideAnomalyFeedback
+</span></span><span class="line"><span class="cl">启动储蓄计划购买建议生成：StartSavingsPlansPurchaseRecommendationGeneration
+</span></span><span class="line"><span class="cl">标签资源：TagResource
+</span></span><span class="line"><span class="cl">取消资源标签：UntagResource
+</span></span><span class="line"><span class="cl">更新异常监视器：UpdateAnomalyMonitor
+</span></span><span class="line"><span class="cl">更新异常订阅：UpdateAnomalySubscription
+</span></span><span class="line"><span class="cl">更新成本分配标签状态：UpdateCostAllocationTagsStatus
+</span></span><span class="line"><span class="cl">更新成本类别定义：UpdateCostCategoryDefinition</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="getcostandusageinput" class="heading-element">
+  <a href="#getcostandusageinput" class="heading-mark"></a>GetCostAndUsageInput</h2><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;encoding/json&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/aws/aws-sdk-go-v2/config&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/aws/aws-sdk-go-v2/service/costexplorer&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/aws/aws-sdk-go-v2/service/costexplorer/types&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;log&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">sdkConfig</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">config</span><span class="p">.</span><span class="nf">LoadDefaultConfig</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">TODO</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">config</span><span class="p">.</span><span class="nf">WithRegion</span><span class="p">(</span><span class="s">&#34;ap-southeast-1&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">config</span><span class="p">.</span><span class="nf">WithSharedConfigProfile</span><span class="p">(</span><span class="s">&#34;yh-xiaosi&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed to load configuration (~/.aws/config), %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">costexplorerClient</span> <span class="o">:=</span> <span class="nx">costexplorer</span><span class="p">.</span><span class="nf">NewFromConfig</span><span class="p">(</span><span class="nx">sdkConfig</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">startTime</span> <span class="o">:=</span> <span class="s">&#34;2023-09-01&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">endTime</span> <span class="o">:=</span> <span class="s">&#34;2023-10-01&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">getCostAndUsageInput</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">costexplorer</span><span class="p">.</span><span class="nx">GetCostAndUsageInput</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Granularity</span><span class="p">:</span> <span class="s">&#34;MONTHLY&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Metrics</span><span class="p">:</span>     <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;UnblendedCost&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">TimePeriod</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">types</span><span class="p">.</span><span class="nx">DateInterval</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">Start</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">startTime</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">End</span><span class="p">:</span>   <span class="o">&amp;</span><span class="nx">endTime</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="p">},</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Filter</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">types</span><span class="p">.</span><span class="nx">Expression</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">CostCategories</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">types</span><span class="p">.</span><span class="nx">CostCategoryValues</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Key</span><span class="p">:</span>          <span class="kc">nil</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">MatchOptions</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Values</span><span class="p">:</span>       <span class="kc">nil</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="p">},</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">Dimensions</span><span class="p">:</span> <span class="o">&amp;</span><span class="nx">types</span><span class="p">.</span><span class="nx">DimensionValues</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Key</span><span class="p">:</span>          <span class="s">&#34;LINKED_ACCOUNT&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">MatchOptions</span><span class="p">:</span> <span class="p">[]</span><span class="nx">types</span><span class="p">.</span><span class="nx">MatchOption</span><span class="p">{</span><span class="s">&#34;EQUALS&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">Values</span><span class="p">:</span>       <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;223665515173&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">			<span class="p">},</span>
+</span></span><span class="line"><span class="cl">		<span class="p">},</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">costExplorerOutput</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">costexplorerClient</span><span class="p">.</span><span class="nf">GetCostAndUsage</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">TODO</span><span class="p">(),</span> <span class="nx">getCostAndUsageInput</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">costExplorerJson</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">MarshalIndent</span><span class="p">(</span><span class="nx">costExplorerOutput</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;  &#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">costExplorerJson</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>Granularity:</code> 时间精细度，必须有
+<ul>
+<li><code>MONTHLY:</code> 月</li>
+<li><code>DAILY:</code> 天</li>
+<li><code>HOURLY:</code> 时</li>
+</ul>
+</li>
+<li><code>Metrics:</code> 字符串列表，必须有
+<ul>
+<li><code>AmortizedCost:</code> 摊销成本</li>
+<li><code>BlendedCost:</code> 混合成本</li>
+<li><code>NetAmortizedCost:</code> 净摊销成本</li>
+<li><code>NetUnblendedCost:</code> 净未混合成本</li>
+<li><code>NormalizedUsageAmount:</code> 标准化使用量</li>
+<li><code>UnblendedCost:</code> 未混合成</li>
+<li><code>UsageQuantity:</code> 使用量，聚合数值，不考虑单位。</li>
+</ul>
+</li>
+<li><code>TimePeriod:</code> 时间范围
+<ul>
+<li><code>Start:</code> 起始时间，字符串格式，如：<code>2023-09-01</code></li>
+<li><code>End:</code> 结束时间，字符串格式，结束时间具有排它性，实际日期要往前一天。如：<code>2023-10-01</code>，实际为 <code>2023-09-30</code></li>
+</ul>
+</li>
+<li><code>Filter:</code> 分组筛选
+<ul>
+<li><code>And:</code> 逻辑和</li>
+<li><code>Or:</code> 逻辑或</li>
+<li><code>Not:</code> 排除</li>
+<li><code>CostCategories: </code> 成本类别</li>
+<li><code>Dimensions:</code> 按维度指标搜索
+<ul>
+<li><code>MatchOptions:</code> 指标名与指标值的逻辑关系，有以下值，取决于指标是否支持
+<ul>
+<li><code>EQUALS:</code></li>
+<li><code>ABSENT:</code></li>
+<li><code>STARTS_WITH:</code></li>
+<li><code>ENDS_WITH:</code></li>
+<li><code>CONTAINS:</code></li>
+<li><code>CASE_SENSITIVE:</code></li>
+<li><code>CASE_INSENSITIVE:</code></li>
+<li><code>GREATER_THAN_OR_EQUAL:</code></li>
+</ul>
+</li>
+<li><code>key:</code> 指标名称，有以下值
+<ul>
+<li><code>AZ:</code></li>
+<li><code>INSTANCE_TYPE:</code></li>
+<li><code>LINKED_ACCOUNT:</code> <code>AWS</code> 账户<code>ID</code></li>
+<li><code>LINKED_ACCOUNT_NAME:</code> <code>AWS</code> 账户名称</li>
+<li><code>OPERATION:</code></li>
+<li><code>PURCHASE_TYPE:</code></li>
+<li><code>REGION:</code></li>
+<li><code>SERVICE:</code></li>
+<li><code>SERVICE_CODE:</code></li>
+<li><code>USAGE_TYPE:</code></li>
+<li><code>USAGE_TYPE_GROUP:</code></li>
+<li><code>RECORD_TYPE:</code> 计费类型</li>
+<li><code>OPERATING_SYSTEM:</code></li>
+<li><code>TENANCY:</code></li>
+<li><code>SCOPE:</code></li>
+<li><code>PLATFORM:</code></li>
+<li><code>SUBSCRIPTION_ID:</code></li>
+<li><code>LEGAL_ENTITY_NAME:</code></li>
+<li><code>DEPLOYMENT_OPTION:</code></li>
+<li><code>DATABASE_ENGINE:</code></li>
+<li><code>CACHE_ENGINE:</code></li>
+<li><code>INSTANCE_TYPE_FAMILY:</code></li>
+<li><code>BILLING_ENTITY:</code> <code>AWS</code> 卖家，值有 <code>AWS</code>、<code>AISPL</code>、<code>AWS Marketplace</code></li>
+<li><code>RESERVATION_ID:</code></li>
+<li><code>RESOURCE_ID:</code></li>
+<li><code>RIGHTSIZING_TYPE:</code></li>
+<li><code>SAVINGS_PLANS_TYPE:</code></li>
+<li><code>SAVINGS_PLAN_ARN:</code></li>
+<li><code>PAYMENT_OPTION:</code></li>
+<li><code>AGREEMENT_END_DATE_TIME_AFTER:</code></li>
+<li><code>AGREEMENT_END_DATE_TIME_BEFORE:</code></li>
+<li><code>INVOICING_ENTITY:</code></li>
+<li><code>ANOMALY_TOTAL_IMPACT_ABSOLUTE:</code></li>
+<li><code>ANOMALY_TOTAL_IMPACT_PERCENTAGE:</code></li>
+</ul>
+</li>
+<li><code>Values:</code> 指标指</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="成本汇总依据" class="heading-element">
+  <a href="#%e6%88%90%e6%9c%ac%e6%b1%87%e6%80%bb%e4%be%9d%e6%8d%ae" class="heading-mark"></a>成本汇总依据</h1><ul>
+<li>未混合成本：现金基础会计方式，即各项实际成本分别计算且当天有效</li>
+<li>摊销成本：够买<code>SavingsPlans</code>的折扣前成本分摊到使用账号中</li>
+<li>摊销成本净值：够买<code>SavingsPlans</code>实际成本（去除折扣后实际支付的）</li>
+</ul>
+<h1 id="示例" class="heading-element">
+  <a href="#%e7%a4%ba%e4%be%8b" class="heading-mark"></a>示例</h1><h2 id="查看组织savings-plans分摊成本" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e7%bb%84%e7%bb%87savings-plans%e5%88%86%e6%91%8a%e6%88%90%e6%9c%ac" class="heading-mark"></a>查看组织Savings Plans分摊成本</h2><ol>
+<li>计费类型选择：
+<ul>
+<li><code>Savings Plan</code> 覆盖的使用量</li>
+<li><code>Savings Plan</code> 经常性费用（在利用率没有<code>100%</code>的情况下能显示完整支出）</li>
+</ul>
+</li>
+<li>成本汇总依据选择摊销成本（这是去除折扣前的成本，实际成本应选摊销成本净值）</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-02-03 11:12:37">更新于 2024-02-03&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/aws/" class="post-tag" title="标签 - aws">aws</a><a href="/tags/%E6%88%90%E6%9C%AC%E7%AE%A1%E7%90%86/" class="post-tag" title="标签 - 成本管理">成本管理</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/awsSdkGo/" class="post-nav-item" rel="prev" title="aws sdk golang"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>aws sdk golang</a>
+      <a href="/goMethod/" class="post-nav-item" rel="next" title="go 方法">go 方法<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

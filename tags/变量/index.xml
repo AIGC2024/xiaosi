@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>变量 - 标签 - 小厮</title>
+    <link>/tags/%E5%8F%98%E9%87%8F/</link>
+    <description>变量 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 03 Jan 2023 11:39:56 &#43;0800</lastBuildDate><atom:link href="/tags/%E5%8F%98%E9%87%8F/" rel="self" type="application/rss+xml" /><item>
+  <title>go 语言中变量与常量</title>
+  <link>/go-variable-constant/</link>
+  <pubDate>Tue, 03 Jan 2023 11:39:56 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/go-variable-constant/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

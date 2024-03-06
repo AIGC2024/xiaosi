@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>curl - 使用url进行传输数据的命令行工具 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="curl" /><meta name="keywords" content='命令, curl 命令' /><meta itemprop="name" content="curl - 使用url进行传输数据的命令行工具">
+<meta itemprop="description" content="curl"><meta itemprop="datePublished" content="2021-05-12T16:37:41+08:00" />
+<meta itemprop="dateModified" content="2023-09-17T17:23:24+08:00" />
+<meta itemprop="wordCount" content="2018">
+<meta itemprop="keywords" content="命令,curl 命令," /><meta property="og:title" content="curl - 使用url进行传输数据的命令行工具" />
+<meta property="og:description" content="curl" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/CMDcurl/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-05-12T16:37:41+08:00" />
+<meta property="article:modified_time" content="2023-09-17T17:23:24+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="curl - 使用url进行传输数据的命令行工具"/>
+<meta name="twitter:description" content="curl"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/CMDcurl/" /><link rel="prev" href="/nginx-peverse-proxy/" /><link rel="next" href="/redis/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "curl - 使用url进行传输数据的命令行工具",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/CMDcurl\/"
+    },"genre": "posts","keywords": "命令, curl 命令","wordcount":  2018 ,
+    "url": "\/CMDcurl\/","datePublished": "2021-05-12T16:37:41+08:00","dateModified": "2023-09-17T17:23:24+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>curl - 使用url进行传输数据的命令行工具</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2021-05-12 16:37:41"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-05-12">2021-05-12</time></span>&nbsp;<span title="更新于 2023-09-17 17:23:24"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-09-17">2023-09-17</time></span>&nbsp;<span title="2018 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#curl">CURL</a></li>
+    <li><a href="#httphttps-示例">HTTP/HTTPS 示例</a></li>
+    <li><a href="#获取文件">获取文件</a>
+      <ul>
+        <li><a href="#获取部分内容">获取部分内容</a></li>
+        <li><a href="#获取-sockie-信息">获取 sockie 信息</a></li>
+        <li><a href="#获取-header-信息">获取 header 信息</a></li>
+      </ul>
+    </li>
+    <li><a href="#用户名和密码">用户名和密码</a></li>
+    <li><a href="#代理">代理</a></li>
+    <li><a href="#返回状态码">返回状态码</a></li>
+    <li><a href="#冒充访问源">冒充访问源</a></li>
+    <li><a href="#冒充浏览器">冒充浏览器</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos:7</li>
+<li>curl:7.29</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://curl.haxx.se/docs/manual.html" title="curl官方示例"target="_blank" rel="external nofollow noopener noreferrer">curl官方示例</a></li>
+</ul>
+</blockquote>
+<h1 id="curl" class="heading-element">
+  <a href="#curl" class="heading-mark"></a>CURL</h1><p><code>curl</code> 命令可以在命令行或脚本中通过 URL 传输数据</p>
+<ul>
+<li>查看当前版本
+<ul>
+<li>第一行显示版本相关信息</li>
+<li>Preorcols：支持的协议</li>
+<li>Features：支持的功能</li>
+</ul>
+</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl --version</span>
+</span></span><span class="line"><span class="cl">curl 7.29.0 <span class="o">(</span>x86_64-redhat-linux-gnu<span class="o">)</span> libcurl/7.29.0 NSS/3.44 zlib/1.2.7 libidn/1.28 libssh2/1.8.0
+</span></span><span class="line"><span class="cl">Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp scp sftp smtp smtps telnet tftp 
+</span></span><span class="line"><span class="cl">Features: AsynchDNS GSS-Negotiate IDN IPv6 Largefile NTLM NTLM_WB SSL libz unix-sockets </span></span></code></pre></td></tr></table>
+</div>
+</div><p>获取帮助信息：</p>
+<ol>
+<li><a href="https://curl.haxx.se/docs/manpage.html" title="curl官方帮助手册"target="_blank" rel="external nofollow noopener noreferrer">curl官方帮助手册</a></li>
+<li><code>url --help</code> 命令</li>
+<li><code>man url</code> 命令</li>
+</ol>
+<ul>
+<li>常见选项：</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-o,--output FILE
+</span></span><span class="line"><span class="cl">	<span class="c1"># 把文件内容输出到指定的文件（下载并重命名）</span>
+</span></span><span class="line"><span class="cl">-O, --remote-name
+</span></span><span class="line"><span class="cl">	<span class="c1"># 把文件保存到当前目录下，可以使用多个该选项</span>
+</span></span><span class="line"><span class="cl">-u, --user &lt;user:password&gt;
+</span></span><span class="line"><span class="cl">	指定验证身份的用户名和密码：
+</span></span><span class="line"><span class="cl">	1. 只提供 user 部分，则叫交互式中输入密码
+</span></span><span class="line"><span class="cl">	2. 只提供 user: 部分，则通过环境变量获取用户名和密码
+</span></span><span class="line"><span class="cl">	3. 如果使用多个该选项，则最后一个生效
+</span></span><span class="line"><span class="cl">	4. 会覆盖这些选项： -n, --netrc, --netrc-optional
+</span></span><span class="line"><span class="cl">-x, --proxy &lt;<span class="o">[</span>protocol://<span class="o">][</span>user:password@<span class="o">]</span>proxyhost<span class="o">[</span>:port<span class="o">]</span>&gt;
+</span></span><span class="line"><span class="cl">	使用代理
+</span></span><span class="line"><span class="cl">	1. 如果缺省端口，则默认为 <span class="m">1080</span>
+</span></span><span class="line"><span class="cl">	2. 会覆盖现有代理环境变量
+</span></span><span class="line"><span class="cl">	3. 如果有多个该选项，则最后一个生效
+</span></span><span class="line"><span class="cl">-U, --proxy-user &lt;user:password&gt;
+</span></span><span class="line"><span class="cl">	验证代理的用户
+</span></span><span class="line"><span class="cl">-C, --continue-at &lt;offset&gt;
+</span></span><span class="line"><span class="cl">	断点续传，从断网出恢复传输
+</span></span><span class="line"><span class="cl">-T, --upload-file &lt;file&gt;
+</span></span><span class="line"><span class="cl">	上传文件
+</span></span><span class="line"><span class="cl">-f, --fail
+</span></span><span class="line"><span class="cl">	如果下载失败，则退出并返回非零退出状态码
+</span></span><span class="line"><span class="cl">-s, --silent
+</span></span><span class="line"><span class="cl">	不显示进度和错误信息
+</span></span><span class="line"><span class="cl">-S, --show-error
+</span></span><span class="line"><span class="cl">	和 -s 一起使用，显示错误信息
+</span></span><span class="line"><span class="cl">-I
+</span></span><span class="line"><span class="cl">    只显示响应头部
+</span></span><span class="line"><span class="cl">-#, --progress-bar
+</span></span><span class="line"><span class="cl">	显示更多信息的进度条
+</span></span><span class="line"><span class="cl">-A, --user-agent &lt;agent string&gt;
+</span></span><span class="line"><span class="cl">	指定 HTTP 的 User-Agent 信息
+</span></span><span class="line"><span class="cl">-r, --range &lt;range&gt;
+</span></span><span class="line"><span class="cl">	获取部分文档字节，用于 HTTP/FTP/SFTP/FILE 协议
+</span></span><span class="line"><span class="cl">-w, --write-out &lt;format&gt;
+</span></span><span class="line"><span class="cl">	提取某些信息
+</span></span><span class="line"><span class="cl">-b, --cookie &lt;<span class="nv">name</span><span class="o">=</span>data&gt;
+</span></span><span class="line"><span class="cl">	使用指定的 cookie 文件，用于 HTTP,HTTPS
+</span></span><span class="line"><span class="cl">-c, --cookie-jar &lt;file name&gt;
+</span></span><span class="line"><span class="cl">	把 cookit 保存到文件，用于 HTTP,HTTPS
+</span></span><span class="line"><span class="cl">-D, --dump-header &lt;file&gt;
+</span></span><span class="line"><span class="cl">	把 HTTP 头部信息保存到文件
+</span></span><span class="line"><span class="cl">-e, --referer &lt;URL&gt;
+</span></span><span class="line"><span class="cl">	指定发起请求URL，也就是模拟 http 请求字段中的 referer 。可以检测是否被限制，实际上还是当前 IP 发起请求
+</span></span><span class="line"><span class="cl">-s, --silent
+</span></span><span class="line"><span class="cl">    <span class="c1"># 静默模式，不显示进度</span>
+</span></span><span class="line"><span class="cl">-w, --write-out &lt;format&gt;
+</span></span><span class="line"><span class="cl">    <span class="c1"># 输出额外指定格式的信息，有以下变量</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{http_code}: 响应状态码</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{json}: josn 中的 key</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{time_namelookup}: 请求开始到主机名称解析花费时间(秒)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{time_appconnect}: 请求开始到SSL/SSH/etc connect/ 连接花费时间(秒)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{time_connect}: 请求开始到完成建立连接(与主机或代理)花费时间(秒)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{time_redirect}: 请求开始到最终事务开始之前花费的时间(秒)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#  即所有重定向步骤（包括名称查找、连接、预传输和传输）所花费的时间</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{time_pretransfer}: 请求开始到文件传输开始的时间(秒)，包含传输前的协议协商</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{time_starttransfer}: 请求从开始到第一个字节即将被传输的时间(秒)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># %{time_total}: 请求到结束完整的时间(秒)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># HTTP 相关</span>
+</span></span><span class="line"><span class="cl">-d, --data &lt;data&gt;
+</span></span><span class="line"><span class="cl">    <span class="c1"># 发送的body内容</span>
+</span></span><span class="line"><span class="cl">--data-ascii DATA
+</span></span><span class="line"><span class="cl">--data-binary
+</span></span><span class="line"><span class="cl">    <span class="c1"># 二进制格式，可以用 @/path/file 引用本地文本文件</span>
+</span></span><span class="line"><span class="cl">-H, --header &lt;header/@file&gt;
+</span></span><span class="line"><span class="cl">    <span class="c1"># 添加请求头部</span>
+</span></span><span class="line"><span class="cl">-X, --request &lt;method&gt;
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定HTTP请求动词，默认为 GET</span>
+</span></span><span class="line"><span class="cl">-L, --location
+</span></span><span class="line"><span class="cl">    <span class="c1"># 跟随跳转(响应码3XX)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># HTTPS 相关</span>
+</span></span><span class="line"><span class="cl">--key
+</span></span><span class="line"><span class="cl">    <span class="c1"># 客户端密钥文件</span>
+</span></span><span class="line"><span class="cl">--cert-type
+</span></span><span class="line"><span class="cl">    <span class="c1"># 客户端证书文件类型 (DER/PEM/ENG)</span>
+</span></span><span class="line"><span class="cl">-E, --cert CERT<span class="o">[</span>:PASSWD<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 客户端证书文件与密码</span>
+</span></span><span class="line"><span class="cl">--capath
+</span></span><span class="line"><span class="cl">    <span class="c1"># CA 机构的证书路径</span>
+</span></span><span class="line"><span class="cl">--cacert
+</span></span><span class="line"><span class="cl">    <span class="c1"># CA 机构的证书</span>
+</span></span><span class="line"><span class="cl">-k, --insecure
+</span></span><span class="line"><span class="cl">    <span class="c1"># 使用 SSL 时允许不安全的服务器连接，即 忽略证书警告</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="httphttps-示例" class="heading-element">
+  <a href="#httphttps-%e7%a4%ba%e4%be%8b" class="heading-mark"></a>HTTP/HTTPS 示例</h1><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-powerShell" data-lang="powerShell"><span class="line"><span class="cl"><span class="nb">PS </span><span class="mf">2023</span><span class="p">/</span><span class="mf">06</span><span class="p">/</span><span class="mf">17</span> <span class="mf">13</span><span class="err">:</span><span class="mf">50</span><span class="err">:</span><span class="mf">38</span> <span class="p">&gt;</span> <span class="n">curl</span><span class="p">.</span><span class="py">exe</span> <span class="n">-X</span> <span class="n">GET</span> <span class="n">https</span><span class="err">:</span><span class="p">//</span><span class="mf">192.168</span><span class="p">.</span><span class="py">232</span><span class="p">.</span><span class="mf">100</span><span class="err">:</span><span class="mf">6443</span><span class="p">/</span><span class="n">api</span> <span class="p">-</span><span class="n">-cert</span> <span class="p">.\</span><span class="n">localK8s</span><span class="p">\</span><span class="n">xiaosi</span><span class="p">.</span><span class="py">crt</span>  <span class="p">-</span><span class="n">-key</span> <span class="p">.\</span><span class="n">localK8s</span><span class="p">\</span><span class="n">xiaosi</span><span class="p">.</span><span class="py">key</span> <span class="p">-</span><span class="n">-cacert</span> <span class="p">.\</span><span class="n">localK8s</span><span class="p">\</span><span class="n">ca</span><span class="p">.</span><span class="py">crt</span> <span class="n">-s</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;kind&#34;</span><span class="err">:</span> <span class="s2">&#34;APIVersions&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;versions&#34;</span><span class="err">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;v1&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;serverAddressByClientCIDRs&#34;</span><span class="err">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;clientCIDR&#34;</span><span class="err">:</span> <span class="s2">&#34;0.0.0.0/0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;serverAddress&#34;</span><span class="err">:</span> <span class="s2">&#34;192.168.232.103:6443&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">PS 2023/06/18 22:41:05 &gt; curl.exe -s -w <span class="s2">&#34;\n响应状态码：%{http_code}&#34;</span> <span class="sb">`</span>
+</span></span><span class="line"><span class="cl">&gt;&gt; --cert .<span class="se">\l</span>ocalK8s<span class="se">\x</span>iaosi.crt  --key .<span class="se">\l</span>ocalK8s<span class="se">\x</span>iaosi.key --cacert .<span class="se">\l</span>ocalK8s<span class="se">\c</span>a.crt <span class="sb">`</span>
+</span></span><span class="line"><span class="cl">&gt;&gt; -H <span class="s2">&#34;Content-Type: application/yaml&#34;</span> <span class="sb">`</span>
+</span></span><span class="line"><span class="cl">&gt;&gt;  --data-binary <span class="s2">&#34;@xiaosiNamespace.yaml&#34;</span> <span class="sb">`</span>
+</span></span><span class="line"><span class="cl">&gt;&gt; -X POST https://192.168.232.100:6443/api/v1/namespaces
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;kind&#34;</span>: <span class="s2">&#34;Namespace&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;apiVersion&#34;</span>: <span class="s2">&#34;v1&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;metadata&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">响应状态码：201</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="获取文件" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e6%96%87%e4%bb%b6" class="heading-mark"></a>获取文件</h1><ul>
+<li>示例：获得网页响应状态码</li>
+</ul>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl -s -o /dev/null -w &#39;响应状态码: %{http_code}\n&#39; baidu.com</span>
+</span></span><span class="line"><span class="cl">响应状态码: <span class="m">200</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：获取 <code>curl.haxx.se</code> 网页内容</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl https://curl.haxx.se/</span>
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE HTML PUBLIC <span class="s2">&#34;-//W3C//DTD HTML 4.01 Transitional//EN&#34;</span> <span class="s2">&#34;http://www.w3.org/TR/html4/loose.dtd&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">&lt;html <span class="nv">lang</span><span class="o">=</span><span class="s2">&#34;en&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">&lt;head&gt;
+</span></span><span class="line"><span class="cl">&lt;title&gt;curl&lt;/title&gt;
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：获取多个文件内容</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[root@localhost ~]# curl http://site.{one,two,three}.com</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：获取多个文件内容</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ftp://ftp.numericals.com/file<span class="o">[</span>1-100<span class="o">]</span>.txt</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：使用重定向方式保存内容</li>
+</ul>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[root@localhost ~]# curl https://curl.haxx.se/ &gt; curl.txt
+</span></span><span class="line"><span class="cl">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span class="line"><span class="cl">                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span class="line"><span class="cl">100  8700  100  8700    0     0  48484      0 --:--:-- --:--:-- --:--:-- 48603</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：使用重定向方式把内容追加到文件</li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl https://curl.haxx.se/ &gt;&gt; curl.txt</span>
+</span></span><span class="line"><span class="cl">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span class="line"><span class="cl">                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span class="line"><span class="cl"><span class="m">100</span>  <span class="m">8700</span>  <span class="m">100</span>  <span class="m">8700</span>    <span class="m">0</span>     <span class="m">0</span>  <span class="m">49961</span>      <span class="m">0</span> --:--:-- --:--:-- --:--:-- <span class="m">50289</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：使用 <code>-o</code> 选项保存到指定文件</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl -o /root/curl.txt https://curl.haxx.se/ </span>
+</span></span><span class="line"><span class="cl">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span class="line"><span class="cl">                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span class="line"><span class="cl"><span class="m">100</span>  <span class="m">8700</span>  <span class="m">100</span>  <span class="m">8700</span>    <span class="m">0</span>     <span class="m">0</span>  <span class="m">50701</span>      <span class="m">0</span> --:--:-- --:--:-- --:--:-- <span class="m">50877</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：把多个文件保存到当前目录下</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl -O www.haxx.se/index.html -O curl.haxx.se/download.html</span>
+</span></span><span class="line"><span class="cl">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span class="line"><span class="cl">                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span class="line"><span class="cl"><span class="m">100</span>   <span class="m">299</span>  <span class="m">100</span>   <span class="m">299</span>    <span class="m">0</span>     <span class="m">0</span>    <span class="m">290</span>      <span class="m">0</span>  0:00:01  0:00:01 --:--:--   <span class="m">291</span>
+</span></span><span class="line"><span class="cl">  <span class="m">0</span>     <span class="m">0</span>    <span class="m">0</span>     <span class="m">0</span>    <span class="m">0</span>     <span class="m">0</span>      <span class="m">0</span>      <span class="m">0</span> --:--:-- --:--:-- --:--:--     <span class="m">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="获取部分内容" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e9%83%a8%e5%88%86%e5%86%85%e5%ae%b9" class="heading-mark"></a>获取部分内容</h2><ul>
+<li>示例：获取文档前 100到200 字节</li>
+</ul>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -r 99-199 http://www.get.this/</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：获取文件最后 500 个字节</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -r -500 http://www.get.this/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其他：</p>
+<ul>
+<li>ftp 中只能指定开始和结尾</li>
+</ul>
+<h2 id="获取-sockie-信息" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96-sockie-%e4%bf%a1%e6%81%af" class="heading-mark"></a>获取 sockie 信息</h2><ul>
+<li>示例：将网页 sockie 保存在文件</li>
+</ul>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -c cookiec.txt  http://www.linux.com</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：使用 sockie 信息</li>
+</ul>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -b cookiec.txt  http://www.linux.com</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="获取-header-信息" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96-header-%e4%bf%a1%e6%81%af" class="heading-mark"></a>获取 header 信息</h2><ul>
+<li>示例：获取 header 信息</li>
+</ul>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -D cookied.txt http://www.linux.com</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="用户名和密码" class="heading-element">
+  <a href="#%e7%94%a8%e6%88%b7%e5%90%8d%e5%92%8c%e5%af%86%e7%a0%81" class="heading-mark"></a>用户名和密码</h1><p>如果需通过用户名和密码进行身份验证，可以参考以下两种方式</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl ftp://name:passwd@machine.domain:port/full/path/to/file</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl -u name:passwd ftp://machine.domain:port/full/path/to/file</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>其他：</p>
+<ul>
+<li>如果是 HHTP ，由于 HTTP URL 规范中不能包含用户名和密码 ，因此只能使用 <code>-u</code> 选项</li>
+<li>如果是 <code>Ftps://</code> 作为隐式方式，官方建议通过显示方式 <code>ftp://</code> 和 <code>--ftp-ssl</code> 选项</li>
+<li>如果是需密钥使用  <code>--key</code></li>
+<li>如果是需要密码使用 <code>--pass</code></li>
+<li>如果是需要公钥使用 <code>--pubkey</code></li>
+</ul>
+<h1 id="代理" class="heading-element">
+  <a href="#%e4%bb%a3%e7%90%86" class="heading-mark"></a>代理</h1><ul>
+<li>示例：通过代理获取文件</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl -x 192.168.100.100:1080 http://www.baidu.com</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：通过代理获取文件，但需身份验证</li>
+</ul>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># curl -u user:passwd -x my-proxy:888 http://www.get.this/</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：代理身份验证</li>
+</ul>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -U user:passwd -x my-proxy:888 http://www.get.this/</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：部分文件使用代理</li>
+</ul>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl --noproxy localhost,get.this -x my-proxy:888 http://www.get.this/</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其他：</p>
+<ul>
+<li><code>--socks5</code> 支持 socks4 和 <code>--socks4</code> socks5 代理</li>
+</ul>
+<h1 id="返回状态码" class="heading-element">
+  <a href="#%e8%bf%94%e5%9b%9e%e7%8a%b6%e6%80%81%e7%a0%81" class="heading-mark"></a>返回状态码</h1><ul>
+<li>示例：Linux 下获取网站状态码</li>
+</ul>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo `curl -o /dev/null -s -w %{http_code} www.baidu.com`</span>
+</span></span><span class="line"><span class="cl"><span class="m">200</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>示例：win 下获取网站状态码</li>
+</ul>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>e:<span class="se">\~</span><span class="o">]</span>$ curl -o C:<span class="se">\$</span>RECYCLE.BIN -s -w %<span class="o">{</span>http_code<span class="o">}</span> www.baidu.com
+</span></span><span class="line"><span class="cl"><span class="m">200</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="冒充访问源" class="heading-element">
+  <a href="#%e5%86%92%e5%85%85%e8%ae%bf%e9%97%ae%e6%ba%90" class="heading-mark"></a>冒充访问源</h1><ul>
+<li>示例：冒出访问源</li>
+</ul>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -e <span class="s2">&#34;www.coolsite.com&#34;</span> http://www.showme.com/</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="冒充浏览器" class="heading-element">
+  <a href="#%e5%86%92%e5%85%85%e6%b5%8f%e8%a7%88%e5%99%a8" class="heading-mark"></a>冒充浏览器</h1><ul>
+<li>示例：冒充 chrome 浏览器</li>
+</ul>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -A <span class="s1">&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-09-17 17:23:24">更新于 2023-09-17&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - 命令">命令</a><a href="/tags/curl-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - curl 命令">curl 命令</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx-peverse-proxy/" class="post-nav-item" rel="prev" title="nginx 反向代理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx 反向代理</a>
+      <a href="/redis/" class="post-nav-item" rel="next" title="redis">redis<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

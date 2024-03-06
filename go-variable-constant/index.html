@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>go 语言中变量与常量 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='变量, 常量' /><meta itemprop="name" content="go 语言中变量与常量">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-01-03T11:39:56+08:00" />
+<meta itemprop="dateModified" content="2023-01-03T16:05:27+08:00" />
+<meta itemprop="wordCount" content="4055">
+<meta itemprop="keywords" content="变量,常量," /><meta property="og:title" content="go 语言中变量与常量" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/go-variable-constant/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-03T11:39:56+08:00" />
+<meta property="article:modified_time" content="2023-01-03T16:05:27+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="go 语言中变量与常量"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/go-variable-constant/" /><link rel="prev" href="/go-spec/" /><link rel="next" href="/go-date-type/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "go 语言中变量与常量",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/go-variable-constant\/"
+    },"genre": "posts","keywords": "变量, 常量","wordcount":  4055 ,
+    "url": "\/go-variable-constant\/","datePublished": "2023-01-03T11:39:56+08:00","dateModified": "2023-01-03T16:05:27+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>go 语言中变量与常量</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/golang/" class="post-category" title="分类 - golang"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> golang</a></span></div><div class="post-meta-line"><span title="发布于 2023-01-03 11:39:56"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-03">2023-01-03</time></span>&nbsp;<span title="更新于 2023-01-03 16:05:27"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-03">2023-01-03</time></span>&nbsp;<span title="4055 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#变量">变量</a>
+      <ul>
+        <li><a href="#声明变量">声明变量</a></li>
+        <li><a href="#声明一组变量">声明一组变量</a></li>
+        <li><a href="#简短声明">简短声明</a></li>
+        <li><a href="#指针">指针</a></li>
+        <li><a href="#指向指针的指针">指向指针的指针</a></li>
+        <li><a href="#变量声明周期">变量声明周期</a></li>
+        <li><a href="#变量初始化">变量初始化</a></li>
+        <li><a href="#栈堆">栈堆</a></li>
+      </ul>
+    </li>
+    <li><a href="#常量">常量</a>
+      <ul>
+        <li><a href="#iota-常量生成器">iota 常量生成器</a></li>
+        <li><a href="#字符串常量">字符串常量</a></li>
+        <li><a href="#布尔常量">布尔常量</a></li>
+        <li><a href="#数字常量">数字常量</a></li>
+        <li><a href="#无类型常量">无类型常量</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-01-03，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>go: 1.19</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://studygolang.com/articles/11756"target="_blank" rel="external nofollow noopener noreferrer">Nick Coghlan: Go 系列教程 —— 3. 变量【Noluye 译】</a></li>
+<li><a href="https://docs.hacknode.org/gopl-zh/ch2/ch2-03.html" title="Go语言圣经-程序结构：变量"target="_blank" rel="external nofollow noopener noreferrer">Go语言圣经-程序结构：变量</a></li>
+<li><a href="https://docs.hacknode.org/gopl-zh/ch3/ch3-06.html" title="Go语言圣经-基础数据类型：常量"target="_blank" rel="external nofollow noopener noreferrer">Go语言圣经-基础数据类型：常量</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="变量" class="heading-element">
+  <a href="#%e5%8f%98%e9%87%8f" class="heading-mark"></a>变量</h1><p>变量指定了某存储单元（<code>Memory Location</code>）的名称，该存储单元会存储特定类型的值。在<code>Go</code>中，有多种语法用于声明变量。</p>
+<h2 id="声明变量" class="heading-element">
+  <a href="#%e5%a3%b0%e6%98%8e%e5%8f%98%e9%87%8f" class="heading-mark"></a>声明变量</h2><p><code>var</code> 声明语句会创建一个特定数据类型的变量，然后给变量附加一个名称，
+并设置变量的初始值。语法通常如下：</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="err">变量名称</span> <span class="err">数据类型</span> <span class="p">=</span> <span class="err">表达式</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中，变量值类型或表达式可以省略其中一个：</p>
+<ul>
+<li>如果是省略数据类型，那么更据初始化表达式来推导变量的数据类型</li>
+<li>如果是省略表达式，那么更据数据类型对应的零值初始化变量
+<ul>
+<li>数值类型零值为：<code>0</code></li>
+<li>布尔值类型零值为：<code>false</code></li>
+<li>字符串类型零值为：<code>&quot;&quot;</code>（空字符串）</li>
+<li>接口或引用类型零值为：<code>nil</code></li>
+</ul>
+</li>
+</ul>
+<p><code>var</code>形式的声明语句往往是用于需要显式指定变量类型的地方，或者因为变量稍后会被重新赋值而初始值无关紧要的地方。零值初始化及其可以确保每个变量都有一个值，这个特性可以简化很多代码，如下面代码输出结果为<code>0</code></p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// int 表示数据类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">s</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Go</code> 是强类型（<code>Strongly Typed</code>）语言，因此不允许某一类型的变量赋值为其他类型的值。下面的程序会抛出错误 <code>cannot use &quot;naveen&quot; (type string) as type int in assignment</code>，这是因为 <code>age</code> 本来声明为 <code>int</code> 类型，却给它赋字符串类型的值。</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">    <span class="nx">age</span> <span class="o">:=</span> <span class="mi">29</span>      <span class="c1">// age是int类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">age</span> <span class="p">=</span> <span class="s">&#34;naveen&#34;</span> <span class="c1">// 错误，尝试赋值一个字符串给int类型变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="声明一组变量" class="heading-element">
+  <a href="#%e5%a3%b0%e6%98%8e%e4%b8%80%e7%bb%84%e5%8f%98%e9%87%8f" class="heading-mark"></a>声明一组变量</h2><p>可以在一个声明语句中同时声明一组变量，或用一组初始化表达式声明并初始化一组变量。如果省略每个变量的类型，将可以声明多个类型不同的变量</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// d, e, f 三个变量没有声明数值类型，会更据值推导的数值类型
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 变量 d 布尔型，值为 true
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 变量 e 浮点数型, 值为  5.5
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 变量 f 字符串型， 值为 hello
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">f</span> <span class="p">=</span> <span class="kc">true</span><span class="p">,</span> <span class="mf">2.3</span><span class="o">+</span><span class="mf">3.2</span><span class="p">,</span> <span class="s">&#34;hello&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 这三个变量都没有声明数值，会初始化为数值 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">k</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">e</span><span class="p">,</span> <span class="nx">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span><span class="p">,</span> <span class="nx">k</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="简短声明" class="heading-element">
+  <a href="#%e7%ae%80%e7%9f%ad%e5%a3%b0%e6%98%8e" class="heading-mark"></a>简短声明</h2><p>简短声明是在函数内部的一种声明方式，用于声明和初始化局部变量。变量类型是由表达式字段推导，语法如下：</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="err">变量名称</span> <span class="o">:=</span> <span class="err">表达式</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种方式和<code>var</code>语句声明的变量几乎没有区别，如果变量在同级语法区域已经声明过了，那么简短变量声明会变成赋值行为；如果变量在外部语法区域声明的，那么加简短变量会在当前语法区域声明一个新的变量</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="p">,</span> <span class="nx">age</span> <span class="o">:=</span> <span class="s">&#34;naveen&#34;</span><span class="p">,</span> <span class="mi">29</span> <span class="c1">// 简短声明
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;my name is&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="s">&#34;age is&#34;</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>简短声明要求 <code>:=</code> 操作符左边的所有变量都有初始值。下面程序将会抛出错误 <code>cannot assign 1 values to 2 variables</code>，这是因为 <code>age</code> 没有被赋值。</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="p">,</span> <span class="nx">age</span> <span class="o">:=</span> <span class="s">&#34;naveen&#34;</span> <span class="c1">//error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;my name is&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="s">&#34;age is&#34;</span><span class="p">,</span> <span class="nx">age</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>简短声明的语法要求 <code>:=</code> 操作符的左边至少有一个变量是尚未声明的。否则会报错：<code>no new variables on left side of :=</code></p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">func main<span class="o">()</span> <span class="o">{</span>  
+</span></span><span class="line"><span class="cl">    a, b :<span class="o">=</span> 20, <span class="m">30</span> // 声明a和b
+</span></span><span class="line"><span class="cl">    fmt.Println<span class="o">(</span><span class="s2">&#34;a is&#34;</span>, a, <span class="s2">&#34;b is&#34;</span>, b<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    a, b :<span class="o">=</span> 40, <span class="m">50</span> // 错误，没有尚未声明的变量
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="指针" class="heading-element">
+  <a href="#%e6%8c%87%e9%92%88" class="heading-mark"></a>指针</h2><p>变量在声明时把内存空间中的值绑定到一个变量名，因此一个变量可以看由以下部分组成：</p>
+<ul>
+<li>变量名</li>
+<li>变量类型</li>
+<li>变量值</li>
+<li>存储变量值的内存地址</li>
+</ul>
+<p>如果变量的值是另一个变量值的内存地址，那么该变量称为指针，如下代码，变量<code>c</code>可以称为<code>c</code>指针指向变量<code>a</code>指向</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 字符串类型变量 a
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">a</span> <span class="o">:=</span> <span class="s">&#34;hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 字符串类型变量 b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">b</span> <span class="o">:=</span> <span class="s">&#34;hi&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 字符串类型指针变量 c
+</span></span></span><span class="line"><span class="cl"><span class="c1">// &amp;a 表示获取变量值的内存地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">c</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">a</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 得到变量值 ,内存地址, 变量类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">a</span> <span class="p">,</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">TypeOf</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">b</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">b</span> <span class="p">,</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">TypeOf</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">c</span> <span class="p">,</span><span class="nx">reflect</span><span class="p">.</span><span class="nf">TypeOf</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面代码的示意图：</p>
+<p><figure><a class="lightgallery" href="go-%e6%8c%87%e9%92%881.png?size=large" data-thumbnail="go-指针1.png?size=small" data-sub-html="<h2>go-指针1</h2><p>go-指针1</p>"><img loading="lazy" src="go-%e6%8c%87%e9%92%881.png" alt="go-指针1" srcset="go-%e6%8c%87%e9%92%881.png?size=small, go-%e6%8c%87%e9%92%881.png?size=medium 1.5x, go-%e6%8c%87%e9%92%881.png?size=large 2x" sizes="auto" data-title="go-指针1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a><figcaption class="image-caption">go-指针1</figcaption>
+  </figure></p>
+<p>如果一个变量的值是另一个变量的指针，则可以用通过 <code>*变量名</code> 去修改或获取该指针的值，如以下代码</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// 字符串类型变量 a
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">a</span> <span class="o">:=</span> <span class="s">&#34;hello&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 字符串类型指针变量 c
+</span></span></span><span class="line"><span class="cl"><span class="c1">// &amp;a 表示获取变量值的内存地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">c</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">a</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 输出结果为 hello
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">*</span><span class="nx">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 对 c 变量值所指的指针重新赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">*</span><span class="nx">c</span> <span class="p">=</span> <span class="s">&#34;hi&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 输出结果为 hi hi
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">*</span><span class="nx">c</span><span class="p">,</span> <span class="nx">a</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>任何类型的指针的零值都是<code>nil</code>。指针之间也是可以进行相等测试的，只有当它们指向同一个变量或全部是<code>nil</code>时才相等</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span> <span class="o">:=</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 输出为 true false false
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 原因是变量的指针不同
+</span></span></span><span class="line"><span class="cl"><span class="c1">// &amp;a 为什么不喝 nil 相等？
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">a</span> <span class="o">==</span> <span class="o">&amp;</span><span class="nx">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">a</span> <span class="o">==</span> <span class="o">&amp;</span><span class="nx">b</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">a</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在<code>Go</code>语言中，返回函数中局部变量的地址也是安全的。例如下面的代码，调用<code>f</code>函数时创建局部变量<code>v</code>，在局部变量地址被返回之后依然有效，因为指针<code>p</code>依然引用这个变量</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">p</span> <span class="p">=</span> <span class="nf">f</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">f</span><span class="p">()</span> <span class="o">*</span><span class="kt">int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">v</span> <span class="o">:=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">v</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="指向指针的指针" class="heading-element">
+  <a href="#%e6%8c%87%e5%90%91%e6%8c%87%e9%92%88%e7%9a%84%e6%8c%87%e9%92%88" class="heading-mark"></a>指向指针的指针</h2><p>指针可以嵌套一级，最多一级</p>
+<h2 id="变量声明周期" class="heading-element">
+  <a href="#%e5%8f%98%e9%87%8f%e5%a3%b0%e6%98%8e%e5%91%a8%e6%9c%9f" class="heading-mark"></a>变量声明周期</h2><p>变量的生命周期指的是在程序运行期间变量有效存在的时间段：</p>
+<ul>
+<li>对于在包一级声明的变量来说，它们的生命周期和整个程序的运行周期是一致的</li>
+<li>对于局部变量的生命周期则是动态的，每次从创建一个新变量的声明语句开始，直到该变量不再被引用为止，然后变量的存储空间可能被回收</li>
+</ul>
+<p><code>Go</code> 语言的自动垃圾收集器的基本思路是：从每个包级的变量和每个当前运行函数的每一个局部变量开始，通过指针或引用的访问路径遍历，是否可以找到该变量。如果不存在这样的访问路径，那么说明该变量是不可达的，也就是说它是否存在并不会影响程序后续的计算结果</p>
+<p>因为一个变量的有效周期只取决于是否可达，因此一个循环迭代内部的局部变量的生命周期可能超出其局部作用域。同时，局部变量可能在函数返回之后依然存在</p>
+<h2 id="变量初始化" class="heading-element">
+  <a href="#%e5%8f%98%e9%87%8f%e5%88%9d%e5%a7%8b%e5%8c%96" class="heading-mark"></a>变量初始化</h2><p>在包级别声明的变量会在<code>main</code>入口函数执行前完成初始化，局部变量将在声明语句被执行时完成初始化</p>
+<h2 id="栈堆" class="heading-element">
+  <a href="#%e6%a0%88%e5%a0%86" class="heading-mark"></a>栈堆</h2><p>编译器会自动选择在栈上还是在堆上分配局部变量的存储空间，与变量声明方式无关</p>
+<h1 id="常量" class="heading-element">
+  <a href="#%e5%b8%b8%e9%87%8f" class="heading-mark"></a>常量</h1><p>常量表达式的值在编译期计算，而不是在运行期。每种常量的潜在类型都是基础类型。一个常量的声明语句定义了常量的名字，和变量的声明语法类似，常量的值不可修改，这样可以防止在运行期被意外或恶意的修改</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">pi</span> <span class="p">=</span> <span class="mf">3.14159</span> <span class="c1">// 定义常量 pi 值为圆周率
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">pi</span> <span class="p">=</span> <span class="mf">3.14159265359</span> <span class="c1">// error：cannot assign to a. 原因 不允许重新赋值
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>和变量声明一样，可以批量声明多个常量；这比较适合声明一组相关的常量</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">e</span>  <span class="p">=</span> <span class="mf">2.7182818284590</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">pi</span> <span class="p">=</span> <span class="mf">3.14159265358979323846264338327950288419716939937510582097494459</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>所有常量的运算都可以在编译期完成，这样可以减少运行时的工作，也方便其他编译优化，当操作数是常量时，一些运行时的错误也可以在编译时被发现，例如整数除零、字符串索引越界、任何导致无效浮点数的操作。常量间的所有算术运算、逻辑运算和比较运算的结果也是常量，对常量的类型转换操作或以下函数调用都是返回常量结果：</p>
+<ul>
+<li><code>len</code></li>
+<li><code>cap</code></li>
+<li><code>real</code></li>
+<li><code>imag</code></li>
+<li><code>complex</code></li>
+<li><code>unsafe.Sizeof</code></li>
+</ul>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Hello, playground&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">a</span> <span class="p">=</span> <span class="nx">math</span><span class="p">.</span><span class="nf">Sqrt</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>   <span class="c1">// 允许
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 不允许， 是一个常量，它的值需要在编译的时候就确定。函数 math.Sqrt(4) 只会在运行的时候计算，
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// error main.go:11: const initializer math.Sqrt(4) is not a constant)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">const</span> <span class="nx">b</span> <span class="p">=</span> <span class="nx">math</span><span class="p">.</span><span class="nf">Sqrt</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为它们的值是在编译期就确定的，因此常量可以是构成类型的一部分，例如用于指定数组类型的长度</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">IPv4Len</span> <span class="p">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// parseIPv4 parses an IPv4 address (d.d.d.d).
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">parseIPv4</span><span class="p">(</span><span class="nx">s</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">IP</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">p</span> <span class="p">[</span><span class="nx">IPv4Len</span><span class="p">]</span><span class="kt">byte</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>一个常量的声明也可以包含一个类型和一个值，但是如果没有显式指明类型，那么将从右边的表达式推断类型</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">const</span> <span class="nx">timeout</span> <span class="p">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 输出:time.Duration 5m0s
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// %T 打印类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%T %[1]v\n&#34;</span><span class="p">,</span> <span class="nx">timeout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果是批量声明的常量，除了第一个外其它的常量右边的初始化表达式都可以省略，如果省
+略初始化表达式，则使用前面常量的表达式的写法，对应类型也是一样</p>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">a</span> <span class="p">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">b</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">c</span> <span class="p">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">d</span>
+</span></span><span class="line"><span class="cl">	<span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//			1  1  2  2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">d</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="iota-常量生成器" class="heading-element">
+  <a href="#iota-%e5%b8%b8%e9%87%8f%e7%94%9f%e6%88%90%e5%99%a8" class="heading-mark"></a>iota 常量生成器</h2><p>常量声明可以使用<code>iota</code>常量生成器初始化，它用于生成一组以相似规则初始化的常量，但
+是不用每行都写一遍初始化表达式。在一个<code>const</code>声明语句中，在第一个声明的常量所在
+的行，<code>iota</code>将会被置为<code>0</code>，然后在每一个有常量声明的行加一</p>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">a</span> <span class="kt">int</span> <span class="p">=</span> <span class="kc">iota</span> 
+</span></span><span class="line"><span class="cl">		<span class="nx">b</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">c</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">d</span>
+</span></span><span class="line"><span class="cl">	<span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//	输出：  0   1  2  3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">d</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以在<code>iota</code>部分使用表达式，会自动套用该表达式</p>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// &lt;&lt; 表示2次幂
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">a</span> <span class="kt">int</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="kc">iota</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">b</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">c</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">d</span>
+</span></span><span class="line"><span class="cl">	<span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//	输出：  	1  2  4  8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">d</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面示例中，每个常量都是1024的幂</p>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">_</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="kc">iota</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">KiB</span> <span class="c1">// 1024
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">MiB</span> <span class="c1">// 1048576
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">GiB</span> <span class="c1">// 1073741824
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">TiB</span> <span class="c1">// 1099511627776             (exceeds 1 &lt;&lt; 32)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">PiB</span> <span class="c1">// 1125899906842624
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">EiB</span> <span class="c1">// 1152921504606846976
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">ZiB</span> <span class="c1">// 1180591620717411303424    (exceeds 1 &lt;&lt; 64)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">YiB</span> <span class="c1">// 1208925819614629174706176
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>不过iota常量生成规则也有其局限性。例如，它并不能用于产生1000的幂,，因为Go语言并没有计算幂的运算符</p>
+<h2 id="字符串常量" class="heading-element">
+  <a href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%b8%b8%e9%87%8f" class="heading-mark"></a>字符串常量</h2><p>双引号中的任何值都是 <code>Go</code> 中的字符串常量。</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">typedhello</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&#34;Hello World&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="布尔常量" class="heading-element">
+  <a href="#%e5%b8%83%e5%b0%94%e5%b8%b8%e9%87%8f" class="heading-mark"></a>布尔常量</h2><p>布尔值常量与字符串常量相似</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">    <span class="kd">const</span> <span class="nx">trueConst</span> <span class="p">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">type</span> <span class="nx">myBool</span> <span class="kt">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">defaultBool</span> <span class="p">=</span> <span class="nx">trueConst</span> <span class="c1">// 允许
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">var</span> <span class="nx">customBool</span> <span class="nx">myBool</span> <span class="p">=</span> <span class="nx">trueConst</span> <span class="c1">// 允许
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">defaultBool</span> <span class="p">=</span> <span class="nx">customBool</span> <span class="c1">// 不允许
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="数字常量" class="heading-element">
+  <a href="#%e6%95%b0%e5%ad%97%e5%b8%b8%e9%87%8f" class="heading-mark"></a>数字常量</h2><p>数字常量包含整数、浮点数和复数的常量。数字常量中有一些微妙之处。</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">const</span> <span class="nx">a</span> <span class="p">=</span> <span class="mi">5</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">intVar</span> <span class="kt">int</span> <span class="p">=</span> <span class="nx">a</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;type %T value %v\n&#34;</span><span class="p">,</span> <span class="nx">intVar</span><span class="p">,</span> <span class="nx">intVar</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">int32Var</span> <span class="kt">int32</span> <span class="p">=</span> <span class="nx">a</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;type %T value %v\n&#34;</span><span class="p">,</span> <span class="nx">int32Var</span><span class="p">,</span> <span class="nx">int32Var</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">float64Var</span> <span class="kt">float64</span> <span class="p">=</span> <span class="nx">a</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;type %T value %v\n&#34;</span><span class="p">,</span> <span class="nx">float64Var</span><span class="p">,</span> <span class="nx">float64Var</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">complex64Var</span> <span class="kt">complex64</span> <span class="p">=</span> <span class="nx">a</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;type %T value %v\n&#34;</span><span class="p">,</span> <span class="nx">complex64Var</span><span class="p">,</span> <span class="nx">complex64Var</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>数字常量可以在表达式中自由混合和匹配，只有当它们被分配给变量或者在需要类型的代码中的任何地方使用时，才需要类型。</p>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">const</span> <span class="nx">a</span> <span class="p">=</span> <span class="mf">5.9</span> <span class="o">/</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;a&#39;s type %T value %v&#34;</span><span class="p">,</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="无类型常量" class="heading-element">
+  <a href="#%e6%97%a0%e7%b1%bb%e5%9e%8b%e5%b8%b8%e9%87%8f" class="heading-mark"></a>无类型常量</h2><p>许多常量并没有一个明确的数据类型，编译器为这些没有明确基础类型的数字常量提供比基础类型更高精度的算术运算，可以认为至少有<code>256bit</code>的运算精度。有以下几种未明确的常量类型：</p>
+<ul>
+<li>无类型的布尔型</li>
+<li>无类型的整数</li>
+<li>无类型的字符</li>
+<li>无类型的浮点数</li>
+<li>无类型的复数</li>
+<li>无类型的字符</li>
+</ul>
+<p><code>Go</code> 是一门强类型语言，所有的变量必须有明确的类型。无类型的常量有一个与它们相关联的默认类型，并且当且仅当一行代码需要时才提供它。</p>
+<div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>  
+</span></span><span class="line"><span class="cl">    <span class="c1">// 无类型常量 name
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">var</span> <span class="nx">name</span> <span class="p">=</span> <span class="s">&#34;Sam&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 转换为 字符串类型常量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;type %T value %v&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">const</span> <span class="nx">a</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">b</span> <span class="p">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">f1</span> <span class="kt">float64</span> <span class="p">=</span> <span class="nx">a</span> <span class="c1">// 可以正常赋值，转换为 float64 类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kd">var</span> <span class="nx">f2</span> <span class="kt">float64</span> <span class="p">=</span> <span class="nx">b</span> <span class="c1">// b 变量是 int 类型，无法赋值给 float64 类型的 f2 变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">f1</span><span class="p">,</span> <span class="nx">f2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过延迟明确常量的具体类型，无类型的常量不仅可以提供更高的运算精度，而且可以直接用于更多的表达式而不需要显式的类型转换。如下面是示例中，<code>ZiB</code>和<code>YiB</code>已经超过了任何<code>Go</code>语言中的整数范围，但依然是合法的常量，且常量表达式依旧有效</p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">_</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="kc">iota</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">KiB</span> <span class="c1">// 1024
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">MiB</span> <span class="c1">// 1048576
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">GiB</span> <span class="c1">// 1073741824
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">TiB</span> <span class="c1">// 1099511627776             (exceeds 1 &lt;&lt; 32)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">PiB</span> <span class="c1">// 1125899906842624
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">EiB</span> <span class="c1">// 1152921504606846976
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">ZiB</span> <span class="c1">// 1180591620717411303424    (exceeds 1 &lt;&lt; 64)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">YiB</span> <span class="c1">// 1208925819614629174706176
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">YiB</span><span class="o">/</span><span class="nx">ZiB</span><span class="p">)</span> <span class="c1">// &#34;1024&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意有一点不同：无类型整数常量转换为<code>int</code>，它的内存大小是不确定的，但是无类型浮点数和复数常量则转换为内存大小明确的<code>float64</code>和<code>complex128</code>。 如果不知道浮点数类型的内存大小是很难写出正确的数值算法，因此<code>Go</code>语言不存在整型类似的不确定内存大小的浮点数和复数类型</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-01-03 16:05:27">更新于 2023-01-03&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E5%8F%98%E9%87%8F/" class="post-tag" title="标签 - 变量">变量</a><a href="/tags/%E5%B8%B8%E9%87%8F/" class="post-tag" title="标签 - 常量">常量</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/go-spec/" class="post-nav-item" rel="prev" title="go 语言书写规范"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>go 语言书写规范</a>
+      <a href="/go-date-type/" class="post-nav-item" rel="next" title="go 数据类型">go 数据类型<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

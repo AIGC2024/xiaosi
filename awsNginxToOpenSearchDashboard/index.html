@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>使用nginx代理访问私有子网中的OpenSearch 控制面板 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='aws, OpenSearch' /><meta itemprop="name" content="使用nginx代理访问私有子网中的OpenSearch 控制面板">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-12-10T14:08:18+08:00" />
+<meta itemprop="dateModified" content="2023-12-12T18:01:02+08:00" />
+<meta itemprop="wordCount" content="929">
+<meta itemprop="keywords" content="aws,OpenSearch," /><meta property="og:title" content="使用nginx代理访问私有子网中的OpenSearch 控制面板" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsNginxToOpenSearchDashboard/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-10T14:08:18+08:00" />
+<meta property="article:modified_time" content="2023-12-12T18:01:02+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用nginx代理访问私有子网中的OpenSearch 控制面板"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsNginxToOpenSearchDashboard/" /><link rel="prev" href="/k8sConfigMap/" /><link rel="next" href="/awsPrometheusToAwsPrometheus/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "使用nginx代理访问私有子网中的OpenSearch 控制面板",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsNginxToOpenSearchDashboard\/"
+    },"genre": "posts","keywords": "aws, OpenSearch","wordcount":  929 ,
+    "url": "\/awsNginxToOpenSearchDashboard\/","datePublished": "2023-12-10T14:08:18+08:00","dateModified": "2023-12-12T18:01:02+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>使用nginx代理访问私有子网中的OpenSearch 控制面板</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-12-10 14:08:18"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-12-10">2023-12-10</time></span>&nbsp;<span title="更新于 2023-12-12 18:01:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-12-12">2023-12-12</time></span>&nbsp;<span title="929 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#eks-中搭建-nginx-代理">eks 中搭建 nginx 代理</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://repost.aws/zh-Hans/knowledge-center/opensearch-outside-vpc-nginx"target="_blank" rel="external nofollow noopener noreferrer"><code>aws 知识中心：</code>如何使用 NGINX 代理通过 Amazon Cognito 身份验证从 VPC 外部访问 OpenSearch 控制面板？</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="eks-中搭建-nginx-代理" class="heading-element">
+  <a href="#eks-%e4%b8%ad%e6%90%ad%e5%bb%ba-nginx-%e4%bb%a3%e7%90%86" class="heading-mark"></a>eks 中搭建 nginx 代理</h1><ol>
+<li>创建名称空间</li>
+</ol>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl create ns proxy</span>
+</span></span><span class="line"><span class="cl">namespace/proxy created</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>为 <code>nginx pod</code> 生成 <code>tls</code>证书</li>
+</ol>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># openssl req -x509 -nodes -days 365 \</span>
+</span></span><span class="line"><span class="cl">&gt; -newkey rsa:2048 -keyout nginx-proxy-opensearch.key <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -out nginx-proxy-opensearch.crt <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -subj <span class="s2">&#34;/CN=opensearch.aws.xiaosi.host/O=my-nginx&#34;</span>
+</span></span><span class="line"><span class="cl">Generating a <span class="m">2048</span> bit RSA private key
+</span></span><span class="line"><span class="cl">.+++
+</span></span><span class="line"><span class="cl">.....+++
+</span></span><span class="line"><span class="cl">writing new private key to <span class="s1">&#39;nginx-proxy-opensearch.key&#39;</span>
+</span></span><span class="line"><span class="cl">-----</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>为 <code>TLS</code> 文件生成<code>secret</code> 对象</li>
+</ol>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl create secret tls nginx-proxy-opensearch-tls \</span>
+</span></span><span class="line"><span class="cl">&gt; --cert<span class="o">=</span>nginx-proxy-opensearch.crt <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; --key<span class="o">=</span>nginx-proxy-opensearch.key <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -n proxy
+</span></span><span class="line"><span class="cl">secret/nginx-proxy-opensearch-tls created
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl get secret -n proxy</span>
+</span></span><span class="line"><span class="cl">NAME                         TYPE                DATA   AGE
+</span></span><span class="line"><span class="cl">nginx-proxy-opensearch-tls   kubernetes.io/tls   <span class="m">2</span>      23s</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>创建 nginx 配置文件</li>
+</ol>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">user</span> <span class="s">nginx</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">worker_processes</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">error_log</span> <span class="s">/var/log/nginx/error.log</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">pid</span> <span class="s">/run/nginx.pid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">events</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">worker_connections</span> <span class="mi">1024</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">http</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">log_format</span>  <span class="s">main</span> <span class="s">escape=json</span>
+</span></span><span class="line"><span class="cl">   <span class="s">&#39;</span><span class="p">{</span> <span class="kn">&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;Client</span> <span class="s">IP&#34;:</span> <span class="s">&#34;</span><span class="nv">$http_x_forwarded_for&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;responseTime&#34;:</span> <span class="s">&#34;</span><span class="nv">$time_iso8601&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;requestIP&#34;:</span> <span class="s">&#34;</span><span class="nv">$remote_addr&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;requestPort&#34;:</span> <span class="s">&#34;</span><span class="nv">$remote_port&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;requestScheme&#34;:</span> <span class="s">&#34;</span><span class="nv">$scheme&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;requestProtocol&#34;:</span> <span class="s">&#34;</span><span class="nv">$server_protocol&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;requestMethod&#34;:</span> <span class="s">&#34;</span><span class="nv">$request_method&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;requestDomainName&#34;:</span> <span class="s">&#34;</span><span class="nv">$host&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;requestUri&#34;:</span> <span class="s">&#34;</span><span class="nv">$request_uri&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;responseUrl&#34;:</span> <span class="s">&#34;</span><span class="nv">$uri&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;responseIP&#34;:</span> <span class="s">&#34;</span><span class="nv">$server_addr&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;responseport&#34;:</span> <span class="s">&#34;</span><span class="nv">$server_port&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;responseStatus&#34;:</span> <span class="s">&#34;</span><span class="nv">$status&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;\&#34;responseSize\&#34;:</span> <span class="s">&#34;</span> <span class="s">&#34;\&#34;</span><span class="nv">$bytes_sent&#34;</span> <span class="s">&#34;B\&#34;,&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;\&#34;responseBodySize\&#34;:</span> <span class="s">&#34;</span> <span class="s">&#34;\&#34;</span><span class="nv">$body_bytes_sent&#34;</span> <span class="s">&#34;B\&#34;,&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;\&#34;processingConsumeTime\&#34;:</span> <span class="s">&#34;</span> <span class="s">&#34;\&#34;</span><span class="nv">$request_time&#34;</span> <span class="s">&#34;s\&#34;,&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;processingStatus&#34;:</span>  <span class="s">&#34;</span><span class="nv">$request_completion&#34;,&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#39;&#34;User-Agent&#34;:</span> <span class="s">&#34;</span><span class="nv">$http_user_agent&#34;&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#39;</span><span class="err">}</span><span class="s">&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">access_log</span>  <span class="s">/var/log/nginx/access.log</span>  <span class="s">main</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">sendfile</span>            <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">tcp_nopush</span>          <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">tcp_nodelay</span>         <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">keepalive_timeout</span>   <span class="mi">65</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">types_hash_max_size</span> <span class="mi">4096</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">include</span>             <span class="s">/etc/nginx/mime.types</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">default_type</span>        <span class="s">application/octet-stream</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">listen</span>       <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">listen</span>       <span class="s">[::]:80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">server_name</span>  <span class="s">_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">root</span>         <span class="s">/usr/share/nginx/html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Load configuration files for the default server block.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">error_page</span> <span class="mi">404</span> <span class="s">/404.html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">location</span> <span class="p">=</span> <span class="s">/404.html</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kn">error_page</span> <span class="mi">500</span> <span class="mi">502</span> <span class="mi">503</span> <span class="mi">504</span> <span class="s">/50x.html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">location</span> <span class="p">=</span> <span class="s">/50x.html</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">listen</span> <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">server_name</span> <span class="s">opensearch.aws.xiaosi.host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">resolver</span> <span class="mi">192</span><span class="s">.168.0.2</span> <span class="s">[::1]:5353</span> <span class="s">valid=30s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">rewrite</span> <span class="s">^/</span>$ <span class="s">https://opensearch.aws.xiaosi.host/_dashboards</span>  <span class="s">redirect</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">ssl_certificate</span> <span class="s">/etc/nginx/cert.crt</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">ssl_certificate_key</span> <span class="s">/etc/nginx/cert.key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">ssl_session_cache</span> <span class="n">builtin</span><span class="p">:</span><span class="mi">1000</span> <span class="s">shared:SSL:10m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">ssl_protocols</span> <span class="s">TLSv1</span> <span class="s">TLSv1.1</span> <span class="s">TLSv1.2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">ssl_ciphers</span> <span class="s">HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">ssl_prefer_server_ciphers</span> <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">set</span> <span class="nv">$es_endpoint</span> <span class="s">vpc-xiaosi-totppbb2en4wkcvtgkwlxl773u.ap-southeast-1.es.amazonaws.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">set</span> <span class="nv">$cognito_endpoint</span> <span class="s">vpc-xiaosi-totppbb2en4wkcvtgkwlxl773u.ap-southeast-1.es.amazonaws.com</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">location</span> <span class="s">^~</span> <span class="s">/_dashboards</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Forward requests to Kibana
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_pass</span> <span class="s">https://</span><span class="nv">$es_endpoint</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Handle redirects to Amazon Cognito
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_redirect</span> <span class="s">https://</span><span class="nv">$cognito_endpoint</span>  <span class="s">https://opensearch.aws.xiaosi.host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Update cookie domain and path
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_cookie_domain</span> <span class="nv">$es_endpoint</span> <span class="s">opensearch.aws.xiaosi.host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Response buffer settings
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_buffer_size</span> <span class="mi">128k</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">proxy_buffers</span> <span class="mi">4</span> <span class="mi">256k</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">proxy_busy_buffers_size</span> <span class="mi">256k</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Ignore client disconnection
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_ignore_client_abort</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">location</span> <span class="p">~</span> <span class="sr">\/(log|sign|error|fav|forgot|change|confirm|mfa)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Forward requests to Cognito
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_pass</span> <span class="s">https://</span><span class="nv">$cognito_endpoint</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Handle redirects to Kibana
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_redirect</span> <span class="s">https://</span><span class="nv">$es_endpoint</span>  <span class="s">https://opensearch.aws.xiaosi.host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Handle redirects to Amazon Cognito
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_redirect</span> <span class="s">https://</span><span class="nv">$cognito_endpoint</span>  <span class="s">https://opensearch.aws.xiaosi.host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Update cookie domain
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_cookie_domain</span> <span class="nv">$cognito_endpoint</span> <span class="s">opensearch.aws.xiaosi.host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># Ignore client disconnection
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="kn">proxy_ignore_client_abort</span>  <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">internal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>创建 <code>ConfigMap</code> 资源</li>
+</ol>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl create configmap nginx-proxy-opensearch-conf \</span>
+</span></span><span class="line"><span class="cl">&gt; --from-file<span class="o">=</span>nginx-proxy-opensearch.conf <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>&gt; -n proxy
+</span></span><span class="line"><span class="cl">configmap/nginx-proxy-opensearch-conf created</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>创建 <code>nginx pod</code></li>
+</ol>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">proxy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-to-opensearch</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-to-opensearch</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">to-opensearch</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">to-opensearch</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">volumeMounts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l">/etc/nginx/nginx.conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">subPath</span><span class="p">:</span><span class="w"> </span><span class="l">nginx.conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">configMap</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="c"># 提供包含要添加到容器中的文件的 ConfigMap 的名称</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-proxy-opensearch</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">items</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l">nginx.conf</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l">nginx.conf</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>部署前面的 <code>nginx-to-opensearch</code> 资源</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl apply -f deployment-nginx.yaml</span>
+</span></span><span class="line"><span class="cl">deployment.apps/nginx-to-opensearch created
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl get -f deployment-nginx.yaml</span>
+</span></span><span class="line"><span class="cl">NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span class="line"><span class="cl">nginx-to-opensearch   1/1     <span class="m">1</span>            <span class="m">1</span>           <span class="m">10</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>创建 <code>service</code> 资源</li>
+</ol>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">proxy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">service-nginx-opensearch</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">to-opensearch</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>部署</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl apply -f nginx-service.yaml</span>
+</span></span><span class="line"><span class="cl">service/service-nginx-opensearch created
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl get -f nginx-service.yaml</span>
+</span></span><span class="line"><span class="cl">NAME                       TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>   AGE
+</span></span><span class="line"><span class="cl">service-nginx-opensearch   ClusterIP   10.100.253.126   &lt;none&gt;        80/TCP    29s</span></span></code></pre></td></tr></table>
+</div>
+</div><p>eks 节点测试</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sh-4.2$ curl 10.100.253.126 -I
+</span></span><span class="line"><span class="cl">HTTP/1.1 <span class="m">302</span> Moved Temporarily
+</span></span><span class="line"><span class="cl">Server: nginx/1.25.3
+</span></span><span class="line"><span class="cl">Date: Sun, <span class="m">10</span> Dec <span class="m">2023</span> 06:33:01 GMT
+</span></span><span class="line"><span class="cl">Content-Type: text/html
+</span></span><span class="line"><span class="cl">Content-Length: <span class="m">145</span>
+</span></span><span class="line"><span class="cl">Connection: keep-alive
+</span></span><span class="line"><span class="cl">Location: https://opensearch.aws.xiaosi.host/_dashboards</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>创建 <code>alb</code></li>
+</ol>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">apiVersion: networking.k8s.io/v1
+</span></span><span class="line"><span class="cl">kind: Ingress
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  namespace: proxy
+</span></span><span class="line"><span class="cl">  name: alb-service-nginx-opensearch
+</span></span><span class="line"><span class="cl">  annotations:
+</span></span><span class="line"><span class="cl">    alb.ingress.kubernetes.io/scheme: internet-facing
+</span></span><span class="line"><span class="cl">    alb.ingress.kubernetes.io/target-type: ip
+</span></span><span class="line"><span class="cl">    alb.ingress.kubernetes.io/ip-address-type: ipv4
+</span></span><span class="line"><span class="cl">    alb.ingress.kubernetes.io/certificate-arn: <span class="p">|</span>
+</span></span><span class="line"><span class="cl">      arn:aws:acm:ap-southeast-1:223665515173:certificate/87790675-7408-404f-92e7-d051ed709c34
+</span></span><span class="line"><span class="cl">    alb.ingress.kubernetes.io/ssl-redirect: <span class="s1">&#39;443&#39;</span>
+</span></span><span class="line"><span class="cl">    alb.ingress.kubernetes.io/listen-ports: <span class="p">|</span>
+</span></span><span class="line"><span class="cl">      <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span><span class="s2">&#34;HTTP&#34;</span>: 80<span class="o">}</span>,
+</span></span><span class="line"><span class="cl">        <span class="o">{</span><span class="s2">&#34;HTTPS&#34;</span>: 443<span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>
+</span></span><span class="line"><span class="cl">spec:
+</span></span><span class="line"><span class="cl">  ingressClassName: aws-load-balancer
+</span></span><span class="line"><span class="cl">  rules:
+</span></span><span class="line"><span class="cl">  - host: opensearch.aws.xiaosi.host
+</span></span><span class="line"><span class="cl">    http:
+</span></span><span class="line"><span class="cl">      paths:
+</span></span><span class="line"><span class="cl">      - path: /
+</span></span><span class="line"><span class="cl">        pathType: Prefix
+</span></span><span class="line"><span class="cl">        backend:
+</span></span><span class="line"><span class="cl">          service:
+</span></span><span class="line"><span class="cl">            name: service-nginx-opensearch
+</span></span><span class="line"><span class="cl">            port:
+</span></span><span class="line"><span class="cl">                name: http</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost nginx-proxy-opensearch<span class="o">]</span><span class="c1"># kubectl apply -f nginx-aws-alb.yaml</span>
+</span></span><span class="line"><span class="cl">ingress.networking.k8s.io/alb-service-nginx-opensearch created</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-12-12 18:01:02">更新于 2023-12-12&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/aws/" class="post-tag" title="标签 - aws">aws</a><a href="/tags/OpenSearch/" class="post-tag" title="标签 - OpenSearch">OpenSearch</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sConfigMap/" class="post-nav-item" rel="prev" title="k8s ConfigMap 对象"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s ConfigMap 对象</a>
+      <a href="/awsPrometheusToAwsPrometheus/" class="post-nav-item" rel="next" title="prometheus推送指标到aws prometheus">prometheus推送指标到aws prometheus<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

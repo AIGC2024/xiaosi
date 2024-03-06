@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>prometheus推送指标到aws prometheus - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='prometheus' /><meta itemprop="name" content="prometheus推送指标到aws prometheus">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-12-11T11:03:26+08:00" />
+<meta itemprop="dateModified" content="2023-12-12T14:49:33+08:00" />
+<meta itemprop="wordCount" content="1434">
+<meta itemprop="keywords" content="prometheus," /><meta property="og:title" content="prometheus推送指标到aws prometheus" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsPrometheusToAwsPrometheus/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-11T11:03:26+08:00" />
+<meta property="article:modified_time" content="2023-12-12T14:49:33+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="prometheus推送指标到aws prometheus"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsPrometheusToAwsPrometheus/" /><link rel="prev" href="/awsNginxToOpenSearchDashboard/" /><link rel="next" href="/awsKarpenter/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "prometheus推送指标到aws prometheus",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsPrometheusToAwsPrometheus\/"
+    },"genre": "posts","keywords": "prometheus","wordcount":  1434 ,
+    "url": "\/awsPrometheusToAwsPrometheus\/","datePublished": "2023-12-11T11:03:26+08:00","dateModified": "2023-12-12T14:49:33+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>prometheus推送指标到aws prometheus</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-12-11 11:03:26"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-12-11">2023-12-11</time></span>&nbsp;<span title="更新于 2023-12-12 14:49:33"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-12-12">2023-12-12</time></span>&nbsp;<span title="1434 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#在-eks-集群中创建-prometheus">在 eks 集群中创建 prometheus</a></li>
+    <li><a href="#错误">错误</a>
+      <ul>
+        <li><a href="#pvc-因为没有-pv-导致无法绑定">PVC 因为没有 PV 导致无法绑定</a></li>
+        <li><a href="#无法连接-1270019090-导致-prometheus-server-退出">无法连接 127.0.0.1:9090 导致 prometheus-server 退出</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+k8s: 1.28</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/zh_cn/prometheus/latest/userguide/AMP-onboard-ingest-metrics-new-Prometheus.html"target="_blank" rel="external nofollow noopener noreferrer"><code>aws 官方文档：</code>使用 Helm 设置从新 Prometheus 服务器进行摄取</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="在-eks-集群中创建-prometheus" class="heading-element">
+  <a href="#%e5%9c%a8-eks-%e9%9b%86%e7%be%a4%e4%b8%ad%e5%88%9b%e5%bb%ba-prometheus" class="heading-mark"></a>在 eks 集群中创建 prometheus</h1><ol>
+<li>添加 <code>Helm</code> 存储库</li>
+</ol>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># helm repo add prometheus-community https://prometheus-community.github.io/helm-charts</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;prometheus-community&#34;</span> has been added to your repositories
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># helm repo add kube-state-metrics https://kubernetes.github.io/kube-state-metrics</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;kube-state-metrics&#34;</span> has been added to your repositories
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># helm repo update</span>
+</span></span><span class="line"><span class="cl">Hang tight <span class="k">while</span> we grab the latest from your chart repositories...
+</span></span><span class="line"><span class="cl">...Successfully got an update from the <span class="s2">&#34;kube-state-metrics&#34;</span> chart repository
+</span></span><span class="line"><span class="cl">...Successfully got an update from the <span class="s2">&#34;eks&#34;</span> chart repository
+</span></span><span class="line"><span class="cl">...Successfully got an update from the <span class="s2">&#34;gitlab-jh&#34;</span> chart repository
+</span></span><span class="line"><span class="cl">...Successfully got an update from the <span class="s2">&#34;prometheus-community&#34;</span> chart repository
+</span></span><span class="line"><span class="cl">Update Complete. ⎈Happy Helming!⎈</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>创建名称空间</li>
+</ol>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl create namespace prometheus</span>
+</span></span><span class="line"><span class="cl">namespace/prometheus created</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>创建 <code>AWS</code> 角色</li>
+</ol>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1"># cat createIRSA-AMPIngest.sh</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#!/bin/bash -e</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># CLUSTER_NAME=&lt;my_amazon_eks_clustername&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># SERVICE_ACCOUNT_NAMESPACE=&lt;my_prometheus_namespace&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">CLUSTER_NAME</span><span class="o">=</span>eks01
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_NAMESPACE</span><span class="o">=</span>prometheus
+</span></span><span class="line"><span class="cl"><span class="nv">AWS_ACCOUNT_ID</span><span class="o">=</span><span class="k">$(</span>aws sts get-caller-identity <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --query <span class="s2">&#34;Account&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile yh-xiaosi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --region ap-southeast-1 <span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">OIDC_PROVIDER</span><span class="o">=</span><span class="k">$(</span>aws eks describe-cluster <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --name <span class="nv">$CLUSTER_NAME</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --query <span class="s2">&#34;cluster.identity.oidc.issuer&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile yh-xiaosi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --region ap-southeast-1 <span class="p">|</span> sed -e <span class="s2">&#34;s/^https:\/\///&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_AMP_INGEST_NAME</span><span class="o">=</span>amp-iamproxy-ingest-service-account
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE</span><span class="o">=</span>amp-iamproxy-ingest-role
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_POLICY</span><span class="o">=</span>AMPIngestPolicy
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Set up a trust policy designed for a specific combination of K8s service account and namespace to sign in from a Kubernetes cluster which hosts the OIDC Idp.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; TrustPolicy.json
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Statement&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">    {
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Principal&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Federated&#34;: &#34;arn:aws:iam::${AWS_ACCOUNT_ID}:oidc-provider/${OIDC_PROVIDER}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">      },
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Action&#34;: &#34;sts:AssumeRoleWithWebIdentity&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      &#34;Condition&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;StringEquals&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s">          &#34;${OIDC_PROVIDER}:sub&#34;: &#34;system:serviceaccount:${SERVICE_ACCOUNT_NAMESPACE}:${SERVICE_ACCOUNT_AMP_INGEST_NAME}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        }
+</span></span></span><span class="line"><span class="cl"><span class="s">      }
+</span></span></span><span class="line"><span class="cl"><span class="s">    }
+</span></span></span><span class="line"><span class="cl"><span class="s">  ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Set up the permission policy that grants ingest (remote write) permissions for all AMP workspaces</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;EOF &gt; PermissionPolicyIngest.json
+</span></span></span><span class="line"><span class="cl"><span class="s">{
+</span></span></span><span class="line"><span class="cl"><span class="s">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">   &#34;Statement&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">       {&#34;Effect&#34;: &#34;Allow&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Action&#34;: [
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:RemoteWrite&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetSeries&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetLabels&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">           &#34;aps:GetMetricMetadata&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">        ],
+</span></span></span><span class="line"><span class="cl"><span class="s">        &#34;Resource&#34;: &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">      }
+</span></span></span><span class="line"><span class="cl"><span class="s">   ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> getRoleArn<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">OUTPUT</span><span class="o">=</span><span class="k">$(</span>aws iam get-role <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --role-name <span class="nv">$1</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --query <span class="s1">&#39;Role.Arn&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --profile yh-xiaosi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      --region ap-southeast-1 2&gt;<span class="p">&amp;</span>1<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="c1"># Check for an expected exception</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="nv">$OUTPUT</span>
+</span></span><span class="line"><span class="cl">  <span class="k">elif</span> <span class="o">[[</span> -n <span class="k">$(</span>grep <span class="s2">&#34;NoSuchEntity&#34;</span> <span class="o">&lt;&lt;&lt;</span> <span class="nv">$OUTPUT</span><span class="k">)</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    &gt;<span class="p">&amp;</span><span class="m">2</span> <span class="nb">echo</span> <span class="nv">$OUTPUT</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Create the IAM Role for ingest with the above trust policy</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span><span class="o">=</span><span class="k">$(</span>getRoleArn <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span> <span class="o">]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Create the IAM role for service account</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span><span class="o">=</span><span class="k">$(</span>aws iam create-role <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --role-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --assume-role-policy-document file://TrustPolicy.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --query <span class="s2">&#34;Role.Arn&#34;</span> --output text <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --profile yh-xiaosi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --region ap-southeast-1<span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Create an IAM permission policy</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">SERVICE_ACCOUNT_IAM_AMP_INGEST_ARN</span><span class="o">=</span><span class="k">$(</span>aws iam create-policy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --policy-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_POLICY</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --policy-document file://PermissionPolicyIngest.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --query <span class="s1">&#39;Policy.Arn&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --profile yh-xiaosi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --region ap-southeast-1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --output text<span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># Attach the required IAM policies to the IAM role created above</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">  aws iam attach-role-policy <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --role-name <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --policy-arn <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ARN</span>  <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --profile yh-xiaosi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --region ap-southeast-1
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span><span class="s2"> IAM role for ingest already exists&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$SERVICE_ACCOUNT_IAM_AMP_INGEST_ROLE_ARN</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># EKS cluster hosts an OIDC provider with a public discovery endpoint.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Associate this IdP with AWS IAM so that the latter can validate and accept the OIDC tokens issued by Kubernetes to service accounts.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Doing this with eksctl is the easier and best approach.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">eksctl utils associate-iam-oidc-provider <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --profile yh-xiaosi <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --region ap-southeast-1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --cluster <span class="nv">$CLUSTER_NAME</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --approve</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行上面脚本</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1"># bash createIRSA-AMPIngest.sh</span>
+</span></span><span class="line"><span class="cl">arn:aws:iam::223665515173:role/amp-iamproxy-ingest-role
+</span></span><span class="line"><span class="cl">2023-12-11 13:53:14 <span class="o">[</span>ℹ<span class="o">]</span>  IAM Open ID Connect provider is already associated with cluster <span class="s2">&#34;eks01&#34;</span> in <span class="s2">&#34;ap-southeast-1&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li>在 <code>eks</code> 中安装 <code>prometheus</code></li>
+</ol>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1"># cat prometheus-values.yaml</span>
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">serviceAccounts:
+</span></span><span class="line"><span class="cl">  server:
+</span></span><span class="line"><span class="cl">    name: <span class="s2">&#34;amp-iamproxy-ingest-service-account&#34;</span>
+</span></span><span class="line"><span class="cl">    annotations:
+</span></span><span class="line"><span class="cl">      eks.amazonaws.com/role-arn: <span class="s2">&#34;arn:aws:iam::xxxxxxxxxxx:role/amp-iamproxy-ingest-role&#34;</span>
+</span></span><span class="line"><span class="cl">server:
+</span></span><span class="line"><span class="cl">  remoteWrite:
+</span></span><span class="line"><span class="cl">  - url: .... <span class="c1"># 写入地址在 Amazon Prometheus 工作区中查看</span>
+</span></span><span class="line"><span class="cl">    sigv4:
+</span></span><span class="line"><span class="cl">      region: ap-southeast-1
+</span></span><span class="line"><span class="cl">    queue_config:
+</span></span><span class="line"><span class="cl">      max_samples_per_send: <span class="m">1000</span>
+</span></span><span class="line"><span class="cl">      max_shards: <span class="m">200</span>
+</span></span><span class="line"><span class="cl">      capacity: <span class="m">2500</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1"># helm install prometheus \</span>
+</span></span><span class="line"><span class="cl">prometheus-community/prometheus <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-n prometheus <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-f prometheus-values.yaml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">NAME: prometheus
+</span></span><span class="line"><span class="cl">LAST DEPLOYED: Mon Dec <span class="m">11</span> 15:23:51 <span class="m">2023</span>
+</span></span><span class="line"><span class="cl">NAMESPACE: prometheus
+</span></span><span class="line"><span class="cl">STATUS: deployed
+</span></span><span class="line"><span class="cl">REVISION: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">TEST SUITE: None
+</span></span><span class="line"><span class="cl">NOTES:
+</span></span><span class="line"><span class="cl">The Prometheus server can be accessed via port <span class="m">80</span> on the following DNS name from within your cluster:
+</span></span><span class="line"><span class="cl">prometheus-server.prometheus.svc.cluster.local
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="错误" class="heading-element">
+  <a href="#%e9%94%99%e8%af%af" class="heading-mark"></a>错误</h1><h2 id="pvc-因为没有-pv-导致无法绑定" class="heading-element">
+  <a href="#pvc-%e5%9b%a0%e4%b8%ba%e6%b2%a1%e6%9c%89-pv-%e5%af%bc%e8%87%b4%e6%97%a0%e6%b3%95%e7%bb%91%e5%ae%9a" class="heading-mark"></a>PVC 因为没有 PV 导致无法绑定</h2><ol>
+<li>解决存储问题</li>
+</ol>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl get pod -n prometheus</span>
+</span></span><span class="line"><span class="cl">NAME                                                 READY   STATUS    RESTARTS   AGE
+</span></span><span class="line"><span class="cl">prometheus-alertmanager-0                            0/1     Pending   <span class="m">0</span>          6m49s
+</span></span><span class="line"><span class="cl">prometheus-kube-state-metrics-6b464f5b88-l2kbl       1/1     Running   <span class="m">0</span>          6m49s
+</span></span><span class="line"><span class="cl">prometheus-prometheus-node-exporter-8b4xc            1/1     Running   <span class="m">0</span>          6m50s
+</span></span><span class="line"><span class="cl">prometheus-prometheus-pushgateway-7857c44f49-p4qqs   1/1     Running   <span class="m">0</span>          6m49s
+</span></span><span class="line"><span class="cl">prometheus-server-74f95f965c-hp7zx                   0/2     Pending   <span class="m">0</span>          6m49s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus describe pod prometheus-alertmanager-0</span>
+</span></span><span class="line"><span class="cl">Name:             prometheus-alertmanager-0
+</span></span><span class="line"><span class="cl">Namespace:        prometheus
+</span></span><span class="line"><span class="cl">....
+</span></span><span class="line"><span class="cl">Events:
+</span></span><span class="line"><span class="cl">  Type     Reason            Age                From               Message
+</span></span><span class="line"><span class="cl">  ----     ------            ----               ----               -------
+</span></span><span class="line"><span class="cl">  Warning  FailedScheduling  85s <span class="o">(</span>x3 over 11m<span class="o">)</span>  default-scheduler  0/2 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/2 nodes are available: <span class="m">2</span> Preemption is not helpful <span class="k">for</span> scheduling..
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus describe pod prometheus-server-74f95f965c-hp7zx</span>
+</span></span><span class="line"><span class="cl">Name:             prometheus-server-74f95f965c-hp7zx
+</span></span><span class="line"><span class="cl">Namespace:        prometheus
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Events:
+</span></span><span class="line"><span class="cl">  Type     Reason            Age                  From               Message
+</span></span><span class="line"><span class="cl">  ----     ------            ----                 ----               -------
+</span></span><span class="line"><span class="cl">  Warning  FailedScheduling  2m14s <span class="o">(</span>x4 over 12m<span class="o">)</span>  default-scheduler  0/2 nodes are available: pod has unbound immediate PersistentVolumeClaims. preemption: 0/2 nodes are available: <span class="m">2</span> Preemption is not helpful <span class="k">for</span> scheduling..</span></span></code></pre></td></tr></table>
+</div>
+</div><p>创建<code>EBS</code>存储类</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat eks-ebs.yaml</span>
+</span></span><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">apiVersion: storage.k8s.io/v1
+</span></span><span class="line"><span class="cl">kind: StorageClass
+</span></span><span class="line"><span class="cl">metadata:
+</span></span><span class="line"><span class="cl">  name: ebs
+</span></span><span class="line"><span class="cl">provisioner: ebs.csi.aws.com
+</span></span><span class="line"><span class="cl">volumeBindingMode: WaitForFirstConsumer
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl apply -f eks-ebs.yaml</span>
+</span></span><span class="line"><span class="cl">storageclass.storage.k8s.io/ebs created
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl get StorageClass</span>
+</span></span><span class="line"><span class="cl">NAME   PROVISIONER       RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+</span></span><span class="line"><span class="cl">ebs    ebs.csi.aws.com   Delete          WaitForFirstConsumer   <span class="nb">false</span>                  5s</span></span></code></pre></td></tr></table>
+</div>
+</div><p>更新<code>pvc</code>资源</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus get pvc</span>
+</span></span><span class="line"><span class="cl">NAME                                STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+</span></span><span class="line"><span class="cl">prometheus-server                   Pending                                                     35m
+</span></span><span class="line"><span class="cl">storage-prometheus-alertmanager-0   Pending                                                     35m
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus patch pvc storage-prometheus-alertmanager-0 -p &#39;{&#34;spec&#34;:{&#34;storageClassName&#34;: &#34;ebs&#34;}}&#39;</span>
+</span></span><span class="line"><span class="cl">persistentvolumeclaim/storage-prometheus-alertmanager-0 patched
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus patch pvc prometheus-server -p &#39;{&#34;spec&#34;:{&#34;storageClassName&#34;: &#34;ebs&#34;}}&#39;</span>
+</span></span><span class="line"><span class="cl">persistentvolumeclaim/prometheus-server patched
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus get pvc</span>
+</span></span><span class="line"><span class="cl">NAME                                STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+</span></span><span class="line"><span class="cl">prometheus-server                   Bound    pvc-881187c8-1910-49c3-8b84-4c581486221d   8Gi        RWO            ebs            48m
+</span></span><span class="line"><span class="cl">storage-prometheus-alertmanager-0   Bound    pvc-a0cd71ff-f394-4649-b4e7-9663fbce5f37   2Gi        RWO            ebs            48m</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="无法连接-1270019090-导致-prometheus-server-退出" class="heading-element">
+  <a href="#%e6%97%a0%e6%b3%95%e8%bf%9e%e6%8e%a5-1270019090-%e5%af%bc%e8%87%b4-prometheus-server-%e9%80%80%e5%87%ba" class="heading-mark"></a>无法连接 127.0.0.1:9090 导致 prometheus-server 退出</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># kubectl -n prometheus get pod</span>
+</span></span><span class="line"><span class="cl">NAME                                                 READY   STATUS             RESTARTS     AGE
+</span></span><span class="line"><span class="cl">prometheus-alertmanager-0                            1/1     Running            <span class="m">0</span>            53m
+</span></span><span class="line"><span class="cl">prometheus-kube-state-metrics-6b464f5b88-l2kbl       1/1     Running            <span class="m">0</span>            53m
+</span></span><span class="line"><span class="cl">prometheus-prometheus-node-exporter-8b4xc            1/1     Running            <span class="m">0</span>            53m
+</span></span><span class="line"><span class="cl">prometheus-prometheus-pushgateway-7857c44f49-p4qqs   1/1     Running            <span class="m">0</span>            53m
+</span></span><span class="line"><span class="cl">prometheus-server-74f95f965c-rf94c                   1/2     CrashLoopBackOff   <span class="m">1</span> <span class="o">(</span>6s ago<span class="o">)</span>   8s</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看容器状态</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1"># kubectl -n prometheus \</span>
+</span></span><span class="line"><span class="cl">get pod prometheus-server-74f95f965c-rf94c <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.containerStatuses}&#39;</span> <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>jq <span class="s1">&#39;.[] | {(.name): .started}&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;prometheus-server&#34;</span>: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;prometheus-server-configmap-reload&#34;</span>: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看容器错误日志</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost prometheus<span class="o">]</span><span class="c1"># kubectl logs prometheus-server-74f95f965c-rf94c \</span>
+</span></span><span class="line"><span class="cl">-n prometheus <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-c  prometheus-server <span class="p">|</span> grep <span class="s1">&#39;err=&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">ts</span><span class="o">=</span>2023-12-11T09:24:13.264Z <span class="nv">caller</span><span class="o">=</span>main.go:1255 <span class="nv">level</span><span class="o">=</span>error <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Failed to apply configuration&#34;</span> <span class="nv">err</span><span class="o">=</span><span class="s2">&#34;could not get SigV4 credentials: WebIdentityErr: failed to retrieve credentials\ncaused by: AccessDenied: Not authorized to perform sts:AssumeRoleWithWebIdentity\n\tstatus code: 403, request id: 6a5e8f40-37f5-40fa-ab68-7e770356ee3d&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ts</span><span class="o">=</span>2023-12-11T09:24:13.268Z <span class="nv">caller</span><span class="o">=</span>main.go:1164 <span class="nv">level</span><span class="o">=</span>error <span class="nv">err</span><span class="o">=</span><span class="s2">&#34;error loading config from \&#34;/etc/config/prometheus.yml\&#34;: one or more errors occurred while applying the new configuration (--config.file=\&#34;/etc/config/prometheus.yml\&#34;)&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>原因，角色受信任关系配置不对。删除角色重新执行脚本</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-12-12 14:49:33">更新于 2023-12-12&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/prometheus/" class="post-tag" title="标签 - prometheus">prometheus</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/awsNginxToOpenSearchDashboard/" class="post-nav-item" rel="prev" title="使用nginx代理访问私有子网中的OpenSearch 控制面板"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>使用nginx代理访问私有子网中的OpenSearch 控制面板</a>
+      <a href="/awsKarpenter/" class="post-nav-item" rel="next" title="Karpenter - 开源 EKS 工作节点生命周期管理">Karpenter - 开源 EKS 工作节点生命周期管理<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

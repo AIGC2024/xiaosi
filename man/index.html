@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>linux 命令使用帮助 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="linux 命令 内置命令和外置命令Linux 命令分为内部命令和外部命令 内部命令：shell自带的命令，执行时不需要创建子进程执行 外部命令：非shell" /><meta name="keywords" content='man' /><meta itemprop="name" content="linux 命令使用帮助">
+<meta itemprop="description" content="linux 命令 内置命令和外置命令Linux 命令分为内部命令和外部命令 内部命令：shell自带的命令，执行时不需要创建子进程执行 外部命令：非shell"><meta itemprop="datePublished" content="2018-12-10T09:42:46+08:00" />
+<meta itemprop="dateModified" content="2023-01-09T11:38:16+08:00" />
+<meta itemprop="wordCount" content="2832">
+<meta itemprop="keywords" content="man," /><meta property="og:title" content="linux 命令使用帮助" />
+<meta property="og:description" content="linux 命令 内置命令和外置命令Linux 命令分为内部命令和外部命令 内部命令：shell自带的命令，执行时不需要创建子进程执行 外部命令：非shell" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/man/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T09:42:46+08:00" />
+<meta property="article:modified_time" content="2023-01-09T11:38:16+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="linux 命令使用帮助"/>
+<meta name="twitter:description" content="linux 命令 内置命令和外置命令Linux 命令分为内部命令和外部命令 内部命令：shell自带的命令，执行时不需要创建子进程执行 外部命令：非shell"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/man/" /><link rel="prev" href="/%E9%80%9A%E9%85%8D%E7%AC%A6/" /><link rel="next" href="/linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "linux 命令使用帮助",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/man\/"
+    },"genre": "posts","keywords": "man","wordcount":  2832 ,
+    "url": "\/man\/","datePublished": "2018-12-10T09:42:46+08:00","dateModified": "2023-01-09T11:38:16+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>linux 命令使用帮助</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 09:42:46"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2023-01-09 11:38:16"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-01-09">2023-01-09</time></span>&nbsp;<span title="2832 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#linux-命令">linux 命令</a>
+      <ul>
+        <li><a href="#内置命令和外置命令">内置命令和外置命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#命令二进制执行文件">命令二进制执行文件</a></li>
+    <li><a href="#man-命令">man 命令</a>
+      <ul>
+        <li><a href="#man-手册章节">man 手册章节</a></li>
+        <li><a href="#man-区域">man 区域</a></li>
+        <li><a href="#man-手册操作命令">man 手册操作命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#help-命令">help 命令</a></li>
+    <li><a href="#info-命令">info 命令</a></li>
+    <li><a href="#-h-或---help-选项">-h 或 &ndash;help 选项</a></li>
+    <li><a href="#软件包地址">软件包地址</a></li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#no-manual-entry-for-proc">No manual entry for proc</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-01-09，文中内容可能已过时。</div>
+      </div>
+    </div><h1 id="linux-命令" class="heading-element">
+  <a href="#linux-%e5%91%bd%e4%bb%a4" class="heading-mark"></a>linux 命令</h1><h2 id="内置命令和外置命令" class="heading-element">
+  <a href="#%e5%86%85%e7%bd%ae%e5%91%bd%e4%bb%a4%e5%92%8c%e5%a4%96%e7%bd%ae%e5%91%bd%e4%bb%a4" class="heading-mark"></a>内置命令和外置命令</h2><p>Linux 命令分为内部命令和外部命令</p>
+<ul>
+<li>内部命令：shell自带的命令，执行时不需要创建子进程执行</li>
+<li>外部命令：非shell自带命令，执行时，会创建出一个子进程。（父进程发送外部命令时会创建出一个子进程执行这个命令）</li>
+</ul>
+<p><code>type</code> 命令可以查看一个命令是否为内置命令</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># type type</span>
+</span></span><span class="line"><span class="cl"><span class="nb">type</span> is a shell builtin</span></span></code></pre></td></tr></table>
+</div>
+</div><p>非内置的命令查询结果是显示二进制文件路径</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># type wget</span>
+</span></span><span class="line"><span class="cl">wget is /usr/bin/wget</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>其他选项</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">常见选项
+</span></span><span class="line"><span class="cl">-a
+</span></span><span class="line"><span class="cl">    显示一个名字的所有可能
+</span></span><span class="line"><span class="cl">-t
+</span></span><span class="line"><span class="cl">    判断一个名字当前是否是alias、keyword、function、builtin、file
+</span></span><span class="line"><span class="cl">-p
+</span></span><span class="line"><span class="cl">    查看一个外部命令的执行路径
+</span></span><span class="line"><span class="cl">-P
+</span></span><span class="line"><span class="cl">    查看内部命令路径</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="命令二进制执行文件" class="heading-element">
+  <a href="#%e5%91%bd%e4%bb%a4%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6" class="heading-mark"></a>命令二进制执行文件</h1><p>当执行一个命令时，会根据<code>PATH</code>变量从左往右查找相关二进制文件，如找到则执行，找不到则报错。如果命令（可执行文件）不在PATH环境变量中，可以修改环境变量或把可执行文件复制到PATH变量指定的目录</p>
+<ul>
+<li>查看文件命令执行文件位置</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@vps ~<span class="o">]</span><span class="c1"># which cd</span>
+</span></span><span class="line"><span class="cl">/usr/bin/cd</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看 <code>PATH</code> 变量值</li>
+</ul>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo $PATH</span>
+</span></span><span class="line"><span class="cl">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin</span></span></code></pre></td></tr></table>
+</div>
+</div><p>shell 执行过的外部命令二进制文件路径会缓存在键值对存储中，当再次执行时，优先查找 hash 记录，因此，如果 <code>PATH</code> 路径改变，再次命令执行会报错，这时需要执行 <code>hash -d</code> 删除相关缓存或 <code>hash -r</code>清除所有缓存</p>
+<ul>
+<li>查看当前缓存外部命令</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># hash</span>
+</span></span><span class="line"><span class="cl">hits	<span class="nb">command</span>
+</span></span><span class="line"><span class="cl">   2	/usr/bin/man
+</span></span><span class="line"><span class="cl">   1	/usr/bin/info
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># hash -l</span>
+</span></span><span class="line"><span class="cl"><span class="nb">builtin</span> <span class="nb">hash</span> -p /usr/bin/man man
+</span></span><span class="line"><span class="cl"><span class="nb">builtin</span> <span class="nb">hash</span> -p /usr/bin/info info</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>清除 hash 记录</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># hash -r</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># type man</span>
+</span></span><span class="line"><span class="cl">man is /usr/bin/man</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>whereis</code> 命令可以查找命令的二进制文件，源文件和帮助手册文件</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># whereis -u whereis</span>
+</span></span><span class="line"><span class="cl">whereis: /usr/bin/whereis /usr/share/man/man1/whereis.1.gz</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>其他选项</li>
+</ul>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-b
+</span></span><span class="line"><span class="cl">    定位可执行文件
+</span></span><span class="line"><span class="cl">-m
+</span></span><span class="line"><span class="cl">    定位帮助文件
+</span></span><span class="line"><span class="cl">-s
+</span></span><span class="line"><span class="cl">    定位源代码文件
+</span></span><span class="line"><span class="cl">-u
+</span></span><span class="line"><span class="cl">    搜索默认路径下除可执行文件、源代码文件、帮助文件以外的其它文件
+</span></span><span class="line"><span class="cl">-B
+</span></span><span class="line"><span class="cl">    指定搜索可执行文件的路径
+</span></span><span class="line"><span class="cl">-M
+</span></span><span class="line"><span class="cl">    指定搜索帮助文件的路径
+</span></span><span class="line"><span class="cl">-S
+</span></span><span class="line"><span class="cl">    指定搜索源代码文件的路径</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="man-命令" class="heading-element">
+  <a href="#man-%e5%91%bd%e4%bb%a4" class="heading-mark"></a>man 命令</h1><p>man 手册可以查看大量的命令帮助信息，还可以查看文件帮助。如：<code>man /etc/ssh/sshd_config</code></p>
+<ul>
+<li>安装man手册</li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum install -y man man-pages</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看 man 命令的 man 手册</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># man man</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>其他常见选项</li>
+</ul>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-C, --config-file<span class="o">=</span>文件
+</span></span><span class="line"><span class="cl">    使用该用户设置文件
+</span></span><span class="line"><span class="cl">-d, --debug
+</span></span><span class="line"><span class="cl">    输出调试信息
+</span></span><span class="line"><span class="cl">-D, --default
+</span></span><span class="line"><span class="cl">    将所有选项都重置为默认值
+</span></span><span class="line"><span class="cl">--warnings<span class="o">[=</span>警告<span class="o">]</span>
+</span></span><span class="line"><span class="cl">    开启 groff 的警告
+</span></span><span class="line"><span class="cl">-f, --whatis
+</span></span><span class="line"><span class="cl">    等同于 whatis 命令
+</span></span><span class="line"><span class="cl">-k, --apropos
+</span></span><span class="line"><span class="cl">    等同于 apropos 命令
+</span></span><span class="line"><span class="cl">-l, --local-file
+</span></span><span class="line"><span class="cl">    把“手册页”参数当成本地文件名来解读
+</span></span><span class="line"><span class="cl">-L, --locale<span class="o">=</span>区域
+</span></span><span class="line"><span class="cl">    定义本次手册页搜索所采用的区域设置
+</span></span><span class="line"><span class="cl">-m, --systems<span class="o">=</span>系统
+</span></span><span class="line"><span class="cl">      指定其他操作系统
+</span></span><span class="line"><span class="cl">-M, --manpath<span class="o">=</span>路径
+</span></span><span class="line"><span class="cl">      设置搜索手册页的路径为“路径”
+</span></span><span class="line"><span class="cl">-i, --ignore-case
+</span></span><span class="line"><span class="cl">    查找手册页时不区分大小写字母 <span class="o">(</span>默认<span class="o">)</span>
+</span></span><span class="line"><span class="cl">-I, --match-case
+</span></span><span class="line"><span class="cl">    查找手册页时区分大小写字母
+</span></span><span class="line"><span class="cl">-t
+</span></span><span class="line"><span class="cl">    输出到标准输出</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="man-手册章节" class="heading-element">
+  <a href="#man-%e6%89%8b%e5%86%8c%e7%ab%a0%e8%8a%82" class="heading-mark"></a>man 手册章节</h2><p>man 被分为 9 个章节：</p>
+<ul>
+<li>man1：用户命令</li>
+<li>man2：系统调用</li>
+<li>man3：C库调用</li>
+<li>man4：设备及特殊文件</li>
+<li>man5：配置文件格式</li>
+<li>man6：游戏相关</li>
+<li>man7：杂项</li>
+<li>man8：管理类命令</li>
+<li>man9：内核</li>
+<li>mann：Tcl/Tk和新文档</li>
+</ul>
+<p>通常某个命令的帮助文档会在某章节中，也有少数命令会在多个章节中都有帮助文档。当命令帮助手册有多个章节时，默认优先级（whatis 命令结果）从上而下</p>
+<ul>
+<li>查看 man 手册位置</li>
+</ul>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># man -w</span>
+</span></span><span class="line"><span class="cl">/usr/local/man:/usr/local/share/man:/usr/share/man</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看命令在man手册哪些章节</li>
+</ul>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 等效 man -f cd</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@vps ~<span class="o">]</span><span class="c1"># whatis cd</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="o">(</span>1<span class="o">)</span>               - bash built-in commands, see bash<span class="o">(</span>1<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="o">(</span>n<span class="o">)</span>               - Change working directory</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改命令帮助文档位置</p>
+<ul>
+<li>
+<p>在配置文件中：<code>MANPATH</code> 可以指定帮助文档位置</p>
+</li>
+<li>
+<p><code>man -M</code> 设置帮助文档位置</p>
+</li>
+<li>
+<p><code>whatis</code>  命令其他常见选项</p>
+</li>
+</ul>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-w
+</span></span><span class="line"><span class="cl">    使用通配符
+</span></span><span class="line"><span class="cl">-r
+</span></span><span class="line"><span class="cl">    使用正则表达式</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="man-区域" class="heading-element">
+  <a href="#man-%e5%8c%ba%e5%9f%9f" class="heading-mark"></a>man 区域</h2><p>除了第一行信息：<code>MAN(1)：手册页     Manual pager utils ：说明     MAN(1)：手册页</code>  以外手册通常会把帮助信息分类，可以理解为某段信息的标题。可以使用 <code>man -L</code> 指定区域，以下是常见区域：</p>
+<ul>
+<li>NAME：命令名称和基本功能</li>
+<li>SYNOPSIS：语法格式</li>
+<li>DESCRIPTION：详细功能</li>
+<li>EXAMPLES：使用示例</li>
+<li>OPTIONS：选项和参数</li>
+</ul>
+<h2 id="man-手册操作命令" class="heading-element">
+  <a href="#man-%e6%89%8b%e5%86%8c%e6%93%8d%e4%bd%9c%e5%91%bd%e4%bb%a4" class="heading-mark"></a>man 手册操作命令</h2><p>绝大多数情况下，man 手册使用 <code>less</code> 命令打开的帮助手册信息，因此 <code>less</code> 命令操作同样在 man 手册中使用</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/字符串    正向搜索字符串
+</span></span><span class="line"><span class="cl">?字符串    反向搜索字符串
+</span></span><span class="line"><span class="cl">n    正向搜索下一个字符串
+</span></span><span class="line"><span class="cl">N    反向搜索下一个字符串
+</span></span><span class="line"><span class="cl">d    正向滚动半页
+</span></span><span class="line"><span class="cl">u    反向滚动半页
+</span></span><span class="line"><span class="cl">回车 正向滚动一行
+</span></span><span class="line"><span class="cl">y    反向滚动一行
+</span></span><span class="line"><span class="cl">空格  正向滚动一页
+</span></span><span class="line"><span class="cl">b    反向滚动一页
+</span></span><span class="line"><span class="cl">h    显示帮助
+</span></span><span class="line"><span class="cl">q    退出</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="help-命令" class="heading-element">
+  <a href="#help-%e5%91%bd%e4%bb%a4" class="heading-mark"></a>help 命令</h1><p>通常 shell 内置命令都可以使用 <code>help</code> 命令查看帮助信息，无法查看外部命令帮助信息</p>
+<ul>
+<li>使用 <code>help</code> 命令查看 <code>help</code> 命令的帮助信息</li>
+</ul>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[root@vps ~]# help help
+</span></span><span class="line"><span class="cl">help: help [-dms] [pattern ...]
+</span></span><span class="line"><span class="cl">    Display information about builtin commands.
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    Displays brief summaries of builtin commands.  If PATTERN is
+</span></span><span class="line"><span class="cl">    specified, gives detailed help on all commands matching PATTERN,
+</span></span><span class="line"><span class="cl">    otherwise the list of help topics is printed.
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    Options:
+</span></span><span class="line"><span class="cl">      -d        output short description for each topic
+</span></span><span class="line"><span class="cl">      -m        display usage in pseudo-manpage format
+</span></span><span class="line"><span class="cl">      -s        output only a short usage synopsis for each topic matching
+</span></span><span class="line"><span class="cl">            PATTERN
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    Arguments:
+</span></span><span class="line"><span class="cl">      PATTERN        Pattern specifiying a help topic
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="info-命令" class="heading-element">
+  <a href="#info-%e5%91%bd%e4%bb%a4" class="heading-mark"></a>info 命令</h1><p><code>info</code> 命令也是一个 man 手册阅读器，包含大量的 GUN 项目帮助信息</p>
+<ul>
+<li>示例： 查看 info 帮助信息</li>
+</ul>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># info info</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>常见选项</li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">常见选项：
+</span></span><span class="line"><span class="cl">-k, --apropos<span class="o">=</span>STRING
+</span></span><span class="line"><span class="cl">    在所有手册页的索引中查找 STRING。
+</span></span><span class="line"><span class="cl">-d, --directory<span class="o">=</span>DIR
+</span></span><span class="line"><span class="cl">    将 DIR 添加至 INFOPATH。
+</span></span><span class="line"><span class="cl">--dribble<span class="o">=</span>FILENAME
+</span></span><span class="line"><span class="cl">    将用户的击键条目在 FILENAME 中。
+</span></span><span class="line"><span class="cl">-f, --file<span class="o">=</span>FILENAME
+</span></span><span class="line"><span class="cl">    指定想浏览的 Info 文件。
+</span></span><span class="line"><span class="cl">-h, --help
+</span></span><span class="line"><span class="cl">    显示此帮助并退出。
+</span></span><span class="line"><span class="cl">--index-search<span class="o">=</span>STRING
+</span></span><span class="line"><span class="cl">    跳转至索引条目 STRING 所指的节点。
+</span></span><span class="line"><span class="cl">-n, --node<span class="o">=</span>NODENAME
+</span></span><span class="line"><span class="cl">    在首个浏览过的 Info 文件中指定节点。
+</span></span><span class="line"><span class="cl">-o, --output<span class="o">=</span>FILENAME
+</span></span><span class="line"><span class="cl">    将选中的节点全输出至 FILENAME。
+</span></span><span class="line"><span class="cl">-R, --raw-escapes
+</span></span><span class="line"><span class="cl">    输出“原始”的 ANSI 转义符<span class="o">(</span>默认<span class="o">)</span>。
+</span></span><span class="line"><span class="cl">--no-raw-escapes
+</span></span><span class="line"><span class="cl">    将转义符输出为普通文本。
+</span></span><span class="line"><span class="cl">--restore<span class="o">=</span>FILENAME
+</span></span><span class="line"><span class="cl">    从 FILENAME 中读取初始击键条目。
+</span></span><span class="line"><span class="cl">-O, --show-options, --usage
+</span></span><span class="line"><span class="cl">    跳转至命令行选项节点。
+</span></span><span class="line"><span class="cl">--subnodes
+</span></span><span class="line"><span class="cl">    递归输出菜单项。
+</span></span><span class="line"><span class="cl">--vi-keys
+</span></span><span class="line"><span class="cl">    使用类似于 vi 和 less 的按键绑定。
+</span></span><span class="line"><span class="cl">--version
+</span></span><span class="line"><span class="cl">    显示版本信息并退出。
+</span></span><span class="line"><span class="cl">-w, --where, --location
+</span></span><span class="line"><span class="cl">    打印 Info 文件在系统中的位置</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>常用快捷键</li>
+</ul>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">?
+</span></span><span class="line"><span class="cl">    查看info的常用快捷键。
+</span></span><span class="line"><span class="cl">N
+</span></span><span class="line"><span class="cl">    显示（相对于本节点的）下一节点的文档内容。
+</span></span><span class="line"><span class="cl">P
+</span></span><span class="line"><span class="cl">    显示（相对于本节点的）前一节点的文档内容。
+</span></span><span class="line"><span class="cl">U
+</span></span><span class="line"><span class="cl">    进入当前命令所在的主题。
+</span></span><span class="line"><span class="cl">M
+</span></span><span class="line"><span class="cl">    敲M键后输入命令的名称就可以查看该命令的帮助文档了。
+</span></span><span class="line"><span class="cl">G
+</span></span><span class="line"><span class="cl">    敲G键后输入主题名称，进入该主题。
+</span></span><span class="line"><span class="cl">L
+</span></span><span class="line"><span class="cl">    回到上一个访问的页面。
+</span></span><span class="line"><span class="cl">SPACE
+</span></span><span class="line"><span class="cl">    向前滚动一页。
+</span></span><span class="line"><span class="cl">BACKUP或DEL键
+</span></span><span class="line"><span class="cl">    向后滚动一页。
+</span></span><span class="line"><span class="cl">Q
+</span></span><span class="line"><span class="cl">    退出info。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">？     显示帮助窗口，在帮助窗口中有以下操作：
+</span></span><span class="line"><span class="cl">    Ctrl-x <span class="m">0</span>
+</span></span><span class="line"><span class="cl">        闭帮助窗口
+</span></span><span class="line"><span class="cl">    Ctrl-x Ctrl-c
+</span></span><span class="line"><span class="cl">        关闭整个 Info
+</span></span><span class="line"><span class="cl">    q      退出 info
+</span></span><span class="line"><span class="cl">    n      打开与本 Node 关联的下一个 Node
+</span></span><span class="line"><span class="cl">    p      打开与本 Node 关联的前一个 Node
+</span></span><span class="line"><span class="cl">    u      打开与本 Node 关联的上一个 Node
+</span></span><span class="line"><span class="cl">    l      回到上一次访问的 Node
+</span></span><span class="line"><span class="cl">    m或g
+</span></span><span class="line"><span class="cl">        选择一个菜单项（Node 的名字）输入指定菜单的名字后按回车，打开指定菜单项关联的 Node
+</span></span><span class="line"><span class="cl">    空格键
+</span></span><span class="line"><span class="cl">        下一页（PageDown 也可以，下一页从当前页的最后两行开始算起）下一个 Node （若当前页在 Node 文档的末尾）
+</span></span><span class="line"><span class="cl">    Del 键
+</span></span><span class="line"><span class="cl">        上一页（PageUp 也可以，上一页从当前页的开始两行开始算起）上一个 Node （若当前页 Node 文档的开始）
+</span></span><span class="line"><span class="cl">    b 或 t 或 Home
+</span></span><span class="line"><span class="cl">        文档的开始（b 是 begining 的意思）
+</span></span><span class="line"><span class="cl">    e 或 End
+</span></span><span class="line"><span class="cl">        文档的末尾（b 是 ending 的意思）
+</span></span><span class="line"><span class="cl">    Ctrl-l 
+</span></span><span class="line"><span class="cl">        刷新当前页，若当前文档显示情况有问题时
+</span></span><span class="line"><span class="cl">    Ctrl-g
+</span></span><span class="line"><span class="cl">        取消所键入的指令</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="-h-或---help-选项" class="heading-element">
+  <a href="#-h-%e6%88%96---help-%e9%80%89%e9%a1%b9" class="heading-mark"></a>-h 或 &ndash;help 选项</h1><p>基本上所有命令或脚本都会有 <code>-h</code> 或 <code>--help</code> 选项查看简短的帮助信息或完整的帮助信息</p>
+<ul>
+<li>查看 <code>man</code> 命令简短帮助信息</li>
+</ul>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># man -h</span>
+</span></span><span class="line"><span class="cl">Usage: man <span class="o">[</span>OPTION...<span class="o">]</span> <span class="o">[</span>SECTION<span class="o">]</span> PAGE...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="软件包地址" class="heading-element">
+  <a href="#%e8%bd%af%e4%bb%b6%e5%8c%85%e5%9c%b0%e5%9d%80" class="heading-mark"></a>软件包地址</h1><p>部分命令可以通过软件包信息中获取官方地址，如 <code>vsftpd</code> , <code>firewalld</code> 等，有的则是软件包下载地址</p>
+<div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@centos7 yum.repos.d<span class="o">]</span><span class="c1"># yum info $(rpm -qf $(which firewalld)) | grep URL</span>
+</span></span><span class="line"><span class="cl">URL         : http://www.firewalld.org</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="no-manual-entry-for-proc" class="heading-element">
+  <a href="#no-manual-entry-for-proc" class="heading-mark"></a>No manual entry for proc</h2><p>报错信息：</p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost hugo<span class="o">]</span><span class="c1"># man proc</span>
+</span></span><span class="line"><span class="cl">No manual entry <span class="k">for</span> proc</span></span></code></pre></td></tr></table>
+</div>
+</div><p>出现原因：<code>manpage</code> 不够完整</p>
+<p>解决方法：安装 <code>man-pages</code></p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost hugo<span class="o">]</span><span class="c1"># yum install -y man-pages</span>
+</span></span><span class="line"><span class="cl">Loaded plugins: fastestmirror
+</span></span><span class="line"><span class="cl">Loading mirror speeds from cached hostfile
+</span></span><span class="line"><span class="cl">epel/x86_64/metalink
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Installed:
+</span></span><span class="line"><span class="cl">  man-pages.noarch 0:3.53-5.el7
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Complete!</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-01-09 11:38:16">更新于 2023-01-09&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/man/" class="post-tag" title="标签 - man">man</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/%E9%80%9A%E9%85%8D%E7%AC%A6/" class="post-nav-item" rel="prev" title="linux中的通配符"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>linux中的通配符</a>
+      <a href="/linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" class="post-nav-item" rel="next" title="进程管理">进程管理<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

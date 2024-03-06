@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Deployment - 标签 - 小厮</title>
+    <link>/tags/Deployment/</link>
+    <description>Deployment - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 28 May 2023 05:50:29 &#43;0800</lastBuildDate><atom:link href="/tags/Deployment/" rel="self" type="application/rss+xml" /><item>
+  <title>k8s Deployment 控制器</title>
+  <link>/k8sDeployment/</link>
+  <pubDate>Sun, 28 May 2023 05:50:29 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sDeployment/</guid>
+  <description><![CDATA[Deployment 控制器为 Pod 和 ReplicaSet 控制器提供声明式的更新能力。]]></description>
+</item>
+</channel>
+</rss>

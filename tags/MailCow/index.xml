@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>MailCow - 标签 - 小厮</title>
+    <link>/tags/MailCow/</link>
+    <description>MailCow - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 09 Jan 2024 11:39:04 &#43;0800</lastBuildDate><atom:link href="/tags/MailCow/" rel="self" type="application/rss+xml" /><item>
+  <title>MialCow - 一个基于 Docker 的开源群件/电子邮件套件</title>
+  <link>/MailCow/</link>
+  <pubDate>Tue, 09 Jan 2024 11:39:04 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/MailCow/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>k8s 存储卷 - 标签 - 小厮</title>
+    <link>/tags/k8s-%E5%AD%98%E5%82%A8%E5%8D%B7/</link>
+    <description>k8s 存储卷 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 07 Oct 2022 13:57:15 &#43;0800</lastBuildDate><atom:link href="/tags/k8s-%E5%AD%98%E5%82%A8%E5%8D%B7/" rel="self" type="application/rss+xml" /><item>
+  <title>k8s 存储卷</title>
+  <link>/k8s%E5%AD%98%E5%82%A8/</link>
+  <pubDate>Fri, 07 Oct 2022 13:57:15 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8s%E5%AD%98%E5%82%A8/</guid>
+  <description><![CDATA[运行环境： k8s: 1.24 内容来自以下文档： k8s 官方文档: 存储 pod 中的存储卷k8s volume (卷)这个概念是为了解决以下问题： 容器中的文件是临时放在磁盘上的，当容器]]></description>
+</item>
+</channel>
+</rss>

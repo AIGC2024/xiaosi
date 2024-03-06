@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>nginx 安装 - 标签 - 小厮</title>
+    <link>/tags/nginx-%E5%AE%89%E8%A3%85/</link>
+    <description>nginx 安装 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 14 Nov 2020 15:09:06 &#43;0800</lastBuildDate><atom:link href="/tags/nginx-%E5%AE%89%E8%A3%85/" rel="self" type="application/rss+xml" /><item>
+  <title>安装nginx</title>
+  <link>/nginx-install/</link>
+  <pubDate>Sat, 14 Nov 2020 15:09:06 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-install/</guid>
+  <description><![CDATA[运行环境： nginx: 1.18 centos: 7 安装nginx三步骤 从nginx官网下载源码包 1 2 3 [root@centos7 ~]# wget http://nginx.org/download/nginx-1.18.0.tar.gz [root@centos7 ~]# tar -zxf nginx-1.18.0.tar.gz root@centos7 ~]# cd nginx-1.18.0 编译安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18]]></description>
+</item>
+</channel>
+</rss>

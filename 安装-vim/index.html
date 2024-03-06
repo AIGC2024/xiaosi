@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>安装 vim - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="Unix及类Unix系统文本编辑器" /><meta name="keywords" content='vim, vim 安装, neovim 安装, error: NOT FOUND!' /><meta itemprop="name" content="安装 vim">
+<meta itemprop="description" content="Unix及类Unix系统文本编辑器"><meta itemprop="datePublished" content="2022-07-18T16:34:42+08:00" />
+<meta itemprop="dateModified" content="2022-07-28T10:42:05+08:00" />
+<meta itemprop="wordCount" content="608">
+<meta itemprop="keywords" content="vim,vim 安装,neovim 安装,error: NOT FOUND!," /><meta property="og:title" content="安装 vim" />
+<meta property="og:description" content="Unix及类Unix系统文本编辑器" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/%E5%AE%89%E8%A3%85-vim/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-18T16:34:42+08:00" />
+<meta property="article:modified_time" content="2022-07-28T10:42:05+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="安装 vim"/>
+<meta name="twitter:description" content="Unix及类Unix系统文本编辑器"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/%E5%AE%89%E8%A3%85-vim/" /><link rel="prev" href="/%E6%88%91%E7%9A%84-vimrc/" /><link rel="next" href="/nginx%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "安装 vim",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/%E5%AE%89%E8%A3%85-vim\/"
+    },"genre": "posts","keywords": "vim, vim 安装, neovim 安装, error: NOT FOUND!","wordcount":  608 ,
+    "url": "\/%E5%AE%89%E8%A3%85-vim\/","datePublished": "2022-07-18T16:34:42+08:00","dateModified": "2022-07-28T10:42:05+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>安装 vim</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/vim/" class="post-category" title="分类 - vim"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> vim</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-18 16:34:42"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-18">2022-07-18</time></span>&nbsp;<span title="更新于 2022-07-28 10:42:05"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-28">2022-07-28</time></span>&nbsp;<span title="608 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#vim-与-neovim">vim 与 neovim</a></li>
+    <li><a href="#安装vim9">安装vim9</a></li>
+    <li><a href="#error-not-found">error: NOT FOUND!</a></li>
+    <li><a href="#安装neovim">安装neovim</a></li>
+    <li><a href="#vim-与-neo-vim-配置差异">vim 与 neo vim 配置差异</a>
+      <ul>
+        <li><a href="#配置文件差异">配置文件差异</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-07-28，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：
+vim:8
+neovim:0.7.2
+内容来自以下文档：</p>
+<ul>
+<li><a href="https://vimhelp.org"target="_blank" rel="external nofollow noopener noreferrer">vim官方文档英文版</a></li>
+<li><a href="https://www.vim.org/translations.php"target="_blank" rel="external nofollow noopener noreferrer">vim官方文档其它语言版本</a></li>
+<li><a href="https://yianwillis.github.io/vimcdoc/doc/vim9.html"target="_blank" rel="external nofollow noopener noreferrer"><code>Willis</code>翻译的中文文档</a></li>
+</ul>
+</blockquote>
+<h1 id="vim-与-neovim" class="heading-element">
+  <a href="#vim-%e4%b8%8e-neovim" class="heading-mark"></a>vim 与 neovim</h1><p>Vim是一个功能强大的文本编辑器，已有20多年历史，
+Vim 已经积累了大约 30 万行可怕的 C89 代码。
+导致程序的维护、Bug 的 修复、以及新特性的添加都变得越来越困难。</p>
+<p>巴西程序员 Thiago de Arruda Padilha（aka tarruda）向 Vim开源编辑器项目递交了两大补丁，对Vim的架构进行了大幅调整，结果遭到了Vim作者Bram Moolenaar的拒绝，因为对于Vim这样一个成熟的项目进行如此大的改变风险太高。于是tarruda发起了Vim fork项目Neovim</p>
+<p>简单说，neovim是vim重构版本，两者目前活跃的人也很多</p>
+<h1 id="安装vim9" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85vim9" class="heading-mark"></a>安装vim9</h1><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># git clone https://github.com/vim/vim.git</span>
+</span></span><span class="line"><span class="cl">Cloning into <span class="s1">&#39;vim&#39;</span>...
+</span></span><span class="line"><span class="cl">remote: Enumerating objects: 153669, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Counting objects: 100% <span class="o">(</span>41/41<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Compressing objects: 100% <span class="o">(</span>30/30<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">remote: Total <span class="m">153669</span> <span class="o">(</span>delta 18<span class="o">)</span>, reused <span class="m">22</span> <span class="o">(</span>delta 11<span class="o">)</span>, pack-reused <span class="m">153628</span>
+</span></span><span class="line"><span class="cl">Receiving objects: 100% <span class="o">(</span>153669/153669<span class="o">)</span>, 175.81 MiB <span class="p">|</span> 3.09 MiB/s, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">Resolving deltas: 100% <span class="o">(</span>130555/130555<span class="o">)</span>, <span class="k">done</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost vim<span class="o">]</span><span class="c1"># cd vim/src/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost src<span class="o">]</span><span class="c1"># make</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost src<span class="o">]</span><span class="c1"># make install</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost src<span class="o">]</span><span class="c1"># vim --version</span>
+</span></span><span class="line"><span class="cl">VIM - Vi IMproved 9.0 <span class="o">(</span><span class="m">2022</span> Jun 28, compiled Jul <span class="m">18</span> <span class="m">2022</span> 18:32:55<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="error-not-found" class="heading-element">
+  <a href="#error-not-found" class="heading-mark"></a>error: NOT FOUND!</h1><ul>
+<li>在安装vim9过程中<code>make</code>操作报错</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost src<span class="o">]</span><span class="c1"># make</span>
+</span></span><span class="line"><span class="cl">Makefile:298: auto/config.mk: No such file or directory
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">no terminal library found
+</span></span><span class="line"><span class="cl">checking <span class="k">for</span> tgetent<span class="o">()</span>... configure: error: NOT FOUND!
+</span></span><span class="line"><span class="cl">      You need to install a terminal library<span class="p">;</span> <span class="k">for</span> example ncurses.
+</span></span><span class="line"><span class="cl">      On Linux that would be the libncurses-dev package.
+</span></span><span class="line"><span class="cl">      Or specify the name of the library with --with-tlib.
+</span></span><span class="line"><span class="cl">make: *** <span class="o">[</span>auto/config.mk<span class="o">]</span> Error <span class="m">1</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>提示缺少<code>libncurses-dev</code>库</li>
+</ul>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum install ncurses ncurses-devel -y</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="安装neovim" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85neovim" class="heading-mark"></a>安装neovim</h1><p>二进制包可以在<a href="https://github.com/neovim/neovim/releases/"target="_blank" rel="external nofollow noopener noreferrer">neovim-releases</a>下载</p>
+<h1 id="vim-与-neo-vim-配置差异" class="heading-element">
+  <a href="#vim-%e4%b8%8e-neo-vim-%e9%85%8d%e7%bd%ae%e5%b7%ae%e5%bc%82" class="heading-mark"></a>vim 与 neo vim 配置差异</h1><h2 id="配置文件差异" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e5%b7%ae%e5%bc%82" class="heading-mark"></a>配置文件差异</h2><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># vim 的个人配置文件</span>
+</span></span><span class="line"><span class="cl">~/.vimrc
+</span></span><span class="line"><span class="cl"><span class="c1"># neovim 的个人配置文件</span>
+</span></span><span class="line"><span class="cl">~/.config/nvim/init.vim
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># vim 会话文件</span>
+</span></span><span class="line"><span class="cl">home/.viminfo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># neovim 会话文件</span>
+</span></span><span class="line"><span class="cl">~/.config/nvim/shada/main.shada</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-07-28 10:42:05">更新于 2022-07-28&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/vim/" class="post-tag" title="标签 - vim">vim</a><a href="/tags/vim-%E5%AE%89%E8%A3%85/" class="post-tag" title="标签 - vim 安装">vim 安装</a><a href="/tags/neovim-%E5%AE%89%E8%A3%85/" class="post-tag" title="标签 - neovim 安装">neovim 安装</a><a href="/tags/error-NOT-FOUND/" class="post-tag" title="标签 - error: NOT FOUND!">error: NOT FOUND!</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/%E6%88%91%E7%9A%84-vimrc/" class="post-nav-item" rel="prev" title="我的 vimrc"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>我的 vimrc</a>
+      <a href="/nginx%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/" class="post-nav-item" rel="next" title="nginx搭建文件下载服务">nginx搭建文件下载服务<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

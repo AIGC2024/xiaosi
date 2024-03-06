@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>搭建k8s集群 - 标签 - 小厮</title>
+    <link>/tags/%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/</link>
+    <description>搭建k8s集群 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 24 Jul 2022 07:34:42 &#43;0800</lastBuildDate><atom:link href="/tags/%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" rel="self" type="application/rss+xml" /><item>
+  <title>使用sealos搭建k8s集群</title>
+  <link>/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/</link>
+  <pubDate>Sun, 24 Jul 2022 07:34:42 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/</guid>
+  <description><![CDATA[sealos 是以 kubernetes 为内核的云操作系统发行版]]></description>
+</item>
+<item>
+  <title>使用kubeadm搭建k8s集群</title>
+  <link>/kubeadmCreateK8sCluster/</link>
+  <pubDate>Sat, 23 Jul 2022 14:18:12 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/kubeadmCreateK8sCluster/</guid>
+  <description><![CDATA[运行环境： rockylinux: 8.6 kernel: 4.18 k8s: 1.27.1 内容来自以下文档： 丛宇鸿: Kubeadm搭建高可用(k8s)Kubernetes v1.23.5集群 使用 kubeadm 引导集群 容器运]]></description>
+</item>
+</channel>
+</rss>

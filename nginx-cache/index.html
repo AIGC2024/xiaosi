@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>nginx 缓存 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content=" " /><meta name="keywords" content='缓存, nginx' /><meta itemprop="name" content="nginx 缓存">
+<meta itemprop="description" content=" "><meta itemprop="datePublished" content="2020-12-02T10:15:20+08:00" />
+<meta itemprop="dateModified" content="2023-02-28T19:23:08+08:00" />
+<meta itemprop="wordCount" content="5992">
+<meta itemprop="keywords" content="缓存,nginx," /><meta property="og:title" content="nginx 缓存" />
+<meta property="og:description" content=" " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/nginx-cache/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-02T10:15:20+08:00" />
+<meta property="article:modified_time" content="2023-02-28T19:23:08+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nginx 缓存"/>
+<meta name="twitter:description" content=" "/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/nginx-cache/" /><link rel="prev" href="/nginx-conf/" /><link rel="next" href="/nginx-architecture/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "nginx 缓存",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/nginx-cache\/"
+    },"genre": "posts","keywords": "缓存, nginx","wordcount":  5992 ,
+    "url": "\/nginx-cache\/","datePublished": "2020-12-02T10:15:20+08:00","dateModified": "2023-02-28T19:23:08+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": " "
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>nginx 缓存</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/nginx/" class="post-category" title="分类 - nginx"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> nginx</a></span></div><div class="post-meta-line"><span title="发布于 2020-12-02 10:15:20"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2020-12-02">2020-12-02</time></span>&nbsp;<span title="更新于 2023-02-28 19:23:08"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-02-28">2023-02-28</time></span>&nbsp;<span title="5992 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 6000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 12 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#缓存">缓存</a></li>
+    <li><a href="#客户端缓存">客户端缓存</a>
+      <ul>
+        <li><a href="#nginx决定浏览器过期的缓存是否有效">nginx决定浏览器过期的缓存是否有效</a></li>
+        <li><a href="#nginx检查客户端缓存是否过期">nginx检查客户端缓存是否过期</a></li>
+      </ul>
+    </li>
+    <li><a href="#nginx-反向代理流程">nginx 反向代理流程</a></li>
+    <li><a href="#合并回源请求减少向上游请求">合并回源请求减少向上游请求</a></li>
+    <li><a href="#使用旧的缓存减少向上游请求">使用旧的缓存减少向上游请求</a></li>
+    <li><a href="#清理缓存">清理缓存</a></li>
+    <li><a href="#分片大容量响应提升缓存效率">分片大容量响应提升缓存效率</a></li>
+    <li><a href="#服务端缓存">服务端缓存</a></li>
+    <li><a href="#相关http报文头部说明">相关http报文头部说明</a>
+      <ul>
+        <li><a href="#if-none-match-头部">if-None-Match 头部</a></li>
+        <li><a href="#last-modified">Last-Modified</a></li>
+        <li><a href="#if-modified-since-头部">If-Modified-Since 头部</a></li>
+        <li><a href="#if-match-头部">If-Match 头部</a></li>
+        <li><a href="#etag">Etag</a></li>
+        <li><a href="#x-accel-expires">X-Accel-Expires</a></li>
+        <li><a href="#vay">Vay</a></li>
+        <li><a href="#set-cookie">Set-Cookie</a></li>
+        <li><a href="#if-unmodified-since">If-Unmodified-Since</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-02-28，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>nginx: 1.20.0</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP"target="_blank" rel="external nofollow noopener noreferrer"><code>MDN Web Docs</code>: HTTP协议</a></li>
+<li><code>陶辉</code>：nginx 核心知识100讲</li>
+<li><a href="http://nginx.org/en/docs/http/ngx_http_headers_module.html"target="_blank" rel="external nofollow noopener noreferrer"><code>nginx官方文档</code>: ngx_http_headers_module</a></li>
+<li><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#if_modified_since"target="_blank" rel="external nofollow noopener noreferrer"><code>nginx官方文档</code>: ngx_http_core_module</a></li>
+</ul>
+</blockquote>
+<h1 id="缓存" class="heading-element">
+  <a href="#%e7%bc%93%e5%ad%98" class="heading-mark"></a>缓存</h1><p>缓存是提升访问速度最好的方法</p>
+<p>客户端本地缓存(浏览器)：</p>
+<ul>
+<li>优点：
+<ul>
+<li>存在有效缓存时，没有网络消耗，速度最快</li>
+<li>缓存失效可以使用304响应状态码最小化网络消耗</li>
+</ul>
+</li>
+<li>缺点：只对当前客户端有效</li>
+</ul>
+<p>服务端缓存：</p>
+<ul>
+<li>优点：
+<ul>
+<li>提升所有用户访问速度</li>
+<li>降低上游服务的负载</li>
+<li>可以通过304响应状态码减少与上游服务之间的网络消耗</li>
+</ul>
+</li>
+<li>缺点：用户仍然需要保持网络消耗</li>
+</ul>
+<p>通常同时使用客户端和服务端缓存</p>
+<h1 id="客户端缓存" class="heading-element">
+  <a href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e7%bc%93%e5%ad%98" class="heading-mark"></a>客户端缓存</h1><p><img loading="lazy" src="%e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98.png" alt="浏览器缓存流程图" srcset="%e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98.png?size=small, %e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98.png?size=medium 1.5x, %e6%b5%8f%e8%a7%88%e5%99%a8%e7%bc%93%e5%ad%98.png?size=large 2x" sizes="auto" data-title="浏览器缓存流程图" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="nginx决定浏览器过期的缓存是否有效" class="heading-element">
+  <a href="#nginx%e5%86%b3%e5%ae%9a%e6%b5%8f%e8%a7%88%e5%99%a8%e8%bf%87%e6%9c%9f%e7%9a%84%e7%bc%93%e5%ad%98%e6%98%af%e5%90%a6%e6%9c%89%e6%95%88" class="heading-mark"></a>nginx决定浏览器过期的缓存是否有效</h2><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">etag on <span class="p">|</span> off<span class="p">;</span>
+</span></span><span class="line"><span class="cl">配置域：http，server，location
+</span></span><span class="line"><span class="cl">默认值：on</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>etag</code> 指令是否为静态资源生成 <code>Etag</code> 头部。<code>on</code> 表示生成</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">expires <span class="o">[</span>modified<span class="o">]</span> time<span class="p">;</span>
+</span></span><span class="line"><span class="cl">expires epoch <span class="p">|</span> max <span class="p">|</span> off<span class="p">;</span>
+</span></span><span class="line"><span class="cl">配置域：http，server，location，if in location
+</span></span><span class="line"><span class="cl">默认值：off</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>expires</code> 指令用于指定客户端缓存过期时间，该指令有以下取值：</p>
+<ul>
+<li><code>max</code>：永久有效，通过以下2个方式：
+<ol>
+<li><code>Expires</code>：值为绝对时间</li>
+<li><code>Cache-Control</code>：<code>max-age</code> 值为一个相对时间（<code>n</code>秒后）</li>
+</ol>
+</li>
+<li><code>off</code>：不添加或修改<code>Expires</code>和<code>Cache-Control</code>头部</li>
+<li><code>epoch</code>：不使用该缓存，通过以下2个方式：
+<ol>
+<li><code>Expires</code>：已经过去的绝对时间</li>
+<li><code>Cache-Control</code>：<code>no-cache</code></li>
+</ol>
+</li>
+<li><code>time</code>代指一个具体的时间，可以携带单位：
+<ul>
+<li>一天内具体时间可以加<code>@</code>，如18点：<code>@18h00m00s</code>
+<ul>
+<li>设置<code>Expires</code>，自动计算<code>Cache-Control</code></li>
+<li>如果<code>Expires</code>值在当天已经过去了，则第二天才会生效</li>
+</ul>
+</li>
+<li>正数：更据设置<code>Cache-Control</code>时间，计算出<code>Expires</code></li>
+<li>负数：设置<code>Cache-Control</code>:<code>no-cache</code>，计算出<code>Expires</code></li>
+</ul>
+</li>
+<li><code>modified</code>: 代指文件修改时间，如 <code>modified +1h</code> 表示文件修改时间的一小时后过期</li>
+<li>状态码为以下时，启用缓存：
+<ul>
+<li><code>nginx: 1.0.13</code> 版本起增加：<code>204</code>，<code>206</code>，<code>301</code>，<code>302</code>，<code>303</code>，<code>304</code>，<code>307</code></li>
+<li><code>nginx: 1.3.0</code>  版本起增加：<code>308</code></li>
+<li><code>nginx: 1.3.10</code> 版本起增加：<code>200</code>，<code>201</code></li>
+</ul>
+</li>
+<li>在 <code>nginx: 1.7.9</code> 版本起值可以是一个变量</li>
+</ul>
+<p>示例</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># 设置浏览器缓存时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kn">expires</span> <span class="s">1d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>以下是官方文档示例，根据文件类型指定缓存时间</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">map</span> <span class="nv">$sent_http_content_type</span> <span class="nv">$expires</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">default</span>         <span class="no">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">application/pdf</span> <span class="s">42d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">~image/</span>         <span class="s">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">expires</span> <span class="nv">$expires</span><span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="nginx检查客户端缓存是否过期" class="heading-element">
+  <a href="#nginx%e6%a3%80%e6%9f%a5%e5%ae%a2%e6%88%b7%e7%ab%af%e7%bc%93%e5%ad%98%e6%98%af%e5%90%a6%e8%bf%87%e6%9c%9f" class="heading-mark"></a>nginx检查客户端缓存是否过期</h2><p>当客户端有缓存，但不确定是否有效，会在请求头部添加 <code>If-None-Match</code> 或 <code>If-Modified-Since</code> 头部，<code>not_modified</code> 模块通过响应码的 <code>Last_Modified</code> 值(静态资源文件的最后编辑时间)做比较，决定返回 <code>200</code> 状态码(返回请求内容)还是 <code>304</code>状态码(表示之前缓存有效，可以使用)</p>
+<p><code>not-modified</code> 模块有个前提是原本请求响应码必须是<code>200</code></p>
+<p><figure><a class="lightgallery" href="./not-modified.png?size=large" data-thumbnail="./not-modified.png?size=small" data-sub-html="<h2>判断缓存是否过期</h2><p>not_modified</p>"><img loading="lazy" src="./not-modified.png" alt="判断缓存是否过期" srcset="./not-modified.png?size=small, ./not-modified.png?size=medium 1.5x, ./not-modified.png?size=large 2x" sizes="auto" data-title="not_modified" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a><figcaption class="image-caption">判断缓存是否过期</figcaption>
+  </figure></p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">if_modified_since off <span class="p">|</span> exact <span class="p">|</span> before<span class="p">;</span>
+</span></span><span class="line"><span class="cl">配置域：http，server，location
+</span></span><span class="line"><span class="cl">默认值：exact</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>该指令指定请求头部<code>if_modified_since</code>与响应头部<code>Last_Modified</code>比较方式。有以下取值：
+<ul>
+<li><code>off</code>：忽略请求报文中<code>if_modified_since</code>头部</li>
+<li><code>exact</code>：精确匹配，即 <code>if_modified_since</code>等于<code>Last_Modified</code></li>
+<li><code>before</code>：若<code>if_modified_since</code>大于等于<code>Last_Modified</code>，则返回<code>304</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="nginx-反向代理流程" class="heading-element">
+  <a href="#nginx-%e5%8f%8d%e5%90%91%e4%bb%a3%e7%90%86%e6%b5%81%e7%a8%8b" class="heading-mark"></a>nginx 反向代理流程</h1><p>反向代理服务器收到客户的请求之后：</p>
+<ol>
+<li>检查否开启<code>proxy_cache</code>指令：
+<ul>
+<li>是：向上游服务发送请求，忽略后续步奏</li>
+<li>否：进入下一步</li>
+</ul>
+</li>
+<li>请求方法是否匹配<code>proxy_cache_methods</code>指令指定的请求方法：
+<ul>
+<li>否：向上游服务发送请求，忽略后续步奏</li>
+<li>是：进入下一步</li>
+</ul>
+</li>
+<li>更据<code>proxy_cache_convert_head</code>指令觉得是否把HEAD换为GET方法</li>
+<li>更据<code>proxy_cache_key</code>指令生成关键字并执行md5</li>
+<li>检查<code>proxy_cache_pass</code>指令是指定是否使用缓存
+<ul>
+<li>否：向上游服务发送请求，忽略后续步奏</li>
+<li>是：进入下一步</li>
+</ul>
+</li>
+<li>共享内存中是否有该缓存
+<ul>
+<li>是：进入下一步</li>
+<li>否：尝试共享内存中分配节点
+<ul>
+<li>成功：向上游服务发送请求，忽略后续步奏</li>
+<li>失败：淘汰过期缓存，再分配共享内存内存，
+之后向上游服务发送请求，忽略后续步奏</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>更新LRU链表节点计数</li>
+<li>是否错误类且响应过期
+<ul>
+<li>是：向上游服务发送请求，忽略后续步奏</li>
+<li>否：进入下一步</li>
+</ul>
+</li>
+<li>文件存在且使用次数是否超过<code>proxy_cache_min_uses</code>指令值
+<ul>
+<li>是：更据<code>proxy_cache_background_update</code>指令生成子请求，
+再向客户发送缓存中的响应内容</li>
+<li>否：直接向客户发送缓存中的响应内容</li>
+</ul>
+</li>
+</ol>
+<p>反向代理服务器收到上游服务返回的请求之后：</p>
+<ol>
+<li>是否匹配<code>proxy_no_cahce</code>指令：
+<ul>
+<li>是：不更新缓存，直接响应客户端，忽略后续步奏</li>
+<li>否：进入下一步</li>
+</ul>
+</li>
+<li>请求方法是否匹配<code>proxy_cache_valid</code>指令：
+<ul>
+<li>否：不更新缓存，直接响应客户端</li>
+<li>是：进入下一步</li>
+</ul>
+</li>
+<li>判断响应状态码是否为200或206：
+<ul>
+<li>是：更新缓存中的etag和last_modified再进入下一步</li>
+<li>否：进入下一步</li>
+</ul>
+</li>
+<li>处理缓存相关的响应头部，并检查是否有响应头部不使用缓存
+<ul>
+<li>是：不更新缓存，直接响应客户端，忽略后续步奏</li>
+<li>否：进入下一步</li>
+</ul>
+</li>
+<li>读取并转发所有响应给客户端</li>
+<li>临时文件改名到缓存目录</li>
+<li>更新共享内存状态</li>
+</ol>
+<p><code>proxy_chache zone|off</code>指令：</p>
+<ul>
+<li>存放反向代理缓存的key</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+<li>zone代指定义的共享内存区域名称</li>
+</ul>
+<p><code>proxy_chache_key string</code>指令：</p>
+<ul>
+<li>反向代理缓存关键字</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:$scheme$proxy_host$request_uri</li>
+<li>string代指缓存关键字</li>
+</ul>
+<p><code>proxy_cache_path path keys_zone=name:size</code>指令：</p>
+<ul>
+<li>反向代理缓存存放路径</li>
+<li>配置在http指令块中</li>
+<li>取值：
+<ul>
+<li>path：代指存储缓存的文件路径</li>
+<li>keys_zone是固定格式，
+name代指<code>proxy_cache</code>指令定义的共享内存名称，
+size代指分配大小，1M约存8000个key</li>
+</ul>
+</li>
+<li>以下是path取值可选的参数：
+<ul>
+<li>levels=定义缓存路径的目录层级，最多3级，每层目录长度为1或2字节</li>
+<li>use_temp_path [on|off]：
+<ul>
+<li>on：使用<code>proxy_temp_path</code>指令定义的临时目录</li>
+<li>off：直接使用该指令定义的临时目录</li>
+</ul>
+</li>
+<li>inactive=缓存有效期，默认10分钟，超时会被淘汰</li>
+<li>max_size=缓存文件大小的最大值，超出后由cache manager进程按照lru链表淘汰</li>
+<li>manager_files=cahe manager进程每次淘汰过程中，最大淘汰文件数量，默认100</li>
+<li>manager_sleep=cache manager进程每次淘汰后休眠的时间，默认200毫秒</li>
+<li>manager_threshold=cache manager进程每次淘汰最大消耗时间，默认50毫秒</li>
+<li>loader_files=cache loader进程每次载入磁盘中缓存文件到共享内存的数量</li>
+<li>loader_sleep=cache loader进程每次载入缓存文件后休眠的时间，默认200毫秒</li>
+<li>loader_threshold=cache loader进程每次载入缓存文件到共享内存超时时间，
+默认50毫秒</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_cache_valid [code...] time</code>指令：</p>
+<ul>
+<li>设置缓存响应码，即缓存该响应码的内容</li>
+<li>配置在http，server，location指令块中</li>
+<li>code代指响应码，time代指缓存时间：</li>
+<li>取值方式：
+<ul>
+<li>对不同响应码缓存不等的时间，如 code 404 1m</li>
+<li>如果只标示时间，仅对200,301,302这些状态码缓存</li>
+</ul>
+</li>
+<li>上游服务返回头部控制缓存时长
+<ul>
+<li>X-Accel-Expires：单位为秒，0表示不缓存，@表示一天中某个时间</li>
+<li>含有Set-Cookit表示不缓存</li>
+<li>Vary头部含有<code>*</code>值表示不缓存</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_no_cache string...</code>指令：</p>
+<ul>
+<li>参数string为真时，不缓存该响应</li>
+<li>配置在http，server，location指令块中</li>
+<li>string代指变量字符串</li>
+</ul>
+<p><code>proxy_cache_bypass string...</code>指令：</p>
+<ul>
+<li>参数string为真时，不使用缓存的内容</li>
+<li>配置在http，server，location指令块中</li>
+<li>string代指变量字符串</li>
+</ul>
+<p><code>proxy_chache_convert_head on|off</code>指令：</p>
+<ul>
+<li>反向代理是否把head方法转换为get方法</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:on</li>
+</ul>
+<p><code>proxy_cache_methods GET|HEAD|POST...</code>指令：</p>
+<ul>
+<li>对指请求方法使用缓存内容响应给客户端</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:GET HEAD</li>
+</ul>
+<p><code>$upstream_cache_status</code>变量值：</p>
+<ul>
+<li>MISS：未命中缓存</li>
+<li>HIT：命中缓存</li>
+<li>EXPIRED：缓存过期</li>
+<li>STALE：命中过期缓存</li>
+<li>IPDATING：缓存过期，正在更新</li>
+<li>REVALIDATED：缓存过期，但有效</li>
+<li>BYPASS：响应是从原始服务器获取的</li>
+</ul>
+<h1 id="合并回源请求减少向上游请求" class="heading-element">
+  <a href="#%e5%90%88%e5%b9%b6%e5%9b%9e%e6%ba%90%e8%af%b7%e6%b1%82%e5%87%8f%e5%b0%91%e5%90%91%e4%b8%8a%e6%b8%b8%e8%af%b7%e6%b1%82" class="heading-mark"></a>合并回源请求减少向上游请求</h1><p>缓存失效时，合并回源请求可以减少峰值流量下的压力</p>
+<p><code>proxy_cache_lock on|off</code>指令：</p>
+<ul>
+<li>是否合并回源请求</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+<li>合并回源请求表示请求的缓存失效或没有时，
+向上游转发请求获取资源响应给客户端并缓存，
+在这期间，
+其他与该请求相同时，
+都会进入等待，
+直到该响应内容缓存成功(其他请求使用该缓存响应)或失败
+(后续请求转发给上游服务处理)</li>
+</ul>
+<p><code>proxy_cache_lock_timeout time</code>指令：</p>
+<ul>
+<li>合并回源时，第一个请求超时时间，
+超时后，后续请求直接转发给上游服务，但不缓存这些响应</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值: 5s</li>
+</ul>
+<p><code>proxy_cache_lock_age time</code>指令：</p>
+<ul>
+<li>合并回源时，第一个请求超时后，
+后续每个请求超时时间</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值: 5s</li>
+<li>只有当前请求结束(成功、失败、超时)才会放行下一个请求</li>
+</ul>
+<h1 id="使用旧的缓存减少向上游请求" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8%e6%97%a7%e7%9a%84%e7%bc%93%e5%ad%98%e5%87%8f%e5%b0%91%e5%90%91%e4%b8%8a%e6%b8%b8%e8%af%b7%e6%b1%82" class="heading-mark"></a>使用旧的缓存减少向上游请求</h1><p><code>proxy_cache_use_stale</code> 指令：</p>
+<ul>
+<li>使用过期缓存的情景</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+<li>该选项取值：
+<ul>
+<li>off:关闭</li>
+<li>error:与上游封连接、发送请求、读取头部等出错时</li>
+<li>timeout:与上游服务连接、发送请求、读取头部等超时情况</li>
+<li>invalid_header:</li>
+<li>updating:更新缓存时的情况，上游服务可通过以下方式控制该设置
+<ul>
+<li>Cahce-Control:max-age=600, stale-while-revalidate=30:
+该头部表示缓存有效期为600s，在之后30秒中更新缓存时，
+可以使用旧缓存，否则任然向上游服务请求资源</li>
+<li>Cahce-Control:max-age=600, stale-if-error=300:
+该头部表示缓存有效期内为600s，之后的300s内上游服务出错时，
+可以使用旧缓存，否则仍然向上游服务请求资源</li>
+</ul>
+</li>
+<li>http_500|502|503|504|403|404|429|:缓存这些响应状态码的内容</li>
+</ul>
+</li>
+</ul>
+<p><code>proxy_cache_background_update on|off</code>指令：</p>
+<ul>
+<li><code>proxy_cache_use_stale</code>指令使用过期缓存响应客户端时，
+是否同步生成子请求更新缓存</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+</ul>
+<p><code>proxy_cache_revalidate on|off</code>指令：</p>
+<ul>
+<li>更新缓存时，使用以下头部来减少传输内容
+(如果缓存内容没发生变化，向代理返回304状态码表示)：
+<ol>
+<li>If-Modified-Since</li>
+<li>If-None-Match</li>
+</ol>
+</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:off</li>
+</ul>
+<h1 id="清理缓存" class="heading-element">
+  <a href="#%e6%b8%85%e7%90%86%e7%bc%93%e5%ad%98" class="heading-mark"></a>清理缓存</h1><p>免费nginx需要编译时添加第三方模块(<code>--add-module=</code>)
+<a href="https://github.com/FRiCKLE/ngx_cache_purge" title="ngx_cache-purge"target="_blank" rel="external nofollow noopener noreferrer">ngx_cache-purge</a>
+才能收到指定http请求时清理缓存</p>
+<p><code>proxy_cache_purge on|off|&lt;method&gt; [from all|&lt;ip&gt; [.. &lt;ip&gt;]]</code>指令：</p>
+<ul>
+<li>清理缓存方式</li>
+<li>配置在http，server，location指令块中</li>
+</ul>
+<p><code>proxy_cache_purge zone_name key</code>指令：</p>
+<ul>
+<li>清理缓存方式</li>
+<li>配置在location指令块中</li>
+<li>zone_name代指共享内存名称</li>
+<li>key代指缓存的关键字</li>
+</ul>
+<h1 id="分片大容量响应提升缓存效率" class="heading-element">
+  <a href="#%e5%88%86%e7%89%87%e5%a4%a7%e5%ae%b9%e9%87%8f%e5%93%8d%e5%ba%94%e6%8f%90%e5%8d%87%e7%bc%93%e5%ad%98%e6%95%88%e7%8e%87" class="heading-mark"></a>分片大容量响应提升缓存效率</h1><p><code>slice size</code>指令：</p>
+<ul>
+<li>通过range协议将大文件分解成多个小文件，
+客户端也需要用range协议才有效</li>
+<li>配置在http，server，location指令块中</li>
+<li>默认值:0</li>
+<li>size代指分片大小，0表示关闭</li>
+<li>该模块需要编译时通过<code>--with-http_slice_module</code>添加</li>
+<li>示例</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="s">/range</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_cache</span> <span class="s">three</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_cache_valid</span> <span class="mi">200</span> <span class="mi">1m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将大文件按照2m分割为多个小文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">slice</span> <span class="mi">2m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># $slice_range 必须的
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">proxy_cache_key</span> <span class="nv">$uri$is_args$slice_range</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_set_header</span> <span class="s">Range</span> <span class="nv">$slice_range</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 后端地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">proxy_pass</span> <span class="s">http://location:8001</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="服务端缓存" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e7%ab%af%e7%bc%93%e5%ad%98" class="heading-mark"></a>服务端缓存</h1><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">open_file_cache off<span class="p">;</span>
+</span></span><span class="line"><span class="cl">open_file_cache <span class="nv">max</span><span class="o">=</span>N <span class="o">[</span><span class="nv">inactive</span><span class="o">=</span>time<span class="o">]</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">配置域：http，server，location
+</span></span><span class="line"><span class="cl">默认值：off</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令可以缓存文件句柄（不用频繁的打开与关闭同个文件，减少了系统调用的操作）与元数据（文件修改时间、大小、文件或目录不存在等，也是减少系统调用）从而提升性能，有以下参数</p>
+<ul>
+<li><code>max</code> 指定缓存元素个数，超过数量时删除最少使用的元素（按 <code>LUR</code> 原则）</li>
+<li><code>inactive</code> 指定元素缓存时间。默认为 <code>60</code>秒</li>
+<li><code>off</code> 表示关闭该功能</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">open_file_cache_errors on <span class="p">|</span> off<span class="p">;</span>
+</span></span><span class="line"><span class="cl">默认值：off
+</span></span><span class="line"><span class="cl">配置域：http，server，location</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令是否让 <code>open_file_cache</code> 指令缓存文件查找错误信息。<code>on</code> 表示启用</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">open_file_cache_min_uses number<span class="p">;</span>
+</span></span><span class="line"><span class="cl">默认值：1
+</span></span><span class="line"><span class="cl">配置域：http，server，location</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令指定文件在 <code>open_file_cache</code> 指令指定的时间内活跃指定次数，才能持续被 <code>open_file_cache</code> 指令缓存，否则从缓存中删除</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">open_file_cache_valid time<span class="p">;</span>
+</span></span><span class="line"><span class="cl">默认值：60s
+</span></span><span class="line"><span class="cl">配置域：http，server，location</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该指令指定更新 <code>open_file_cache</code> 缓存信息间隔时间</p>
+<h1 id="相关http报文头部说明" class="heading-element">
+  <a href="#%e7%9b%b8%e5%85%b3http%e6%8a%a5%e6%96%87%e5%a4%b4%e9%83%a8%e8%af%b4%e6%98%8e" class="heading-mark"></a>相关http报文头部说明</h1><h2 id="if-none-match-头部" class="heading-element">
+  <a href="#if-none-match-%e5%a4%b4%e9%83%a8" class="heading-mark"></a>if-None-Match 头部</h2><p><code>If-None-Match</code> 是一个条件式请求首部，当与  <code>If-Modified-Since</code>  一同使用的时候，<code>If-None-Match</code> 优先级更高。对于 <code>GETGET</code> 和 <code>HEAD</code> 请求方法来说，当且仅当服务器上没有任何资源的 <code>ETag</code> 属性值与这个首部中列出的相匹配的时候，服务器端会才返回所请求的资源，响应码为  <code>200</code>  。对于其他方法来说，只有最终确认没有已存在的资源的  <code>ETag</code> 属性值与这个首部中所列出的相匹配的时候，才会对请求进行相应的处理。</p>
+<p>对于  <code>GET</code> 和 <code>HEAD</code> 方法来说，当验证失败的时候，服务器端必须返回响应码 <code>304</code> （<code>Not Modified</code>，未改变）。服务器端在生成状态码为 <code>304</code> 的响应的时候，必须同时生成以下会存在于对应的 <code>200</code> 响应中的首部：</p>
+<ul>
+<li>Cache-Control</li>
+<li>Content-Location</li>
+<li>Date</li>
+<li>ETag</li>
+<li>Expires</li>
+<li>Vary</li>
+</ul>
+<p>对于能够引发服务器状态改变的方法，则返回 <code>412</code> （<code>Precondition Failed</code>，前置条件失败）。</p>
+<h2 id="last-modified" class="heading-element">
+  <a href="#last-modified" class="heading-mark"></a>Last-Modified</h2><p>Last-Modified  是一个响应首部，
+其中包含源头服务器认定的资源做出修改的日期及时间。
+通常被用作一个验证器来判断接收到的或者存储的资源是否彼此一致。
+于精确度比  ETag 要低，
+所以这是一个备用机制。
+包含有  If-Modified-Since 或 If-Unmodified-Since 首部的条件请求会使用这个字段</p>
+<h2 id="if-modified-since-头部" class="heading-element">
+  <a href="#if-modified-since-%e5%a4%b4%e9%83%a8" class="heading-mark"></a>If-Modified-Since 头部</h2><p><code>If-Modified-Since</code> 是一个条件式请求首部，<code>If-Modified-Since</code> 只可以用在 <code>GET</code> 或 <code>HEAD</code> 请求中。当与 <code>If-None-Match</code> 一同出现时，它（<code>If-Modified-Since</code>）会被忽略掉，除非服务器不支持 <code>If-None-Match</code>。</p>
+<p>服务器只在所请求的资源在给定的日期时间之后对内容进行过修改的情况下,才会将资源返回状态码 <code>200</code>。如果请求的资源从那时起未经修改，那么返回一个不带有消息主体的  <code>304</code>  响应</p>
+<h2 id="if-match-头部" class="heading-element">
+  <a href="#if-match-%e5%a4%b4%e9%83%a8" class="heading-mark"></a>If-Match 头部</h2><p>请求头部 <code>If-Match</code> 的使用表示这是一个条件请求，在请求方法为 <code>GET</code> 和 <code>HEAD</code> 的情况下服务器仅在请求的资源满足此首部列出的 <code>ETag</code> 值时才会返回资源。而对于 <code>PUT</code> 或其他非安全方法来说，只有在满足条件的情况下才可以将资源上传。</p>
+<p><code>ETag</code> 之间的比较使用的是强比较算法，即只有在每一个字节都相同的情况下，才可以认为两个文件是相同的。可以在 <code>ETag</code> 前面添加 <code>W/</code> 前缀表示可以采用相对宽松的算法</p>
+<h2 id="etag" class="heading-element">
+  <a href="#etag" class="heading-mark"></a>Etag</h2><p>请求头部 <code>Etag</code> 值为资源的特定版本的标识符。这可以让缓存更高效，并节省带宽，因为如果内容没有改变，<code>Web</code> 服务器不需要发送完整的响应。而如果内容发生了变化，使用 <code>ETag</code> 有助于防止资源的同时更新相互覆盖（“空中碰撞”）。</p>
+<h2 id="x-accel-expires" class="heading-element">
+  <a href="#x-accel-expires" class="heading-mark"></a>X-Accel-Expires</h2><h2 id="vay" class="heading-element">
+  <a href="#vay" class="heading-mark"></a>Vay</h2><h2 id="set-cookie" class="heading-element">
+  <a href="#set-cookie" class="heading-mark"></a>Set-Cookie</h2><h2 id="if-unmodified-since" class="heading-element">
+  <a href="#if-unmodified-since" class="heading-mark"></a>If-Unmodified-Since</h2><p>请求头部 <code>If-Unmodified-Since</code> 只有当资源在指定的时间之后没有进行过修改的情况下，服务器才会返回请求的资源，或是接受 <code>POST</code> 或其他 <code>non-safe</code> 方法的请求。如果所请求的资源在指定的时间之后发生了修改，那么会返回 <code>412</code> (<code>Precondition Failed</code>) 错误。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-02-28 19:23:08">更新于 2023-02-28&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E7%BC%93%E5%AD%98/" class="post-tag" title="标签 - 缓存">缓存</a><a href="/tags/nginx/" class="post-tag" title="标签 - nginx">nginx</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx-conf/" class="post-nav-item" rel="prev" title="nginx配置文件"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx配置文件</a>
+      <a href="/nginx-architecture/" class="post-nav-item" rel="next" title="nginx架构">nginx架构<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

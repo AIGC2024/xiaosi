@@ -1,0 +1,39 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>prometheus - 分类 - 小厮</title>
+    <link>/categories/prometheus/</link>
+    <description>prometheus - 分类 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 07 Feb 2024 14:24:24 &#43;0800</lastBuildDate><atom:link href="/categories/prometheus/" rel="self" type="application/rss+xml" /><item>
+  <title>Alertmanager - 处理由Prometheus服务器等客户端应用程序发送的警报</title>
+  <link>/prometheusAlertmanager/</link>
+  <pubDate>Wed, 07 Feb 2024 14:24:24 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/prometheusAlertmanager/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>Prometheus Operator -为 Kubernetes 提供 Prometheus 和相关监控组件的本地部署和管理。</title>
+  <link>/prometheusOperator/</link>
+  <pubDate>Fri, 02 Feb 2024 17:47:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/prometheusOperator/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>promtheus监控k8s</title>
+  <link>/k8sMonitorKubernetes/</link>
+  <pubDate>Mon, 29 Jan 2024 21:11:24 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/k8sMonitorKubernetes/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>prometheus 是一个开源系统监控和警报工具包</title>
+  <link>/prometheus/</link>
+  <pubDate>Sun, 25 Jun 2023 21:10:30 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/prometheus/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

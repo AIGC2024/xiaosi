@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>mailx - 发送和接收网络邮件 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='mail, mailx' /><meta itemprop="name" content="mailx - 发送和接收网络邮件">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2024-02-10T16:06:53+08:00" />
+<meta itemprop="dateModified" content="2024-02-10T22:29:13+08:00" />
+<meta itemprop="wordCount" content="2615">
+<meta itemprop="keywords" content="mail,mailx," /><meta property="og:title" content="mailx - 发送和接收网络邮件" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/mailx/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-02-10T16:06:53+08:00" />
+<meta property="article:modified_time" content="2024-02-10T22:29:13+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="mailx - 发送和接收网络邮件"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/mailx/" /><link rel="prev" href="/grafana/" /><link rel="next" href="/awsCloudWatchMetric/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "mailx - 发送和接收网络邮件",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/mailx\/"
+    },"genre": "posts","keywords": "mail, mailx","wordcount":  2615 ,
+    "url": "\/mailx\/","datePublished": "2024-02-10T16:06:53+08:00","dateModified": "2024-02-10T22:29:13+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>mailx - 发送和接收网络邮件</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2024-02-10 16:06:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-10">2024-02-10</time></span>&nbsp;<span title="更新于 2024-02-10 22:29:13"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-02-10">2024-02-10</time></span>&nbsp;<span title="2615 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#mailmailx和sendmail介绍">mail、mailx和sendmail介绍</a></li>
+    <li><a href="#ssltls和starttls介绍">SSL、TLS和STARTTLS介绍</a></li>
+    <li><a href="#配置mail">配置mail</a>
+      <ul>
+        <li><a href="#多账户">多账户</a></li>
+      </ul>
+    </li>
+    <li><a href="#解决警告">解决警告</a></li>
+    <li><a href="#示例">示例</a></li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#error-initializing-nss-unknown-error--8015">Error initializing NSS: Unknown error -8015.</a></li>
+        <li><a href="#host-certificate-does-not-match">host certificate does not match</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/bigdevilking/p/10668827.html"target="_blank" rel="external nofollow noopener noreferrer"><code>大魔王：</code>CentOS7 配置Mailx使用SMTP发送邮件</a></li>
+<li><a href="https://www.cnblogs.com/python-wen/p/11378258.html"target="_blank" rel="external nofollow noopener noreferrer"><code>802.11：</code>解决mailx发邮件报错</a></li>
+</ul>
+</blockquote>
+<!--start of attachment line-->
+<!--End of attachment line-->
+<h1 id="mailmailx和sendmail介绍" class="heading-element">
+  <a href="#mailmailx%e5%92%8csendmail%e4%bb%8b%e7%bb%8d" class="heading-mark"></a>mail、mailx和sendmail介绍</h1><p>　　<code>mail</code>是<code>mailx</code>的别名，最初叫<code>nail</code>（与<code>arch</code> <code>linux</code>目前用的<code>S-nail</code>基因相同）；<code>mail</code>是<code>Heirloom</code>的一个子项目。<code>sendmail</code>是<code>Eric</code> <code>Allman</code>的作品，都是开源项目；<code>mail</code>是用户代理（客户端），<code>sendmail</code>是邮件传输代理（服务器）；<code>mail</code>默认使用<code>sendmail</code>对外发送邮件。
+　　总结：<code>mail</code>和<code>mailx</code>是同一个东西，大约类似于发信用的<code>foxmail</code>、<code>outlook</code>等工具，<code>sendmail</code>大约相当于163/<code>qq</code>邮箱的服务器软件。</p>
+<h1 id="ssltls和starttls介绍" class="heading-element">
+  <a href="#ssltls%e5%92%8cstarttls%e4%bb%8b%e7%bb%8d" class="heading-mark"></a>SSL、TLS和STARTTLS介绍</h1><p>我们知道云服务器基本上不允许25端口对外通信，要对外发邮件只能考虑465和587端口。那么465和587端口有什么区别？这要先从<code>SSL</code>、<code>TLS</code>和<code>STARTTLS</code>的区别开始说。
+<code>SSL</code>（<code>Secure</code> <code>Socket</code> <code>Layer</code>）是加密传输层，<code>TLS</code>(<code>Transport</code> <code>Layer</code> <code>Security</code>)是<code>SSL</code>的继承者和升级版，提供更好的安全性和性能。<code>SSL</code>有<code>SSL</code> <code>v</code>2、<code>SSL</code> <code>v</code>3两个版本，目前都不建议使用。<code>TLS</code>有<code>TSL</code> <code>v</code>1.0<code>-v</code>1.3，建议至少使用<code>TLS</code> <code>v</code>1.2。
+<code>TLS</code>和<code>STARTTLS</code>两者关系不大，但更让人容易产生误解，原因是名字中都带有<code>TLS</code>。<code>STARTTLS</code>是升级非安全连接为安全连接的协议，并没有强制使用加密。当服务端支持时，客户端和服务端才协商将已经建立的连接升级到<code>SSL</code>或者<code>TLS</code>加密。
+　　接着看465端口和587端口。我们知道25端口刚被设计出来时是用于转发邮件的，没有考虑认证、加密等问题。随着垃圾邮件泛滥、网络安全问题严重，<code>MSA</code>、<code>ESMTP</code>/<code>SMTPS</code>等概念和协议被设计出来。1997年465端口被注册用于加密方式（<code>SMTPS</code>）提交邮件，那时还没有<code>STARTTLS</code>。1998年<code>STARTLS</code>标准出炉，规定用587端口以<code>STARTTLS</code>方式提交邮件，465端口被吊销。然而许多客户端不支持<code>STARTTLS</code>，加上非常多邮件服务提供商都在使用465端口作为加密提交端口，于是465就一直这么被用到今天。
+　　简单来说，465端口只支持加密传输，不符合互联网号码分配结构（The Internet Assigned Numbers Authority，IANA）的标准，但一直被使用和支持；587端口专门被设计用来提交邮件，传输可以加密也可以不加密。</p>
+<h1 id="配置mail" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%aemail" class="heading-mark"></a>配置mail</h1><p>明白了基本概念，接下来配置<code>mail</code>使用<code>SMTP</code>对外发送邮件。<code>mail</code>命令的系统级配置文件是<code>/etc/mail.rc</code>，用户级别的默认配置文件是<code>~/.mailrc</code>，也可以通过<code>MAILRC</code>环境变量设置配置文件路径。作为普通用户，我们在本地的<code>~/.mailrc</code>文件进行配置，<code>SMTP</code>的主要配置如下：</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">smtp</span><span class="o">=</span>smtps://smtp.xxx.com:465   <span class="c1"># 这里填入smtp地址</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> smtp-auth<span class="o">=</span>login                 <span class="c1"># 认证方式</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> smtp-auth-user<span class="o">=</span>user@xxx.com     <span class="c1"># 这里输入邮箱账号</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> smtp-auth-password<span class="o">=</span>password     <span class="c1"># 这里填入密码</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> ssl-verify<span class="o">=</span>ignore               <span class="c1"># 忽略证书警告</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> nss-config-dir<span class="o">=</span>/etc/pki/nssdb   <span class="c1"># 证书所在目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> <span class="nv">from</span><span class="o">=</span>user@xxx.com               <span class="c1"># 设置发信人邮箱和昵称</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#set smtp-use-starttls=yes          # STARTTLS时使用</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意事项：</p>
+<ul>
+<li>如果是<code>465</code>端口，需要加上<code>smtps://</code>协议；如果是<code>587</code>端口</li>
+<li>如果使用<code>587</code>端口通讯，应当显示设置<code>smtp-use-starttls</code>,不需要加<code>smtps://</code>或者写<code>smtp://</code></li>
+<li>邮件的来源应当与邮箱相同，或者将发信人姓名写在邮箱后的括号中。例如：<code>set from=user@xxxx.com</code>或<code>set from=user@xxx.com</code>；如果邮箱与认证的不一致，将出现<code>smtp-server: 553 Mail from must equal authorized user</code>的错误</li>
+</ul>
+<p>有些邮件服务器的<code>587</code>端口不是使用<code>STARTTLS</code>而是<code>SMTPS</code>，此时仍需加上<code>smtps://</code>协议，例如<code>126</code>邮箱。</p>
+<h2 id="多账户" class="heading-element">
+  <a href="#%e5%a4%9a%e8%b4%a6%e6%88%b7" class="heading-mark"></a>多账户</h2><p>配置文件的<code>account</code>指令或在命令行中指定配置。先看配置文件中指定，在<code>~/.mailrc</code>中将配置改成如下：</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 126不支持STARTTLS，使用465端口</span>
+</span></span><span class="line"><span class="cl">account <span class="m">126</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> <span class="nv">smtp</span><span class="o">=</span>smtps://smtp.126.com:465
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> smtp-auth<span class="o">=</span>login
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> smtp-auth-user<span class="o">=</span>user@126.com
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> smtp-auth-password<span class="o">=</span>password
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> ssl-verify<span class="o">=</span>ignore
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> nss-config-dir<span class="o">=</span>/etc/pki/nssdb
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> <span class="nv">from</span><span class="o">=</span>password@126.com
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># QQ邮箱支持STARTTLS，使用587端口</span>
+</span></span><span class="line"><span class="cl">account qq <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> <span class="nv">smtp</span><span class="o">=</span>smtp://smtp.qq.com:587
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> smtp-auth<span class="o">=</span>login
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> smtp-auth-user<span class="o">=</span>user@qq.com
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> smtp-auth-password<span class="o">=</span>password
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> ssl-verify<span class="o">=</span>ignore
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> nss-config-dir<span class="o">=</span>/etc/pki/nssdb
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> <span class="nv">from</span><span class="o">=</span><span class="s2">&#34;user@qq.com&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">set</span> smtp-use-starttls<span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>配置文件中定义了两个账户，发送邮件时可用<code>-A</code>参数指定发信账户：</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;mail test for 126&#39;</span> <span class="p">|</span> mail -A <span class="m">126</span> -s <span class="s1">&#39;mail test&#39;</span> user@xxx.com
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;mail test for qq&#39;</span> <span class="p">|</span> mail -A qq -s <span class="s1">&#39;mail test&#39;</span> user@xxx.com</span></span></code></pre></td></tr></table>
+</div>
+</div><p>除了配置文件，也可以在命令行中用<code>-S</code>参数进行设置。例如：</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;mail test for command line option&#39;</span> <span class="p">|</span> mail -s <span class="s1">&#39;mail test&#39;</span> -S <span class="nv">smtp</span><span class="o">=</span>smtp://smtp.qq.com:587 -S smtp-auth<span class="o">=</span>login -S smtp-auth-user<span class="o">=</span>user@qq.com -S smtp-auth-password<span class="o">=</span>password -S ssl-verify<span class="o">=</span>ignore -S nss-config-dir<span class="o">=</span>/etc/pki/nssdb -S <span class="nv">from</span><span class="o">=</span><span class="s2">&#34;user@qq.com(nickname)&#34;</span> -S smtp-use-starttls<span class="o">=</span>yes user@xxx.com</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种方法比较繁琐，就是将配置文件的每一行都作为选项写在命令中。在程序中调用mail命令发送邮件时可以采取这种方法。</p>
+<h1 id="解决警告" class="heading-element">
+  <a href="#%e8%a7%a3%e5%86%b3%e8%ad%a6%e5%91%8a" class="heading-mark"></a>解决警告</h1><p>　　虽然邮件能顺利发送，但每次运行都会出现一行警告：<code>Error in certificate: Peer's certificate issuer is not recognized.</code>。这是由于使用加密通信，但客户端不能确认证书是否真实。如果我们将配置中的<code>set ssl-verify=ignore</code>改成<code>set ssl-verify=strict</code>，连接将直接中断而不会继续发邮件。
+　　
+获取邮件服务器证书：
+要解决这个警告，需要将邮件服务器的证书加入到信任列表。操作步骤如下：</p>
+<ul>
+<li>
+<p><code>465</code>端口：</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> -n <span class="s2">&#34;&#34;</span> <span class="p">|</span> openssl s_client -connect smtp.xxx.com:465 <span class="p">|</span> sed -ne <span class="s1">&#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39;</span> &gt; xxx.crt</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>587</code>端口</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> -n <span class="p">|</span> openssl s_client -starttls smtp -connect smtp.xxx.com:587 <span class="p">|</span> sed -ne <span class="s1">&#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39;</span> &gt; xxx.crt</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>将证书添加到受信任列表：</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">certutil -A -n <span class="s1">&#39;xxxx&#39;</span> -t <span class="s2">&#34;P,P,P&#34;</span> -d . -i ./xxx.crt</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<p>　　上述命令中<code>-A</code>表示添加，<code>-n</code>是<code>nickname</code>，可以随意取，例如<code>126</code>或<code>qq</code>；<code>-t</code>表示受信任的标签，可取值是<code>t/c/p</code>三种或者其组合（许多<code>-t</code>标签都是<code>C,,</code>，实践中发现使用该标签仍会报错，使用<code>P</code>标签完美解决，再发邮件就没有报错了。）；<code>-d</code>表示证书所在目录，<code>-i</code>指示证书文件的位置。在配置文件中更改证书目录：</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">　　# 指向证书文件目录
+</span></span><span class="line"><span class="cl">　　set nss-config-dir<span class="o">=</span>/path/to/cert-dir</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="示例" class="heading-element">
+  <a href="#%e7%a4%ba%e4%be%8b" class="heading-mark"></a>示例</h1><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># mkdir -p ~/.mailx/tls/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo -n &#34;&#34; | openssl s_client -connect alertmanager.xiaosi.host:465 | sed -ne &#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39; &gt; ~/.mailx/tls/alertmanager.crt</span>
+</span></span><span class="line"><span class="cl"><span class="nv">depth</span><span class="o">=</span><span class="m">0</span> <span class="nv">C</span> <span class="o">=</span> DE, <span class="nv">ST</span> <span class="o">=</span> NRW, <span class="nv">L</span> <span class="o">=</span> Willich, <span class="nv">O</span> <span class="o">=</span> mailcow, <span class="nv">OU</span> <span class="o">=</span> mailcow, <span class="nv">CN</span> <span class="o">=</span> mail.xiaosi.host
+</span></span><span class="line"><span class="cl">verify error:num<span class="o">=</span>18:self signed certificate
+</span></span><span class="line"><span class="cl">verify <span class="k">return</span>:1
+</span></span><span class="line"><span class="cl"><span class="nv">depth</span><span class="o">=</span><span class="m">0</span> <span class="nv">C</span> <span class="o">=</span> DE, <span class="nv">ST</span> <span class="o">=</span> NRW, <span class="nv">L</span> <span class="o">=</span> Willich, <span class="nv">O</span> <span class="o">=</span> mailcow, <span class="nv">OU</span> <span class="o">=</span> mailcow, <span class="nv">CN</span> <span class="o">=</span> mail.xiaosi.host
+</span></span><span class="line"><span class="cl">verify <span class="k">return</span>:1
+</span></span><span class="line"><span class="cl">DONE</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="error-initializing-nss-unknown-error--8015" class="heading-element">
+  <a href="#error-initializing-nss-unknown-error--8015" class="heading-mark"></a>Error initializing NSS: Unknown error -8015.</h2><ul>
+<li>信息：</li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost tls<span class="o">]</span><span class="c1"># echo &#39;test&#39; | mailx  -A alertmanager -s &#39;test 2&#39; 3131516796@qq.com</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost tls<span class="o">]</span><span class="c1"># Error initializing NSS: Unknown error -8015.</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/root/dead.letter&#34;</span> 11/322
+</span></span><span class="line"><span class="cl">. . . message not sent.
+</span></span><span class="line"><span class="cl">^C</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>解决</li>
+</ul>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#创建目录，用来存放证书</span>
+</span></span><span class="line"><span class="cl">mkdir -p /etc/mail/tls/
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /etc/mail/tls/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 生成证书</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost tls<span class="o">]</span><span class="c1"># echo -n | openssl s_client -connect alertmanager.xiaosi.host:465 | sed -ne &#39;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#39; &gt; ./alertmanager.crt</span>
+</span></span><span class="line"><span class="cl"><span class="nv">depth</span><span class="o">=</span><span class="m">0</span> <span class="nv">C</span> <span class="o">=</span> DE, <span class="nv">ST</span> <span class="o">=</span> NRW, <span class="nv">L</span> <span class="o">=</span> Willich, <span class="nv">O</span> <span class="o">=</span> mailcow, <span class="nv">OU</span> <span class="o">=</span> mailcow, <span class="nv">CN</span> <span class="o">=</span> mail.xiaosi.host
+</span></span><span class="line"><span class="cl">verify error:num<span class="o">=</span>18:self signed certificate
+</span></span><span class="line"><span class="cl">verify <span class="k">return</span>:1
+</span></span><span class="line"><span class="cl"><span class="nv">depth</span><span class="o">=</span><span class="m">0</span> <span class="nv">C</span> <span class="o">=</span> DE, <span class="nv">ST</span> <span class="o">=</span> NRW, <span class="nv">L</span> <span class="o">=</span> Willich, <span class="nv">O</span> <span class="o">=</span> mailcow, <span class="nv">OU</span> <span class="o">=</span> mailcow, <span class="nv">CN</span> <span class="o">=</span> mail.xiaosi.host
+</span></span><span class="line"><span class="cl">verify <span class="k">return</span>:1
+</span></span><span class="line"><span class="cl">DONE
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 添加一个ssl证书到证书数据库中</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost tls<span class="o">]</span><span class="c1"># certutil -A -n &#34;GeoTrust SSL CA&#34; -t &#34;P,P,P&#34; -d ./ -i alertmanager.crt</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost tls<span class="o">]</span><span class="c1"># certutil -A -n &#34;GeoTrust Global CA&#34;  -t &#34;P,P,P&#34; -d ./ -i alertmanager.crt</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="host-certificate-does-not-match" class="heading-element">
+  <a href="#host-certificate-does-not-match" class="heading-mark"></a>host certificate does not match</h2><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># host certificate does not match &#34;alertmanager.xiaosi.host&#34;</span>
+</span></span><span class="line"><span class="cl">smtp-server: <span class="m">553</span> 5.7.1 &lt;hkvps@alertmanager.xiaosi.host&gt;: Sender address rejected: not owned by user mail@alertmanager.xiaosi.host
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/root/dead.letter&#34;</span> 11/322
+</span></span><span class="line"><span class="cl">. . . message not sent.
+</span></span><span class="line"><span class="cl">^C</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-02-10 22:29:13">更新于 2024-02-10&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/mail/" class="post-tag" title="标签 - mail">mail</a><a href="/tags/mailx/" class="post-tag" title="标签 - mailx">mailx</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/grafana/" class="post-nav-item" rel="prev" title="grafana"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>grafana</a>
+      <a href="/awsCloudWatchMetric/" class="post-nav-item" rel="next" title="Amazon CloudWatch - Amazon CloudWatch 可实时监控您的亚马逊云科技 (AWS) 资源以及您在 AWS 上运行的应用程序。">Amazon CloudWatch - Amazon CloudWatch 可实时监控您的亚马逊云科技 (AWS) 资源以及您在 AWS 上运行的应用程序。<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

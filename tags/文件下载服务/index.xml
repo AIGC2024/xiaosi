@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>文件下载服务 - 标签 - 小厮</title>
+    <link>/tags/%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/</link>
+    <description>文件下载服务 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 22 Jul 2022 15:46:05 &#43;0800</lastBuildDate><atom:link href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/" rel="self" type="application/rss+xml" /><item>
+  <title>nginx搭建文件下载服务</title>
+  <link>/nginx%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/</link>
+  <pubDate>Fri, 22 Jul 2022 15:46:05 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%9C%8D%E5%8A%A1/</guid>
+  <description><![CDATA[使用nginx搭建文件下载服务]]></description>
+</item>
+</channel>
+</rss>

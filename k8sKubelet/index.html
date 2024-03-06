@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s kubelet - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='k8s, k8s kubelet' /><meta itemprop="name" content="k8s kubelet">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2022-08-06T19:33:45+08:00" />
+<meta itemprop="dateModified" content="2024-01-29T16:16:04+08:00" />
+<meta itemprop="wordCount" content="1219">
+<meta itemprop="keywords" content="k8s,k8s kubelet," /><meta property="og:title" content="k8s kubelet" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sKubelet/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-06T19:33:45+08:00" />
+<meta property="article:modified_time" content="2024-01-29T16:16:04+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s kubelet"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sKubelet/" /><link rel="prev" href="/JsonPath/" /><link rel="next" href="/k8sKubeApiServer/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s kubelet",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sKubelet\/"
+    },"genre": "posts","keywords": "k8s, k8s kubelet","wordcount":  1219 ,
+    "url": "\/k8sKubelet\/","datePublished": "2022-08-06T19:33:45+08:00","dateModified": "2024-01-29T16:16:04+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s kubelet</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-06 19:33:45"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-06">2022-08-06</time></span>&nbsp;<span title="更新于 2024-01-29 16:16:04"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-29">2024-01-29</time></span>&nbsp;<span title="1219 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#kubelet">kubelet</a></li>
+    <li><a href="#连接-api-server-配置文件">连接 API server 配置文件</a></li>
+    <li><a href="#配置文件">配置文件</a></li>
+    <li><a href="#选择使用的容器运行时">选择使用的容器运行时</a></li>
+    <li><a href="#容器运行时路径">容器运行时路径</a></li>
+    <li><a href="#指定镜像不会被镜像垃圾收集器删除">指定镜像不会被镜像垃圾收集器删除</a></li>
+    <li><a href="#容器操作超时时间">容器操作超时时间</a></li>
+    <li><a href="#镜像服务路径">镜像服务路径</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+<li>内核: 4.18.0-348.el8.0.2.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/command-line-tools-reference/kubelet/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：kubelet</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/config-api/kubelet-config.v1beta1/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：kubelet 配置（v1beta1）</a></li>
+</ul>
+</blockquote>
+<h1 id="kubelet" class="heading-element">
+  <a href="#kubelet" class="heading-mark"></a>kubelet</h1><p><code>kubelet</code> 在每个节点上都有运行，是执行 <code>API server</code> 传递的操作。它是基于 <code>PodSpec</code> 来工作的，每个 <code>PodSpec</code> 是一个描述 <code>Pod</code> 的 <code>YAML</code> 或 <code>JSON</code> 对象。 <code>kubelet</code> 接受通过各种机制（主要是通过 <code>apiserver</code>）提供的一组 <code>PodSpec</code>，并确保这些 <code>PodSpec</code> 中描述的容器处于运行状态且运行状况良好。 <code>kubelet</code> 不管理不是由 <code>Kubernetes</code> 创建的容器。</p>
+<p>除了来自 <code>apiserver</code> 的 <code>PodSpec</code> 之外，还可以通过以下三种方式将容器清单（<code>manifest</code>）提供给 <code>kubelet</code>。</p>
+<ul>
+<li>文件：利用命令行参数传递路径。<code>kubelet</code> 周期性地监视此路径下的文件是否有更新。 监视周期默认为 <code>20s</code>，且可通过参数进行配置</li>
+<li><code>HTTP</code> 端点（<code>HTTP</code> <code>endpoint</code>）：利用命令行参数指定 <code>HTTP</code> 端点。 此端点的监视周期默认为 <code>20</code> 秒，也可以使用参数进行配置。</li>
+<li><code>HTTP</code> 服务器（<code>HTTP</code> <code>server</code>）：<code>kubelet</code> 还可以侦听 <code>HTTP</code> 并响应简单的 <code>API</code> （目前没有完整规范）来提交新的清单。</li>
+</ul>
+<p>查看 <code>kubelet</code> 运行状态</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># systemctl status kubelet</span>
+</span></span><span class="line"><span class="cl">● kubelet.service - kubelet: The Kubernetes Node Agent
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/etc/systemd/system/kubelet.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Drop-In: /etc/systemd/system/kubelet.service.d
+</span></span><span class="line"><span class="cl">           └─10-kubeadm.conf
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since Sat 2022-08-06 13:14:14 CST<span class="p">;</span> 6h ago
+</span></span><span class="line"><span class="cl">     Docs: http://kubernetes.io/docs/
+</span></span><span class="line"><span class="cl">  Process: <span class="m">1401</span> <span class="nv">ExecStopPost</span><span class="o">=</span>/usr/bin/kubelet-post-stop.sh <span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>0/SUCCESS<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Process: <span class="m">1601</span> <span class="nv">ExecStartPre</span><span class="o">=</span>/usr/bin/kubelet-pre-start.sh <span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>0/SUCCESS<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> Main PID: <span class="m">1625</span> <span class="o">(</span>kubelet<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    Tasks: <span class="m">17</span> <span class="o">(</span>limit: 23507<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Memory: 107.7M
+</span></span><span class="line"><span class="cl">   CGroup: /system.slice/kubelet.service
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="连接-api-server-配置文件" class="heading-element">
+  <a href="#%e8%bf%9e%e6%8e%a5-api-server-%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>连接 API server 配置文件</h1><p><code>kubelet --kubeconfig</code> 选项指定 <code>kubelet</code> 配置文件路径，该配置文件指定连接 <code>API server</code>。如果缺省该选项则启用独立模式。</p>
+<p>通常配置文件有以下内容</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># cat /etc/kubernetes/kubelet.conf </span>
+</span></span><span class="line"><span class="cl">apiVersion: v1
+</span></span><span class="line"><span class="cl">clusters:
+</span></span><span class="line"><span class="cl">- cluster:
+</span></span><span class="line"><span class="cl">    certificate-authority-data: LS0tLS...
+</span></span><span class="line"><span class="cl">    server: https://apiserver.cluster.local:6443
+</span></span><span class="line"><span class="cl">  name: kubernetes
+</span></span><span class="line"><span class="cl">contexts:
+</span></span><span class="line"><span class="cl">- context:
+</span></span><span class="line"><span class="cl">    cluster: kubernetes
+</span></span><span class="line"><span class="cl">    user: system:node:k8s01.localdomain
+</span></span><span class="line"><span class="cl">  name: system:node:k8s01.localdomain@kubernetes
+</span></span><span class="line"><span class="cl">current-context: system:node:k8s01.localdomain@kubernetes
+</span></span><span class="line"><span class="cl">kind: Config
+</span></span><span class="line"><span class="cl">preferences: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">users:
+</span></span><span class="line"><span class="cl">- name: system:node:k8s01.localdomain
+</span></span><span class="line"><span class="cl">  user:
+</span></span><span class="line"><span class="cl">    client-certificate: /var/lib/kubelet/pki/kubelet-client-current.pem
+</span></span><span class="line"><span class="cl">    client-key: /var/lib/kubelet/pki/kubelet-client-current.pem</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="配置文件" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>配置文件</h1><p><code>kubelet --config</code> 选项指定加载的初始配置。省略此参数时 <code>kubelet</code> 会使用内置的默认配置值。 命令行参数会覆盖此文件中的配置。</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># cat /var/lib/kubelet/config.yaml</span>
+</span></span><span class="line"><span class="cl">apiVersion: kubelet.config.k8s.io/v1beta1
+</span></span><span class="line"><span class="cl">authentication:
+</span></span><span class="line"><span class="cl">  anonymous:
+</span></span><span class="line"><span class="cl">    enabled: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  webhook:
+</span></span><span class="line"><span class="cl">    cacheTTL: 2m0s
+</span></span><span class="line"><span class="cl">    enabled: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">  x509:
+</span></span><span class="line"><span class="cl">    clientCAFile: /etc/kubernetes/pki/ca.crt
+</span></span><span class="line"><span class="cl">authorization:
+</span></span><span class="line"><span class="cl">  mode: Webhook
+</span></span><span class="line"><span class="cl">  webhook:
+</span></span><span class="line"><span class="cl">    cacheAuthorizedTTL: 5m0s
+</span></span><span class="line"><span class="cl">    cacheUnauthorizedTTL: 30s
+</span></span><span class="line"><span class="cl">cgroupDriver: systemd
+</span></span><span class="line"><span class="cl">cgroupsPerQOS: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">clusterDNS:
+</span></span><span class="line"><span class="cl">- 10.96.0.10
+</span></span><span class="line"><span class="cl">clusterDomain: cluster.local
+</span></span><span class="line"><span class="cl">configMapAndSecretChangeDetectionStrategy: Watch
+</span></span><span class="line"><span class="cl">containerLogMaxFiles: <span class="m">5</span>
+</span></span><span class="line"><span class="cl">containerLogMaxSize: 10Mi
+</span></span><span class="line"><span class="cl">contentType: application/vnd.kubernetes.protobuf
+</span></span><span class="line"><span class="cl">cpuCFSQuota: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">cpuCFSQuotaPeriod: 100ms
+</span></span><span class="line"><span class="cl">cpuManagerPolicy: none
+</span></span><span class="line"><span class="cl">cpuManagerReconcilePeriod: 10s
+</span></span><span class="line"><span class="cl">enableControllerAttachDetach: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">enableDebuggingHandlers: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">enforceNodeAllocatable:
+</span></span><span class="line"><span class="cl">- pods
+</span></span><span class="line"><span class="cl">eventBurst: <span class="m">10</span>
+</span></span><span class="line"><span class="cl">eventRecordQPS: <span class="m">5</span>
+</span></span><span class="line"><span class="cl">evictionHard:
+</span></span><span class="line"><span class="cl">  imagefs.available: 15%
+</span></span><span class="line"><span class="cl">  memory.available: 100Mi
+</span></span><span class="line"><span class="cl">  nodefs.available: 10%
+</span></span><span class="line"><span class="cl">  nodefs.inodesFree: 5%
+</span></span><span class="line"><span class="cl">evictionPressureTransitionPeriod: 5m0s
+</span></span><span class="line"><span class="cl">failSwapOn: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">fileCheckFrequency: 20s
+</span></span><span class="line"><span class="cl">hairpinMode: promiscuous-bridge
+</span></span><span class="line"><span class="cl">healthzBindAddress: 127.0.0.1
+</span></span><span class="line"><span class="cl">healthzPort: <span class="m">10248</span>
+</span></span><span class="line"><span class="cl">httpCheckFrequency: 20s
+</span></span><span class="line"><span class="cl">imageGCHighThresholdPercent: <span class="m">85</span>
+</span></span><span class="line"><span class="cl">imageGCLowThresholdPercent: <span class="m">80</span>
+</span></span><span class="line"><span class="cl">imageMinimumGCAge: 2m0s
+</span></span><span class="line"><span class="cl">iptablesDropBit: <span class="m">15</span>
+</span></span><span class="line"><span class="cl">iptablesMasqueradeBit: <span class="m">14</span>
+</span></span><span class="line"><span class="cl">kind: KubeletConfiguration
+</span></span><span class="line"><span class="cl">kubeAPIBurst: <span class="m">10</span>
+</span></span><span class="line"><span class="cl">kubeAPIQPS: <span class="m">5</span>
+</span></span><span class="line"><span class="cl">logging:
+</span></span><span class="line"><span class="cl">  flushFrequency: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  options:
+</span></span><span class="line"><span class="cl">    json:
+</span></span><span class="line"><span class="cl">      infoBufferSize: <span class="s2">&#34;0&#34;</span>
+</span></span><span class="line"><span class="cl">  verbosity: <span class="m">0</span>
+</span></span><span class="line"><span class="cl">makeIPTablesUtilChains: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">maxOpenFiles: <span class="m">1000000</span>
+</span></span><span class="line"><span class="cl">maxPods: <span class="m">110</span>
+</span></span><span class="line"><span class="cl">memorySwap: <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">nodeLeaseDurationSeconds: <span class="m">40</span>
+</span></span><span class="line"><span class="cl">nodeStatusReportFrequency: 10s
+</span></span><span class="line"><span class="cl">nodeStatusUpdateFrequency: 10s
+</span></span><span class="line"><span class="cl">oomScoreAdj: -999
+</span></span><span class="line"><span class="cl">podPidsLimit: -1
+</span></span><span class="line"><span class="cl">port: <span class="m">10250</span>
+</span></span><span class="line"><span class="cl">registryBurst: <span class="m">10</span>
+</span></span><span class="line"><span class="cl">registryPullQPS: <span class="m">5</span>
+</span></span><span class="line"><span class="cl">rotateCertificates: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">runtimeRequestTimeout: 2m0s
+</span></span><span class="line"><span class="cl">serializeImagePulls: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">shutdownGracePeriod: 0s
+</span></span><span class="line"><span class="cl">shutdownGracePeriodCriticalPods: 0s
+</span></span><span class="line"><span class="cl">staticPodPath: /etc/kubernetes/manifests
+</span></span><span class="line"><span class="cl">streamingConnectionIdleTimeout: 4h0m0s
+</span></span><span class="line"><span class="cl">syncFrequency: 1m0s
+</span></span><span class="line"><span class="cl">volumeStatsAggPeriod: 1m0s</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="选择使用的容器运行时" class="heading-element">
+  <a href="#%e9%80%89%e6%8b%a9%e4%bd%bf%e7%94%a8%e7%9a%84%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e6%97%b6" class="heading-mark"></a>选择使用的容器运行时</h1><p><code>kubelet --container-runtime</code> 指定要要使用的容器运行时，旧版本可以选择值为 <code>docker</code> 或 <code>remote</code>。由于后续版本已弃用 <code>docker</code> , <code>remote</code> 成了唯一值，因此该参数将在 <code>1.27</code> 版本中删除</p>
+<h1 id="容器运行时路径" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e6%97%b6%e8%b7%af%e5%be%84" class="heading-mark"></a>容器运行时路径</h1><p><code>kubelet --container-runtime-endpoint</code> 指定容器运行时的地址，值为 <code>unix</code> 套接字</p>
+<h1 id="指定镜像不会被镜像垃圾收集器删除" class="heading-element">
+  <a href="#%e6%8c%87%e5%ae%9a%e9%95%9c%e5%83%8f%e4%b8%8d%e4%bc%9a%e8%a2%ab%e9%95%9c%e5%83%8f%e5%9e%83%e5%9c%be%e6%94%b6%e9%9b%86%e5%99%a8%e5%88%a0%e9%99%a4" class="heading-mark"></a>指定镜像不会被镜像垃圾收集器删除</h1><p><code>kubelet --pod-infra-container-image</code> 参数	所指定的镜像不会被镜像垃圾收集器删除。</p>
+<h1 id="容器操作超时时间" class="heading-element">
+  <a href="#%e5%ae%b9%e5%99%a8%e6%93%8d%e4%bd%9c%e8%b6%85%e6%97%b6%e6%97%b6%e9%97%b4" class="heading-mark"></a>容器操作超时时间</h1><p>该设置应该在 <code>kubelet --config</code> 文件中设置</p>
+<p><code>kubectl --runtime-request-timeout</code> 设置除了长时间运行的请求（包括 <code>pull</code>、<code>logs</code>、<code>exec</code> 和 <code>attach</code> 等操作）之外的其他运行时请求的超时时间。 到达超时时间时，请求会被取消，抛出一个错误并会等待重试。</p>
+<h1 id="镜像服务路径" class="heading-element">
+  <a href="#%e9%95%9c%e5%83%8f%e6%9c%8d%e5%8a%a1%e8%b7%af%e5%be%84" class="heading-mark"></a>镜像服务路径</h1><p><code>kubelet --image-service-endpoint</code> 设置远程镜像服务的端点。值为 <code>unix</code> 套接字</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-01-29 16:16:04">更新于 2024-01-29&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s-kubelet/" class="post-tag" title="标签 - k8s kubelet">k8s kubelet</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/JsonPath/" class="post-nav-item" rel="prev" title="JsonPath"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>JsonPath</a>
+      <a href="/k8sKubeApiServer/" class="post-nav-item" rel="next" title="k8s API 服务">k8s API 服务<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

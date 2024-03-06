@@ -1,0 +1,129 @@
+
+
+eksctl create nodegroup \
+--profile "yh-xiaosi" \
+--region "ap-southeast-1" \
+--cluster "eks01" \
+--name "node01" \
+--nodes 1 \
+--nodes-max 6 \
+--instance-selector-vcpus 4 \
+--instance-selector-memory 8 \
+--instance-selector-cpu-architecture x86_64 \
+--node-private-networking \
+--ssh-access \
+--ssh-public-key ~/.eks/zjc-yuhai/singapore/node01.pub 
+
+
+Controller
+
+
+aws eks create-nodegroup \
+--cluster "eks01" \
+--nodegroup-name "eksController" \
+--subnets "subnet-03f985d37e90c79e2"  "subnet-05b08efbdc8bb1e69" "subnet-0f783da364e506e14" \
+--node-role "arn:aws:iam::223665515173:role/eks-nodegroup" \
+--remote-access "ec2SshKey=eksController" \
+--scaling-config "minSize=2,maxSize=6,desiredSize=2" \
+--ami-type "AL2_x86_64" \
+--instance-types  "c6a.large" \
+--taints "key=node,value=controller,effect=NO_EXECUTE" \
+--capacity-type "ON_DEMAND" \
+--profile "yh-xiaosi" \
+--region "ap-southeast-1"
+
+aws eks create-nodegroup \
+--cluster "xiaosi" \
+--nodegroup-name "private-b" \
+--subnets "subnet-0821ddb76fdf30d03" \
+--remote-access "ec2SshKey=ec2" \
+--node-role "arn:aws:iam::223665515173:role/KarpenterNodeRole-xiaosi" \
+--ami-type "AL2_ARM_64" \
+--instance-types  "c6g.large" \
+--capacity-type "ON_DEMAND" \
+--scaling-config "minSize=1,maxSize=2,desiredSize=1" \
+--profile "yh-xiaosi" \
+--region "ap-southeast-1" | jq 
+
+
+
+
+ aws eks create-nodegroup \
+--cluster "eks01" \
+--nodegroup-name "work-arm64-spot" \
+--subnets "subnet-03f985d37e90c79e2"  "subnet-05b08efbdc8bb1e69" "subnet-0f783da364e506e14" \
+--node-role "arn:aws:iam::223665515173:role/eks-nodegroup" \
+--remote-access "ec2SshKey=xiaosi-singapore-ec2" \
+--scaling-config "minSize=1,maxSize=6,desiredSize=1" \
+--ami-type "AL2_ARM_64" \
+--instance-types  "c6g.large" \
+--capacity-type "SPOT" \
+--profile "yh-xiaosi" \
+--region "ap-southeast-1"
+
+0.0784*740*7.5=435.12
+
+aws eks create-addon \
+--addon-name aws-ebs-csi-driver \
+--service-account-role-arn "arn:aws:iam::223665515173:role/AmazonEKS_EBS_CSI_DriverRole" \
+--cluster-name "eks01" \
+--profile "yh-xiaosi" \
+--region "ap-southeast-1"
+
+
+aws eks describe-addon-versions --kubernetes-version 1.28 \
+--profile "yh-xiaosi" \
+--region "ap-southeast-1" \
+--query 'addons[].{MarketplaceProductUrl: marketplaceInformation.productUrl, Name: addonName, Owner: owner Publisher: publisher, Type: type}' --output table
+
+
+aws eks describe-addon-versions --kubernetes-version 1.28 --addon-name  coredns   \
+--profile "yh-xiaosi" \
+--region "ap-southeast-1" \
+--query 'addons[].addonVersions[].{Version: addonVersion, Defaultversion: compatibilities[0].defaultVersion}' --output table
+
+aws eks create-addon \
+--addon-name coredns \
+--addon-version "v1.10.1-eksbuild.6" \
+--cluster-name "eks01" \
+--profile "yh-xiaosi" \
+--region "ap-southeast-1"
+
+helm install gitlab gitlab-jh/gitlab \
+--version 7.6.0 \
+--set gitlab.name=gitlab.aws.xiaosi.host \
+--set certmanager-issuer.email=xiaosi@gitlab.xiaosi.host \
+--dry-run \
+--kubeconfig /data/aws/xiaosi/eks/singapore/eks01/singapore-eks01-config
+
+
+helm repo add gitlab-jh https://charts.gitlab.cn
+helm repo update
+helm upgrade --install gitlab gitlab-jh/gitlab \
+  --version 5.6.2 \
+  --timeout 600s \
+  --set global.hosts.domain=example.com \
+  --set global.hosts.externalIP=10.10.10.10 \
+  --set certmanager-issuer.email=me@example.com 
+
+
+
+sudo docker run --detach \
+  --hostname gitlab.example.com \
+  --publish 4443:443 --publish 800:80 --publish 222:22 \
+  --name gitlab \
+  --restart always \
+  --volume $GITLAB_HOME/config:/etc/gitlab \
+  --volume $GITLAB_HOME/logs:/var/log/gitlab \
+  --volume $GITLAB_HOME/data:/var/opt/gitlab \
+  --shm-size 256m \
+  registry.gitlab.cn/omnibus/gitlab-jh:latest
+
+
+
+
+
+
+OpenSearch
+admin
+PCqPFg!]T{k@)YHfm9ddo8

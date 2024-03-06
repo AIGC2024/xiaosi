@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>ftp 协议及其应用 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： centos: 7 vsftpd: 3.0 内容来自以下文档： 官网 版本变化 常见问题 vsftpdvsftpd 是用于 UNIX 系统（包括Linux）的 GPL 许可 FTP 服务 安装 yum 安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14" /><meta name="keywords" content='命令, vsftp 命令' /><meta itemprop="name" content="ftp 协议及其应用">
+<meta itemprop="description" content="运行环境： centos: 7 vsftpd: 3.0 内容来自以下文档： 官网 版本变化 常见问题 vsftpdvsftpd 是用于 UNIX 系统（包括Linux）的 GPL 许可 FTP 服务 安装 yum 安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14"><meta itemprop="datePublished" content="2018-12-10T15:51:22+08:00" />
+<meta itemprop="dateModified" content="2022-09-07T16:50:41+08:00" />
+<meta itemprop="wordCount" content="5464">
+<meta itemprop="keywords" content="命令,vsftp 命令," /><meta property="og:title" content="ftp 协议及其应用" />
+<meta property="og:description" content="运行环境： centos: 7 vsftpd: 3.0 内容来自以下文档： 官网 版本变化 常见问题 vsftpdvsftpd 是用于 UNIX 系统（包括Linux）的 GPL 许可 FTP 服务 安装 yum 安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/ftp/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-12-10T15:51:22+08:00" />
+<meta property="article:modified_time" content="2022-09-07T16:50:41+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ftp 协议及其应用"/>
+<meta name="twitter:description" content="运行环境： centos: 7 vsftpd: 3.0 内容来自以下文档： 官网 版本变化 常见问题 vsftpdvsftpd 是用于 UNIX 系统（包括Linux）的 GPL 许可 FTP 服务 安装 yum 安装 1 2 3 4 5 6 7 8 9 10 11 12 13 14"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/ftp/" /><link rel="prev" href="/linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E6%89%BE/" /><link rel="next" href="/nfs/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ftp 协议及其应用",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/ftp\/"
+    },"genre": "posts","keywords": "命令, vsftp 命令","wordcount":  5464 ,
+    "url": "\/ftp\/","datePublished": "2018-12-10T15:51:22+08:00","dateModified": "2022-09-07T16:50:41+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>ftp 协议及其应用</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2018-12-10 15:51:22"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2018-12-10">2018-12-10</time></span>&nbsp;<span title="更新于 2022-09-07 16:50:41"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-09-07">2022-09-07</time></span>&nbsp;<span title="5464 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 11 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#vsftpd">vsftpd</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#相关文件">相关文件</a></li>
+        <li><a href="#日志配置文件">日志配置文件</a></li>
+        <li><a href="#vsftpd-服务配置文件">vsftpd 服务配置文件</a></li>
+        <li><a href="#配置文件说明">配置文件说明</a></li>
+        <li><a href="#匿名用户">匿名用户</a></li>
+      </ul>
+    </li>
+    <li><a href="#报错处理">报错处理</a>
+      <ul>
+        <li><a href="#500-oops">500 OOPS</a></li>
+      </ul>
+    </li>
+    <li><a href="#ftp-文件传输协议">ftp 文件传输协议</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-09-07，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+<li>vsftpd: 3.0</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://security.appspot.com/vsftpd.html" title="官网"target="_blank" rel="external nofollow noopener noreferrer">官网</a></li>
+<li><a href="https://security.appspot.com/vsftpd/Changelog.txt" title="版本变化"target="_blank" rel="external nofollow noopener noreferrer">版本变化</a></li>
+<li><a href="https://security.appspot.com/vsftpd/FAQ.txt" title="常见问题"target="_blank" rel="external nofollow noopener noreferrer">常见问题</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="vsftpd" class="heading-element">
+  <a href="#vsftpd" class="heading-mark"></a>vsftpd</h1><p><code>vsftpd</code> 是用于 <code>UNIX</code> 系统（包括<code>Linux</code>）的 <code>GPL</code> 许可 <code>FTP</code> 服务</p>
+<h2 id="安装" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark"></a>安装</h2><ul>
+<li>yum 安装</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 检查使用的 yum 源中安装包使用有 vsftpd</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum list | grep vsftpd</span>
+</span></span><span class="line"><span class="cl">vsftpd.x86_64                             3.0.2-27.el7                   base   
+</span></span><span class="line"><span class="cl">vsftpd-sysvinit.x86_64                    3.0.2-27.el7                   base   
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装 vsftpd ，-y 选项确定安装</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y vsftpd</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Resolving Dependencies
+</span></span><span class="line"><span class="cl">--&gt; Running transaction check
+</span></span><span class="line"><span class="cl">---&gt; Package vsftpd.x86_64 0:3.0.2-27.el7 will be installed
+</span></span><span class="line"><span class="cl">--&gt; Finished Dependency Resolution
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Running transaction
+</span></span><span class="line"><span class="cl">  Installing : vsftpd-3.0.2-27.el7.x86_64                                                                                    1/1 
+</span></span><span class="line"><span class="cl">  Verifying  : vsftpd-3.0.2-27.el7.x86_64                                                                                    1/1 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Installed:
+</span></span><span class="line"><span class="cl">  vsftpd.x86_64 0:3.0.2-27.el7                                                                                                   
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Complete!</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="相关文件" class="heading-element">
+  <a href="#%e7%9b%b8%e5%85%b3%e6%96%87%e4%bb%b6" class="heading-mark"></a>相关文件</h2><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># rpm -ql vsftpd</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 日志配置文件</span>
+</span></span><span class="line"><span class="cl">/etc/logrotate.d/vsftpd
+</span></span><span class="line"><span class="cl"><span class="c1"># PAM 认证配置文件</span>
+</span></span><span class="line"><span class="cl">/etc/pam.d/vsftpd
+</span></span><span class="line"><span class="cl"><span class="c1"># 黑名单用户列表文件</span>
+</span></span><span class="line"><span class="cl">/etc/vsftpd/ftpusers
+</span></span><span class="line"><span class="cl"><span class="c1"># 黑名单和白名单用户列表</span>
+</span></span><span class="line"><span class="cl">/etc/vsftpd/user_list
+</span></span><span class="line"><span class="cl"><span class="c1"># vsftpd 服务配置文件</span>
+</span></span><span class="line"><span class="cl">/etc/vsftpd/vsftpd.conf
+</span></span><span class="line"><span class="cl"><span class="c1"># 迁移 vsftpd 脚本</span>
+</span></span><span class="line"><span class="cl">/etc/vsftpd/vsftpd_conf_migrate.sh
+</span></span><span class="line"><span class="cl"><span class="c1"># vsftpd 系统单元生成器文件</span>
+</span></span><span class="line"><span class="cl">/usr/lib/systemd/system-generators/vsftpd-generator
+</span></span><span class="line"><span class="cl"><span class="c1"># vsftpd 系统服务文件</span>
+</span></span><span class="line"><span class="cl">/usr/lib/systemd/system/vsftpd.service
+</span></span><span class="line"><span class="cl"><span class="c1"># 系统单元文件</span>
+</span></span><span class="line"><span class="cl">/usr/lib/systemd/system/vsftpd.target
+</span></span><span class="line"><span class="cl">/usr/lib/systemd/system/vsftpd@.service
+</span></span><span class="line"><span class="cl"><span class="c1"># 二进制文件，也就是命令</span>
+</span></span><span class="line"><span class="cl">/usr/sbin/vsftpd
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置文件帮助手册信息</span>
+</span></span><span class="line"><span class="cl">/usr/share/man/man5/vsftpd.conf.5.gz
+</span></span><span class="line"><span class="cl"><span class="c1"># vsftpd 帮助信息</span>
+</span></span><span class="line"><span class="cl">/usr/share/man/man8/vsftpd.8.gz
+</span></span><span class="line"><span class="cl"><span class="c1"># 匿名用户家目录</span>
+</span></span><span class="line"><span class="cl">/var/ftp
+</span></span><span class="line"><span class="cl"><span class="c1"># 匿名用户下载目录</span>
+</span></span><span class="line"><span class="cl">/var/ftp/pub</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="日志配置文件" class="heading-element">
+  <a href="#%e6%97%a5%e5%bf%97%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>日志配置文件</h2><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /etc/logrotate.d/vsftpd</span>
+</span></span><span class="line"><span class="cl">/var/log/vsftpd.log <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ftpd doesn&#39;t handle SIGHUP properly</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 不压缩文件</span>
+</span></span><span class="line"><span class="cl">    nocompress
+</span></span><span class="line"><span class="cl">    <span class="c1"># 日志轮循期间，任何错误将被忽略</span>
+</span></span><span class="line"><span class="cl">    missingok
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/var/log/xferlog <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ftpd doesn&#39;t handle SIGHUP properly</span>
+</span></span><span class="line"><span class="cl">    nocompress
+</span></span><span class="line"><span class="cl">    missingok
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="vsftpd-服务配置文件" class="heading-element">
+  <a href="#vsftpd-%e6%9c%8d%e5%8a%a1%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>vsftpd 服务配置文件</h2><p><code>vsftpd.conf</code> 可用于控制 vsftpd 行为的各个方面，默认情况下在<code>/etc/vsftpd.conf</code></p>
+<ul>
+<li>可以通过 <code>vsftpd</code> 命令覆盖某些功能</li>
+<li>以 <code>#</code> 开头表示注释</li>
+<li>配置和值之间用等号连接，且等号左右两边不能有空格</li>
+<li>每个配置都有默认值</li>
+</ul>
+<h2 id="配置文件说明" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e8%af%b4%e6%98%8e" class="heading-mark"></a>配置文件说明</h2><ul>
+<li>以下内容来自<a href="https://security.appspot.com/vsftpd/vsftpd_conf.html" title="官方文档--vsftpd的配置文件"target="_blank" rel="external nofollow noopener noreferrer">官方文档&ndash;vsftpd.config说明</a></li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span><span class="lnt">271
+</span><span class="lnt">272
+</span><span class="lnt">273
+</span><span class="lnt">274
+</span><span class="lnt">275
+</span><span class="lnt">276
+</span><span class="lnt">277
+</span><span class="lnt">278
+</span><span class="lnt">279
+</span><span class="lnt">280
+</span><span class="lnt">281
+</span><span class="lnt">282
+</span><span class="lnt">283
+</span><span class="lnt">284
+</span><span class="lnt">285
+</span><span class="lnt">286
+</span><span class="lnt">287
+</span><span class="lnt">288
+</span><span class="lnt">289
+</span><span class="lnt">290
+</span><span class="lnt">291
+</span><span class="lnt">292
+</span><span class="lnt">293
+</span><span class="lnt">294
+</span><span class="lnt">295
+</span><span class="lnt">296
+</span><span class="lnt">297
+</span><span class="lnt">298
+</span><span class="lnt">299
+</span><span class="lnt">300
+</span><span class="lnt">301
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 匿名用户相关配置</span>
+</span></span><span class="line"><span class="cl">anonymous_enable
+</span></span><span class="line"><span class="cl">	是否允许使用匿名用户，如果开启，ftp 和 anonymous 用户都视为匿名用户
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES（默认值）
+</span></span><span class="line"><span class="cl">	- NO 
+</span></span><span class="line"><span class="cl">anon_mkdir_write_enable
+</span></span><span class="line"><span class="cl">	是否允许匿名用户在某些条件下创建新目录，有以下条件：
+</span></span><span class="line"><span class="cl">	- 必须开启 write_enable 
+</span></span><span class="line"><span class="cl">	- 匿名用户必须在父目录有写入权限
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">anon_other_write_enable
+</span></span><span class="line"><span class="cl">	是否允许许匿名用户执行除上载和创建目录之外的写操作（如：删除和重命名）
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）	
+</span></span><span class="line"><span class="cl">anon_upload_enable
+</span></span><span class="line"><span class="cl">	是否允许匿名用户在某些条件下上传文件，有以下条件：
+</span></span><span class="line"><span class="cl">	- 必须开启 write_enable
+</span></span><span class="line"><span class="cl">	- 匿名用户必须对上传文件的目录具有写权限
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO （默认值）
+</span></span><span class="line"><span class="cl">anon_world_visible_only
+</span></span><span class="line"><span class="cl">	是否开启匿名用户只能下载可读文件<span class="o">(</span>即：匿名用户对文件拥有读取选项则可以下载该文件<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">chown_upload_mode
+</span></span><span class="line"><span class="cl">	匿名用户上传文件的权限：（在v2.0.6中添加），默认值为 <span class="m">0600</span>
+</span></span><span class="line"><span class="cl">chown_uploads
+</span></span><span class="line"><span class="cl">	所有匿名上传的文件所有权都改为 chown_username 配置指定的用户
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">chown_username
+</span></span><span class="line"><span class="cl">	匿名用户上传的所有文件拥有着，默认为 root
+</span></span><span class="line"><span class="cl">deny_email_enable
+</span></span><span class="line"><span class="cl">	是否提供匿名密码邮箱响应列表，开启会导致某些情况拒绝登陆，默认列表记录在文件 /etc/vsftpd.banned_emails 中
+</span></span><span class="line"><span class="cl">	有以下情况
+</span></span><span class="line"><span class="cl">	- banned_email_file 选项配置会覆盖默认文件
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">no_anon_password
+</span></span><span class="line"><span class="cl">	是否启动匿名用户直接登陆，（不需要咨询密码）
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">anon_max_rate
+</span></span><span class="line"><span class="cl">	匿名用户最大传输速率，单位为字节每秒
+</span></span><span class="line"><span class="cl">	可取值：
+</span></span><span class="line"><span class="cl">	- n <span class="o">(</span>n 为正整数<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	- 0（默认值，表示不限制）
+</span></span><span class="line"><span class="cl">anon_umask
+</span></span><span class="line"><span class="cl">	用于匿名用户的用于文件创建的 <span class="nb">umask</span> 设置的值，默认值为：077
+</span></span><span class="line"><span class="cl">	可取值：
+</span></span><span class="line"><span class="cl">	- n（n 为正整数，以 <span class="m">0</span> 开头：表示八进制，其他情况视为十进制）
+</span></span><span class="line"><span class="cl">anon_root
+</span></span><span class="line"><span class="cl">	匿名用户家目录，匿名登录后尝试将其更改为该目录，失败则忽略
+</span></span><span class="line"><span class="cl">	取值：路径，默认值没有设置
+</span></span><span class="line"><span class="cl">ftp_username
+</span></span><span class="line"><span class="cl">	匿名用户，默认值为 ftp
+</span></span><span class="line"><span class="cl">allow_anon_ssl
+</span></span><span class="line"><span class="cl">	是否允许匿名用户使用 SSL 连接,，仅在 ssl_enable 开启时使用
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO （默认值）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 本地用户相关设置</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">local_enable
+</span></span><span class="line"><span class="cl">	是否允许本地用户登陆，必须开启此选项才能让非匿名用户正常工作；如果开启，则使用 /etc/passwd 文件或 PAM 配置指定的文件中的普通用户登陆
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">chroot_local_user
+</span></span><span class="line"><span class="cl">	是否限制用户在家目录
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">passwd_chroot_enable
+</span></span><span class="line"><span class="cl">	限制每个用户在 /etc/passwd/ 中指定的家目录，有下先决条件：
+</span></span><span class="line"><span class="cl">	- 必须启用 chroot_local_user 配置
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">chroot_list_enable
+</span></span><span class="line"><span class="cl">	是否开启限制例外的用户名单
+</span></span><span class="line"><span class="cl">	有以下特殊情况：
+</span></span><span class="line"><span class="cl">	- 如果 <span class="nv">chroot_local_user</span><span class="o">=</span>YES，则文件中的用户不受限制，相当于白名单列表
+</span></span><span class="line"><span class="cl">	- 如果 <span class="nv">chroot_local_user</span><span class="o">=</span>NO，则文件中的用户受到限制，相当于黑名单列表
+</span></span><span class="line"><span class="cl">	- chroot_list_file  选项指定存储用户名单列表的文件
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO （默认值）	
+</span></span><span class="line"><span class="cl">chroot_list_file
+</span></span><span class="line"><span class="cl">	例外本地用户名单，默认值为 /etc/vsftpd.chroot_list，有一下先决条件
+</span></span><span class="line"><span class="cl">	- chroot_list_enable 配置开启才有效
+</span></span><span class="line"><span class="cl">local_root
+</span></span><span class="line"><span class="cl">	本地用户家目录，本地用户登陆后，会尝试切换到指定目录，失败则忽略。默认是没有设置的
+</span></span><span class="line"><span class="cl">use_localtime
+</span></span><span class="line"><span class="cl">	是否显示目录列表和当地时间，认为显示GMT；MDTM FTP命令返回的时间也受此选项的影响
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）	
+</span></span><span class="line"><span class="cl">local_max_rate
+</span></span><span class="line"><span class="cl">	本地用户最大的传输速率，单位多少字节每秒
+</span></span><span class="line"><span class="cl">	可取值：
+</span></span><span class="line"><span class="cl">	- n <span class="o">(</span>n 为正整数<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	- 0（默认值，表示不限制）
+</span></span><span class="line"><span class="cl">local_umask
+</span></span><span class="line"><span class="cl">	用于本地用户的用于文件创建的 <span class="nb">umask</span> 设置的值，
+</span></span><span class="line"><span class="cl">	可取值：
+</span></span><span class="line"><span class="cl">	- n（n 为正整数，以 <span class="m">0</span> 开头：表示八进制，其他情况视为十进制）
+</span></span><span class="line"><span class="cl">check_shell
+</span></span><span class="line"><span class="cl">	是否开启检查本地用户 shell，如果开启，用户 shell 不在 <span class="sb">`</span>/etc/shells<span class="sb">`</span> 中则会拒绝登陆ftp
+</span></span><span class="line"><span class="cl">	有以下特殊情况:
+</span></span><span class="line"><span class="cl">	- 没有使用 PAM 建立连接的才有效
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES（默认值）
+</span></span><span class="line"><span class="cl">	- NO
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 虚拟户相关设置</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">local_enable
+</span></span><span class="line"><span class="cl">	是否允许本地用户登陆，必须开启此选项才能让非匿名用户正常工作；如果开启，则使用 /etc/passwd 文件或 PAM 配置指定的文件中的普通用户登陆
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">virtual_use_local_privs
+</span></span><span class="line"><span class="cl">	是否启用虚拟用户将使用与本地用户相同的特权，默认情况下，虚拟用户与匿名用户相同的特权
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">user_sub_token
+</span></span><span class="line"><span class="cl">	基于模板为每个虚拟用户自动生成家目录
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 权限设置</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">write_enable
+</span></span><span class="line"><span class="cl">	是否有写入权限，即（STOR，DELE，RNFR，RNTO，MKD，RMD，APPESITE 这些命令）
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">nopriv_user
+</span></span><span class="line"><span class="cl">	这是vsftpd想要完全没有特权时使用的用户名，默认没有设置
+</span></span><span class="line"><span class="cl">download_enable
+</span></span><span class="line"><span class="cl">	是否允许下载文件，如果为 NO ，则拒绝所有下载请求
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES（默认值）
+</span></span><span class="line"><span class="cl">	- NO	
+</span></span><span class="line"><span class="cl">file_open_mode
+</span></span><span class="line"><span class="cl">	设置上传文件的权限，默认值 <span class="m">0666</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 日志设置</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dual_log_enable
+</span></span><span class="line"><span class="cl">	是否启用以下两种日志记录方式
+</span></span><span class="line"><span class="cl">	- wu-ftpd样式，由 xferlog_file 配置指定记录位置
+</span></span><span class="line"><span class="cl">	- vsftpd样式：由 vsftpd_log_file 配置指定记录位置
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">log_ftp_protocol
+</span></span><span class="line"><span class="cl">	是否记录所有FTP请求和响应，对于调试很有帮助，有以下先决条件：
+</span></span><span class="line"><span class="cl">	- 启用选项 xferlog_std_format
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">xferlog_enable
+</span></span><span class="line"><span class="cl">	是否开启日志记录
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES（配置文件示例中已经启用）
+</span></span><span class="line"><span class="cl">	- NO（默认值）	
+</span></span><span class="line"><span class="cl">vsftpd_log_file
+</span></span><span class="line"><span class="cl">	vsftp 样式日志记录文件位置，默认值为：/var/log/vsftpd.log
+</span></span><span class="line"><span class="cl">xferlog_std_format
+</span></span><span class="line"><span class="cl">	是否启用 xferlog  样式记录日志
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">xferlog_file
+</span></span><span class="line"><span class="cl">	wu-ftpd样式日志记录文件位置，默认值：/var/log/xferlog
+</span></span><span class="line"><span class="cl">syslog_enable
+</span></span><span class="line"><span class="cl">	是否把日志信息记录到系统日志中，如果开启此选项，/var/log/vsftpd.log 文件不会在受到日志信息
+</span></span><span class="line"><span class="cl">		可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">no_log_lock
+</span></span><span class="line"><span class="cl">	关闭锁定日志文件
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 登陆设置</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">delay_failed_login
+</span></span><span class="line"><span class="cl">	显示的登录之前暂停的秒数，默认值为 <span class="m">1</span>
+</span></span><span class="line"><span class="cl">delay_successful_login
+</span></span><span class="line"><span class="cl">	允许成功登录之前暂停的秒数，默认值为 <span class="m">0</span>
+</span></span><span class="line"><span class="cl">max_login_fails
+</span></span><span class="line"><span class="cl">	允许登录失败的次数，默认值：3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 用户提示</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ftpd_banner
+</span></span><span class="line"><span class="cl">	覆盖首次建立连接时 vsftpd 显示的问候语，默认值为空（即显示默认的vsftpd标语）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">banner_file
+</span></span><span class="line"><span class="cl">	当用户连接到服务器时要显示的文本信息，选项值是字符串，有以下特殊情况：
+</span></span><span class="line"><span class="cl">	- 将覆盖 ftpd_banner 选项提供的标题字符串
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dirmessage_enable
+</span></span><span class="line"><span class="cl">	是否开启用户进入目录时，输出该命令下 message_file 选项指定文件中的提示信息
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES（示例配置文件中开启了）
+</span></span><span class="line"><span class="cl">	- NO（默认值）	
+</span></span><span class="line"><span class="cl">message_file
+</span></span><span class="line"><span class="cl">	提示信息记录文件：message（提示目录下创建）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">######################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 其他设置</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">idle_session_timeout
+</span></span><span class="line"><span class="cl">	会话超时时间，单位秒，默认值 <span class="m">300</span>
+</span></span><span class="line"><span class="cl">data_connection_timeout
+</span></span><span class="line"><span class="cl">	数据连接超时时间，单位秒，默认值为 <span class="m">300</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ascii_download_enable
+</span></span><span class="line"><span class="cl">	是否允许下载时使用 ASCII 模式的数据传输
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO （默认值）
+</span></span><span class="line"><span class="cl">ascii_upload_enable
+</span></span><span class="line"><span class="cl">	是否允许上传时使用 ASCII 模式的数据传输
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">async_abor_enable
+</span></span><span class="line"><span class="cl">	是否启用异步终止（async ABOR）。某些 FTP 客户端在取消传输时将挂起，不会自动终止时启用，其他情况不建议使用，这个功能经常出问题
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">background
+</span></span><span class="line"><span class="cl">	是否开启以 <span class="s2">&#34;listen&#34;</span> 模式启动 vsftpd
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">chmod_enable
+</span></span><span class="line"><span class="cl">	使用允许使用 site chmod 命令，只适用于本地用户且匿名用户不会使用 site chmod 命令
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES（默认值）
+</span></span><span class="line"><span class="cl">	- NO
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">connect_from_port_20
+</span></span><span class="line"><span class="cl">	是否允许 PORT 样式的数据连接使用 <span class="m">20</span> 端口
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES（示例配置文件中开启了）
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">debug_ssl
+</span></span><span class="line"><span class="cl">	是否记录 OpenSSL 诊断信息到日志文件中，要求最低 vsftpd 版本为：v2.0.6
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">delete_failed_uploads
+</span></span><span class="line"><span class="cl">	是否删除上传失败的文件，最低要求版本 v2.0.7
+</span></span><span class="line"><span class="cl">	可选值：
+</span></span><span class="line"><span class="cl">	- YES
+</span></span><span class="line"><span class="cl">	- NO（默认值）
+</span></span><span class="line"><span class="cl">dirlist_enable
+</span></span><span class="line"><span class="cl">	是否允许使用命令
+</span></span><span class="line"><span class="cl">	- YES（默认值）	
+</span></span><span class="line"><span class="cl">	- NO</span></span></code></pre></td></tr></table>
+</div>
+</div><p>端口：</p>
+<ul>
+<li>21/tcp：命令连接，此链接一直在线。用于文件管理类命令</li>
+<li>20/tcp：数据连接，按需求启动/关闭。用于传输文件</li>
+</ul>
+<p>数据连接模式：</p>
+<ul>
+<li>主动连接：端口固定，服务端传输数据
+<ul>
+<li>命令连接：客户端随机端口去连接服务端的21/tcp端口</li>
+<li>数据连接：服务端20/tcp端口去连接客户端随机端口</li>
+</ul>
+</li>
+<li>被动连接：数据端口随机生成，客户端获取数据
+<ul>
+<li>命令连接方式：客户端随机端口去连接服务端的21/tcp端口</li>
+<li>数据连接方式：客户端随机端口去连接服务端随机端口</li>
+</ul>
+</li>
+</ul>
+<p>系统用户：操作系统中的系统用户，家目录是系统用户的家目录
+匿名用户：ftp服务默认用户，家目录默认是/var/ftp
+虚拟用户：仅用于特定服务的用户，家目录是指定的映射目录
+msswitch：名称解析框架
+配置文件：
+模块文件：/lib64/libnss* 、/usr/lib64/libnss
+pam：用户认证模块
+配置文件：/etc/pam.d/* 、/etc/pam.conf
+模块文件：/lib64/security/*</p>
+<p>/etc/logrotate.d/vsftpd
+用户认证配置文件：/etc/pam.d/vsftpd
+/etc/vsftpd/ftpusers
+/etc/vsftpd/user_list
+主配置文件：/etc/vsftpd/vsftpd.conf
+匿名用户家目录：/var/ftp
+/var/ftp/pub</p>
+<p>服务端软件：vsftpd
+配置文件：/etc/vsftpd/vsftpd.conf</p>
+<p>安装服务端软件
+yum install -y vsftpd</p>
+<p>安装客户端软件
+yum install -y ft</p>
+<p>启动服务
+systemctl restart vsftpd</p>
+<p>查看版本号
+vsftpd -v
+vsftpd: version 3.0.2</p>
+<p>创建虚拟用户方式
+（1）基于文件（文件编码为hash格式）
+基数行：用户
+基数行+1：对应基数行用户的密码
+（2）关系式数据库MySQL
+需要pam-mysql
+需要相关库和表
+需要远程连接相关表权限</p>
+<p>先安装pam客户端，在编译pam-mysql
+yum install -y pam-devel</p>
+<p>指定登陆信息：ftpd_banner=Welcome to blah FTP service.
+运行服务时需要的非特权用户：nopriv_user=ftpsecure
+是否识别ABOR请求：async_abor_enable=YES</p>
+<p>用户控制
+pam文件名称：pam_service_name=vsftpd
+配置文件：/etc/pam.d/vsftpd
+是否启用黑名单：userlist_enable=YES
+黑名单文件：/etc/vsftpd/ftpusers
+是否禁止此名单登陆：userlist_deny=yes（yes即黑名单，no即白名单）
+名单文件：/etc/vsftpd/user_list</p>
+<p>连接控制
+所有最大并发连接数：max_cliemts=
+每个IP的最大并发连接数：max_per_ip
+匿名用户最大传输速率（byte/s）anon_max_rate=</p>
+<p>基于文件的虚拟用户：
+创建系统用户指定家目录且不能远程登录
+useradd -d /vftp -s /sbin/nologin vftp</p>
+<p>创建ftp用户和密码
+cat /etc/vsftpd/vuser
+ftp01
+passwd01
+ftp02
+passwd02</p>
+<p>生成hash文件
+db_load -T -t hash -f vuser vuser.ftp</p>
+<p>创建pam认证文件
+cat /etc/pam.d/vsftpd.vuser
+auth        required        pam_userdb.so db=/etc/vsftpd/vuser
+account        required        pam_userdb.so db=/etc/vsftpd/vuser</p>
+<p>连接ftp服务（ftp命令+ip）
+ftp 103.106.245.110
+Connected to 103.106.245.110 (103.106.245.110).
+220 (vsFTPd 3.0.2)
+Name (103.106.245.110:root): ftp
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.</p>
+<p>查看ftp子命令
+ftp&gt; help
+Commands may be abbreviated.  Commands are:</p>
+<p>查看子命令帮助
+ftp&gt; help cd
+cd                change remote working directory</p>
+<p>tftp
+安装服务端：yum install -y tftp-server
+安装客户端：yum install -y tftp</p>
+<p>监听端口：69/udp</p>
+<p>配置文件：/etc/xinetd.d/tftp</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[root@yh ~]# cat /etc/xinetd.d/tftp
+</span></span><span class="line"><span class="cl"># default: off
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># description: The tftp server serves files using the trivial file transfer \
+</span></span><span class="line"><span class="cl">#        protocol.  The tftp protocol is often used to boot diskless \
+</span></span><span class="line"><span class="cl">#        workstations, download configuration files to network-aware printers, \
+</span></span><span class="line"><span class="cl">#        and to start the installation process for some operating systems.
+</span></span><span class="line"><span class="cl">service tftp
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">socket_type                = dgram
+</span></span><span class="line"><span class="cl">protocol                = udp
+</span></span><span class="line"><span class="cl">wait                        = yes
+</span></span><span class="line"><span class="cl">user                        = root
+</span></span><span class="line"><span class="cl">server                        = /usr/sbin/in.tftpd
+</span></span><span class="line"><span class="cl">server_args                = -s /var/lib/tftpboot
+</span></span><span class="line"><span class="cl">disable                        = yes
+</span></span><span class="line"><span class="cl">per_source                = 11
+</span></span><span class="line"><span class="cl">cps                        = 100 2
+</span></span><span class="line"><span class="cl">flags                        = IPv4
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="匿名用户" class="heading-element">
+  <a href="#%e5%8c%bf%e5%90%8d%e7%94%a8%e6%88%b7" class="heading-mark"></a>匿名用户</h2><p>匿名用户也是本地用户的一种，是一个通用的本地用户，不需要使用密码就能使用登陆 ftp</p>
+<ol>
+<li>修改 ftp 服务配置文件,（按照需求选择修改，默认配置只允许匿名用户下载）</li>
+</ol>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 备份默认配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cp /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.1.bak</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看是否开启允许使用匿名用户</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># grep &#34;anonymous_enable&#34; /etc/vsftpd/vsftpd.conf</span>
+</span></span><span class="line"><span class="cl"><span class="nv">anonymous_enable</span><span class="o">=</span>YES
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看是否允许匿名上传文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># grep &#34;anon_upload_enable&#34; /etc/vsftpd/vsftpd.conf</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#anon_upload_enable=YES</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 取消配置文件中的 anon_upload_enable 注释，允许匿名用户上传文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># sed -i &#39;/^#anon_upload_enable/s/#//&#39; /etc/vsftpd/vsftpd.conf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看匿名用户是否允许创建目录</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># grep &#34;anon_mkdir_write_enable&#34; /etc/vsftpd/vsftpd.conf</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#anon_mkdir_write_enable=YES</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 取消配置文件中的 anon_mkdir_write_enable 注释，允许匿名用户创建目录</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># sed -i &#39;/^#anon_mkdir_write_enable/s/#//&#39; /etc/vsftpd/vsftpd.conf</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>启动服务</li>
+</ul>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 临时关闭 selinux 立即生效</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># setenforce 0</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 永久关闭 selinux 重启生效</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># sed -i  &#39;/^SELINUX=/c\SELINUX=disabled&#39; /etc/selinux/config </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动服务</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># systemctl  restart vsftpd</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看服务状态</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># systemctl  status vsftpd</span>
+</span></span><span class="line"><span class="cl">● vsftpd.service - Vsftpd ftp daemon
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/usr/lib/systemd/system/vsftpd.service<span class="p">;</span> disabled<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: active <span class="o">(</span>running<span class="o">)</span> since Tue 2020-07-07 06:49:35 CST<span class="p">;</span> 5s ago
+</span></span><span class="line"><span class="cl">  Process: <span class="m">1903</span> <span class="nv">ExecStart</span><span class="o">=</span>/usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf <span class="o">(</span><span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>0/SUCCESS<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> Main PID: <span class="m">1904</span> <span class="o">(</span>vsftpd<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    Tasks: <span class="m">1</span>
+</span></span><span class="line"><span class="cl">   Memory: 576.0K
+</span></span><span class="line"><span class="cl">   CGroup: /system.slice/vsftpd.service
+</span></span><span class="line"><span class="cl">           └─1904 /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Jul <span class="m">07</span> 06:49:35 centos7 systemd<span class="o">[</span>1<span class="o">]</span>: Starting Vsftpd ftp daemon...
+</span></span><span class="line"><span class="cl">Jul <span class="m">07</span> 06:49:35 centos7 systemd<span class="o">[</span>1<span class="o">]</span>: Started Vsftpd ftp daemon.
+</span></span><span class="line"><span class="cl"><span class="c1"># 开机自动启动</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># systemctl enable vsftpd</span>
+</span></span><span class="line"><span class="cl">Created symlink from /etc/systemd/system/multi-user.target.wants/vsftpd.service to /usr/lib/systemd/system/vsftpd.service.
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看是否有监听端口</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@centos7 ~<span class="o">]</span><span class="c1"># ss -naltp | grep vsftpd</span>
+</span></span><span class="line"><span class="cl">LISTEN     <span class="m">0</span>      <span class="m">32</span>        <span class="o">[</span>::<span class="o">]</span>:21                    <span class="o">[</span>::<span class="o">]</span>:*                   users:<span class="o">((</span><span class="s2">&#34;vsftpd&#34;</span>,pid<span class="o">=</span>1904,fd<span class="o">=</span>4<span class="o">))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="报错处理" class="heading-element">
+  <a href="#%e6%8a%a5%e9%94%99%e5%a4%84%e7%90%86" class="heading-mark"></a>报错处理</h1><h2 id="500-oops" class="heading-element">
+  <a href="#500-oops" class="heading-mark"></a>500 OOPS</h2><ul>
+<li>错误信息</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="m">500</span> OOPS: vsftpd: refusing to run with writable root inside chroot <span class="o">()</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>解决方法</li>
+<li>错误原因：从2.3.5之后，vsftpd 增强了安全检查，如果用户被限定在了其家目录下，则该用户的家目录不能再具有写权限了！如果检查发现还有写权限，就会报该错误。</li>
+</ul>
+<h1 id="ftp-文件传输协议" class="heading-element">
+  <a href="#ftp-%e6%96%87%e4%bb%b6%e4%bc%a0%e8%be%93%e5%8d%8f%e8%ae%ae" class="heading-mark"></a>ftp 文件传输协议</h1><p>响应状态码：</p>
+<ul>
+<li>1**：信息</li>
+<li>2**：成功类</li>
+<li>3**：提示需要进一步提供补充信息</li>
+<li>4**：客户端错误</li>
+<li>5**：服务端错误</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-09-07 16:50:41">更新于 2022-09-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - 命令">命令</a><a href="/tags/vsftp-%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - vsftp 命令">vsftp 命令</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linux-%E6%96%87%E4%BB%B6%E6%9F%A5%E6%89%BE/" class="post-nav-item" rel="prev" title="linux 文件查找"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>linux 文件查找</a>
+      <a href="/nfs/" class="post-nav-item" rel="next" title="nfs">nfs<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

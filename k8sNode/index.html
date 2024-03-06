@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s 节点 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="k8s 节点管理" /><meta name="keywords" content='k8s, k8s 节点' /><meta itemprop="name" content="k8s 节点">
+<meta itemprop="description" content="k8s 节点管理"><meta itemprop="datePublished" content="2022-07-24T14:27:01+08:00" />
+<meta itemprop="dateModified" content="2023-06-14T22:06:21+08:00" />
+<meta itemprop="wordCount" content="4873">
+<meta itemprop="keywords" content="k8s,k8s 节点," /><meta property="og:title" content="k8s 节点" />
+<meta property="og:description" content="k8s 节点管理" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8sNode/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-24T14:27:01+08:00" />
+<meta property="article:modified_time" content="2023-06-14T22:06:21+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s 节点"/>
+<meta name="twitter:description" content="k8s 节点管理"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8sNode/" /><link rel="prev" href="/k8s%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" /><link rel="next" href="/k8s%E9%9B%86%E7%BE%A4%E4%B8%8EAPI%E6%9C%8D%E5%8A%A1%E9%80%9A%E4%BF%A1/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s 节点",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8sNode\/"
+    },"genre": "posts","keywords": "k8s, k8s 节点","wordcount":  4873 ,
+    "url": "\/k8sNode\/","datePublished": "2022-07-24T14:27:01+08:00","dateModified": "2023-06-14T22:06:21+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s 节点</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-24 14:27:01"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-24">2022-07-24</time></span>&nbsp;<span title="更新于 2023-06-14 22:06:21"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-06-14">2023-06-14</time></span>&nbsp;<span title="4873 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#节点node">节点（node）</a></li>
+    <li><a href="#节点管理">节点管理</a>
+      <ul>
+        <li><a href="#节点名称唯一性">节点名称唯一性</a></li>
+        <li><a href="#节点自注册">节点自注册</a></li>
+        <li><a href="#手动节点管理">手动节点管理</a></li>
+      </ul>
+    </li>
+    <li><a href="#节点状态">节点状态</a>
+      <ul>
+        <li><a href="#addresses部分">Addresses部分</a></li>
+        <li><a href="#conditions部分">conditions部分</a></li>
+        <li><a href="#容量capacity与可分配allocatable部分">容量（Capacity）与可分配（Allocatable）部分</a></li>
+        <li><a href="#系统信息">系统信息</a></li>
+      </ul>
+    </li>
+    <li><a href="#心跳检测">心跳检测</a></li>
+    <li><a href="#节点控制器">节点控制器</a>
+      <ul>
+        <li><a href="#逐出速率限制">逐出速率限制</a></li>
+        <li><a href="#资源容量跟踪">资源容量跟踪</a></li>
+      </ul>
+    </li>
+    <li><a href="#优雅关闭节点">优雅关闭节点</a>
+      <ul>
+        <li><a href="#节点非体面关闭">节点非体面关闭</a></li>
+      </ul>
+    </li>
+    <li><a href="#交换分区管理">交换分区管理</a></li>
+    <li><a href="#添加节点">添加节点</a>
+      <ul>
+        <li><a href="#kubeadm-添加工作节点">kubeadm 添加工作节点</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/architecture/nodes/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：节点</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/cluster-resources/node-v1/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：node</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/cluster-resources/lease-v1/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：lease</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/safely-drain-node/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档：安全地清空一个节点</a></li>
+</ul>
+</blockquote>
+<h1 id="节点node" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9node" class="heading-mark"></a>节点（node）</h1><p><code>Kubernetes</code> 通过将容器放入在节点（<code>Node</code>）上运行的 <code>Pod</code> 中来执行你的工作负载。 节点可以是一个虚拟机或者物理机器，取决于所在的集群配置。 每个节点包含运行 <code>Pods</code> 所需的服务； 这些节点由 控制平面 负责管理。</p>
+<p>节点上的组件包括：</p>
+<ul>
+<li><code>kubelet</code></li>
+<li>容器管理工具</li>
+<li><code>kube-proxy</code></li>
+</ul>
+<h1 id="节点管理" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e7%ae%a1%e7%90%86" class="heading-mark"></a>节点管理</h1><p>向 API 服务器添加节点的方式主要有两种：</p>
+<ul>
+<li><code>kubeelet</code>向控制平面执行自注册</li>
+<li>手动添加 <code>node</code> 对象</li>
+</ul>
+<p>手动添加节点</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;Node&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;v1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;10.240.79.157&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;labels&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;my-first-k8s-node&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Kubernetes</code> 会在内部创建一个 <code>Node</code> 对象作为节点的表示。<code>Kubernetes</code> 检查 <code>kubelet</code> 向 <code>API</code> 服务器注册节点时使用的 <code>metadata.name</code> 字段是否匹配。 如果节点是健康的（即所有必要的服务都在运行中），则该节点可以用来运行 <code>Pod</code>。 否则，直到该节点变为健康之前，所有的集群活动都会忽略该节点。<code>Kubernetes</code> 会一直保存着非法节点对应的对象，并持续检查该节点是否已经变得健康。 或控制器必须显式地删除该 <code>Node</code> 对象以停止健康检查操作。</p>
+<h2 id="节点名称唯一性" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e5%90%8d%e7%a7%b0%e5%94%af%e4%b8%80%e6%80%a7" class="heading-mark"></a>节点名称唯一性</h2><p>Node 对象的名称必须是合法的 DNS 子域名。节点的名称用来标识 Node 对象，具有唯一性
+。 <code>Kubernetes</code> 还假定名字相同的资源是同一个对象。 就 <code>Node</code> 而言，隐式假定使用相同名称的实例会具有相同的状态（例如网络配置、根磁盘内容） 和类似节点标签这类属性。这可能在节点被更改但其名称未变时导致系统状态不一致。 如果某个 <code>Node</code> 需要被替换或者大量变更，需要从 <code>API</code> 服务器移除现有的 <code>Node</code> 对象， 之后再在更新之后重新将其加入。</p>
+<h2 id="节点自注册" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e8%87%aa%e6%b3%a8%e5%86%8c" class="heading-mark"></a>节点自注册</h2><p>当 <code>kubelet</code> 标志 <code>--register-node</code> 为 <code>true</code>（默认）时，它会尝试向 API 服务注册自己。。会使用下列参数启动：</p>
+<ul>
+<li><code>--kubeconfig</code>:  用于向 API 服务器执行身份认证所用的凭据的路径</li>
+<li><code>--cloud-provider</code>: 与某云驱动 进行通信以读取与自身相关的元数据的方式</li>
+<li><code>--register-node</code>:  自动向 API 服务注册</li>
+<li><code>--register-with-taints</code>: 使用所给的污点列表</li>
+<li><code>--node-ip</code>:  节点 IP 地址</li>
+<li><code>--node-labels</code>: 在集群中注册节点时要添加的标签</li>
+<li><code>--node-status-update-frequency</code>: 指定 kubelet 向控制面发送状态的频率</li>
+</ul>
+<p>启用<code>Node</code> 鉴权模式和 <code>NodeRestriction</code> 准入插件时， 仅授权 <code>kubelet</code> 创建或修改其自己的节点资源。</p>
+<h2 id="手动节点管理" class="heading-element">
+  <a href="#%e6%89%8b%e5%8a%a8%e8%8a%82%e7%82%b9%e7%ae%a1%e7%90%86" class="heading-mark"></a>手动节点管理</h2><p>你可以使用 <code>kubectl</code> 来创建和修改 <code>Node</code> 对象。被 <code>DaemonSet</code> 控制器创建的 <code>Pod</code> 能够容忍节点的不可调度属性。 <code>DaemonSet</code> 通常提供节点本地的服务，即使节点上的负载应用已经被腾空， 这些服务也仍需运行在节点之上。</p>
+<h1 id="节点状态" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e7%8a%b6%e6%80%81" class="heading-mark"></a>节点状态</h1><p>使用以下方式查看节点信息</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl describe node &lt;节点名称&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="addresses部分" class="heading-element">
+  <a href="#addresses%e9%83%a8%e5%88%86" class="heading-mark"></a>Addresses部分</h2><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl describe node node1</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Addresses:
+</span></span><span class="line"><span class="cl">  InternalIP:  192.168.64.132
+</span></span><span class="line"><span class="cl">  Hostname:    node1.localdomain
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Addresses</code>部分取决于你的云服务商或者物理机配置：</p>
+<ul>
+<li><code>HostName</code>: 由节点的内核报告。可以通过 <code>kubelet --hostname-override</code> 参数覆盖</li>
+<li><code>InternalIP</code>: 通常是节点的仅可在集群内部路由的 <code>IP</code> 地址</li>
+<li><code>ExternalIP</code>: 通常是节点的可外部路由（从集群外可访问）的 <code>IP</code> 地址</li>
+</ul>
+<h2 id="conditions部分" class="heading-element">
+  <a href="#conditions%e9%83%a8%e5%88%86" class="heading-mark"></a>conditions部分</h2><div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl describe node node1</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Conditions:
+</span></span><span class="line"><span class="cl">  Type                 Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+</span></span><span class="line"><span class="cl">  ----                 ------  -----------------                 ------------------                ------                       -------
+</span></span><span class="line"><span class="cl">  NetworkUnavailable   False   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 12:28:52 +0800   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 12:28:52 +0800   CalicoIsUp                   Calico is running on this node
+</span></span><span class="line"><span class="cl">  MemoryPressure       False   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 14:50:48 +0800   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 05:28:45 +0800   KubeletHasSufficientMemory   kubelet has sufficient memory available
+</span></span><span class="line"><span class="cl">  DiskPressure         False   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 14:50:48 +0800   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 05:28:45 +0800   KubeletHasNoDiskPressure     kubelet has no disk pressure
+</span></span><span class="line"><span class="cl">  PIDPressure          False   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 14:50:48 +0800   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 05:28:45 +0800   KubeletHasSufficientPID      kubelet has sufficient PID available
+</span></span><span class="line"><span class="cl">  Ready                True    Sun, <span class="m">24</span> Jul <span class="m">2022</span> 14:50:48 +0800   Sun, <span class="m">24</span> Jul <span class="m">2022</span> 05:33:03 +0800   KubeletReady                 kubelet is posting ready status
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>conditions</code>字段描述了所有运行节点的状况。状况的示例包括：</p>
+<ul>
+<li><code>Ready</code>: 有以下值：
+<ul>
+<li><code>True</code>: 节点是健康的并已经准备好接收<code>Pod</code></li>
+<li><code>False</code>:  表示节点不健康而且不能接收<code>Pod</code></li>
+<li><code>Unknown</code>: 超时状态，节点控制器在最近<code>node-monitor-grace-period</code>期间
+（默认 40 秒）没有收到节点的消息。</li>
+</ul>
+</li>
+<li><code>DiskPressure</code>: 磁盘可用量低是否过低</li>
+<li><code>MemoryPressure</code>: 内存内存可用量过低</li>
+<li><code>PIDPressure</code>: 节点上进程是否过多</li>
+<li><code>NetworkUnavailabl</code>: 网络配置是否不正确(<code>True</code>表示不正确)</li>
+<li><code>SchedulingDisabled</code>: 不可被调度</li>
+</ul>
+<h2 id="容量capacity与可分配allocatable部分" class="heading-element">
+  <a href="#%e5%ae%b9%e9%87%8fcapacity%e4%b8%8e%e5%8f%af%e5%88%86%e9%85%8dallocatable%e9%83%a8%e5%88%86" class="heading-mark"></a>容量（Capacity）与可分配（Allocatable）部分</h2><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl describe node node1</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Capacity:
+</span></span><span class="line"><span class="cl">  cpu:                <span class="m">4</span>
+</span></span><span class="line"><span class="cl">  ephemeral-storage:  17394Mi
+</span></span><span class="line"><span class="cl">  hugepages-1Gi:      <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  hugepages-2Mi:      <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  memory:             3798864Ki
+</span></span><span class="line"><span class="cl">  pods:               <span class="m">110</span>
+</span></span><span class="line"><span class="cl">Allocatable:
+</span></span><span class="line"><span class="cl">  cpu:                <span class="m">4</span>
+</span></span><span class="line"><span class="cl">  ephemeral-storage:  <span class="m">16415037823</span>
+</span></span><span class="line"><span class="cl">  hugepages-1Gi:      <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  hugepages-2Mi:      <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  memory:             3696464Ki
+</span></span><span class="line"><span class="cl">  pods:               <span class="m">110</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>capacity 块中的字段标示节点拥有的资源总量。</li>
+<li>allocatable 块指示节点上可供普通 Pod 消耗的资源量。</li>
+</ul>
+<h2 id="系统信息" class="heading-element">
+  <a href="#%e7%b3%bb%e7%bb%9f%e4%bf%a1%e6%81%af" class="heading-mark"></a>系统信息</h2><div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl describe node node1</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">System Info:
+</span></span><span class="line"><span class="cl">  Machine ID:                 1604675af82446cdad4ea11adbae9b50
+</span></span><span class="line"><span class="cl">  System UUID:                d5064d56-792f-fe2e-666e-a2d1c4a140a1
+</span></span><span class="line"><span class="cl">  Boot ID:                    1a0f8bf1-b82c-454d-a804-1eb9b242da34
+</span></span><span class="line"><span class="cl">  Kernel Version:             4.18.0-348.el8.0.2.x86_64
+</span></span><span class="line"><span class="cl">  OS Image:                   Rocky Linux 8.5 <span class="o">(</span>Green Obsidian<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Operating System:           linux
+</span></span><span class="line"><span class="cl">  Architecture:               amd64
+</span></span><span class="line"><span class="cl">  Container Runtime Version:  containerd://1.6.2
+</span></span><span class="line"><span class="cl">  Kubelet Version:            v1.24.3
+</span></span><span class="line"><span class="cl">  Kube-Proxy Version:         v1.24.3
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Info</code> 指的是节点的一般信息，如内核版本、<code>Kubernetes</code> 版本等</p>
+<h1 id="心跳检测" class="heading-element">
+  <a href="#%e5%bf%83%e8%b7%b3%e6%a3%80%e6%b5%8b" class="heading-mark"></a>心跳检测</h1><p><code>Kubernetes</code> 节点发送的心跳帮助你的集群确定每个节点的可用性，并在检测到故障时采取行动。对于节点，有两种形式的心跳:</p>
+<ul>
+<li>更新节点的 <code>.status</code></li>
+<li><code>kube-node-lease</code>名称空间中的<code>Lease</code>对象。
+使用<code>Lease</code>来表达心跳在大型集群中可以减少这些更新对性能的影响</li>
+</ul>
+<p><code>kubelet</code> 负责创建和更新节点的 <code>.status</code>，以及更新它们对应的 <code>Lease</code></p>
+<ul>
+<li>当节点状态发生变化时，或者在配置的时间间隔内没有更新事件时，<code>kubelet</code> 会更新 <code>.status</code>。 更新的默认间隔为 5 分钟（比节点不可达事件的 40 秒默认超时时间长很多）</li>
+<li>kubelet 会创建并每 10 秒（默认更新间隔时间）更新 Lease 对象。 Lease 的更新独立于 Node 的 .status 更新而发生。 如果 Lease 的更新操作失败，kubelet 会采用指数回退机制，从 200 毫秒开始重试， 最长重试间隔为 7 秒钟。</li>
+</ul>
+<h1 id="节点控制器" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e6%8e%a7%e5%88%b6%e5%99%a8" class="heading-mark"></a>节点控制器</h1><p>节点控制器在节点的生命周期中扮演多个角色，管理节点的方方面面。</p>
+<ul>
+<li>当节点注册时为它分配一个 CIDR 区段（如果启用了 CIDR 分配）</li>
+<li>保持节点控制器内的节点列表与云服务商所提供的可用机器列表同步。 如果在云环境下运行，只要某节点不健康，节点控制器就会询问云服务是否节点的虚拟机仍可用。 如果不可用，节点控制器会将该节点从它的节点列表删除。</li>
+<li>监控节点的健康状况。节点控制器负责：
+<ol>
+<li>在节点不可达的情况下，在 Node 的 .status 中更新 Ready 状况。 在这种情况下，节点控制器将 NodeReady 状况更新为 Unknown</li>
+<li>如果节点仍然无法访问：对于不可达节点上的所有 Pod 触发 API 发起的逐出操作。 默认情况下，节点控制器在将节点标记为 Unknown 后等待 5 分钟提交第一个驱逐请求。</li>
+</ol>
+</li>
+</ul>
+<p>默认情况下，节点控制器每 5 秒检查一次节点状态，可以使用 <code> kube-controller-manager</code> 组件上的 <code>--node-monitor-period</code> 参数来配置周期。</p>
+<h2 id="逐出速率限制" class="heading-element">
+  <a href="#%e9%80%90%e5%87%ba%e9%80%9f%e7%8e%87%e9%99%90%e5%88%b6" class="heading-mark"></a>逐出速率限制</h2><p>大部分情况下，节点控制器把逐出速率限制在每秒 &ndash;node-eviction-rate 个（默认为 0.1）。 这表示它每 10 秒钟内至多从一个节点驱逐 Pod。</p>
+<p>当一个可用区域（Availability Zone）中的节点变为不健康时，节点的驱逐行为将发生改变。 节点控制器会同时检查可用区域中不健康（Ready 状况为 Unknown 或 False） 的节点的百分比：</p>
+<p>如果不健康节点的比例超过 &ndash;unhealthy-zone-threshold （默认为 0.55）， 驱逐速率将会降低。
+如果集群较小（意即小于等于 &ndash;large-cluster-size-threshold 个节点 - 默认为 50）， 驱逐操作将会停止。
+否则驱逐速率将降为每秒 &ndash;secondary-node-eviction-rate 个（默认为 0.01）。
+在逐个可用区域中实施这些策略的原因是， 当一个可用区域可能从控制面脱离时其它可用区域可能仍然保持连接。 如果你的集群没有跨越云服务商的多个可用区域，那（整个集群）就只有一个可用区域。</p>
+<p>跨多个可用区域部署你的节点的一个关键原因是当某个可用区域整体出现故障时， 工作负载可以转移到健康的可用区域。 因此，如果一个可用区域中的所有节点都不健康时，节点控制器会以正常的速率 &ndash;node-eviction-rate 进行驱逐操作。 在所有的可用区域都不健康（也即集群中没有健康节点）的极端情况下， 节点控制器将假设控制面与节点间的连接出了某些问题，它将停止所有驱逐动作 （如果故障后部分节点重新连接，节点控制器会从剩下不健康或者不可达节点中驱逐 Pod）。</p>
+<p>节点控制器还负责驱逐运行在拥有 NoExecute 污点的节点上的 Pod， 除非这些 Pod 能够容忍此污点。 节点控制器还负责根据节点故障（例如节点不可访问或没有就绪） 为其添加污点。 这意味着调度器不会将 Pod 调度到不健康的节点上。</p>
+<h2 id="资源容量跟踪" class="heading-element">
+  <a href="#%e8%b5%84%e6%ba%90%e5%ae%b9%e9%87%8f%e8%b7%9f%e8%b8%aa" class="heading-mark"></a>资源容量跟踪</h2><p>Node 对象会跟踪节点上资源的容量（例如可用内存和 CPU 数量）。 通过自注册机制生成的 Node 对象会在注册期间报告自身容量。 如果你手动添加了 Node， 你就需要在添加节点时手动设置节点容量。</p>
+<p>Kubernetes 调度器 保证节点上有足够的资源供其上的所有 Pod 使用。 它会检查节点上所有容器的请求的总和不会超过节点的容量。 总的请求包括由 kubelet 启动的所有容器，但不包括由容器运行时直接启动的容器， 也不包括不受 kubelet 控制的其他进程。</p>
+<h1 id="优雅关闭节点" class="heading-element">
+  <a href="#%e4%bc%98%e9%9b%85%e5%85%b3%e9%97%ad%e8%8a%82%e7%82%b9" class="heading-mark"></a>优雅关闭节点</h1><p>特性状态： Kubernetes v1.21 [beta]</p>
+<ul>
+<li>kubelet 会尝试检测节点系统关闭事件并终止在节点上运行的 Pods。</li>
+<li>在节点终止期间，kubelet 保证 Pod 遵从常规的 Pod 终止流程。</li>
+<li>优雅关闭节点特性依赖于 systemd，因为它要利用 systemd 抑制器锁机制， 在给定的期限内延迟节点关闭。</li>
+</ul>
+<p>默认情况下，下面描述的两个配置选项，shutdownGracePeriod 和 shutdownGracePeriodCriticalPods 都是被设置为 0 的，因此不会激活节点体面关闭功能。 要激活此功能特性，这两个 kubelet 配置选项要适当配置，并设置为非零值。</p>
+<p>在体面关闭节点过程中，kubelet 分两个阶段来终止 Pod：</p>
+<ol>
+<li>终止在节点上运行的常规 Pod。</li>
+<li>终止在节点上运行的关键 Pod。</li>
+</ol>
+<p>节点体面关闭的特性对应两个 KubeletConfiguration 选项：</p>
+<ul>
+<li>shutdownGracePeriod：指定节点应延迟关闭的总持续时间。此时间是 Pod 体面终止的时间总和，不区分常规 Pod 还是关键 Pod。</li>
+<li>shutdownGracePeriodCriticalPods：在节点关闭期间指定用于终止关键 Pod 的持续时间。该值应小于 shutdownGracePeriod。</li>
+</ul>
+<p>例如，如果设置了 shutdownGracePeriod=30s 和 shutdownGracePeriodCriticalPods=10s， 则 kubelet 将延迟 30 秒关闭节点。 在关闭期间，将保留前 20（30 - 10）秒用于体面终止常规 Pod， 而保留最后 10 秒用于终止关键 Pod。</p>
+<p>当 Pod 在正常节点关闭期间被驱逐时，它们会被标记为已经失败（Failed）。 运行 kubectl get pods 时，被驱逐的 Pod 的状态显示为 Shutdown。 并且 kubectl describe pod 表示 Pod 因节点关闭而被驱</p>
+<h2 id="节点非体面关闭" class="heading-element">
+  <a href="#%e8%8a%82%e7%82%b9%e9%9d%9e%e4%bd%93%e9%9d%a2%e5%85%b3%e9%97%ad" class="heading-mark"></a>节点非体面关闭</h2><p>特性状态： Kubernetes v1.24 [alpha]</p>
+<p>当 Pod 在正常节点关闭期间被驱逐时，它们会被标记为已经失败（Failed）。 运行 kubectl get pods 时，被驱逐的 Pod 的状态显示为 Shutdown。 并且 kubectl describe pod 表示 Pod 因节点关闭而被驱</p>
+<p>当某节点关闭但 kubelet 的节点关闭管理器未检测到这一事件时， 在那个已关闭节点上、属于 StatefulSet 的 Pod 将停滞于终止状态，并且不能移动到新的运行节点上。 这是因为已关闭节点上的 kubelet 已不存在，亦无法删除 Pod， 因此 StatefulSet 无法创建同名的新 Pod。 如果 Pod 使用了卷，则 VolumeAttachments 不会从原来的已关闭节点上删除， 因此这些 Pod 所使用的卷也无法挂接到新的运行节点上。 所以，那些以 StatefulSet 形式运行的应用无法正常工作。 如果原来的已关闭节点被恢复，kubelet 将删除 Pod，新的 Pod 将被在不同的运行节点上创建。 如果原来的已关闭节点没有被恢复，那些在已关闭节点上的 Pod 将永远滞留在终止状态。</p>
+<p>为了缓解上述情况，用户可以手动将具有 NoExecute 或 NoSchedule 效果的 node kubernetes.io/out-of-service 污点添加到节点上，标记其无法提供服务。 如果在 kube-controller-manager 上启用了 NodeOutOfServiceVolumeDetach 特性门控， 并且节点被通过污点标记为无法提供服务，如果节点 Pod 上没有设置对应的容忍度， 那么这样的 Pod 将被强制删除，并且该在节点上被终止的 Pod 将立即进行卷分离操作。 这样就允许那些在无法提供服务节点上的 Pod 能在其他节点上快速恢复。</p>
+<p>在非体面关闭期间，Pod 分两个阶段终止：</p>
+<ul>
+<li>强制删除没有匹配的 out-of-service 容忍度的 Pod。</li>
+<li>立即对此类 Pod 执行分离卷操作。</li>
+</ul>
+<p>在添加 node.kubernetes.io/out-of-service 污点之前，应该验证节点已经处于关闭或断电状态（而不是在重新启动中）。</p>
+<p>将 Pod 移动到新节点后，用户需要手动移除停止服务的污点，并且用户要检查关闭节点是否已恢复，因为该用户是最初添加污点的用户。</p>
+<h1 id="交换分区管理" class="heading-element">
+  <a href="#%e4%ba%a4%e6%8d%a2%e5%88%86%e5%8c%ba%e7%ae%a1%e7%90%86" class="heading-mark"></a>交换分区管理</h1><p>特性状态： Kubernetes v1.22 [alpha]</p>
+<p>在 Kubernetes 1.22 之前，节点不支持使用交换内存，并且默认情况下， 如果在节点上检测到交换内存配置，kubelet 将无法启动。 在 1.22 以后，可以逐个节点地启用交换内存支持。</p>
+<p>要在节点上启用交换内存，必须启用kubelet 的 NodeSwap 特性门控， 同时使用 &ndash;fail-swap-on 命令行参数或者将 failSwapOn 配置设置为 false。用户还可以选择配置 memorySwap.swapBehavior 以指定节点使用交换内存的方式。例如:</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">memorySwap:
+</span></span><span class="line"><span class="cl">  swapBehavior: LimitedSwap</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可用的 swapBehavior 的配置选项有：</p>
+<ul>
+<li>LimitedSwap：Kubernetes 工作负载的交换内存会受限制。 不受 Kubernetes 管理的节点上的工作负载仍然可以交换。</li>
+<li>UnlimitedSwap：Kubernetes 工作负载可以使用尽可能多的交换内存请求， 一直到达到系统限制为止。</li>
+</ul>
+<p>LimitedSwap 这种设置的行为取决于节点运行的是 v1 还是 v2 的控制组（也就是 cgroups）：</p>
+<ul>
+<li>cgroupsv1: Kubernetes 工作负载可以使用内存和交换，上限为 Pod 的内存限制值（如果设置了的话）。</li>
+<li>cgroupsv2: Kubernetes 工作负载不能使用交换内存。</li>
+</ul>
+<h1 id="添加节点" class="heading-element">
+  <a href="#%e6%b7%bb%e5%8a%a0%e8%8a%82%e7%82%b9" class="heading-mark"></a>添加节点</h1><h2 id="kubeadm-添加工作节点" class="heading-element">
+  <a href="#kubeadm-%e6%b7%bb%e5%8a%a0%e5%b7%a5%e4%bd%9c%e8%8a%82%e7%82%b9" class="heading-mark"></a>kubeadm 添加工作节点</h2><ol>
+<li>主节点创建 <code>token</code>，默认<code>24</code>小时有效
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node03 ~<span class="o">]</span><span class="c1"># kubeadm token create --print-join-command</span>
+</span></span><span class="line"><span class="cl">kubeadm join 192.168.232.100:6443 --token 5sr666.3e5w3mvhp59rf5sc --discovery-token-ca-cert-hash sha256:0f71490a08826bd7ccc1cb68fce0ff2e3df31eb6fe8787251692cbc849645d12</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>工作节点（已初始化）执行上面生成的 <code>kubeadm join</code> 命令
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node04 ~<span class="o">]</span><span class="c1"># kubeadm join 192.168.232.100:6443 --token 5sr666.3e5w3mvhp59rf5sc --discovery-token-ca-cert-hash sha256:0f71490a08826bd7ccc1cb68fce0ff2e3df31eb6fe8787251692cbc849645d12</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-06-14 22:06:21">更新于 2023-06-14&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s-%E8%8A%82%E7%82%B9/" class="post-tag" title="标签 - k8s 节点">k8s 节点</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8s%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" class="post-nav-item" rel="prev" title="k8s中的对象"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s中的对象</a>
+      <a href="/k8s%E9%9B%86%E7%BE%A4%E4%B8%8EAPI%E6%9C%8D%E5%8A%A1%E9%80%9A%E4%BF%A1/" class="post-nav-item" rel="next" title="k8s集群与API服务通信">k8s集群与API服务通信<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

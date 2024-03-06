@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>eksctl - 标签 - 小厮</title>
+    <link>/tags/eksctl/</link>
+    <description>eksctl - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 15 Jun 2023 15:47:36 &#43;0800</lastBuildDate><atom:link href="/tags/eksctl/" rel="self" type="application/rss+xml" /><item>
+  <title>eksctl</title>
+  <link>/awsEksctl/</link>
+  <pubDate>Thu, 15 Jun 2023 15:47:36 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/awsEksctl/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

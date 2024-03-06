@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>使用sealos搭建k8s集群 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="sealos 是以 kubernetes 为内核的云操作系统发行版" /><meta name="keywords" content='k8s, 搭建k8s集群' /><meta itemprop="name" content="使用sealos搭建k8s集群">
+<meta itemprop="description" content="sealos 是以 kubernetes 为内核的云操作系统发行版"><meta itemprop="datePublished" content="2022-07-24T07:34:42+08:00" />
+<meta itemprop="dateModified" content="2022-07-24T18:26:35+08:00" />
+<meta itemprop="wordCount" content="929">
+<meta itemprop="keywords" content="k8s,搭建k8s集群," /><meta property="og:title" content="使用sealos搭建k8s集群" />
+<meta property="og:description" content="sealos 是以 kubernetes 为内核的云操作系统发行版" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-24T07:34:42+08:00" />
+<meta property="article:modified_time" content="2022-07-24T18:26:35+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用sealos搭建k8s集群"/>
+<meta name="twitter:description" content="sealos 是以 kubernetes 为内核的云操作系统发行版"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" /><link rel="prev" href="/kubeadmCreateK8sCluster/" /><link rel="next" href="/k8s%E6%A6%82%E8%BF%B0/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "使用sealos搭建k8s集群",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4\/"
+    },"genre": "posts","keywords": "k8s, 搭建k8s集群","wordcount":  929 ,
+    "url": "\/%E4%BD%BF%E7%94%A8sealos%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4\/","datePublished": "2022-07-24T07:34:42+08:00","dateModified": "2022-07-24T18:26:35+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>使用sealos搭建k8s集群</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-24 07:34:42"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-24">2022-07-24</time></span>&nbsp;<span title="更新于 2022-07-24 18:26:35"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-24">2022-07-24</time></span>&nbsp;<span title="929 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本要求">基本要求</a></li>
+    <li><a href="#准备工作">准备工作</a></li>
+    <li><a href="#快速开始">快速开始</a></li>
+    <li><a href="#单主集群">单主集群</a></li>
+    <li><a href="#error">error</a>
+      <ul>
+        <li><a href="#succeeded-install-app-in-this-cluster-no-change-apps">succeeded install app in this cluster: no change apps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-07-24，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>rockylinux: 8.6</li>
+<li>kernel: 4.18</li>
+<li>sealos: 4.0.0</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.sealos.io/zh-Hans/docs/Intro#%e5%bf%ab%e9%80%9f%e5%bc%80%e5%a7%8b"target="_blank" rel="external nofollow noopener noreferrer">sealos</a></li>
+</ul>
+</blockquote>
+<h1 id="基本要求" class="heading-element">
+  <a href="#%e5%9f%ba%e6%9c%ac%e8%a6%81%e6%b1%82" class="heading-mark"></a>基本要求</h1><ul>
+<li>系统：Debian 或 Red Hat 发行版</li>
+<li>配置：至少2GB内存，至少 2核心</li>
+<li>数量：node节点至少1台，主节点1台。
+如果是高可用则至少需要3台主节点且主节点数量为奇数</li>
+</ul>
+<h1 id="准备工作" class="heading-element">
+  <a href="#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c" class="heading-mark"></a>准备工作</h1><ul>
+<li>每个节点IP地址唯一性</li>
+<li>每个节点网卡MAC地址唯一性</li>
+<li>每个节点主机名具有唯一性</li>
+<li>能解析主机名</li>
+<li>能连接网络</li>
+</ul>
+<h1 id="快速开始" class="heading-element">
+  <a href="#%e5%bf%ab%e9%80%9f%e5%bc%80%e5%a7%8b" class="heading-mark"></a>快速开始</h1><ul>
+<li>安装一个高可用的 <code>k8s</code> 集群，并用 <code>calico</code> 作为网络插件</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 可以从 https://github.com/labring/sealos/releases 下载</span>
+</span></span><span class="line"><span class="cl">$ wget -c https://sealyun-home.oss-cn-beijing.aliyuncs.com/sealos-4.0/latest/sealos-amd64 -O sealos 
+</span></span><span class="line"><span class="cl">$ chmod +x sealos
+</span></span><span class="line"><span class="cl">$ mv sealos /usr/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 镜像地址在 https://hub.docker.com/u/labring </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 可以修改版本</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 已使用 container 作为容器运行时</span>
+</span></span><span class="line"><span class="cl">$ sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--masters 192.168.64.2,192.168.64.22,192.168.64.20 <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>--nodes 192.168.64.21,192.168.64.19 -p <span class="o">[</span>your-ssh-passwd<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="单主集群" class="heading-element">
+  <a href="#%e5%8d%95%e4%b8%bb%e9%9b%86%e7%be%a4" class="heading-mark"></a>单主集群</h1><ol>
+<li>配置静态<code>ip</code>，所有机器都配置，不能冲突</li>
+</ol>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># cat /etc/sysconfig/network-scripts/ifcfg-ens160</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TYPE</span><span class="o">=</span>Ethernet
+</span></span><span class="line"><span class="cl"><span class="nv">PROXY_METHOD</span><span class="o">=</span>none
+</span></span><span class="line"><span class="cl"><span class="nv">BROWSER_ONLY</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">BOOTPROTO</span><span class="o">=</span>none
+</span></span><span class="line"><span class="cl"><span class="nv">DEFROUTE</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="nv">IPV4_FAILURE_FATAL</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6INIT</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6_AUTOCONF</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6_DEFROUTE</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="nv">IPV6_FAILURE_FATAL</span><span class="o">=</span>no
+</span></span><span class="line"><span class="cl"><span class="nv">NAME</span><span class="o">=</span>ens160
+</span></span><span class="line"><span class="cl"><span class="nv">DEVICE</span><span class="o">=</span>ens160
+</span></span><span class="line"><span class="cl"><span class="nv">ONBOOT</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">IPADDR</span><span class="o">=</span>192.168.64.112
+</span></span><span class="line"><span class="cl"><span class="nv">PREFIX</span><span class="o">=</span><span class="m">24</span>
+</span></span><span class="line"><span class="cl"><span class="nv">GATEWAY</span><span class="o">=</span>192.168.64.2
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># nmcli c reload ens160</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># nmcli c up ens160</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>修改主机名，所有机器都配置不能冲突</li>
+</ol>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># hostnamectl set-hostname k8s01.localdomain</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># bash</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># </span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>
+<p>密码统一</p>
+</li>
+<li>
+<p>使用 sealos 搭建 k8s 集群</p>
+</li>
+</ol>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># ll sealos_4.0.0_linux_amd64.tar.gz </span>
+</span></span><span class="line"><span class="cl">-rw-r--r--. <span class="m">1</span> root root <span class="m">23578164</span> Jul <span class="m">24</span> 18:02 sealos_4.0.0_linux_amd64.tar.gz
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># tar -zxf sealos_4.0.0_linux_amd64.tar.gz </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># ll se*</span>
+</span></span><span class="line"><span class="cl">-rwxr-xr-x. <span class="m">1</span> root root  <span class="m">9068984</span> Jun <span class="m">30</span> 22:27 sealctl
+</span></span><span class="line"><span class="cl">-rwxr-xr-x. <span class="m">1</span> root root <span class="m">15679688</span> Jun <span class="m">30</span> 22:27 sealos
+</span></span><span class="line"><span class="cl">-rw-r--r--. <span class="m">1</span> root root <span class="m">23578164</span> Jul <span class="m">24</span> 18:02 sealos_4.0.0_linux_amd64.tar.gz
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># mv sealos /usr/bin/</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># mv sealctl /usr/bin/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># sealos run labring/kubernetes:v1.24.3 labring/calico:v3.22.1 --masters 192.168.64.111 --nodes 192.168.64.112 -p &#34; &#34;</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:17:31 <span class="o">[</span>INFO<span class="o">]</span> Start to create a new cluster: master <span class="o">[</span>192.168.64.111<span class="o">]</span>, worker <span class="o">[</span>192.168.64.112<span class="o">]</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:17:31 <span class="o">[</span>INFO<span class="o">]</span> Executing pipeline Check in CreateProcessor.
+</span></span><span class="line"><span class="cl">2022-07-24 18:17:31 <span class="o">[</span>INFO<span class="o">]</span> checker:hostname <span class="o">[</span>192.168.64.111:22 192.168.64.112:22<span class="o">]</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:17:32 <span class="o">[</span>INFO<span class="o">]</span> checker:timeSync <span class="o">[</span>192.168.64.111:22 192.168.64.112:22<span class="o">]</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:17:32 <span class="o">[</span>INFO<span class="o">]</span> Executing pipeline PreProcess in CreateProcessor.
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2022-07-24 18:23:44 <span class="o">[</span>INFO<span class="o">]</span> guest cmd is kubectl apply -f manifests/calico.yaml
+</span></span><span class="line"><span class="cl">installation.operator.tigera.io/default created
+</span></span><span class="line"><span class="cl">2022-07-24 18:23:46 <span class="o">[</span>INFO<span class="o">]</span> succeeded in creating a new cluster, enjoy it!
+</span></span><span class="line"><span class="cl">2022-07-24 18:23:46 <span class="o">[</span>INFO<span class="o">]</span> 
+</span></span><span class="line"><span class="cl">      ___           ___           ___           ___       ___           ___
+</span></span><span class="line"><span class="cl">     /<span class="se">\ </span> <span class="se">\ </span>        /<span class="se">\ </span> <span class="se">\ </span>        /<span class="se">\ </span> <span class="se">\ </span>        /<span class="se">\_</span>_<span class="se">\ </span>    /<span class="se">\ </span> <span class="se">\ </span>        /<span class="se">\ </span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    /::<span class="se">\ </span> <span class="se">\ </span>      /::<span class="se">\ </span> <span class="se">\ </span>      /::<span class="se">\ </span> <span class="se">\ </span>      /:/  /    /::<span class="se">\ </span> <span class="se">\ </span>      /::<span class="se">\ </span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   /:/<span class="se">\ \ </span> <span class="se">\ </span>    /:/<span class="se">\:\ </span> <span class="se">\ </span>    /:/<span class="se">\:\ </span> <span class="se">\ </span>    /:/  /    /:/<span class="se">\:\ </span> <span class="se">\ </span>    /:/<span class="se">\ \ </span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  _<span class="se">\:\~\ \ </span> <span class="se">\ </span>  /::<span class="se">\~\:\ </span> <span class="se">\ </span>  /::<span class="se">\~\:\ </span> <span class="se">\ </span>  /:/  /    /:/  <span class="se">\:\ </span> <span class="se">\ </span>  _<span class="se">\:\~\ \ </span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> /<span class="se">\ \:\ \ \_</span>_<span class="se">\ </span>/:/<span class="se">\:\ \:\_</span>_<span class="se">\ </span>/:/<span class="se">\:\ \:\_</span>_<span class="se">\ </span>/:/__/    /:/__/ <span class="se">\:\_</span>_<span class="se">\ </span>/<span class="se">\ \:\ \ \_</span>_<span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> <span class="se">\:\ \:\ \/</span>__/ <span class="se">\:\~\:\ \/</span>__/ <span class="se">\/</span>__<span class="se">\:\/</span>:/  / <span class="se">\:\ </span> <span class="se">\ </span>   <span class="se">\:\ </span> <span class="se">\ </span>/:/  / <span class="se">\:\ \:\ \/</span>__/
+</span></span><span class="line"><span class="cl">  <span class="se">\:\ \:\_</span>_<span class="se">\ </span>   <span class="se">\:\ \:\_</span>_<span class="se">\ </span>       <span class="se">\:</span>:/  /   <span class="se">\:\ </span> <span class="se">\ </span>   <span class="se">\:\ </span> /:/  /   <span class="se">\:\ \:\_</span>_<span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>   <span class="se">\:\/</span>:/  /     <span class="se">\:\ \/</span>__/        /:/  /     <span class="se">\:\ </span> <span class="se">\ </span>   <span class="se">\:\/</span>:/  /     <span class="se">\:\/</span>:/  /
+</span></span><span class="line"><span class="cl">    <span class="se">\:</span>:/  /       <span class="se">\:\_</span>_<span class="se">\ </span>        /:/  /       <span class="se">\:\_</span>_<span class="se">\ </span>   <span class="se">\:</span>:/  /       <span class="se">\:</span>:/  /
+</span></span><span class="line"><span class="cl">     <span class="se">\/</span>__/         <span class="se">\/</span>__/         <span class="se">\/</span>__/         <span class="se">\/</span>__/     <span class="se">\/</span>__/         <span class="se">\/</span>__/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                  Website :https://www.sealos.io/
+</span></span><span class="line"><span class="cl">                  Address :github.com/labring/sealos
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl  get nodes</span>
+</span></span><span class="line"><span class="cl">NAME                STATUS   ROLES           AGE     VERSION
+</span></span><span class="line"><span class="cl">k8s01.localdomain   Ready    control-plane   2m42s   v1.24.3
+</span></span><span class="line"><span class="cl">k8s02.localdomain   Ready    &lt;none&gt;          2m9s    v1.24.3</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="error" class="heading-element">
+  <a href="#error" class="heading-mark"></a>error</h1><h2 id="succeeded-install-app-in-this-cluster-no-change-apps" class="heading-element">
+  <a href="#succeeded-install-app-in-this-cluster-no-change-apps" class="heading-mark"></a>succeeded install app in this cluster: no change apps</h2><p>首次安装失败后无法安装</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># sealos run labring/kubernetes:v1.24.3 labring/calico:v3.22.1 \</span>
+</span></span><span class="line"><span class="cl">&gt; --masters 192.168.64.111 --nodes 192.168.64.112 -p <span class="s1">&#39; &#39;</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:05:09 <span class="o">[</span>INFO<span class="o">]</span> Start to create a new cluster: master <span class="o">[</span>192.168.64.111<span class="o">]</span>, worker <span class="o">[</span>192.168.64.112<span class="o">]</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:05:10 <span class="o">[</span>INFO<span class="o">]</span> Executing pipeline Check in CreateProcessor.
+</span></span><span class="line"><span class="cl">2022-07-24 18:05:10 <span class="o">[</span>INFO<span class="o">]</span> checker:hostname <span class="o">[</span>192.168.64.111:22 192.168.64.112:22<span class="o">]</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:05:10 <span class="o">[</span>INFO<span class="o">]</span> checker:timeSync <span class="o">[</span>192.168.64.111:22 192.168.64.112:22<span class="o">]</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:05:10 <span class="o">[</span>INFO<span class="o">]</span> Executing pipeline PreProcess in CreateProcessor.
+</span></span><span class="line"><span class="cl">Resolving <span class="s2">&#34;labring/kubernetes&#34;</span> using unqualified-search registries <span class="o">(</span>/etc/containers/registries.conf<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Trying to pull docker.io/labring/kubernetes:v1.24.3...
+</span></span><span class="line"><span class="cl">2022-07-24 18:05:10 <span class="o">[</span>EROR<span class="o">]</span> Applied to cluster error: initializing <span class="nb">source</span> docker://labring/kubernetes:v1.24.3: <span class="o">(</span>Mirrors also failed: <span class="o">[</span>registry.cn-qingdao.aliyuncs.com/labring/kubernetes:v1.24.3: pinging container registry registry.cn-qingdao.aliyuncs.com: Get <span class="s2">&#34;http://registry.cn-qingdao.aliyuncs.com/v2/&#34;</span>: dial tcp: lookup registry.cn-qingdao.aliyuncs.com on <span class="o">[</span>::1<span class="o">]</span>:53: <span class="nb">read</span> udp <span class="o">[</span>::1<span class="o">]</span>:59599-&gt;<span class="o">[</span>::1<span class="o">]</span>:53: read: connection refused<span class="o">])</span>: docker.io/labring/kubernetes:v1.24.3: pinging container registry registry-1.docker.io: Get <span class="s2">&#34;http://registry-1.docker.io/v2/&#34;</span>: dial tcp: lookup registry-1.docker.io on <span class="o">[</span>::1<span class="o">]</span>:53: <span class="nb">read</span> udp <span class="o">[</span>::1<span class="o">]</span>:35966-&gt;<span class="o">[</span>::1<span class="o">]</span>:53: read: connection refused
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># sealos run labring/kubernetes:v1.24.3 labring/calico:v3.22.1 --masters 192.168.64.111 --nodes 192.168.64.112 -p &#34; &#34;</span>
+</span></span><span class="line"><span class="cl">2022-07-24 18:11:17 <span class="o">[</span>INFO<span class="o">]</span> start to install app in this cluster
+</span></span><span class="line"><span class="cl">2022-07-24 18:11:17 <span class="o">[</span>INFO<span class="o">]</span> succeeded install app in this cluster: no change apps
+</span></span><span class="line"><span class="cl">2022-07-24 18:11:17 <span class="o">[</span>INFO<span class="o">]</span> start to scale this cluster
+</span></span><span class="line"><span class="cl">2022-07-24 18:11:17 <span class="o">[</span>INFO<span class="o">]</span> succeeded in scaling this cluster: no change nodes
+</span></span><span class="line"><span class="cl">2022-07-24 18:11:17 <span class="o">[</span>INFO<span class="o">]</span> </span></span></code></pre></td></tr></table>
+</div>
+</div><p>解决方法</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># rm -fr   .sealos</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-07-24 18:26:35">更新于 2022-07-24&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/%E6%90%AD%E5%BB%BAk8s%E9%9B%86%E7%BE%A4/" class="post-tag" title="标签 - 搭建k8s集群">搭建k8s集群</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/kubeadmCreateK8sCluster/" class="post-nav-item" rel="prev" title="使用kubeadm搭建k8s集群"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>使用kubeadm搭建k8s集群</a>
+      <a href="/k8s%E6%A6%82%E8%BF%B0/" class="post-nav-item" rel="next" title="k8s概述">k8s概述<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

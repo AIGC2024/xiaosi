@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>lvm - 标签 - 小厮</title>
+    <link>/tags/lvm/</link>
+    <description>lvm - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 25 Dec 2022 15:50:16 &#43;0800</lastBuildDate><atom:link href="/tags/lvm/" rel="self" type="application/rss+xml" /><item>
+  <title>逻辑卷管理器</title>
+  <link>/lvm/</link>
+  <pubDate>Sun, 25 Dec 2022 15:50:16 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/lvm/</guid>
+  <description><![CDATA[逻辑卷管理器(LogicalVolumeManager)本质上是一个虚拟设备驱动，是在内核中块设备和物理设备之间添加的一个新的抽象层次。]]></description>
+</item>
+</channel>
+</rss>

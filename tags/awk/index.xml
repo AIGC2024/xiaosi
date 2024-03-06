@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>awk - 标签 - 小厮</title>
+    <link>/tags/awk/</link>
+    <description>awk - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 12 Jan 2022 15:15:47 &#43;0800</lastBuildDate><atom:link href="/tags/awk/" rel="self" type="application/rss+xml" /><item>
+  <title>gawk</title>
+  <link>/awk/</link>
+  <pubDate>Wed, 12 Jan 2022 15:15:47 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/awk/</guid>
+  <description><![CDATA[运行环境： centos: 7 内容来自以下文档： 一见_: awk给外部变量赋值 GNU-gawk帮助手册 gawkgawk 是 awk 繁衍的版本可用于文本排版 升级 从官网下载源码包 1 2 3]]></description>
+</item>
+</channel>
+</rss>

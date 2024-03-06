@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>AWS VPC - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='aws, aws vpc' /><meta itemprop="name" content="AWS VPC">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-02-20T11:01:34+08:00" />
+<meta itemprop="dateModified" content="2023-05-23T03:54:13+08:00" />
+<meta itemprop="wordCount" content="2712">
+<meta itemprop="keywords" content="aws,aws vpc," /><meta property="og:title" content="AWS VPC" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsVpc/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-02-20T11:01:34+08:00" />
+<meta property="article:modified_time" content="2023-05-23T03:54:13+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AWS VPC"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsVpc/" /><link rel="prev" href="/kof15/" /><link rel="next" href="/dokcer-error/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "AWS VPC",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsVpc\/"
+    },"genre": "posts","keywords": "aws, aws vpc","wordcount":  2712 ,
+    "url": "\/awsVpc\/","datePublished": "2023-02-20T11:01:34+08:00","dateModified": "2023-05-23T03:54:13+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>AWS VPC</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-02-20 11:01:34"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-02-20">2023-02-20</time></span>&nbsp;<span title="更新于 2023-05-23 03:54:13"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-05-23">2023-05-23</time></span>&nbsp;<span title="2712 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#vpc">VPC</a></li>
+    <li><a href="#cli">cli</a>
+      <ul>
+        <li><a href="#查看所有-vpc-信息">查看所有 VPC 信息</a></li>
+        <li><a href="#通过-vpc-id-筛选-vpc">通过 vpc id 筛选 VPC</a></li>
+        <li><a href="#根据-vpc-状态筛选-vpc">根据 vpc 状态筛选 VPC</a></li>
+        <li><a href="#根据标签值筛选-vpc">根据标签值筛选 VPC</a></li>
+        <li><a href="#根据标签筛选-vpc">根据标签筛选 VPC</a></li>
+        <li><a href="#查看所有子网信息">查看所有子网信息</a></li>
+        <li><a href="#根据可用区筛选子网">根据可用区筛选子网</a></li>
+        <li><a href="#根据-vpc-id-筛选子网">根据 VPC ID 筛选子网</a></li>
+        <li><a href="#根据子网名称筛选子网">根据子网名称筛选子网</a></li>
+        <li><a href="#根据路由表-id-筛选路由表">根据路由表 ID 筛选路由表</a></li>
+        <li><a href="#根据互联网网关id筛选互联网网关">根据互联网网关ID筛选互联网网关</a></li>
+      </ul>
+    </li>
+    <li><a href="#cloudformation-创建-vpc">CloudFormation 创建 VPC</a>
+      <ul>
+        <li><a href="#awsec2vpc">AWS::EC2::VPC</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/zh_cn/vpc/index.html"target="_blank" rel="external nofollow noopener noreferrer">Amazon Virtual Private Cloud 文档</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_cn/whitepapers/latest/aws-overview/networking-services.html#amazon-vpc"target="_blank" rel="external nofollow noopener noreferrer">亚马逊云科技白皮书: Amazon VPC</a></li>
+<li><a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/index.html"target="_blank" rel="external nofollow noopener noreferrer">Amazon ec2 cli</a></li>
+<li><a href="https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/APIReference/OperationList-query-vpc.html"target="_blank" rel="external nofollow noopener noreferrer">Amazon vpc api</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="vpc" class="heading-element">
+  <a href="#vpc" class="heading-mark"></a>VPC</h1><p><code>vpc</code>（<code>Amazon Virtual Private Cloud</code>） 是可用区级别的网络服务，即内网。用于实现单个可用区内网络隔离。</p>
+<ul>
+<li>大部分服务都是在 <code>vpc</code> 网段规划内，<code>aws</code> 默认有个 <code>vpc</code></li>
+<li>可以指定 <code>vpc</code> 网段，网段可以是 <code>ipv6</code>。由于 <code>ipv6</code> 具有全球唯一性，配置后可以选择与公共网络直接链接</li>
+<li>可以修改 <code>vpc</code> 路由表</li>
+<li>可以用于流量镜像</li>
+<li>可以记录流日志</li>
+<li>可以用于云服务与本地之间的连接，如 <code>vpn</code>, <code>net</code> 等</li>
+<li>多个 <code>vpc</code> 之间可以建立连接</li>
+</ul>
+<h1 id="cli" class="heading-element">
+  <a href="#cli" class="heading-mark"></a>cli</h1><p><code>vpc</code> 相关命令在 <code>aws ec2</code> 子命令内</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># vpc 相关</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 help | cat | grep vpc</span>
+</span></span><span class="line"><span class="cl">accept-transit-gateway-vpc-attachment
+</span></span><span class="line"><span class="cl">    <span class="c1"># 绑定中转网关</span>
+</span></span><span class="line"><span class="cl">  --transit-gateway-attachment-id
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定中转网关 ID</span>
+</span></span><span class="line"><span class="cl">accept-vpc-endpoint-connections
+</span></span><span class="line"><span class="cl">    <span class="c1"># 绑定端点</span>
+</span></span><span class="line"><span class="cl">accept-vpc-peering-connection
+</span></span><span class="line"><span class="cl">    <span class="c1"># 对等</span>
+</span></span><span class="line"><span class="cl">associate-vpc-cidr-block
+</span></span><span class="line"><span class="cl">    <span class="c1"># 绑定专有网络</span>
+</span></span><span class="line"><span class="cl">attach-classic-link-vpc
+</span></span><span class="line"><span class="cl">    <span class="c1"># 使用 VPC 替换 EC2-Classic</span>
+</span></span><span class="line"><span class="cl">create-default-vpc
+</span></span><span class="line"><span class="cl">create-local-gateway-route-table-vpc-association
+</span></span><span class="line"><span class="cl">create-transit-gateway-vpc-attachment
+</span></span><span class="line"><span class="cl">create-vpc
+</span></span><span class="line"><span class="cl">create-vpc-endpoint
+</span></span><span class="line"><span class="cl">create-vpc-endpoint-connection-notification
+</span></span><span class="line"><span class="cl">create-vpc-endpoint-service-configuration
+</span></span><span class="line"><span class="cl">create-vpc-peering-connection
+</span></span><span class="line"><span class="cl">delete-local-gateway-route-table-vpc-association
+</span></span><span class="line"><span class="cl">delete-transit-gateway-vpc-attachment
+</span></span><span class="line"><span class="cl">delete-vpc
+</span></span><span class="line"><span class="cl">delete-vpc-endpoint-connection-notifications
+</span></span><span class="line"><span class="cl">delete-vpc-endpoint-service-configurations
+</span></span><span class="line"><span class="cl">delete-vpc-endpoints
+</span></span><span class="line"><span class="cl">delete-vpc-peering-connection
+</span></span><span class="line"><span class="cl">describe-local-gateway-route-table-vpc-associations
+</span></span><span class="line"><span class="cl">describe-transit-gateway-vpc-attachments
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看中转网关挂载</span>
+</span></span><span class="line"><span class="cl">describe-vpc-attribute
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看 vpc 指定字段</span>
+</span></span><span class="line"><span class="cl">  --vpc-id
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定 vpc ID</span>
+</span></span><span class="line"><span class="cl">describe-vpc-classic-link
+</span></span><span class="line"><span class="cl">describe-vpc-classic-link-dns-support
+</span></span><span class="line"><span class="cl">describe-vpc-endpoint-connection-notifications
+</span></span><span class="line"><span class="cl">describe-vpc-endpoint-connections
+</span></span><span class="line"><span class="cl">describe-vpc-endpoint-service-configurations
+</span></span><span class="line"><span class="cl">describe-vpc-endpoint-service-permissions
+</span></span><span class="line"><span class="cl">describe-vpc-endpoint-services
+</span></span><span class="line"><span class="cl">describe-vpc-endpoints
+</span></span><span class="line"><span class="cl">describe-vpc-peering-connections
+</span></span><span class="line"><span class="cl">describe-vpcs
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看 VPC 集合本身，可能会产生多个 API 调用</span>
+</span></span><span class="line"><span class="cl">  --filters <span class="o">[</span> <span class="nv">Name</span><span class="o">=</span><span class="s2">&#34;filters&#34;</span>,Values<span class="o">=</span><span class="s2">&#34;value&#34;</span> <span class="o">[</span> AND <span class="nv">Name</span><span class="o">=</span><span class="s2">&#34;filters&#34;</span>,Values<span class="o">=</span><span class="s2">&#34;value&#34;</span> ...<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定过滤器，通过过滤器选择 VPC。有以下过滤器（filters）</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># cidr: CidrBlock 字段地址，即 VPC IP范围 CIDR 块</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># cidr-block-association.cidr-block</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># cidr-block-association.association-id</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># cidr-block-association.state</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># dhcp-options-id</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># is-default</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># owner-id</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># state: 值为 pending 或 available</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># tag:key: 指定标签</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># tag-key</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># vpc-id: vpc ID</span>
+</span></span><span class="line"><span class="cl">  --vpc-ids
+</span></span><span class="line"><span class="cl">    <span class="c1"># 必选，指定 vpc ID</span>
+</span></span><span class="line"><span class="cl">  --attribute
+</span></span><span class="line"><span class="cl">    <span class="c1"># 必选，当有多个该选项时，最后一个生效，有以下值</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># enableDnsSupport: 是否启用 DNS 解析</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># enableDnsHostnames: 是否启用 DNS 解析主机名</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># enableNetworkAddressUsageMetrics: 是否启用网络指标</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">detach-classic-link-vpc
+</span></span><span class="line"><span class="cl">disable-vpc-classic-link
+</span></span><span class="line"><span class="cl">disable-vpc-classic-link-dns-support
+</span></span><span class="line"><span class="cl">disassociate-vpc-cidr-block
+</span></span><span class="line"><span class="cl">enable-vpc-classic-link
+</span></span><span class="line"><span class="cl">enable-vpc-classic-link-dns-support
+</span></span><span class="line"><span class="cl">modify-transit-gateway-vpc-attachment
+</span></span><span class="line"><span class="cl">modify-vpc-attribute
+</span></span><span class="line"><span class="cl">modify-vpc-endpoint
+</span></span><span class="line"><span class="cl">modify-vpc-endpoint-connection-notification
+</span></span><span class="line"><span class="cl">modify-vpc-endpoint-service-configuration
+</span></span><span class="line"><span class="cl">modify-vpc-endpoint-service-payer-responsibility
+</span></span><span class="line"><span class="cl">modify-vpc-endpoint-service-permissions
+</span></span><span class="line"><span class="cl">modify-vpc-peering-connection-options
+</span></span><span class="line"><span class="cl">modify-vpc-tenancy
+</span></span><span class="line"><span class="cl">move-address-to-vpc
+</span></span><span class="line"><span class="cl">reject-transit-gateway-vpc-attachment
+</span></span><span class="line"><span class="cl">reject-vpc-endpoint-connections
+</span></span><span class="line"><span class="cl">reject-vpc-peering-connection
+</span></span><span class="line"><span class="cl">start-vpc-endpoint-service-private-dns-verification
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 子网相关</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 --profile my-hk help | grep subnet</span>
+</span></span><span class="line"><span class="cl">associate-subnet-cidr-block
+</span></span><span class="line"><span class="cl">create-default-subnet
+</span></span><span class="line"><span class="cl">create-subnet
+</span></span><span class="line"><span class="cl">create-subnet-cidr-reservation
+</span></span><span class="line"><span class="cl">delete-subnet
+</span></span><span class="line"><span class="cl">delete-subnet-cidr-reservation
+</span></span><span class="line"><span class="cl">describe-subnets
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看子网</span>
+</span></span><span class="line"><span class="cl">  --filters <span class="o">[</span> <span class="nv">Name</span><span class="o">=</span><span class="s2">&#34;filters&#34;</span>,Values<span class="o">=</span><span class="s2">&#34;value&#34;</span> <span class="o">[</span> AND <span class="nv">Name</span><span class="o">=</span><span class="s2">&#34;filters&#34;</span>,Values<span class="o">=</span><span class="s2">&#34;value&#34;</span> ...<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定过滤器，通过过滤器选择。有以下过滤器（filters）</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># availability-zone 或 availabilityZone: 可用区</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># availability-zone-id 或 availabilityZoneId: 可用区 ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># available-ip-address-count</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># cidr-block 或 cidrBlock 或 cidr</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># customer-owned-ipv4-pool</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># default-for-az</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># enable-dns64</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># enable-lni-at-device-index</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ipv6-cidr-block-association.ipv6-cidr-block</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ipv6-cidr-block-association.association-id</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ipv6-cidr-block-association.state</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># ipv6-native</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># map-customer-owned-ip-on-launch</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># map-public-ip-on-launch</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># outpost-arn</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># owner-id</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># private-dns-name-options-on-launch.hostname-type</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># private-dns-name-options-on-launch.enable-resource-name-dns-a-record</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># private-dns-name-options-on-launch.enable-resource-name-dns-aaaa-record</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># state</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># subnet-arn</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># subnet-id</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># tag:key: 指定标签</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># tag-key</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># vpc-id: vpc ID</span>
+</span></span><span class="line"><span class="cl">disassociate-subnet-cidr-block
+</span></span><span class="line"><span class="cl">    <span class="c1"># 解除 IPv6 CIDR 块</span>
+</span></span><span class="line"><span class="cl">get-subnet-cidr-reservations
+</span></span><span class="line"><span class="cl">    <span class="c1"># 子网 CIDR 预留</span>
+</span></span><span class="line"><span class="cl">modify-subnet-attribute
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 路由表相关</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 --profile my-hk help | grep route</span>
+</span></span><span class="line"><span class="cl">associate-route-table
+</span></span><span class="line"><span class="cl">associate-transit-gateway-route-table
+</span></span><span class="line"><span class="cl">create-client-vpn-route
+</span></span><span class="line"><span class="cl">create-local-gateway-route
+</span></span><span class="line"><span class="cl">create-local-gateway-route-table
+</span></span><span class="line"><span class="cl">create-local-gateway-route-table-virtual-interface-group-association
+</span></span><span class="line"><span class="cl">create-local-gateway-route-table-vpc-association
+</span></span><span class="line"><span class="cl">create-route
+</span></span><span class="line"><span class="cl">create-route-table
+</span></span><span class="line"><span class="cl">create-transit-gateway-route
+</span></span><span class="line"><span class="cl">create-transit-gateway-route-table
+</span></span><span class="line"><span class="cl">create-transit-gateway-route-table-announcement
+</span></span><span class="line"><span class="cl">create-vpn-connection-route
+</span></span><span class="line"><span class="cl">delete-client-vpn-route
+</span></span><span class="line"><span class="cl">delete-local-gateway-route
+</span></span><span class="line"><span class="cl">delete-local-gateway-route-table
+</span></span><span class="line"><span class="cl">delete-local-gateway-route-table-virtual-interface-group-association
+</span></span><span class="line"><span class="cl">delete-local-gateway-route-table-vpc-association
+</span></span><span class="line"><span class="cl">delete-route
+</span></span><span class="line"><span class="cl">delete-route-table
+</span></span><span class="line"><span class="cl">delete-transit-gateway-route
+</span></span><span class="line"><span class="cl">delete-transit-gateway-route-table
+</span></span><span class="line"><span class="cl">delete-transit-gateway-route-table-announcement
+</span></span><span class="line"><span class="cl">delete-vpn-connection-route
+</span></span><span class="line"><span class="cl">describe-client-vpn-routes
+</span></span><span class="line"><span class="cl">describe-local-gateway-route-table-virtual-interface-group-associa-
+</span></span><span class="line"><span class="cl">describe-local-gateway-route-table-vpc-associations
+</span></span><span class="line"><span class="cl">describe-local-gateway-route-tables
+</span></span><span class="line"><span class="cl">describe-route-tables
+</span></span><span class="line"><span class="cl">    <span class="c1"># 查看路由表</span>
+</span></span><span class="line"><span class="cl">  --filters <span class="o">[</span> <span class="nv">Name</span><span class="o">=</span><span class="s2">&#34;filters&#34;</span>,Values<span class="o">=</span><span class="s2">&#34;value&#34;</span> <span class="o">[</span> AND <span class="nv">Name</span><span class="o">=</span><span class="s2">&#34;filters&#34;</span>,Values<span class="o">=</span><span class="s2">&#34;value&#34;</span> ...<span class="o">]]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 可选的过滤器，有以下参数：</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># association.route-table-association-id: 路由表关联的 ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># association.route-table-id: 参与关联的路由表ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># association.subnet-id: 关联子网ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># association.main: 否是 VPC 的主路由表 (true | false)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># owner-id: 所属 AWS 账户 ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route-table-id: 路由表的ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.destination-cidr-block: 路由表中的 CIDR 范围</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.destination-ipv6-cidr-block: 路由表中的 CIDR 范围(IPV6)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.destination-prefix-list-id: 路由表中的网络服务前缀ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.egress-only-internet-gateway-id: 仅互联网出口网关 ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.gateway-id: 网关ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.instance-id: 实例 ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.nat-gateway-id: net 网关ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.transit-gateway-id: transit gateway ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.origin: 描述创建渠道，有以下值</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#   CreateRouteTable: 表示该路由是创建路由表时自动创建的</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#   CreateRoute: 表示该路由是手动添加到路由表中的</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#   EnableVgwRoutePropagation: 表示该路由是通过路由传播传播的</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.state: 路由表中路由的状态 ( active| blackhole )</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># route.vpc-peering-connection-id: 指定的VPC对等连接ID</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># tag :&lt;key&gt;: 键值对</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># tag-key: 键</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># vpc-id: VPC ID</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">describe-transit-gateway-route-table-announcements
+</span></span><span class="line"><span class="cl">describe-transit-gateway-route-tables
+</span></span><span class="line"><span class="cl">disable-transit-gateway-route-table-propagation
+</span></span><span class="line"><span class="cl">disable-vgw-route-propagation
+</span></span><span class="line"><span class="cl">disassociate-route-table
+</span></span><span class="line"><span class="cl">disassociate-transit-gateway-route-table
+</span></span><span class="line"><span class="cl">enable-transit-gateway-route-table-propagation
+</span></span><span class="line"><span class="cl">enable-vgw-route-propagation
+</span></span><span class="line"><span class="cl">export-transit-gateway-routes
+</span></span><span class="line"><span class="cl">get-transit-gateway-route-table-associations
+</span></span><span class="line"><span class="cl">get-transit-gateway-route-table-propagations
+</span></span><span class="line"><span class="cl">modify-local-gateway-route
+</span></span><span class="line"><span class="cl">replace-route
+</span></span><span class="line"><span class="cl">replace-route-table-association
+</span></span><span class="line"><span class="cl">replace-transit-gateway-route
+</span></span><span class="line"><span class="cl">search-local-gateway-routes
+</span></span><span class="line"><span class="cl">search-transit-gateway-routes</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看所有-vpc-信息" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%89%80%e6%9c%89-vpc-%e4%bf%a1%e6%81%af" class="heading-mark"></a>查看所有 VPC 信息</h2><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2  describe-vpcs --profile my-hk  | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Vpcs&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DhcpOptionsId&#34;</span>: <span class="s2">&#34;dopt-002af7335f674750a&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;InstanceTenancy&#34;</span>: <span class="s2">&#34;default&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlockAssociationSet&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;AssociationId&#34;</span>: <span class="s2">&#34;vpc-cidr-assoc-051bf1616a88f3784&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlockState&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;associated&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;IsDefault&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Key&#34;</span>: <span class="s2">&#34;Name&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Value&#34;</span>: <span class="s2">&#34;test-vpc-hk-vpc&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;172.31.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DhcpOptionsId&#34;</span>: <span class="s2">&#34;dopt-002af7335f674750a&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0433cf353b98b77f0&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;InstanceTenancy&#34;</span>: <span class="s2">&#34;default&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlockAssociationSet&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;AssociationId&#34;</span>: <span class="s2">&#34;vpc-cidr-assoc-0d6af9fcd387e4104&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;172.31.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlockState&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;associated&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;IsDefault&#34;</span>: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="通过-vpc-id-筛选-vpc" class="heading-element">
+  <a href="#%e9%80%9a%e8%bf%87-vpc-id-%e7%ad%9b%e9%80%89-vpc" class="heading-mark"></a>通过 vpc id 筛选 VPC</h2><p>查找<code>vpc id</code> 为<code>vpc-0e331a9f505c6986d</code></p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2  describe-vpcs --profile my-hk  --filters Name=&#34;vpc-id&#34;,Values=&#34;vpc-0e331a9f505c6986d&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Vpcs&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DhcpOptionsId&#34;</span>: <span class="s2">&#34;dopt-002af7335f674750a&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;InstanceTenancy&#34;</span>: <span class="s2">&#34;default&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlockAssociationSet&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;AssociationId&#34;</span>: <span class="s2">&#34;vpc-cidr-assoc-051bf1616a88f3784&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlockState&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;associated&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;IsDefault&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Key&#34;</span>: <span class="s2">&#34;Name&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Value&#34;</span>: <span class="s2">&#34;test-vpc-hk-vpc&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据-vpc-状态筛选-vpc" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae-vpc-%e7%8a%b6%e6%80%81%e7%ad%9b%e9%80%89-vpc" class="heading-mark"></a>根据 vpc 状态筛选 VPC</h2><p>状态为<code>available</code>状态查找</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2  describe-vpcs --profile my-hk  --filters Name=&#34;state&#34;,Values=&#34;available&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Vpcs&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">....</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据标签值筛选-vpc" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae%e6%a0%87%e7%ad%be%e5%80%bc%e7%ad%9b%e9%80%89-vpc" class="heading-mark"></a>根据标签值筛选 VPC</h2><p>查找标签为 <code>Name:test-vpc-hk-vpc</code> 的 <code>vpc</code></p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2  describe-vpcs --profile my-hk  --filters Name=&#34;tag:Name&#34;,Values=&#34;test-vpc-hk-vpc&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Vpcs&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DhcpOptionsId&#34;</span>: <span class="s2">&#34;dopt-002af7335f674750a&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;InstanceTenancy&#34;</span>: <span class="s2">&#34;default&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlockAssociationSet&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;AssociationId&#34;</span>: <span class="s2">&#34;vpc-cidr-assoc-051bf1616a88f3784&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlockState&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;associated&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;IsDefault&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Key&#34;</span>: <span class="s2">&#34;Name&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Value&#34;</span>: <span class="s2">&#34;test-vpc-hk-vpc&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据标签筛选-vpc" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae%e6%a0%87%e7%ad%be%e7%ad%9b%e9%80%89-vpc" class="heading-mark"></a>根据标签筛选 VPC</h2><p>根据标签<code>key</code>中有 <code>Nmae</code> 的 <code>vpc</code></p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2  describe-vpcs --profile my-hk  --filters Name=&#34;tag-key&#34;,Values=&#34;Name&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Vpcs&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DhcpOptionsId&#34;</span>: <span class="s2">&#34;dopt-002af7335f674750a&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;InstanceTenancy&#34;</span>: <span class="s2">&#34;default&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlockAssociationSet&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;AssociationId&#34;</span>: <span class="s2">&#34;vpc-cidr-assoc-051bf1616a88f3784&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;CidrBlockState&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;associated&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;IsDefault&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Key&#34;</span>: <span class="s2">&#34;Name&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Value&#34;</span>: <span class="s2">&#34;test-vpc-hk-vpc&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看所有子网信息" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e6%89%80%e6%9c%89%e5%ad%90%e7%bd%91%e4%bf%a1%e6%81%af" class="heading-mark"></a>查看所有子网信息</h2><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 --profile my-hk describe-subnets | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Subnets&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailabilityZone&#34;</span>: <span class="s2">&#34;ap-east-1b&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailabilityZoneId&#34;</span>: <span class="s2">&#34;ape1-az2&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailableIpAddressCount&#34;</span>: 4091,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.144.0/20&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DefaultForAz&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;MapPublicIpOnLaunch&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;MapCustomerOwnedIpOnLaunch&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;SubnetId&#34;</span>: <span class="s2">&#34;subnet-0f80dc3717d0c1581&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AssignIpv6AddressOnCreation&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Ipv6CidrBlockAssociationSet&#34;</span>: <span class="o">[]</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Key&#34;</span>: <span class="s2">&#34;Name&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Value&#34;</span>: <span class="s2">&#34;test-vpc-hk-subnet-private2-ap-east-1b&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据可用区筛选子网" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae%e5%8f%af%e7%94%a8%e5%8c%ba%e7%ad%9b%e9%80%89%e5%ad%90%e7%bd%91" class="heading-mark"></a>根据可用区筛选子网</h2><p>查看 <code>ap-east-1b</code> 可用区所有子网信息</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 --profile my-hk describe-subnets --filters Name=&#34;availabilityZone&#34;,Values=&#34;ap-east-1b&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Subnets&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailabilityZone&#34;</span>: <span class="s2">&#34;ap-east-1b&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailabilityZoneId&#34;</span>: <span class="s2">&#34;ape1-az2&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailableIpAddressCount&#34;</span>: 4091,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.144.0/20&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DefaultForAz&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;MapPublicIpOnLaunch&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;MapCustomerOwnedIpOnLaunch&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;SubnetId&#34;</span>: <span class="s2">&#34;subnet-0f80dc3717d0c1581&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AssignIpv6AddressOnCreation&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Ipv6CidrBlockAssociationSet&#34;</span>: <span class="o">[]</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据-vpc-id-筛选子网" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae-vpc-id-%e7%ad%9b%e9%80%89%e5%ad%90%e7%bd%91" class="heading-mark"></a>根据 VPC ID 筛选子网</h2><p>查看以<code>vpc-0e331a9f505c6986d</code>(<code>VPC ID</code>)创建的子网</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 --profile my-hk describe-subnets --filters Name=&#34;vpc-id&#34;,Values=&#34;vpc-0e331a9f505c6986d&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Subnets&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailabilityZone&#34;</span>: <span class="s2">&#34;ap-east-1b&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailabilityZoneId&#34;</span>: <span class="s2">&#34;ape1-az2&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailableIpAddressCount&#34;</span>: 4091,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.144.0/20&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DefaultForAz&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;MapPublicIpOnLaunch&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;MapCustomerOwnedIpOnLaunch&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;SubnetId&#34;</span>: <span class="s2">&#34;subnet-0f80dc3717d0c1581&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AssignIpv6AddressOnCreation&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Ipv6CidrBlockAssociationSet&#34;</span>: <span class="o">[]</span>,
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据子网名称筛选子网" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae%e5%ad%90%e7%bd%91%e5%90%8d%e7%a7%b0%e7%ad%9b%e9%80%89%e5%ad%90%e7%bd%91" class="heading-mark"></a>根据子网名称筛选子网</h2><p>查看子网名称为 <code>test-vpc-hk-subnet-private3-ap-east-1c</code> 的子网信息</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 --profile my-hk describe-subnets --filters Name=&#34;tag:Name&#34;,Values=&#34;test-vpc-hk-subnet-private3-ap-east-1c&#34; | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Subnets&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailabilityZone&#34;</span>: <span class="s2">&#34;ap-east-1c&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailabilityZoneId&#34;</span>: <span class="s2">&#34;ape1-az3&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AvailableIpAddressCount&#34;</span>: 4091,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CidrBlock&#34;</span>: <span class="s2">&#34;10.2.160.0/20&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DefaultForAz&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;MapPublicIpOnLaunch&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;MapCustomerOwnedIpOnLaunch&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;SubnetId&#34;</span>: <span class="s2">&#34;subnet-006d2f0faa76dc208&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AssignIpv6AddressOnCreation&#34;</span>: false,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Ipv6CidrBlockAssociationSet&#34;</span>: <span class="o">[]</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Key&#34;</span>: <span class="s2">&#34;Name&#34;</span>,
+</span></span><span class="line"><span class="cl">          <span class="s2">&#34;Value&#34;</span>: <span class="s2">&#34;test-vpc-hk-subnet-private3-ap-east-1c&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据路由表-id-筛选路由表" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae%e8%b7%af%e7%94%b1%e8%a1%a8-id-%e7%ad%9b%e9%80%89%e8%b7%af%e7%94%b1%e8%a1%a8" class="heading-mark"></a>根据路由表 ID 筛选路由表</h2><p>查看路由表<code>ID</code>为<code>rtb-0d28f564e75e7045d</code>的路由信息</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 --profile my-hk describe-route-tables --filters Name=&#39;route-table-id&#39;,Values=&#34;rtb-0d28f564e75e7045d&#34; | cat</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;RouteTables&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Associations&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Main&#34;</span>: false,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;RouteTableAssociationId&#34;</span>: <span class="s2">&#34;rtbassoc-0231434852a9438f4&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;RouteTableId&#34;</span>: <span class="s2">&#34;rtb-0d28f564e75e7045d&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;SubnetId&#34;</span>: <span class="s2">&#34;subnet-018a516a33179f011&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;AssociationState&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;associated&#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">                <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Main&#34;</span>: false,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;RouteTableAssociationId&#34;</span>: <span class="s2">&#34;rtbassoc-0e1de6ede518e6499&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;RouteTableId&#34;</span>: <span class="s2">&#34;rtb-0d28f564e75e7045d&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;SubnetId&#34;</span>: <span class="s2">&#34;subnet-0af62cbcab5871964&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;AssociationState&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;associated&#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">                <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Main&#34;</span>: false,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;RouteTableAssociationId&#34;</span>: <span class="s2">&#34;rtbassoc-0305e4a701d4079f9&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;RouteTableId&#34;</span>: <span class="s2">&#34;rtb-0d28f564e75e7045d&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;SubnetId&#34;</span>: <span class="s2">&#34;subnet-08edd77668571001f&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;AssociationState&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;associated&#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;PropagatingVgws&#34;</span>: <span class="o">[]</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;RouteTableId&#34;</span>: <span class="s2">&#34;rtb-0d28f564e75e7045d&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Routes&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;DestinationCidrBlock&#34;</span>: <span class="s2">&#34;10.2.0.0/16&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;GatewayId&#34;</span>: <span class="s2">&#34;local&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Origin&#34;</span>: <span class="s2">&#34;CreateRouteTable&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;active&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">                <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;DestinationCidrBlock&#34;</span>: <span class="s2">&#34;0.0.0.0/0&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;GatewayId&#34;</span>: <span class="s2">&#34;igw-0a180cfb5b33b5e84&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Origin&#34;</span>: <span class="s2">&#34;CreateRoute&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;active&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Key&#34;</span>: <span class="s2">&#34;Name&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Value&#34;</span>: <span class="s2">&#34;test-vpc-hk-rtb-public&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据互联网网关id筛选互联网网关" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae%e4%ba%92%e8%81%94%e7%bd%91%e7%bd%91%e5%85%b3id%e7%ad%9b%e9%80%89%e4%ba%92%e8%81%94%e7%bd%91%e7%bd%91%e5%85%b3" class="heading-mark"></a>根据互联网网关ID筛选互联网网关</h2><div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws ec2 --profile my-hk describe-internet-gateways --filters Name=&#34;internet-gateway-id&#34;,Values=&#34;igw-0a180cfb5b33b5e84&#34; | cat</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;InternetGateways&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Attachments&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;State&#34;</span>: <span class="s2">&#34;available&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;VpcId&#34;</span>: <span class="s2">&#34;vpc-0e331a9f505c6986d&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;InternetGatewayId&#34;</span>: <span class="s2">&#34;igw-0a180cfb5b33b5e84&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;OwnerId&#34;</span>: <span class="s2">&#34;223665515173&#34;</span>,
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;Tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">                <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Key&#34;</span>: <span class="s2">&#34;Name&#34;</span>,
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;Value&#34;</span>: <span class="s2">&#34;test-vpc-hk-igw&#34;</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="cloudformation-创建-vpc" class="heading-element">
+  <a href="#cloudformation-%e5%88%9b%e5%bb%ba-vpc" class="heading-mark"></a>CloudFormation 创建 VPC</h1><h2 id="awsec2vpc" class="heading-element">
+  <a href="#awsec2vpc" class="heading-mark"></a>AWS::EC2::VPC</h2><p><a href="https://docs.aws.amazon.com/zh_cn/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html"target="_blank" rel="external nofollow noopener noreferrer">AWS::EC2::VPC</a></p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">AWS::EC2::VPC</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">Properties</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">CidrBlock</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">EnableDnsHostnames</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">EnableDnsSupport</span><span class="p">:</span><span class="w"> </span><span class="l">Boolean</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">InstanceTenancy</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Ipv4IpamPoolId</span><span class="p">:</span><span class="w"> </span><span class="l">String</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Ipv4NetmaskLength</span><span class="p">:</span><span class="w"> </span><span class="l">Integer</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">Tags</span><span class="p">:</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">Tag</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>CidrBlock: </code> 视情况可选字段，重建更新，值为字符串类型（<code>CidrBlock</code>，如 <code>10.0.0.0/16</code>）</li>
+<li><code>EnableDnsHostnames: </code> 可选字段，不中断更新，值为布尔类型（<code>true | false</code>）。否获取DNS主机名，如果启用了<code>DNS</code>支持，则只能启用<code>DNS</code>主机名</li>
+<li><code>EnableDnsSupport: </code>   可选字段，不中断更新，值为布尔类型（<code>true | false</code>）。<code>VPC</code>是否支持<code>DNS</code>解析</li>
+<li><code>InstanceTenancy: </code>    可选字段，视情况中断，值为字符串类型。有以下值：
+<ul>
+<li><code>default</code>: 共享实例时指定，表示 <code>VPC</code> 启动的实例默认在共享硬件上</li>
+<li><code>dedicated</code>，专用实例时指定，表示 <code>VPC</code> 启动的实例默认为专用实例类型</li>
+<li><code>host</code>: 指定实例</li>
+</ul>
+</li>
+<li><code>InstanceTenancy: </code></li>
+<li><code>Ipv4IpamPoolId: </code></li>
+<li><code>Ipv4NetmaskLength: </code></li>
+<li><code>Tags: </code> 可选字段，不中断更新，值为键值对列表</li>
+</ul>
+<br>
+<p>下面是 <code>eks</code> 中的 <code>vpc</code> 片段</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">Resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">VPC</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l">AWS::EC2::VPC</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">Properties</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">CidrBlock</span><span class="p">:</span><span class="w">  </span>!<span class="l">Ref VpcBlock</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">EnableDnsSupport</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">EnableDnsHostnames</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">Tags</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">Key</span><span class="p">:</span><span class="w"> </span><span class="l">Name</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">Value</span><span class="p">:</span><span class="w"> </span>!<span class="l">Sub &#39;${AWS::StackName}-VPC&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-05-23 03:54:13">更新于 2023-05-23&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/aws/" class="post-tag" title="标签 - aws">aws</a><a href="/tags/aws-vpc/" class="post-tag" title="标签 - aws vpc">aws vpc</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/kof15/" class="post-nav-item" rel="prev" title="拳皇 15"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>拳皇 15</a>
+      <a href="/dokcer-error/" class="post-nav-item" rel="next" title="docker 容器使用中遇到的错误">docker 容器使用中遇到的错误<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

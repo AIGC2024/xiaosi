@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>jq - 命令行 josn 数据处理工具 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="jq 是一个轻量级且灵活的命令行 json 处理器" /><meta name="keywords" content='命令, jq, linux, windows' /><meta itemprop="name" content="jq - 命令行 josn 数据处理工具">
+<meta itemprop="description" content="jq 是一个轻量级且灵活的命令行 json 处理器"><meta itemprop="datePublished" content="2022-09-03T16:49:39+08:00" />
+<meta itemprop="dateModified" content="2023-09-07T14:27:09+08:00" />
+<meta itemprop="wordCount" content="3732">
+<meta itemprop="keywords" content="命令,jq,linux,windows," /><meta property="og:title" content="jq - 命令行 josn 数据处理工具" />
+<meta property="og:description" content="jq 是一个轻量级且灵活的命令行 json 处理器" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/CMDjq/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-03T16:49:39+08:00" />
+<meta property="article:modified_time" content="2023-09-07T14:27:09+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="jq - 命令行 josn 数据处理工具"/>
+<meta name="twitter:description" content="jq 是一个轻量级且灵活的命令行 json 处理器"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/CMDjq/" /><link rel="prev" href="/k8sFAQ/" /><link rel="next" href="/k8sAPI%E6%A6%82%E8%BF%B0%E5%8F%8A%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "jq - 命令行 josn 数据处理工具",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/CMDjq\/"
+    },"genre": "posts","keywords": "命令, jq, linux, windows","wordcount":  3732 ,
+    "url": "\/CMDjq\/","datePublished": "2022-09-03T16:49:39+08:00","dateModified": "2023-09-07T14:27:09+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>jq - 命令行 josn 数据处理工具</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-09-03 16:49:39"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-09-03">2022-09-03</time></span>&nbsp;<span title="更新于 2023-09-07 14:27:09"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-09-07">2023-09-07</time></span>&nbsp;<span title="3732 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 8 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#查看帮助">查看帮助</a></li>
+    <li><a href="#快速入门">快速入门</a>
+      <ul>
+        <li><a href="#格式化-josn">格式化 josn</a></li>
+        <li><a href="#特殊字符">特殊字符</a></li>
+        <li><a href="#对象标识符">对象标识符</a></li>
+        <li><a href="#索引">索引</a></li>
+        <li><a href="#忽略错误">忽略错误</a></li>
+        <li><a href="#切片">切片</a></li>
+        <li><a href="#多个过滤器">多个过滤器</a></li>
+        <li><a href="#过滤器组合">过滤器组合</a></li>
+        <li><a href="#递归所有值">递归所有值</a></li>
+        <li><a href="#数学运算">数学运算</a></li>
+      </ul>
+    </li>
+    <li><a href="#构建对象">构建对象</a></li>
+    <li><a href="#内置运算符">内置运算符</a>
+      <ul>
+        <li><a href="#添加">添加</a></li>
+        <li><a href="#删减">删减</a></li>
+        <li><a href="#乘法除法求余">乘法、除法、求余</a></li>
+      </ul>
+    </li>
+    <li><a href="#函数">函数</a>
+      <ul>
+        <li><a href="#获取长度">获取长度</a></li>
+        <li><a href="#获取-utf-8-编码字符串的字节数">获取 UTF-8 编码字符串的字节数</a></li>
+        <li><a href="#获取-key">获取 key</a></li>
+        <li><a href="#判断是否存在某个key">判断是否存在某个key</a></li>
+        <li><a href="#判断是数组指定的下标是否存在">判断是数组指定的下标是否存在</a></li>
+        <li><a href="#对所有key的值或数组进行操作">对所有key的值或数组进行操作</a></li>
+        <li><a href="#根据表达式选择对象或数组">根据表达式选择对象或数组</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：
+centos: 7</p>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://stedolan.github.io/jq/manual/"target="_blank" rel="external nofollow noopener noreferrer">jq手册</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="查看帮助" class="heading-element">
+  <a href="#%e6%9f%a5%e7%9c%8b%e5%b8%ae%e5%8a%a9" class="heading-mark"></a>查看帮助</h1><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># man jq | cat</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># 格式</span>
+</span></span><span class="line"><span class="cl">SYNOPSIS
+</span></span><span class="line"><span class="cl">       jq <span class="o">[</span>options...<span class="o">]</span> filter <span class="o">[</span>files...<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 选项</span>
+</span></span><span class="line"><span class="cl">INVOKING JQ
+</span></span><span class="line"><span class="cl">--version   <span class="c1"># 查看版本并退出</span>
+</span></span><span class="line"><span class="cl">--seq
+</span></span><span class="line"><span class="cl">--stream
+</span></span><span class="line"><span class="cl">Parse the input in streaming fashion, outputing arrays of path and leaf values <span class="o">(</span>scalars and empty arrays or empty objects<span class="o">)</span>. For example, <span class="s2">&#34;a&#34;</span> becomes <span class="o">[[]</span>,<span class="s2">&#34;a&#34;</span><span class="o">]</span>, and <span class="o">[[]</span>,<span class="s2">&#34;a&#34;</span>,<span class="o">[</span><span class="s2">&#34;b&#34;</span><span class="o">]]</span> becomes <span class="o">[[</span>0<span class="o">]</span>,<span class="o">[]]</span>, <span class="o">[[</span>1<span class="o">]</span>,<span class="s2">&#34;a&#34;</span><span class="o">]</span>, and <span class="o">[[</span>1,0<span class="o">]</span>,<span class="s2">&#34;b&#34;</span><span class="o">]</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">This is useful <span class="k">for</span> processing very large inputs. Use this in conjunction with filtering and the reduce and foreach syntax to reduce large inputs incrementally.
+</span></span><span class="line"><span class="cl">--slurp/-s
+</span></span><span class="line"><span class="cl">Instead of running the filter <span class="k">for</span> each JSON object in the input, <span class="nb">read</span> the entire input stream into a large array and run the filter just once.
+</span></span><span class="line"><span class="cl">--raw-input/-R
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Don´t parse the input as JSON. Instead, each line of text is passed to the filter as a string. If combined with --slurp, <span class="k">then</span> the entire input is passed to the filter as a single long string.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--null-input/-n
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Don´t <span class="nb">read</span> any input at all! Instead, the filter is run once using null as the input. This is useful when using jq as a simple calculator or to construct JSON data from scratch.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--compact-output / -c
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">By default, jq pretty-prints JSON output. Using this option will result in more compact output by instead putting each JSON object on a single line.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--tab
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Use a tab <span class="k">for</span> each indentation level instead of two spaces.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--indent n
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Use the given number of spaces <span class="o">(</span>no more than 8<span class="o">)</span> <span class="k">for</span> indentation.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--color-output / -C or --monochrome-output / -M
+</span></span><span class="line"><span class="cl">  <span class="c1"># 启用或禁用配色，配色方案由JQ_COLORS 环境变量提供，默认为 &#34;JQ_COLORS=1;30:0;37:0;37:0;37:0;32:1;37:1;37&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1"># https://jqlang.github.io/jq/manual/#Colors</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--ascii-output / -a
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">jq usually outputs non-ASCII Unicode codepoints as UTF-8, even <span class="k">if</span> the input specified them as escape sequences <span class="o">(</span>like <span class="s2">&#34;\u03bc&#34;</span><span class="o">)</span>. Using this option, you can force jq to produce pure ASCII output with every non-ASCII character replaced with  the  equivalent  escape
+</span></span><span class="line"><span class="cl">sequence.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--unbuffered
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Flush the output after each JSON object is printed <span class="o">(</span>useful <span class="k">if</span> you´re piping a slow data <span class="nb">source</span> into jq and piping jq´s output elsewhere<span class="o">)</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--sort-keys / -S
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Output the fields of each object with the keys in sorted order.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--raw-output / -r
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">With this option, <span class="k">if</span> the filter´s result is a string <span class="k">then</span> it will be written directly to standard output rather than being formatted as a JSON string with quotes. This can be useful <span class="k">for</span> making jq filters talk to non-JSON-based systems.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--join-output / -j
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Like -r but jq won´t print a newline after each output.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-f filename / --from-file filename
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Read filter from the file rather than from a <span class="nb">command</span> line, like awk´s -f option. You can also use ´#´ to make comments.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-Ldirectory / -L directory
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Prepend directory to the search list <span class="k">for</span> modules. If this option is used <span class="k">then</span> no <span class="nb">builtin</span> search list is used. See the section on modules below.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">-e / --exit-status
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Sets  the  <span class="nb">exit</span>  status of jq to <span class="m">0</span> <span class="k">if</span> the last output values was neither <span class="nb">false</span> nor null, <span class="m">1</span> <span class="k">if</span> the last output value was either <span class="nb">false</span> or null, or <span class="m">4</span> <span class="k">if</span> no valid result was ever produced. Normally jq exits with <span class="m">2</span> <span class="k">if</span> there was any usage problem or system error, <span class="m">3</span> <span class="k">if</span>
+</span></span><span class="line"><span class="cl">there was a jq program compile error, or <span class="m">0</span> <span class="k">if</span> the jq program ran.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Another way to <span class="nb">set</span> the <span class="nb">exit</span> status is with the halt_error <span class="nb">builtin</span> <span class="k">function</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--arg name value
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">This option passes a value to the jq program as a predefined variable. If you run jq with --arg foo bar, <span class="k">then</span> <span class="nv">$foo</span> is available in the program and has the value <span class="s2">&#34;bar&#34;</span>. Note that value will be treated as a string, so --arg foo <span class="m">123</span> will <span class="nb">bind</span> <span class="nv">$foo</span> to <span class="s2">&#34;123&#34;</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Named arguments are also available to the jq program as <span class="nv">$ARGS</span>.named.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--argjson name JSON-text
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">This option passes a JSON-encoded value to the jq program as a predefined variable. If you run jq with --argjson foo 123, <span class="k">then</span> <span class="nv">$foo</span> is available in the program and has the value 123.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--slurpfile variable-name filename
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">This option reads all the JSON texts in the named file and binds an array of the parsed JSON values to the given global variable. If you run jq with --argfile foo bar, <span class="k">then</span> <span class="nv">$foo</span> is available in the program and has an array whose elements correspond to the  texts
+</span></span><span class="line"><span class="cl">in the file named bar.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--argfile variable-name filename
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Do not use. Use --slurpfile instead.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">(</span>This option is like --slurpfile, but when the file has just one text, <span class="k">then</span> that is used, <span class="k">else</span> an array of texts is used as in --slurpfile.<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--args
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Remaining arguments are positional string arguments. These are available to the jq program as <span class="nv">$ARGS</span>.positional<span class="o">[]</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--jsonargs
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Remaining arguments are positional JSON text arguments. These are available to the jq program as <span class="nv">$ARGS</span>.positional<span class="o">[]</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--run-tests <span class="o">[</span>filename<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Runs  the  tests  in  the  given  file  or standard input. This must be the last option given and does not honor all preceding options. The input consists of comment lines, empty lines, and program lines followed by one input line, as many lines of output as are
+</span></span><span class="line"><span class="cl">expected <span class="o">(</span>one per output<span class="o">)</span>, and a terminating empty line. Compilation failure tests start with a line containing only <span class="s2">&#34;%%FAIL&#34;</span>, <span class="k">then</span> a line containing the program to compile, <span class="k">then</span> a line containing an error message to compare to the actual.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Be warned that this option can change backwards-incompatibly.</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="快速入门" class="heading-element">
+  <a href="#%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8" class="heading-mark"></a>快速入门</h1><h2 id="格式化-josn" class="heading-element">
+  <a href="#%e6%a0%bc%e5%bc%8f%e5%8c%96-josn" class="heading-mark"></a>格式化 josn</h2><p><code>.</code> 字符表示层级，当只有一个 <code>.</code> 字符时表示所有文本。由于 <code>jq</code> 会高亮输出，单独使用通常是高亮语法或判断格式错误</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 单独的 . 字符可以省略。如 cat j.json | jq 等效以下命令</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Id&#34;</span>: <span class="s2">&#34;a595d20441b6dce94e7181d49c41acbc1478a203c9bd502a4a17a2bac222a1ff&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Created&#34;</span>: <span class="s2">&#34;2023-04-02T13:00:15.761827266Z&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Path&#34;</span>: <span class="s2">&#34;/entrypoint.sh&#34;</span>,
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="特殊字符" class="heading-element">
+  <a href="#%e7%89%b9%e6%ae%8a%e5%ad%97%e7%ac%a6" class="heading-mark"></a>特殊字符</h2><p>如果含有特殊字符，则需要使用双引号</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node01 ~<span class="o">]</span><span class="c1"># kubectl -n kube-system get Deployments calico-kube-controllers -o json | jq &#39;.metadata.annotations&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;deployment.kubernetes.io/revision&#34;</span>: <span class="s2">&#34;1&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;kubectl.kubernetes.io/last-applied-configuration&#34;</span>: <span class="s2">&#34;{\&#34;apiVersion...
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">[root@node01 ~]# kubectl -n kube-system get Deployments calico-kube-controllers -o json | jq &#39;.metadata.annotations.&#34;</span>kubectl.kubernetes.io/last-applied-configuration<span class="s2">&#34;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;</span><span class="o">{</span><span class="se">\&#34;</span>apiVersion<span class="se">\&#34;</span>:<span class="se">\&#34;</span>apps/v1<span class="se">\&#34;</span>,...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="对象标识符" class="heading-element">
+  <a href="#%e5%af%b9%e8%b1%a1%e6%a0%87%e8%af%86%e7%ac%a6" class="heading-mark"></a>对象标识符</h2><p>可以通字段名获取想要的值</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[].NetworkSettings.Networks.note.IPAMConfig</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.11&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.12&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[].NetworkSettings.Networks.note.IPAMConfig.IPv4Address</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;172.11.1.11&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;172.11.1.12&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="索引" class="heading-element">
+  <a href="#%e7%b4%a2%e5%bc%95" class="heading-mark"></a>索引</h2><p>当索引值为整数时，<code>.[&lt;integer&gt;]</code>可以索引数组或对象的值。索引从零开始，因此<code>.[2]</code>返回第三个元素。允许使用负索引，<code>-1</code> 表示最后一个元素，<code>-2</code> 表示倒数第二个元素，依此类推。当缺少数组索引时表示所有数组。当引用数组或对像多个值时，可以使用<code>,</code>分隔</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[].NetworkSettings.SandboxID</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;0c69562161027072efe0125290962ee0d4f89ba80c5cdf20501b9cfe4ad26765&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;a95152e99bc185f1c6c045dd83cadadd3cccef0f6f80ea4d58ad983499da2d08&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[0].NetworkSettings.SandboxID</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;0c69562161027072efe0125290962ee0d4f89ba80c5cdf20501b9cfe4ad26765&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[1].NetworkSettings.SandboxID</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;a95152e99bc185f1c6c045dd83cadadd3cccef0f6f80ea4d58ad983499da2d08&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[0,1].NetworkSettings.SandboxID</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;0c69562161027072efe0125290962ee0d4f89ba80c5cdf20501b9cfe4ad26765&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;a95152e99bc185f1c6c045dd83cadadd3cccef0f6f80ea4d58ad983499da2d08&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="忽略错误" class="heading-element">
+  <a href="#%e5%bf%bd%e7%95%a5%e9%94%99%e8%af%af" class="heading-mark"></a>忽略错误</h2><p>引用不存在格式时会报错，使用<code>?</code>会忽略报错</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[1].NetworkSettings.Networks.note[0]</span>
+</span></span><span class="line"><span class="cl">jq: error <span class="o">(</span>at &lt;stdin&gt;:499<span class="o">)</span>: Cannot index object with number
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo $?</span>
+</span></span><span class="line"><span class="cl"><span class="m">5</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="切片" class="heading-element">
+  <a href="#%e5%88%87%e7%89%87" class="heading-mark"></a>切片</h2><p>可以对数组或字符串进行切片操作</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[1].Id</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;26cfd596e0fd1b3677d49a887559193db23680f0458e9cca5f8527fb6caf9b04&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[1].Id[0:7]</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;26cfd59&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="多个过滤器" class="heading-element">
+  <a href="#%e5%a4%9a%e4%b8%aa%e8%bf%87%e6%bb%a4%e5%99%a8" class="heading-mark"></a>多个过滤器</h2><p>有多个条件时使用<code>,</code>分隔过滤条件，相同输出会分别被多组过滤条件接收。根据条件从左到右输出结果</p>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[].Id</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;a595d20441b6dce94e7181d49c41acbc1478a203c9bd502a4a17a2bac222a1ff&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;26cfd596e0fd1b3677d49a887559193db23680f0458e9cca5f8527fb6caf9b04&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[1].Id[0:7],.[0].Id[0:7]</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;26cfd59&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;a595d20&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="过滤器组合" class="heading-element">
+  <a href="#%e8%bf%87%e6%bb%a4%e5%99%a8%e7%bb%84%e5%90%88" class="heading-mark"></a>过滤器组合</h2><p><code>|</code> 与 <code>linux</code> 的管道符作用相同，把前面的输入结题再进行过虑</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[1].Mounts</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Type&#34;</span>: <span class="s2">&#34;bind&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Source&#34;</span>: <span class="s2">&#34;/data/ArtalkData/mysqlDocker/data&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Destination&#34;</span>: <span class="s2">&#34;/var/lib/mysql&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Mode&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;RW&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Propagation&#34;</span>: <span class="s2">&#34;rprivate&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Type&#34;</span>: <span class="s2">&#34;bind&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Source&#34;</span>: <span class="s2">&#34;/data/ArtalkData/mysqlDocker/log&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Destination&#34;</span>: <span class="s2">&#34;/var/log/mysql&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Mode&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;RW&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Propagation&#34;</span>: <span class="s2">&#34;rprivate&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Type&#34;</span>: <span class="s2">&#34;bind&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Source&#34;</span>: <span class="s2">&#34;/data/ArtalkData/mysqlDocker/mysqld&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Destination&#34;</span>: <span class="s2">&#34;/var/run/mysqld&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Mode&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;RW&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Propagation&#34;</span>: <span class="s2">&#34;rprivate&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Type&#34;</span>: <span class="s2">&#34;bind&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Source&#34;</span>: <span class="s2">&#34;/etc/localtime&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Destination&#34;</span>: <span class="s2">&#34;/etc/localtime&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Mode&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;RW&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Propagation&#34;</span>: <span class="s2">&#34;rprivate&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Type&#34;</span>: <span class="s2">&#34;bind&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Source&#34;</span>: <span class="s2">&#34;/data/ArtalkData/mysqlDocker/conf&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Destination&#34;</span>: <span class="s2">&#34;/etc/mysql&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Mode&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;RW&#34;</span>: true,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Propagation&#34;</span>: <span class="s2">&#34;rprivate&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq &#34;.[1].Mounts[] | .Source&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/data/ArtalkData/mysqlDocker/data&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/data/ArtalkData/mysqlDocker/log&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/data/ArtalkData/mysqlDocker/mysqld&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/etc/localtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/data/ArtalkData/mysqlDocker/conf&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[1].Mounts[].Source</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/data/ArtalkData/mysqlDocker/data&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/data/ArtalkData/mysqlDocker/log&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/data/ArtalkData/mysqlDocker/mysqld&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/etc/localtime&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;/data/ArtalkData/mysqlDocker/conf&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="递归所有值" class="heading-element">
+  <a href="#%e9%80%92%e5%bd%92%e6%89%80%e6%9c%89%e5%80%bc" class="heading-mark"></a>递归所有值</h2><p><code>..</code> 会遍历所有键的值</p>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq &#39;..&#39; | head -n 7</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Id&#34;</span>: <span class="s2">&#34;a595d20441b6dce94e7181d49c41acbc1478a203c9bd502a4a17a2bac222a1ff&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Created&#34;</span>: <span class="s2">&#34;2023-04-02T13:00:15.761827266Z&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Path&#34;</span>: <span class="s2">&#34;/entrypoint.sh&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Args&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;server&#34;</span>,</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq &#39;.. | .IPAMConfig?&#39;</span>
+</span></span><span class="line"><span class="cl">null
+</span></span><span class="line"><span class="cl">null
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">null
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.11&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">null
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.12&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">null
+</span></span><span class="line"><span class="cl">null
+</span></span><span class="line"><span class="cl">null</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="数学运算" class="heading-element">
+  <a href="#%e6%95%b0%e5%ad%a6%e8%bf%90%e7%ae%97" class="heading-mark"></a>数学运算</h2><p>可以做数学运算</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[1].NetworkSettings.Networks.note.IPPrefixLen</span>
+</span></span><span class="line"><span class="cl"><span class="m">24</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq &#34;.[1].NetworkSettings.Networks.note.IPPrefixLen + 3&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="m">27</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq &#34;.[1].NetworkSettings.Networks.note.IPPrefixLen + 3 | . * 2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="m">54</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq &#34;(.[1].NetworkSettings.Networks.note.IPPrefixLen + 3) * 2&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="m">54</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="构建对象" class="heading-element">
+  <a href="#%e6%9e%84%e5%bb%ba%e5%af%b9%e8%b1%a1" class="heading-mark"></a>构建对象</h1><p><code>[...]</code>用于构建新的<code>json</code>数组，即引用字段的值</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq .[].NetworkSettings.Networks.note.IPAMConfig</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.11&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.12&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq [.[].NetworkSettings.Networks.note.IPAMConfig]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.11&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.12&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq [.[].NetworkSettings.Networks.note.IPAMConfig.IPv4Address]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;172.11.1.11&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;172.11.1.12&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>{...}</code> 用于构建新的<code>json</code>对象</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;user&#34;:&#34;stedolan&#34;,&#34;titles&#34;:[&#34;JQ Primer&#34;, &#34;More JQ&#34;]}&#39; | jq</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;user&#34;</span>: <span class="s2">&#34;stedolan&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;titles&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;JQ Primer&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;More JQ&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;user&#34;:&#34;stedolan&#34;,&#34;titles&#34;:[&#34;JQ Primer&#34;, &#34;More JQ&#34;]}&#39; | jq &#39;{user, title: .titles[]}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;user&#34;</span>: <span class="s2">&#34;stedolan&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;title&#34;</span>: <span class="s2">&#34;JQ Primer&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;user&#34;</span>: <span class="s2">&#34;stedolan&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;title&#34;</span>: <span class="s2">&#34;More JQ&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq &#39;.[0].NetworkSettings.Networks.note&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPAMConfig&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.11&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Links&#34;</span>: null,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Aliases&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;a595d20441b6&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;NetworkID&#34;</span>: <span class="s2">&#34;758186f2828160d7c48e9f9a3fc0db8dd2c4d79b66b40d878aaeef9f8b697d4f&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;EndpointID&#34;</span>: <span class="s2">&#34;8d06c4bec0113740a8875d49db0333ad16032b764487939cd1872cf78b391471&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Gateway&#34;</span>: <span class="s2">&#34;172.11.1.1&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPAddress&#34;</span>: <span class="s2">&#34;172.11.1.11&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPPrefixLen&#34;</span>: 24,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPv6Gateway&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;GlobalIPv6Address&#34;</span>: <span class="s2">&#34;&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;GlobalIPv6PrefixLen&#34;</span>: 0,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;MacAddress&#34;</span>: <span class="s2">&#34;02:42:ac:0b:01:0b&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;DriverOpts&#34;</span>: null
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat j.json | jq &#39;.[0].NetworkSettings.Networks.note | {Aliases,IPAMConfig}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Aliases&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;a595d20441b6&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;IPAMConfig&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;IPv4Address&#34;</span>: <span class="s2">&#34;172.11.1.11&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在键周围加上括号意味着它将被评估为一个表达式，作为键的变量引用使用变量的值作为键。如果没有值，则变量的名称成为键，其值成为值。即键的值作为新的键，可以引用其它键的值做为值。</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;user&#34;:&#34;stedolan&#34;,&#34;titles&#34;:[&#34;JQ Primer&#34;, &#34;More JQ&#34;]}&#39; | jq &#39;{(.user): .titles}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;stedolan&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;JQ Primer&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;More JQ&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws cloudformation list-stacks --profile &#34;xiaosi&#34; --region &#34;ap-southeast-1&#34; | jq</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;StackSummaries&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;StackId&#34;</span>: <span class="s2">&#34;arn:...&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;StackName&#34;</span>: <span class="s2">&#34;eksctl-attractive-painting-1686793950-cluster&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;TemplateDescription&#34;</span>: <span class="s2">&#34;EKS c...&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CreationTime&#34;</span>: <span class="s2">&#34;...&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DeletionTime&#34;</span>: <span class="s2">&#34;...&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;StackStatus&#34;</span>: <span class="s2">&#34;DELETE_COMPLETE&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;DriftInformation&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;StackDriftStatus&#34;</span>: <span class="s2">&#34;NOT_CHECKED&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  ....
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws cloudformation list-stacks --profile &#34;xiaosi&#34; --region &#34;ap-southeast-1&#34; | jq  &#34;.StackSummaries[] | {StackName,StackStatus}&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;StackName&#34;</span>: <span class="s2">&#34;eksctl-attractive-painting-1686793950-cluster&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;StackStatus&#34;</span>: <span class="s2">&#34;DELETE_COMPLETE&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;StackName&#34;</span>: <span class="s2">&#34;eksctl-eks03-nodegroup-ng-785ac8ef&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;StackStatus&#34;</span>: <span class="s2">&#34;CREATE_COMPLETE&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws cloudformation list-stacks --profile &#34;xiaosi&#34; --region &#34;ap-southeast-1&#34; | jq  &#34;[.StackSummaries[] | {StackName,StackStatus}]&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;StackName&#34;</span>: <span class="s2">&#34;eksctl-attractive-painting-1686793950-cluster&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;StackStatus&#34;</span>: <span class="s2">&#34;DELETE_COMPLETE&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;StackName&#34;</span>: <span class="s2">&#34;eksctl-eks03-nodegroup-ng-785ac8ef&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;StackStatus&#34;</span>: <span class="s2">&#34;CREATE_COMPLETE&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面示例中，只获取指定字段，并对值进行重构成列表，其中添加<code>status</code> 字段，它的值是引用指定字段值</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span><span class="err">root@localhost</span> <span class="err">~</span><span class="p">]</span><span class="err">#</span> <span class="err">cat</span> <span class="err">instances.json</span> <span class="err">|</span> <span class="err">jq</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;instances&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Debian-10&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="err">.....</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;publicIpAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;18.15.5.17&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;state&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;running&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="err">....</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="err">....</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="err">root@localhost</span> <span class="err">~</span><span class="p">]</span><span class="err">#</span> <span class="err">jq</span> <span class="err">&#39;</span><span class="p">[</span><span class="err">.instances</span><span class="p">[]</span> <span class="err">|</span> <span class="p">{</span><span class="err">name,</span> <span class="err">publicIpAddress,status:</span> <span class="err">.state.name</span><span class="p">}]</span><span class="err">&#39;</span> <span class="err">instances.json</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Debian-10&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;publicIpAddress&#34;</span><span class="p">:</span> <span class="s2">&#34;18.15.5.17&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;running&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="err">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="内置运算符" class="heading-element">
+  <a href="#%e5%86%85%e7%bd%ae%e8%bf%90%e7%ae%97%e7%ac%a6" class="heading-mark"></a>内置运算符</h1><p>某些 <code>jq</code> 运算符会根据其参数类型做不同的事情。但 <code>jq</code> 从不进行隐式类型转换</p>
+<h2 id="添加" class="heading-element">
+  <a href="#%e6%b7%bb%e5%8a%a0" class="heading-mark"></a>添加</h2><p>运算符<code>+</code>采用两个过滤器，将它们都应用于同一输入，结果取决于所涉及的类型：</p>
+<ul>
+<li>数字：正常算术相加</li>
+<li>对象：合并成一个数组，如果两个对象都包含同一个键的值，则右边对象的值</li>
+<li>数组：合并成一个更大的数组</li>
+<li>字符串：合并成一个更大的字符串
+<br></li>
+</ul>
+<div class="highlight" id="id-18"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;a&#34;: [1,2], &#34;b&#34;: [3,4]}&#39; | jq &#39;.a + .b&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  1,
+</span></span><span class="line"><span class="cl">  2,
+</span></span><span class="line"><span class="cl">  3,
+</span></span><span class="line"><span class="cl">  <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[{&#34;a&#34;: 1},{&#34;b&#34;: 2}]&#39; | jq &#39; .[0] + .[1]&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;a&#34;</span>: 1,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;b&#34;</span>: <span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="删减" class="heading-element">
+  <a href="#%e5%88%a0%e5%87%8f" class="heading-mark"></a>删减</h2><p>运算符<code>-</code>采用两个过滤器，将它们都应用于同一输入，结果取决于所涉及的类型：</p>
+<ul>
+<li>数字：正常算术相减</li>
+<li>数组：从第一个数组中减去第二个数据的值
+<br></li>
+</ul>
+<div class="highlight" id="id-19"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[&#34;xml&#34;, &#34;yaml&#34;, &#34;json&#34;]&#39; | jq &#39;. - [&#34;xml&#34;, &#34;yaml&#34;]&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;json&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="乘法除法求余" class="heading-element">
+  <a href="#%e4%b9%98%e6%b3%95%e9%99%a4%e6%b3%95%e6%b1%82%e4%bd%99" class="heading-mark"></a>乘法、除法、求余</h2><h1 id="函数" class="heading-element">
+  <a href="#%e5%87%bd%e6%95%b0" class="heading-mark"></a>函数</h1><h2 id="获取长度" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96%e9%95%bf%e5%ba%a6" class="heading-mark"></a>获取长度</h2><p>内置函数<code>length</code> 可以获取各种不同类型值的长度：</p>
+<ul>
+<li>字符串：长度是它包含的 <code>Unicode</code> 代码点的数量（如果是纯 <code>ASCII</code>，则与 <code>JSON</code> 编码的字节长度相同）。</li>
+<li>数字的长度是它的绝对值。</li>
+<li>数组的长度是元素的数量。</li>
+<li>对象的长度是键值对的数量。</li>
+<li><code>null</code> 的长度为零。</li>
+<li>在布尔值上使用长度是错误的。</li>
+</ul>
+<div class="highlight" id="id-20"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[[1,2], &#34;string&#34;, {&#34;a&#34;:2}, null, -5]&#39; | jq &#39;.[] | length&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="m">6</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="m">5</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="获取-utf-8-编码字符串的字节数" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96-utf-8-%e7%bc%96%e7%a0%81%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%9a%84%e5%ad%97%e8%8a%82%e6%95%b0" class="heading-mark"></a>获取 UTF-8 编码字符串的字节数</h2><h2 id="获取-key" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96-key" class="heading-mark"></a>获取 key</h2><p><code>key_unsorted</code> 内置函数按顺便返回<code>key</code>；<code>key</code> 相似，但会把 <code>key</code> 按字母排序。如果是列表，则它们返回其下标</p>
+<div class="highlight" id="id-21"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[21,33,44]&#39; | jq &#39;keys_unsorted&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  0,
+</span></span><span class="line"><span class="cl">  1,
+</span></span><span class="line"><span class="cl">  <span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[21,33,44]&#39; | jq &#39;keys&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  0,
+</span></span><span class="line"><span class="cl">  1,
+</span></span><span class="line"><span class="cl">  <span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-22"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;abc&#34;: 1, &#34;abcd&#34;: 2, &#34;Foo&#34;: 3}&#39; | jq &#39;keys&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Foo&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;abc&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;abcd&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;abc&#34;: 1, &#34;abcd&#34;: 2, &#34;Foo&#34;: 3}&#39; | jq &#39;keys_unsorted&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;abc&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;abcd&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;Foo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="判断是否存在某个key" class="heading-element">
+  <a href="#%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e5%ad%98%e5%9c%a8%e6%9f%90%e4%b8%aakey" class="heading-mark"></a>判断是否存在某个key</h2><p><code>has</code>函数能判断对象是否包含某个<code>key</code>，如果包含则返回<code>true</code>；否则返回 <code>false</code></p>
+<div class="highlight" id="id-23"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;name&#34;: &#34;John&#34;, &#34;age&#34;: 30, &#34;city&#34;: &#34;New York&#34;}&#39; | jq &#39;has(&#34;age&#34;)&#39;</span>
+</span></span><span class="line"><span class="cl">true</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="判断是数组指定的下标是否存在" class="heading-element">
+  <a href="#%e5%88%a4%e6%96%ad%e6%98%af%e6%95%b0%e7%bb%84%e6%8c%87%e5%ae%9a%e7%9a%84%e4%b8%8b%e6%a0%87%e6%98%af%e5%90%a6%e5%ad%98%e5%9c%a8" class="heading-mark"></a>判断是数组指定的下标是否存在</h2><p><code>has</code> 函数能判断数组下标值是否存在</p>
+<div class="highlight" id="id-24"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[21,33,44]&#39; | jq &#39;has(2)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">true</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[21,33,44]&#39; | jq &#39;has(3)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">false</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[21,33,44]&#39; | jq &#39;has(0)&#39;</span>
+</span></span><span class="line"><span class="cl">true</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="对所有key的值或数组进行操作" class="heading-element">
+  <a href="#%e5%af%b9%e6%89%80%e6%9c%89key%e7%9a%84%e5%80%bc%e6%88%96%e6%95%b0%e7%bb%84%e8%bf%9b%e8%a1%8c%e6%93%8d%e4%bd%9c" class="heading-mark"></a>对所有key的值或数组进行操作</h2><p><code>map</code> 与 <code>map_values</code> 都可以对值或数组进行统一操作。对与数组它们的反回结果没有区别，都是返回一个处理后的数组。如果是对象，<code>map</code> 返回的是数组，<code>map_values</code> 返回的是对象</p>
+<div class="highlight" id="id-25"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[1, 2, 3, 4, 5]&#39; | jq &#39;map(. + 1)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  2,
+</span></span><span class="line"><span class="cl">  3,
+</span></span><span class="line"><span class="cl">  4,
+</span></span><span class="line"><span class="cl">  5,
+</span></span><span class="line"><span class="cl">  <span class="m">6</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[1, 2, 3, 4, 5]&#39; | jq &#39;map_values(. + 1)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  2,
+</span></span><span class="line"><span class="cl">  3,
+</span></span><span class="line"><span class="cl">  4,
+</span></span><span class="line"><span class="cl">  5,
+</span></span><span class="line"><span class="cl">  <span class="m">6</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-26"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;a&#34;: 1, &#34;b&#34;: 2, &#34;c&#34;: 3}&#39; | jq &#39;map_values(.+1)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;a&#34;</span>: 2,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;b&#34;</span>: 3,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;c&#34;</span>: <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;{&#34;a&#34;: 1, &#34;b&#34;: 2, &#34;c&#34;: 3}&#39; | jq &#39;map(.+1)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  2,
+</span></span><span class="line"><span class="cl">  3,
+</span></span><span class="line"><span class="cl">  <span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据表达式选择对象或数组" class="heading-element">
+  <a href="#%e6%a0%b9%e6%8d%ae%e8%a1%a8%e8%be%be%e5%bc%8f%e9%80%89%e6%8b%a9%e5%af%b9%e8%b1%a1%e6%88%96%e6%95%b0%e7%bb%84" class="heading-mark"></a>根据表达式选择对象或数组</h2><p><code>select(boolean_expression)</code> 函数表示如果对象或数组满足某个表达式，则输出所在对象或数组</p>
+<div class="highlight" id="id-27"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 输出 id 为 second 所在对象</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[{&#34;id&#34;: &#34;first&#34;, &#34;val&#34;: 1}, {&#34;id&#34;: &#34;second&#34;, &#34;val&#34;: 2}]&#39; | jq &#39;.[] | select(.id == &#34;second&#34;)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;id&#34;</span>: <span class="s2">&#34;second&#34;</span>,
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;val&#34;</span>: <span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出数组中大于<code>2</code>的值。下面示例中，<code>map</code>函数将对每个值都判断是否大于<code>2</code>，如果大于<code>2</code>则产生输出被<code>map</code>构建成新的数组</p>
+<div class="highlight" id="id-28"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># echo &#39;[1,5,3,0,7]&#39; | jq &#39;map(select(. &gt;= 2))&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">  5,
+</span></span><span class="line"><span class="cl">  3,
+</span></span><span class="line"><span class="cl">  <span class="m">7</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-09-07 14:27:09">更新于 2023-09-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E5%91%BD%E4%BB%A4/" class="post-tag" title="标签 - 命令">命令</a><a href="/tags/jq/" class="post-tag" title="标签 - jq">jq</a><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a><a href="/tags/windows/" class="post-tag" title="标签 - windows">windows</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sFAQ/" class="post-nav-item" rel="prev" title="k8s问答"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s问答</a>
+      <a href="/k8sAPI%E6%A6%82%E8%BF%B0%E5%8F%8A%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" class="post-nav-item" rel="next" title="k8s API 概述及访问控制">k8s API 概述及访问控制<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

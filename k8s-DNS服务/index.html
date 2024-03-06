@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s NDS 服务 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： k8s: 1.14 内容来自以下文档： k8s 官方文档: 使用 CoreDNS 进行服务发现 k8s 官方文档: 自定义 DNS 服务 k8s官方文档-Pod 与 Service 的 DNS k8s官方文档-Kube" /><meta name="keywords" content='k8s, k8s dns' /><meta itemprop="name" content="k8s NDS 服务">
+<meta itemprop="description" content="运行环境： k8s: 1.14 内容来自以下文档： k8s 官方文档: 使用 CoreDNS 进行服务发现 k8s 官方文档: 自定义 DNS 服务 k8s官方文档-Pod 与 Service 的 DNS k8s官方文档-Kube"><meta itemprop="datePublished" content="2020-03-18T16:52:11+08:00" />
+<meta itemprop="dateModified" content="2022-09-18T16:10:22+08:00" />
+<meta itemprop="wordCount" content="3908">
+<meta itemprop="keywords" content="k8s,k8s dns," /><meta property="og:title" content="k8s NDS 服务" />
+<meta property="og:description" content="运行环境： k8s: 1.14 内容来自以下文档： k8s 官方文档: 使用 CoreDNS 进行服务发现 k8s 官方文档: 自定义 DNS 服务 k8s官方文档-Pod 与 Service 的 DNS k8s官方文档-Kube" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8s-DNS%E6%9C%8D%E5%8A%A1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-03-18T16:52:11+08:00" />
+<meta property="article:modified_time" content="2022-09-18T16:10:22+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s NDS 服务"/>
+<meta name="twitter:description" content="运行环境： k8s: 1.14 内容来自以下文档： k8s 官方文档: 使用 CoreDNS 进行服务发现 k8s 官方文档: 自定义 DNS 服务 k8s官方文档-Pod 与 Service 的 DNS k8s官方文档-Kube"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8s-DNS%E6%9C%8D%E5%8A%A1/" /><link rel="prev" href="/k8sSecret/" /><link rel="next" href="/nginx-load-balance/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s NDS 服务",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8s-DNS%E6%9C%8D%E5%8A%A1\/"
+    },"genre": "posts","keywords": "k8s, k8s dns","wordcount":  3908 ,
+    "url": "\/k8s-DNS%E6%9C%8D%E5%8A%A1\/","datePublished": "2020-03-18T16:52:11+08:00","dateModified": "2022-09-18T16:10:22+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s NDS 服务</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2020-03-18 16:52:11"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2020-03-18">2020-03-18</time></span>&nbsp;<span title="更新于 2022-09-18 16:10:22"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-09-18">2022-09-18</time></span>&nbsp;<span title="3908 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 8 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#k8s-中-dns--规范">k8s 中 DNS  规范</a>
+      <ul>
+        <li><a href="#pod-和-service-的-dns">Pod 和 Service 的 DNS</a></li>
+        <li><a href="#获取-dns-名称">获取 DNS 名称</a></li>
+        <li><a href="#版本架构记录">版本架构记录</a></li>
+        <li><a href="#集群服务记录">集群服务记录</a>
+          <ul>
+            <li><a href="#aaaaa-记录">A/AAAA 记录</a></li>
+            <li><a href="#srv-记录">SRV 记录</a></li>
+            <li><a href="#ptr-记录">PTR 记录</a></li>
+          </ul>
+        </li>
+        <li><a href="#无头服务记录">无头服务记录</a>
+          <ul>
+            <li><a href="#aaaaa">A/AAAA</a></li>
+            <li><a href="#arv-记录">ARV 记录</a></li>
+            <li><a href="#ptr-记录-1">PTR 记录</a></li>
+          </ul>
+        </li>
+        <li><a href="#externalname--服务记录">ExternalName  服务记录</a></li>
+      </ul>
+    </li>
+    <li><a href="#pod">Pod</a>
+      <ul>
+        <li><a href="#pod-的主机名和子域名">Pod 的主机名和子域名</a></li>
+        <li><a href="#pod-的-dns-设置">Pod 的 DNS 设置</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-09-18，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.14</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/coredns/"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s 官方文档</code>: 使用 CoreDNS 进行服务发现</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/dns-custom-nameservers/"target="_blank" rel="external nofollow noopener noreferrer"><code>k8s 官方文档</code>: 自定义 DNS 服务</a></li>
+<li><a href="https://kubernetes.io/zh/docs/concepts/services-networking/dns-pod-service/" title="k8s官方文档-Pod 与 Service 的 DNS"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档-Pod 与 Service 的 DNS</a></li>
+<li><a href="https://github.com/kubernetes/dns/blob/master/docs/specification.md" title="k8s官方文档-Kubernetes DNS-Based Service Discovery"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档-Kubernetes DNS-Based Service Discovery</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="k8s-中-dns--规范" class="heading-element">
+  <a href="#k8s-%e4%b8%ad-dns--%e8%a7%84%e8%8c%83" class="heading-mark"></a>k8s 中 DNS  规范</h1><p>Kubernetes的任何基于DNS的服务发现解决方案都必须提供以下所述的资源记录</p>
+<h2 id="pod-和-service-的-dns" class="heading-element">
+  <a href="#pod-%e5%92%8c-service-%e7%9a%84-dns" class="heading-mark"></a>Pod 和 Service 的 DNS</h2><p>k8s DNS 在集群商调度 DNS Pod 和服务，并配置 kubelet 以告知各个容器使用 NDS 服务的 IP 来解析 DNS 名称</p>
+<h2 id="获取-dns-名称" class="heading-element">
+  <a href="#%e8%8e%b7%e5%8f%96-dns-%e5%90%8d%e7%a7%b0" class="heading-mark"></a>获取 DNS 名称</h2><p>在集群中定义的每个 Service （包括 DNS 服务本身）都会被指定一个 DNS 名称。默认一个客户端 Pod 的 DNS 搜索列表将包含该 Pod 自己的名称空间和集群默认域</p>
+<p>官方示例：假设在 k8s 集群的名称空间 bar 中，定义了一个Service foo。 运行在名称空间 bar 中的一个 Pod，可以简单地通过 DNS 查询 foo 来找到该 Service。 运行在名称空间 quux 中的一个 Pod 可以通过 DNS 查询 foo.bar 找到该 Service</p>
+<h2 id="版本架构记录" class="heading-element">
+  <a href="#%e7%89%88%e6%9c%ac%e6%9e%b6%e6%9e%84%e8%ae%b0%e5%bd%95" class="heading-mark"></a>版本架构记录</h2><p>必须有一个 TXT 的记录架构版本</p>
+<p>记录格式：<code>dns-version.&lt;zone&gt;. &lt;ttl&gt; IN TXT &lt;schema-version&gt;</code></p>
+<ul>
+<li><code>zone</code>：集群域</li>
+<li><code>ttl</code>：标准 DNS 解析缓存有效期</li>
+<li><code>cshema-version</code>：解析的值</li>
+</ul>
+<p>示例：<code>dns-version.cluster.local. IN TXT</code>
+解析记录：<code>dns-version.cluster.local. 28800 IN TXT &quot;1.1.0&quot;</code></p>
+<h2 id="集群服务记录" class="heading-element">
+  <a href="#%e9%9b%86%e7%be%a4%e6%9c%8d%e5%8a%a1%e8%ae%b0%e5%bd%95" class="heading-mark"></a>集群服务记录</h2><p>在给定集群 IP 的服务中，必须有以下记录</p>
+<h3 id="aaaaa-记录" class="heading-element">
+  <a href="#aaaaa-%e8%ae%b0%e5%bd%95" class="heading-mark"></a>A/AAAA 记录</h3><p>IPV4 记录格式：<code>&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;. &lt;ttl&gt; IN A &lt;cluster-ip&gt;</code></p>
+<ul>
+<li><code>service</code>：服务名称</li>
+<li><code>ns</code>：名称空间</li>
+<li><code>zone</code>；集群域</li>
+<li><code>ttl</code>：标准 DNS 解析缓存有效期</li>
+<li><code>cluser-ip</code>：后端提供服务的 Pod IP</li>
+</ul>
+<p>示例：<code>kubernetes.default.svc.cluster.local. IN A</code>
+解析记录：<code>kubernetes.default.svc.cluster.local. 4 IN A 10.3.0.1</code></p>
+<p>如果是 IPV6 则需使用 <code>AAAA</code> 记录：<code>&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;. &lt;ttl&gt; IN AAAA &lt;cluster-ip&gt;</code></p>
+<h3 id="srv-记录" class="heading-element">
+  <a href="#srv-%e8%ae%b0%e5%bd%95" class="heading-mark"></a>SRV 记录</h3><p>对于服务中具体协议名称和命名端口号的服务，必须使记录格式：<code>_&lt;port&gt;._&lt;proto&gt;.&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;. &lt;ttl&gt; IN SRV &lt;weight&gt; &lt;priority&gt; &lt;port-number&gt; &lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;.</code></p>
+<ul>
+<li><code>port</code>：端口名称或协议名称</li>
+<li><code>proto</code>：协议</li>
+<li><code>service</code>：服务名称</li>
+<li><code>ns</code>：名称空间</li>
+<li><code>zone</code>：集群域</li>
+<li><code>weight</code>：权重</li>
+<li><code>priority</code>：优先级</li>
+<li><code>prot-number</code>：端口号</li>
+</ul>
+<p>示例：<code>_https._tcp.kubernetes.default.svc.cluster.local. IN SRV</code>
+解析记录：<code>_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 kubernetes.default.svc.cluster.local.</code></p>
+<p>SRV 记录响应部分还可以引用 <code>A/AAAA</code> 记录</p>
+<p>SRV 解析值示例：<code>_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 kubernetes.default.svc.cluster.local.</code>
+引用 A 记录的解析值：<code>_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 10.3.0.1.</code></p>
+<h3 id="ptr-记录" class="heading-element">
+  <a href="#ptr-%e8%ae%b0%e5%bd%95" class="heading-mark"></a>PTR 记录</h3><p>对于给定的 IPV4 服务的集群IP , PTR 记录格式：<code>&lt;d&gt;.&lt;c&gt;.&lt;b&gt;.&lt;a&gt;.in-addr.arpa. &lt;ttl&gt; IN PTR &lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;.</code></p>
+<ul>
+<li><code>d</code>：IP D 段</li>
+<li><code>c</code>：IP C 段</li>
+<li><code>b</code>：IP B 段</li>
+<li><code>a</code>：IP A 段</li>
+<li><code>ttl</code>：标准 DNS 缓存有效期</li>
+<li><code>service</code>：服务名称</li>
+<li><code>ns</code>：名称空间</li>
+<li><code>zone</code>：集群区域</li>
+</ul>
+<p>示例：<code>1.0.3.10.in-addr.arpa. IN PTR</code>
+解析记录：<code>1.0.3.10.in-addr.arpa. 14 IN PTR kubernetes.default.svc.cluster.local.</code></p>
+<p>对于给定的 IPV6 ，PTR 记录格式：<code>h4.h3.h2.h1.g4.g3.g2.g1.f4.f3.f2.f1.e4.e3.e2.e1.d4.d3.d2.d1.c4.c3.c2.c1.b4.b3.b2.b1.a4.a3.a2.a1.ip6.arpa &lt;ttl&gt; IN PTR &lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;.</code></p>
+<ul>
+<li><code>h4</code>：H 段的第 4 个字符</li>
+<li><code>h3</code>：H 段的第 3 个字符
+&hellip;</li>
+<li><code>a1</code>：A 段的第 1 个字符</li>
+<li><code>ttl</code>：标准 DNS 缓存有效期</li>
+<li><code>service</code>：服务名称</li>
+<li><code>ns</code>：名称空间</li>
+</ul>
+<p>示例：<code>1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa. IN PTR</code>
+解析记录：<code>1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa. 14 IN PTR kubernetes.default.svc.cluster.local.</code></p>
+<h2 id="无头服务记录" class="heading-element">
+  <a href="#%e6%97%a0%e5%a4%b4%e6%9c%8d%e5%8a%a1%e8%ae%b0%e5%bd%95" class="heading-mark"></a>无头服务记录</h2><p>在给定的无头服务中（没有配置集群 IP），必须存在以下记录</p>
+<h3 id="aaaaa" class="heading-element">
+  <a href="#aaaaa" class="heading-mark"></a>A/AAAA</h3><p>IPV4 记录格式：<code>&lt;hostname&gt;.&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;. &lt;ttl&gt; IN A &lt;endpoint-ip&gt;</code></p>
+<ul>
+<li><code>hostname</code>：Pod 主机名称 (可以没有，则返回全部后端，如果指定，则返回固定的后端)</li>
+<li><code>service</code>：服务名称</li>
+<li><code>ns</code>：名称空间</li>
+<li><code>zone</code>：集群名称</li>
+<li><code>ttl</code>：标准 DNS 解析缓存有效期</li>
+<li><code>endpoint ip</code>：具体提供服务 Pod 的 ip，每个 Pod 都有单独的一条记录</li>
+</ul>
+<p>示例：<code>my-pet.headless.default.svc.cluster.local. IN A</code>
+解析记录：<code>headless.default.svc.cluster.local. 4 IN A 10.3.0.2</code></p>
+<p>示例：<code>headless.default.svc.cluster.local. IN A</code>
+可能有以下解析记录，看具体有多少个后端：</p>
+<ul>
+<li><code>headless.default.svc.cluster.local. 4 IN A 10.3.0.1</code></li>
+<li><code>headless.default.svc.cluster.local. 4 IN A 10.3.0.2</code></li>
+<li><code>headless.default.svc.cluster.local. 4 IN A 10.3.0.3</code></li>
+<li><code>headless.default.svc.cluster.local. 4 IN A 10.3.0.4</code></li>
+</ul>
+<p>IPV6 记录格式：<code>&lt;hostname&gt;&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;. &lt;ttl&gt; IN AAAA &lt;endpoint-ip&gt;</code></p>
+<h3 id="arv-记录" class="heading-element">
+  <a href="#arv-%e8%ae%b0%e5%bd%95" class="heading-mark"></a>ARV 记录</h3><p>记录格式：<code>_&lt;port&gt;._&lt;proto&gt;.&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;. &lt;ttl&gt; IN SRV &lt;weight&gt; &lt;priority&gt; &lt;port-number&gt; &lt;hostname&gt;.&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;.</code></p>
+<ul>
+<li><code>port</code>：端口名称</li>
+<li><code>proto</code>：协议</li>
+<li><code>service</code>：服务名称</li>
+<li><code>ns</code>：名称空间</li>
+<li><code>zone</code>：集群域</li>
+<li><code>weight</code>：权重</li>
+<li><code>priority</code>：优先级</li>
+<li><code>prot-number</code>：端口号</li>
+<li><code>hostname</code>：Pod 主机名</li>
+</ul>
+<p>示例：<code>_https._tcp.kubernetes.default.svc.cluster.local. IN SRV</code>
+解析记录数量具体看有多少后端：</p>
+<ul>
+<li><code>_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 my-pet1.kubernetes.default.svc.cluster.local.</code></li>
+<li><code>_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 my-pet2.kubernetes.default.svc.cluster.local.</code></li>
+<li><code>_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 my-pet3.kubernetes.default.svc.cluster.local.</code></li>
+</ul>
+<p>SRV 记录响应部分还可以引用 <code>A/AAAA</code> 记录</p>
+<p>SRV 解析值示例：<code>_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 my-pet1.kubernetes.default.svc.cluster.local.</code>
+引用 A 记录的解析值：<code>_https._tcp.kubernetes.default.svc.cluster.local. 30 IN SRV 10 100 443 10.3.0.1.</code></p>
+<p>如果有有 N 个后端端点，M 个端口名称，则有 N*M 条 ARV 记录</p>
+<h3 id="ptr-记录-1" class="heading-element">
+  <a href="#ptr-%e8%ae%b0%e5%bd%95-1" class="heading-mark"></a>PTR 记录</h3><p>IPV4 格式：<code>&lt;d&gt;.&lt;c&gt;.&lt;b&gt;.&lt;a&gt;.in-addr.arpa. &lt;ttl&gt; IN PTR &lt;hostname&gt;.&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;.</code></p>
+<ul>
+<li><code>d</code>：IP D 段</li>
+<li><code>c</code>：IP C 段</li>
+<li><code>b</code>：IP B 段</li>
+<li><code>a</code>：IP A 段</li>
+<li><code>ttl</code>：标准 DNS 缓存有效期</li>
+<li><code>hostname</code>：主机名</li>
+<li><code>service</code>：服务名称</li>
+<li><code>ns</code>：名称空间</li>
+<li><code>zone</code>：集群区域</li>
+</ul>
+<p>示例：<code>100.0.3.10.in-addr.arpa. IN PTR</code>
+解析记录：<code>100.0.3.10.in-addr.arpa. 14 IN PTR my-pet.headless.default.svc.cluster.local.</code></p>
+<p>IPV6 格式：<code>h4.h3.h2.h1.g4.g3.g2.g1.f4.f3.f2.f1.e4.e3.e2.e1.d4.d3.d2.d1.c4.c3.c2.c1.b4.b3.b2.b1.a4.a3.a2.a1.ip6.arpa &lt;ttl&gt; IN PTR &lt;hostnmae&gt;.&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;.</code></p>
+<h2 id="externalname--服务记录" class="heading-element">
+  <a href="#externalname--%e6%9c%8d%e5%8a%a1%e8%ae%b0%e5%bd%95" class="heading-mark"></a>ExternalName  服务记录</h2><p>也就是DNS CNAME 记录</p>
+<p>ExternalName  服务类型记录格式（IPV4）：<code>&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;. &lt;ttl&gt; IN CNAME &lt;extname&gt;.</code></p>
+<ul>
+<li><code>service</code>：服务名称</li>
+<li><code>sn</code>：名称空间</li>
+<li><code>zone</code>：集群域</li>
+<li><code>ttl</code>：标准 DNS 缓存有效期</li>
+<li><code>exname</code>：指向的域名</li>
+</ul>
+<p>示例：<code>foo.default.svc.cluster.local. IN A</code>
+解析记录：<code>foo.default.svc.cluster.local. 10 IN CNAME www.example.com.</code></p>
+<p>IPV6 格式：<code>&lt;service&gt;.&lt;ns&gt;.svc.&lt;zone&gt;. &lt;ttl&gt; IN CNAME &lt;extname&gt;.</code></p>
+<h1 id="pod" class="heading-element">
+  <a href="#pod" class="heading-mark"></a>Pod</h1><h2 id="pod-的主机名和子域名" class="heading-element">
+  <a href="#pod-%e7%9a%84%e4%b8%bb%e6%9c%ba%e5%90%8d%e5%92%8c%e5%ad%90%e5%9f%9f%e5%90%8d" class="heading-mark"></a>Pod 的主机名和子域名</h2><p>pod 有以下字段设置主机名，优先级从高到低：</p>
+<ul>
+<li><code>Pod.spec.hostname</code></li>
+<li><code>Pod.metadata.name</code></li>
+</ul>
+<p>Pod 的子域名由 <code>Pod.spec.subdomain</code> 字段设置</p>
+<p>端点对象可用为任意端点地址及其 IP 指定 hostname
+因为没有为 Pod 名称创建 A 记录，因此创建 Pod 的 A 记录需要 <code>Pod.spec.hostanme</code> 字段 <br/>
+没有 <code>Pod.spec.hostname</code> 字段但有 <code>Pod.spec.subdomain</code> 字段的 Pod 只会为执行 Pod 的 IP 地址的 HeadlessService 创建 A 记录 <br/>
+除非服务上设置了 <code>Service.sepc.publishNotReadyAddresses</code> 值为 True 否则  Pod 需要准备 A 记录</p>
+<h2 id="pod-的-dns-设置" class="heading-element">
+  <a href="#pod-%e7%9a%84-dns-%e8%ae%be%e7%bd%ae" class="heading-mark"></a>Pod 的 DNS 设置</h2><p>Pod 的 DNS 配置 <code>Pod.spec.dnsPolicy</code> 字段可以自定义 DNS 策略，有以下取值：</p>
+<ul>
+<li><code>Default</code> ：从所在节点继承解析配置</li>
+<li><code>ClusterFirst</code> ：默认配置，与集群域后缀不匹配的 DNS 查询都转发到从节点继承的上游名称服务器。 群集管理员可能配置了额外的存根域和上游DNS服务器</li>
+<li><code>ClusterFirstWithHostNet</code> ：使用 <code>Pod.spec.hostNetwork</code> 字段时必须指定该策略</li>
+<li><code>None</code> ：忽略 k8s 环境中的 DNS 配置，使用 <code>Pod.spec.dnsConfig</code> 字段所定义的配置</li>
+</ul>
+<p><code>Pod.spec.dnsConfig</code> 字段中指定以下字段：</p>
+<ul>
+<li>
+<p><code>nameservice</code>：用于 Pod 的 DNS 服务 IP 地址列表，最多有 3 个，当 <code>Pod.spec.dnsPolicy</code> 为 none 是必须指定一个，该字段为可选字段；列出的服务器将合并到从指定的 DNS 策略生成的基本名称服务器，并删除重复的地址</p>
+</li>
+<li>
+<p><code>searches</code>：用于查找 pod 主机名的 DNS 搜索域的列表。该字段是可选字段，最多指定 6 个。指定后，提供的列表将合并到根据所选 DNS 策略生成的基本搜索域名中。 重复的域名将被删除</p>
+</li>
+<li>
+<p><code>options</code>：对象的可选列表，其中每个对象可能具有 name 属性（必需）和 value 属性（可选）。 此属性中的内容将合并到从指定的 DNS 策略生成的选项。 重复的条目将被删除</p>
+</li>
+<li>
+<p>官方示例:</p>
+</li>
+</ul>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l">default</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">dns-example</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">dnsPolicy</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;None&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">dnsConfig</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">nameservers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="m">1.2.3.4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">searches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">ns1.svc.cluster-domain.example</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">my.dns.search.suffix</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">options</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">ndots</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">edns0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面示例中，创建 Pod 后，容器 test 在 <code>/etc/resolv.conf</code> 文件中读取以下内容</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">nameserver 1.2.3.4
+</span></span><span class="line"><span class="cl">search ns1.svc.cluster-domain.example my.dns.search.suffix
+</span></span><span class="line"><span class="cl">options ndots:2 edns0</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-09-18 16:10:22">更新于 2022-09-18&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s-dns/" class="post-tag" title="标签 - k8s dns">k8s dns</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sSecret/" class="post-nav-item" rel="prev" title="k8s Secret 对象"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s Secret 对象</a>
+      <a href="/nginx-load-balance/" class="post-nav-item" rel="next" title="nginx 负载均衡">nginx 负载均衡<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

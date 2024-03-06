@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>nginx 配置 https - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="nginx 使用 https 协议" /><meta name="keywords" content='Let’s Encrypt, nginx' /><meta itemprop="name" content="nginx 配置 https">
+<meta itemprop="description" content="nginx 使用 https 协议"><meta itemprop="datePublished" content="2022-08-13T10:15:20+08:00" />
+<meta itemprop="dateModified" content="2022-12-15T10:03:14+08:00" />
+<meta itemprop="wordCount" content="857">
+<meta itemprop="keywords" content="Let’s Encrypt,nginx," /><meta property="og:title" content="nginx 配置 https" />
+<meta property="og:description" content="nginx 使用 https 协议" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/nginx-https/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-13T10:15:20+08:00" />
+<meta property="article:modified_time" content="2022-12-15T10:03:14+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="nginx 配置 https"/>
+<meta name="twitter:description" content="nginx 使用 https 协议"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/nginx-https/" /><link rel="prev" href="/nginx-forward-proxy/" /><link rel="next" href="/k8sProxy/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "nginx 配置 https",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/nginx-https\/"
+    },"genre": "posts","keywords": "Let’s Encrypt, nginx","wordcount":  857 ,
+    "url": "\/nginx-https\/","datePublished": "2022-08-13T10:15:20+08:00","dateModified": "2022-12-15T10:03:14+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>nginx 配置 https</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/nginx/" class="post-category" title="分类 - nginx"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> nginx</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-13 10:15:20"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-13">2022-08-13</time></span>&nbsp;<span title="更新于 2022-12-15 10:03:14"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-15">2022-12-15</time></span>&nbsp;<span title="857 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#tlsssl-证书获取">TLS/SSL 证书获取</a>
+      <ul>
+        <li><a href="#使用-certbot-获取-lets-encrypt-颁发的证书">使用 certbot 获取 Let’s Encrypt 颁发的证书</a></li>
+      </ul>
+    </li>
+    <li><a href="#nginx-配置-ssl-证书">nginx 配置 ssl 证书</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-15，文中内容可能已过时。</div>
+      </div>
+    </div><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>nginx: 1.23.0</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/t0fpZyVdfaHCgIPqOvhLxg"target="_blank" rel="external nofollow noopener noreferrer"><code>Amir Rawdat</code>: 为 NGINX 配置免费的 Let’s Encrypt SSL/TLS 证书</a></li>
+</ul>
+</blockquote>
+<h1 id="tlsssl-证书获取" class="heading-element">
+  <a href="#tlsssl-%e8%af%81%e4%b9%a6%e8%8e%b7%e5%8f%96" class="heading-mark"></a>TLS/SSL 证书获取</h1><p><code>SSL/TLS</code> 证书要从运营商购买，也有免费的，通常有30~90天限制，需要定期更新。这篇文章<a href="https://zhuanlan.zhihu.com/p/174755007"target="_blank" rel="external nofollow noopener noreferrer">33种免费获取SSL证书的方式</a>介绍有免费获取方式</p>
+<h2 id="使用-certbot-获取-lets-encrypt-颁发的证书" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8-certbot-%e8%8e%b7%e5%8f%96-lets-encrypt-%e9%a2%81%e5%8f%91%e7%9a%84%e8%af%81%e4%b9%a6" class="heading-mark"></a>使用 certbot 获取 Let’s Encrypt 颁发的证书</h2><ol>
+<li>安装 <code>Let’s Encrypt</code> 证书申请客户端工具</li>
+</ol>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 如果有 python3 建议安装 python3-certbot-nginx</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y certbot python-certbot-nginx</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>配置 <code>nginx</code> 绑定域名</li>
+</ol>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># grep &#39;server_name&#39; /usr/local/nginx/conf/8023.FixIt.nginx.conf </span>
+</span></span><span class="line"><span class="cl">    server_name  note.xiaosi.host<span class="p">;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>使用以下命令生成证书。如果 <code>nginx</code> 配置文件为 <code>/etc/nginx/nginx.conf</code> 则可以使用 <code>certbot --nginx -d</code> 选项指定域名，<code>--nginx</code> 选项还可以自动修改 <code>nginx</code> 配置文件绑定证书</li>
+</ol>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 确保 80 端口没有被占用后运行</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># certbot certonly</span>
+</span></span><span class="line"><span class="cl">Saving debug log to /var/log/letsencrypt/letsencrypt.log
+</span></span><span class="line"><span class="cl">Error <span class="k">while</span> running nginx -c /etc/nginx/nginx.conf -t.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nginx: <span class="o">[</span>emerg<span class="o">]</span> open<span class="o">()</span> <span class="s2">&#34;/etc/nginx/nginx.conf&#34;</span> failed <span class="o">(</span>2: No such file or directory<span class="o">)</span>
+</span></span><span class="line"><span class="cl">nginx: configuration file /etc/nginx/nginx.conf <span class="nb">test</span> failed
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">How would you like to authenticate with the ACME CA?
+</span></span><span class="line"><span class="cl">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</span></span><span class="line"><span class="cl">1: Nginx Web Server plugin <span class="o">(</span>nginx<span class="o">)</span> <span class="o">[</span>Misconfigured<span class="o">]</span>
+</span></span><span class="line"><span class="cl">2: Spin up a temporary webserver <span class="o">(</span>standalone<span class="o">)</span>
+</span></span><span class="line"><span class="cl">3: Place files in webroot directory <span class="o">(</span>webroot<span class="o">)</span>
+</span></span><span class="line"><span class="cl">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</span></span><span class="line"><span class="cl">Select the appropriate number <span class="o">[</span>1-3<span class="o">]</span> <span class="k">then</span> <span class="o">[</span>enter<span class="o">]</span> <span class="o">(</span>press <span class="s1">&#39;c&#39;</span> to cancel<span class="o">)</span>: <span class="m">2</span>   <span class="c1"># 2 </span>
+</span></span><span class="line"><span class="cl">Plugins selected: Authenticator standalone, Installer None
+</span></span><span class="line"><span class="cl">Starting new HTTPS connection <span class="o">(</span>1<span class="o">)</span>: acme-v02.api.letsencrypt.org
+</span></span><span class="line"><span class="cl">Please enter in your domain name<span class="o">(</span>s<span class="o">)</span> <span class="o">(</span>comma and/or space separated<span class="o">)</span>  <span class="o">(</span>Enter <span class="s1">&#39;c&#39;</span>
+</span></span><span class="line"><span class="cl">to cancel<span class="o">)</span>: note.xiaosi.host        <span class="c1"># 申请证书的域名</span>
+</span></span><span class="line"><span class="cl">Requesting a certificate <span class="k">for</span> note.xiaosi.host
+</span></span><span class="line"><span class="cl">Performing the following challenges:
+</span></span><span class="line"><span class="cl">http-01 challenge <span class="k">for</span> note.xiaosi.host
+</span></span><span class="line"><span class="cl">Waiting <span class="k">for</span> verification...
+</span></span><span class="line"><span class="cl">Cleaning up challenges
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">IMPORTANT NOTES:
+</span></span><span class="line"><span class="cl"> - Congratulations! Your certificate and chain have been saved at:
+</span></span><span class="line"><span class="cl">   /etc/letsencrypt/live/note.xiaosi.host/fullchain.pem <span class="c1"># 公钥路径</span>
+</span></span><span class="line"><span class="cl">   Your key file has been saved at:
+</span></span><span class="line"><span class="cl">   /etc/letsencrypt/live/note.xiaosi.host/privkey.pem   <span class="c1"># 密钥路径</span>
+</span></span><span class="line"><span class="cl">   Your certificate will expire on 2022-11-11. To obtain a new or
+</span></span><span class="line"><span class="cl">   tweaked version of this certificate in the future, simply run
+</span></span><span class="line"><span class="cl">   certbot again. To non-interactively renew *all* of your
+</span></span><span class="line"><span class="cl">   certificates, run <span class="s2">&#34;certbot renew&#34;</span>    <span class="c1"># 更新提示，到期时间为 2022-11-11</span>
+</span></span><span class="line"><span class="cl"> - If you like Certbot, please consider supporting our work by:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Donating to ISRG / Let<span class="err">&#39;</span>s Encrypt:   https://letsencrypt.org/donate
+</span></span><span class="line"><span class="cl">   Donating to EFF:                    https://eff.org/donate-le</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>定期更新任务，每月一号检查服务器上的证书是否会在未来 30 天内到期，如果是，则更新证书。<code>--quiet</code> 不生成输出信息</li>
+</ol>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># grep &#39;certbot&#39; /etc/crontab </span>
+</span></span><span class="line"><span class="cl">* <span class="m">0</span> <span class="m">1</span> * * root /usr/bin/certbot renew --quiet</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="nginx-配置-ssl-证书" class="heading-element">
+  <a href="#nginx-%e9%85%8d%e7%bd%ae-ssl-%e8%af%81%e4%b9%a6" class="heading-mark"></a>nginx 配置 ssl 证书</h1><ol>
+<li>修改 <code>nginx</code> 配置文件</li>
+</ol>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /usr/local/nginx/conf/8023.FixIt.nginx.conf </span>
+</span></span><span class="line"><span class="cl">server <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    server_name  note.xiaosi.host<span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 443 端口加上 ssl 参数</span>
+</span></span><span class="line"><span class="cl">    listen       103.106.246.17:443 ssl<span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 域名默认解析到 80 端口</span>
+</span></span><span class="line"><span class="cl">    listen       103.106.246.17:80<span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 证书公钥路径</span>
+</span></span><span class="line"><span class="cl">    ssl_certificate /etc/letsencrypt/live/note.xiaosi.host/fullchain.pem<span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 证书私钥路径</span>
+</span></span><span class="line"><span class="cl">    ssl_certificate_key /etc/letsencrypt/live/note.xiaosi.host/privkey.pem<span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 把 http 协议通过 301 跳转到 https 协议</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="nv">$scheme</span> !<span class="o">=</span> <span class="s2">&#34;https&#34;</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="m">301</span> https://<span class="nv">$host$request_uri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>防火墙开放 <code>443</code> 端口</li>
+</ol>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --add-port=443/tcp</span>
+</span></span><span class="line"><span class="cl">success
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># firewall-cmd --runtime-to-permanent</span>
+</span></span><span class="line"><span class="cl">success</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>在其它机器或使用浏览器测试</li>
+</ol>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># curl -I https://note.xiaosi.host/</span>
+</span></span><span class="line"><span class="cl">HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">Server: nginx/1.23.0
+</span></span><span class="line"><span class="cl">Date: Sat, <span class="m">13</span> Aug <span class="m">2022</span> 03:22:09 GMT
+</span></span><span class="line"><span class="cl">Content-Type: text/html
+</span></span><span class="line"><span class="cl">Content-Length: <span class="m">16393</span>
+</span></span><span class="line"><span class="cl">Last-Modified: Fri, <span class="m">12</span> Aug <span class="m">2022</span> 09:01:10 GMT
+</span></span><span class="line"><span class="cl">Connection: keep-alive
+</span></span><span class="line"><span class="cl">ETag: <span class="s2">&#34;62f616d6-4009&#34;</span>
+</span></span><span class="line"><span class="cl">Accept-Ranges: bytes</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-15 10:03:14">更新于 2022-12-15&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/Lets-Encrypt/" class="post-tag" title="标签 - Let’s Encrypt">Let’s Encrypt</a><a href="/tags/nginx/" class="post-tag" title="标签 - nginx">nginx</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/nginx-forward-proxy/" class="post-nav-item" rel="prev" title="nginx正向代理"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>nginx正向代理</a>
+      <a href="/k8sProxy/" class="post-nav-item" rel="next" title="k8s 网络代理">k8s 网络代理<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

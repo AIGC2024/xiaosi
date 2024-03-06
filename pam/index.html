@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>linux中的可插拔式认证模块 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="运行环境： centos: 7 内容来自以下文档： redhat5 官方文档：Pluggable Authentication Modules (PAM) WeiyiGeek: Linux之PAM系统模块详解说明 Susan Lauber: An introduction to Pluggable Authentication Modules (PAM) in Linux PAM可插拔认" /><meta name="keywords" content='' /><meta itemprop="name" content="linux中的可插拔式认证模块">
+<meta itemprop="description" content="运行环境： centos: 7 内容来自以下文档： redhat5 官方文档：Pluggable Authentication Modules (PAM) WeiyiGeek: Linux之PAM系统模块详解说明 Susan Lauber: An introduction to Pluggable Authentication Modules (PAM) in Linux PAM可插拔认"><meta itemprop="datePublished" content="2022-11-07T15:34:53+08:00" />
+<meta itemprop="dateModified" content="2022-11-07T21:29:02+08:00" />
+<meta itemprop="wordCount" content="2279">
+<meta itemprop="keywords" content="," /><meta property="og:title" content="linux中的可插拔式认证模块" />
+<meta property="og:description" content="运行环境： centos: 7 内容来自以下文档： redhat5 官方文档：Pluggable Authentication Modules (PAM) WeiyiGeek: Linux之PAM系统模块详解说明 Susan Lauber: An introduction to Pluggable Authentication Modules (PAM) in Linux PAM可插拔认" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/pam/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-07T15:34:53+08:00" />
+<meta property="article:modified_time" content="2022-11-07T21:29:02+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="linux中的可插拔式认证模块"/>
+<meta name="twitter:description" content="运行环境： centos: 7 内容来自以下文档： redhat5 官方文档：Pluggable Authentication Modules (PAM) WeiyiGeek: Linux之PAM系统模块详解说明 Susan Lauber: An introduction to Pluggable Authentication Modules (PAM) in Linux PAM可插拔认"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/pam/" /><link rel="prev" href="/linuxCmdPs/" /><link rel="next" href="/windows-path/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "linux中的可插拔式认证模块",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/pam\/"
+    },"genre": "posts","keywords": "","wordcount":  2279 ,
+    "url": "\/pam\/","datePublished": "2022-11-07T15:34:53+08:00","dateModified": "2022-11-07T21:29:02+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>linux中的可插拔式认证模块</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-11-07 15:34:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-11-07">2022-11-07</time></span>&nbsp;<span title="更新于 2022-11-07 21:29:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-11-07">2022-11-07</time></span>&nbsp;<span title="2279 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#pam">PAM</a></li>
+    <li><a href="#配置文件">配置文件</a>
+      <ul>
+        <li><a href="#工作类别">工作类别</a></li>
+        <li><a href="#控制模式">控制模式</a></li>
+        <li><a href="#模块">模块</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-11-07，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos: 7</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/ch-pam"target="_blank" rel="external nofollow noopener noreferrer"><code>redhat5 官方文档：</code>Pluggable Authentication Modules (PAM)</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2129693"target="_blank" rel="external nofollow noopener noreferrer"><code>WeiyiGeek</code>: Linux之PAM系统模块详解说明</a></li>
+<li><a href="https://www.redhat.com/sysadmin/pluggable-authentication-modules-pam"target="_blank" rel="external nofollow noopener noreferrer"><code>Susan Lauber</code>: An introduction to Pluggable Authentication Modules (PAM) in Linux</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="pam" class="heading-element">
+  <a href="#pam" class="heading-mark"></a>PAM</h1><p>可插拔认证模块（<code>Pluggable Authentication Modules</code>）简称 <code>PAM</code>。在 <code>linux</code> 是一种安全验证方式是基于模块化设计、具有可插入功能的一种独立于应用程序之外的用户验证方式；设计的初衷是将不同的底层认证机制集中到一个高层次的 <code>API</code> 中，从而省去开发人员自己去设计和实现各种繁杂的认证机制的麻烦。</p>
+<p>如果应用程序或服务支持 <code>PAM</code> 验证功能，就可以通过修改其相应的 <code>PAM</code> 配置文件（所有验证功能都是通过一些库文件来提供的）来实现用户验证方式，当重新启用些服务或应用程序时 <code>PAM</code> 模块就会通过其专用 <code>API</code> 来读取它的配置文件，根据配置文件中的内容来提供相应的验证功能</p>
+<p>使用 <code>ldd</code> 命令查看进程是否支持 <code>PAM</code> 验证方式，如果有 <code>libpam.so.0</code> 输出则表示支持。如果能够得到一个应用程序的原代码，也可以自行将支持 <code>PAM</code> 的功能代码加入其中。</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ldd $(which sshd) | grep &#34;libpam&#34;</span>
+</span></span><span class="line"><span class="cl">        libpam.so.0 <span class="o">=</span>&gt; /lib64/libpam.so.0 <span class="o">(</span>0x00007f24209e1000<span class="o">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用 <code>man</code> 手册可以获取帮助</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 介绍 pam</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># man pam</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># pam 配置文件使用帮助</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># man pam.conf</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看已安装的 pam 模块</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># man -k pam_</span>
+</span></span><span class="line"><span class="cl">group.conf <span class="o">(</span>5<span class="o">)</span>       - configuration file <span class="k">for</span> the pam_group module
+</span></span><span class="line"><span class="cl">limits.conf <span class="o">(</span>5<span class="o">)</span>      - configuration file <span class="k">for</span> the pam_limits module
+</span></span><span class="line"><span class="cl">pam_access <span class="o">(</span>8<span class="o">)</span>       - PAM module <span class="k">for</span> logdaemon style login access control
+</span></span><span class="line"><span class="cl">pam_console <span class="o">(</span>8<span class="o">)</span>      - determine user owning the system console
+</span></span><span class="line"><span class="cl">pam_console_apply <span class="o">(</span>8<span class="o">)</span> - <span class="nb">set</span> or revoke permissions <span class="k">for</span> users at the system console
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="配置文件" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" class="heading-mark"></a>配置文件</h1><p>配置文件用于调用库文件实现用户身份验证。位于：</p>
+<ul>
+<li><code>/etc/pam.conf</code> 文件</li>
+<li><code>/etc/pam.d/</code> 目录下，当该目录存在时会忽略 <code>/etc/pam.conf</code> 文件</li>
+</ul>
+<p>配置文件语法为：“进程名称  工作类别  控制模式  模块路径  模块参数”。每行记录一条规则。如果使用 <code>/etc/pam.d</code> 配置目录则使用进程名作为配置文件名，配置文件中不用指定进程名。</p>
+<p>在配置文件中添加注释信息有以下方法：</p>
+<ul>
+<li>以 <code>#</code> 开头的行</li>
+<li>在配置记录后面添加 <code>\</code> 用于分割注释信息</li>
+</ul>
+<h2 id="工作类别" class="heading-element">
+  <a href="#%e5%b7%a5%e4%bd%9c%e7%b1%bb%e5%88%ab" class="heading-mark"></a>工作类别</h2><p>工作类别用于指定需要验证的类型：</p>
+<ul>
+<li><code>auth</code>: 主要负责验证使用者身份以及用户权限授予; 例如你的验证方式有很多比如一次性密码、指纹、虹膜等等，都应该添加在 auth 下以及比如赋给用户某个组的组员身份等等</li>
+<li><code>account</code>: 主要负责在用户能不能使用某服务上具有发言权，但不负责身份认证; 例如验证帐户的此操作是否已经过期,权限多大,拥有此权限的时间期限是否已经过期等等</li>
+<li><code>password</code>: 主要负责和密码有关的工作; 例如控制密码的使用期限，重复输入的次数，密码锁定后的解禁时限以及保存密码的加密放方式等</li>
+<li><code>session</code>: 主要负责对每个会话进行跟踪和记录，例如记录的内容包括登录的用户名及登录的时间和次数等等</li>
+</ul>
+<h2 id="控制模式" class="heading-element">
+  <a href="#%e6%8e%a7%e5%88%b6%e6%a8%a1%e5%bc%8f" class="heading-mark"></a>控制模式</h2><p>控制模式主要用来控制在验证过程中动作和返回结果的方式, 简单的说用于定义各个认证模块在给出各种结果时 PAM 的行为，或者调用在别的配置文件中定义的认证流程栈。它有以下两种表达方式：</p>
+<ul>
+<li>简单控制标志</li>
+<li>复杂控制标志</li>
+</ul>
+<p>关键字模式。有以下控制字段：</p>
+<ul>
+<li><code>required</code>: 当使用此控制标志时，当验证失败时仍然会继续进行其下的验证过程，它会返回一个错误信息，但是由于它不会由于验证失败而停止继续验证过程，因此用户不会知道是哪个规则项验证失败</li>
+<li><code>requisite</code>: 当使用此控制标志时，当验证失败时立即结束整个验证过程，并返回一个错误信息。使用此关键字可以防止一些通过暴力猜解密码的攻击，但是由于它会返回信息给用户，因此它也有可能将系统的用户结构信息透露给攻击者</li>
+<li><code>sufficien</code>: 只要有此控制标志的一个规则项验证成功，那么 <code>PAM</code> 构架将会立即终止其后所有的验证，并且不论其前面的 <code>required</code> 标志的项没有成功验证，它依然将被忽略然后验证通过</li>
+<li><code>optional</code>: 表明对验证的成功或失败都是可有可无的，所有的都会被忽略。通常用于 <code>session</code> 类型</li>
+<li><code>include</code>: 加载其它配置文件</li>
+<li><code>substack</code>: 运行其他配置文件中的流程，并将整个运行结果作为该行的结果进行输出。该模式和 <code>include</code> 的不同点在于认证结果的作用域：如果某个流程栈 <code>include</code> 了一个带 <code>requisite</code> 的栈，这个 <code>requisite</code> 失败将直接导致认证失败同时退出栈；而某个流程栈 <code>substack</code> 了同样的栈时，<code>requisite</code> 的失败只会导致这个子栈返回失败信号，母栈并不会在此退出</li>
+</ul>
+<p>复杂的控制标志能够让管理员可以指定在验证过程中发生某种事件时可以执行的动作。格式为 <code>[value1=action1 value2=action2 ...]</code>。其中 <code>value</code> 字段有以下：</p>
+<ul>
+<li><code>success</code></li>
+<li><code>open_err</code></li>
+<li><code>symbol_err</code></li>
+<li><code>service_err</code></li>
+<li><code>system_err</code></li>
+<li><code>buf_err</code></li>
+<li><code>perm_denied</code></li>
+<li><code>auth_err</code></li>
+<li><code>cred_insufficient</code></li>
+<li><code>authinfo_unavail</code></li>
+<li><code>user_unknown</code></li>
+<li><code>maxtries</code></li>
+<li><code>new_authtok_reqd</code></li>
+<li><code>acct_expired</code></li>
+<li><code>session_err</code></li>
+<li><code>cred_unavail</code></li>
+<li><code>cred_expired</code></li>
+<li><code>cred_err</code></li>
+<li><code>no_module_data</code></li>
+<li><code>conv_err</code></li>
+<li><code>authtok_err</code></li>
+<li><code>authtok_recover_err</code></li>
+<li><code>authtok_lock_busy</code></li>
+<li><code>authtok_disable_aging</code></li>
+<li><code>try_again</code></li>
+<li><code>ignore</code></li>
+<li><code>abort</code></li>
+<li><code>authtok_expired</code></li>
+<li><code>module_unknown</code></li>
+<li><code>bad_item</code></li>
+<li><code>conv_again</code></li>
+<li><code>incomplete</code></li>
+<li><code>default</code></li>
+</ul>
+<p><code>action</code> 有以下值：</p>
+<ul>
+<li><code>ignore</code>: 在一个栈中有多个认证条目的情况下，如果标记 ignore 的返回值被命中，那么这条返回值不会对最终的认证结果产生影响</li>
+<li><code>bad</code>: 标记 bad 的返回值被命中时，最终的认证结果注定会失败。此外，如果这条 bad 的返回值是整个栈的第一个失败项，那么整个栈的返回值一定是这个返回值，后面的认证无论结果怎样都改变不了现状了</li>
+<li><code>die</code>: 标记 die 的返回值被命中时，马上退出栈并宣告失败。整个返回值为这个 die 的返回值</li>
+<li><code>ok</code>: 在一个栈的运行过程中，如果 ok 前面没有返回值，或者前面的返回值为 PAM_SUCCESS，那么这个标记了 ok 的返回值将覆盖前面的返回值。但如果前面执行过的验证中有最终将导致失败的返回值，那 ok 标记的值将不会起作用</li>
+<li><code>done</code>: 在前面没有 bad 值被命中的情况下，done 值被命中之后将马上被返回，并退出整个栈</li>
+<li><code>N</code>: 与 <code>ok</code> 类似，但会跳过接下来的 N 个验证步骤。如果 N = 0 则和 ok 完全相同</li>
+<li><code>reset</code>: 清空之前生效的返回值，并且从下面的验证起重新开始</li>
+</ul>
+<p>可以查看 <code>/usr/include/security/_pam_types.h</code> 了解更多详情（我看不懂）。如果没有这个文件则要安装 <code>pam-devel</code> 包</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y pam-devel</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="模块" class="heading-element">
+  <a href="#%e6%a8%a1%e5%9d%97" class="heading-mark"></a>模块</h2><p>模块文件（动态库文件）默认在以下目录，如果不是就必需在模块的完整名称前加上完整的模块路径名。</p>
+<ul>
+<li>32 位操作系统：<code>/lib/security/</code></li>
+<li>64 位操作系统：<code>/lib64/security/</code></li>
+</ul>
+<p>可以使用 <code>man</code> 命令查看相关模块帮助信息</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-v" data-lang="v"><span class="line"><span class="cl"><span class="p">[</span><span class="na">root</span><span class="err">@</span><span class="na">localhost</span> <span class="err">~</span><span class="p">]</span><span class="o">#</span> <span class="nv">man</span> <span class="o">-</span><span class="nv">k</span> <span class="nv">pam_</span>
+</span></span><span class="line"><span class="cl"><span class="nv">group</span><span class="p">.</span><span class="nv">conf</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>       <span class="o">-</span> <span class="nv">configuration</span> <span class="nv">file</span> <span class="k">for</span> <span class="nv">the</span> <span class="nv">pam_group</span> <span class="kn">module</span>
+</span></span><span class="line"><span class="cl"><span class="nv">limits</span><span class="p">.</span><span class="nv">conf</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span>      <span class="o">-</span> <span class="nv">configuration</span> <span class="nv">file</span> <span class="k">for</span> <span class="nv">the</span> <span class="nv">pam_limits</span> <span class="kn">module</span>
+</span></span><span class="line"><span class="cl"><span class="nv">pam_access</span> <span class="p">(</span><span class="mi">8</span><span class="p">)</span>       <span class="o">-</span> <span class="nc">PAM</span> <span class="kn">module</span> <span class="k">for</span> <span class="nv">logdaemon</span> <span class="nv">style</span> <span class="nv">login</span> <span class="nv">access</span> <span class="nv">control</span>
+</span></span><span class="line"><span class="cl"><span class="nv">pam_console</span> <span class="p">(</span><span class="mi">8</span><span class="p">)</span>      <span class="o">-</span> <span class="nv">determine</span> <span class="nv">user</span> <span class="nv">owning</span> <span class="nv">the</span> <span class="nv">system</span> <span class="nv">console</span>
+</span></span><span class="line"><span class="cl"><span class="nv">pam_console_apply</span> <span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">-</span> <span class="nv">set</span> <span class="k">or</span> <span class="nv">revoke</span> <span class="nv">permissions</span> <span class="k">for</span> <span class="nv">users</span> <span class="nv">at</span> <span class="nv">the</span> <span class="nv">system</span> <span class="nv">console</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>有些模块后面可指定参数，如果需要在单个参数中使用空格可以将整个参数用方括号 <code>[]</code> 包裹起来, 当选项超过一行时用 <code>\</code> 符号连接下一行。如下面示例</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">squid auth required pam_mysql.so <span class="nv">user</span><span class="o">=</span>passwd_query <span class="nv">passwd</span><span class="o">=</span>mada <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      <span class="nv">db</span><span class="o">=</span>eminence <span class="o">[</span><span class="nv">query</span><span class="o">=</span><span class="k">select</span> user_name from internet_service <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      where <span class="nv">user_name</span><span class="o">=</span><span class="s1">&#39;%u&#39;</span> and <span class="nv">password</span><span class="o">=</span>PASSWORD<span class="o">(</span><span class="s1">&#39;%p&#39;</span><span class="o">)</span> and <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>      <span class="nv">service</span><span class="o">=</span><span class="s1">&#39;web_proxy&#39;</span><span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-11-07 21:29:02">更新于 2022-11-07&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linuxCmdPs/" class="post-nav-item" rel="prev" title="ps - 查看进程信息快照"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>ps - 查看进程信息快照</a>
+      <a href="/windows-path/" class="post-nav-item" rel="next" title="windows 系统中添加 PATH 环境变量">windows 系统中添加 PATH 环境变量<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

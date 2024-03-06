@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s中的对象 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="k8sObjects" /><meta name="keywords" content='k8s, k8s 对象, k8s UID, k8s 名称空间, k8s 标签, k8s 标签运算符, k8s 注解, k8s finalizers, k8s 属主, k8s 字段选择器' /><meta itemprop="name" content="k8s中的对象">
+<meta itemprop="description" content="k8sObjects"><meta itemprop="datePublished" content="2022-07-24T13:27:54+08:00" />
+<meta itemprop="dateModified" content="2024-01-29T16:18:24+08:00" />
+<meta itemprop="wordCount" content="6701">
+<meta itemprop="keywords" content="k8s,k8s 对象,k8s UID,k8s 名称空间,k8s 标签,k8s 标签运算符,k8s 注解,k8s finalizers,k8s 属主,k8s 字段选择器," /><meta property="og:title" content="k8s中的对象" />
+<meta property="og:description" content="k8sObjects" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/k8s%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-24T13:27:54+08:00" />
+<meta property="article:modified_time" content="2024-01-29T16:18:24+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s中的对象"/>
+<meta name="twitter:description" content="k8sObjects"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/k8s%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1/" /><link rel="prev" href="/k8s%E6%A6%82%E8%BF%B0/" /><link rel="next" href="/k8sNode/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s中的对象",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/k8s%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1\/"
+    },"genre": "posts","keywords": "k8s, k8s 对象, k8s UID, k8s 名称空间, k8s 标签, k8s 标签运算符, k8s 注解, k8s finalizers, k8s 属主, k8s 字段选择器","wordcount":  6701 ,
+    "url": "\/k8s%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1\/","datePublished": "2022-07-24T13:27:54+08:00","dateModified": "2024-01-29T16:18:24+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": "k8sObjects"
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s中的对象</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-24 13:27:54"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-24">2022-07-24</time></span>&nbsp;<span title="更新于 2024-01-29 16:18:24"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-01-29">2024-01-29</time></span>&nbsp;<span title="6701 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 6800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 14 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#k8s对象">k8s对象</a></li>
+    <li><a href="#对象规约spec与状态status">对象规约（Spec）与状态（Status）</a></li>
+    <li><a href="#对象名称和-ids">对象名称和 IDs</a></li>
+    <li><a href="#名称空间">名称空间</a></li>
+    <li><a href="#标签和选择算符">标签和选择算符</a>
+      <ul>
+        <li><a href="#标签选择算符">标签选择算符</a></li>
+        <li><a href="#list-和-watch-过滤">LIST 和 WATCH 过滤</a></li>
+        <li><a href="#kubectl命令行使用标签">kubectl命令行使用标签</a></li>
+        <li><a href="#支持基于集合需求的资源">支持基于集合需求的资源</a></li>
+      </ul>
+    </li>
+    <li><a href="#注解">注解</a>
+      <ul>
+        <li><a href="#为对象附加元数据">为对象附加元数据</a></li>
+      </ul>
+    </li>
+    <li><a href="#finalizers">Finalizers</a>
+      <ul>
+        <li><a href="#finalizers-工作流程">Finalizers 工作流程</a></li>
+      </ul>
+    </li>
+    <li><a href="#属主与附属">属主与附属</a>
+      <ul>
+        <li><a href="#对象规约中的属主引用">对象规约中的属主引用</a></li>
+        <li><a href="#属主关系与-finalizer">属主关系与 Finalizer</a></li>
+        <li><a href="#属主引用标签和-finalizers">属主引用、标签和 Finalizers</a></li>
+      </ul>
+    </li>
+    <li><a href="#字段选择器">字段选择器</a>
+      <ul>
+        <li><a href="#支持的字段">支持的字段</a></li>
+        <li><a href="#支持的操作符">支持的操作符</a></li>
+        <li><a href="#链式选择器">链式选择器</a></li>
+        <li><a href="#多种资源类型">多种资源类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#清单文件中描述对象">清单文件中描述对象</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24</li>
+<li>Rocky Linux:8.5</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/overview/working-with-objects/"target="_blank" rel="external nofollow noopener noreferrer">k8s官方文档</a></li>
+</ul>
+</blockquote>
+<h1 id="k8s对象" class="heading-element">
+  <a href="#k8s%e5%af%b9%e8%b1%a1" class="heading-mark"></a>k8s对象</h1><p>在 <code>k8s</code> 系统中，Kubernetes 对象 是持久化的实体。 <code>k8s</code> 使用这些实体去表示整个集群的状态。 比較特别地是，它们描述了如下信息：</p>
+<ul>
+<li>哪些容器化应用正在运行（以及在哪些节点上运行）</li>
+<li>可以被应用使用的资源</li>
+<li>关于应用运行时表现的策略，比如重启策略、升级策略，以及容错策略</li>
+</ul>
+<p>Kubernetes 对象是“目标性记录”——一旦创建对象，Kubernetes 系统将不断工作以确保对象存在。 通过创建对象，你就是在告知 <code>k8s</code> 系统，你想要的集群工作负载状态看起来应是什么样子的， 这就是 <code>k8s</code> 集群所谓的 期望状态（Desired State）</p>
+<p>操作 <code>k8s</code> 对象 —— 无论是创建、修改，或者删除 —— 需要使用 <code>k8s</code> API。</p>
+<h1 id="对象规约spec与状态status" class="heading-element">
+  <a href="#%e5%af%b9%e8%b1%a1%e8%a7%84%e7%ba%a6spec%e4%b8%8e%e7%8a%b6%e6%80%81status" class="heading-mark"></a>对象规约（Spec）与状态（Status）</h1><p>几乎每个 <code>k8s</code> 对象包含两个嵌套的对象字段，它们负责管理对象的配置： 对象 spec（规约） 和 对象 status（状态）。 对于具有 spec 的对象，你必须在创建对象时设置其内容，描述你希望对象所具有的特征： 期望状态（Desired State）。</p>
+<p>status 描述了对象的当前状态（Current State），它是由 <code>k8s</code> 系统和组件设置并更新的。 在任何时刻，Kubernetes 控制平面 都一直都在积极地管理着对象的实际状态，以使之达成期望状态。</p>
+<p>在想要创建的 <code>k8s</code> 对象所对应的 <code>.yaml</code> 文件中，需要配置的字段如下：</p>
+<ul>
+<li><code>apiVersion</code>: 创建该对象所使用的 <code>Kubernetes API</code> 的版本</li>
+<li><code>kind</code>: 想要创建的对象的类别</li>
+<li><code>metadata</code>: 帮助唯一性标识对象的一些数据，包括一个 name 字符串、UID 和可选的 namespace</li>
+<li><code>spec</code>: 你所期望的该对象的状态</li>
+</ul>
+<p>下面示例展示了 <code>Kubernetes Deployment</code> 的必需字段和对象 <code>spec</code></p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="c"># 告知 Deployment 运行 2 个与该模板匹配的 Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:1.14.2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="对象名称和-ids" class="heading-element">
+  <a href="#%e5%af%b9%e8%b1%a1%e5%90%8d%e7%a7%b0%e5%92%8c-ids" class="heading-mark"></a>对象名称和 IDs</h1><p>集群中的每一个对象都有一个名称来标识在同类资源中的唯一性。
+以下是比较常见的四种资源命名约束：</p>
+<ul>
+<li>DNS 子域名：
+<ul>
+<li>不能超过 253 个字符</li>
+<li>只能包含小写字母、数字，以及 <code>-</code> 和 <code>.</code></li>
+<li>必须以字母数字开头</li>
+<li>必须以字母数字结尾</li>
+</ul>
+</li>
+<li>RFC 1123 标签名：
+<ul>
+<li>不能超过 63 个字符</li>
+<li>只能包含小写字母、数字，以及 <code>-</code></li>
+<li>必须以字母数字开头</li>
+<li>必须以字母数字结尾</li>
+</ul>
+</li>
+<li>RFC 1035 标签名：
+<ul>
+<li>不能超过 63 个字符</li>
+<li>只能包含小写字母、数字，以及 <code>-</code></li>
+<li>必须以字母开头</li>
+<li>必须以字母数字结尾</li>
+</ul>
+</li>
+<li>某些资源类型可能具有额外的命名约束</li>
+</ul>
+<p>每个 <code>k8s</code> 对象也有一个 UID 来标识在整个集群中的唯一性。
+它旨在区分类似实体的历史事件</p>
+<h1 id="名称空间" class="heading-element">
+  <a href="#%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4" class="heading-mark"></a>名称空间</h1><ul>
+<li>查看集群中的名称空间</li>
+</ul>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl get namespace</span>
+</span></span><span class="line"><span class="cl">NAME              STATUS   AGE
+</span></span><span class="line"><span class="cl">calico-system     Active   6h56m
+</span></span><span class="line"><span class="cl">default           Active   7h
+</span></span><span class="line"><span class="cl">kube-node-lease   Active   7h
+</span></span><span class="line"><span class="cl">kube-public       Active   7h
+</span></span><span class="line"><span class="cl">kube-system       Active   7h
+</span></span><span class="line"><span class="cl">tigera-operator   Active   6h56m</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在 <code>k8s</code> 中，“名称空间（Namespace）”提供一种机制，将同一集群中的资源划分
+为相互隔离的组。 同一名称空间内的资源名称要唯一。
+名称空间作用域仅针对带有名称空间的对象</p>
+<p>当你创建一个服务时， <code>k8s</code> 会创建一个相应的 DNS 条目。
+该条目的形式是<code>&lt;服务名称&gt;.&lt;名称空间名称&gt;.svc.cluster.local</code>，这意味着如果容器
+只使用<code> &lt;服务名称&gt;</code>，它将被解析到本地名称空间的服务。
+因此，所有的名称空间名称都必须是合法的<code>RFC 1123 DNS</code> 标签</p>
+<p>通过创建与公共顶级域名 同名的名称空间，这些名称空间中的服务可以拥有与公共 DNS 记录重叠的、较短的 DNS 名称。 所有名称空间中的负载在执行 DNS 查找时，如果查找的名称没有 尾部句点， 就会被重定向到这些服务上，因此呈现出比公共 DNS 更高的优先序。</p>
+<p>大多数 kubernetes 资源（例如 Pod、Service、副本控制器等）都位于某些名称空间中。 但是名称空间资源本身并不在名称空间中。而且底层资源，例如 节点和持久化卷不属于任何名称空间。</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 位于名称空间中的资源</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl api-resources --namespaced=true</span>
+</span></span><span class="line"><span class="cl">NAME                        SHORTNAMES   APIVERSION                     NAMESPACED   KIND
+</span></span><span class="line"><span class="cl">bindings                                 v1                             <span class="nb">true</span>         Binding
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 不在名称空间中的资源</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c1"># kubectl api-resources --namespaced=false</span>
+</span></span><span class="line"><span class="cl">NAME                              SHORTNAMES   APIVERSION                             NAMESPACED   KIND
+</span></span><span class="line"><span class="cl">componentstatuses                 cs           v1                                     <span class="nb">false</span>        ComponentStatus
+</span></span><span class="line"><span class="cl">namespaces                        ns           v1                                     <span class="nb">false</span>        Namespace
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code> </code>k8s<code> 1.21 [beta]</code>控制面会为所有名称空间设置一个不可变更的 标签 kubernetes.io/metadata.name，只要 NamespaceDefaultLabelName 这一 特性门控 被启用。标签的值是名称空间的名称。</p>
+<h1 id="标签和选择算符" class="heading-element">
+  <a href="#%e6%a0%87%e7%ad%be%e5%92%8c%e9%80%89%e6%8b%a9%e7%ae%97%e7%ac%a6" class="heading-mark"></a>标签和选择算符</h1><p>标签（Labels）是附加到 <code>k8s</code> 对象（比如 Pods）上的键值对。 标签旨在用于指定对用户有意义且相关的对象的标识属性，但不直接对核心系统有语义含义。 标签可以用于组织和选择对象的子集。标签可以在创建时附加到对象，随后可以随时添加和修改。 每个对象都可以定义一组键/值标签。每个键对于给定对象必须是唯一的。</p>
+<p>标签使用户能够以松散耦合的方式将他们自己的组织结构映射到系统对象，而无需客户端存储这些映射。</p>
+<p>标签是键值对。有效的标签键有两个段：可选的前缀和名称，用斜杠（<code>/</code>）分隔。</p>
+<ul>
+<li>名称段是必需的，必须小于等于 <code>63</code> 个字符，以字母数字字符（<code>[a-z0-9A-Z]</code>）开头
+和结尾， 带有破折号（<code>-</code>），下划线（<code>_</code>），点（ <code>.</code>）和之间的字母数字。</li>
+<li>前缀是可选的。如果指定，前缀必须是 <code>DNS</code> 子域：由点（<code>.</code>）分隔的一系列 <code>DNS</code>
+标签，总共不超过 <code>253</code> 个字符， 后跟斜杠（<code>/</code>）；如果省略前缀，则假定标
+签键值对用户是私有的。 向最终用户对象添加标签的自动系统组件必须指定前缀。</li>
+</ul>
+<p>有效标签值：</p>
+<ul>
+<li>必须为 63 个字符或更少（可以为空）</li>
+<li>除非标签值为空，必须以字母数字字符（<code>[a-z0-9A-Z]</code>）开头和结尾</li>
+<li>包含破折号（<code>-</code>）、下划线（<code>_</code>）、点（<code>.</code>）和字母或数字</li>
+</ul>
+<p>带有<code>environment: production</code> 和 <code>app: nginx</code> 标签的 <code>Pod</code> 配置文件”</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">label-demo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l">production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:1.14.2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="标签选择算符" class="heading-element">
+  <a href="#%e6%a0%87%e7%ad%be%e9%80%89%e6%8b%a9%e7%ae%97%e7%ac%a6" class="heading-mark"></a>标签选择算符</h2><p>通过标签选择算符，客户端/用户可以识别一组对象。标签选择算符是 <code>k8s</code> 中的核心分组原语。</p>
+<p>API 目前支持两种类型的选择算符：基于等值的和基于集合的。 标签选择算符可以由逗号分隔的多个需求组成。 在多个需求的情况下，必须满足所有要求，因此逗号分隔符充当逻辑与（<code>&amp;&amp;</code>）运算符。</p>
+<p>空标签选择算符或者未指定的选择算符的语义取决于上下文， 支持使用选择算符的 API 类别应该将算符的合法性和含义用文档记录下来</p>
+<p>基于等值或基于不等值的需求允许按标签键和值进行过滤。 匹配对象必须满足所有指定的标签约束，尽管它们也可能具有其他标签：</p>
+<ul>
+<li><code>=</code>或<code>==</code>: 表示相等</li>
+<li><code>!=</code>: 表示不相等</li>
+</ul>
+<p>基于集合的标签需求允许你通过一组值来过滤键。 支持三种操作符：
+<code>in</code>、<code>notin</code> 和 <code>exists</code>（只可以用在键标识符上）。例如：</p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#  environment 标签值等于 production 或者 qa 的资源</span>
+</span></span><span class="line"><span class="cl">environment in <span class="o">(</span>production, qa<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># tier标签值不等于 frontend 或者 backend 的资源，以及没有 tier 键标签的资源</span>
+</span></span><span class="line"><span class="cl">tier notin <span class="o">(</span>frontend, backend<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 所有包含了有 partition 标签的资源；没有校验它的值。</span>
+</span></span><span class="line"><span class="cl">partition
+</span></span><span class="line"><span class="cl"><span class="c1"># 所有没有 partition 标签的资源；没有校验它的值。</span>
+</span></span><span class="line"><span class="cl">!partition</span></span></code></pre></td></tr></table>
+</div>
+</div><p>基于集合的要求可以与基于相等的要求混合使用。例如：
+<code>partition in (customerA, customerB),environment!=qa</code></p>
+<h2 id="list-和-watch-过滤" class="heading-element">
+  <a href="#list-%e5%92%8c-watch-%e8%bf%87%e6%bb%a4" class="heading-mark"></a>LIST 和 WATCH 过滤</h2><p>LIST 和 WATCH 操作可以使用查询参数指定标签选择算符过滤一组对象。 两种需求都是允许的。（这里显示的是它们出现在 URL 查询字符串中）</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 基于等值的需求
+</span></span><span class="line"><span class="cl">?labelSelector=environment%3Dproduction,tier%3Dfrontend
+</span></span><span class="line"><span class="cl"># 基于集合的需求
+</span></span><span class="line"><span class="cl">?labelSelector=environment+in+%28production%2Cqa%29%2Ctier+in+%28frontend%29</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="kubectl命令行使用标签" class="heading-element">
+  <a href="#kubectl%e5%91%bd%e4%bb%a4%e8%a1%8c%e4%bd%bf%e7%94%a8%e6%a0%87%e7%ad%be" class="heading-mark"></a>kubectl命令行使用标签</h2><div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 基于等值的标签选择算符</span>
+</span></span><span class="line"><span class="cl">kubectl get pods -l <span class="nv">environment</span><span class="o">=</span>production,tier<span class="o">=</span>frontend
+</span></span><span class="line"><span class="cl"><span class="c1"># 基于集合</span>
+</span></span><span class="line"><span class="cl">kubectl get pods -l <span class="s1">&#39;environment in (production),tier in (frontend)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 基于集合实现值的或操作</span>
+</span></span><span class="line"><span class="cl">kubectl get pods -l <span class="s1">&#39;environment in (production, qa)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 通过exists运算符限制不匹配</span>
+</span></span><span class="line"><span class="cl">kubectl get pods -l <span class="s1">&#39;environment,environment notin (frontend)&#39;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="支持基于集合需求的资源" class="heading-element">
+  <a href="#%e6%94%af%e6%8c%81%e5%9f%ba%e4%ba%8e%e9%9b%86%e5%90%88%e9%9c%80%e6%b1%82%e7%9a%84%e8%b5%84%e6%ba%90" class="heading-mark"></a>支持基于集合需求的资源</h2><ul>
+<li>来自 <code>matchLabels</code> 和 <code>matchExpressions</code> 的所有要求都按逻辑与的关系组合到一起
+它们必须都满足才能匹配</li>
+</ul>
+<div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">selector:</span>
+</span></span><span class="line"><span class="cl">  <span class="err">matchLabels:</span>  
+</span></span><span class="line"><span class="cl">    <span class="err">component:</span> <span class="err">redis</span>
+</span></span><span class="line"><span class="cl">  <span class="err">matchExpressions:</span>
+</span></span><span class="line"><span class="cl">    <span class="err">-</span> <span class="p">{</span><span class="err">key:</span> <span class="err">tier,</span> <span class="err">operator:</span> <span class="err">In,</span> <span class="err">values:</span> <span class="err">[cache]</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="err">-</span> <span class="p">{</span><span class="err">key:</span> <span class="err">environment,</span> <span class="err">operator:</span> <span class="err">NotIn,</span> <span class="err">values:</span> <span class="err">[dev]</span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>matchLabels</code>: 是由 <code>{key,value}</code> 对组成的映射。 映射中的单个<code>{key,value}</code></li>
+<li><code>matchExpressions</code>: <code>key</code>指定键，<code>operator</code>指定运算符，<code>values</code>指定值。
+有效的运算符包括 <code>In</code>、<code>NotIn</code>、<code>Exists</code> 和 <code>DoesNotExist</code>,
+在 <code>In</code> 和 <code>NotIn</code> 的情况下值必须是非空的</li>
+</ul>
+<h1 id="注解" class="heading-element">
+  <a href="#%e6%b3%a8%e8%a7%a3" class="heading-mark"></a>注解</h1><p>你可以使用 Kubernetes 注解为对象附加任意的非标识的元数据。客户端程序（例如工具和库）能够获取这些元数据信息</p>
+<p>标签与注解差别：标签只是对管理<code>k8s</code>人员用的；注解是给对象附加的元数据。
+客户端程序能够获取注解，无法获取标签</p>
+<h2 id="为对象附加元数据" class="heading-element">
+  <a href="#%e4%b8%ba%e5%af%b9%e8%b1%a1%e9%99%84%e5%8a%a0%e5%85%83%e6%95%b0%e6%8d%ae" class="heading-mark"></a>为对象附加元数据</h2><p>注解（Annotations） 存储的形式是键/值对。</p>
+<p>有效的注解键分为两部分： 可选的前缀和名称，以斜杠（<code>/</code>）分隔：</p>
+<ul>
+<li>名称段是必需项，并且必须在 63 个字符以内，以字母数字字符（<code>[a-z0-9A-Z]</code>）开头
+和结尾， 并允许使用破折号（<code>-</code>），下划线（<code>_</code>），点（<code>.</code>）和字母数字</li>
+<li>前缀是可选的。如果指定，前缀必须是 <code>DNS</code> 子域：由点（<code>.</code>）分隔的一系列 <code>DNS</code>
+子域：一系列由点（<code>.</code>）分隔的 <code>DNS</code> 标签， 总计不超过 <code>253</code> 个字符，
+后跟斜杠（<code>/</code>）。
+如果省略前缀，则假定注解键对用户是私有的。 由系统组件添加的注解
+必须为终端用户添加注解前缀</li>
+</ul>
+<p><code>metadata.annotations</code>字段添加注解</p>
+<div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Pod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">annotations-demo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageregistry</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;https://hub.docker.com/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:1.7.9</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="finalizers" class="heading-element">
+  <a href="#finalizers" class="heading-mark"></a>Finalizers</h1><p><code>Finalizer</code> 是带有命名空间的键，告诉 Kubernetes 等到特定的条件被满足后， 再完全删除被标记为删除的资源。 <code>Finalizer</code> 提醒控制器清理被删除的对象拥有的资源。</p>
+<p>当你告诉 Kubernetes 删除一个指定了 <code>Finalizer</code> 的对象时， Kubernetes API 通过填充 .<code>metadata.deletionTimestamp</code> 来标记要删除的对象， 并返回202状态码 (HTTP &ldquo;已接受&rdquo;) 使其进入只读状态。 此时控制平面或其他组件会采取 <code>Finalizer</code> 所定义的行动， 而目标对象仍然处于终止中（Terminating）的状态。 这些行动完成后，控制器会删除目标对象相关的 Finalizer。 当 metadata.finalizers 字段为空时，Kubernetes 认为删除已完成。</p>
+<p>你可以使用 <code>Finalizer</code> 控制资源的垃圾收集。 例如，你可以定义一个 Finalizer，在删除目标资源前清理相关资源或基础设施。</p>
+<p>你可以通过使用 Finalizers 提醒控制器 在删除目标资源前执行特定的清理任务， 来控制资源的垃圾收集。</p>
+<p>Finalizers 通常不指定要执行的代码。 相反，它们通常是特定资源上的键的列表，类似于注解。 Kubernetes 自动指定了一些 Finalizers，但你也可以指定你自己的。</p>
+<h2 id="finalizers-工作流程" class="heading-element">
+  <a href="#finalizers-%e5%b7%a5%e4%bd%9c%e6%b5%81%e7%a8%8b" class="heading-mark"></a>Finalizers 工作流程</h2><p>在 metadata.finalizers 字段指定 Finalizers。 当你试图删除该资源时，处理删除请求的 API 服务器会注意到 finalizers 字段中的值， 并进行以下操作：</p>
+<ul>
+<li>修改对象，将你开始执行删除的时间添加到 <code>metadata.deletionTimestamp</code> 字段</li>
+<li>禁止对象被删除，直到其 metadata.finalizers 字段为空</li>
+<li>返回 202 状态码（HTTP &ldquo;Accepted&rdquo;）。</li>
+</ul>
+<p>管理 <code>finalizer</code> 的控制器注意到对象上发生的更新操作，对象的 <code>metadata.deletionTimestamp</code> 被设置，意味着已经请求删除该对象。然后，控制器会试图满足资源的 Finalizers 的条件。 每当一个 <code>Finalizer</code> 的条件被满足时，控制器就会从资源的 finalizers 字段中删除该键。 当 finalizers 字段为空时，deletionTimestamp 字段被设置的对象会被自动删除。 你也可以使用 Finalizers 来阻止删除未被管理的资源。</p>
+<p>一个常见的 <code>Finalizer</code> 的例子是 <code>kubernetes.io/pv-protection</code>， 它用来防止意外删除 <code>PersistentVolume</code> 对象。 当一个 <code>PersistentVolume</code> 对象被 Pod 使用时， Kubernetes 会添加 pv-protection Finalizer。 如果你试图删除 <code>PersistentVolume</code>，它将进入 Terminating 状态， 但是控制器因为该 <code>Finalizer</code> 存在而无法删除该资源。 当 Pod 停止使用 <code>PersistentVolume</code> 时， Kubernetes 清除 pv-protection Finalizer，控制器就会删除该卷。</p>
+<h1 id="属主与附属" class="heading-element">
+  <a href="#%e5%b1%9e%e4%b8%bb%e4%b8%8e%e9%99%84%e5%b1%9e" class="heading-mark"></a>属主与附属</h1><p>在 Kubernetes 中，一些对象是其他对象的“属主（Owner）”。 例如，ReplicaSet 是一组 Pod 的属主。 具有属主的对象是属主的“附属（Dependent）”。</p>
+<p>属主关系不同于一些资源使用的标签和选择算符机制。 例如，有一个创建 EndpointSlice 对象的 Service， 该 Service 使用标签来让控制平面确定，哪些 EndpointSlice 对象属于该 Service。 除开标签，每个代表 Service 所管理的 EndpointSlice 都有一个属主引用。 属主引用避免 Kubernetes 的不同部分干扰到不受它们控制的对象。</p>
+<h2 id="对象规约中的属主引用" class="heading-element">
+  <a href="#%e5%af%b9%e8%b1%a1%e8%a7%84%e7%ba%a6%e4%b8%ad%e7%9a%84%e5%b1%9e%e4%b8%bb%e5%bc%95%e7%94%a8" class="heading-mark"></a>对象规约中的属主引用</h2><p>附属对象有一个 <code>metadata.ownerReferences</code> 字段，用于引用其属主对象。 一个有效的属主引用，包含与附属对象同在一个命名空间下的对象名称和一个 UID。 Kubernetes 自动为一些对象的附属资源设置属主引用的值， 这些对象包含 ReplicaSet、DaemonSet、Deployment、Job、CronJob、ReplicationController 等。 你也可以通过改变这个字段的值，来手动配置这些关系。 然而，通常不需要这么做，你可以让 Kubernetes 自动管理附属关系。</p>
+<p>附属对象还有一个 ownerReferences.blockOwnerDeletion 字段，该字段使用布尔值， 用于控制特定的附属对象是否可以阻止垃圾收集删除其属主对象。 如果控制器（例如 Deployment 控制器） 设置了 <code>metadata.ownerReferences</code> 字段的值，Kubernetes 会自动设置 blockOwnerDeletion 的值为 true。 你也可以手动设置 blockOwnerDeletion 字段的值，以控制哪些附属对象会阻止垃圾收集。</p>
+<p>根据设计，kubernetes 不允许跨名字空间指定属主。 名字空间范围的附属可以指定集群范围的或者名字空间范围的属主。 名字空间范围的属主必须和该附属处于相同的名字空间。 如果名字空间范围的属主和附属不在相同的名字空间，那么该属主引用就会被认为是缺失的， 并且当附属的所有属主引用都被确认不再存在之后，该附属就会被删除。</p>
+<p>集群范围的附属只能指定集群范围的属主。 在 v1.20+ 版本，如果一个集群范围的附属指定了一个名字空间范围类型的属主， 那么该附属就会被认为是拥有一个不可解析的属主引用，并且它不能够被垃圾回收。</p>
+<p>在 v1.20+ 版本，如果垃圾收集器检测到无效的跨名字空间的属主引用， 或者一个集群范围的附属指定了一个名字空间范围类型的属主， 那么它就会报告一个警告事件。该事件的原因是 OwnerRefInvalidNamespace， involvedObject 属性中包含无效的附属。 你可以运行 kubectl get events -A &ndash;field-selector=reason=OwnerRefInvalidNamespace 来获取该类型的事件。</p>
+<h2 id="属主关系与-finalizer" class="heading-element">
+  <a href="#%e5%b1%9e%e4%b8%bb%e5%85%b3%e7%b3%bb%e4%b8%8e-finalizer" class="heading-mark"></a>属主关系与 Finalizer</h2><p>当你告诉 Kubernetes 删除一个资源，API 服务器允许管理控制器处理该资源的任何 Finalizer 规则。 Finalizer 防止意外删除你的集群所依赖的、用于正常运作的资源。 例如，如果你试图删除一个仍被 Pod 使用的 PersistentVolume，该资源不会被立即删除， 因为 PersistentVolume 有 <code>kubernetes.io/pv-protection</code> Finalizer。 相反，它将进入 Terminating 状态，直到 Kubernetes 清除这个 Finalizer， 而这种情况只会发生在 PersistentVolume 不再被挂载到 Pod 上时。</p>
+<p>当你使用前台或孤立级联删除时， Kubernetes 也会向属主资源添加 Finalizer。 在前台删除中，会添加 foreground Finalizer，这样控制器必须在删除了拥有 ownerReferences.blockOwnerDeletion=true 的附属资源后，才能删除属主对象。 如果你指定了孤立删除策略，Kubernetes 会添加 orphan Finalizer， 这样控制器在删除属主对象后，会忽略附属资源。</p>
+<h2 id="属主引用标签和-finalizers" class="heading-element">
+  <a href="#%e5%b1%9e%e4%b8%bb%e5%bc%95%e7%94%a8%e6%a0%87%e7%ad%be%e5%92%8c-finalizers" class="heading-mark"></a>属主引用、标签和 Finalizers</h2><p>与标签类似， 属主引用 描述了 Kubernetes 中对象之间的关系，但它们作用不同。 当一个控制器 管理类似于 Pod 的对象时，它使用标签来跟踪相关对象组的变化。 例如，当 Job 创建一个或多个 Pod 时， Job 控制器会给这些 Pod 应用上标签，并跟踪集群中的具有相同标签的 Pod 的变化。</p>
+<p>Job 控制器还为这些 Pod 添加了“属主引用”，指向创建 Pod 的 Job。 如果你在这些 Pod 运行的时候删除了 Job， Kubernetes 会使用属主引用（而不是标签）来确定集群中哪些 Pod 需要清理。</p>
+<p>当 Kubernetes 识别到要删除的资源上的属主引用时，它也会处理 Finalizers。</p>
+<p>在某些情况下，Finalizers 会阻止依赖对象的删除， 这可能导致目标属主对象被保留的时间比预期的长，而没有被完全删除。 在这些情况下，你应该检查目标属主和附属对象上的 Finalizers 和属主引用，来排查原因。</p>
+<h1 id="字段选择器" class="heading-element">
+  <a href="#%e5%ad%97%e6%ae%b5%e9%80%89%e6%8b%a9%e5%99%a8" class="heading-mark"></a>字段选择器</h1><p>“字段选择器（Field selectors）”允许你根据一个或多个资源字段的值 筛选 Kubernetes 资源。</p>
+<ul>
+<li>kubectl 命令将筛选出 status.phase 字段值为 Running 的所有 Pod：</li>
+</ul>
+<div class="highlight" id="id-10"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl get pods --field-selector status.phase<span class="o">=</span>Running</span></span></code></pre></td></tr></table>
+</div>
+</div><p>字段选择器本质上是资源“过滤器（Filters）”。默认情况下，字段选择器/过滤器是未被应用的， 这意味着指定类型的所有资源都会被筛选出来。 这使得以下的两个 kubectl 查询是等价的：</p>
+<div class="highlight" id="id-11"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl get pods
+</span></span><span class="line"><span class="cl">kubectl get pods --field-selector <span class="s2">&#34;&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="支持的字段" class="heading-element">
+  <a href="#%e6%94%af%e6%8c%81%e7%9a%84%e5%ad%97%e6%ae%b5" class="heading-mark"></a>支持的字段</h2><p>不同的 Kubernetes 资源类型支持不同的字段选择器。 所有资源类型都支持 metadata.name 和 metadata.namespace 字段。 使用不被支持的字段选择器会产生错误。</p>
+<div class="highlight" id="id-12"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ kubectl get ingress --field-selector foo.bar<span class="o">=</span>baz
+</span></span><span class="line"><span class="cl">Error from server <span class="o">(</span>BadRequest<span class="o">)</span>: Unable to find <span class="s2">&#34;ingresses&#34;</span> that match label selector <span class="s2">&#34;&#34;</span>, ...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="支持的操作符" class="heading-element">
+  <a href="#%e6%94%af%e6%8c%81%e7%9a%84%e6%93%8d%e4%bd%9c%e7%ac%a6" class="heading-mark"></a>支持的操作符</h2><p>字段选择器中使用:</p>
+<ul>
+<li><code>=</code> 或 <code>==</code>表示等于</li>
+<li><code>!=</code>: 表示不等于</li>
+</ul>
+<p>kubectl 命令将筛选所有不属于 default 命名空间的 Kubernetes 服务</p>
+<div class="highlight" id="id-13"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl get services  --all-namespaces --field-selector metadata.namespace!<span class="o">=</span>default</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="链式选择器" class="heading-element">
+  <a href="#%e9%93%be%e5%bc%8f%e9%80%89%e6%8b%a9%e5%99%a8" class="heading-mark"></a>链式选择器</h2><p>同标签和其他选择器一样， 字段选择器可以通过使用逗号分隔的列表组成一个选择链。</p>
+<p>kubectl 命令将筛选 status.phase 字段不等于 Running 同时 spec.restartPolicy 字段等于 Always 的所有 Pod</p>
+<div class="highlight" id="id-14"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl get pods --field-selector<span class="o">=</span>status.phase!<span class="o">=</span>Running,spec.restartPolicy<span class="o">=</span>Always</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="多种资源类型" class="heading-element">
+  <a href="#%e5%a4%9a%e7%a7%8d%e8%b5%84%e6%ba%90%e7%b1%bb%e5%9e%8b" class="heading-mark"></a>多种资源类型</h2><p>你能够跨多种资源类型来使用字段选择器。</p>
+<p>kubectl 命令将筛选出所有不在 default 命名空间中的 StatefulSet 和 Service：</p>
+<div class="highlight" id="id-15"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl get statefulsets,services --all-namespaces --field-selector metadata.namespace!<span class="o">=</span>default</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="清单文件中描述对象" class="heading-element">
+  <a href="#%e6%b8%85%e5%8d%95%e6%96%87%e4%bb%b6%e4%b8%ad%e6%8f%8f%e8%bf%b0%e5%af%b9%e8%b1%a1" class="heading-mark"></a>清单文件中描述对象</h1><p><code>kubectl api-resources</code>命令可以查看已启用的对象，<code>kubectl explain [选项] 资源对象 </code>可以查看该如何在清单文件(<code>yaml</code>)中描述或解读对象信息。通常资源有以下描述字段：</p>
+<ul>
+<li><code>apiVersion</code>: <code>k8s API</code>版本</li>
+<li><code>KIND</code>: 资源对象名称</li>
+<li><code>metadata</code>: 对象元数据</li>
+<li><code>spec</code>: 期望对象的状态</li>
+<li><code>status</code>: 资源当前状态信息，由<code>k8s</code>生成</li>
+</ul>
+<p>如查看<code>pod</code>资源</p>
+<div class="highlight" id="id-16"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl explain pod</span>
+</span></span><span class="line"><span class="cl">KIND:     Pod
+</span></span><span class="line"><span class="cl">VERSION:  v1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">DESCRIPTION:
+</span></span><span class="line"><span class="cl">     Pod is a collection of containers that can run on a host. This resource is
+</span></span><span class="line"><span class="cl">     created by clients and scheduled onto hosts.
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>字段之间用点表示层级，在帮助信息中，字段后面都用字段取值类型注释信息在 <code>&lt;&gt;</code> 内，可能有以下值：</p>
+<ul>
+<li><code>required</code>: 表示必选字段</li>
+<li><code>[ ]</code>: 表示列表</li>
+<li><code>Object</code>: 表示有子对象字段</li>
+<li><code>string</code>: 表示字符串</li>
+<li><code>integer</code>: 表示整数</li>
+<li><code>boolean</code>: 表示布尔值</li>
+</ul>
+<p>如下面命令查看<code>pod</code>的<code>spec</code>字段中<code>containers</code>该如何描述。其中<code>args</code>字段取值为字符串列表</p>
+<div class="highlight" id="id-17"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl explain pod.spec.containers</span>
+</span></span><span class="line"><span class="cl">KIND:     Pod
+</span></span><span class="line"><span class="cl">VERSION:  v1
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">FIELDS:
+</span></span><span class="line"><span class="cl">   args	&lt;<span class="o">[]</span>string&gt;
+</span></span><span class="line"><span class="cl">     Arguments to the entrypoint. The container image<span class="s1">&#39;s CMD is used if this is
+</span></span></span><span class="line"><span class="cl"><span class="s1">     not provided. Variable references $(VAR_NAME) are expanded using the
+</span></span></span><span class="line"><span class="cl"><span class="s1">     container&#39;</span>s environment. If a variable cannot be resolved, the reference in
+</span></span><span class="line"><span class="cl">     the input string will be unchanged. Double <span class="nv">$$</span> are reduced to a single $,
+</span></span><span class="line"><span class="cl">     which allows <span class="k">for</span> escaping the <span class="k">$(</span>VAR_NAME<span class="k">)</span> syntax: i.e. <span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">(VAR_NAME)&#34;</span> will
+</span></span><span class="line"><span class="cl">     produce the string literal <span class="s2">&#34;</span><span class="k">$(</span>VAR_NAME<span class="k">)</span><span class="s2">&#34;</span>. Escaped references will never be
+</span></span><span class="line"><span class="cl">     expanded, regardless of whether the variable exists or not. Cannot be
+</span></span><span class="line"><span class="cl">     updated. More info:
+</span></span><span class="line"><span class="cl">     https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-01-29 16:18:24">更新于 2024-01-29&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s-%E5%AF%B9%E8%B1%A1/" class="post-tag" title="标签 - k8s 对象">k8s 对象</a><a href="/tags/k8s-UID/" class="post-tag" title="标签 - k8s UID">k8s UID</a><a href="/tags/k8s-%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4/" class="post-tag" title="标签 - k8s 名称空间">k8s 名称空间</a><a href="/tags/k8s-%E6%A0%87%E7%AD%BE/" class="post-tag" title="标签 - k8s 标签">k8s 标签</a><a href="/tags/k8s-%E6%A0%87%E7%AD%BE%E8%BF%90%E7%AE%97%E7%AC%A6/" class="post-tag" title="标签 - k8s 标签运算符">k8s 标签运算符</a><a href="/tags/k8s-%E6%B3%A8%E8%A7%A3/" class="post-tag" title="标签 - k8s 注解">k8s 注解</a><a href="/tags/k8s-finalizers/" class="post-tag" title="标签 - k8s finalizers">k8s finalizers</a><a href="/tags/k8s-%E5%B1%9E%E4%B8%BB/" class="post-tag" title="标签 - k8s 属主">k8s 属主</a><a href="/tags/k8s-%E5%AD%97%E6%AE%B5%E9%80%89%E6%8B%A9%E5%99%A8/" class="post-tag" title="标签 - k8s 字段选择器">k8s 字段选择器</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8s%E6%A6%82%E8%BF%B0/" class="post-nav-item" rel="prev" title="k8s概述"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s概述</a>
+      <a href="/k8sNode/" class="post-nav-item" rel="next" title="k8s 节点">k8s 节点<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

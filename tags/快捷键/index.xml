@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>快捷键 - 标签 - 小厮</title>
+    <link>/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/</link>
+    <description>快捷键 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 30 Apr 2023 12:16:03 &#43;0800</lastBuildDate><atom:link href="/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/" rel="self" type="application/rss+xml" /><item>
+  <title>neovim 快捷键</title>
+  <link>/neovimShortcutKey/</link>
+  <pubDate>Sun, 30 Apr 2023 12:16:03 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/neovimShortcutKey/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>rename - 标签 - 小厮</title>
+    <link>/tags/rename/</link>
+    <description>rename - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 11 Dec 2022 09:42:46 &#43;0800</lastBuildDate><atom:link href="/tags/rename/" rel="self" type="application/rss+xml" /><item>
+  <title>批量修改文件名</title>
+  <link>/%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/</link>
+  <pubDate>Sun, 11 Dec 2022 09:42:46 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%90%8D/</guid>
+  <description><![CDATA[批量修改文件名称rename 可以替换指定文件名称中的字符串 格式：rename 替换之前字符串 替换之后字符串 文件名称 示例：将 centos 替换为 centos7 1 2 3 4 5]]></description>
+</item>
+</channel>
+</rss>

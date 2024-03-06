@@ -1,0 +1,167 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Categories - 分类 - 小厮</title>
+    <link>/categories/</link>
+    <description>Categories - 分类 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 01 Mar 2024 10:18:16 &#43;0800</lastBuildDate><atom:link href="/categories/" rel="self" type="application/rss+xml" /><item>
+  <title>eks</title>
+  <link>/categories/eks/</link>
+  <pubDate>Fri, 01 Mar 2024 10:18:16 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/eks/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>aws</title>
+  <link>/categories/aws/</link>
+  <pubDate>Thu, 22 Feb 2024 15:12:30 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/aws/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>linux</title>
+  <link>/categories/linux/</link>
+  <pubDate>Sat, 10 Feb 2024 16:06:53 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/linux/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>grafana</title>
+  <link>/categories/grafana/</link>
+  <pubDate>Fri, 09 Feb 2024 13:40:12 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/grafana/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>prometheus</title>
+  <link>/categories/prometheus/</link>
+  <pubDate>Wed, 07 Feb 2024 14:24:24 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/prometheus/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>k8s</title>
+  <link>/categories/k8s/</link>
+  <pubDate>Mon, 29 Jan 2024 21:11:24 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/k8s/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>hugo</title>
+  <link>/categories/hugo/</link>
+  <pubDate>Mon, 29 Jan 2024 16:40:48 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/hugo/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>golang</title>
+  <link>/categories/golang/</link>
+  <pubDate>Fri, 27 Oct 2023 16:27:40 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/golang/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>nginx</title>
+  <link>/categories/nginx/</link>
+  <pubDate>Thu, 24 Aug 2023 03:30:57 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/nginx/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>gitlab</title>
+  <link>/categories/gitlab/</link>
+  <pubDate>Tue, 22 Aug 2023 00:49:14 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/gitlab/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>网络通信</title>
+  <link>/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/</link>
+  <pubDate>Tue, 01 Aug 2023 20:12:31 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>容器</title>
+  <link>/categories/%E5%AE%B9%E5%99%A8/</link>
+  <pubDate>Mon, 17 Jul 2023 23:41:44 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/%E5%AE%B9%E5%99%A8/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>neovim</title>
+  <link>/categories/neovim/</link>
+  <pubDate>Sun, 30 Apr 2023 12:16:03 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/neovim/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>vim</title>
+  <link>/categories/vim/</link>
+  <pubDate>Sat, 22 Apr 2023 13:16:11 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/vim/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>ansible</title>
+  <link>/categories/ansible/</link>
+  <pubDate>Tue, 18 Apr 2023 16:44:59 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/ansible/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>windows</title>
+  <link>/categories/windows/</link>
+  <pubDate>Tue, 18 Apr 2023 08:57:55 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/windows/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>英语</title>
+  <link>/categories/%E8%8B%B1%E8%AF%AD/</link>
+  <pubDate>Sun, 19 Mar 2023 09:02:34 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/%E8%8B%B1%E8%AF%AD/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>游戏</title>
+  <link>/categories/%E6%B8%B8%E6%88%8F/</link>
+  <pubDate>Thu, 16 Feb 2023 17:14:52 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/%E6%B8%B8%E6%88%8F/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>git</title>
+  <link>/categories/git/</link>
+  <pubDate>Mon, 06 Feb 2023 14:55:34 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/git/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>文本处理</title>
+  <link>/categories/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/</link>
+  <pubDate>Sun, 05 Feb 2023 19:39:23 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/categories/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

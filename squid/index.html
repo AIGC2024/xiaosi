@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>squid - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="HTTP/HTTPS 代理、缓存服务器" /><meta name="keywords" content='squid' /><meta itemprop="name" content="squid">
+<meta itemprop="description" content="HTTP/HTTPS 代理、缓存服务器"><meta itemprop="datePublished" content="2022-07-02T22:49:26+08:00" />
+<meta itemprop="dateModified" content="2023-07-23T04:08:41+08:00" />
+<meta itemprop="wordCount" content="2634">
+<meta itemprop="keywords" content="squid," /><meta property="og:title" content="squid" />
+<meta property="og:description" content="HTTP/HTTPS 代理、缓存服务器" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/squid/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-02T22:49:26+08:00" />
+<meta property="article:modified_time" content="2023-07-23T04:08:41+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="squid"/>
+<meta name="twitter:description" content="HTTP/HTTPS 代理、缓存服务器"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/squid/" /><link rel="prev" href="/lvs/" /><link rel="next" href="/%E6%88%91%E7%9A%84-vimrc/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "squid",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/squid\/"
+    },"genre": "posts","keywords": "squid","wordcount":  2634 ,
+    "url": "\/squid\/","datePublished": "2022-07-02T22:49:26+08:00","dateModified": "2023-07-23T04:08:41+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>squid</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-02 22:49:26"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-02">2022-07-02</time></span>&nbsp;<span title="更新于 2023-07-23 04:08:41"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-07-23">2023-07-23</time></span>&nbsp;<span title="2634 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#squid">squid</a></li>
+    <li><a href="#安装">安装</a></li>
+    <li><a href="#配置">配置</a>
+      <ul>
+        <li><a href="#acl">acl</a></li>
+        <li><a href="#访问日志">访问日志</a></li>
+        <li><a href="#http-相关">http 相关</a></li>
+      </ul>
+    </li>
+    <li><a href="#指定请求出口ip">指定请求出口IP</a></li>
+    <li><a href="#正向代理">正向代理</a>
+      <ul>
+        <li><a href="#http">http</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>centos:7</li>
+<li>squid:3.5</li>
+<li>内核:3.10.0-1160.66.1.el7.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><code>squid官方: </code><a href="http://www.squid-cache.org/Versions/" title="下载"target="_blank" rel="external nofollow noopener noreferrer">下载</a></li>
+<li><code>squid官方: </code><a href="http://www.squid-cache.org/Doc/config/"target="_blank" rel="external nofollow noopener noreferrer">指令说明</a></li>
+<li><a href="http://cooolin.com/scinet/2020/06/21/squid-proxy-simple.html"target="_blank" rel="external nofollow noopener noreferrer">Squid极简搭建HTTP/HTTPS代理服务器</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="squid" class="heading-element">
+  <a href="#squid" class="heading-mark"></a>squid</h1><p>Squid是一个高性能的代理缓存服务器，Squid用一个单独的、非模块化的、I/O驱动的进程来处理所有的客户端请求。
+Squid 提供了丰富的访问控制、授权和日志记录环境来开发 Web 代理和内容服务应用程序。Squid 提供了一组丰富的流量优化选项，其中大部分默认启用，以实现更简单的安装和高性能</p>
+<h1 id="安装" class="heading-element">
+  <a href="#%e5%ae%89%e8%a3%85" class="heading-mark"></a>安装</h1><p>大部分系统自带有squid安装包</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查找 squid 相关软件包</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum serche squid</span>
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">squid.x86_64 : The Squid proxy caching server
+</span></span><span class="line"><span class="cl">squid-migration-script.x86_64 : Migration script <span class="k">for</span> squid caching proxy
+</span></span><span class="line"><span class="cl">squid-sysvinit.x86_64 : SysV initscript <span class="k">for</span> squid caching proxy
+</span></span><span class="line"><span class="cl">squidGuard.x86_64 : Filter, redirector and access controller plugin <span class="k">for</span> squid
+</span></span><span class="line"><span class="cl">calamaris.noarch : Analyzer and report generator <span class="k">for</span> web proxy servers like Squid
+</span></span><span class="line"><span class="cl">libecap.i686 : Squid interface <span class="k">for</span> embedded adaptation modules
+</span></span><span class="line"><span class="cl">libecap.x86_64 : Squid interface <span class="k">for</span> embedded adaptation modules
+</span></span><span class="line"><span class="cl">ufdbGuard.x86_64 : A URL filter <span class="k">for</span> squid
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看软件包信息</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum info squid</span>
+</span></span><span class="line"><span class="cl">Loaded plugins: fastestmirror
+</span></span><span class="line"><span class="cl">Loading mirror speeds from cached hostfile
+</span></span><span class="line"><span class="cl"> * base: mirrors.ustc.edu.cn
+</span></span><span class="line"><span class="cl"> * epel: mirror2.totbb.net
+</span></span><span class="line"><span class="cl"> * extras: mirrors.tuna.tsinghua.edu.cn
+</span></span><span class="line"><span class="cl"> * updates: mirrors.ustc.edu.cn
+</span></span><span class="line"><span class="cl">Available Packages
+</span></span><span class="line"><span class="cl">Name        : squid
+</span></span><span class="line"><span class="cl">Arch        : x86_64
+</span></span><span class="line"><span class="cl">Epoch       : <span class="m">7</span>
+</span></span><span class="line"><span class="cl">Version     : 3.5.20
+</span></span><span class="line"><span class="cl">Release     : 17.el7_9.6
+</span></span><span class="line"><span class="cl">Size        : 3.1 M
+</span></span><span class="line"><span class="cl">Repo        : updates/7/x86_64
+</span></span><span class="line"><span class="cl">Summary     : The Squid proxy caching server
+</span></span><span class="line"><span class="cl">URL         : http://www.squid-cache.org
+</span></span><span class="line"><span class="cl">License     : GPLv2+ and <span class="o">(</span>LGPLv2+ and MIT and BSD and Public Domain<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Description : Squid is a high-performance proxy caching server <span class="k">for</span> Web clients,
+</span></span><span class="line"><span class="cl">            : supporting FTP, gopher, and HTTP data objects. Unlike traditional
+</span></span><span class="line"><span class="cl">            : caching software, Squid handles all requests in a single,
+</span></span><span class="line"><span class="cl">            : non-blocking, I/O-driven process. Squid keeps meta data and especially
+</span></span><span class="line"><span class="cl">            : hot objects cached in RAM, caches DNS lookups, supports non-blocking
+</span></span><span class="line"><span class="cl">            : DNS lookups, and implements negative caching of failed requests.
+</span></span><span class="line"><span class="cl">            : 
+</span></span><span class="line"><span class="cl">            : Squid consists of a main server program squid, a Domain Name System
+</span></span><span class="line"><span class="cl">            : lookup program <span class="o">(</span>dnsserver<span class="o">)</span>, a program <span class="k">for</span> retrieving FTP data
+</span></span><span class="line"><span class="cl">            : <span class="o">(</span>ftpget<span class="o">)</span>, and some management and client tools.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y squid</span>
+</span></span><span class="line"><span class="cl">....</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">https://www.jianshu.com/p/64a6bcf5f590</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="配置" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae" class="heading-mark"></a>配置</h1><p>配置文件默认在<code>/etc/squid/squid.conf</code></p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># systemctl status squid</span>
+</span></span><span class="line"><span class="cl">● squid.service - Squid caching proxy
+</span></span><span class="line"><span class="cl">   Loaded: loaded <span class="o">(</span>/usr/lib/systemd/system/squid.service<span class="p">;</span> disabled<span class="p">;</span> vendor preset: disabled<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   Active: inactive <span class="o">(</span>dead<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /usr/lib/systemd/system/squid.service</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Description</span><span class="o">=</span>Squid caching proxy
+</span></span><span class="line"><span class="cl"><span class="nv">After</span><span class="o">=</span>syslog.target network.target nss-lookup.target
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Service<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span><span class="o">=</span>forking
+</span></span><span class="line"><span class="cl"><span class="nv">LimitNOFILE</span><span class="o">=</span><span class="m">16384</span>
+</span></span><span class="line"><span class="cl"><span class="nv">EnvironmentFile</span><span class="o">=</span>/etc/sysconfig/squid
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStartPre</span><span class="o">=</span>/usr/libexec/squid/cache_swap.sh
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStart</span><span class="o">=</span>/usr/sbin/squid <span class="nv">$SQUID_OPTS</span> -f <span class="nv">$SQUID_CONF</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecReload</span><span class="o">=</span>/usr/sbin/squid <span class="nv">$SQUID_OPTS</span> -k reconfigure -f <span class="nv">$SQUID_CONF</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStop</span><span class="o">=</span>/usr/sbin/squid -k shutdown -f <span class="nv">$SQUID_CONF</span>
+</span></span><span class="line"><span class="cl"><span class="nv">TimeoutSec</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Install<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># cat /etc/sysconfig/squid</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># default squid options</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SQUID_OPTS</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Time to wait for Squid to shut down when asked. Should not be necessary</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># most of the time.</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SQUID_SHUTDOWN_TIMEOUT</span><span class="o">=</span><span class="m">100</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># default squid conf file</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SQUID_CONF</span><span class="o">=</span><span class="s2">&#34;/etc/squid/squid.conf&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># </span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># grep -v -e &#39;^#&#39; -e &#39;^$&#39; /etc/squid/squid.conf</span>
+</span></span><span class="line"><span class="cl">acl localnet src 10.0.0.0/8	<span class="c1"># RFC1918 possible internal network</span>
+</span></span><span class="line"><span class="cl">acl localnet src 172.16.0.0/12	<span class="c1"># RFC1918 possible internal network</span>
+</span></span><span class="line"><span class="cl">acl localnet src 192.168.0.0/16	<span class="c1"># RFC1918 possible internal network</span>
+</span></span><span class="line"><span class="cl">acl localnet src fc00::/7       <span class="c1"># RFC 4193 local private network range</span>
+</span></span><span class="line"><span class="cl">acl localnet src fe80::/10      <span class="c1"># RFC 4291 link-local (directly plugged) machines</span>
+</span></span><span class="line"><span class="cl">acl SSL_ports port <span class="m">443</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 80		<span class="c1"># http</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 21		<span class="c1"># ftp</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 443		<span class="c1"># https</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 70		<span class="c1"># gopher</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 210		<span class="c1"># wais</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 1025-65535	<span class="c1"># unregistered ports</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 280		<span class="c1"># http-mgmt</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 488		<span class="c1"># gss-http</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 591		<span class="c1"># filemaker</span>
+</span></span><span class="line"><span class="cl">acl Safe_ports port 777		<span class="c1"># multiling http</span>
+</span></span><span class="line"><span class="cl">acl CONNECT method CONNECT
+</span></span><span class="line"><span class="cl">http_access deny !Safe_ports
+</span></span><span class="line"><span class="cl">http_access deny CONNECT !SSL_ports
+</span></span><span class="line"><span class="cl">http_access allow localhost manager
+</span></span><span class="line"><span class="cl">http_access deny manager
+</span></span><span class="line"><span class="cl">http_access allow localnet
+</span></span><span class="line"><span class="cl">http_access allow localhost
+</span></span><span class="line"><span class="cl">http_access deny all
+</span></span><span class="line"><span class="cl">http_port <span class="m">3128</span>
+</span></span><span class="line"><span class="cl">coredump_dir /var/spool/squid
+</span></span><span class="line"><span class="cl">refresh_pattern ^ftp:		1440	20%	<span class="m">10080</span>
+</span></span><span class="line"><span class="cl">refresh_pattern ^gopher:	1440	0%	<span class="m">1440</span>
+</span></span><span class="line"><span class="cl">refresh_pattern -i <span class="o">(</span>/cgi-bin/<span class="p">|</span><span class="se">\?</span><span class="o">)</span> 0	0%	<span class="m">0</span>
+</span></span><span class="line"><span class="cl">refresh_pattern .		0	20%	<span class="m">4320</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="acl" class="heading-element">
+  <a href="#acl" class="heading-mark"></a>acl</h2><p>访问控制由访问列表+ACL元素组合形成的。当加载配置文件时，<code>squid</code> 将所有<code>acl</code>行
+（指令）作为测试处理到内存中，这些测试可以针对任何请求事务执行。</p>
+<p><code>acl</code>指令指定受控制的地址集合，格式如下：</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># aclname: acl命令的名称，是唯一的，长度为31字符，只能修改源码实现</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># acltype: acl命令元素类型</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># argument: 参数，可以有多个</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># filename: 从文件中加载参数，文件中的参数以换行符分隔</span>
+</span></span><span class="line"><span class="cl">acl aclname acltype <span class="o">[</span>option<span class="o">]</span> <span class="o">{</span> argument ... <span class="p">|</span> <span class="s2">&#34;filename&#34;</span> ... <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">acltype 有以下可用类型
+</span></span><span class="line"><span class="cl">- random	<span class="c1"># 概率匹配，有以下方式</span>
+</span></span><span class="line"><span class="cl">			<span class="c1"># - N:M：M个匹配中命中N个，已就是说命中N个之后要等M个后才命中</span>
+</span></span><span class="line"><span class="cl">			<span class="c1"># - N/M：M分之N概率命中</span>
+</span></span><span class="line"><span class="cl">			<span class="c1"># - 0.N[NNN]：如 0.1234 表示 12.34% 概率命中</span>
+</span></span><span class="line"><span class="cl">- src		<span class="c1"># 源地址gIP</span>
+</span></span><span class="line"><span class="cl">- dst		<span class="c1"># 目标地址IP</span>
+</span></span><span class="line"><span class="cl">- arp		<span class="c1"># mac地址</span>
+</span></span><span class="line"><span class="cl">- srcdomain	<span class="c1"># 源地址g域名</span>
+</span></span><span class="line"><span class="cl">- dstdomain	<span class="c1"># 目标地址域名</span>
+</span></span><span class="line"><span class="cl">- srcdom_regex	<span class="c1"># 正则表达式表示的源地址g地址</span>
+</span></span><span class="line"><span class="cl">- dstdom_regex	<span class="c1"># 正则表达式表示的目标地址地址</span>
+</span></span><span class="line"><span class="cl">- src_as	<span class="c1"># 系统给源地址标记的编号</span>
+</span></span><span class="line"><span class="cl">- dst_as	<span class="c1"># 系统给目标地址标记的编号</span>
+</span></span><span class="line"><span class="cl">- peername	<span class="c1"># 分配给期望发送请求的 cache_peer 标签名</span>
+</span></span><span class="line"><span class="cl">- <span class="nb">time</span>		<span class="c1"># 一天中的时间和星期几</span>
+</span></span><span class="line"><span class="cl">- url_regex	<span class="c1"># 正则表达式表示的URL</span>
+</span></span><span class="line"><span class="cl">- urlpath_regex <span class="c1"># 正则表达式表示的URL路径，省略协议和主机名</span>
+</span></span><span class="line"><span class="cl">- port		<span class="c1"># 目标地址端口</span>
+</span></span><span class="line"><span class="cl">- myip		<span class="c1"># 监听端口的IP</span>
+</span></span><span class="line"><span class="cl">- myport	<span class="c1"># 监听端口号</span>
+</span></span><span class="line"><span class="cl">- myportname	<span class="c1"># 监听端口名称</span>
+</span></span><span class="line"><span class="cl">- proto		<span class="c1"># 协议</span>
+</span></span><span class="line"><span class="cl">- method 	<span class="c1"># http协议请求方法</span>
+</span></span><span class="line"><span class="cl">- http_status	<span class="c1"># http协议状响应态码</span>
+</span></span><span class="line"><span class="cl">- browser	<span class="c1"># 正则表达式表示的用户代理标识</span>
+</span></span><span class="line"><span class="cl">- referer_regex	<span class="c1"># 正则表达式表示的请求 http-referer 标识</span>
+</span></span><span class="line"><span class="cl">- ident 	<span class="c1"># 用户名</span>
+</span></span><span class="line"><span class="cl">- ident_regex	<span class="c1"># 正则表达式表示的用户名</span>
+</span></span><span class="line"><span class="cl">- proxy_auth	<span class="c1"># 通过外部进程进行用户身份验证</span>
+</span></span><span class="line"><span class="cl">- proxy_auth_regex
+</span></span><span class="line"><span class="cl">		<span class="c1"># 通过外部进程进行用户身份验证的正则表达式模式匹配</span>
+</span></span><span class="line"><span class="cl">- snmp_community
+</span></span><span class="line"><span class="cl">		<span class="c1"># SNMP 字符串匹配</span>
+</span></span><span class="line"><span class="cl">- maxconn	<span class="c1"># 单个客户端IP地址最大连接数限制</span>
+</span></span><span class="line"><span class="cl">- max_user_ip	<span class="c1"># 单个用户可以登录的 IP 地址的最大数量限制</span>
+</span></span><span class="line"><span class="cl">- req_mime_type	<span class="c1"># 请求内容类型标头上的正则表达式模式匹配</span>
+</span></span><span class="line"><span class="cl">- req_header	<span class="c1"># 对请求标头内容进行正则表达式模式匹配</span>
+</span></span><span class="line"><span class="cl">- rep_mime_type
+</span></span><span class="line"><span class="cl">		<span class="c1"># 正则表达式模式匹配回复（下载的内容）内容类型标头。这只能在 </span>
+</span></span><span class="line"><span class="cl">		  http_reply_access 指令中使用，而不是 http_access。
+</span></span><span class="line"><span class="cl">- rep_header
+</span></span><span class="line"><span class="cl">		<span class="c1"># 正则表达式模式匹配回复标头内容。这只能在 </span>
+</span></span><span class="line"><span class="cl">		  http_reply_access 指令中使用，而不是 http_access。
+</span></span><span class="line"><span class="cl">- external	<span class="c1"># 通过 external_acl_type 定义的外部 acl 助手查找</span>
+</span></span><span class="line"><span class="cl">- user_cert	<span class="c1"># 匹配用户 SSL 证书中的属性</span>
+</span></span><span class="line"><span class="cl">- ca_cert	<span class="c1"># 与颁发 CA SSL 证书的用户的属性匹配</span>
+</span></span><span class="line"><span class="cl">- ext_user	<span class="c1"># 匹配由 external_acl_type 定义的外部 acl 帮助程序返回的 </span>
+</span></span><span class="line"><span class="cl">		  <span class="nv">user</span><span class="o">=</span> 字段
+</span></span><span class="line"><span class="cl">- ext_user_regex
+</span></span><span class="line"><span class="cl">		<span class="c1"># 由 external_acl_type 定义的外部 acl 帮助器返回的 user= </span>
+</span></span><span class="line"><span class="cl">		  字段上的正则表达式模式匹配
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">option 选项可以修改acl默认行为
+</span></span><span class="line"><span class="cl">-i,+i
+</span></span><span class="line"><span class="cl">	<span class="c1"># 是否区分正则表达式大小写，默认为`+1`表示区分</span>
+</span></span><span class="line"><span class="cl">-n
+</span></span><span class="line"><span class="cl">	<span class="c1"># 域名说地址是否要转换，-n 表示禁用</span>
+</span></span><span class="line"><span class="cl">-m<span class="o">[=</span>delimiters<span class="o">]</span>
+</span></span><span class="line"><span class="cl">	<span class="c1"># 执行列表成员资格测试，多个值使用,分隔</span>
+</span></span><span class="line"><span class="cl">--
+</span></span><span class="line"><span class="cl">	<span class="c1"># 用于停止处理所有选项</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="访问日志" class="heading-element">
+  <a href="#%e8%ae%bf%e9%97%ae%e6%97%a5%e5%bf%97" class="heading-mark"></a>访问日志</h2><div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># &gt;= 2.6版本</span>
+</span></span><span class="line"><span class="cl">access_log /path/to/finame logformat</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="http-相关" class="heading-element">
+  <a href="#http-%e7%9b%b8%e5%85%b3" class="heading-mark"></a>http 相关</h2><p><code>http_port</code>指定http协议监听的端口</p>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># &gt;=2.6</span>
+</span></span><span class="line"><span class="cl">http_port  <span class="o">[</span>ip:<span class="p">|</span>hstname:<span class="p">|</span>ip:<span class="o">]</span>port <span class="o">[</span>mode<span class="o">]</span> <span class="o">[</span>options<span class="o">]</span>
+</span></span><span class="line"><span class="cl">http_ports <span class="o">[</span>ip:<span class="p">|</span>hstname:<span class="p">|</span>ip:<span class="o">]</span>port <span class="o">[</span>mode<span class="o">]</span> tls-cert<span class="o">=</span>certificate.pem <span class="o">[</span>options<span class="o">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>http_access</code> 根据定义的访问列表允许或拒绝访问，默认为拒绝</p>
+<p><code>http_reply_access</code></p>
+<h1 id="指定请求出口ip" class="heading-element">
+  <a href="#%e6%8c%87%e5%ae%9a%e8%af%b7%e6%b1%82%e5%87%ba%e5%8f%a3ip" class="heading-mark"></a>指定请求出口IP</h1><ul>
+<li><code>tcp_outgoing_address</code>: 指定请求出口的IP，优先级从上往下</li>
+<li><code>tcp_outgoing_tos</code>: 指定请求的TOS</li>
+<li><code>tcp_outgoing_mark</code>: 可以根据防火墙标记指定出口IP</li>
+<li><code>tls_outgoing_options</code>： TLS相关</li>
+<li><code>udp_outgoing_address</code> UDP相关</li>
+</ul>
+<p><code>tcp_outgoing_address</code>示例：</p>
+<p>该方式只适本地连接，如果使用客户端能需要用<code>cache_peer</code>重写地址</p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">acl my src 119.123.150.24
+</span></span><span class="line"><span class="cl">http_access allow my
+</span></span><span class="line"><span class="cl">acl output2 random 0.5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 有50%概率使用16 ip作为出口</span>
+</span></span><span class="line"><span class="cl">tcp_outgoing_address 103.106.246.16 output2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">acl output1 myport <span class="m">831</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用连接 831 端口时使用17 IP做为出口</span>
+</span></span><span class="line"><span class="cl">tcp_outgoing_address 103.106.246.17 output1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 关闭持久连接</span>
+</span></span><span class="line"><span class="cl">server_persistent_connections off
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">forwarded_for delete
+</span></span><span class="line"><span class="cl">via off
+</span></span><span class="line"><span class="cl">http_access deny all</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="正向代理" class="heading-element">
+  <a href="#%e6%ad%a3%e5%90%91%e4%bb%a3%e7%90%86" class="heading-mark"></a>正向代理</h1><div class="highlight" id="id-8"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http_access allow all
+</span></span><span class="line"><span class="cl">https_port <span class="m">222</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nv">cert</span><span class="o">=</span>/etc/letsencrypt/live/pro/fullchain.pem <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="nv">key</span><span class="o">=</span>/etc/letsencrypt/live/prox/privkey.pem
+</span></span><span class="line"><span class="cl"><span class="c1"># 清除请求中的代理头信息</span>
+</span></span><span class="line"><span class="cl">request_header_access Via deny all
+</span></span><span class="line"><span class="cl">request_header_access X-Forwarded-For deny all
+</span></span><span class="line"><span class="cl">request_header_access Proxy-Authorization deny all
+</span></span><span class="line"><span class="cl">request_header_access Cache-Control deny all
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 清除响应中的代理头信息</span>
+</span></span><span class="line"><span class="cl">reply_header_access Via deny all
+</span></span><span class="line"><span class="cl">reply_header_access X-Forwarded-For deny all
+</span></span><span class="line"><span class="cl">reply_header_access Proxy-Authenticate deny all
+</span></span><span class="line"><span class="cl">reply_header_access WWW-Authenticate deny all
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">forwarded_for off</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="http" class="heading-element">
+  <a href="#http" class="heading-mark"></a>http</h2><div class="highlight" id="id-9"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost squid<span class="o">]</span><span class="c1"># cat squid.conf</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#http_access allow all</span>
+</span></span><span class="line"><span class="cl">http_port <span class="m">3121</span>
+</span></span><span class="line"><span class="cl">auth_param basic program /usr/lib64/squid/basic_ncsa_auth /etc/squid/userpasswd
+</span></span><span class="line"><span class="cl">auth_param basic realm proxy
+</span></span><span class="line"><span class="cl">auth_param basic children <span class="m">10</span>
+</span></span><span class="line"><span class="cl">auth_param basic realm CoolTube Proxy Serve
+</span></span><span class="line"><span class="cl"><span class="c1">#auth_param basic credentialsttl 24 hours</span>
+</span></span><span class="line"><span class="cl">acl authenticated proxy_auth REQUIRED
+</span></span><span class="line"><span class="cl">http_access allow authenticated
+</span></span><span class="line"><span class="cl">http_access deny all
+</span></span><span class="line"><span class="cl"><span class="c1">#visible_hostname squid.CoolTube</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">forwarded_for off
+</span></span><span class="line"><span class="cl">request_header_access Allow allow all
+</span></span><span class="line"><span class="cl">request_header_access Authorization allow all
+</span></span><span class="line"><span class="cl">request_header_access WWW-Authenticate allow all
+</span></span><span class="line"><span class="cl">request_header_access Proxy-Authorization allow all
+</span></span><span class="line"><span class="cl">request_header_access Proxy-Authenticate allow all
+</span></span><span class="line"><span class="cl">request_header_access Cache-Control allow all
+</span></span><span class="line"><span class="cl">request_header_access Content-Encoding allow all
+</span></span><span class="line"><span class="cl">request_header_access Content-Length allow all
+</span></span><span class="line"><span class="cl">request_header_access Content-Type allow all
+</span></span><span class="line"><span class="cl">request_header_access Date allow all
+</span></span><span class="line"><span class="cl">request_header_access Expires allow all
+</span></span><span class="line"><span class="cl">request_header_access Host allow all
+</span></span><span class="line"><span class="cl">request_header_access If-Modified-Since allow all
+</span></span><span class="line"><span class="cl">request_header_access Last-Modified allow all
+</span></span><span class="line"><span class="cl">request_header_access Location allow all
+</span></span><span class="line"><span class="cl">request_header_access Pragma allow all
+</span></span><span class="line"><span class="cl">request_header_access Accept allow all
+</span></span><span class="line"><span class="cl">request_header_access Accept-Charset allow all
+</span></span><span class="line"><span class="cl">request_header_access Accept-Encoding allow all
+</span></span><span class="line"><span class="cl">request_header_access Accept-Language allow all
+</span></span><span class="line"><span class="cl">request_header_access Content-Language allow all
+</span></span><span class="line"><span class="cl">request_header_access Mime-Version allow all
+</span></span><span class="line"><span class="cl">request_header_access Retry-After allow all
+</span></span><span class="line"><span class="cl">request_header_access Title allow all
+</span></span><span class="line"><span class="cl">request_header_access Connection allow all
+</span></span><span class="line"><span class="cl">request_header_access Proxy-Connection allow all
+</span></span><span class="line"><span class="cl">request_header_access User-Agent allow all
+</span></span><span class="line"><span class="cl">request_header_access Cookie allow all
+</span></span><span class="line"><span class="cl">request_header_access All deny all
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">request_header_access Via deny all
+</span></span><span class="line"><span class="cl">request_header_access Forwarded-For deny all
+</span></span><span class="line"><span class="cl">request_header_access X-Forwarded-For deny all
+</span></span><span class="line"><span class="cl">cache deny all</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-07-23 04:08:41">更新于 2023-07-23&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/squid/" class="post-tag" title="标签 - squid">squid</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/lvs/" class="post-nav-item" rel="prev" title="lvs"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>lvs</a>
+      <a href="/%E6%88%91%E7%9A%84-vimrc/" class="post-nav-item" rel="next" title="我的 vimrc">我的 vimrc<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

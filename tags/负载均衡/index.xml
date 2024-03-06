@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>负载均衡 - 标签 - 小厮</title>
+    <link>/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</link>
+    <description>负载均衡 - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 13 Aug 2020 10:15:20 &#43;0800</lastBuildDate><atom:link href="/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="self" type="application/rss+xml" /><item>
+  <title>nginx 负载均衡</title>
+  <link>/nginx-load-balance/</link>
+  <pubDate>Thu, 13 Aug 2020 10:15:20 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/nginx-load-balance/</guid>
+  <description><![CDATA[运行环境： nginx: 1.21.0 负载均衡扩展类型：可以综合使用 水平扩展：对无状态服务有用 round robin 算法 least connected 算法 基于功能(url)分发 基于用户(ip,用户名等)分发 round]]></description>
+</item>
+</channel>
+</rss>

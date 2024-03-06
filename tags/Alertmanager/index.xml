@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Alertmanager - 标签 - 小厮</title>
+    <link>/tags/Alertmanager/</link>
+    <description>Alertmanager - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 07 Feb 2024 14:24:24 &#43;0800</lastBuildDate><atom:link href="/tags/Alertmanager/" rel="self" type="application/rss+xml" /><item>
+  <title>Alertmanager - 处理由Prometheus服务器等客户端应用程序发送的警报</title>
+  <link>/prometheusAlertmanager/</link>
+  <pubDate>Wed, 07 Feb 2024 14:24:24 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/prometheusAlertmanager/</guid>
+  <description><![CDATA[]]></description>
+</item>
+</channel>
+</rss>

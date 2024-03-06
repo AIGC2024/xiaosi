@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>mail - 标签 - 小厮</title>
+    <link>/tags/mail/</link>
+    <description>mail - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 10 Feb 2024 16:06:53 &#43;0800</lastBuildDate><atom:link href="/tags/mail/" rel="self" type="application/rss+xml" /><item>
+  <title>mailx - 发送和接收网络邮件</title>
+  <link>/mailx/</link>
+  <pubDate>Sat, 10 Feb 2024 16:06:53 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/mailx/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>MialCow - 一个基于 Docker 的开源群件/电子邮件套件</title>
+  <link>/MailCow/</link>
+  <pubDate>Tue, 09 Jan 2024 11:39:04 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/MailCow/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>postfix</title>
+  <link>/postfix/</link>
+  <pubDate>Wed, 28 Dec 2022 16:53:12 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/postfix/</guid>
+  <description><![CDATA[运行环境： centos: 7 内容来自以下文档： 廖雪峰：3分钟安装配置Postfix邮件服务器 Postfix配置通过远程SMTP服务器发送邮件 所以怎样：50]]></description>
+</item>
+</channel>
+</rss>

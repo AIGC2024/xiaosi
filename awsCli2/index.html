@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>aws 命令行工具 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="xiaosi" /><meta name="keywords" content='aws, cli2' /><meta itemprop="name" content="aws 命令行工具">
+<meta itemprop="description" content=""><meta itemprop="datePublished" content="2023-04-25T14:27:51+08:00" />
+<meta itemprop="dateModified" content="2023-06-01T15:39:48+08:00" />
+<meta itemprop="wordCount" content="884">
+<meta itemprop="keywords" content="aws,cli2," /><meta property="og:title" content="aws 命令行工具" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/awsCli2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-25T14:27:51+08:00" />
+<meta property="article:modified_time" content="2023-06-01T15:39:48+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="aws 命令行工具"/>
+<meta name="twitter:description" content=""/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/awsCli2/" /><link rel="prev" href="/neovimExCmd/" /><link rel="next" href="/awsEc2/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "aws 命令行工具",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/awsCli2\/"
+    },"genre": "posts","keywords": "aws, cli2","wordcount":  884 ,
+    "url": "\/awsCli2\/","datePublished": "2023-04-25T14:27:51+08:00","dateModified": "2023-06-01T15:39:48+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>aws 命令行工具</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/aws/" class="post-category" title="分类 - aws"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> aws</a></span></div><div class="post-meta-line"><span title="发布于 2023-04-25 14:27:51"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-04-25">2023-04-25</time></span>&nbsp;<span title="更新于 2023-06-01 15:39:48"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-06-01">2023-06-01</time></span>&nbsp;<span title="884 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#快速使用">快速使用</a></li>
+    <li><a href="#常用选项">常用选项</a></li>
+    <li><a href="#配置">配置</a>
+      <ul>
+        <li><a href="#配置项">配置项</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><!-- FileID: FID -->
+<blockquote>
+<p>运行环境：</p>
+<ul>
+<li>cli: 2</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/cli-chap-welcome.html"target="_blank" rel="external nofollow noopener noreferrer">aws cli2 用户指南</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="快速使用" class="heading-element">
+  <a href="#%e5%bf%ab%e9%80%9f%e4%bd%bf%e7%94%a8" class="heading-mark"></a>快速使用</h1><p>安装查看：<a href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/getting-started-install.html"target="_blank" rel="external nofollow noopener noreferrer">AWS CLI 安装和更新说明</a></p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># wget https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># unzip -u awscli-exe-linux-x86_64.zip</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ll aws</span>
+</span></span><span class="line"><span class="cl">total <span class="m">80</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x. <span class="m">6</span> root root  <span class="m">4096</span> Jul <span class="m">13</span> 22:16 dist
+</span></span><span class="line"><span class="cl">-rwxr-xr-x. <span class="m">1</span> root root  <span class="m">4047</span> Jul <span class="m">13</span> 22:04 install
+</span></span><span class="line"><span class="cl">-rw-r--r--. <span class="m">1</span> root root  <span class="m">1465</span> Jul <span class="m">13</span> 22:04 README.md
+</span></span><span class="line"><span class="cl">-rw-r--r--. <span class="m">1</span> root root <span class="m">68282</span> Jul <span class="m">13</span> 22:04 THIRD_PARTY_LICENSES
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># ./aws/install</span>
+</span></span><span class="line"><span class="cl">You can now run: /usr/local/bin/aws --version</span></span></code></pre></td></tr></table>
+</div>
+</div><p>创建密钥步骤：</p>
+<ol>
+<li>在网页控制台创建<code>IAM</code>用户</li>
+<li>配置权限</li>
+<li>在安全凭证下选项卡下的访问密钥创访问密钥</li>
+<li>创建完成记录访问密钥与秘密访问密钥（或下载<code>.csv</code> 文件）</li>
+</ol>
+<p><code>aws cli</code> 添加密钥</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># --profile 创建一个配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws configure --profile awsXiaoSiCli.txt</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 输入访问密钥 </span>
+</span></span><span class="line"><span class="cl">AWS Access Key ID <span class="o">[</span>None<span class="o">]</span>: AKIA****
+</span></span><span class="line"><span class="cl"><span class="c1"># 输入访问私密密钥</span>
+</span></span><span class="line"><span class="cl">AWS Secret Access Key <span class="o">[</span>None<span class="o">]</span>: EKh***
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置默认地区(可选)</span>
+</span></span><span class="line"><span class="cl">Default region name <span class="o">[</span>None<span class="o">]</span>:
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置输出格式(可选)，默认为 json</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 可以是 table、text、yaml-stream、yaml、json</span>
+</span></span><span class="line"><span class="cl">Default output format <span class="o">[</span>None<span class="o">]</span>: json</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="常用选项" class="heading-element">
+  <a href="#%e5%b8%b8%e7%94%a8%e9%80%89%e9%a1%b9" class="heading-mark"></a>常用选项</h1><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">--profile 指定命名的配置</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>列出配置数据</li>
+</ul>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws configure list</span>
+</span></span><span class="line"><span class="cl">      Name                    Value             Type    Location
+</span></span><span class="line"><span class="cl">      ----                    -----             ----    --------
+</span></span><span class="line"><span class="cl">   profile                &lt;not set&gt;             None    None
+</span></span><span class="line"><span class="cl">access_key     ****************ZV4H shared-credentials-file
+</span></span><span class="line"><span class="cl">secret_key     ****************9c33 shared-credentials-file
+</span></span><span class="line"><span class="cl">    region           ap-southeast-1      config-file    ~/.aws/config</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看配置文件</li>
+</ul>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws configure list-profiles</span>
+</span></span><span class="line"><span class="cl">awsXiaoSiCli.txt
+</span></span><span class="line"><span class="cl">default
+</span></span><span class="line"><span class="cl">my-hk
+</span></span><span class="line"><span class="cl">zjcCli</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>指定使用配置文件</li>
+</ul>
+<div class="highlight" id="id-6"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># aws iam list-access-keys  --profile zjcCli | jq .</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;AccessKeyMetadata&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;UserName&#34;</span>: <span class="s2">&#34;yuhai&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AccessKeyId&#34;</span>: <span class="s2">&#34;AKIA6DDYRN7EE4VD7KTW&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Status&#34;</span>: <span class="s2">&#34;Active&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CreateDate&#34;</span>: <span class="s2">&#34;2023-06-01T06:30:53+00:00&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;UserName&#34;</span>: <span class="s2">&#34;yuhai&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;AccessKeyId&#34;</span>: <span class="s2">&#34;AKIA6DDYRN7EJCN272X3&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;Status&#34;</span>: <span class="s2">&#34;Active&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;CreateDate&#34;</span>: <span class="s2">&#34;2023-06-01T07:29:23+00:00&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="配置" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae" class="heading-mark"></a>配置</h1><p><code>AWS CLI</code> 凭证和配置设置的优先顺序如下：</p>
+<ol>
+<li><code>aws</code>命令行中的<code>--region</code>、<code>--output</code>、<code>--profile</code> 选项</li>
+<li>环境变量：
+<ul>
+<li><code>AWS_ACCESS_KEY_ID</code>: 访问密钥</li>
+<li><code>AWS_SECRET_ACCESS_KEY</code>: 私密密钥</li>
+<li><code>AWS_DEFAULT_REGION</code>: 地区</li>
+</ul>
+</li>
+<li><code>CLI</code>凭证文件：
+<ul>
+<li><code>windows</code>: <code>C:\Users\USERNAME\.aws\credentials</code></li>
+<li><code>linux</code>: <code>C:\Users\USERNAME\.aws\credentials</code></li>
+</ul>
+</li>
+<li><code>CLI</code>配置文件：
+<ul>
+<li><code>windows</code>: <code>C:\Users\USERNAME\.aws\config</code></li>
+<li><code>linux</code>: <code>C:\Users\USERNAME\.aws\config</code></li>
+</ul>
+</li>
+<li><a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html"target="_blank" rel="external nofollow noopener noreferrer">容器凭证</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html"target="_blank" rel="external nofollow noopener noreferrer">Amazon EC2 实例配置文件凭证</a></li>
+</ol>
+<p>如果使用 <code>configure</code> 创建的配置文件，密钥信息保存在<code>crconfigure</code>，地区与输出格式保存在<code>config</code></p>
+<h2 id="配置项" class="heading-element">
+  <a href="#%e9%85%8d%e7%bd%ae%e9%a1%b9" class="heading-mark"></a>配置项</h2><p>配置文件支持以下<a href="https://docs.aws.amazon.com/zh_cn/cli/latest/userguide/cli-configure-files.html#cli-configure-files-settings"target="_blank" rel="external nofollow noopener noreferrer">配置项</a></p>
+<div class="highlight" id="id-7"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">##### 全局</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 访问密钥</span>
+</span></span><span class="line"><span class="cl"><span class="nv">aws_access_key_id</span> <span class="o">=</span> AKIAIOSFODNN7EXAMPLE
+</span></span><span class="line"><span class="cl"><span class="c1"># 私密密钥</span>
+</span></span><span class="line"><span class="cl"><span class="nv">aws_secret_access_key</span> <span class="o">=</span> wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 会话令牌</span>
+</span></span><span class="line"><span class="cl"><span class="nv">aws_session_token</span> <span class="o">=</span> AQoEXAMPLEH4aoAH....
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 地区</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 AWS_REGION 环境变量、AWS_DEFAULT_REGION 环境变量或 --region 命令行选项%</span>
+</span></span><span class="line"><span class="cl"><span class="nv">region</span> <span class="o">=</span> us-west-2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 用于验证 SSL 证书的 CA 证书捆绑包（具有 .pem 扩展名的文件）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 可以被 AWS_CA_BUNDLE 环境变量或 --ca-bundle 命令行选项覆盖</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ca_bundle</span> <span class="o">=</span> dev/apps/ca-certs/cabundle-2019mar05.pem
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># CLI2 命令行自动提示</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 可以使用 aws_cli_auto_prompt 环境变量或</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># --cli-auto-prompt 和 --no-cli-auto-prompt 命令行参数覆盖此设置</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># on 每次尝试运行 aws 命令时都会使用完整的自动提示模式 </span>
+</span></span><span class="line"><span class="cl"><span class="nv">cli_auto_prompt</span> <span class="o">=</span> on
+</span></span><span class="line"><span class="cl"><span class="c1"># on-partial 使用部分自动提示模式</span>
+</span></span><span class="line"><span class="cl"><span class="nv">cli_auto_prompt</span> <span class="o">=</span> on-partial
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 指定 AWS CLI 版本 2 如何解释二进制输入参数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 可以使用 --cli-binary-format raw-in-base64-out 参数指定</span>
+</span></span><span class="line"><span class="cl"><span class="nv">cli_binary_format</span> <span class="o">=</span> raw-in-base64-out</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-06-01 15:39:48">更新于 2023-06-01&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/aws/" class="post-tag" title="标签 - aws">aws</a><a href="/tags/cli2/" class="post-tag" title="标签 - cli2">cli2</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/neovimExCmd/" class="post-nav-item" rel="prev" title="neovim Ex 命令"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>neovim Ex 命令</a>
+      <a href="/awsEc2/" class="post-nav-item" rel="next" title="aws 云服务器">aws 云服务器<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

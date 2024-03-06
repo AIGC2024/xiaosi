@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>mtr使用方法 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content=" " /><meta name="keywords" content='mtr, windows, linux' /><meta itemprop="name" content="mtr使用方法">
+<meta itemprop="description" content=" "><meta itemprop="datePublished" content="2022-12-11T16:29:04+08:00" />
+<meta itemprop="dateModified" content="2022-12-26T20:54:27+08:00" />
+<meta itemprop="wordCount" content="1000">
+<meta itemprop="keywords" content="mtr,windows,linux," /><meta property="og:title" content="mtr使用方法" />
+<meta property="og:description" content=" " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/mtr/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-11T16:29:04+08:00" />
+<meta property="article:modified_time" content="2022-12-26T20:54:27+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="mtr使用方法"/>
+<meta name="twitter:description" content=" "/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/mtr/" /><link rel="prev" href="/linux-error/" /><link rel="next" href="/vim-insert/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "mtr使用方法",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/mtr\/"
+    },"genre": "posts","keywords": "mtr, windows, linux","wordcount":  1000 ,
+    "url": "\/mtr\/","datePublished": "2022-12-11T16:29:04+08:00","dateModified": "2022-12-26T20:54:27+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": " "
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>mtr使用方法</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/linux/" class="post-category" title="分类 - linux"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> linux</a>&ensp;<a href="/categories/windows/" class="post-category" title="分类 - windows"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> windows</a></span></div><div class="post-meta-line"><span title="发布于 2022-12-11 16:29:04"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-11">2022-12-11</time></span>&nbsp;<span title="更新于 2022-12-26 20:54:27"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2022-12-26">2022-12-26</time></span>&nbsp;<span title="1000 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#mtr">mtr</a></li>
+    <li><a href="#linux-系统使用">linux 系统使用</a>
+      <ul>
+        <li><a href="#使用帮助">使用帮助</a></li>
+        <li><a href="#输出说明">输出说明</a></li>
+      </ul>
+    </li>
+    <li><a href="#windows-中使用-mtr">windows 中使用 mtr</a>
+      <ul>
+        <li><a href="#输出信息">输出信息</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i>注意<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-12-26，文中内容可能已过时。</div>
+      </div>
+    </div><!-- FileID: FID -->
+<blockquote>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://help.aliyun.com/document_detail/98706.html"target="_blank" rel="external nofollow noopener noreferrer"><code>阿里云帮助文档</code>: MTR工具使用说明与结果分析</a></li>
+</ul>
+</blockquote>
+<!-- 网址链接 -->
+<!-- 图片链接 -->
+<!-- 其它链接 -->
+<h1 id="mtr" class="heading-element">
+  <a href="#mtr" class="heading-mark"></a>mtr</h1><p>MTR工具将ping和traceroute命令的功能并入了同一个工具中，实现更强大的功能。</p>
+<h1 id="linux-系统使用" class="heading-element">
+  <a href="#linux-%e7%b3%bb%e7%bb%9f%e4%bd%bf%e7%94%a8" class="heading-mark"></a>linux 系统使用</h1><div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># yum install -y mtr</span>
+</span></span><span class="line"><span class="cl">Loaded plugins: fastestmirror
+</span></span><span class="line"><span class="cl">Determining fastest mirrors
+</span></span><span class="line"><span class="cl">epel/x86_64/metalink
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="使用帮助" class="heading-element">
+  <a href="#%e4%bd%bf%e7%94%a8%e5%b8%ae%e5%8a%a9" class="heading-mark"></a>使用帮助</h2><div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># mtr -h</span>
+</span></span><span class="line"><span class="cl">usage: mtr <span class="o">[</span>-BfhvrwctglxspQomniuT46<span class="o">]</span> <span class="o">[</span>--help<span class="o">]</span> <span class="o">[</span>--version<span class="o">]</span> <span class="o">[</span>--report<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--report-wide<span class="o">]</span> <span class="o">[</span>--report-cycles<span class="o">=</span>COUNT<span class="o">]</span> <span class="o">[</span>--curses<span class="o">]</span> <span class="o">[</span>--gtk<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--csv<span class="p">|</span>-C<span class="o">]</span> <span class="o">[</span>--raw<span class="o">]</span> <span class="o">[</span>--xml<span class="o">]</span> <span class="o">[</span>--split<span class="o">]</span> <span class="o">[</span>--mpls<span class="o">]</span> <span class="o">[</span>--no-dns<span class="o">]</span> <span class="o">[</span>--show-ips<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--address interface<span class="o">]</span> <span class="o">[</span>--filename<span class="o">=</span>FILE<span class="p">|</span>-F<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--ipinfo<span class="o">=</span>item_no<span class="p">|</span>-y item_no<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--aslookup<span class="p">|</span>-z<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--psize<span class="o">=</span>bytes/-s bytes<span class="o">]</span> <span class="o">[</span>--order fields<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--report-wide<span class="p">|</span>-w<span class="o">]</span> <span class="o">[</span>--inet<span class="o">]</span> <span class="o">[</span>--inet6<span class="o">]</span> <span class="o">[</span>--max-ttl<span class="o">=</span>NUM<span class="o">]</span> <span class="o">[</span>--first-ttl<span class="o">=</span>NUM<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--bitpattern<span class="o">=</span>NUM<span class="o">]</span> <span class="o">[</span>--tos<span class="o">=</span>NUM<span class="o">]</span> <span class="o">[</span>--udp<span class="o">]</span> <span class="o">[</span>--tcp<span class="o">]</span> <span class="o">[</span>--port<span class="o">=</span>PORT<span class="o">]</span> <span class="o">[</span>--timeout<span class="o">=</span>SECONDS<span class="o">]</span>
+</span></span><span class="line"><span class="cl">                <span class="o">[</span>--interval<span class="o">=</span>SECONDS<span class="o">]</span> HOSTNAME
+</span></span><span class="line"><span class="cl">-h, --help
+</span></span><span class="line"><span class="cl">    <span class="c1"># 显示帮助菜单。</span>
+</span></span><span class="line"><span class="cl">-r, -report
+</span></span><span class="line"><span class="cl">    <span class="c1"># 以报告模式显示输出。</span>
+</span></span><span class="line"><span class="cl">-p, -split
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将每次追踪的结果分别列出来。</span>
+</span></span><span class="line"><span class="cl">-s, -psize
+</span></span><span class="line"><span class="cl">    <span class="c1"># 指定ping数据包的大小。</span>
+</span></span><span class="line"><span class="cl">-n, -no-dns
+</span></span><span class="line"><span class="cl">    <span class="c1"># 不对IP地址做域名反解析。</span>
+</span></span><span class="line"><span class="cl">-a, -address
+</span></span><span class="line"><span class="cl">    <span class="c1"># 设置发送数据包的IP地址。用于主机有多个IP时。</span>
+</span></span><span class="line"><span class="cl">-4：
+</span></span><span class="line"><span class="cl">    <span class="c1"># 只使用IPv4协议。</span>
+</span></span><span class="line"><span class="cl">-6：
+</span></span><span class="line"><span class="cl">    <span class="c1"># 只使用IPv6协议</span>
+</span></span><span class="line"><span class="cl">-n, --no-dns
+</span></span><span class="line"><span class="cl">    <span class="c1"># 不解析主机名</span>
+</span></span><span class="line"><span class="cl">--tcp
+</span></span><span class="line"><span class="cl">    <span class="c1"># 使用 tcp</span>
+</span></span><span class="line"><span class="cl">--udp
+</span></span><span class="line"><span class="cl">    <span class="c1"># 使用 udp</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="输出说明" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e8%af%b4%e6%98%8e" class="heading-mark"></a>输出说明</h2><div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">                         My traceroute  <span class="o">[</span>v0.85<span class="o">]</span>
+</span></span><span class="line"><span class="cl">localhost.localdomain <span class="o">(</span>0.0.0.0<span class="o">)</span>                 Sun Dec <span class="m">11</span> 16:48:40 <span class="m">2022</span>
+</span></span><span class="line"><span class="cl">Keys:  Help   Display mode   Restart statistics   Order of fields   quit
+</span></span><span class="line"><span class="cl">                                Packets               Pings
+</span></span><span class="line"><span class="cl"> Host                         Loss%   Snt   Last   Avg  Best  Wrst StDev
+</span></span><span class="line"><span class="cl"> 1. 103.106.244.3              0.0%    <span class="m">10</span>    0.8   1.4   0.6   5.9   1.5
+</span></span><span class="line"><span class="cl"> 2. ???
+</span></span><span class="line"><span class="cl"> 3. ???
+</span></span><span class="line"><span class="cl"> 4. 103.106.248.5              0.0%     <span class="m">9</span>    1.8   1.8   1.6   2.0   0.0
+</span></span><span class="line"><span class="cl"> 5. 223.118.2.177              0.0%     <span class="m">9</span>    3.6   3.6   1.6   5.1   0.9
+</span></span><span class="line"><span class="cl"> 6. 223.120.22.106             0.0%     <span class="m">9</span>   27.8  28.1  27.8  28.9   0.0
+</span></span><span class="line"><span class="cl"> 7. 221.183.89.174             0.0%     <span class="m">9</span>   29.9  30.7  29.7  38.3   2.8
+</span></span><span class="line"><span class="cl"> 8. 221.183.89.69              0.0%     <span class="m">9</span>   29.2  29.4  29.2  30.3   0.0
+</span></span><span class="line"><span class="cl"> 9. 221.183.89.46             55.6%     <span class="m">9</span>   30.0  30.2  30.0  30.4   0.0
+</span></span><span class="line"><span class="cl">10. 221.183.37.133            75.0%     <span class="m">9</span>   55.7  55.6  55.4  55.7   0.0
+</span></span><span class="line"><span class="cl">11. ???
+</span></span><span class="line"><span class="cl">12. 111.13.188.38              0.0%     <span class="m">9</span>   56.2  56.1  55.9  56.6   0.0
+</span></span><span class="line"><span class="cl">13. 39.156.27.1                0.0%     <span class="m">9</span>   55.7  55.9  55.5  57.1   0.4
+</span></span><span class="line"><span class="cl">14. ???</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>Host</code>: 节点地址，在运行中可使用 <code>n</code> 开启或关闭解析主机名</li>
+<li><code>Loss%</code>: 节点丢包率</li>
+<li><code>Snt</code>: 每秒发送的数据包数量，默认值为 <code>10</code>，可使用 <code>-c</code> 指定</li>
+<li><code>Last</code>: 最近一次的探测延迟值</li>
+<li><code>Avg</code>: 探测延迟平均值</li>
+<li><code>Best</code>: 探测延迟最小值</li>
+<li><code>Wrst</code>: 探测延迟最大值</li>
+<li><code>StDev</code>: 标准偏差。越大说明相应节点越不稳定</li>
+</ul>
+<h1 id="windows-中使用-mtr" class="heading-element">
+  <a href="#windows-%e4%b8%ad%e4%bd%bf%e7%94%a8-mtr" class="heading-mark"></a>windows 中使用 mtr</h1><p><code>WinMTR</code> 是 <code>windows</code> 版本的 <code>MTR</code> 工具，<code>MTR</code> 工具将 <code>ping</code> 和 <code>traceroute</code> 命令的功能并入了同一个工具中，实现更强大的功能。可以从以下方式获取</p>
+<ul>
+<li><a href="https://cdn.ipip.net/17mon/besttrace.exe"target="_blank" rel="external nofollow noopener noreferrer"><code>BestTrace</code></a> 中带有 <code>WinMTR</code></li>
+<li>从<a href="https://sourceforge.net/projects/winmtr/"target="_blank" rel="external nofollow noopener noreferrer"><code>sourceforge</code></a> 中下载</li>
+<li>从官网 <code>winmtr.net</code> 中获取</li>
+</ul>
+<h2 id="输出信息" class="heading-element">
+  <a href="#%e8%be%93%e5%87%ba%e4%bf%a1%e6%81%af" class="heading-mark"></a>输出信息</h2><p><img loading="lazy" src="WinMTR.png" alt="WinMTR" srcset="WinMTR.png?size=small, WinMTR.png?size=medium 1.5x, WinMTR.png?size=large 2x" sizes="auto" data-title="WinMTR" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ul>
+<li>开始与停止：输入目标地址后单击 <code>Start</code> 开始测试，开始测试后，相应按钮变成了 <code>Stop</code>。运行一段时间后，单击 <code>Stop</code> 停止测试</li>
+<li>选项说明：点击 <code>Options</code> 可修改以下参数
+<ul>
+<li><code>Interval (sec)</code>: 每次探测间隔时间与过期时间。默认为 <code>1</code> 秒</li>
+<li><code>Ping size (bytes)</code>: 每次探测所使用的数据包大小。默认为 <code>64</code> 字节</li>
+<li><code>Max hosts in LRU list</code>: <code>LRU</code> 列表支持的最大主机数，默认值为 <code>128</code></li>
+<li><code>Resolve names</code>: 通过反查<code>IP</code>以域名方式显示相关节点</li>
+</ul>
+</li>
+<li><code>Exit</code>: 退出</li>
+<li><code>Copy Text to clipboard</code>: 将测试结果以文本格式复制到粘贴板</li>
+<li><code>Copy HTML to clipboard</code>: 将测试结果以 <code>HTML</code> 格式复制到粘贴板</li>
+<li><code>Export TEXT</code>: 将测试结果以文本格式导出到指定文件</li>
+<li><code>Export HTML</code>: 将测试结果以 <code>HTML</code> 格式导出到指定文件</li>
+<li><code>HostName</code>: 节点地址</li>
+<li><code>Nr</code>: 节点编号</li>
+<li><code>Loss%</code>: 节点丢包率</li>
+<li><code>Snt</code>: 每秒发送的数据包数量</li>
+<li><code>Recv</code>: 已成功接收的数据包数量</li>
+<li><code>Best</code>: 探测延迟最小值</li>
+<li><code>Avrg</code>: 探测延迟平均值</li>
+<li><code>Worst</code>: 探测延迟最大值</li>
+<li><code>Last</code>: 最近一次的探测延迟值</li>
+<li><code>StDev</code>: 标准偏差。越大说明相应节点越不稳定</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2022-12-26 20:54:27">更新于 2022-12-26&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/mtr/" class="post-tag" title="标签 - mtr">mtr</a><a href="/tags/windows/" class="post-tag" title="标签 - windows">windows</a><a href="/tags/linux/" class="post-tag" title="标签 - linux">linux</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linux-error/" class="post-nav-item" rel="prev" title="linux 使用过程中遇到的错误"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>linux 使用过程中遇到的错误</a>
+      <a href="/vim-insert/" class="post-nav-item" rel="next" title="vim中插入文本">vim中插入文本<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"lightgallery":true,"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>k8s 服务暴露 - 小厮</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="k8s中的服务、DNS、端点" /><meta name="keywords" content='k8s, k8s 服务' /><meta itemprop="name" content="k8s 服务暴露">
+<meta itemprop="description" content="k8s中的服务、DNS、端点"><meta itemprop="datePublished" content="2022-08-03T14:39:05+08:00" />
+<meta itemprop="dateModified" content="2023-03-13T09:05:51+08:00" />
+<meta itemprop="wordCount" content="3066">
+<meta itemprop="keywords" content="k8s,k8s 服务," /><meta property="og:title" content="k8s 服务暴露" />
+<meta property="og:description" content="k8s中的服务、DNS、端点" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/Service/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-08-03T14:39:05+08:00" />
+<meta property="article:modified_time" content="2023-03-13T09:05:51+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="k8s 服务暴露"/>
+<meta name="twitter:description" content="k8s中的服务、DNS、端点"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#ffffff" data-dark="#252627" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="/Service/" /><link rel="prev" href="/k8sPod/" /><link rel="next" href="/k8sKubeclt/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "k8s 服务暴露",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "\/Service\/"
+    },"genre": "posts","keywords": "k8s, k8s 服务","wordcount":  3066 ,
+    "url": "\/Service\/","datePublished": "2022-08-03T14:39:05+08:00","dateModified": "2023-03-13T09:05:51+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "小厮"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('light' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'light' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="wide"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="小厮"><span class="header-title-text">首页</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                ><i class='fa-solid fa-archive fa-fw fa-sm'></i> 所有文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class='fa-solid fa-th fa-fw fa-sm'></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class='fa-solid fa-tags fa-fw fa-sm'></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container container-reverse"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>k8s 服务暴露</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      小厮</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/k8s/" class="post-category" title="分类 - k8s"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> k8s</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-03 14:39:05"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-03">2022-08-03</time></span>&nbsp;<span title="更新于 2023-03-13 09:05:51"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2023-03-13">2023-03-13</time></span>&nbsp;<span title="3066 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 7 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#服务资源">服务资源</a></li>
+    <li><a href="#endpoints-对象">Endpoints 对象</a></li>
+    <li><a href="#endpointslices">EndpointSlices</a></li>
+    <li><a href="#vip-与-service">VIP 与 service</a></li>
+    <li><a href="#指定-service-ip">指定 service IP</a></li>
+    <li><a href="#流量策略">流量策略</a></li>
+    <li><a href="#服务发现">服务发现</a></li>
+    <li><a href="#无头服务headless-services">无头服务（Headless Services）</a></li>
+    <li><a href="#发布服务">发布服务</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><blockquote>
+<p>运行环境：</p>
+<ul>
+<li>k8s: 1.24.3</li>
+<li>Rocky Linux: 8.5</li>
+<li>内核: 4.18.0-348.el8.0.2.x86_64</li>
+</ul>
+<p>内容来自以下文档：</p>
+<ul>
+<li><a href="https://kubernetes.io/zh-cn/docs/concepts/services-networking/service/"target="_blank" rel="external nofollow noopener noreferrer">k8s 官方文档：服务</a></li>
+<li><a href="https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/service-resources/service-v1/"target="_blank" rel="external nofollow noopener noreferrer">k8s 官方文档：service API</a></li>
+</ul>
+</blockquote>
+<h1 id="服务资源" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e8%b5%84%e6%ba%90" class="heading-mark"></a>服务资源</h1><p><code>k8s</code> 中的服务是将运行在一组 <code>Pod</code> 上的应用程序公开为网络服务的抽象方法，是提供访问一组 <code>Pod</code> 的策略。它用于解决以下问题：</p>
+<ul>
+<li>容器不会使用节点上的特定端口，也不会使用任何特定的 <code>NAT</code> 规则去路由流量到 <code>Pod</code> 上</li>
+<li><code>Pod</code> 是有生命周期的，如果 <code>Pod</code> 被摧毁重新创建之后如何让前端访问 <code>Pod</code> 中应用程序</li>
+</ul>
+<p><code>server</code>也是通过标签选择器来关联 <code>pod</code> 的</p>
+<p>这是一个示例：</p>
+<div class="highlight" id="id-1"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">deployment-nginx-test</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">deployment</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">kubernetes.io/change-cause</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;nginx stable&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">nginx</span><span class="p">:</span><span class="w"> </span><span class="l">NginxServiceTest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">strategy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">RollingUpdate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">rollingUpdate</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">maxSurge</span><span class="p">:</span><span class="w"> </span><span class="m">7</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">maxUnavailable</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">nginx</span><span class="p">:</span><span class="w"> </span><span class="l">NginxServiceTest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx:stable</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http-web-svc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">nginx-service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">nginx</span><span class="p">:</span><span class="w"> </span><span class="l">NginxServiceTest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">name-of-service-port</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">801</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l">http-web-svc</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面示例中：</p>
+<ul>
+<li><code>service.spec.selector</code>: 是标签选择器，服务选择算符的控制器不断扫描与其选择算符匹配的 <code>Pod</code>，然后将所有更新到其 <code>Endpoint</code> 中</li>
+<li><code>service.spec.ports.name</code>: 名称。一个 <code>service</code> 可以管理公开多个端口</li>
+<li><code>service.spec.ports.port</code>: 暴露的端口号</li>
+<li><code>service.spec.ports.protocol</code>: 端口使用的协议，值为：<code>TCP</code> (默认值)、<code>UDP</code>、<code>SCTP</code> 之一</li>
+<li><code>service.spec.ports.targetPort</code>: <code>pod</code> 端口号，也可以是端口名</li>
+</ul>
+<p>部署后进行访问测试：</p>
+<div class="highlight" id="id-2"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># kubectl get service nginx-service</span>
+</span></span><span class="line"><span class="cl">NAME            TYPE        CLUSTER-IP   EXTERNAL-IP   PORT<span class="o">(</span>S<span class="o">)</span>   AGE
+</span></span><span class="line"><span class="cl">nginx-service   ClusterIP   10.96.3.72   &lt;none&gt;        801/TCP   115s
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>root@k8s01 ~<span class="o">]</span><span class="c1"># curl -I 10.96.3.72:801</span>
+</span></span><span class="line"><span class="cl">HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">Server: nginx/1.22.0
+</span></span><span class="line"><span class="cl">Date: Wed, <span class="m">03</span> Aug <span class="m">2022</span> 10:40:27 GMT
+</span></span><span class="line"><span class="cl">Content-Type: text/html
+</span></span><span class="line"><span class="cl">Content-Length: <span class="m">615</span>
+</span></span><span class="line"><span class="cl">Last-Modified: Mon, <span class="m">23</span> May <span class="m">2022</span> 23:59:19 GMT
+</span></span><span class="line"><span class="cl">Connection: keep-alive
+</span></span><span class="line"><span class="cl">ETag: <span class="s2">&#34;628c1fd7-267&#34;</span>
+</span></span><span class="line"><span class="cl">Accept-Ranges: bytes</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="endpoints-对象" class="heading-element">
+  <a href="#endpoints-%e5%af%b9%e8%b1%a1" class="heading-mark"></a>Endpoints 对象</h1><p><code>Endpoints</code> （端点）是实现实际服务 <code>pod IP</code> 的集合，它会收集满足标签的就绪 <code>pod IP</code></p>
+<p>创建 <code>service</code> 时，如果有 <code>.spec.selector</code> 字段，则会自动创建同名的 <code>Endpoint</code> 资源。当 <code>Endpoint</code> 收集的端点个数超过 1000 个时，会为该 <code>Endpoint</code> 添加注解 <code>endpoints.kubernetes.io/over-capacity: truncated</code> ，同时 <code>Endpoints</code> 控制器还会将  <code>Endpoints</code> 对象数量截断到 1000</p>
+<h1 id="endpointslices" class="heading-element">
+  <a href="#endpointslices" class="heading-mark"></a>EndpointSlices</h1><p>特性状态：<code>Kubernetes v1.21 [stable]</code></p>
+<p><code>EndpointSlices</code> 是一种 <code>API</code> 资源，可以为 <code>Endpoints</code> 提供更可扩展的替代方案。 尽管从概念上讲与 <code>Endpoints</code> 非常相似，但 <code>EndpointSlices</code> 允许跨多个资源分布网络端点。 默认情况下，一旦到达 <code>100</code> 个 <code>Endpoint</code>，该 <code>EndpointSlice</code> 将被视为“已满”， 届时将创建其他 <code>EndpointSlices</code> 来存储任何其他 <code>Endpoints</code>。</p>
+<h1 id="vip-与-service" class="heading-element">
+  <a href="#vip-%e4%b8%8e-service" class="heading-mark"></a>VIP 与 service</h1><p>在 <code>Kubernetes</code> 集群中，每个 <code>Node</code> 运行一个 <code>kube-proxy</code> 进程。 <code>kube-proxy</code> 负责为 <code>Service</code> 实现了一种 <code>VIP</code>（虚拟 <code>IP</code>）的形式</p>
+<p><code>kube-proxy</code> 工作模式由 <code>kube-proxy --proxy-mode</code> 选项决定，不同工作模式代理实现代理方式不一样，有以下代理模式：</p>
+<ul>
+<li><code>userspace</code></li>
+<li><code>iptables</code></li>
+<li><code>IPVS</code></li>
+</ul>
+<p>在这些代理模型中，绑定到服务 <code>IP</code> 的流量： 在客户端不了解 <code>Kubernetes</code> 或服务或 <code>Pod</code> 的任何信息的情况下，将 <code>Port</code> 代理到适当的后端。如果要确保每次都将来自特定客户端的连接传递到同一 <code>Pod</code>， 则可以通过将 <code>service.spec.sessionAffinity</code> 设置为 &ldquo;<code>ClientIP</code>&rdquo; （默认值是 &ldquo;<code>None</code>&quot;），来基于客户端的 <code>IP</code> 地址选择会话亲和性。 你还可以通过适当设置 <code>service.spec.sessionAffinityConfig.clientIP.timeoutSeconds</code> 来设置最大会话停留时间。（默认值为 <code>10800</code> 秒，即 <code>3</code> 小时，<code>windows</code> 系统不支持为服务设置最大会话停留时间）。</p>
+<p>在 <code>userspace</code> 模式中，<code>kube-proxy</code> 会监视 <code>Kubernetes</code> 控制平面对 <code>Service</code> 对象和 <code>Endpoints</code> 对象的添加和移除操作。 对每个 <code>Service</code>，它会在本地 <code>Node</code> 上打开一个端口（随机选择）。 任何连接到“代理端口”的请求，都会被代理到 <code>Service</code> 的后端 <code>Pods</code> 中的某个上面（如 <code>Endpoints</code> 所报告的一样）。 使用哪个后端 <code>Pod</code>，是 <code>kube-proxy</code> 基于 <code>SessionAffinity</code> 来确定的。最后，它配置 <code>iptables</code> 规则，捕获到达该 <code>Service</code> 的 <code>clusterIP</code>（是虚拟 <code>IP</code>） 和 <code>Port</code> 的请求，并重定向到代理端口，代理端口再代理请求到后端<code>Pod</code>。默认情况下，用户空间模式下的 <code>kube-proxy</code> 通过轮转算法选择后端。</p>
+<!-- <div class="mermaid" id="id-6"></div> -->
+<p>在 <code>iptables</code> 代理模式中，<code>kube-proxy</code> 会监视 <code>Kubernetes</code> 控制节点对 <code>Service</code> 对象和 <code>Endpoints</code> 对象的添加和移除。 对每个 <code>Service</code>，它会配置 <code>iptables</code> 规则，从而捕获到达该 <code>Service</code> 的 <code>clusterIP</code> 和端口的请求，进而将请求重定向到 <code>Service</code> 的一组后端中的某个 <code>Pod</code> 上面。 对于每个 <code>Endpoints</code> 对象，它也会配置 <code>iptables</code> 规则，这个规则会选择一个后端组合。默认的策略是，<code>kube-proxy</code> 在 <code>iptables</code> 模式下随机选择一个后端。如果所选的第一个 <code>Pod</code> 没有响应，则连接失败，并不会自动使用其他后端 <code>Pod</code> 重试。因此，使用需要 <code>Pod</code> 就绪探测器验证后端 <code>Pod</code> 可以正常工作，避免将流量通过 <code>kube-proxy</code> 发送到已知已失败的 <code>Pod</code>。</p>
+<p>使用 <code>iptables</code> 处理流量具有较低的系统开销，因为流量由 <code>Linux netfilter</code> 处理， 而无需在用户空间和内核空间之间切换。 这种方法也可能更可靠。</p>
+<div class="mermaid" id="id-7"></div>
+<p><code>IPVS</code> 代理模式中，<code>kube</code>-<code>proxy</code> 监视 <code>Kubernetes</code> 服务和端点，调用 <code>netlink</code> 接口相应地创建 <code>IPVS</code> 规则， 并定期将 <code>IPVS</code> 规则与 <code>Kubernetes</code> 服务和端点同步。该控制循环可确保 <code>IPVS</code> 状态与所需状态匹配。访问服务时，<code>IPVS</code> 将流量定向到后端 <code>Pod</code> 之一。</p>
+<p>特性状态： <code>Kubernetes v1.11 [stable]</code></p>
+<p><code>IPVS</code> 代理模式基于类似于 <code>iptables</code> 模式的 <code>netfilter</code> 挂钩函数， 但是使用哈希表作为基础数据结构，并且在内核空间中工作。 这意味着，与 <code>iptables</code> 模式下的 <code>kube-proxy</code> 相比，<code>IPVS</code> 模式下的 <code>kube-proxy</code> 重定向通信的延迟要短，并且在同步代理规则时具有更好的性能。 与其他代理模式相比，<code>IPVS</code> 模式还支持更高的网络流量吞吐量。</p>
+<p>要在 <code>IPVS</code> 模式下运行 <code>kube-proxy</code>，必须在启动 <code>kube-proxy</code> 之前使 <code>IPVS</code> 在节点上可用。当 <code>kube-proxy</code> 以 <code>IPVS</code> 代理模式启动时，它将验证 <code>IPVS</code> 内核模块是否可用。 如果未检测到 <code>IPVS</code> 内核模块，则 <code>kube-proxy</code> 将退回到以 <code>iptables</code> 代理模式运行。</p>
+<p><code>IPVS</code> 提供了更多选项来平衡后端 <code>Pod</code> 的流量：</p>
+<ul>
+<li><code>rr</code>: 轮替（<code>Round</code>-<code>Robin</code>）</li>
+<li><code>lc</code>: 最少链接（<code>Least</code> <code>Connection</code>），即打开链接数量最少者优先</li>
+<li><code>dh</code>: 目标地址哈希（<code>Destination</code> <code>Hashing</code>）</li>
+<li><code>sh</code>: 源地址哈希（<code>Source</code> <code>Hashing</code>）</li>
+<li><code>nq</code>: 从不排队（<code>Never</code> <code>Queue</code>）</li>
+<li><code>sed</code>: 最短预期延迟（<code>Shortest</code> <code>Expected</code> <code>Delay</code>）</li>
+</ul>
+<div class="mermaid" id="id-8"></div>
+<h1 id="指定-service-ip" class="heading-element">
+  <a href="#%e6%8c%87%e5%ae%9a-service-ip" class="heading-mark"></a>指定 service IP</h1><p><code>spec.ClusterIP</code> 与 <code>spec.ClusterIPs</code> 可以指定 <code>IP</code> 或 <code>IP</code> 列表，当这些字段缺省时自动生成</p>
+<div class="highlight" id="id-3"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">clusterIP</span><span class="p">:</span><span class="w"> </span><span class="m">10.96.3.72</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">clusterIPs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="m">10.96.3.72</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="流量策略" class="heading-element">
+  <a href="#%e6%b5%81%e9%87%8f%e7%ad%96%e7%95%a5" class="heading-mark"></a>流量策略</h1><p><code>spec.externalTrafficPolicy</code> 字段（特性状态：<code>Kubernetes v1.22 [beta]</code>）有以下值：</p>
+<ul>
+<li><code>Cluster</code>: 将外部节点外部流量路由到所有就绪的端点</li>
+<li><code>Local</code>: 只路由到当前节点上就绪的端点。 当前节点上没有就绪的端点，<code>kube-proxy</code> 不会转发请求相关服务的任何流量。</li>
+</ul>
+<p>如果启用 <code>kube-proxy</code> 的 <code>ProxyTerminatingEndpoints</code> 特性（<code>Kubernetes v1.22 [alpha]</code>），<code>kube-proxy</code> 会检查节点是否有本地的端点，以及是否所有的本地端点都被标记为终止中。当本地所有端点处于终止中的状态，<code>kube-proxy</code> 会忽略 <code>spec.externalTrafficPolicy: Local</code> 设置，并把请求指定服务的流量转发到位于其它节点的状态健康的端点。（与 <code>spec.externalTrafficPolicy: Cluster</code> 类似）</p>
+<p>针对处于正被终止状态的端点这一转发行为使得外部负载均衡器可以优雅地排出由 <code>NodePort</code> 服务支持的连接，就算是健康检查节点端口开始失败也是如此。 否则，当节点还在负载均衡器的节点池内，在 <code>Pod</code> 终止过程中的流量会被丢掉，这些流量可能会丢失。</p>
+<h1 id="服务发现" class="heading-element">
+  <a href="#%e6%9c%8d%e5%8a%a1%e5%8f%91%e7%8e%b0" class="heading-mark"></a>服务发现</h1><p>当 <code>pod</code> 运行在 <code>node</code> 上时，<code>kubelet</code> 会为每个活跃的 <code>service</code> 添加一组环境变量。</p>
+<div class="highlight" id="id-4"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl"># REDIS_MASTER 是名为 redis-master 的服务大写，横线被转换成下划线
+</span></span><span class="line"><span class="cl">REDIS_MASTER_SERVICE_HOST=10.0.0.11
+</span></span><span class="line"><span class="cl">REDIS_MASTER_SERVICE_PORT=6379
+</span></span><span class="line"><span class="cl">REDIS_MASTER_PORT=tcp://10.0.0.11:6379
+</span></span><span class="line"><span class="cl">REDIS_MASTER_PORT_6379_TCP=tcp://10.0.0.11:6379
+</span></span><span class="line"><span class="cl">REDIS_MASTER_PORT_6379_TCP_PROTO=tcp
+</span></span><span class="line"><span class="cl">REDIS_MASTER_PORT_6379_TCP_PORT=6379
+</span></span><span class="line"><span class="cl">REDIS_MASTER_PORT_6379_TCP_ADDR=10.0.0.11</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>kubelet</code> 也会为 <code>pod</code> 添加环境变量 <code>{SVCNAME}_SERVICE_HOST</code> 与 <code>{SVCNAME}_SERVICE_PORT</code></p>
+<p>由于是先有 <code>service</code> 才会生成环境变量，因此当访问具有服务的 <code>pod</code> 时，如果是通过上述环境变量方式访问，必须是创建 <code>pod</code> 之前 <code>service</code> 已经就绪。否则这些 <code>pod</code> 不会其环境变量</p>
+<p>如果集群有 <code>dns</code> 服务（如 <code>CoreDNS</code>），这些 <code>DNS</code> 服务会为 <code>service</code> 生成一组 <code>DNS</code> 记录，在有效范围内 <code>pod</code> 可以通过解析 <code>DNS</code> 找到 <code>service</code> 地址</p>
+<h1 id="无头服务headless-services" class="heading-element">
+  <a href="#%e6%97%a0%e5%a4%b4%e6%9c%8d%e5%8a%a1headless-services" class="heading-mark"></a>无头服务（Headless Services）</h1><p>当 <code>spec.clusterIP: None</code> 时，会创建一个 <code>Headless Service</code>。对于这类 <code>service</code> 不会分配 <code>ip</code> 地址，<code>kube-proxy</code> 不会处理它们，也不会进行进行负载均衡和路由。</p>
+<h1 id="发布服务" class="heading-element">
+  <a href="#%e5%8f%91%e5%b8%83%e6%9c%8d%e5%8a%a1" class="heading-mark"></a>发布服务</h1><p><code>spec.type</code> 字段有以下值：</p>
+<ul>
+<li><code>ClusterIP</code>: 使用集群内部 <code>IP</code> 暴露服务，选择该值时服务只能够在集群内部访问。 默认值</li>
+<li><code>NodePort</code>: 使用 <code>NodeIP:port</code> 暴露服务，可以通过 <code>&lt;节点 IP&gt;:&lt;节点端口&gt;</code> 从集群外部访问</li>
+<li><code>LoadBalancer</code>: 使用云提供商的负载均衡器向外部暴露服务。外部负载均衡器可以将流量路由集群</li>
+<li><code>ExternalName</code>: <code>DNS</code> 服务支持 <code>ExternalName</code> 类型时，可以通过解析主机名访问 <code>service</code></li>
+</ul>
+<p><code>spec.externalIPs</code> 字段可以绑定一个 <code>IP</code> 地址（<code>externalIP</code>）。可以通过 <code>externalIP:port</code> 方式访问 <code>service</code> 。<code>externalIPs</code> 不会被 <code>k8s</code> 管理，它属于集群管理员的职责范畴。</p>
+<p>下面示例可以通过 <code>80.11.12.10:80</code> 访问 <code>service</code></p>
+<div class="highlight" id="id-5"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">my-service</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">app.kubernetes.io/name</span><span class="p">:</span><span class="w"> </span><span class="l">MyApp</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">9376</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">externalIPs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="m">80.11.12.10</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-03-13 09:05:51">更新于 2023-03-13&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/k8s/" class="post-tag" title="标签 - k8s">k8s</a><a href="/tags/k8s-%E6%9C%8D%E5%8A%A1/" class="post-tag" title="标签 - k8s 服务">k8s 服务</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/k8sPod/" class="post-nav-item" rel="prev" title="k8s pod"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>k8s pod</a>
+      <a href="/k8sKubeclt/" class="post-nav-item" rel="next" title="k8s kubectl">k8s kubectl<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.115.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.1"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2022 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.css"><link rel="stylesheet" href="/lib/pace/themes/blue/pace-theme-minimal.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/lightgallery/lightgallery.min.js" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.js" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.js" defer></script><script src="/lib/mermaid/mermaid.min.js"></script><script src="/lib/pangu/pangu.min.js" defer></script><script src="/lib/pace/pace.min.js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"data":{"id-6":" --\u003e\n```mermaid\ngraph LR\n    Client --\u003e iptables --\u003e kube-proxy --\u003e pod\n    apiserver --\u003e kube-proxy\n```\n\n\u003c!--","id-7":"graph LR\n    Client --\u003e iptables --\u003e pod\n    apiserver --\u003e kube-proxy --\u003e iptables","id-8":"graph LR\n    Client --\u003e LVS --\u003e pod\n    apiserver --\u003e kube-proxy --\u003e LVS"},"lightgallery":true,"mermaid":{"themes":["neutral","dark"]},"pangu":{"enable":true,"selector":"article"},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":true,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

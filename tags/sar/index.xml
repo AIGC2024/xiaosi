@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>sar - 标签 - 小厮</title>
+    <link>/tags/sar/</link>
+    <description>sar - 标签 | 小厮</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 22 Jul 2023 14:58:23 &#43;0800</lastBuildDate><atom:link href="/tags/sar/" rel="self" type="application/rss+xml" /><item>
+  <title>sar —收集、报告或保存系统活动信息</title>
+  <link>/linuxCmdSar/</link>
+  <pubDate>Sat, 22 Jul 2023 14:58:23 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>/linuxCmdSar/</guid>
+  <description><![CDATA[sar命令将操作系统中选定的累积活动计数器的内容写入标准输出。]]></description>
+</item>
+</channel>
+</rss>
